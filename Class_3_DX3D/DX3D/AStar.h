@@ -3,7 +3,6 @@
 
 class AStarNode;
 class Heap;
-
 class AStar : public BaseObject
 {
 private:
@@ -12,6 +11,7 @@ private:
 	Heap*				m_pOpenNodeHeap;
 	LPD3DXMESH			m_pSphere;
 	vector<D3DXVECTOR3> m_vecObstacle;
+	vector<D3DXVECTOR3> Wall_location;
 
 public:
 	AStar();
@@ -22,8 +22,10 @@ public:
 	void InitNodes(IMap* pMap);
 	const vector<AStarNode*>& GetNodes() { return m_vecNode; }
 	void SetObstacle(const vector<D3DXVECTOR3> &vecObstacle)
-	{m_vecObstacle = vecObstacle;}
-
+	{
+		m_vecObstacle = vecObstacle;
+	}
+	vector<D3DXVECTOR3> GetWallLocation() { return Wall_location; }
 	void FindPath(D3DXVECTOR3 startPos, D3DXVECTOR3 destPos,
 		OUT vector<int>& vecIndex);
 private:
@@ -34,7 +36,7 @@ private:
 	void Extend(int targetIdx, int destIdx);
 
 public:
-	void MakeDirectPath(const D3DXVECTOR3 &startPos, 
+	void MakeDirectPath(const D3DXVECTOR3 &startPos,
 		const D3DXVECTOR3 &destPos, OUT vector<int>& vecIndex);
 private:
 	void CalcEraseCount(const D3DXVECTOR3& pos,

@@ -146,6 +146,7 @@ void HeightMap::Init()
 	SetSurface();
 	SetObstacle();
 	m_pAStar->SetObstacle(m_vecObstacleVertex);
+	GetWall(m_pAStar->GetWallLocation());
 }
 
 void HeightMap::Update()

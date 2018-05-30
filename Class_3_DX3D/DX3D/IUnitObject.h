@@ -11,6 +11,7 @@ protected:
 	KEYBOARD_STATE	m_keyState;
 
 	bool			m_isMoving;
+	bool			m_start;
 	float			m_moveSpeed;
 	float			m_currMoveSpeedRate;
 	float			m_rotationSpeed;

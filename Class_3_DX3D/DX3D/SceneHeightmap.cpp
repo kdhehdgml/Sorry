@@ -14,8 +14,7 @@
 #include "CreateSmog.h"
 
 //중현이코드
-#include "Cubeman.h"
-#include "Mob.h"
+#include "UnitBox.h"
 #include "Blocks.h"
 
 SceneHeightmap::SceneHeightmap()
@@ -30,7 +29,6 @@ SceneHeightmap::SceneHeightmap()
 
 
 	//중현이코드
-	m_pCubeman = NULL;
 	m_pBlocks = NULL;
 
 
@@ -83,17 +81,10 @@ void SceneHeightmap::Init()
 
 
 	//중현이코드
-	m_pCubeman = new Cubeman; m_pCubeman->Init();
-	AddSimpleDisplayObj(m_pCubeman);
-
-	m_pMob.resize(5);
-	for (size_t i = 0; i < m_pMob.size(); i++)
-	{
-		m_pMob[i] = new Mob;
-		m_pMob[i]->Init();
-		m_pMob[i]->SetPosition(&D3DXVECTOR3(50.0f, 5.0f, (i + 1) * 10));
-		AddSimpleDisplayObj(m_pMob[i]);
-	}
+	m_pUnit = new UnitBox();
+	m_pUnit->Init();
+	AddSimpleDisplayObj(m_pUnit);
+	m_pUnit->SetLocation(m_pHeightMap->SetWall());
 
 	m_pBlocks = new Blocks();
 	m_pBlocks->Init();
@@ -155,43 +146,7 @@ void SceneHeightmap::Update()
 	m_CreateSmog->Update();
 
 	OnUpdateIScene();
-
-	if (m_pMob[0]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[0]) == true)
-	{
-		m_pMob[0]->Update();
-		m_pMob[0]->SetDestination(m_pCubeman->GetPosition());
-
-
-	}
-	if (m_pMob[1]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[1]) == true)
-	{
-		m_pMob[1]->Update();
-		m_pMob[1]->SetDestination(m_pCubeman->GetPosition());
-
-	}
-	if (m_pMob[2]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[2]) == true)
-	{
-		m_pMob[2]->Update();
-		m_pMob[2]->SetDestination(m_pCubeman->GetPosition());
-
-	}
-	if (m_pMob[3]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[3]) == true)
-	{
-		m_pMob[3]->Update();
-		m_pMob[3]->SetDestination(m_pCubeman->GetPosition());
-
-	}
-	if (m_pMob[4]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[4]) == true)
-	{
-		m_pMob[4]->Update();
-		m_pMob[4]->SetDestination(m_pCubeman->GetPosition());
-
-	}
-	m_pMob[0]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[0]);
-	m_pMob[1]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[1]);
-	m_pMob[2]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[2]);
-	m_pMob[3]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[3]);
-	m_pMob[4]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[4]);
+	
 }
 
 void SceneHeightmap::Render()
