@@ -261,6 +261,7 @@
     <ClInclude Include="Blocks.h">
       <Filter>소스 파일\mob</Filter>
     </ClInclude>
+    <ClInclude Include="TestAddNew.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -444,6 +445,7 @@
     <ClCompile Include="Blocks.cpp">
       <Filter>소스 파일\mob</Filter>
     </ClCompile>
+    <ClCompile Include="TestAddNew.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">
