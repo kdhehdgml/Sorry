@@ -261,6 +261,9 @@
     <ClInclude Include="Blocks.h">
       <Filter>소스 파일\mob</Filter>
     </ClInclude>
+    <ClInclude Include="UnitBox.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -365,9 +368,6 @@
     <ClCompile Include="AseObject.cpp">
       <Filter>소스 파일\3.Object\ASE</Filter>
     </ClCompile>
-    <ClCompile Include="SceneHeightmap.cpp">
-      <Filter>소스 파일\4.Scene</Filter>
-    </ClCompile>
     <ClCompile Include="AseCharacter.cpp">
       <Filter>소스 파일\3.Object\ASE</Filter>
     </ClCompile>
@@ -443,6 +443,12 @@
     </ClCompile>
     <ClCompile Include="Blocks.cpp">
       <Filter>소스 파일\mob</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneHeightmap.cpp">
+      <Filter>소스 파일\4.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitBox.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

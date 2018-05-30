@@ -1,47 +1,42 @@
 #pragma once
 #include "IUnitObject.h"
 class CubemanParts;
-
+class Cubeman;
 class Mob
 	: public IUnitObject
 {
 private:
-	CubemanParts * m_pRootParts;
-	VERTEX_PC Shootpos[2];
+	Cubeman * m_pCubeman;
+	CubemanParts *	m_pRootParts;
+
+	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
 	bool			m_isTurnedOnLight;
+
 	D3DXVECTOR3		m_deltaPos;
 	D3DXVECTOR3		m_deltaRot;
 	D3DXVECTOR3		m_forward;
 	D3DXVECTOR3		m_Mobpos;
+
 	bool			m_isMoving;
 	bool			m_isShoot;
-	float			m_moveSpeed;
-	float			m_currMoveSpeedRate;
-	float			m_rotationSpeed;
 
-	bool			m_isJumping;
-	float			m_jumpPower;
-	float			m_gravity;
-	float			m_currGravity;
-	
-	float			m_maxStepHeight;
 public:
 	Mob();
 	~Mob();
-
+	int				num;
+	bool			m_move;
 	// IDisplayObject을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
 
-	void UpdatePosition();
 	void CreateAllParts();
 	void CreateParts(CubemanParts* &pParts, IDisplayObject* pParent,
 		D3DXVECTOR3 pos, D3DXVECTOR3 scale, D3DXVECTOR3 trans,
 		vector<vector<int>> &vecUV);
-	virtual bool PlayerSearch(D3DXVECTOR3 Ppos, Mob* mob);
-	void ShootVertex(D3DXVECTOR3 Ppos, Mob* mob);
+	virtual bool PlayerSearch(D3DXVECTOR3 Ppos, Mob * mob);
+	void ShootVertex(D3DXVECTOR3 Ppos, Mob * mob);
 
 	vector<vector<int>> uvBody = {
 		{ 32, 32, 32, 20, 40, 20, 40, 32 },	// 후

@@ -2,27 +2,21 @@
 #include "Mob.h"
 #include "CubemanParts.h"
 #include "Ray.h"
+#include "Cubeman.h"
 Mob::Mob()
 {
 	m_pRootParts = NULL;
 
 	m_isMoving = false;
-	m_moveSpeed = 0.2f;
-	m_currMoveSpeedRate = 1.0f;
-	m_rotationSpeed = 0.1f;
 	m_isShoot = false;
-	m_isJumping = false;
-	m_jumpPower = 1.0f;
-	m_gravity = 0.05f;
-	m_currGravity = 0.0f;
 
-	m_maxStepHeight = 2.0f;
 	m_baseRotY = D3DX_PI;
 
 	m_forward.z = -1;
 	m_pos.y = 3.0f;
-
 	m_destPos = m_pos;
+	m_move = false;
+	num = 0;
 }
 
 
@@ -33,19 +27,16 @@ Mob::~Mob()
 
 void Mob::Init()
 {
-	IUnitObject::m_moveSpeed = 0.1f;
 	g_pObjMgr->AddToTagList(TAG_MOB, this);
-	/*g_pKeyboardManager->SetMovingTarget(&m_deltaPos,
-		&m_deltaRot, &m_isJumping);*/
+
 	CreateAllParts();
+	IUnitObject::m_moveSpeed = 0.1f;
+
+	//m_pMob[i]->SetPosition(&D3DXVECTOR3(50.0f, 5.0f, (i + 1) * 10));
 }
 
 void Mob::Update()
 {
-
-	
-
-	//UpdatePosition();
 	IUnitObject::UpdateKeyboardState();
 	IUnitObject::UpdatePositionToDestination();
 
@@ -83,55 +74,6 @@ void Mob::Render()
 	g_pDevice->SetFVF(VERTEX_PC::FVF);
 	g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 		1, &Shootpos[0], sizeof(VERTEX_PC));
-}
-
-void Mob::UpdatePosition()
-{
-	m_rot += m_deltaRot * m_rotationSpeed;
-
-	D3DXMATRIXA16 matRotY;
-	D3DXMatrixRotationY(&matRotY, m_rot.y);
-	D3DXVec3TransformNormal(&m_forward,
-		&D3DXVECTOR3(0, 0, 1), &matRotY);
-
-	D3DXVECTOR3 targetPos;
-	float basePosY = 0;
-	bool	isIntersected = true;
-	float	height = 0;
-
-	targetPos = m_pos + m_forward * m_deltaPos.z
-		* m_moveSpeed * m_currMoveSpeedRate;
-
-	if (g_pCurrentMap != NULL)
-	{
-		isIntersected = g_pCurrentMap->GetHeight(height, targetPos);
-		int tmp = 0;
-		if (isIntersected == false || fabs(height - m_pos.y) > m_maxStepHeight)
-		{
-			m_pos.y = height;
-		}
-		else
-		{
-			targetPos.y = height;
-			m_pos = targetPos;
-		}
-	}
-	else
-	{
-		
-		m_pos = targetPos;
-		
-	}
-
-	D3DXMATRIXA16 matT;
-	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	m_matWorld = matRotY * matT;
-
-	if (D3DXVec3LengthSq(&m_deltaRot) > D3DX_16F_EPSILON ||
-		D3DXVec3LengthSq(&m_deltaPos) > D3DX_16F_EPSILON)
-		m_isMoving = true;
-	else
-		m_isMoving = false;
 }
 
 void Mob::CreateAllParts()
@@ -179,14 +121,14 @@ void Mob::CreateParts(CubemanParts *& pParts,
 
 bool Mob::PlayerSearch(D3DXVECTOR3 Ppos, Mob* mob)
 {
-	
+
 	D3DXVECTOR3 move_forward;
 	move_forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
 	if (D3DXVec3LengthSq(&move_forward) > 0)
 	{
 		mob->forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
 	}
-	
+
 
 	D3DXVECTOR3 DirectPM;
 	D3DXVECTOR3 MobPos;
@@ -197,7 +139,7 @@ bool Mob::PlayerSearch(D3DXVECTOR3 Ppos, Mob* mob)
 	D3DXVec3Normalize(&mob->forward, &mob->forward);
 	float Length = abs(Ppos.x - mob->m_pos.x + Ppos.z - mob->m_pos.z);
 	float DotPM = D3DXVec3Dot(&DirectPMnormal, &mob->forward);
-	float direct = sqrt(3) / 2.0f;
+	float direct = 1.0f / 2.0f;
 	/*Debug->AddText("¸÷À§Ä¡");
 	Debug->AddText(DotPM);
 	Debug->EndLine();*/
@@ -209,7 +151,7 @@ bool Mob::PlayerSearch(D3DXVECTOR3 Ppos, Mob* mob)
 		m_isShoot = true;
 		return true;
 	}
-		
+
 	m_isShoot = false;
 	return false;
 }
@@ -225,13 +167,13 @@ void Mob::ShootVertex(D3DXVECTOR3 Ppos, Mob* mob)
 	{
 		mob->forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
 	}
-	
-	D3DCOLOR c = D3DCOLOR_XRGB(255,0,0);
+
+	D3DCOLOR c = D3DCOLOR_XRGB(255, 0, 0);
 	D3DCOLOR d = D3DCOLOR_XRGB(0, 255, 0);
 	//D3DXVECTOR3 directPMnor = Ppos - mob->m_pos;
-	ray->m_pos = { mob->m_pos.x,  mob->m_pos.y + 4.0f, mob->m_pos.z};
-	
-	ray->m_dir = { Ppos.x , Ppos.y + 4.0f, Ppos.z};
+	ray->m_pos = { mob->m_pos.x,  mob->m_pos.y + 4.0f, mob->m_pos.z };
+
+	ray->m_dir = { Ppos.x , Ppos.y + 4.0f, Ppos.z };
 	if (m_isShoot == true)
 	{
 		Shootpos[0] = (VERTEX_PC(ray->m_pos, c));
@@ -242,10 +184,10 @@ void Mob::ShootVertex(D3DXVECTOR3 Ppos, Mob* mob)
 		Shootpos[0] = (VERTEX_PC(ray->m_pos, d));
 		Shootpos[1] = (VERTEX_PC(ray->m_dir, d));
 	}
-	
+
 	/*if(ray.CalcIntersectTri(&m_vecObstacle[i], &intersectionDist))
 	{
 	}*/
 
-	
+
 }

@@ -10,9 +10,10 @@ class CreateSmog;
 class SkyBox;
 
 //중현이코드
-class Cubeman;
-class Mob;
+class UnitBox;
 class Blocks;
+
+//class SkinnedMesh;
 
 class SceneHeightmap : public IScene
 {
@@ -23,8 +24,7 @@ private:
 	//SkinnedMesh *	m_pSkinnedMesh;
 
 	//중현이코드
-	Cubeman *		m_pCubeman;
-	vector<Mob*>	m_pMob;
+	UnitBox *		m_pUnit;
 	Blocks *		m_pBlocks;
 	//
 

@@ -4,7 +4,6 @@
 #include "Ray.h"
 #include "Heap.h"
 
-
 AStar::AStar()
 {
 }
@@ -25,7 +24,6 @@ void AStar::Init()
 {
 	D3DXCreateSphere(g_pDevice, 0.2f, 10, 10, &m_pSphere, NULL);
 	m_pOpenNodeHeap = new Heap;
-
 }
 
 void AStar::Render()
@@ -75,11 +73,14 @@ void AStar::InitNodes(IMap * pMap)
 					 //간격
 	float interval = pMap->GetSize().x / (float)(nodeDim - 0.99);
 
+
+
 	for (int posZ = 0; posZ < nodeDim; posZ++)
 	{
 		for (int posX = 0; posX < nodeDim; posX++)
 		{
 			D3DXVECTOR3 location(posX * interval, 0, posZ * interval);
+
 			pMap->GetHeight(location.y, location);
 
 			//0부터시작해서 ??
@@ -90,10 +91,14 @@ void AStar::InitNodes(IMap * pMap)
 			if (posX == 5 && posZ < 9)
 			{
 				pNode->m_nodeState = STATE_WALL;
+				Wall_location.push_back(pNode->m_location);
+				//m_pUnit->SetLocation(pNode->m_location);
 			}
 			if (posX == 13 && (posZ > 4 && posZ < 26))
 			{
 				pNode->m_nodeState = STATE_WALL;
+				Wall_location.push_back(pNode->m_location);
+				//m_pUnit->SetLocation(pNode->m_location);
 			}
 		}
 	}
@@ -298,7 +303,7 @@ void AStar::CalcEraseCount(const D3DXVECTOR3 & pos, const vector<int>& vecIndex,
 		if (bByStartPos == true)
 		{
 			//마지막위치에서 내 위치를 뺴줌
-			ray.m_dir = m_vecNode[vecIndex[vecIndex.size() - 1 - index]]->GetLocation() - pos; 
+			ray.m_dir = m_vecNode[vecIndex[vecIndex.size() - 1 - index]]->GetLocation() - pos;
 		}
 		else
 		{

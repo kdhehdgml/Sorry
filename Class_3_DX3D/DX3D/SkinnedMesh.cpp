@@ -36,7 +36,7 @@ void SkinnedMesh::Init()
 
 	
 
-	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
+	Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	CString path = "resources/zealot/";
 	CString filename = "zealot.X";
 	Load(path, filename);
