@@ -8,6 +8,8 @@ HeightMap::HeightMap()
 {
 	m_pMesh = NULL;
 	m_pMtlTex = NULL;
+	AStarNodeRenderOn = false;
+	TabKeyDownCheck = false;
 }
 
 
@@ -148,6 +150,21 @@ void HeightMap::Init()
 
 void HeightMap::Update()
 {
+	// TAB Å° ´©¸£¸é AStarNode ·»´õ ON / OFF
+	if ((GetKeyState(VK_TAB) & 0x8000))
+	{
+		if (!TabKeyDownCheck)
+		{
+			TabKeyDownCheck = true;
+
+			if (!AStarNodeRenderOn)
+				AStarNodeRenderOn = true;
+			else
+				AStarNodeRenderOn = false;
+		}
+	}
+	else if (TabKeyDownCheck)
+		TabKeyDownCheck = false;	
 }
 
 void HeightMap::Render()
@@ -170,7 +187,9 @@ void HeightMap::Render()
 	m_pMesh->DrawSubset(0);
 	g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	
-	SAFE_RENDER(m_pAStar);
+	// AStarNode ·»´õ
+	if(AStarNodeRenderOn)
+		SAFE_RENDER(m_pAStar);
 
 	g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);

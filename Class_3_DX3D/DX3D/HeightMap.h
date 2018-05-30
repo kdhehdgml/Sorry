@@ -6,6 +6,8 @@ class HeightMap : public IMap
 protected:
 	MTLTEX*		m_pMtlTex;
 	LPD3DXMESH	m_pMesh;
+	bool		AStarNodeRenderOn;
+	bool		TabKeyDownCheck;
 
 	vector<D3DXVECTOR3> m_vecSurfaceVertex;
 	vector<D3DXVECTOR3> m_vecObstacleVertex;
