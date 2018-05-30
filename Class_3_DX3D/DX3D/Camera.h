@@ -19,6 +19,12 @@ private:
 	POINT			m_ptPrevMouse;
 	D3DXVECTOR3*	m_pTarget;
 
+	D3DXVECTOR3 dir;
+	D3DXVECTOR3 pos;
+	D3DXMATRIXA16 m_matWorld;
+	float FOV;
+	float speedOffset;
+
 public:
 	void Init();
 	void Update();
