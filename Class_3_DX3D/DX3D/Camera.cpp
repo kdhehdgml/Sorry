@@ -71,7 +71,7 @@ void Camera::Update()
 	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 	g_pDevice->SetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixPerspectiveFovLH(&matProj, FOV, rc.right / (float)rc.bottom, .1f, 100.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, FOV, rc.right / (float)rc.bottom, 1.0f, 1000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &matProj);
 	g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	m_matWorld = matWorld;
@@ -188,4 +188,24 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		if (m_distance >= 100) m_distance = 100;
 		break;
 	}
+}
+
+D3DXVECTOR3 Camera::getDir()
+{
+	return dir;
+}
+
+D3DXVECTOR3 Camera::getPos()
+{
+	return pos;
+}
+
+float Camera::getFOV()
+{
+	return FOV;
+}
+
+float Camera::getSpeedOffset()
+{
+	return speedOffset;
 }

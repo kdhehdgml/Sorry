@@ -30,5 +30,10 @@ public:
 	void Update();
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void SetTarget(D3DXVECTOR3* pTarget) { m_pTarget = pTarget; }
+
+	D3DXVECTOR3 getDir();
+	D3DXVECTOR3 getPos();
+	float getFOV();
+	float getSpeedOffset();
 };
 
