@@ -34,7 +34,7 @@ void Camera::Init()
 	GetClientRect(g_hWnd, &rc);
 
 	D3DXMatrixPerspectiveFovLH(&m_matProj,
-		FOV, rc.right / (float)rc.bottom, 1, 1000);
+		FOV, rc.right / (float)rc.bottom, 1.0f, 100000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
 }
 
@@ -71,7 +71,7 @@ void Camera::Update()
 	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 	g_pDevice->SetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixPerspectiveFovLH(&matProj, FOV, rc.right / (float)rc.bottom, 1.0f, 1000.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, FOV, rc.right / (float)rc.bottom, 1.0f, 100000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &matProj);
 	g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	m_matWorld = matWorld;

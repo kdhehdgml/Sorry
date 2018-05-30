@@ -151,7 +151,6 @@ void SceneHeightmap::Init()
 
 void SceneHeightmap::Update()
 {
-	
 	m_CreateSmog->Update();
 
 	OnUpdateIScene();
