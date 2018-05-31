@@ -51,7 +51,8 @@ void AStar::Render()
 		case STATE_WALL:
 			g_pDevice->SetMaterial(&DXUtil::GREEN_MTRL);
 			break;
-
+		case STATE_NOHIDEWALL:
+			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
 		}
 
 		D3DXMatrixTranslation(&mat, p->GetLocation().x, p->GetLocation().y, p->GetLocation().z);
@@ -99,6 +100,10 @@ void AStar::InitNodes(IMap * pMap)
 				pNode->m_nodeState = STATE_WALL;
 				Wall_location.push_back(pNode->m_location);
 				//m_pUnit->SetLocation(pNode->m_location);
+			}
+			if (posX == 15 && (posZ > 3 && posZ < 26))
+			{
+				pNode->m_nodeState = STATE_NOHIDEWALL;
 			}
 		}
 	}
@@ -184,8 +189,11 @@ void AStar::RestNodes()
 {
 	for (int i = 0; i < m_vecNode.size(); i++)
 	{
-		if (m_vecNode[i]->m_nodeState != STATE_WALL)
+		if (m_vecNode[i]->m_nodeState != STATE_WALL )
 			m_vecNode[i]->m_nodeState = STATE_NONE;
+
+		/*if(m_vecNode[i]->m_nodeState != STATE_NOHIDEWALL)
+			m_vecNode[i]->m_nodeState = STATE_NONE;*/
 	}
 }
 
@@ -197,10 +205,9 @@ int AStar::FindClosestNode(const D3DXVECTOR3 & pos)
 
 	for (int i = 0; i < m_vecNode.size(); i++)
 	{
-		if (m_vecNode[i]->m_nodeState == STATE_WALL)
+		if (m_vecNode[i]->m_nodeState == STATE_WALL || m_vecNode[i]->m_nodeState == STATE_NOHIDEWALL)
 		{
 			continue;
-
 		}
 
 		D3DXVECTOR3 subtract = pos - m_vecNode[i]->GetLocation();
@@ -270,6 +277,7 @@ void AStar::Extend(int targetIdx, int destIdx)
 
 		if (currNode->m_nodeState == STATE_CLOSE) continue;//못가는지역?
 		if (currNode->m_nodeState == STATE_WALL) continue;//벽?
+		if (currNode->m_nodeState == STATE_NOHIDEWALL) continue;
 
 														  //시작점까지의 코스트(현재거리까지의 필요한 비용)
 		float G = m_vecNode[targetIdx]->m_g + vecEdge[i]->edgeCost;//확장하려는 인저노드로 가는데 필요한 총 g 값
@@ -318,9 +326,9 @@ void AStar::CalcEraseCount(const D3DXVECTOR3 & pos, const vector<int>& vecIndex,
 		for (size_t i = 0; i < m_vecNode.size(); i++)
 		{
 			float a = D3DXVec3Length(&(m_vecNode[i]->m_location - ray.m_pos));
-			if (m_vecNode[i]->m_nodeState == STATE_WALL && a + 0.3 < nodeDist)
+			if ((m_vecNode[i]->m_nodeState == STATE_WALL && a + 0.3 < nodeDist) ||
+				(m_vecNode[i]->m_nodeState == STATE_NOHIDEWALL && a + 0.3 < nodeDist))
 			{
-
 				isIntersected = true;
 				break;
 			}
