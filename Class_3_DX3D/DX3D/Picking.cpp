@@ -64,12 +64,12 @@ void Picking::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
-	case WM_RBUTTONUP:
+	case WM_LBUTTONDOWN:
 	{
 		Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
 		for (auto p : m_vecBoundary)
 		{
-			//p->isPicked = r.CalcIntersectSphere(p);
+			p->isPicked = r.CalcIntersectSphere(p);
 		}
 		BoundingSphere* sphere = NULL;
 		float minDistance = FLT_MAX;

@@ -13,8 +13,8 @@ Camera::Camera()
 	m_isLbuttonDown = false;
 	m_pTarget = NULL;
 	pos.x = 0.0f;
-	pos.y = 7.0f;
-	pos.z = 10.0f;
+	pos.y = 10.0f;
+	pos.z = 0.0f;
 	FOV = D3DX_PI / 4.0f;
 	speedOffset = 0.4f;
 }
@@ -34,7 +34,7 @@ void Camera::Init()
 	GetClientRect(g_hWnd, &rc);
 
 	D3DXMatrixPerspectiveFovLH(&m_matProj,
-		FOV, rc.right / (float)rc.bottom, 1.0f, 100000.0f);
+		FOV, rc.right / (float)rc.bottom, 1.0f, 10000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
 }
 
@@ -71,7 +71,8 @@ void Camera::Update()
 	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 	g_pDevice->SetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixPerspectiveFovLH(&matProj, FOV, rc.right / (float)rc.bottom, 1.0f, 100000.0f);
+	//D3DXMatrixPerspectiveFovLH(시야 행렬, 시야각, 종횡비, 최소시야, 최대시야);
+	D3DXMatrixPerspectiveFovLH(&matProj, FOV, rc.right / (float)rc.bottom, 1.0f, 10000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &matProj);
 	g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	m_matWorld = matWorld;
@@ -151,8 +152,8 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 			}
 
-			m_rotY += diff_x / 100.0f;
-			m_rotX -= diff_y / 100.0f;
+			m_rotY += diff_x / 200.0f;
+			m_rotX -= diff_y / 200.0f;
 
 			if (m_rotX <= -D3DX_PI * 0.5f + D3DX_16F_EPSILON)
 			{
@@ -208,4 +209,18 @@ float Camera::getFOV()
 float Camera::getSpeedOffset()
 {
 	return speedOffset;
+}
+
+D3DXMATRIXA16 Camera::getMatWorld()
+{
+	return m_matWorld;
+}
+
+void Camera::setPos(D3DXVECTOR3)
+{
+}
+
+void Camera::setPosY(float y)
+{
+	pos.y = y;
 }

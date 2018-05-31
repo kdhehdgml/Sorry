@@ -45,12 +45,17 @@ void Cubeman::Init()
 void Cubeman::Update()
 {
 	//UpdatePosition();
-	IUnitObject::UpdateKeyboardState();
+	//IUnitObject::UpdateKeyboardState();
 	IUnitObject::UpdatePositionToDestination();
-	
+	UpdatePosition();
+	UpdatePositionToCamera();
+
 	if (GetAsyncKeyState('1') & 0x0001)
 	{
 		m_isTurnedOnLight = !m_isTurnedOnLight;
+	}
+	if (GetAsyncKeyState('2') & 0x0001) {
+		//g_pCamera->setPosY(1.0f);
 	}
 
 	if (m_isTurnedOnLight == true)
@@ -77,6 +82,8 @@ void Cubeman::Render()
 
 void Cubeman::UpdatePosition()
 {
+
+	
 	m_rot += m_deltaRot * m_rotationSpeed;
 
 	D3DXMATRIXA16 matRotY;
@@ -150,7 +157,10 @@ void Cubeman::UpdatePosition()
 		}
 
 		//m_pos = targetPos;
+		
 	}
+
+	D3DXVECTOR3 v = g_pCamera->getDir();
 
 	D3DXMATRIXA16 matT;
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
@@ -161,6 +171,18 @@ void Cubeman::UpdatePosition()
 		m_isMoving = true;
 	else
 		m_isMoving = false;
+
+	//카메라 높이를 캐릭터 위치에 맞게 조정
+	g_pCamera->setPosY(m_pos.y+7.0f);
+}
+
+void Cubeman::UpdatePositionToCamera()
+{
+	//캐릭터 위치를 카메라 위치로 변경
+	m_pos = g_pCamera->getPos();
+	//m_pos.z -= 10.0f;
+	//m_forward = g_pCamera->getDir();
+	//m_matWorld = g_pCamera->getMatWorld();
 }
 
 void Cubeman::CreateAllParts()

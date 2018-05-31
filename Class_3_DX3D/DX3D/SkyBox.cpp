@@ -2,7 +2,6 @@
 #include "SkyBox.h"
 #include "IDisplayObject.h"
 
-
 SkyBox::SkyBox()
 {
 	m_pd3dDevice = NULL;
@@ -63,37 +62,34 @@ HRESULT SkyBox::_CreateVertex()
 		return E_FAIL;
 	}
 
+	float SkyboxSize = GlobalSettingMinsu().mapSize;
+
 	SKYVERTEX vertices[24] =
 	{
-		{ -250.0f, 250.0f, -250.0f, 0.0f, 0.0f },		// Top vertices
-		{ 250.0f, 250.0f, -250.0f, 1.0f, 0.0f },
-		{ -250.0f, 250.0f,  250.0f, 0.0f, 1.0f },
-		{ 250.0f, 250.0f,  250.0f, 1.0f, 1.0f },
-
-		{ -250.0f,  250.0f, 250.0f, 0.0f, 0.0f },		// Front vertices
-		{ 250.0f,  250.0f, 250.0f, 1.0f, 0.0f },
-		{ -250.0f, -250.0f, 250.0f, 0.0f, 1.0f },
-		{ 250.0f, -250.0f, 250.0f, 1.0f, 1.0f },
-
-		{ 250.0f,  250.0f, -250.0f, 0.0f, 0.0f },		// Back vertices
-		{ -250.0f,  250.0f, -250.0f, 1.0f, 0.0f },
-		{ 250.0f, -250.0f, -250.0f, 0.0f, 1.0f },
-		{ -250.0f, -250.0f, -250.0f, 1.0f, 1.0f },
-
-		{ -250.0f,  250.0f, -250.0f, 0.0f, 0.0f },		// Left vertices
-		{ -250.0f,  250.0f,  250.0f, 1.0f, 0.0f },
-		{ -250.0f, -250.0f, -250.0f, 0.0f, 1.0f },
-		{ -250.0f, -250.0f,  250.0f, 1.0f, 1.0f },
-
-		{ 250.0f,  250.0f,  250.0f, 0.0f, 0.0f },		// Right vertices
-		{ 250.0f,  250.0f, -250.0f, 1.0f, 0.0f },
-		{ 250.0f, -250.0f,  250.0f, 0.0f, 1.0f },
-		{ 250.0f, -250.0f, -250.0f, 1.0f, 1.0f },
-
-		{ -250.0f, -250.0f,  250.0f, 0.0f, 0.0f },		// Bottom vertices
-		{ 250.0f, -250.0f,  250.0f, 1.0f, 0.0f },
-		{ -250.0f, -250.0f, -250.0f, 0.0f, 1.0f },
-		{ 250.0f, -250.0f, -250.0f, 1.0f, 1.0f }
+		{ -SkyboxSize,  SkyboxSize, -SkyboxSize, 0.0f, 0.0f },		// Top vertices
+		{  SkyboxSize,  SkyboxSize, -SkyboxSize, 1.0f, 0.0f },
+		{ -SkyboxSize,  SkyboxSize,  SkyboxSize, 0.0f, 1.0f },
+		{  SkyboxSize,  SkyboxSize,  SkyboxSize, 1.0f, 1.0f },
+		{ -SkyboxSize,  SkyboxSize,  SkyboxSize, 0.0f, 0.0f },		// Front vertices
+		{  SkyboxSize,  SkyboxSize,  SkyboxSize, 1.0f, 0.0f },
+		{ -SkyboxSize, -SkyboxSize,  SkyboxSize, 0.0f, 1.0f },
+		{  SkyboxSize, -SkyboxSize,  SkyboxSize, 1.0f, 1.0f },
+		{  SkyboxSize,  SkyboxSize, -SkyboxSize, 0.0f, 0.0f },		// Back vertices
+		{ -SkyboxSize,  SkyboxSize, -SkyboxSize, 1.0f, 0.0f },
+		{  SkyboxSize, -SkyboxSize, -SkyboxSize, 0.0f, 1.0f },
+		{ -SkyboxSize, -SkyboxSize, -SkyboxSize, 1.0f, 1.0f },
+		{ -SkyboxSize,  SkyboxSize, -SkyboxSize, 0.0f, 0.0f },		// Left vertices
+		{ -SkyboxSize,  SkyboxSize,  SkyboxSize, 1.0f, 0.0f },
+		{ -SkyboxSize, -SkyboxSize, -SkyboxSize, 0.0f, 1.0f },
+		{ -SkyboxSize, -SkyboxSize,  SkyboxSize, 1.0f, 1.0f },
+		{  SkyboxSize,  SkyboxSize,  SkyboxSize, 0.0f, 0.0f },		// Right vertices
+		{  SkyboxSize,  SkyboxSize, -SkyboxSize, 1.0f, 0.0f },
+		{  SkyboxSize, -SkyboxSize,  SkyboxSize, 0.0f, 1.0f },
+		{  SkyboxSize, -SkyboxSize, -SkyboxSize, 1.0f, 1.0f },
+		{ -SkyboxSize, -SkyboxSize,  SkyboxSize, 0.0f, 0.0f },		// Bottom vertices
+		{  SkyboxSize, -SkyboxSize,  SkyboxSize, 1.0f, 0.0f },
+		{ -SkyboxSize, -SkyboxSize, -SkyboxSize, 0.0f, 1.0f },
+		{  SkyboxSize, -SkyboxSize, -SkyboxSize, 1.0f, 1.0f }
 	};
 
 	VOID* pVertices;

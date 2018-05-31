@@ -51,10 +51,10 @@ SceneHeightmap::~SceneHeightmap()
 void SceneHeightmap::Init()
 {
 	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 0.2f, 0.03f, 0.2f);
+	D3DXMatrixScaling(&matS, 1.0f, 0.06f , 1.0f);
 
 	m_pHeightMap = new HeightMap; AddSimpleDisplayObj(m_pHeightMap);
-	m_pHeightMap->SetDimension(257);
+	m_pHeightMap->SetDimension(GlobalSettingMinsu().mapSize);
 	m_pHeightMap->Load("resources/heightmap/HeightMap.raw", &matS);
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
@@ -71,8 +71,8 @@ void SceneHeightmap::Init()
 	AddSimpleDisplayObj(m_pAseCharacter);
 	*/
 
-	//m_pPicking = new Picking; m_pPicking->Init();
-	//	AddSimpleDisplayObj(m_pPicking);
+	m_pPicking = new Picking; m_pPicking->Init();
+		AddSimpleDisplayObj(m_pPicking);
 
 	//IDisplayObject* pObj;
 	////pObj = new SampleUI; pObj->Init(); AddSimpleDisplayObj(pObj);
@@ -164,5 +164,5 @@ void SceneHeightmap::Render()
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	SAFE_WNDPROC(m_pHeightMap);
-	//SAFE_WNDPROC(m_pPicking);
+	SAFE_WNDPROC(m_pPicking);
 }
