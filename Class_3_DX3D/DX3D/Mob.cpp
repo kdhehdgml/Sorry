@@ -23,6 +23,7 @@ Mob::Mob()
 Mob::~Mob()
 {
 	m_pRootParts->ReleaseAll();
+	SAFE_RELEASE(m_pCubeman);
 }
 
 void Mob::Init()
