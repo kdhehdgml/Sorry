@@ -144,8 +144,8 @@ void HeightMap::Init()
 {
 	m_pAStar = new AStar(); m_pAStar->Init(); m_pAStar->InitNodes(this);
 	SetSurface();
-	SetObstacle();
-	m_pAStar->SetObstacle(m_vecObstacleVertex);
+	//SetObstacle();
+	//m_pAStar->SetObstacle(m_vecObstacleVertex);
 	GetWall(m_pAStar->GetWallLocation());
 }
 
@@ -206,9 +206,9 @@ void HeightMap::Render()
 	//	m_vecSurfaceVertex.size() / 3,
 	//	&m_vecSurfaceVertex[0], sizeof(D3DXVECTOR3));
 		
-	g_pDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+	/*g_pDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
 		m_vecObstacleVertex.size() / 3, &m_vecObstacleVertex[0],
-		sizeof(D3DXVECTOR3));
+		sizeof(D3DXVECTOR3));*/
 
 	g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
