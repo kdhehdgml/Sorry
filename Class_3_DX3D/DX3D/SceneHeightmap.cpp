@@ -71,8 +71,8 @@ void SceneHeightmap::Init()
 	AddSimpleDisplayObj(m_pAseCharacter);
 	*/
 
-	//m_pPicking = new Picking; m_pPicking->Init();
-	//	AddSimpleDisplayObj(m_pPicking);
+	m_pPicking = new Picking; m_pPicking->Init();
+		AddSimpleDisplayObj(m_pPicking);
 
 	//IDisplayObject* pObj;
 	////pObj = new SampleUI; pObj->Init(); AddSimpleDisplayObj(pObj);
@@ -163,5 +163,5 @@ void SceneHeightmap::Render()
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	SAFE_WNDPROC(m_pHeightMap);
-	//SAFE_WNDPROC(m_pPicking);
+	SAFE_WNDPROC(m_pPicking);
 }
