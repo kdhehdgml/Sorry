@@ -4,20 +4,6 @@
 
 Cubeman::Cubeman()
 {
-	//m_pRootParts = NULL;
-
-	//m_isMoving = false;
-	//m_moveSpeed = 0.2f;
-	//m_currMoveSpeedRate = 1.0f;
-	//m_rotationSpeed = 0.1f;
-
-	//m_isJumping = false;
-	//m_jumpPower = 1.0f;
-	//m_gravity = 0.05f;
-	//m_currGravity = 0.0f;
-
-	//m_maxStepHeight = 2.0f;
-
 	m_pRootParts = NULL;
 
 	m_isMoving = false;
@@ -47,7 +33,7 @@ Cubeman::~Cubeman()
 void Cubeman::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_PLAYER, this);
-	g_pCamera->SetTarget(&m_pos);
+	//g_pCamera->SetTarget(&m_pos);
 	//g_pKeyboardManager->SetMovingTarget(&m_deltaPos,
 	//	&m_deltaRot, &m_isJumping);
 

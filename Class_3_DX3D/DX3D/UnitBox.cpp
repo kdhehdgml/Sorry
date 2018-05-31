@@ -2,8 +2,7 @@
 #include "UnitBox.h"
 #include "Cubeman.h"
 #include "Mob.h"
-#include "AStar.h"
-#include "AStarNode.h"
+
 UnitBox::UnitBox()
 {
 	for (size_t i = 0; i < m_pMob.size(); i++)
@@ -28,8 +27,6 @@ void UnitBox::Init()
 	m_pCubeman = new Cubeman; m_pCubeman->Init();
 	m_pMob.resize(5);
 
-	m_pAstar = new AStar; m_pAstar->Init();
-
 	for (size_t i = 0; i < m_pMob.size(); i++)
 	{
 		m_pMob[i] = new Mob;
@@ -53,7 +50,7 @@ void UnitBox::Update()
 	{
 		SAFE_UPDATE(m_pMob[i]);
 	}
-	if (m_pMob[0]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[0]) == true)
+	/*if (m_pMob[0]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[0]) == true)
 	{
 		m_pMob[0]->SetDestination(m_pCubeman->GetPosition());
 		m_pMob[0]->UpdatePositionToDestination();
@@ -82,9 +79,9 @@ void UnitBox::Update()
 	m_pMob[1]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[1]);
 	m_pMob[2]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[2]);
 	m_pMob[3]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[3]);
-	m_pMob[4]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[4]);		
+	m_pMob[4]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[4]);		*/
 	
-	/*for (size_t i = 0; i < m_pMob.size(); i++)
+	for (size_t i = 0; i < m_pMob.size(); i++)
 	{
 		for (size_t j = 0; j < SaveLocation.size(); j++)
 		{
@@ -121,7 +118,7 @@ void UnitBox::Update()
 
 			}
 		}
-	}*/
+	}
 	
 }
 
