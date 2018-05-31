@@ -2,12 +2,10 @@
 #include "IUnitObject.h"
 class Cubeman;
 class Mob;
-class AStar;
 class UnitBox : public IUnitObject
 {
 private:
 	Cubeman *		m_pCubeman;
-	AStar *			m_pAstar;
 	vector<Mob*>	m_pMob;
 	vector<D3DXVECTOR3> SaveLocation;
 
