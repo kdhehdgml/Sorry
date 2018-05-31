@@ -173,11 +173,11 @@ void HeightMap::Render()
 
 	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
 	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
-	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.1f)); //강도 0~1f
+	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
 	//안개적용되는 최소 거리
-	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(20.0f));
+	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GlobalSettingMinsu().mapSize / 4));
 	//안개 최대치로 적용되는 거리
-	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(40.0f));
+	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GlobalSettingMinsu().mapSize / 4 + 100.0f));
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
 	//g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);

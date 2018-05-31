@@ -32,9 +32,7 @@ private:
 	CreateSmog*		m_CreateSmog;
 	SkyBox*			m_SkyBox;
 	//
-
-
-
+	
 public:
 	SceneHeightmap();
 	~SceneHeightmap();
