@@ -13,6 +13,7 @@
 			{ pNode->m_nodeState = STATE_NOHIDEWALL;\
 			Wall_location.push_back(pNode->m_location); }
 
+//노드 구체 사이즈 조절
 #define SPHERESIZE 1.0f
 
 AStar::AStar()
@@ -42,6 +43,8 @@ void AStar::Render()
 	D3DXMATRIXA16 mat;
 
 	g_pDevice->SetTexture(0, NULL);
+
+	
 
 	for (auto p : m_vecNode)
 	{
