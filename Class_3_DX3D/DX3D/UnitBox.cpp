@@ -31,7 +31,7 @@ void UnitBox::Init()
 	{
 		m_pMob[i] = new Mob;
 		m_pMob[i]->Init();
-		m_pMob[i]->SetPosition(&D3DXVECTOR3(50.0f + NODE_POSITSIZE, 2.67f, (i + 1) * 20 + NODE_POSITSIZE));
+		m_pMob[i]->SetPosition(&D3DXVECTOR3(40.0f + NODE_POSITSIZE, 2.67f, (i + 1) * 20 + NODE_POSITSIZE));
 		FindHidingInTheWallLocation(i);
 	}
 }
