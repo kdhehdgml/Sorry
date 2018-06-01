@@ -93,13 +93,13 @@ void AStar::InitNodes(IMap * pMap)
 			if (posX == 5 && posZ < 9)
 			{
 				pNode->m_nodeState = STATE_WALL;
-				Wall_location.push_back(pNode->m_location);
+				Wall_location.push_back(D3DXVECTOR3(pNode->m_location.x + 1.0f, pNode->m_location.y, pNode->m_location.z));
 				//m_pUnit->SetLocation(pNode->m_location);
 			}
 			if (posX == 13 && (posZ > 4 && posZ < 26))
 			{
 				pNode->m_nodeState = STATE_WALL;
-				Wall_location.push_back(pNode->m_location);
+				Wall_location.push_back(D3DXVECTOR3(pNode->m_location.x + 1.0f, pNode->m_location.y, pNode->m_location.z));
 				//m_pUnit->SetLocation(pNode->m_location);
 			}
 			if (posX == 16 && (posZ > 3 && posZ < 26))

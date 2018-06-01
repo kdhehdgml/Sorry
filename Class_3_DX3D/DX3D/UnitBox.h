@@ -9,6 +9,8 @@ private:
 	vector<Mob*>	m_pMob;
 	vector<D3DXVECTOR3> SaveLocation;
 
+	bool			m_SameChk;
+
 public:
 	UnitBox();
 	~UnitBox();
