@@ -108,23 +108,6 @@ void AStar::InitNodes(IMap * pMap)
 			WALL(23, 23, 38, 39);
 			nWALL(21, 21, 38, 39);
 
-			
-			/*if (posX == 15 && (posZ > 3 && posZ < 26))
-			{
-				pNode->m_nodeState = STATE_NOHIDEWALL;
-				Wall_location.push_back(pNode->m_location);
-				//m_pUnit->SetLocation(pNode->m_location);
-			}
-			if (posX == 13 && (posZ > 4 && posZ < 26))
-			{
-				pNode->m_nodeState = STATE_WALL;
-				Wall_location.push_back(pNode->m_location);
-				//m_pUnit->SetLocation(pNode->m_location);
-			}
-			if (posX == 15 && (posZ > 3 && posZ < 26))
-			{
-				pNode->m_nodeState = STATE_NOHIDEWALL;
-			}
 		}
 	}
 	//위에 노드까는코드
