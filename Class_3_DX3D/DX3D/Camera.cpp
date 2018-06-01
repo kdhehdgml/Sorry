@@ -20,7 +20,7 @@ Camera::Camera()
 
 	FOV = D3DX_PI / 4.0f;
 	speedOffset = 0.4f;
-	freeCameraMode = false;
+	freeCameraMode = true;
 }
 
 
