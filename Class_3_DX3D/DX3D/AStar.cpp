@@ -4,6 +4,14 @@
 #include "Ray.h"
 #include "Heap.h"
 
+// 벽생성 매크로
+#define WALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
+			{ pNode->m_nodeState = STATE_WALL;\
+			Wall_location.push_back(pNode->m_location); }
+
+#define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
+			{ pNode->m_nodeState = STATE_NOHIDEWALL; }
+
 AStar::AStar()
 {
 }
@@ -90,22 +98,28 @@ void AStar::InitNodes(IMap * pMap)
 
 			m_vecNode.push_back(pNode);
 
-			if (posX == 5 && posZ < 9)
-			{
-				pNode->m_nodeState = STATE_WALL;
-				Wall_location.push_back(D3DXVECTOR3(pNode->m_location.x + 1.0f, pNode->m_location.y, pNode->m_location.z));
-				//m_pUnit->SetLocation(pNode->m_location);
-			}
-			if (posX == 13 && (posZ > 4 && posZ < 26))
-			{
-				pNode->m_nodeState = STATE_WALL;
-				Wall_location.push_back(D3DXVECTOR3(pNode->m_location.x + 1.0f, pNode->m_location.y, pNode->m_location.z));
-				//m_pUnit->SetLocation(pNode->m_location);
-			}
-			if (posX == 16 && (posZ > 3 && posZ < 26))
-			{
-				pNode->m_nodeState = STATE_NOHIDEWALL;
-			}
+			//if (posX == 25 && (posZ > 40 && posZ < 42))
+			//{ pNode->m_nodeState = STATE_WALL;
+			//	Wall_location.push_back(pNode->m_location);	/*m_pUnit->SetLocation(pNode->m_location);*/ }
+			
+			// 벽생성 (매크로 사용)
+
+			WALL(40, 40, 30, 39);
+			WALL(40, 40, 42, 51);
+			WALL(40, 40, 54, 64);
+
+			WALL(35, 35, 27, 37);
+			WALL(35, 35, 41, 47);
+			WALL(35, 35, 51, 64);
+
+			nWALL(31, 31, 35, 42);
+			nWALL(31, 31, 45, 52);
+			nWALL(31, 31, 56, 68);
+
+			WALL(27, 27, 27, 37);
+			WALL(27, 27, 41, 47);
+			WALL(27, 27, 51, 57);
+
 		}
 	}
 	//위에 노드까는코드
