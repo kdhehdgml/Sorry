@@ -15,6 +15,8 @@ private:
 	D3DXVECTOR3				m_rot;
 	D3DXMATRIXA16			m_matWorld;
 
+	bool					m_state;
+
 public:
 	ColorCube();
 	~ColorCube();
