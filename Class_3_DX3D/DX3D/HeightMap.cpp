@@ -175,9 +175,9 @@ void HeightMap::Render()
 	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
 	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
 	//안개적용되는 최소 거리
-	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GlobalSettingMinsu().fogMin));
+	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
 	//안개 최대치로 적용되는 거리
-	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GlobalSettingMinsu().fogMax));
+	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
 	//g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -356,9 +356,9 @@ void HeightMap::SetObstacle()
 
 void HeightMap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message)
+	switch (wParam)
 	{
-	case WM_RBUTTONUP:
+	case VK_F1:
 	{
 		//D3DXVECTOR3 pos;
 		//if (CalcPickedPosition(pos, SCREEN_POINT(lParam)) == true)

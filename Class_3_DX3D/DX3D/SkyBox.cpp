@@ -62,7 +62,7 @@ HRESULT SkyBox::_CreateVertex()
 		return E_FAIL;
 	}
 
-	float SkyboxSize = GlobalSettingMinsu().mapSize;
+	float SkyboxSize = GSM().mapSize;
 
 	SKYVERTEX vertices[24] =
 	{

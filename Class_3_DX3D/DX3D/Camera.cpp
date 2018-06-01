@@ -13,9 +13,9 @@ Camera::Camera()
 	m_isLbuttonDown = false;
 	m_pTarget = NULL;
 
-	pos.x = GlobalSettingMinsu().camPos.x;
-	pos.z = GlobalSettingMinsu().camPos.z;
-	pos.y = GlobalSettingMinsu().camPos.y;
+	pos.x = GSM().camPos.x;
+	pos.z = GSM().camPos.z;
+	pos.y = GSM().camPos.y;
 	
 
 	FOV = D3DX_PI / 4.0f;
@@ -127,6 +127,10 @@ void Camera::Update()
 			speedOffset = 0.4f;
 		}
 	}
+
+	Debug->AddText("¸¶¿ì½º ÁÂÇ¥:");
+	Debug->AddText(pos);
+	Debug->EndLine();
 }
 
 void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
