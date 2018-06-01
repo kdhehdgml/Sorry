@@ -54,7 +54,7 @@ void SceneHeightmap::Init()
 	D3DXMatrixScaling(&matS, 1.0f, 0.06f , 1.0f);
 
 	m_pHeightMap = new HeightMap; AddSimpleDisplayObj(m_pHeightMap);
-	m_pHeightMap->SetDimension(GlobalSettingMinsu().mapSize);
+	m_pHeightMap->SetDimension(GSM().mapSize);
 	m_pHeightMap->Load("resources/heightmap/HeightMap.raw", &matS);
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;

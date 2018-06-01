@@ -265,9 +265,9 @@
       <Filter>소스 파일\mob</Filter>
     </ClInclude>
     <ClInclude Include="UnitBox.h">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\mob</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalSettingMinsu.h">
+    <ClInclude Include="GSM.h">
       <Filter>소스 파일\Minsu_Setting</Filter>
     </ClInclude>
   </ItemGroup>
@@ -454,9 +454,9 @@
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
     <ClCompile Include="UnitBox.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\mob</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalSettingMinsu.cpp">
+    <ClCompile Include="GSM.cpp">
       <Filter>소스 파일\Minsu_Setting</Filter>
     </ClCompile>
   </ItemGroup>

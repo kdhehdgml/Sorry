@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "GlobalSettingMinsu.h"
+#include "GSM.h"
 
 
-GlobalSettingMinsu::GlobalSettingMinsu()
+GSM::GSM()
 {
 	// ¸Ê Å©±â
 	mapSize = 500.0f;
@@ -15,9 +15,13 @@ GlobalSettingMinsu::GlobalSettingMinsu()
 	camPos.x = 100.0f;
 	camPos.z = 250.0f;
 	camPos.y = -10.0f;
+
+	// ¸÷ ÃÊ±â À§Ä¡
+	mobPos.x = mapSize - 200.0f;
+	mobPos.z = 100.0f;
 }
 
 
-GlobalSettingMinsu::~GlobalSettingMinsu()
+GSM::~GSM()
 {
 }
