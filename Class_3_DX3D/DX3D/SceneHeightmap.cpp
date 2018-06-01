@@ -71,8 +71,9 @@ void SceneHeightmap::Init()
 	AddSimpleDisplayObj(m_pAseCharacter);
 	*/
 
-	m_pPicking = new Picking; m_pPicking->Init();
-		AddSimpleDisplayObj(m_pPicking);
+	m_pPicking = new Picking;
+	m_pPicking->Init();
+	AddSimpleDisplayObj(m_pPicking);
 
 	//IDisplayObject* pObj;
 	////pObj = new SampleUI; pObj->Init(); AddSimpleDisplayObj(pObj);
@@ -158,6 +159,7 @@ void SceneHeightmap::Render()
 
 	SAFE_RENDER(m_SkyBox);
 	m_CreateSmog->Render();
+	m_pPicking->Render();
 	
 }
 
