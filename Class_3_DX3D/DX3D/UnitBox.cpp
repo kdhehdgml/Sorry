@@ -31,15 +31,9 @@ void UnitBox::Init()
 	{
 		m_pMob[i] = new Mob;
 		m_pMob[i]->Init();
-		m_pMob[i]->SetPosition(&D3DXVECTOR3(50.0f, 5.0f, (i + 1) * 10));
+		m_pMob[i]->SetPosition(&D3DXVECTOR3(50.0f + NODE_POSITSIZE, 2.67f, (i + 1) * 20 + NODE_POSITSIZE));
+		FindHidingInTheWallLocation(i);
 	}
-	/*for (size_t i = 0; i < m_pAstar->GetNodes().size(); i++)
-	{
-		if (m_pAstar->GetNodes()[i]->m_nodeState == STATE_WALL)
-		{
-			SaveLocation.push_back(m_pAstar->GetNodes()[i]->GetLocation());
-		}
-	}*/
 }
 
 void UnitBox::Update()
@@ -50,6 +44,7 @@ void UnitBox::Update()
 	{
 		SAFE_UPDATE(m_pMob[i]);
 	}
+	//타겟을따라서 움직이는 내용
 	/*if (m_pMob[0]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[0]) == true)
 	{
 		m_pMob[0]->SetDestination(m_pCubeman->GetPosition());
@@ -74,51 +69,16 @@ void UnitBox::Update()
 	{
 		m_pMob[4]->SetDestination(m_pCubeman->GetPosition());
 		m_pMob[4]->UpdatePositionToDestination();
-	}
-	m_pMob[0]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[0]);
+	}*/
+	//타겟과 플레이어를 이어주는 선긋기
+	/*m_pMob[0]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[0]);
 	m_pMob[1]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[1]);
 	m_pMob[2]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[2]);
 	m_pMob[3]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[3]);
-	m_pMob[4]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[4]);		*/
+	m_pMob[4]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[4]);*/
 	
-	for (size_t i = 0; i < m_pMob.size(); i++)
-	{
-		for (size_t j = 0; j < SaveLocation.size(); j++)
-		{
-			float Dist = D3DXVec3Length(&(SaveLocation[j] - m_pMob[i]->GetPosition()));
-			if (Dist <= 5)
-			{
-				
-				if (m_pMob[i]->m_move == false)
-				{
-					if (SaveLocation.empty() == false)
-					{
-						SaveLocation[j].x += 1.0f;
-						m_pMob[i]->SetDestination(SaveLocation[j]);
-						m_pMob[i]->m_move = true;
-						SaveLocation.erase(SaveLocation.begin() + j);
-					}
-					else
-					{
-						m_pMob[i]->SetDestination(D3DXVECTOR3(5.0f, 5.0f, (i + 1) * 10));
-					}
-				}
-				else
-				{
-					m_pMob[i]->num++;
-					if (m_pMob[i]->num > 100)
-					{
-						m_pMob[i]->m_move = false;
-					}
-				}
-				m_pMob[i]->UpdatePositionToDestination();
-			}
-			else if (m_pMob[i]->m_move == false)
-			{
-
-			}
-		}
-	}
+	//장애물뒤에 숨기
+	MobMoveInTheWall();
 	
 }
 
@@ -129,4 +89,58 @@ void UnitBox::Render()
 		SAFE_RENDER(m_pMob[i]);
 	}
 	SAFE_RENDER(m_pCubeman);
+}
+
+void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
+{
+	for (int i = 0; i < SaveLocation.size(); i++)
+	{
+		if (abs(SaveLocation[i].z - m_pMob[_Mobnum]->GetPosition().z) < 7)
+		{
+			D3DXVECTOR3 Save;
+			Save = { SaveLocation[i].x + 1.0f, SaveLocation[i].y, SaveLocation[i].z };
+			m_pMob[_Mobnum]->GetMoveTheWall(Save);
+		}
+	}
+}
+
+void UnitBox::MobMoveInTheWall()
+{
+	for (size_t i = 0; i < m_pMob.size(); i++)
+	{
+		float Dist = 0;
+		if (m_pMob[i]->SetMoveTheWall().empty() == true)
+		{
+			if (m_pMob[i]->m_move == false)
+			{
+				m_pMob[i]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, (i + 1) * 20 + NODE_POSITSIZE));
+				m_pMob[i]->m_move = true;
+			}
+		}
+		else
+		{
+			if (m_pMob[i]->m_move == false)
+			{
+				m_pMob[i]->SetDestination(m_pMob[i]->SetMoveTheWall().front());
+				m_pMob[i]->UpdatePositionToDestination();
+				m_pMob[i]->m_move = true;
+			}
+			if (m_pMob[i]->m_move == true)
+			{
+				Dist = D3DXVec3Length(&(m_pMob[i]->SetMoveTheWall().at(0) - m_pMob[i]->GetPosition()));
+
+				if (Dist < 0.3f)
+				{
+					m_pMob[i]->num++;
+					if (m_pMob[i]->num > 100)
+					{
+
+						m_pMob[i]->EraseWallLocation();
+						m_pMob[i]->m_move = false;
+						m_pMob[i]->num = 0;
+					}
+				}
+			}
+		}
+	}
 }

@@ -82,9 +82,10 @@ void SceneHeightmap::Init()
 
 	//중현이코드
 	m_pUnit = new UnitBox();
+	m_pUnit->SetLocation(m_pHeightMap->SetWall());
 	m_pUnit->Init();
 	AddSimpleDisplayObj(m_pUnit);
-	m_pUnit->SetLocation(m_pHeightMap->SetWall());
+	
 
 	m_pBlocks = new Blocks();
 	m_pBlocks->Init();

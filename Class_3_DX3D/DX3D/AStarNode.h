@@ -13,7 +13,8 @@ enum NODE_STATE
 	STATE_OPEN,
 	STATE_CLOSE,
 	STATE_USING,
-	STATE_WALL
+	STATE_WALL,
+	STATE_NOHIDEWALL
 };
 
 class AStarNode : public BaseObject
