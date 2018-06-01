@@ -108,13 +108,39 @@ void AStar::InitNodes(IMap * pMap)
 			//	Wall_location.push_back(pNode->m_location);	/*m_pUnit->SetLocation(pNode->m_location);*/ }
 			
 			// 벽생성 (매크로 사용)
-			WALL(25, 25, 40, 41);
-			WALL(23, 23, 38, 39);
-			WALL(30, 30, 29, 32);
-			WALL(35, 35, 40, 43);
-			WALL(27, 27, 37, 39);
-			WALL(31, 31, 32, 34);
-			nWALL(21, 21, 38, 39);
+			bool lineodd = true;
+			int lineNum = 0;
+			for (int x = 20; x < 60; x += 4)
+			{
+				for (int z = 22; z < 67; z += 5)
+				{
+					if (lineodd)
+					{
+						if (lineNum % 3 != 1)
+						{
+							WALL(x, x, z, z + 2);
+						}
+						else
+						{
+							nWALL(x, x, z, z + 2);
+						}
+						lineodd = false;
+					}
+					else
+					{
+						if (lineNum % 3 != 1)
+						{
+							WALL(x, x, z + 2, z + 4);
+						}
+						else
+						{
+							nWALL(x, x, z + 2, z + 4);
+						}
+						lineodd = true;
+					}	
+				}
+				lineNum++;
+			}
 
 		}
 	}

@@ -40,7 +40,7 @@ void Mob::Init()
 	D3DXCreateSphere(g_pDevice, 2.5f, 10, 10, &m_pSphere, NULL);
 
 	CreateAllParts();
-	IUnitObject::m_moveSpeed = 0.1f;
+	IUnitObject::m_moveSpeed = GSM().mobSpeed;
 
 	m_pBoundingSphere = new BoundingSphere(m_pos, 2.5f);
 
