@@ -29,7 +29,7 @@ void Picking::Init()
 			for (int k = 0; k < dim; k++)
 			{
 				BoundingSphere* s = new BoundingSphere(
-					D3DXVECTOR3(i + 5, j + 5, k + 5), radius);
+					D3DXVECTOR3(i + 50, j + 10, k + 50), radius);
 				m_vecBoundary.push_back(s);
 			}
 		}
