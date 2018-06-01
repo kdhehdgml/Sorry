@@ -10,8 +10,7 @@
 			Wall_location.push_back(pNode->m_location); }
 
 #define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
-			{ pNode->m_nodeState = STATE_NOHIDEWALL;\
-			Wall_location.push_back(pNode->m_location); }
+			{ pNode->m_nodeState = STATE_NOHIDEWALL; }
 
 AStar::AStar()
 {
@@ -104,9 +103,22 @@ void AStar::InitNodes(IMap * pMap)
 			//	Wall_location.push_back(pNode->m_location);	/*m_pUnit->SetLocation(pNode->m_location);*/ }
 			
 			// 벽생성 (매크로 사용)
-			WALL(25, 25, 40, 41);
-			WALL(23, 23, 38, 39);
-			nWALL(21, 21, 38, 39);
+
+			WALL(40, 40, 30, 39);
+			WALL(40, 40, 42, 51);
+			WALL(40, 40, 54, 64);
+
+			WALL(35, 35, 27, 37);
+			WALL(35, 35, 41, 47);
+			WALL(35, 35, 51, 64);
+
+			nWALL(31, 31, 35, 42);
+			nWALL(31, 31, 45, 52);
+			nWALL(31, 31, 56, 68);
+
+			WALL(27, 27, 27, 37);
+			WALL(27, 27, 41, 47);
+			WALL(27, 27, 51, 57);
 
 		}
 	}

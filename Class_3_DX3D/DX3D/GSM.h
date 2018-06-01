@@ -10,6 +10,10 @@ public:
 	float fogMin;
 	float fogMax;
 
+	float mobSpeed;
+
+	float mobDestLine;
+
 	struct Pos
 	{
 		float x;

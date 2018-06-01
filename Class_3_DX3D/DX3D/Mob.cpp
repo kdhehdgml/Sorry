@@ -32,7 +32,7 @@ void Mob::Init()
 	g_pObjMgr->AddToTagList(TAG_MOB, this);
 
 	CreateAllParts();
-	IUnitObject::m_moveSpeed = 0.1f;
+	IUnitObject::m_moveSpeed = GSM().mobSpeed;
 
 	//m_pMob[i]->SetPosition(&D3DXVECTOR3(50.0f, 5.0f, (i + 1) * 10));
 }
