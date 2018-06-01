@@ -159,6 +159,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		//if (m_isLbuttonDown == true)
 		{
+
 			POINT currPoint;
 			currPoint.x = LOWORD(lParam);
 			currPoint.y = HIWORD(lParam);
@@ -187,7 +188,6 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			dir.y = tan(m_rotX);
 
 			m_ptPrevMouse = currPoint;
-
 			if (diff_x || diff_y) //마우스 위치가 변했을때 마우스 위치를 화면 중앙으로 이동
 			{
 				RECT rc; GetClientRect(g_hWnd, &rc);
@@ -198,6 +198,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				m_ptPrevMouse.x = (rc.right - rc.left) / 2;
 				m_ptPrevMouse.y = (rc.bottom - rc.top) / 2;
 			}
+			
 		}
 		break;
 	}
