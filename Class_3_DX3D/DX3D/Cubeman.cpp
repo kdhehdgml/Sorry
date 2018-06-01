@@ -22,6 +22,9 @@ Cubeman::Cubeman()
 	m_forward.z = -1;
 	m_pos.y = 3.0f;
 	m_destPos = m_pos;
+
+	m_deltaYPos = 7.0f;
+	m_freeCameraMode = false;
 }
 
 
@@ -55,7 +58,22 @@ void Cubeman::Update()
 		m_isTurnedOnLight = !m_isTurnedOnLight;
 	}
 	if (GetAsyncKeyState('2') & 0x0001) {
-		//g_pCamera->setPosY(1.0f);
+		m_freeCameraMode = !m_freeCameraMode;
+		g_pCamera->setFreeCameraMode(m_freeCameraMode);
+		if (m_freeCameraMode) {
+			m_deltaYPos = 70.0f;
+		}
+		else {
+			m_deltaYPos = 7.0f;
+		}
+	}
+	if (m_freeCameraMode) {
+		if (GetAsyncKeyState('R') & 0x8000) {
+			m_deltaYPos += 1.0f;
+		}
+		else if (GetAsyncKeyState('F') & 0x8000) {
+			m_deltaYPos -= 1.0f;
+		}
 	}
 
 	if (m_isTurnedOnLight == true)
@@ -173,7 +191,7 @@ void Cubeman::UpdatePosition()
 		m_isMoving = false;
 
 	//카메라 높이를 캐릭터 위치에 맞게 조정
-	g_pCamera->setPosY(m_pos.y+7.0f);
+	g_pCamera->setPosY(m_pos.y + m_deltaYPos);
 }
 
 void Cubeman::UpdatePositionToCamera()

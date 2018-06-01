@@ -14,9 +14,10 @@ Camera::Camera()
 	m_pTarget = NULL;
 	pos.x = 0.0f;
 	pos.y = 10.0f;
-	pos.z = 0.0f;
-	FOV = D3DX_PI / 4.0f;
-	speedOffset = 0.4f;
+pos.z = 0.0f;
+FOV = D3DX_PI / 4.0f;
+speedOffset = 0.4f;
+freeCameraMode = false;
 }
 
 
@@ -108,10 +109,20 @@ void Camera::Update()
 	}
 
 	if (GetKeyState(VK_SHIFT) & 0x8000) {
-		speedOffset = 0.8f;
+		if (freeCameraMode) {
+			speedOffset = 4.0f;
+		}
+		else {
+			speedOffset = 0.8f;
+		}
 	}
 	else {
-		speedOffset = 0.4f;
+		if (freeCameraMode) {
+			speedOffset = 2.0f;
+		}
+		else {
+			speedOffset = 0.4f;
+		}
 	}
 }
 
@@ -181,12 +192,15 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				m_ptPrevMouse.y = (rc.bottom - rc.top) / 2;
 			}
 		}
+		break;
 	}
-	break;
 	case WM_MOUSEWHEEL:
-		m_distance -= GET_WHEEL_DELTA_WPARAM(wParam) / 50.0f;
+		/*m_distance -= GET_WHEEL_DELTA_WPARAM(wParam) / 50.0f;
 		if (m_distance <= 2) m_distance = 2;
-		if (m_distance >= 100) m_distance = 100;
+		if (m_distance >= 100) m_distance = 100;*/
+
+		//pos.y += GET_WHEEL_DELTA_WPARAM(wParam) / 50.0f;
+
 		break;
 	}
 }
@@ -223,4 +237,9 @@ void Camera::setPos(D3DXVECTOR3)
 void Camera::setPosY(float y)
 {
 	pos.y = y;
+}
+
+void Camera::setFreeCameraMode(bool f)
+{
+	freeCameraMode = f;
 }

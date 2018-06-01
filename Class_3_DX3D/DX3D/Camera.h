@@ -24,6 +24,7 @@ private:
 	D3DXMATRIXA16 m_matWorld;
 	float FOV;
 	float speedOffset;
+	bool freeCameraMode;
 
 public:
 	void Init();
@@ -38,5 +39,6 @@ public:
 	D3DXMATRIXA16 getMatWorld();
 	void setPos(D3DXVECTOR3);
 	void setPosY(float y);
+	void setFreeCameraMode(bool f);
 };
 

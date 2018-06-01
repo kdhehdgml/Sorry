@@ -27,6 +27,9 @@ private:
 
 	float			m_maxStepHeight;
 
+	float m_deltaYPos;
+	bool m_freeCameraMode;
+
 public:
 	Cubeman();
 	~Cubeman();
