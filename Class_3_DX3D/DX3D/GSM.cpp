@@ -19,6 +19,9 @@ GSM::GSM()
 	// ¸÷ ÃÊ±â À§Ä¡
 	mobPos.x = mapSize - 200.0f;
 	mobPos.z = 100.0f;
+
+	// ¸÷ ¼Óµµ
+	mobSpeed = 0.5f;
 }
 
 

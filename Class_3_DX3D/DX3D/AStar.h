@@ -1,8 +1,11 @@
 #pragma once
 #include "BaseObject.h"
 
+class ColorCube;
 class AStarNode;
 class Heap;
+
+
 class AStar : public BaseObject
 {
 private:
@@ -12,6 +15,9 @@ private:
 	LPD3DXMESH			m_pSphere;
 	vector<D3DXVECTOR3> m_vecObstacle;
 	vector<D3DXVECTOR3> Wall_location;
+
+	ColorCube *			m_ColorCube;
+	D3DXVECTOR3			m_CubePos;
 
 public:
 	AStar();
