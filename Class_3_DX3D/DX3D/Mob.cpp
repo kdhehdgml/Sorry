@@ -211,3 +211,11 @@ void Mob::ShootVertex(D3DXVECTOR3 Ppos, Mob* mob)
 
 
 }
+
+void Mob::LocationSwap(int _v1, int _v2)
+{
+	D3DXVECTOR3 temp;
+	temp = moveLocation[_v1];
+	moveLocation[_v1] = moveLocation[_v2];
+	moveLocation[_v2] = temp;
+}
