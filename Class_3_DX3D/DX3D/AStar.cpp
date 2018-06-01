@@ -113,7 +113,18 @@ void AStar::InitNodes(IMap * pMap)
 			{
 				pNode->m_nodeState = STATE_NOHIDEWALL;
 				Wall_location.push_back(pNode->m_location);
-			}*/
+				//m_pUnit->SetLocation(pNode->m_location);
+			}
+			if (posX == 13 && (posZ > 4 && posZ < 26))
+			{
+				pNode->m_nodeState = STATE_WALL;
+				Wall_location.push_back(pNode->m_location);
+				//m_pUnit->SetLocation(pNode->m_location);
+			}
+			if (posX == 15 && (posZ > 3 && posZ < 26))
+			{
+				pNode->m_nodeState = STATE_NOHIDEWALL;
+			}
 		}
 	}
 	//위에 노드까는코드
@@ -198,11 +209,8 @@ void AStar::RestNodes()
 {
 	for (int i = 0; i < m_vecNode.size(); i++)
 	{
-		if (m_vecNode[i]->m_nodeState != STATE_WALL )
+		if (m_vecNode[i]->m_nodeState != STATE_WALL && m_vecNode[i]->m_nodeState != STATE_NOHIDEWALL)
 			m_vecNode[i]->m_nodeState = STATE_NONE;
-
-		/*if(m_vecNode[i]->m_nodeState != STATE_NOHIDEWALL)
-			m_vecNode[i]->m_nodeState = STATE_NONE;*/
 	}
 }
 

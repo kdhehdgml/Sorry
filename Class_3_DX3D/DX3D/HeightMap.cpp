@@ -374,8 +374,8 @@ void HeightMap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//for (size_t i = 0; i < Mobpos.size(); i++)
 		//{
 		//	GetHeight(Mobpos[i].y, Mobpos[i]);
-		//	Mobpos[i].x = 5;
-		//	Mobpos[i].z = (i + 1) * 10;
+		//	Mobpos[i].x = 300;
+		//	Mobpos[i].z = (i + 1) * 20 + NODE_POSITSIZE;
 		//}
 		//int a = 0;
 		//for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
