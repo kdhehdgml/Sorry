@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseObject.h"
 
-#define RADIUS 0.5f
+
 
 class ColorCube : public BaseObject
 {
@@ -13,11 +13,13 @@ private:
 	D3DVERTEXBUFFER_DESC	m_VBDesc;
 	D3DINDEXBUFFER_DESC		m_IBDesc;
 
+	float					m_radius;
 	D3DXVECTOR3				m_pos;
 	D3DXVECTOR3				m_rot;
 	D3DXMATRIXA16			m_matWorld;
 
 	bool					m_state;
+
 
 public:
 	ColorCube();
@@ -28,7 +30,7 @@ public:
 	void Render();
 
 	D3DXVECTOR3 GetPostion() { return m_pos; }
-	float GetRADIUS() {	return RADIUS; }
+	float GetRADIUS() {	return m_radius = CUBE_RADIUS; }
 
 	void SetVertex(vector<VERTEX_PC> &vecVertexOut,
 		vector<D3DXVECTOR3> vecPos);

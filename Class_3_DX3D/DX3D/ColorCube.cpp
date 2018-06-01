@@ -2,12 +2,17 @@
 #include "ColorCube.h"
 
 
+
 ColorCube::ColorCube()
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	m_pVB = NULL;
 	m_pIB = NULL;
 	m_state = true;
+	m_pos.y = 10.0f;
+
+	m_pos.x = 109.0f;
+	m_pos.z = 107.0f;
 }
 
 
@@ -22,7 +27,7 @@ void ColorCube::Init()
 	vector<D3DXVECTOR3> vecPos;
 	for (size_t i = 0; i < CUBE_VERTEX_SIZE; i++)
 	{
-		vecPos.push_back(g_aCubeVertex[i]);
+		vecPos.push_back(g_Cube_TesT[i]);
 	}
 
 	//SetVertex(m_vecVertex, vecPos); return;
@@ -44,14 +49,11 @@ void ColorCube::Update()
 
 	if (m_state == true)
 	{
-		m_rot.y += 0.01f;
+		
 		D3DXMATRIXA16 matR, matS, matT;
-		m_pos.y = 10.0f;
-
-		m_pos.x = 109.0f;
-		m_pos.z = 107.0f;
+		
 		//테스트용 박스 설정
-		D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
+		D3DXMatrixScaling(&matS, 1.0f, 1.0f , 1.0f);
 		D3DXMatrixRotationY(&matR, m_rot.y);
 		D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 

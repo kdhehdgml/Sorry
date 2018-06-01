@@ -2,12 +2,14 @@
 
 extern CString ASSET_PATH;
 
+#define CUBE_RADIUS 5.0f
 
 #define CUBE_INDEX_SIZE 36
 extern WORD g_aCubeIndex[];
 #define CUBE_VERTEX_SIZE 8
 #define NODE_POSITSIZE 100
 extern D3DXVECTOR3 g_aCubeVertex[];
+extern D3DXVECTOR3 g_Cube_TesT[];
 
 #define SINGLETON(class_name) private:\
 	class_name();\

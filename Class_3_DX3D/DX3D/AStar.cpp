@@ -3,6 +3,7 @@
 #include "AStarNode.h"
 #include "Ray.h"
 #include "Heap.h"
+#include "ColorCube.h"
 
 // 벽생성 매크로
 #define WALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
@@ -23,18 +24,23 @@ AStar::AStar()
 AStar::~AStar()
 {
 	SAFE_DELETE(m_pOpenNodeHeap);
-
+	
 	SAFE_RELEASE(m_pSphere);
 	for (auto p : m_vecNode)
 	{
 		SAFE_RELEASE(p);
 	}
+	SAFE_RELEASE(m_ColorCube);
 }
 
 void AStar::Init()
 {
 	D3DXCreateSphere(g_pDevice, SPHERESIZE, 10, 10, &m_pSphere, NULL);
 	m_pOpenNodeHeap = new Heap;
+
+	m_ColorCube = new ColorCube;
+	m_ColorCube->Init();
+	
 }
 
 void AStar::Render()
@@ -42,8 +48,8 @@ void AStar::Render()
 	D3DXMATRIXA16 mat;
 
 	g_pDevice->SetTexture(0, NULL);
-
 	
+
 
 	for (auto p : m_vecNode)
 	{
@@ -66,6 +72,25 @@ void AStar::Render()
 			break;
 		case STATE_NOHIDEWALL:
 			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
+			break;
+		}
+
+
+		//충돌체크!
+		D3DXVECTOR3 Distance = p->GetLocation() - m_ColorCube->GetPostion();
+		//좌표위치 차이
+		float p_Distance = D3DXVec3Length(&Distance);
+		//반지름합
+		float Radius = m_ColorCube->GetRADIUS() + SPHERESIZE;
+		
+		//충돌된것 피하는 장애물로 변환
+		//각 객체의 반지름을 합하고 두 위치 사이의 거리를 비교
+		//반지름의 합보다 사이거리가 짧을경우 충돌로 판정후 실행
+		
+		if (Radius >= p_Distance)
+		{
+			p->m_nodeState = STATE_NOHIDEWALL;
+			g_pDevice->SetMaterial(&DXUtil::GREEN_MTRL); 
 		}
 
 		D3DXMatrixTranslation(&mat, p->GetLocation().x, p->GetLocation().y, p->GetLocation().z);
