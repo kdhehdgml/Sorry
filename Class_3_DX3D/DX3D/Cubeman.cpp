@@ -24,7 +24,7 @@ Cubeman::Cubeman()
 	m_destPos = m_pos;
 
 	m_deltaYPos = 7.0f;
-	m_freeCameraMode = false;
+	m_freeCameraMode = true;
 }
 
 
@@ -43,6 +43,10 @@ void Cubeman::Init()
 	g_pKeyboardManager->SetMovingTarget(&m_keyState);
 
 	CreateAllParts();
+
+	// 실행 시 자동으로 프리카메라 모드
+	g_pCamera->setFreeCameraMode(m_freeCameraMode);
+	m_deltaYPos = 70.0f;
 }
 
 void Cubeman::Update()
