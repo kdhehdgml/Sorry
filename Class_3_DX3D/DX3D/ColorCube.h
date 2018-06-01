@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseObject.h"
 
+#define RADIUS 0.5f
+
 class ColorCube : public BaseObject
 {
 private:
@@ -24,6 +26,9 @@ public:
 	void Init();
 	void Update();
 	void Render();
+
+	D3DXVECTOR3 GetPostion() { return m_pos; }
+	float GetRADIUS() {	return RADIUS; }
 
 	void SetVertex(vector<VERTEX_PC> &vecVertexOut,
 		vector<D3DXVECTOR3> vecPos);

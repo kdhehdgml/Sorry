@@ -12,6 +12,8 @@
 #define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
 			{ pNode->m_nodeState = STATE_NOHIDEWALL; }
 
+#define SPHERESIZE 1.0f
+
 AStar::AStar()
 {
 }
@@ -30,7 +32,7 @@ AStar::~AStar()
 
 void AStar::Init()
 {
-	D3DXCreateSphere(g_pDevice, 0.2f, 10, 10, &m_pSphere, NULL);
+	D3DXCreateSphere(g_pDevice, SPHERESIZE, 10, 10, &m_pSphere, NULL);
 	m_pOpenNodeHeap = new Heap;
 }
 
