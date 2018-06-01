@@ -22,5 +22,6 @@ public:
 	virtual void Render() override;
 	void FindHidingInTheWallLocation(int _Mobnum);
 	void MobMoveInTheWall();
+	
 };
 

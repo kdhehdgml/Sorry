@@ -63,6 +63,7 @@ void AStar::Render()
 			break;
 		case STATE_NOHIDEWALL:
 			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
+			break;
 		}
 
 		D3DXMatrixTranslation(&mat, p->GetLocation().x, p->GetLocation().y, p->GetLocation().z);

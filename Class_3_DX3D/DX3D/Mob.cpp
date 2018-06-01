@@ -40,7 +40,7 @@ void Mob::Init()
 	D3DXCreateSphere(g_pDevice, 2.5f, 10, 10, &m_pSphere, NULL);
 
 	CreateAllParts();
-	IUnitObject::m_moveSpeed = 0.1f;
+	IUnitObject::m_moveSpeed = 1.0f;
 
 	m_pBoundingSphere = new BoundingSphere(m_pos, 2.5f);
 
@@ -210,4 +210,12 @@ void Mob::ShootVertex(D3DXVECTOR3 Ppos, Mob* mob)
 	}*/
 
 
+}
+
+void Mob::LocationSwap(int _v1, int _v2)
+{
+	D3DXVECTOR3 temp;
+	temp = moveLocation[_v1];
+	moveLocation[_v1] = moveLocation[_v2];
+	moveLocation[_v2] = temp;
 }
