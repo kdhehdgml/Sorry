@@ -69,8 +69,7 @@ void AStar::Render()
 
 void AStar::InitNodes(IMap * pMap)
 {
-	int nodeDim = 30;//30x30
-
+	int nodeDim = 90;// 노드 한 줄 갯수
 					 //간격
 	//이 수치 
 	float interval = (pMap->GetSize().x - NODE_POSITSIZE*2) / (float)(nodeDim - 0.99);

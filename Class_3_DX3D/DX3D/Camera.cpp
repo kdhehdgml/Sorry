@@ -12,12 +12,15 @@ Camera::Camera()
 	m_rotY = 0.0f;
 	m_isLbuttonDown = false;
 	m_pTarget = NULL;
-	pos.x = 0.0f;
-	pos.y = 10.0f;
-pos.z = 0.0f;
-FOV = D3DX_PI / 4.0f;
-speedOffset = 0.4f;
-freeCameraMode = false;
+
+	pos.x = GlobalSettingMinsu().camPos.x;
+	pos.z = GlobalSettingMinsu().camPos.z;
+	pos.y = GlobalSettingMinsu().camPos.y;
+	
+
+	FOV = D3DX_PI / 4.0f;
+	speedOffset = 0.4f;
+	freeCameraMode = false;
 }
 
 
