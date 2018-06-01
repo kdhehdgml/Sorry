@@ -94,18 +94,20 @@ void UnitBox::Render()
 
 void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
 {
+	D3DXVECTOR3 Save;
 	for (int i = 0; i < SaveLocation.size(); i++)
 	{
+		Save = D3DXVECTOR3(SaveLocation[i].x + 1.0f, SaveLocation[i].y, SaveLocation[i].z);
 		if (abs(SaveLocation[i].z - m_pMob[_Mobnum]->GetPosition().z) < 30)
 		{
 			if (i == 0)
 			{
-				m_pMob[_Mobnum]->GetMoveTheWall(SaveLocation[i]);
+				m_pMob[_Mobnum]->GetMoveTheWall(Save);
 				continue;
 			}
 			for (int j = 0; j < m_pMob[_Mobnum]->SetMoveTheWall().size(); j++)
 			{
-				if (m_pMob[_Mobnum]->SetMoveTheWall()[j].x != SaveLocation[i].x)
+				if (m_pMob[_Mobnum]->SetMoveTheWall()[j].x != Save.x)
 				{
 					m_SameChk = false;
 					
@@ -119,7 +121,7 @@ void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
 			}
 			if (m_SameChk == false)
 			{
-				m_pMob[_Mobnum]->GetMoveTheWall(SaveLocation[i]);
+				m_pMob[_Mobnum]->GetMoveTheWall(Save);
 			}
 			m_SameChk = false;
 		}
