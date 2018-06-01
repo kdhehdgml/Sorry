@@ -8,6 +8,7 @@ class Picking;
 class CreateSmog;
 
 class SkyBox;
+class ColorCube;
 
 //중현이코드
 class UnitBox;
@@ -31,6 +32,7 @@ private:
 	//영락코드
 	CreateSmog*		m_CreateSmog;
 	SkyBox*			m_SkyBox;
+	ColorCube*		m_ColorCube;
 	//
 	
 public:

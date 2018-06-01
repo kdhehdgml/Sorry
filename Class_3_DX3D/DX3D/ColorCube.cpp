@@ -36,9 +36,17 @@ void ColorCube::Init()
 void ColorCube::Update()
 {
 	m_rot.y += 0.01f;
-	D3DXMATRIXA16 matR;
+	D3DXMATRIXA16 matR,matS,matT;
+	m_pos.y = 10.0f;
+
+	m_pos.x = 109.0f;
+	m_pos.z = 107.0f;
+	//테스트용 박스 설정
+	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
 	D3DXMatrixRotationY(&matR, m_rot.y);
-	m_matWorld = matR;
+	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+
+	m_matWorld = matS * matR * matT;
 }
 
 void ColorCube::Render()

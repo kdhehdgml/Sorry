@@ -127,6 +127,10 @@ void Camera::Update()
 			speedOffset = 0.4f;
 		}
 	}
+
+	Debug->AddText("¸¶¿ì½º ÁÂÇ¥:");
+	Debug->AddText(pos);
+	Debug->EndLine();
 }
 
 void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

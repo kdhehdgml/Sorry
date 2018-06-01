@@ -12,6 +12,7 @@
 
 //안개생성
 #include "CreateSmog.h"
+#include "ColorCube.h"
 
 //중현이코드
 #include "UnitBox.h"
@@ -26,6 +27,7 @@ SceneHeightmap::SceneHeightmap()
 	//영락코드
 	m_CreateSmog = NULL;
 	m_SkyBox = NULL;
+	m_ColorCube = NULL;
 
 
 	//중현이코드
@@ -40,6 +42,7 @@ SceneHeightmap::~SceneHeightmap()
 {
 	SAFE_RELEASE(m_pBlocks);
 	SAFE_RELEASE(m_SkyBox);
+	SAFE_RELEASE(m_ColorCube);
 	m_CreateSmog->Relese();
 	OnDestructIScene();
 	
@@ -106,6 +109,11 @@ void SceneHeightmap::Init()
 	m_CreateSmog->Init();
 
 	m_CreateSmog->Insert(D3DXVECTOR3(10.0f, 0.0f, 50.0f));
+
+	m_ColorCube = new ColorCube;
+	m_ColorCube->Init();
+
+
 	
 	//m_CreateSmog->Insert(D3DXVECTOR3(20.0f, 0.0f, 40.0f));
 	//m_CreateSmog->Insert(D3DXVECTOR3(30.0f, 0.0f, 30.0f));
@@ -145,7 +153,7 @@ void SceneHeightmap::Init()
 void SceneHeightmap::Update()
 {
 	m_CreateSmog->Update();
-
+	SAFE_UPDATE(m_ColorCube);
 	OnUpdateIScene();
 	
 }
@@ -154,7 +162,7 @@ void SceneHeightmap::Render()
 {
 
 	OnRenderIScene();
-	
+	SAFE_RENDER(m_ColorCube);
 	SAFE_RENDER(m_pBlocks);
 
 	SAFE_RENDER(m_SkyBox);
