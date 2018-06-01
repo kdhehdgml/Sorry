@@ -57,10 +57,7 @@ void ColorCube::Update()
 
 		m_matWorld = matS * matR * matT;
 	}
-	else
-	{
 
-	}
 }
 
 void ColorCube::Render()
