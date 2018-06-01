@@ -13,7 +13,7 @@ GlobalSettingMinsu::GlobalSettingMinsu()
 
 	// 카메라 초기 위치
 	camPos.x = 100.0f;
-	camPos.z = 150.0f;
+	camPos.z = 250.0f;
 	camPos.y = -10.0f;
 }
 
