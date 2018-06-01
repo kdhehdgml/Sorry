@@ -18,6 +18,10 @@ Mob::Mob()
 	m_move = false;
 	num = 0;
 	m_moveSpeed = 0.1f;
+
+	m_pSphere = NULL;
+	health = 100;
+	status = 1;
 }
 
 
@@ -25,14 +29,20 @@ Mob::~Mob()
 {
 	m_pRootParts->ReleaseAll();
 	SAFE_RELEASE(m_pCubeman);
+	SAFE_RELEASE(m_pSphere);
+	SAFE_DELETE(m_pBoundingSphere);
 }
 
 void Mob::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_MOB, this);
 
+	D3DXCreateSphere(g_pDevice, 2.5f, 10, 10, &m_pSphere, NULL);
+
 	CreateAllParts();
-	IUnitObject::m_moveSpeed = GSM().mobSpeed;
+	IUnitObject::m_moveSpeed = 0.1f;
+
+	m_pBoundingSphere = new BoundingSphere(m_pos, 2.5f);
 
 	//m_pMob[i]->SetPosition(&D3DXVECTOR3(50.0f, 5.0f, (i + 1) * 10));
 }
@@ -42,6 +52,8 @@ void Mob::Update()
 	IUnitObject::UpdateKeyboardState();
 	IUnitObject::UpdatePositionToDestination();
 
+	m_pBoundingSphere->center = m_pos;
+	m_pBoundingSphere->center.y += 3.0f;
 	//if (GetAsyncKeyState('1') & 0x0001)
 	//{
 	//	m_isTurnedOnLight = !m_isTurnedOnLight;
@@ -76,6 +88,12 @@ void Mob::Render()
 	g_pDevice->SetFVF(VERTEX_PC::FVF);
 	g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 		1, &Shootpos[0], sizeof(VERTEX_PC));
+
+	D3DXMATRIXA16 mat;
+	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
+	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+	g_pDevice->SetTexture(0, NULL);
+	m_pSphere->DrawSubset(0);
 }
 
 void Mob::CreateAllParts()
