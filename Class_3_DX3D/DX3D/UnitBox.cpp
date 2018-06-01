@@ -138,7 +138,7 @@ void UnitBox::MobMoveInTheWall()
 		{
 			if (m_pMob[i]->m_move == false)
 			{
-				m_pMob[i]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, (i + 1) * 20 + NODE_POSITSIZE));
+				m_pMob[i]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((i + 1) * 20 + NODE_POSITSIZE)));
 				m_pMob[i]->m_move = true;
 			}
 		}
@@ -146,13 +146,13 @@ void UnitBox::MobMoveInTheWall()
 		{
 			if (m_pMob[i]->m_move == false)
 			{
-				m_pMob[i]->SetDestination(m_pMob[i]->SetMoveTheWall().front());
+				m_pMob[i]->SetDestination(m_pMob[i]->SetMoveTheWall().back());
 				m_pMob[i]->UpdatePositionToDestination();
 				m_pMob[i]->m_move = true;
 			}
 			if (m_pMob[i]->m_move == true)
 			{
-				Dist = D3DXVec3Length(&(m_pMob[i]->SetMoveTheWall().at(0) - m_pMob[i]->GetPosition()));
+				Dist = D3DXVec3Length(&(m_pMob[i]->SetMoveTheWall().back() - m_pMob[i]->GetPosition()));
 
 				if (Dist < 0.3f)
 				{

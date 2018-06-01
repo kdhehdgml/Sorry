@@ -17,7 +17,7 @@ Mob::Mob()
 	m_destPos = m_pos;
 	m_move = false;
 	num = 0;
-	m_moveSpeed = 0.1f;
+	m_moveSpeed = 0.4f;
 
 	m_pSphere = NULL;
 	health = 100;
