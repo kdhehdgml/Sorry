@@ -22,6 +22,12 @@ private:
 	bool			m_isShoot;
 
 	vector<D3DXVECTOR3> moveLocation;
+
+	LPD3DXMESH		m_pSphere;
+	BoundingSphere* m_pBoundingSphere;
+	int health;
+	int status;
+
 public:
 	Mob();
 	~Mob();

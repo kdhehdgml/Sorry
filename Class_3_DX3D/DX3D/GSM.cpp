@@ -19,12 +19,6 @@ GSM::GSM()
 	// 各 檬扁 困摹
 	mobPos.x = mapSize - 200.0f;
 	mobPos.z = 100.0f;
-
-	// 各 格钎 x谅钎
-	mobDestLine = 120.0f;
-
-	// 各 加档
-	mobSpeed = 0.5f;
 }
 
 

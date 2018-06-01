@@ -10,6 +10,7 @@ UnitBox::UnitBox()
 		m_pMob[i] = NULL;
 	}
 	m_pCubeman = NULL;
+	m_SameChk = false;
 }
 
 
@@ -93,15 +94,39 @@ void UnitBox::Render()
 
 void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
 {
+	D3DXVECTOR3 Save;
 	for (int i = 0; i < SaveLocation.size(); i++)
 	{
-		if (abs(SaveLocation[i].z - m_pMob[_Mobnum]->GetPosition().z) < 7)
+		Save = D3DXVECTOR3(SaveLocation[i].x + 1.0f, SaveLocation[i].y, SaveLocation[i].z);
+		if (abs(SaveLocation[i].z - m_pMob[_Mobnum]->GetPosition().z) < 30)
 		{
-			D3DXVECTOR3 Save;
-			Save = { SaveLocation[i].x + 1.0f, SaveLocation[i].y, SaveLocation[i].z };
-			m_pMob[_Mobnum]->GetMoveTheWall(Save);
+			if (i == 0)
+			{
+				m_pMob[_Mobnum]->GetMoveTheWall(Save);
+				continue;
+			}
+			for (int j = 0; j < m_pMob[_Mobnum]->SetMoveTheWall().size(); j++)
+			{
+				if (m_pMob[_Mobnum]->SetMoveTheWall()[j].x != Save.x)
+				{
+					m_SameChk = false;
+					
+				}
+				else
+				{
+					m_SameChk = true;
+					j = m_pMob[_Mobnum]->SetMoveTheWall().size();
+				}
+				
+			}
+			if (m_SameChk == false)
+			{
+				m_pMob[_Mobnum]->GetMoveTheWall(Save);
+			}
+			m_SameChk = false;
 		}
 	}
+	
 }
 
 void UnitBox::MobMoveInTheWall()
@@ -113,8 +138,7 @@ void UnitBox::MobMoveInTheWall()
 		{
 			if (m_pMob[i]->m_move == false)
 			{
-				//m_pMob[i]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, (i + 1) * 20 + NODE_POSITSIZE));
-				m_pMob[i]->SetDestination(D3DXVECTOR3(GSM().mobDestLine , 2.67f, GSM().mobPos.z + ((i + 1) * 20 + NODE_POSITSIZE)));
+				m_pMob[i]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, (i + 1) * 20 + NODE_POSITSIZE));
 				m_pMob[i]->m_move = true;
 			}
 		}
@@ -122,13 +146,13 @@ void UnitBox::MobMoveInTheWall()
 		{
 			if (m_pMob[i]->m_move == false)
 			{
-				m_pMob[i]->SetDestination(m_pMob[i]->SetMoveTheWall().back());
+				m_pMob[i]->SetDestination(m_pMob[i]->SetMoveTheWall().front());
 				m_pMob[i]->UpdatePositionToDestination();
 				m_pMob[i]->m_move = true;
 			}
 			if (m_pMob[i]->m_move == true)
 			{
-				Dist = D3DXVec3Length(&(m_pMob[i]->SetMoveTheWall().back() - m_pMob[i]->GetPosition()));
+				Dist = D3DXVec3Length(&(m_pMob[i]->SetMoveTheWall().at(0) - m_pMob[i]->GetPosition()));
 
 				if (Dist < 0.3f)
 				{
