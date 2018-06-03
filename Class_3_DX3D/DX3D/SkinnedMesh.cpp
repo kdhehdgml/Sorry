@@ -108,9 +108,7 @@ void SkinnedMesh::Update()
 	Debug->AddText(_T(" / "));
 	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
 	Debug->EndLine();
-	D3DXMATRIXA16 matR;
-
-
+	//D3DXMATRIXA16 matR;
 
 	if (Keyboard::Get()->KeyDown('1'))
 	{
@@ -270,7 +268,7 @@ void SkinnedMesh::DrawMeshContainer(LPD3DXFRAME pFrame)
 	{
 		//각 본마다 기준점잡아서 매트릭스로 보내주는것
 		pMeshContainerEx->pFinalBoneMatrices[i] =
-			pMeshContainerEx->pBoneOffsetMatrices[i] * (*(pMeshContainerEx->ppBoneMatrixPtrs[i]));
+			pMeshContainerEx->pBoneOffsetMatrices[i] * *(pMeshContainerEx->ppBoneMatrixPtrs[i]);
 	}
 
 	PBYTE pVerticesSrc = NULL;
@@ -290,8 +288,8 @@ void SkinnedMesh::DrawMeshContainer(LPD3DXFRAME pFrame)
 	if (m_bWireFrame)
 		g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	//D3DXMatrixIdentity(&m_matWorld);
-	//D3DXMatrixScaling(&m_matWorld, 5.0f, 5.0f, 5.0f);
+	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixScaling(&m_matWorld, 5.0f, 5.0f, 5.0f);
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	for (size_t i = 0; i < pMeshContainerEx->vecMtlTex.size(); ++i)
