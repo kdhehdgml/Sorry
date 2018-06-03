@@ -47,6 +47,7 @@ public:
 	void GetMoveTheWall(D3DXVECTOR3 wallLocation) { moveLocation.push_back(wallLocation); }
 	vector<D3DXVECTOR3> SetMoveTheWall() { return moveLocation; }
 	void EraseWallLocation() { moveLocation.pop_back(); }
+	void LocationSwap(int _v1, int _v2);
 	vector<vector<int>> uvBody = {
 		{ 32, 32, 32, 20, 40, 20, 40, 32 },	// ÈÄ
 	{ 20, 32, 20, 20, 28, 20, 28, 32 },	// Àü
