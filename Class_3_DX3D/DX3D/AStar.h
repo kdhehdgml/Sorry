@@ -20,6 +20,8 @@ private:
 	D3DXVECTOR3			m_CubePos;
 
 	int					m_count;
+	
+	IMap*				temp_Imap;
 
 public:
 	AStar();

@@ -49,9 +49,11 @@ void AStar::Render()
 {
 	D3DXMATRIXA16 mat;
 	m_ColorCube->Update();
+
 	g_pDevice->SetTexture(0, NULL);
 	
 
+	
 
 	for (auto p : m_vecNode)
 	{
@@ -75,6 +77,9 @@ void AStar::Render()
 		case STATE_NOHIDEWALL:
 			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
 			break;
+		case STATE_TANK:
+			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
+			break;
 		}
 
 
@@ -91,10 +96,24 @@ void AStar::Render()
 		
 		if (Radius > p_Distance)
 		{
-			p->m_nodeState = STATE_NOHIDEWALL;
-			g_pDevice->SetMaterial(&DXUtil::GREEN_MTRL); 
+			if (!(p->m_nodeState == STATE_NOHIDEWALL || p->m_nodeState == STATE_WALL))
+			{
+				p->m_nodeState = STATE_TANK;
+				p->m_ClickBox = true;
+			}
 			m_count++;
+			
 		}
+		else
+		{
+			p->m_ClickBox = false;
+		}
+		
+		if (p->m_ClickBox == false && p->m_nodeState == STATE_TANK)
+		{
+			p->m_nodeState = STATE_NONE;
+		}
+
 
 		D3DXMatrixTranslation(&mat, p->GetLocation().x, p->GetLocation().y, p->GetLocation().z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
@@ -114,6 +133,7 @@ void AStar::Render()
 
 void AStar::InitNodes(IMap * pMap)
 {
+	temp_Imap = pMap;
 	int nodeDim = 90;// 노드 한 줄 갯수
 					 //간격
 	//이 수치 
@@ -193,7 +213,6 @@ void AStar::InitNodes(IMap * pMap)
 			m_vecNode[i + nodeDim]->AddEdge(m_vecNode[i]);
 		}
 	}
-
 }
 
 void AStar::FindPath(D3DXVECTOR3 startPos, D3DXVECTOR3 destPos, OUT vector<int>& vecIndex)
