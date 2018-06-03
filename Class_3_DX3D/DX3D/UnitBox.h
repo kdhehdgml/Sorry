@@ -9,6 +9,8 @@ private:
 	vector<Mob*>	m_pMob;
 	vector<D3DXVECTOR3> SaveLocation;
 
+	bool			m_SameChk;
+
 public:
 	UnitBox();
 	~UnitBox();
@@ -18,6 +20,8 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
-
+	void FindHidingInTheWallLocation(int _Mobnum);
+	void MobMoveInTheWall();
+	
 };
 

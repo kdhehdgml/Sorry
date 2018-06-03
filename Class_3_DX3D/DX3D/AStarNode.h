@@ -13,7 +13,10 @@ enum NODE_STATE
 	STATE_OPEN,
 	STATE_CLOSE,
 	STATE_USING,
-	STATE_WALL
+	STATE_WALL,
+	STATE_NOHIDEWALL,
+	STATE_TANK
+
 };
 
 class AStarNode : public BaseObject
@@ -26,6 +29,9 @@ public:
 	float		m_h;
 	float		m_f;
 	int			m_via;
+
+	//박스충돌체크
+	bool		m_ClickBox;
 
 	vector<EDGE_INFO*> m_vecEdgeInfo;
 	vector<D3DXVECTOR3> m_vecLine;

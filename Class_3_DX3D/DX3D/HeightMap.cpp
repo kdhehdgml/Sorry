@@ -173,11 +173,11 @@ void HeightMap::Render()
 
 	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
 	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
-	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.1f)); //강도 0~1f
+	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
 	//안개적용되는 최소 거리
-	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(20.0f));
+	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
 	//안개 최대치로 적용되는 거리
-	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(40.0f));
+	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
 	//g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -356,9 +356,9 @@ void HeightMap::SetObstacle()
 
 void HeightMap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message)
+	switch (wParam)
 	{
-	case WM_RBUTTONUP:
+	case VK_F1:
 	{
 		//D3DXVECTOR3 pos;
 		//if (CalcPickedPosition(pos, SCREEN_POINT(lParam)) == true)
@@ -369,28 +369,28 @@ void HeightMap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//		(g_pObjMgr->FindObjectByTag(TAG_PLAYER))
 		//		->SetDestination(pos);
 		//}
-		vector<D3DXVECTOR3> Mobpos;
-		Mobpos.resize((g_pObjMgr->FindObjectsByTag(TAG_MOB).size()));
-		for (size_t i = 0; i < Mobpos.size(); i++)
-		{
-			GetHeight(Mobpos[i].y, Mobpos[i]);
-			Mobpos[i].x = 5;
-			Mobpos[i].z = (i + 1) * 10;
-		}
-		int a = 0;
-		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
-		{
+		//vector<D3DXVECTOR3> Mobpos;
+		//Mobpos.resize((g_pObjMgr->FindObjectsByTag(TAG_MOB).size()));
+		//for (size_t i = 0; i < Mobpos.size(); i++)
+		//{
+		//	GetHeight(Mobpos[i].y, Mobpos[i]);
+		//	Mobpos[i].x = 300;
+		//	Mobpos[i].z = (i + 1) * 20 + NODE_POSITSIZE;
+		//}
+		//int a = 0;
+		//for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
+		//{
 
-			static_cast<IUnitObject*>
-				(p)->SetDestination(Mobpos[a]);
-			/*Mob::PlayerSearch(g_pObjMgr->FindObjectByTag(TAG_PLAYER))
-			->GetPosition(), p)*/
-			/*p->PlayerSearch(static_cast<IUnitObject*>
-			(g_pObjMgr->FindObjectByTag(TAG_PLAYER))
-			->GetPosition(), p);*/
+		//	static_cast<IUnitObject*>
+		//		(p)->SetDestination(Mobpos[a]);
+		//	/*Mob::PlayerSearch(g_pObjMgr->FindObjectByTag(TAG_PLAYER))
+		//	->GetPosition(), p)*/
+		//	/*p->PlayerSearch(static_cast<IUnitObject*>
+		//	(g_pObjMgr->FindObjectByTag(TAG_PLAYER))
+		//	->GetPosition(), p);*/
 
-			a++;
-		}
+		//	a++;
+		//}
 		D3DXVECTOR3 pos;
 		if (CalcPickedPosition(pos, SCREEN_POINT(lParam)) == true)
 		{

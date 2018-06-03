@@ -7,6 +7,7 @@ AStarNode::AStarNode(D3DXVECTOR3 location, int index)
 	m_index = index;
 
 	SetValues(STATE_NONE, 0, 0, 0, 0);
+	m_ClickBox = false;
 }
 
 AStarNode::~AStarNode()

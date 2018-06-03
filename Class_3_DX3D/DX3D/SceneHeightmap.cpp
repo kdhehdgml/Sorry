@@ -12,6 +12,7 @@
 
 //안개생성
 #include "CreateSmog.h"
+#include "ColorCube.h"
 
 //중현이코드
 #include "UnitBox.h"
@@ -26,6 +27,7 @@ SceneHeightmap::SceneHeightmap()
 	//영락코드
 	m_CreateSmog = NULL;
 	m_SkyBox = NULL;
+	m_ColorCube = NULL;
 
 
 	//중현이코드
@@ -40,6 +42,7 @@ SceneHeightmap::~SceneHeightmap()
 {
 	SAFE_RELEASE(m_pBlocks);
 	SAFE_RELEASE(m_SkyBox);
+	SAFE_RELEASE(m_ColorCube);
 	m_CreateSmog->Relese();
 	OnDestructIScene();
 	
@@ -51,10 +54,10 @@ SceneHeightmap::~SceneHeightmap()
 void SceneHeightmap::Init()
 {
 	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 0.2f, 0.03f, 0.2f);
+	D3DXMatrixScaling(&matS, 1.0f, 0.06f , 1.0f);
 
 	m_pHeightMap = new HeightMap; AddSimpleDisplayObj(m_pHeightMap);
-	m_pHeightMap->SetDimension(257);
+	m_pHeightMap->SetDimension(GSM().mapSize);
 	m_pHeightMap->Load("resources/heightmap/HeightMap.raw", &matS);
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
@@ -71,8 +74,9 @@ void SceneHeightmap::Init()
 	AddSimpleDisplayObj(m_pAseCharacter);
 	*/
 
-	//m_pPicking = new Picking; m_pPicking->Init();
-	//	AddSimpleDisplayObj(m_pPicking);
+	m_pPicking = new Picking;
+	m_pPicking->Init();
+	AddSimpleDisplayObj(m_pPicking);
 
 	//IDisplayObject* pObj;
 	////pObj = new SampleUI; pObj->Init(); AddSimpleDisplayObj(pObj);
@@ -82,9 +86,10 @@ void SceneHeightmap::Init()
 
 	//중현이코드
 	m_pUnit = new UnitBox();
+	m_pUnit->SetLocation(m_pHeightMap->SetWall());
 	m_pUnit->Init();
 	AddSimpleDisplayObj(m_pUnit);
-	m_pUnit->SetLocation(m_pHeightMap->SetWall());
+	
 
 	m_pBlocks = new Blocks();
 	m_pBlocks->Init();
@@ -104,6 +109,11 @@ void SceneHeightmap::Init()
 	m_CreateSmog->Init();
 
 	m_CreateSmog->Insert(D3DXVECTOR3(10.0f, 0.0f, 50.0f));
+
+	m_ColorCube = new ColorCube;
+	m_ColorCube->Init();
+
+
 	
 	//m_CreateSmog->Insert(D3DXVECTOR3(20.0f, 0.0f, 40.0f));
 	//m_CreateSmog->Insert(D3DXVECTOR3(30.0f, 0.0f, 30.0f));
@@ -143,7 +153,7 @@ void SceneHeightmap::Init()
 void SceneHeightmap::Update()
 {
 	m_CreateSmog->Update();
-
+	SAFE_UPDATE(m_ColorCube);
 	OnUpdateIScene();
 	
 }
@@ -152,16 +162,17 @@ void SceneHeightmap::Render()
 {
 
 	OnRenderIScene();
-	
+	SAFE_RENDER(m_ColorCube);
 	SAFE_RENDER(m_pBlocks);
 
 	SAFE_RENDER(m_SkyBox);
 	m_CreateSmog->Render();
+	m_pPicking->Render();
 	
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	SAFE_WNDPROC(m_pHeightMap);
-	//SAFE_WNDPROC(m_pPicking);
+	SAFE_WNDPROC(m_pPicking);
 }

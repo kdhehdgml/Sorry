@@ -3,6 +3,18 @@
 #include "AStarNode.h"
 #include "Ray.h"
 #include "Heap.h"
+#include "ColorCube.h"
+
+// 벽생성 매크로
+#define WALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
+			{ pNode->m_nodeState = STATE_WALL;\
+			Wall_location.push_back(pNode->m_location); }
+
+#define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
+			{ pNode->m_nodeState = STATE_NOHIDEWALL; }
+
+//노드 구체 사이즈 조절
+#define SPHERESIZE 1.0f
 
 AStar::AStar()
 {
@@ -12,25 +24,36 @@ AStar::AStar()
 AStar::~AStar()
 {
 	SAFE_DELETE(m_pOpenNodeHeap);
-
+	
 	SAFE_RELEASE(m_pSphere);
 	for (auto p : m_vecNode)
 	{
 		SAFE_RELEASE(p);
 	}
+	SAFE_RELEASE(m_ColorCube);
 }
 
 void AStar::Init()
 {
-	D3DXCreateSphere(g_pDevice, 0.2f, 10, 10, &m_pSphere, NULL);
+	D3DXCreateSphere(g_pDevice, SPHERESIZE, 10, 10, &m_pSphere, NULL);
 	m_pOpenNodeHeap = new Heap;
+
+	m_ColorCube = new ColorCube;
+	m_ColorCube->Init();
+
+	m_count = 0;
+	
 }
 
 void AStar::Render()
 {
 	D3DXMATRIXA16 mat;
+	m_ColorCube->Update();
 
 	g_pDevice->SetTexture(0, NULL);
+	
+
+	
 
 	for (auto p : m_vecNode)
 	{
@@ -51,8 +74,46 @@ void AStar::Render()
 		case STATE_WALL:
 			g_pDevice->SetMaterial(&DXUtil::GREEN_MTRL);
 			break;
-
+		case STATE_NOHIDEWALL:
+			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
+			break;
+		case STATE_TANK:
+			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
+			break;
 		}
+
+
+		//충돌체크!
+		D3DXVECTOR3 Distance = p->GetLocation() - m_ColorCube->GetPostion();
+		//좌표위치 차이
+		float p_Distance = D3DXVec3Length(&Distance);
+		//반지름합
+		float Radius = m_ColorCube->GetRADIUS() + SPHERESIZE;
+		
+		//충돌된것 피하는 장애물로 변환
+		//각 객체의 반지름을 합하고 두 위치 사이의 거리를 비교
+		//반지름의 합보다 사이거리가 짧을경우 충돌로 판정후 실행
+		
+		if (Radius > p_Distance)
+		{
+			if (!(p->m_nodeState == STATE_NOHIDEWALL || p->m_nodeState == STATE_WALL))
+			{
+				p->m_nodeState = STATE_TANK;
+				p->m_ClickBox = true;
+			}
+			m_count++;
+			
+		}
+		else
+		{
+			p->m_ClickBox = false;
+		}
+		
+		if (p->m_ClickBox == false && p->m_nodeState == STATE_TANK)
+		{
+			p->m_nodeState = STATE_NONE;
+		}
+
 
 		D3DXMatrixTranslation(&mat, p->GetLocation().x, p->GetLocation().y, p->GetLocation().z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
@@ -64,14 +125,19 @@ void AStar::Render()
 			p->GetVecLines().size() / 2, p->GetVecLines()[0],
 			sizeof(D3DXVECTOR3));
 	}
+
+	Debug->AddText("충돌 갯수");
+	Debug->AddText(m_count);
+	Debug->EndLine();
 }
 
 void AStar::InitNodes(IMap * pMap)
 {
-	int nodeDim = 30;//30x30
-
+	temp_Imap = pMap;
+	int nodeDim = 90;// 노드 한 줄 갯수
 					 //간격
-	float interval = pMap->GetSize().x / (float)(nodeDim - 0.99);
+	//이 수치 
+	float interval = (pMap->GetSize().x - NODE_POSITSIZE*2) / (float)(nodeDim - 0.99);
 
 
 
@@ -79,7 +145,8 @@ void AStar::InitNodes(IMap * pMap)
 	{
 		for (int posX = 0; posX < nodeDim; posX++)
 		{
-			D3DXVECTOR3 location(posX * interval, 0, posZ * interval);
+			//여길건드리면 시작점이다름
+			D3DXVECTOR3 location(NODE_POSITSIZE + posX * interval, 0, NODE_POSITSIZE + posZ * interval);
 
 			pMap->GetHeight(location.y, location);
 
@@ -88,18 +155,45 @@ void AStar::InitNodes(IMap * pMap)
 
 			m_vecNode.push_back(pNode);
 
-			if (posX == 5 && posZ < 9)
+			//if (posX == 25 && (posZ > 40 && posZ < 42))
+			//{ pNode->m_nodeState = STATE_WALL;
+			//	Wall_location.push_back(pNode->m_location);	/*m_pUnit->SetLocation(pNode->m_location);*/ }
+			
+			// 벽생성 (매크로 사용)
+			bool lineodd = true;
+			int lineNum = 0;
+			for (int x = 20; x < 60; x += 4)
 			{
-				pNode->m_nodeState = STATE_WALL;
-				Wall_location.push_back(pNode->m_location);
-				//m_pUnit->SetLocation(pNode->m_location);
+				for (int z = 22; z < 67; z += 5)
+				{
+					if (lineodd)
+					{
+						if (lineNum % 3 != 1)
+						{
+							WALL(x, x, z, z + 2);
+						}
+						else
+						{
+							nWALL(x, x, z, z + 2);
+						}
+						lineodd = false;
+					}
+					else
+					{
+						if (lineNum % 3 != 1)
+						{
+							WALL(x, x, z + 2, z + 4);
+						}
+						else
+						{
+							nWALL(x, x, z + 2, z + 4);
+						}
+						lineodd = true;
+					}	
+				}
+				lineNum++;
 			}
-			if (posX == 13 && (posZ > 4 && posZ < 26))
-			{
-				pNode->m_nodeState = STATE_WALL;
-				Wall_location.push_back(pNode->m_location);
-				//m_pUnit->SetLocation(pNode->m_location);
-			}
+
 		}
 	}
 	//위에 노드까는코드
@@ -119,7 +213,6 @@ void AStar::InitNodes(IMap * pMap)
 			m_vecNode[i + nodeDim]->AddEdge(m_vecNode[i]);
 		}
 	}
-
 }
 
 void AStar::FindPath(D3DXVECTOR3 startPos, D3DXVECTOR3 destPos, OUT vector<int>& vecIndex)
@@ -184,7 +277,7 @@ void AStar::RestNodes()
 {
 	for (int i = 0; i < m_vecNode.size(); i++)
 	{
-		if (m_vecNode[i]->m_nodeState != STATE_WALL)
+		if (m_vecNode[i]->m_nodeState != STATE_WALL && m_vecNode[i]->m_nodeState != STATE_NOHIDEWALL)
 			m_vecNode[i]->m_nodeState = STATE_NONE;
 	}
 }
@@ -197,10 +290,9 @@ int AStar::FindClosestNode(const D3DXVECTOR3 & pos)
 
 	for (int i = 0; i < m_vecNode.size(); i++)
 	{
-		if (m_vecNode[i]->m_nodeState == STATE_WALL)
+		if (m_vecNode[i]->m_nodeState == STATE_WALL || m_vecNode[i]->m_nodeState == STATE_NOHIDEWALL)
 		{
 			continue;
-
 		}
 
 		D3DXVECTOR3 subtract = pos - m_vecNode[i]->GetLocation();
@@ -270,6 +362,7 @@ void AStar::Extend(int targetIdx, int destIdx)
 
 		if (currNode->m_nodeState == STATE_CLOSE) continue;//못가는지역?
 		if (currNode->m_nodeState == STATE_WALL) continue;//벽?
+		if (currNode->m_nodeState == STATE_NOHIDEWALL) continue;
 
 														  //시작점까지의 코스트(현재거리까지의 필요한 비용)
 		float G = m_vecNode[targetIdx]->m_g + vecEdge[i]->edgeCost;//확장하려는 인저노드로 가는데 필요한 총 g 값
@@ -318,9 +411,9 @@ void AStar::CalcEraseCount(const D3DXVECTOR3 & pos, const vector<int>& vecIndex,
 		for (size_t i = 0; i < m_vecNode.size(); i++)
 		{
 			float a = D3DXVec3Length(&(m_vecNode[i]->m_location - ray.m_pos));
-			if (m_vecNode[i]->m_nodeState == STATE_WALL && a + 0.3 < nodeDist)
+			if ((m_vecNode[i]->m_nodeState == STATE_WALL && a + 0.3 < nodeDist) ||
+				(m_vecNode[i]->m_nodeState == STATE_NOHIDEWALL && a + 0.3 < nodeDist))
 			{
-
 				isIntersected = true;
 				break;
 			}

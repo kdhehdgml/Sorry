@@ -29,7 +29,7 @@ void Picking::Init()
 			for (int k = 0; k < dim; k++)
 			{
 				BoundingSphere* s = new BoundingSphere(
-					D3DXVECTOR3(i + 5, j + 5, k + 5), radius);
+					D3DXVECTOR3(i + 50, j + 10, k + 50), radius);
 				m_vecBoundary.push_back(s);
 			}
 		}
@@ -64,12 +64,12 @@ void Picking::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
-	case WM_RBUTTONUP:
+	case WM_LBUTTONDOWN:
 	{
 		Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
 		for (auto p : m_vecBoundary)
 		{
-			//p->isPicked = r.CalcIntersectSphere(p);
+			p->isPicked = r.CalcIntersectSphere(p);
 		}
 		BoundingSphere* sphere = NULL;
 		float minDistance = FLT_MAX;

@@ -27,6 +27,9 @@ private:
 
 	float			m_maxStepHeight;
 
+	float m_deltaYPos;
+	bool m_freeCameraMode;
+
 public:
 	Cubeman();
 	~Cubeman();
@@ -37,6 +40,7 @@ public:
 	virtual void Render() override;
 
 	void UpdatePosition();
+	void UpdatePositionToCamera();
 	void CreateAllParts();
 	void CreateParts(CubemanParts* &pParts, IDisplayObject* pParent,
 		D3DXVECTOR3 pos, D3DXVECTOR3 scale, D3DXVECTOR3 trans, 

@@ -63,6 +63,9 @@
     <Filter Include="소스 파일\mob">
       <UniqueIdentifier>{f26e2192-8aa3-42ab-abb9-7619181f4956}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Minsu_Setting">
+      <UniqueIdentifier>{143fddfb-59aa-4de3-aee4-e5850660dc39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -262,7 +265,10 @@
       <Filter>소스 파일\mob</Filter>
     </ClInclude>
     <ClInclude Include="UnitBox.h">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\mob</Filter>
+    </ClInclude>
+    <ClInclude Include="GSM.h">
+      <Filter>소스 파일\Minsu_Setting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -448,7 +454,10 @@
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
     <ClCompile Include="UnitBox.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\mob</Filter>
+    </ClCompile>
+    <ClCompile Include="GSM.cpp">
+      <Filter>소스 파일\Minsu_Setting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

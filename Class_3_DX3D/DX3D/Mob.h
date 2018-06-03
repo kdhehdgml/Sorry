@@ -21,6 +21,13 @@ private:
 	bool			m_isMoving;
 	bool			m_isShoot;
 
+	vector<D3DXVECTOR3> moveLocation;
+
+	LPD3DXMESH		m_pSphere;
+	BoundingSphere* m_pBoundingSphere;
+	int health;
+	int status;
+
 public:
 	Mob();
 	~Mob();
@@ -37,7 +44,10 @@ public:
 		vector<vector<int>> &vecUV);
 	virtual bool PlayerSearch(D3DXVECTOR3 Ppos, Mob * mob);
 	void ShootVertex(D3DXVECTOR3 Ppos, Mob * mob);
-
+	void GetMoveTheWall(D3DXVECTOR3 wallLocation) { moveLocation.push_back(wallLocation); }
+	vector<D3DXVECTOR3> SetMoveTheWall() { return moveLocation; }
+	void EraseWallLocation() { moveLocation.pop_back(); }
+	void LocationSwap(int _v1, int _v2);
 	vector<vector<int>> uvBody = {
 		{ 32, 32, 32, 20, 40, 20, 40, 32 },	// ÈÄ
 	{ 20, 32, 20, 20, 28, 20, 28, 32 },	// Àü

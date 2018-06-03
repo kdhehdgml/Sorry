@@ -2,11 +2,20 @@
 #include "ColorCube.h"
 
 
+
 ColorCube::ColorCube()
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	m_pVB = NULL;
 	m_pIB = NULL;
+	m_state = true;
+	m_pos.y = 10.0f;
+
+	//m_pos.x = 109.0f;
+	//m_pos.z = 107.0f;
+
+	m_pos.x = 300.0f;
+	m_pos.z = 150.0f;
 }
 
 
@@ -21,7 +30,7 @@ void ColorCube::Init()
 	vector<D3DXVECTOR3> vecPos;
 	for (size_t i = 0; i < CUBE_VERTEX_SIZE; i++)
 	{
-		vecPos.push_back(g_aCubeVertex[i]);
+		vecPos.push_back(g_Cube_TesT[i]);
 	}
 
 	//SetVertex(m_vecVertex, vecPos); return;
@@ -35,31 +44,67 @@ void ColorCube::Init()
 
 void ColorCube::Update()
 {
-	m_rot.y += 0.01f;
-	D3DXMATRIXA16 matR;
-	D3DXMatrixRotationY(&matR, m_rot.y);
-	m_matWorld = matR;
+	if (Keyboard::Get()->KeyPress(VK_UP))
+	{
+		m_pos.x += 5.1f;
+	}
+	if (Keyboard::Get()->KeyPress(VK_DOWN))
+	{
+		m_pos.x -= 5.1f;
+	}
+	if (Keyboard::Get()->KeyPress(VK_RIGHT))
+	{
+		m_pos.z -= 5.1f;
+	}
+	if (Keyboard::Get()->KeyPress(VK_LEFT))
+	{
+		m_pos.z += 5.1f;
+	}
+
+	if(Keyboard::Get()->KeyDown('H'))
+	{
+		m_state = !m_state;
+	}
+
+	if (m_state == true)
+	{
+		
+		D3DXMATRIXA16 matR, matS, matT;
+		
+		//테스트용 박스 설정
+		D3DXMatrixScaling(&matS, 1.0f, 1.0f , 1.0f);
+		D3DXMatrixRotationY(&matR, m_rot.y);
+		D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+
+		m_matWorld = matS * matR * matT;
+	}
+
 }
 
 void ColorCube::Render()
 {
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-	g_pDevice->SetFVF(VERTEX_PC::FVF);
-	/*
-	g_pDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+
+	if (m_state == true)
+	{
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+		g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+		g_pDevice->SetFVF(VERTEX_PC::FVF);
+		/*
+		g_pDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
 		m_vecVertex.size() / 3,
 		&m_vecVertex[0], sizeof(VERTEX_PC)); return;
 		*/
-	/*
-	g_pDevice->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0,
+		/*
+		g_pDevice->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0,
 		m_vecVertex.size(), m_vecIndex.size() / 3, &m_vecIndex[0],
 		D3DFMT_INDEX16, &m_vecVertex[0], sizeof(VERTEX_PC));return;
 		*/
-	g_pDevice->SetStreamSource(0, m_pVB, 0, sizeof(VERTEX_PC));
-	g_pDevice->SetIndices(m_pIB);
-	g_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
-		m_VBDesc.Size, 0, m_IBDesc.Size / 3);
+		g_pDevice->SetStreamSource(0, m_pVB, 0, sizeof(VERTEX_PC));
+		g_pDevice->SetIndices(m_pIB);
+		g_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
+			m_VBDesc.Size, 0, m_IBDesc.Size / 3);
+	}
+	
 }
 
 
