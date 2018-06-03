@@ -19,6 +19,8 @@ private:
 	ColorCube *			m_ColorCube;
 	D3DXVECTOR3			m_CubePos;
 
+	int					m_count;
+
 public:
 	AStar();
 	virtual ~AStar();

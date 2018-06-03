@@ -40,6 +40,8 @@ void AStar::Init()
 
 	m_ColorCube = new ColorCube;
 	m_ColorCube->Init();
+
+	m_count = 0;
 	
 }
 
@@ -91,6 +93,7 @@ void AStar::Render()
 		{
 			p->m_nodeState = STATE_NOHIDEWALL;
 			g_pDevice->SetMaterial(&DXUtil::GREEN_MTRL); 
+			m_count++;
 		}
 
 		D3DXMatrixTranslation(&mat, p->GetLocation().x, p->GetLocation().y, p->GetLocation().z);
@@ -103,6 +106,10 @@ void AStar::Render()
 			p->GetVecLines().size() / 2, p->GetVecLines()[0],
 			sizeof(D3DXVECTOR3));
 	}
+
+	Debug->AddText("Ãæµ¹ °¹¼ö");
+	Debug->AddText(m_count);
+	Debug->EndLine();
 }
 
 void AStar::InitNodes(IMap * pMap)
