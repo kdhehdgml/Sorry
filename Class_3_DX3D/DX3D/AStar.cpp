@@ -77,6 +77,7 @@ void AStar::Render()
 		case STATE_NOHIDEWALL:
 			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
 			break;
+			//탱크노드
 		case STATE_TANK:
 			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
 			break;
@@ -96,9 +97,11 @@ void AStar::Render()
 		
 		if (Radius > p_Distance)
 		{
+			//하이드월과 노 하이드월은 탱크노드로 변경하지 않는다.
 			if (!(p->m_nodeState == STATE_NOHIDEWALL || p->m_nodeState == STATE_WALL))
 			{
 				p->m_nodeState = STATE_TANK;
+				//닿았으면 충돌 트루
 				p->m_ClickBox = true;
 			}
 			m_count++;
@@ -106,9 +109,11 @@ void AStar::Render()
 		}
 		else
 		{
+			//닿지않았다.
 			p->m_ClickBox = false;
 		}
 		
+		//탱크가 없는곳 모두 일반노드화
 		if (p->m_ClickBox == false && p->m_nodeState == STATE_TANK)
 		{
 			p->m_nodeState = STATE_NONE;

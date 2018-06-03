@@ -21,6 +21,7 @@ private:
 
 	int					m_count;
 	
+	//이닛노드의 map 정보를 임시적으로 받아줄 변수
 	IMap*				temp_Imap;
 
 public:
