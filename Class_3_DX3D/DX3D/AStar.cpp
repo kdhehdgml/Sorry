@@ -48,7 +48,7 @@ void AStar::Init()
 void AStar::Render()
 {
 	D3DXMATRIXA16 mat;
-
+	m_ColorCube->Update();
 	g_pDevice->SetTexture(0, NULL);
 	
 
@@ -89,7 +89,7 @@ void AStar::Render()
 		//각 객체의 반지름을 합하고 두 위치 사이의 거리를 비교
 		//반지름의 합보다 사이거리가 짧을경우 충돌로 판정후 실행
 		
-		if (Radius >= p_Distance)
+		if (Radius > p_Distance)
 		{
 			p->m_nodeState = STATE_NOHIDEWALL;
 			g_pDevice->SetMaterial(&DXUtil::GREEN_MTRL); 

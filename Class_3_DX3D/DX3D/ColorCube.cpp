@@ -44,21 +44,21 @@ void ColorCube::Init()
 
 void ColorCube::Update()
 {
-	if (Keyboard::Get()->KeyDown(VK_UP))
+	if (Keyboard::Get()->KeyPress(VK_UP))
 	{
-		m_pos.z += 5.1f;
+		m_pos.x += 5.1f;
 	}
-	if (Keyboard::Get()->KeyDown(VK_DOWN))
-	{
-		m_pos.z -= 5.1f;
-	}
-	if (Keyboard::Get()->KeyDown(VK_LEFT))
+	if (Keyboard::Get()->KeyPress(VK_DOWN))
 	{
 		m_pos.x -= 5.1f;
 	}
-	if (Keyboard::Get()->KeyDown(VK_RIGHT))
+	if (Keyboard::Get()->KeyPress(VK_RIGHT))
 	{
-		m_pos.x += 5.1f;
+		m_pos.z -= 5.1f;
+	}
+	if (Keyboard::Get()->KeyPress(VK_LEFT))
+	{
+		m_pos.z += 5.1f;
 	}
 
 	if(Keyboard::Get()->KeyDown('H'))
