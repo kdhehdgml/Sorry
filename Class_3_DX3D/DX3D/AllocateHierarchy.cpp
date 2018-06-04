@@ -7,7 +7,6 @@
 // 프레임 전체를 트리구조로 꾸미기 위한 준비 작업
 STDMETHODIMP AllocateHierarchy::CreateFrame(THIS_ LPCSTR Name, LPD3DXFRAME *ppNewFrame)
 {
-	//확장한다음에 베이스를 넘겨달라했다??????
 	FRAME_EX* pFrameEx = new FRAME_EX;
 
 	// TODO : 이름을 잘 저장해주세요. 물론 해제도.
@@ -50,10 +49,7 @@ STDMETHODIMP AllocateHierarchy::CreateMeshContainer(
 	LPD3DXSKININFO pSkinInfo,
 	LPD3DXMESHCONTAINER *ppNewMeshContainer)
 {
-	//기본메쉬에대한 처리.
-	//1.메쉬컨테이너
 	MESHCONTAINER_EX* pMeshContainerEx = NULL;
-	//2.메쉬생성
 	LPD3DXMESH pMesh = NULL;
 
 	if (pMeshData->Type != D3DXMESHTYPE_MESH)
@@ -71,7 +67,6 @@ STDMETHODIMP AllocateHierarchy::CreateMeshContainer(
 	pMeshContainerEx = new MESHCONTAINER_EX;
 	memset(pMeshContainerEx, 0, sizeof(MESHCONTAINER_EX));
 
-	// 메쉬컨테이너 이름넣어줌
 	if (Name != NULL)
 	{
 		pMeshContainerEx->Name = new char[strlen(Name) + 1];
@@ -79,28 +74,22 @@ STDMETHODIMP AllocateHierarchy::CreateMeshContainer(
 	}
 
 	// if no normals are in the mesh, add them
-	//FVF 의 노말이 없을떄 노말 추가해줌
 	if ((pMesh->GetFVF() & D3DFVF_NORMAL) == false)
 	{
 		pMesh->CloneMeshFVF(pMesh->GetOptions(),
 			pMesh->GetFVF() | D3DFVF_NORMAL, g_pDevice, &pMesh);
 
-		//메쉬에 노말값 계산해서 넣어줌
 		D3DXComputeNormals(pMesh, NULL);
 	}
 
-
 	pMesh->AddRef();
-	//오리진에 메쉬 넣어줌
 	pMeshContainerEx->pOrigMesh = pMesh;
-	//오리진 메쉬를 워크 메쉬에 넣어줌
 	pMeshContainerEx->pOrigMesh->CloneMeshFVF(
 		pMeshContainerEx->pOrigMesh->GetOptions(),
 		pMeshContainerEx->pOrigMesh->GetFVF(),
 		g_pDevice,
 		&pMeshContainerEx->pWorkMesh);
 
-	//머테리얼 갯수만큼 텍스쳐 설정
 	for (DWORD i = 0; i < NumMaterials; ++i)
 	{
 		MTLTEX* pMtlTex = new MTLTEX;
@@ -113,20 +102,16 @@ STDMETHODIMP AllocateHierarchy::CreateMeshContainer(
 	if (pSkinInfo != NULL)
 	{
 		pMeshContainerEx->pSkinInfo = pSkinInfo;
-		
-		//safe_addref 가능
 		(pSkinInfo)->AddRef();
-		
+
 		// pSkinInfo->GetNumBones() : 이 매쉬에 영향을 주는 본(프레임)의 갯수
 		DWORD numBones = pSkinInfo->GetNumBones();
 		pMeshContainerEx->ppBoneMatrixPtrs = new D3DXMATRIX*[numBones];
 		pMeshContainerEx->pBoneOffsetMatrices = new D3DXMATRIX[numBones];
 		pMeshContainerEx->pFinalBoneMatrices = new D3DXMATRIX[numBones];
 
-
 		for (DWORD i = 0; i < numBones; ++i)
 		{
-			//각 프레임을 로컬스페이스로보내는 매트릭스 배열
 			pMeshContainerEx->pBoneOffsetMatrices[i] = *(pSkinInfo->GetBoneOffsetMatrix(i));
 		}
 	}

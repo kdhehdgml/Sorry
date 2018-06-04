@@ -20,7 +20,6 @@ SkinnedMesh::SkinnedMesh()
 SkinnedMesh::~SkinnedMesh()
 {
 	SAFE_RELEASE(m_pSphereMesh);
-
 	AllocateHierarchy alloc;
 	D3DXFrameDestroy(m_pRootFrame, &alloc);
 
@@ -34,17 +33,14 @@ void SkinnedMesh::Init()
 
 	D3DXCreateSphere(g_pDevice, 0.01f, 10, 10, &m_pSphereMesh, NULL);
 
-	
-
-	Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
+	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	CString path = "resources/zealot/";
-	CString filename = "zealot.X";
+	CString filename = "man.X";
 	Load(path, filename);
 }
 
 void SkinnedMesh::Load(LPCTSTR path, LPCTSTR filename)
 {
-
 	AllocateHierarchy alloc(path);
 
 	CString fullPath(path);
@@ -83,18 +79,15 @@ void SkinnedMesh::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContain
 	FRAME_EX* pFrameExInfluence;
 	MESHCONTAINER_EX* pMeshContainerEx = (MESHCONTAINER_EX*)pMeshContainerBase;
 
-	//스킨이 있을떄
 	if (pMeshContainerEx->pSkinInfo != NULL)
 	{
 		numBones = pMeshContainerEx->pSkinInfo->GetNumBones();
 
 		for (DWORD i = 0; i < numBones; ++i)
 		{
-			//프레임의 인스탄스를 받음
 			pFrameExInfluence = (FRAME_EX*)D3DXFrameFind(m_pRootFrame,
 				pMeshContainerEx->pSkinInfo->GetBoneName(i));
-			//로컬로 보내주는 월드메트릭들의 배열을 넘겨줘서 연결해줌
-			//프레임에 누적된 메트릭스 포인터를 보내준다.
+
 			pMeshContainerEx->ppBoneMatrixPtrs[i] = &pFrameExInfluence->CombinedTM;
 		}
 	}
@@ -108,33 +101,35 @@ void SkinnedMesh::Update()
 	Debug->AddText(_T(" / "));
 	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
 	Debug->EndLine();
-	D3DXMATRIXA16 matR;
 
-
-
-	if (Keyboard::Get()->KeyDown('1'))
+	//if (Keyboard::Get()->KeyDown('1'))
+	if (GetAsyncKeyState('1') & 0x8000)
 	{
 		if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
 			m_animIndex++;
 
 		SetAnimationIndex(m_animIndex, true);
 	}
-	else if (Keyboard::Get()->KeyDown('2'))
+	//else if (Keyboard::Get()->KeyDown('2'))
+	if (GetAsyncKeyState('2') & 0x8000)
 	{
 		if (m_animIndex > 0)
 			m_animIndex--;
 
 		SetAnimationIndex(m_animIndex, true);
 	}
-	else if (Keyboard::Get()->KeyDown(VK_F1))
+	//else if (Keyboard::Get()->KeyDown(VK_F1))
+	if (GetAsyncKeyState(VK_F1) & 0x8000)
 	{
 		m_bDrawFrame = !m_bDrawFrame;
 	}
-	else if (Keyboard::Get()->KeyDown(VK_F2))
+	//else if (Keyboard::Get()->KeyDown(VK_F2))
+	if (GetAsyncKeyState(VK_F2) & 0x8000)
 	{
 		m_bDrawSkeleton = !m_bDrawSkeleton;
 	}
-	else if (Keyboard::Get()->KeyDown(VK_F3))
+	//else if (Keyboard::Get()->KeyDown(VK_F3))
+	if (GetAsyncKeyState(VK_F3) & 0x8000)
 	{
 		m_bWireFrame = !m_bWireFrame;
 	}
@@ -176,11 +171,9 @@ void SkinnedMesh::UpdateAnim()
 void SkinnedMesh::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
-	//각파츠들의 TM
-	//부모의 combined를 누적시키고있음
+
 	if (pParent != NULL)
 	{
-		
 		pFrameEx->CombinedTM = pFrameEx->TransformationMatrix * ((FRAME_EX*)pParent)->CombinedTM;
 	}
 	else
@@ -215,7 +208,6 @@ void SkinnedMesh::Render()
 	Debug->AddText(m_numMesh);
 	Debug->EndLine();
 	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
-
 }
 
 // Desc: Called to render a frame in the hierarchy
@@ -233,19 +225,14 @@ void SkinnedMesh::DrawFrame(LPD3DXFRAME pFrame)
 
 
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
-
-	//메쉬가있으면 그려준다.
 	while (pMeshContainer != NULL)
 	{
 		m_numMesh++;
 		Debug->AddText(_T("(MESH)"));
 		DrawMeshContainer(pFrame);
-		//프레임안에 메쉬가 있고 메쉬 컨테이너 안에 메쉬의 뭉침이 있음.
 		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
 	Debug->AddText(_T(" / "));
-
-	//매 프레임안에 메쉬가있을때 드로우를 해주는것임.
 	if (pFrame->pFrameSibling != NULL)
 	{
 		DrawFrame(pFrame->pFrameSibling);
@@ -268,9 +255,8 @@ void SkinnedMesh::DrawMeshContainer(LPD3DXFRAME pFrame)
 
 	for (DWORD i = 0; i < numBones; ++i)
 	{
-		//각 본마다 기준점잡아서 매트릭스로 보내주는것
 		pMeshContainerEx->pFinalBoneMatrices[i] =
-			pMeshContainerEx->pBoneOffsetMatrices[i] * (*(pMeshContainerEx->ppBoneMatrixPtrs[i]));
+			pMeshContainerEx->pBoneOffsetMatrices[i] * *(pMeshContainerEx->ppBoneMatrixPtrs[i]);
 	}
 
 	PBYTE pVerticesSrc = NULL;
@@ -287,11 +273,10 @@ void SkinnedMesh::DrawMeshContainer(LPD3DXFRAME pFrame)
 	pMeshContainerEx->pOrigMesh->UnlockVertexBuffer();
 
 	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	if (m_bWireFrame)
-		g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	if (m_bWireFrame) g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	//D3DXMatrixIdentity(&m_matWorld);
-	//D3DXMatrixScaling(&m_matWorld, 5.0f, 5.0f, 5.0f);
+	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixScaling(&m_matWorld, 1, 1, 1);
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	for (size_t i = 0; i < pMeshContainerEx->vecMtlTex.size(); ++i)

@@ -27,9 +27,9 @@ void SceneManager::Init()
 	//SCENE_XFILE
 	//SetCurrentScene(SCENE_GRID);
 	//SetCurrentScene(SCENE_OBJMAP);
-	SetCurrentScene(SCENE_HEIGHTMAP);
+	//SetCurrentScene(SCENE_HEIGHTMAP);
 	//SetCurrentScene(SCENE_TEST);
-	//SetCurrentScene(SCENE_XFILE);
+	SetCurrentScene(SCENE_XFILE);
 	
 }
 

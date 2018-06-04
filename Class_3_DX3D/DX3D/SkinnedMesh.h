@@ -4,8 +4,6 @@
 class SkinnedMesh : public IUnitObject
 {
 protected:
-	 
-
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
