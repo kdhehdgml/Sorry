@@ -8,7 +8,7 @@ private:
 	Cubeman *		m_pCubeman;
 	vector<Mob*>	m_pMob;
 	vector<D3DXVECTOR3> SaveLocation;
-
+	int				num;
 	bool			m_SameChk;
 
 public:

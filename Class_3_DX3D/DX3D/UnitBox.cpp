@@ -11,6 +11,7 @@ UnitBox::UnitBox()
 	}
 	m_pCubeman = NULL;
 	m_SameChk = false;
+	num = 0;
 }
 
 
@@ -26,15 +27,7 @@ UnitBox::~UnitBox()
 void UnitBox::Init()
 {
 	m_pCubeman = new Cubeman; m_pCubeman->Init();
-	m_pMob.resize(5);
-
-	for (size_t i = 0; i < m_pMob.size(); i++)
-	{
-		m_pMob[i] = new Mob;
-		m_pMob[i]->Init();
-		m_pMob[i]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((i + 1) * 20 + NODE_POSITSIZE)));
-		FindHidingInTheWallLocation(i);
-	}
+	
 }
 
 void UnitBox::Update()
@@ -44,6 +37,16 @@ void UnitBox::Update()
 	for (size_t i = 0; i < m_pMob.size(); i++)
 	{
 		SAFE_UPDATE(m_pMob[i]);
+	}
+	
+	if (GetAsyncKeyState(VK_F1) & 0x0001)
+	{
+		num++;
+		m_pMob.resize(num);
+		m_pMob[num-1] = new Mob;
+		m_pMob[num-1]->Init();
+		m_pMob[num-1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
+		FindHidingInTheWallLocation(num-1);
 	}
 	//타겟을따라서 움직이는 내용
 	/*if (m_pMob[0]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[0]) == true)
