@@ -25,6 +25,8 @@ private:
 	float FOV;
 	float speedOffset;
 	bool freeCameraMode;
+	bool loadingComplete;
+	POINT currPoint;
 
 public:
 	void Init();
