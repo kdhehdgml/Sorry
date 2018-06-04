@@ -2,6 +2,7 @@
 #include "UnitBox.h"
 #include "Cubeman.h"
 #include "Mob.h"
+#include "Ray.h"
 
 UnitBox::UnitBox()
 {
@@ -34,6 +35,12 @@ void UnitBox::Update()
 {
 	SAFE_UPDATE(m_pCubeman);
 	
+	/*for (auto p : m_pMob) {
+		if (p->getStatus() == 0) {
+			SAFE_RELEASE(p);
+		}
+	}*/
+
 	if (GetAsyncKeyState(VK_F1) & 0x0001)
 	{
 		num++;
@@ -184,4 +191,24 @@ void UnitBox::MobMoveInTheWall()
 		}
 	}
 }
-
+void UnitBox::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_LBUTTONDOWN:
+	{
+		Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
+		for (auto p : m_pMob)
+		{
+			bool getHit = false;
+			getHit = r.CalcIntersectSphere(p->getBoundingSphere());
+			if (getHit) {
+				p->setHealth(p->getHealth() - 100);
+			}
+		}
+	}
+	break;
+	default:
+		break;
+	}
+}

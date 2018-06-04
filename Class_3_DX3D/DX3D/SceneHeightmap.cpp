@@ -175,4 +175,5 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 {
 	SAFE_WNDPROC(m_pHeightMap);
 	SAFE_WNDPROC(m_pPicking);
+	SAFE_WNDPROC(m_pUnit);
 }
