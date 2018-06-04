@@ -34,11 +34,6 @@ void UnitBox::Update()
 {
 	SAFE_UPDATE(m_pCubeman);
 	
-	for (size_t i = 0; i < m_pMob.size(); i++)
-	{
-		SAFE_UPDATE(m_pMob[i]);
-	}
-	
 	if (GetAsyncKeyState(VK_F1) & 0x0001)
 	{
 		num++;
@@ -47,6 +42,10 @@ void UnitBox::Update()
 		m_pMob[num-1]->Init();
 		m_pMob[num-1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
 		FindHidingInTheWallLocation(num-1);
+	}
+	for (size_t i = 0; i < m_pMob.size(); i++)
+	{
+		SAFE_UPDATE(m_pMob[i]);
 	}
 	//타겟을따라서 움직이는 내용
 	/*if (m_pMob[0]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[0]) == true)
