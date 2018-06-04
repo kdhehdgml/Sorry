@@ -34,8 +34,8 @@ void SkinnedMesh::Init()
 	D3DXCreateSphere(g_pDevice, 0.01f, 10, 10, &m_pSphereMesh, NULL);
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
-	CString path = "resources/zealot/";
-	CString filename = "man.X";
+	CString path = "resources/xFile/";
+	CString filename = "tree.X";
 	Load(path, filename);
 }
 
@@ -276,7 +276,7 @@ void SkinnedMesh::DrawMeshContainer(LPD3DXFRAME pFrame)
 	if (m_bWireFrame) g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	D3DXMatrixIdentity(&m_matWorld);
-	D3DXMatrixScaling(&m_matWorld, 1, 1, 1);
+	D3DXMatrixScaling(&m_matWorld, 10.0f, 10.0f, 10.0f);
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	for (size_t i = 0; i < pMeshContainerEx->vecMtlTex.size(); ++i)
