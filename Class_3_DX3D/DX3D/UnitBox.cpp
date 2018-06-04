@@ -193,6 +193,7 @@ void UnitBox::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			getHit = r.CalcIntersectSphere(p->getBoundingSphere());
 			if (getHit) {
 				p->setHealth(p->getHealth() - 100);
+				break;
 			}
 		}
 	}
