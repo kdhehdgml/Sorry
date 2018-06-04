@@ -37,6 +37,12 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
+	
+	BoundingSphere* getBoundingSphere();
+	int getHealth();
+	void setHealth(int h);
+	int getStatus();
+	void setStatus(int s);
 
 	void CreateAllParts();
 	void CreateParts(CubemanParts* &pParts, IDisplayObject* pParent,

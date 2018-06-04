@@ -49,51 +49,82 @@ void Mob::Init()
 
 void Mob::Update()
 {
-	IUnitObject::UpdateKeyboardState();
-	IUnitObject::UpdatePositionToDestination();
+	if (health <= 0) {
+		status = 0;
+	}
+	if (status > 0) {
+		IUnitObject::UpdateKeyboardState();
+		IUnitObject::UpdatePositionToDestination();
 
-	m_pBoundingSphere->center = m_pos;
-	m_pBoundingSphere->center.y += 3.0f;
-	//if (GetAsyncKeyState('1') & 0x0001)
-	//{
-	//	m_isTurnedOnLight = !m_isTurnedOnLight;
-	//}
+		m_pBoundingSphere->center = m_pos;
+		m_pBoundingSphere->center.y += 3.0f;
+		//if (GetAsyncKeyState('1') & 0x0001)
+		//{
+		//	m_isTurnedOnLight = !m_isTurnedOnLight;
+		//}
 
-	//if (m_isTurnedOnLight == true)
-	//{
-	//	D3DXVECTOR3 pos = m_pos;
-	//	D3DXVECTOR3 dir = m_forward;
-	//	D3DXCOLOR c = BLUE;
-	//	D3DLIGHT9 light = DXUtil::InitSpot(&dir, &pos, &c);
-	//	light.Phi = D3DX_PI / 4;
-	//	//D3DLIGHT9 light = DXUtil::InitPoint(&pos, &c);
-	//	g_pDevice->SetLight(10, &light);
-	//}
-	//g_pDevice->LightEnable(10, m_isTurnedOnLight);
+		//if (m_isTurnedOnLight == true)
+		//{
+		//	D3DXVECTOR3 pos = m_pos;
+		//	D3DXVECTOR3 dir = m_forward;
+		//	D3DXCOLOR c = BLUE;
+		//	D3DLIGHT9 light = DXUtil::InitSpot(&dir, &pos, &c);
+		//	light.Phi = D3DX_PI / 4;
+		//	//D3DLIGHT9 light = DXUtil::InitPoint(&pos, &c);
+		//	g_pDevice->SetLight(10, &light);
+		//}
+		//g_pDevice->LightEnable(10, m_isTurnedOnLight);
 
-	m_pRootParts->SetMovingState(m_isMoving);
-	m_pRootParts->Update();
-
+		m_pRootParts->SetMovingState(m_isMoving);
+		m_pRootParts->Update();
+	}
 }
 
 void Mob::Render()
 {
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	m_pRootParts->Render();
+	if (status > 0) {
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+		m_pRootParts->Render();
 
-	D3DXMATRIXA16 matI;
-	D3DXMatrixIdentity(&matI);
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	g_pDevice->SetTransform(D3DTS_WORLD, &matI);
-	g_pDevice->SetFVF(VERTEX_PC::FVF);
-	g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
-		1, &Shootpos[0], sizeof(VERTEX_PC));
+		D3DXMATRIXA16 matI;
+		D3DXMatrixIdentity(&matI);
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+		g_pDevice->SetTransform(D3DTS_WORLD, &matI);
+		g_pDevice->SetFVF(VERTEX_PC::FVF);
+		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
+			1, &Shootpos[0], sizeof(VERTEX_PC));
 
-	D3DXMATRIXA16 mat;
-	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
-	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-	g_pDevice->SetTexture(0, NULL);
-	m_pSphere->DrawSubset(0);
+		D3DXMATRIXA16 mat;
+		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
+		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+		g_pDevice->SetTexture(0, NULL);
+		m_pSphere->DrawSubset(0);
+	}
+}
+
+BoundingSphere * Mob::getBoundingSphere()
+{
+	return m_pBoundingSphere;
+}
+
+int Mob::getHealth()
+{
+	return health;
+}
+
+void Mob::setHealth(int h)
+{
+	health = h;
+}
+
+int Mob::getStatus()
+{
+	return status;
+}
+
+void Mob::setStatus(int s)
+{
+	status = s;
 }
 
 void Mob::CreateAllParts()
