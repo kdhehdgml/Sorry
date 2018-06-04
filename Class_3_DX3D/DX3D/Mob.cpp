@@ -142,38 +142,40 @@ void Mob::CreateParts(CubemanParts *& pParts,
 bool Mob::PlayerSearch(D3DXVECTOR3 Ppos, Mob* mob)
 {
 
-	D3DXVECTOR3 move_forward;
-	move_forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
-	if (D3DXVec3LengthSq(&move_forward) > 0)
+	if (mob->m_pos.x < 164.5f)
 	{
-		mob->forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
+		D3DXVECTOR3 move_forward;
+		move_forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
+		if (D3DXVec3LengthSq(&move_forward) > 0)
+		{
+			mob->forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
+		}
+
+
+		D3DXVECTOR3 DirectPM;
+		D3DXVECTOR3 MobPos;
+		DirectPM = Ppos - mob->m_pos;
+		DirectPM.y = 0;
+		D3DXVECTOR3 DirectPMnormal = DirectPM;
+		D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
+		D3DXVec3Normalize(&mob->forward, &mob->forward);
+		float Length = abs(Ppos.x - mob->m_pos.x + Ppos.z - mob->m_pos.z);
+		float DotPM = D3DXVec3Dot(&DirectPMnormal, &mob->forward);
+		float direct = 1.0f / 2.0f;
+		
+		if ((Length < 15 && DotPM >= direct))
+		{
+			m_isShoot = true;
+			return true;
+		}
+
+		m_isShoot = false;
+		return false;
 	}
-
-
-	D3DXVECTOR3 DirectPM;
-	D3DXVECTOR3 MobPos;
-	DirectPM = Ppos - mob->m_pos;
-	DirectPM.y = 0;
-	D3DXVECTOR3 DirectPMnormal = DirectPM;
-	D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
-	D3DXVec3Normalize(&mob->forward, &mob->forward);
-	float Length = abs(Ppos.x - mob->m_pos.x + Ppos.z - mob->m_pos.z);
-	float DotPM = D3DXVec3Dot(&DirectPMnormal, &mob->forward);
-	float direct = 1.0f / 2.0f;
-	/*Debug->AddText("¸÷À§Ä¡");
-	Debug->AddText(DotPM);
-	Debug->EndLine();*/
-	Debug->AddText("°¢µµ");
-	Debug->AddText(forward);
-	Debug->EndLine();
-	if ((Length < 15 && DotPM >= direct))
+	else
 	{
-		m_isShoot = true;
-		return true;
+		return false;
 	}
-
-	m_isShoot = false;
-	return false;
 }
 
 void Mob::ShootVertex(D3DXVECTOR3 Ppos, Mob* mob)

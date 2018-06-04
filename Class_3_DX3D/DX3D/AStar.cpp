@@ -108,7 +108,7 @@ void AStar::Render()
 				//닿았으면 충돌 트루
 				p->m_ClickBox = true;
 			}
-			m_count++;
+			//m_count++;
 			
 		}
 		else

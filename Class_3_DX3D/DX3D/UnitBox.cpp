@@ -48,31 +48,20 @@ void UnitBox::Update()
 		SAFE_UPDATE(m_pMob[i]);
 	}
 	//타겟을따라서 움직이는 내용
-	/*if (m_pMob[0]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[0]) == true)
+	if (m_pMob.size() > 0)
 	{
-		m_pMob[0]->SetDestination(m_pCubeman->GetPosition());
-		m_pMob[0]->UpdatePositionToDestination();
+		for (int i = 0; i < m_pMob.size(); i++)
+		{
+			if (m_pMob[i]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[i]) == true)
+			{
+				/*m_pMob[i]->SetDestination(m_pCubeman->GetPosition());
+				m_pMob[i]->UpdatePositionToDestination();*/
+				m_pMob[i]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[i]);
+			}
+		}
 	}
-	if (m_pMob[1]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[1]) == true)
-	{
-		m_pMob[1]->SetDestination(m_pCubeman->GetPosition());
-		m_pMob[1]->UpdatePositionToDestination();
-	}
-	if (m_pMob[2]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[2]) == true)
-	{
-		m_pMob[2]->SetDestination(m_pCubeman->GetPosition());
-		m_pMob[2]->UpdatePositionToDestination();
-	}
-	if (m_pMob[3]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[3]) == true)
-	{
-		m_pMob[3]->SetDestination(m_pCubeman->GetPosition());
-		m_pMob[3]->UpdatePositionToDestination();
-	}
-	if (m_pMob[4]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[4]) == true)
-	{
-		m_pMob[4]->SetDestination(m_pCubeman->GetPosition());
-		m_pMob[4]->UpdatePositionToDestination();
-	}*/
+	
+	
 	//타겟과 플레이어를 이어주는 선긋기
 	/*m_pMob[0]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[0]);
 	m_pMob[1]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[1]);

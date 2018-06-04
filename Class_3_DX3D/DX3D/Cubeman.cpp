@@ -94,6 +94,7 @@ void Cubeman::Update()
 
 	m_pRootParts->SetMovingState(m_isMoving);
 	m_pRootParts->Update();
+	
 }
 
 void Cubeman::Render()
@@ -201,7 +202,8 @@ void Cubeman::UpdatePosition()
 void Cubeman::UpdatePositionToCamera()
 {
 	//캐릭터 위치를 카메라 위치로 변경
-	m_pos = g_pCamera->getPos();
+	m_pos.x = g_pCamera->getPos().x;
+	m_pos.z = g_pCamera->getPos().z;
 	//m_pos.z -= 10.0f;
 	//m_forward = g_pCamera->getDir();
 	//m_matWorld = g_pCamera->getMatWorld();
