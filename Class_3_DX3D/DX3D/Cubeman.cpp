@@ -57,11 +57,11 @@ void Cubeman::Update()
 	UpdatePosition();
 	UpdatePositionToCamera();
 
-	if (GetAsyncKeyState('1') & 0x0001)
+	/*if (GetAsyncKeyState('1') & 0x0001)
 	{
 		m_isTurnedOnLight = !m_isTurnedOnLight;
-	}
-	if (GetAsyncKeyState('2') & 0x0001) {
+	}*/
+	if (GetAsyncKeyState('V') & 0x0001) {
 		m_freeCameraMode = !m_freeCameraMode;
 		g_pCamera->setFreeCameraMode(m_freeCameraMode);
 		if (m_freeCameraMode) {
