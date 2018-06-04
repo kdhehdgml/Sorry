@@ -21,6 +21,7 @@ Camera::Camera()
 	FOV = D3DX_PI / 4.0f;
 	speedOffset = 0.4f;
 	freeCameraMode = true;
+	sensitivity = 200.0f;
 }
 
 
@@ -172,9 +173,11 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	break;
 	case WM_RBUTTONDOWN:
 		FOV = D3DX_PI / 8;
+		sensitivity = 800.0f;
 		break;
 	case WM_RBUTTONUP:
 		FOV = D3DX_PI / 4;
+		sensitivity = 200.0f;
 		break;
 	case WM_MOUSEMOVE:
 	{
@@ -190,8 +193,8 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 			}
 
-			m_rotY += diff_x / 200.0f;
-			m_rotX -= diff_y / 200.0f;
+			m_rotY += diff_x / sensitivity;
+			m_rotX -= diff_y / sensitivity;
 
 			if (m_rotX <= -D3DX_PI * 0.5f + D3DX_16F_EPSILON)
 			{
