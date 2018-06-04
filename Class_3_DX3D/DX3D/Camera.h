@@ -27,6 +27,7 @@ private:
 	bool freeCameraMode;
 	bool loadingComplete;
 	POINT currPoint;
+	float sensitivity;
 
 public:
 	void Init();
