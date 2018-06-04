@@ -30,12 +30,21 @@ Camera::~Camera()
 
 void Camera::Init()
 {
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+	POINT p;
+	p.x = (rc.right - rc.left) / 2;
+	p.y = (rc.bottom - rc.top) / 2;
+	ClientToScreen(g_hWnd, &p);
+	SetCursorPos(p.x, p.y);
+	currPoint = p;
+	m_ptPrevMouse = currPoint;
+
+	loadingComplete = false;
+
 	D3DXMatrixLookAtLH(&m_matView,
 		&m_eye, &m_lookAt, &m_up);
 	g_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
-
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
 
 	D3DXMatrixPerspectiveFovLH(&m_matProj,
 		FOV, rc.right / (float)rc.bottom, 1.0f, 10000.0f);
@@ -131,6 +140,18 @@ void Camera::Update()
 	Debug->AddText("마우스 좌표:");
 	Debug->AddText(pos);
 	Debug->EndLine();
+	Debug->AddText("카메라 각도:");
+	Debug->AddText(dir);
+	Debug->EndLine();
+	Debug->AddText("m_rotX : ");
+	Debug->AddText(m_rotX);
+	Debug->AddText(" m_rotY : ");
+	Debug->AddText(m_rotY);
+	Debug->EndLine();
+
+	if (g_pTimeManager->GetDeltaTime() > 0.001f) { //DeltaTime이 Epsilon보다 크면 로딩이 완료된 걸로 간주
+		loadingComplete = true;
+	}
 }
 
 void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -140,8 +161,8 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 	{
 		m_isLbuttonDown = true;
-		m_ptPrevMouse.x = LOWORD(lParam);
-		m_ptPrevMouse.y = HIWORD(lParam);
+		//m_ptPrevMouse.x = LOWORD(lParam);
+		//m_ptPrevMouse.y = HIWORD(lParam);
 	}
 	break;
 	case WM_LBUTTONUP:
@@ -157,13 +178,11 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_MOUSEMOVE:
 	{
-		//if (m_isLbuttonDown == true)
+		//POINT currPoint;
+		currPoint.x = LOWORD(lParam);
+		currPoint.y = HIWORD(lParam);
+		if (loadingComplete)
 		{
-
-			POINT currPoint;
-			currPoint.x = LOWORD(lParam);
-			currPoint.y = HIWORD(lParam);
-
 			float diff_x = currPoint.x - m_ptPrevMouse.x;
 			float diff_y = currPoint.y - m_ptPrevMouse.y;
 
@@ -199,6 +218,15 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				m_ptPrevMouse.y = (rc.bottom - rc.top) / 2;
 			}
 			
+		}
+		else {
+			m_ptPrevMouse = currPoint;
+			//여기 있는 m_rotX와 m_rotY를 수정해서 카메라 초기값 수정가능
+			m_rotX = -0.34f;
+			m_rotY = 1.6f;
+			dir.x = sin(m_rotY);
+			dir.z = cos(m_rotY);
+			dir.y = tan(m_rotX);
 		}
 		break;
 	}
