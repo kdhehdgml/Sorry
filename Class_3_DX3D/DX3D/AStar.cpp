@@ -40,16 +40,20 @@ void AStar::Init()
 
 	m_ColorCube = new ColorCube;
 	m_ColorCube->Init();
+
+	m_count = 0;
 	
 }
 
 void AStar::Render()
 {
 	D3DXMATRIXA16 mat;
+	m_ColorCube->Update();
 
 	g_pDevice->SetTexture(0, NULL);
 	
 
+	
 
 	for (auto p : m_vecNode)
 	{
@@ -73,6 +77,10 @@ void AStar::Render()
 		case STATE_NOHIDEWALL:
 			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
 			break;
+			//탱크노드
+		case STATE_TANK:
+			g_pDevice->SetMaterial(&DXUtil::BLACK_MTRL);
+			break;
 		}
 
 
@@ -87,11 +95,30 @@ void AStar::Render()
 		//각 객체의 반지름을 합하고 두 위치 사이의 거리를 비교
 		//반지름의 합보다 사이거리가 짧을경우 충돌로 판정후 실행
 		
-		if (Radius >= p_Distance)
+		if (Radius > p_Distance)
 		{
-			p->m_nodeState = STATE_NOHIDEWALL;
-			g_pDevice->SetMaterial(&DXUtil::GREEN_MTRL); 
+			//하이드월과 노 하이드월은 탱크노드로 변경하지 않는다.
+			if (!(p->m_nodeState == STATE_NOHIDEWALL || p->m_nodeState == STATE_WALL))
+			{
+				p->m_nodeState = STATE_TANK;
+				//닿았으면 충돌 트루
+				p->m_ClickBox = true;
+			}
+			m_count++;
+			
 		}
+		else
+		{
+			//닿지않았다.
+			p->m_ClickBox = false;
+		}
+		
+		//탱크가 없는곳 모두 일반노드화
+		if (p->m_ClickBox == false && p->m_nodeState == STATE_TANK)
+		{
+			p->m_nodeState = STATE_NONE;
+		}
+
 
 		D3DXMatrixTranslation(&mat, p->GetLocation().x, p->GetLocation().y, p->GetLocation().z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
@@ -103,10 +130,15 @@ void AStar::Render()
 			p->GetVecLines().size() / 2, p->GetVecLines()[0],
 			sizeof(D3DXVECTOR3));
 	}
+
+	Debug->AddText("충돌 갯수");
+	Debug->AddText(m_count);
+	Debug->EndLine();
 }
 
 void AStar::InitNodes(IMap * pMap)
 {
+	temp_Imap = pMap;
 	int nodeDim = 90;// 노드 한 줄 갯수
 					 //간격
 	//이 수치 
@@ -186,7 +218,6 @@ void AStar::InitNodes(IMap * pMap)
 			m_vecNode[i + nodeDim]->AddEdge(m_vecNode[i]);
 		}
 	}
-
 }
 
 void AStar::FindPath(D3DXVECTOR3 startPos, D3DXVECTOR3 destPos, OUT vector<int>& vecIndex)

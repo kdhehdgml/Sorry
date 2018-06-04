@@ -19,6 +19,11 @@ private:
 	ColorCube *			m_ColorCube;
 	D3DXVECTOR3			m_CubePos;
 
+	int					m_count;
+	
+	//이닛노드의 map 정보를 임시적으로 받아줄 변수
+	IMap*				temp_Imap;
+
 public:
 	AStar();
 	virtual ~AStar();

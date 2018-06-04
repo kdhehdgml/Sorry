@@ -7,6 +7,8 @@ AStarNode::AStarNode(D3DXVECTOR3 location, int index)
 	m_index = index;
 
 	SetValues(STATE_NONE, 0, 0, 0, 0);
+	//모든 노드는 아직 탱크와 충돌하지않았다.
+	m_ClickBox = false;
 }
 
 AStarNode::~AStarNode()
