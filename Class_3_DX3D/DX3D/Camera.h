@@ -1,4 +1,5 @@
 #pragma once
+#include "IDisplayObject.h"
 
 #define g_pCamera Camera::GetInstance()
 

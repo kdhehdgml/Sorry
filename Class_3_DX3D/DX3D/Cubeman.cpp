@@ -47,6 +47,12 @@ void Cubeman::Init()
 	// 실행 시 자동으로 프리카메라 모드
 	g_pCamera->setFreeCameraMode(m_freeCameraMode);
 	m_deltaYPos = 70.0f;
+
+	/*D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, 1.5f, 0.5f, 1);
+	D3DXMATRIXA16 matT;
+	D3DXMatrixTranslation(&matT, 150, 150, 0);
+	m_matWorld = matS * matT;*/
 }
 
 void Cubeman::Update()

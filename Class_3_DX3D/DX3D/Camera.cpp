@@ -152,6 +152,7 @@ void Camera::Update()
 
 	if (g_pTimeManager->GetDeltaTime() > 0.001f) { //DeltaTime이 Epsilon보다 크면 로딩이 완료된 걸로 간주
 		loadingComplete = true;
+		ShowCursor(false);
 	}
 }
 

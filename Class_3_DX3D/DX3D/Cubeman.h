@@ -1,6 +1,8 @@
 #pragma once
 #include "IDisplayObject.h"
 #include "IUnitObject.h"
+#include "IUIObject.h"
+#include "UIImage.h"
 
 class CubemanParts;
 

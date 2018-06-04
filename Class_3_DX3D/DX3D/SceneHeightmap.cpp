@@ -18,6 +18,9 @@
 #include "UnitBox.h"
 #include "Blocks.h"
 
+#include "IUIObject.h"
+#include "UIImage.h"
+
 SceneHeightmap::SceneHeightmap()
 {
 	m_pHeightMap = NULL;
@@ -33,7 +36,8 @@ SceneHeightmap::SceneHeightmap()
 	//중현이코드
 	m_pBlocks = NULL;
 
-
+	m_pSprite = NULL;
+	m_pCrosshair = NULL;
 //	m_pSkinnedMesh = NULL;
 }
 
@@ -43,12 +47,10 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pBlocks);
 	SAFE_RELEASE(m_SkyBox);
 	SAFE_RELEASE(m_ColorCube);
+	SAFE_RELEASE(m_pSprite);
+	m_pCrosshair->ReleaseAll();
 	m_CreateSmog->Relese();
 	OnDestructIScene();
-	
-	
-	
-	
 }
 
 void SceneHeightmap::Init()
@@ -147,6 +149,14 @@ void SceneHeightmap::Init()
 	m_SkyBox = new SkyBox;
 	m_SkyBox->Init();
 
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
+	D3DXCreateSprite(g_pDevice, &m_pSprite);
+	UIImage* pImage = new UIImage(m_pSprite);
+	pImage->SetTexture("resources/ui/crosshair.png");
+	pImage->SetPosition(&D3DXVECTOR3((rc.left + rc.right) / 2 - 60, (rc.top + rc.bottom) / 2 - 56, 0));
+	m_pCrosshair = pImage;
 
 }
 
@@ -154,6 +164,7 @@ void SceneHeightmap::Update()
 {
 	m_CreateSmog->Update();
 	SAFE_UPDATE(m_ColorCube);
+	SAFE_UPDATE(m_pCrosshair);
 	OnUpdateIScene();
 	
 }
@@ -168,7 +179,13 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_SkyBox);
 	m_CreateSmog->Render();
 	m_pPicking->Render();
-	
+
+	g_pDevice->SetTexture(0, NULL);
+	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	//m_pSprite->SetTransform(&m_matWorld);
+	SAFE_RENDER(m_pCrosshair);
+	m_pSprite->End();
+
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
