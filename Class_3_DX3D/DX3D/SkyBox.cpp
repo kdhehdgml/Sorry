@@ -2,6 +2,8 @@
 #include "SkyBox.h"
 #include "IDisplayObject.h"
 
+#define SKYBOXSIZE 1
+
 SkyBox::SkyBox()
 {
 	m_pd3dDevice = NULL;
@@ -9,6 +11,7 @@ SkyBox::SkyBox()
 	for (int i = 0; i < MAX_SKY_TEX; i++) 
 		m_pTex[i] = NULL;
 	m_pVB = NULL;
+
 }
 
 
@@ -119,6 +122,18 @@ void SkyBox::Init()
 		"resources/SKY/Left.bmp",
 		"resources/SKY/Bottom.bmp" 
 	};
+	D3DXMATRIXA16 matT, matS, matR;
+	
+	m_pos.x += 160.0f;//¿ÞÂÊÀ¸·Î ´Ã¸®±â
+	m_pos.z += 240.0f;//¾ÕµÚ·Î ´Ã¸®±â
+	m_pos.y += 30.0f;
+
+
+	D3DXMatrixIdentity(&m_matWorld);
+	//D3DXMatrixScaling(&matS, SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+	
+	m_matWorld =  matT;
 
 	Create(g_pDevice,sky);
 	
@@ -149,7 +164,7 @@ void SkyBox::Render()
 	m_pd3dDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
 
-	D3DXMatrixIdentity(&m_matWorld);
+//	D3DXMatrixIdentity(&m_matWorld);
 	m_pd3dDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	m_pd3dDevice->SetFVF(D3DFVF_SKYVERTEX);
 	m_pd3dDevice->SetStreamSource(0, m_pVB, 0, sizeof(SKYVERTEX));
