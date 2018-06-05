@@ -18,6 +18,8 @@ protected:
 	int							m_numFrame;
 	int							m_numMesh;
 
+	D3DXMATRIXA16				matT, matS, matR;
+
 public:
 	SkinnedMesh();
 	virtual ~SkinnedMesh();

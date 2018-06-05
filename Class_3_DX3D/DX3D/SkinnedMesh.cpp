@@ -2,6 +2,8 @@
 #include "SkinnedMesh.h"
 #include "AllocateHierarchy.h"
 
+#define SCALE 2.0f
+
 SkinnedMesh::SkinnedMesh()
 {
 	//m_Brot.y = ;
@@ -37,6 +39,7 @@ void SkinnedMesh::Init()
 	CString path = "resources/xFile/";
 	CString filename = "Monster.X";
 	Load(path, filename);
+	D3DXMatrixIdentity(&m_matWorld);
 }
 
 void SkinnedMesh::Load(LPCTSTR path, LPCTSTR filename)
@@ -102,43 +105,58 @@ void SkinnedMesh::Update()
 	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
 	Debug->EndLine();
 
-	//if (Keyboard::Get()->KeyDown('1'))
-	if (GetAsyncKeyState('1') & 0x8000)
+	
+	if (Keyboard::Get()->KeyDown(VK_UP))
+	{
+		m_pos.z -= 5.0f;
+	}
+	if (Keyboard::Get()->KeyDown(VK_DOWN))
+	{
+		m_pos.z += 5.0f;
+	}
+
+	if (Keyboard::Get()->KeyDown('1'))
+	//if (GetAsyncKeyState('1') & 0x8000)
 	{
 		if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
 			m_animIndex++;
 
 		SetAnimationIndex(m_animIndex, true);
 	}
-	//else if (Keyboard::Get()->KeyDown('2'))
-	if (GetAsyncKeyState('2') & 0x8000)
+	else if (Keyboard::Get()->KeyDown('2'))
+	//if (GetAsyncKeyState('2') & 0x8000)
 	{
 		if (m_animIndex > 0)
 			m_animIndex--;
 
 		SetAnimationIndex(m_animIndex, true);
 	}
-	//else if (Keyboard::Get()->KeyDown(VK_F1))
-	if (GetAsyncKeyState(VK_F1) & 0x8000)
+	else if (Keyboard::Get()->KeyDown(VK_F1))
+	//if (GetAsyncKeyState(VK_F1) & 0x8000)
 	{
 		m_bDrawFrame = !m_bDrawFrame;
 	}
-	//else if (Keyboard::Get()->KeyDown(VK_F2))
-	if (GetAsyncKeyState(VK_F2) & 0x8000)
+	else if (Keyboard::Get()->KeyDown(VK_F2))
+	//if (GetAsyncKeyState(VK_F2) & 0x8000)
 	{
 		m_bDrawSkeleton = !m_bDrawSkeleton;
 	}
-	//else if (Keyboard::Get()->KeyDown(VK_F3))
-	if (GetAsyncKeyState(VK_F3) & 0x8000)
+	else if (Keyboard::Get()->KeyDown(VK_F3))
+	//if (GetAsyncKeyState(VK_F3) & 0x8000)
 	{
 		m_bWireFrame = !m_bWireFrame;
 	}
 
-	IUnitObject::UpdateKeyboardState();
-	IUnitObject::UpdatePositionToDestination();
 
+	//IUnitObject::UpdateKeyboardState();
+	//IUnitObject::UpdatePositionToDestination();
+
+	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
+
+	m_matWorld = matT * matS;
 }
 
 
@@ -275,8 +293,8 @@ void SkinnedMesh::DrawMeshContainer(LPD3DXFRAME pFrame)
 	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	if (m_bWireFrame) g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	D3DXMatrixIdentity(&m_matWorld);
-	D3DXMatrixScaling(&m_matWorld, 10.0f, 10.0f, 10.0f);
+	
+	
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	for (size_t i = 0; i < pMeshContainerEx->vecMtlTex.size(); ++i)
