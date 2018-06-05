@@ -170,7 +170,11 @@ void SceneHeightmap::Init()
 void SceneHeightmap::Update()
 {
 	m_CreateSmog->Update();
+
+	
 	SAFE_UPDATE(m_ColorCube);
+	
+	
 	SAFE_UPDATE(m_pCrosshair);
 	OnUpdateIScene();
 	
