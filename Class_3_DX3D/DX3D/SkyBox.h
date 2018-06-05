@@ -30,6 +30,7 @@ private:
 	HRESULT		_LoadTextures(string lpTexFilename[MAX_SKY_TEX]);
 	HRESULT		_CreateVertex();
 
+	
 
 public:
 
