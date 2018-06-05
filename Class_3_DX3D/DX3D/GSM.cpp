@@ -22,6 +22,21 @@ GSM::GSM()
 
 	// 몹 속도
 	mobSpeed = 0.5f;
+
+	/*Debug->AddText("= 키보드 ============");
+	Debug->EndLine();
+	Debug->AddText("V : 프리카메라 On/Off");
+	Debug->EndLine();
+	Debug->AddText("R : 상승 (프리카메라)");
+	Debug->EndLine();
+	Debug->AddText("F : 하강 (프리카메라)");
+	Debug->EndLine();
+	Debug->AddText("Tab : AStar 노드 렌더 On/Off");
+	Debug->EndLine();
+	Debug->AddText("H : 노드 바꾸는 큐브 렌더 On/Off");
+	Debug->EndLine();
+	Debug->AddText("방향키 : 큐브 이동 ");
+	Debug->EndLine();*/
 }
 
 
