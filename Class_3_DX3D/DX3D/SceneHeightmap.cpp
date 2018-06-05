@@ -56,7 +56,7 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pCrosshair);
 	//m_pCrosshair->ReleaseAll();
 	//m_CreateSmog->Release();
-	SAFE_RELEASE(m_CreateSmog);
+	//SAFE_RELEASE(m_CreateSmog);
 	OnDestructIScene();
 }
 
@@ -116,8 +116,14 @@ void SceneHeightmap::Init()
 	//안개생성
 	m_CreateSmog = new CreateSmog;
 	m_CreateSmog->Init();
+	//460.0f, 70.0f, 485.0f
+	for (int i = 0; i < 5; i++)
+	{
+		m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f - (120.0f* (float)(i) )));
+	}
+	
+	AddSimpleDisplayObj(m_CreateSmog);
 
-	m_CreateSmog->Insert(D3DXVECTOR3(10.0f, 0.0f, 50.0f));
 
 	m_ColorCube = new ColorCube;
 	m_ColorCube->Init();
@@ -169,7 +175,7 @@ void SceneHeightmap::Init()
 
 void SceneHeightmap::Update()
 {
-	m_CreateSmog->Update();
+	//m_CreateSmog->Update();
 
 	
 	SAFE_UPDATE(m_ColorCube);

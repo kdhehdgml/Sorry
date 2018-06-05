@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "CreateSmog.h"
+#include "IDisplayObject.h"
 
+#define SMOGSIZE 1.f
 
 CreateSmog::CreateSmog()
 	:m_IndexCount(0),
@@ -20,16 +22,19 @@ void CreateSmog::Init()
 
 	//m_pTex->GetSurfaceLevel();
 
-	D3DXMATRIXA16 matS;
+	D3DXMATRIXA16 matS,matR,matT;
 
-	D3DXMatrixIdentity(&matWorld);
-	/*D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
-	matWorld = matWorld * matS;
-*/
+	D3DXMatrixIdentity(&m_matWorld);
+	//
+	//D3DXMatrixScaling(&matS, SMOGSIZE, SMOGSIZE, SMOGSIZE);
+	//m_matWorld =  matS;
+
 	g_pDevice->CreateVertexBuffer(m_MaxIndex * sizeof(VERTEX_PC),
 		D3DUSAGE_POINTS | D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, VERTEX_PC::FVF,
 		D3DPOOL_DEFAULT, &m_pVB, 0);
 }
+
+
 
 void CreateSmog::Update()
 {
@@ -37,20 +42,21 @@ void CreateSmog::Update()
 	{
 		//m_vecAtt[i]->_position.x = 10.0f;
 		m_vecAtt[i]->_position.y = 5.0f;
-		m_vecAtt[i]->_position.z += 0.01f;
+		m_vecAtt[i]->_position.z += 0.1f;
 
-		m_vecAtt[i]->_position.x += 0.01f;
-
+	//	m_vecAtt[i]->_position.x += 0.01f;
+	//안개 투명도
+		m_vecAtt[i]->_color.a = 0.6f;//1부터 0으로 수렴
 		Debug->AddText(m_vecAtt[i]->_position);
 		Debug->EndLine();
 
 	}
-	//안개 투명도
-	m_vecAtt[0]->_color.a = 0.6f;//1부터 0으로 수렴
+	
 
 	VERTEX_PC* v;
 	//기존버퍼에 쓰여졌던 값은 무시하겠다
 	m_pVB->Lock(0, 0, (LPVOID*)&v, D3DLOCK_DISCARD);
+
 	for (auto p : m_vecAtt)
 	{
 		v->p = p->_position;
@@ -73,7 +79,9 @@ void CreateSmog::Render()
 	//점의 크기를 조절할수 있게하겠따.
 	g_pDevice->SetRenderState(D3DRS_POINTSCALEENABLE, true);
 
-	g_pDevice->SetRenderState(D3DRS_POINTSIZE, FtoDw(15.0f));
+	//g_pDevice->SetRenderState(D3DRS_POINTSIZE, FtoDw(0.5f));
+
+	g_pDevice->SetRenderState(D3DRS_POINTSIZE, FtoDw(SMOGSIZE));
 
 
 
@@ -86,7 +94,7 @@ void CreateSmog::Render()
 	g_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	g_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
-	g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	g_pDevice->SetTexture(0, m_pTex);
 	g_pDevice->SetFVF(VERTEX_PC::FVF);
 	g_pDevice->SetStreamSource(0, m_pVB, 0, sizeof(VERTEX_PC));
@@ -96,6 +104,8 @@ void CreateSmog::Render()
 	g_pDevice->SetRenderState(D3DRS_POINTSCALEENABLE, false);
 	g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+
+	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 
 void CreateSmog::Insert(D3DXVECTOR3 pos)
@@ -120,9 +130,11 @@ void CreateSmog::Insert(D3DXVECTOR3 pos)
 
 	//att->_color = 0xffffffff * GetRandomFloat(0, 1);
 	att->_color = 0xffffffff;
+	//att->_color.a = 0.6f;
 	m_vecAtt[m_IndexCount-1] = att;
 
 	
 
 
 }
+
