@@ -164,8 +164,6 @@ void SceneHeightmap::Init()
 	pImage->SetTexture("resources/ui/crosshair.png");
 	pImage->SetPosition(&D3DXVECTOR3((rc.left + rc.right) / 2 - 60, (rc.top + rc.bottom) / 2 - 56, 0));
 	m_pCrosshair = pImage;
-	AddSimpleDisplayObj(pImage);
-	AddSimpleDisplayObj(m_pCrosshair);
 
 }
 
