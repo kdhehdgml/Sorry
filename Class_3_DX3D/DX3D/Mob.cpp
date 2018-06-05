@@ -82,6 +82,14 @@ void Mob::Update()
 
 void Mob::Render()
 {
+	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
+	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
+	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
+	//안개적용되는 최소 거리
+	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
+	//안개 최대치로 적용되는 거리
+	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
+	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 	if (status > 0) {
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 		m_pRootParts->Render();
