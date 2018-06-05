@@ -31,6 +31,9 @@ private:
 	float m_sensitivity;
 	float m_recoilX;
 	float m_recoilY;
+	float m_recoilXDelta;
+	float m_recoilYDelta;
+	bool m_recoilMode;
 
 public:
 	void Init();

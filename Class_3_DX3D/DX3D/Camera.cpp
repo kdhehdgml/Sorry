@@ -25,6 +25,8 @@ Camera::Camera()
 
 	m_recoilX = 0.0f;
 	m_recoilY = 0.0f;
+	m_recoilXDelta = 0.0f;
+	m_recoilYDelta = 0.0f;
 }
 
 
@@ -141,22 +143,42 @@ void Camera::Update()
 		}
 	}
 
-	if (m_recoilX > 0) {
-		m_recoilX -= 0.01f;
+	m_recoilX += m_recoilXDelta;
+	m_recoilY += m_recoilYDelta;
+
+	if (m_recoilXDelta > 0) {
+		m_recoilXDelta -= 0.02f;
 	}
 	else {
-		m_recoilX = 0;
-	}
-	if (abs(m_recoilY) > 0.01f) {
-		if (m_recoilY > 0) {
-			m_recoilY -= 0.005f;
+		m_recoilXDelta = 0;
+		if (m_recoilX > 0) {
+			m_recoilX -= 0.01f;
 		}
 		else {
-			m_recoilY += 0.005f;
+			m_recoilX = 0;
+		}
+	}
+	if (abs(m_recoilYDelta) > 0.02f) {
+		if (m_recoilYDelta > 0) {
+			m_recoilYDelta -= 0.01f;
+		}
+		else {
+			m_recoilYDelta += 0.01f;
 		}
 	}
 	else {
-		m_recoilY = 0;
+		m_recoilYDelta = 0;
+		if (abs(m_recoilY) > 0.01f) {
+			if (m_recoilY > 0) {
+				m_recoilY -= 0.005f;
+			}
+			else {
+				m_recoilY += 0.005f;
+			}
+		}
+		else {
+			m_recoilY = 0;
+		}
 	}
 
 	dir.x = sin(m_rotY + m_recoilY);
@@ -186,6 +208,11 @@ void Camera::Update()
 	Debug->AddText(" m_recoilY : ");
 	Debug->AddText(m_recoilY);
 	Debug->EndLine();
+	Debug->AddText("m_recoilXDelta : ");
+	Debug->AddText(m_recoilXDelta);
+	Debug->AddText(" m_recoilYDelta : ");
+	Debug->AddText(m_recoilYDelta);
+	Debug->EndLine();
 	Debug->AddText("프리카메라 모드:");
 	Debug->AddText(m_freeCameraMode);
 	Debug->EndLine();
@@ -207,8 +234,8 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//m_ptPrevMouse.x = LOWORD(lParam);
 		//m_ptPrevMouse.y = HIWORD(lParam);
 		if (!g_pCamera->getFreeCameraMode()) {
-			m_recoilX += (float)((float)(rand() % 20) + 10.0f) / 100.0f;
-			m_recoilY += (float)((float)(rand() % 20) - 10.0f) / 100.0f;
+			m_recoilXDelta += (float)((float)(rand() % 4) + 8.0f) / 100.0f;
+			m_recoilYDelta += (float)((float)(rand() % 12) - 6.0f) / 100.0f;
 		}
 	}
 	break;
