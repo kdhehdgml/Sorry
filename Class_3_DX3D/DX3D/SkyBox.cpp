@@ -126,14 +126,14 @@ void SkyBox::Init()
 	
 	m_pos.x += 160.0f;//왼쪽으로 늘리기
 	m_pos.z += 240.0f;//앞뒤로 늘리기
-	m_pos.y += 30.0f;
+	m_pos.y += 30.0f; //위아래
 
 
 	D3DXMatrixIdentity(&m_matWorld);
-	//D3DXMatrixScaling(&matS, SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+	D3DXMatrixScaling(&matS, SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 	
-	m_matWorld =  matT;
+	m_matWorld =  matS * matT;
 
 	Create(g_pDevice,sky);
 	
