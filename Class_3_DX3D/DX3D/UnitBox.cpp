@@ -233,7 +233,7 @@ void UnitBox::MobMoveInTheWall()
 		}
 	}
 }
-void UnitBox::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+/*void UnitBox::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -254,4 +254,9 @@ void UnitBox::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	default:
 		break;
 	}
+}*/
+
+vector<Mob*>* UnitBox::getPMob()
+{
+	return &m_pMob;
 }

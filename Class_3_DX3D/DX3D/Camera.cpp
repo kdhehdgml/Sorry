@@ -27,6 +27,8 @@ Camera::Camera()
 	m_recoilY = 0.0f;
 	m_recoilXDelta = 0.0f;
 	m_recoilYDelta = 0.0f;
+
+	m_cooldown = 0;
 }
 
 
@@ -185,6 +187,10 @@ void Camera::Update()
 	dir.z = cos(m_rotY + m_recoilY);
 	dir.y = tan(m_rotX + m_recoilX);
 
+	if (m_cooldown >= 1) {
+		m_cooldown--;
+	}
+
 	if (m_freeCameraMode) {
 		//ShowCursor(false);
 	}
@@ -216,6 +222,9 @@ void Camera::Update()
 	Debug->AddText("프리카메라 모드:");
 	Debug->AddText(m_freeCameraMode);
 	Debug->EndLine();
+	Debug->AddText("쿨타임:");
+	Debug->AddText(m_cooldown);
+	Debug->EndLine();
 
 
 	if (g_pTimeManager->GetDeltaTime() > 0.001f) { //DeltaTime이 Epsilon보다 크면 로딩이 완료된 걸로 간주
@@ -233,9 +242,20 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//m_isLbuttonDown = true;
 		//m_ptPrevMouse.x = LOWORD(lParam);
 		//m_ptPrevMouse.y = HIWORD(lParam);
-		if (!g_pCamera->getFreeCameraMode()) {
+		if (m_cooldown == 0 && !g_pCamera->getFreeCameraMode()) {
 			m_recoilXDelta += (float)((float)(rand() % 4) + 8.0f) / 100.0f;
 			m_recoilYDelta += (float)((float)(rand() % 12) - 6.0f) / 100.0f;
+			Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
+			for (auto p : m_pMob)
+			{
+				bool getHit = false;
+				getHit = r.CalcIntersectSphere(p->getBoundingSphere());
+				if (getHit) {
+					p->setHealth(p->getHealth() - 100);
+					break;
+				}
+			}
+			m_cooldown = 50;
 		}
 	}
 	break;
@@ -359,4 +379,9 @@ void Camera::setFreeCameraMode(bool f)
 bool Camera::getFreeCameraMode()
 {
 	return m_freeCameraMode;
+}
+
+void Camera::getPMobFromUnitBox(vector<Mob*>* mob)
+{
+	m_pMob = *mob;
 }

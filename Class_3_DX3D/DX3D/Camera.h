@@ -1,5 +1,7 @@
 #pragma once
 #include "IDisplayObject.h"
+#include "Mob.h"
+#include "Ray.h"
 
 #define g_pCamera Camera::GetInstance()
 
@@ -33,7 +35,8 @@ private:
 	float m_recoilY;
 	float m_recoilXDelta;
 	float m_recoilYDelta;
-	bool m_recoilMode;
+	vector<Mob*> m_pMob;
+	int m_cooldown;
 
 public:
 	void Init();
@@ -50,5 +53,7 @@ public:
 	void setPosY(float y);
 	void setFreeCameraMode(bool f);
 	bool getFreeCameraMode();
+	
+	void getPMobFromUnitBox(vector<Mob*>* mob);
 };
 
