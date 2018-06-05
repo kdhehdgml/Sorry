@@ -9,6 +9,7 @@
 #include "SkinnedMesh.h"
 #include "SkyBox.h"
 
+#include <Psapi.h>
 
 //안개생성
 #include "CreateSmog.h"
@@ -38,6 +39,8 @@ SceneHeightmap::SceneHeightmap()
 
 	m_pSprite = NULL;
 	m_pCrosshair = NULL;
+	pImage = NULL;
+	m_pCrosshairOn = false;
 //	m_pSkinnedMesh = NULL;
 }
 
@@ -48,7 +51,9 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_SkyBox);
 	SAFE_RELEASE(m_ColorCube);
 	SAFE_RELEASE(m_pSprite);
-	m_pCrosshair->ReleaseAll();
+	//SAFE_RELEASE(pImage);
+	SAFE_RELEASE(m_pCrosshair);
+	//m_pCrosshair->ReleaseAll();
 	m_CreateSmog->Relese();
 	OnDestructIScene();
 }
@@ -145,7 +150,6 @@ void SceneHeightmap::Init()
 	//	m_CreateSmog->Update();
 	//까지
 
-
 	m_SkyBox = new SkyBox;
 	m_SkyBox->Init();
 
@@ -153,7 +157,8 @@ void SceneHeightmap::Init()
 	GetClientRect(g_hWnd, &rc);
 
 	D3DXCreateSprite(g_pDevice, &m_pSprite);
-	UIImage* pImage = new UIImage(m_pSprite);
+	pImage = new UIImage(m_pSprite);
+	pImage->m_bDrawBorder = false;
 	pImage->SetTexture("resources/ui/crosshair.png");
 	pImage->SetPosition(&D3DXVECTOR3((rc.left + rc.right) / 2 - 60, (rc.top + rc.bottom) / 2 - 56, 0));
 	m_pCrosshair = pImage;
@@ -167,6 +172,20 @@ void SceneHeightmap::Update()
 	SAFE_UPDATE(m_pCrosshair);
 	OnUpdateIScene();
 	
+	if (g_pCamera->getFreeCameraMode()) {
+		m_pCrosshairOn = false;
+	}
+	else {
+		m_pCrosshairOn = true;
+	}
+
+	PROCESS_MEMORY_COUNTERS pmc;
+	GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc));
+
+	Debug->AddText("시스템 메모리 : ");
+	Debug->AddText((int)(pmc.WorkingSetSize/1024));
+	Debug->AddText("KB");
+	Debug->EndLine();
 }
 
 void SceneHeightmap::Render()
@@ -180,11 +199,13 @@ void SceneHeightmap::Render()
 	m_CreateSmog->Render();
 	m_pPicking->Render();
 
-	g_pDevice->SetTexture(0, NULL);
-	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
-	//m_pSprite->SetTransform(&m_matWorld);
-	SAFE_RENDER(m_pCrosshair);
-	m_pSprite->End();
+	if (m_pCrosshairOn) {
+		g_pDevice->SetTexture(0, NULL);
+		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+		//m_pSprite->SetTransform(&m_matWorld);
+		SAFE_RENDER(m_pCrosshair);
+		m_pSprite->End();
+	}
 
 }
 

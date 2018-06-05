@@ -23,12 +23,14 @@ private:
 	D3DXVECTOR3 dir;
 	D3DXVECTOR3 pos;
 	D3DXMATRIXA16 m_matWorld;
-	float FOV;
-	float speedOffset;
-	bool freeCameraMode;
-	bool loadingComplete;
-	POINT currPoint;
-	float sensitivity;
+	float m_FOV;
+	float m_speedOffset;
+	bool m_freeCameraMode;
+	bool m_loadingComplete;
+	POINT m_currPoint;
+	float m_sensitivity;
+	float m_recoilX;
+	float m_recoilY;
 
 public:
 	void Init();
@@ -44,5 +46,6 @@ public:
 	void setPos(D3DXVECTOR3);
 	void setPosY(float y);
 	void setFreeCameraMode(bool f);
+	bool getFreeCameraMode();
 };
 

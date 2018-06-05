@@ -18,10 +18,13 @@ Camera::Camera()
 	pos.y = GSM().camPos.y;
 	
 
-	FOV = D3DX_PI / 4.0f;
-	speedOffset = 0.4f;
-	freeCameraMode = true;
-	sensitivity = 200.0f;
+	m_FOV = D3DX_PI / 4.0f;
+	m_speedOffset = 0.4f;
+	m_freeCameraMode = true;
+	m_sensitivity = 200.0f;
+
+	m_recoilX = 0.0f;
+	m_recoilY = 0.0f;
 }
 
 
@@ -38,17 +41,17 @@ void Camera::Init()
 	p.y = (rc.bottom - rc.top) / 2;
 	ClientToScreen(g_hWnd, &p);
 	SetCursorPos(p.x, p.y);
-	currPoint = p;
-	m_ptPrevMouse = currPoint;
+	m_currPoint = p;
+	m_ptPrevMouse = m_currPoint;
 
-	loadingComplete = false;
+	m_loadingComplete = false;
 
 	D3DXMatrixLookAtLH(&m_matView,
 		&m_eye, &m_lookAt, &m_up);
 	g_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
 
 	D3DXMatrixPerspectiveFovLH(&m_matProj,
-		FOV, rc.right / (float)rc.bottom, 1.0f, 10000.0f);
+		m_FOV, rc.right / (float)rc.bottom, 1.0f, 10000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
 }
 
@@ -86,7 +89,7 @@ void Camera::Update()
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 	g_pDevice->SetTransform(D3DTS_VIEW, &matView);
 	//D3DXMatrixPerspectiveFovLH(시야 행렬, 시야각, 종횡비, 최소시야, 최대시야);
-	D3DXMatrixPerspectiveFovLH(&matProj, FOV, rc.right / (float)rc.bottom, 1.0f, 10000.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, m_FOV, rc.right / (float)rc.bottom, 1.0f, 10000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &matProj);
 	g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	m_matWorld = matWorld;
@@ -99,43 +102,63 @@ void Camera::Update()
 	{
 		D3DXVECTOR3 v;
 		D3DXVec3Cross(&v, &dir, &D3DXVECTOR3(0, 1, 0));
-		pos.x += (v.x* speedOffset);
-		pos.z += (v.z* speedOffset);
+		pos.x += (v.x* m_speedOffset);
+		pos.z += (v.z* m_speedOffset);
 	}
 	else if (GetKeyState('D') & 0x8000)
 	{
 		D3DXVECTOR3 v;
 		D3DXVec3Cross(&v, &dir, &D3DXVECTOR3(0, 1, 0));
-		pos.x -= (v.x* speedOffset);
-		pos.z -= (v.z* speedOffset);
+		pos.x -= (v.x* m_speedOffset);
+		pos.z -= (v.z* m_speedOffset);
 	}
 
 	if (GetKeyState('W') & 0x8000)
 	{
-		pos.x += (dir.x* speedOffset);
-		pos.z += (dir.z* speedOffset);
+		pos.x += (dir.x* m_speedOffset);
+		pos.z += (dir.z* m_speedOffset);
 	}
 	else if (GetKeyState('S') & 0x8000)
 	{
-		pos.x -= (dir.x* speedOffset);
-		pos.z -= (dir.z* speedOffset);
+		pos.x -= (dir.x* m_speedOffset);
+		pos.z -= (dir.z* m_speedOffset);
 	}
 
 	if (GetKeyState(VK_SHIFT) & 0x8000) {
-		if (freeCameraMode) {
-			speedOffset = 4.0f;
+		if (m_freeCameraMode) {
+			m_speedOffset = 4.0f;
 		}
 		else {
-			speedOffset = 0.8f;
+			m_speedOffset = 0.8f;
 		}
 	}
 	else {
-		if (freeCameraMode) {
-			speedOffset = 2.0f;
+		if (m_freeCameraMode) {
+			m_speedOffset = 2.0f;
 		}
 		else {
-			speedOffset = 0.4f;
+			m_speedOffset = 0.4f;
 		}
+	}
+
+	if (m_recoilX > 0) {
+		m_recoilX -= 0.01f;
+	}
+	else {
+		m_recoilX = 0;
+	}
+	if (m_recoilY > 0) {
+		m_recoilY -= 0.01f;
+	}
+	else {
+		m_recoilY = 0;
+	}
+
+	if (m_freeCameraMode) {
+		//ShowCursor(false);
+	}
+	else {
+		//ShowCursor(true);
 	}
 
 	Debug->AddText("마우스 좌표:");
@@ -149,10 +172,14 @@ void Camera::Update()
 	Debug->AddText(" m_rotY : ");
 	Debug->AddText(m_rotY);
 	Debug->EndLine();
+	Debug->AddText("프리카메라 모드:");
+	Debug->AddText(m_freeCameraMode);
+	Debug->EndLine();
+
 
 	if (g_pTimeManager->GetDeltaTime() > 0.001f) { //DeltaTime이 Epsilon보다 크면 로딩이 완료된 걸로 간주
-		loadingComplete = true;
-		ShowCursor(false);
+		m_loadingComplete = true;
+		//ShowCursor(false);
 	}
 }
 
@@ -173,29 +200,29 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	case WM_RBUTTONDOWN:
-		FOV = D3DX_PI / 8;
-		sensitivity = 800.0f;
+		m_FOV = D3DX_PI / 8;
+		m_sensitivity = 800.0f;
 		break;
 	case WM_RBUTTONUP:
-		FOV = D3DX_PI / 4;
-		sensitivity = 200.0f;
+		m_FOV = D3DX_PI / 4;
+		m_sensitivity = 200.0f;
 		break;
 	case WM_MOUSEMOVE:
 	{
 		//POINT currPoint;
-		currPoint.x = LOWORD(lParam);
-		currPoint.y = HIWORD(lParam);
-		if (loadingComplete)
+		m_currPoint.x = LOWORD(lParam);
+		m_currPoint.y = HIWORD(lParam);
+		if (m_loadingComplete)
 		{
-			float diff_x = currPoint.x - m_ptPrevMouse.x;
-			float diff_y = currPoint.y - m_ptPrevMouse.y;
+			float diff_x = m_currPoint.x - m_ptPrevMouse.x;
+			float diff_y = m_currPoint.y - m_ptPrevMouse.y;
 
 			if (diff_x == 0 && diff_y == 0) {
 				break;
 			}
 
-			m_rotY += diff_x / sensitivity;
-			m_rotX -= diff_y / sensitivity;
+			m_rotY += diff_x / m_sensitivity;
+			m_rotX -= diff_y / m_sensitivity;
 
 			if (m_rotX <= -D3DX_PI * 0.5f + D3DX_16F_EPSILON)
 			{
@@ -206,11 +233,11 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				m_rotX = D3DX_PI * 0.3f - D3DX_16F_EPSILON;
 			}
 
-			dir.x = sin(m_rotY);
-			dir.z = cos(m_rotY);
-			dir.y = tan(m_rotX);
+			dir.x = sin(m_rotY + m_recoilY);
+			dir.z = cos(m_rotY + m_recoilY);
+			dir.y = tan(m_rotX + m_recoilX);
 
-			m_ptPrevMouse = currPoint;
+			m_ptPrevMouse = m_currPoint;
 			if (diff_x || diff_y) //마우스 위치가 변했을때 마우스 위치를 화면 중앙으로 이동
 			{
 				RECT rc; GetClientRect(g_hWnd, &rc);
@@ -224,7 +251,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			
 		}
 		else {
-			m_ptPrevMouse = currPoint;
+			m_ptPrevMouse = m_currPoint;
 			//여기 있는 m_rotX와 m_rotY를 수정해서 카메라 초기값 수정가능
 			m_rotX = -0.34f;
 			m_rotY = 1.6f;
@@ -257,12 +284,12 @@ D3DXVECTOR3 Camera::getPos()
 
 float Camera::getFOV()
 {
-	return FOV;
+	return m_FOV;
 }
 
 float Camera::getSpeedOffset()
 {
-	return speedOffset;
+	return m_speedOffset;
 }
 
 D3DXMATRIXA16 Camera::getMatWorld()
@@ -281,5 +308,10 @@ void Camera::setPosY(float y)
 
 void Camera::setFreeCameraMode(bool f)
 {
-	freeCameraMode = f;
+	m_freeCameraMode = f;
+}
+
+bool Camera::getFreeCameraMode()
+{
+	return m_freeCameraMode;
 }

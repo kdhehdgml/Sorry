@@ -24,7 +24,7 @@ Cubeman::Cubeman()
 	m_destPos = m_pos;
 
 	m_deltaYPos = 7.0f;
-	m_freeCameraMode = true;
+	//m_freeCameraMode = true;
 }
 
 
@@ -45,7 +45,7 @@ void Cubeman::Init()
 	CreateAllParts();
 
 	// 실행 시 자동으로 프리카메라 모드
-	g_pCamera->setFreeCameraMode(m_freeCameraMode);
+	g_pCamera->setFreeCameraMode(true);
 	m_deltaYPos = 70.0f;
 
 	/*D3DXMATRIXA16 matS;
@@ -68,16 +68,18 @@ void Cubeman::Update()
 		m_isTurnedOnLight = !m_isTurnedOnLight;
 	}*/
 	if (GetAsyncKeyState('V') & 0x0001) {
-		m_freeCameraMode = !m_freeCameraMode;
-		g_pCamera->setFreeCameraMode(m_freeCameraMode);
-		if (m_freeCameraMode) {
+		//m_freeCameraMode = !m_freeCameraMode;
+		g_pCamera->setFreeCameraMode(!g_pCamera->getFreeCameraMode());
+		if (g_pCamera->getFreeCameraMode()) {
 			m_deltaYPos = 70.0f;
+			ShowCursor(true);
 		}
 		else {
 			m_deltaYPos = 7.0f;
+			ShowCursor(false);
 		}
 	}
-	if (m_freeCameraMode) {
+	if (g_pCamera->getFreeCameraMode()) {
 		if (GetAsyncKeyState('R') & 0x8000) {
 			m_deltaYPos += 1.0f;
 		}
