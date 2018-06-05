@@ -8,8 +8,8 @@ GSM::GSM()
 	mapSize = 500.0f;
 
 	// 안개 거리
-	fogMin = mapSize * 2;
-	fogMax = mapSize * 2;
+	fogMin = mapSize / 4;
+	fogMax = mapSize;
 
 	// 카메라 초기 위치
 	camPos.x = 100.0f;
@@ -21,7 +21,7 @@ GSM::GSM()
 	mobPos.z = 100.0f;
 
 	// 몹 속도
-	mobSpeed = 0.5f;
+	mobSpeed = 1.0f;
 
 	/*Debug->AddText("= 키보드 ============");
 	Debug->EndLine();

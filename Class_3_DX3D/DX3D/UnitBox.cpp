@@ -43,13 +43,65 @@ void UnitBox::Update()
 
 	if (GetAsyncKeyState(VK_F1) & 0x0001)
 	{
-		num++;
-		m_pMob.resize(num);
-		m_pMob[num-1] = new Mob;
-		m_pMob[num-1]->Init();
-		m_pMob[num-1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
-		FindHidingInTheWallLocation(num-1);
+		int GroupNum = 1;
+		for (int i = 0; i < GroupNum; i++)
+		{
+			num++;
+			m_pMob.resize(num);
+			m_pMob[num - 1] = new Mob;
+			m_pMob[num - 1]->Init();
+			//m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
+			m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
+
+			FindHidingInTheWallLocation(num - 1);
+		}
 	}
+	if (GetAsyncKeyState(VK_F2) & 0x0001)
+	{
+		int GroupNum = 5;
+		for (int i = 0; i < GroupNum; i++)
+		{
+			num++;
+			m_pMob.resize(num);
+			m_pMob[num - 1] = new Mob;
+			m_pMob[num - 1]->Init();
+			//m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
+			m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
+
+			FindHidingInTheWallLocation(num - 1);
+		}
+	}
+	if (GetAsyncKeyState(VK_F3) & 0x0001)
+	{
+		int GroupNum = 10;
+		for (int i = 0; i < GroupNum; i++)
+		{
+			num++;
+			m_pMob.resize(num);
+			m_pMob[num - 1] = new Mob;
+			m_pMob[num - 1]->Init();
+			//m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
+			m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
+
+			FindHidingInTheWallLocation(num - 1);
+		}
+	}
+	if (GetAsyncKeyState(VK_F4) & 0x0001)
+	{
+		int GroupNum = 20;
+		for (int i = 0; i < GroupNum; i++)
+		{
+			num++;
+			m_pMob.resize(num);
+			m_pMob[num - 1] = new Mob;
+			m_pMob[num - 1]->Init();
+			//m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
+			m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
+
+			FindHidingInTheWallLocation(num - 1);
+		}
+	}
+
 	for (size_t i = 0; i < m_pMob.size(); i++)
 	{
 		SAFE_UPDATE(m_pMob[i]);
@@ -149,7 +201,8 @@ void UnitBox::MobMoveInTheWall()
 		{
 			if (m_pMob[i]->m_move == false)
 			{
-				m_pMob[i]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((i + 1) * 20 + NODE_POSITSIZE)));
+				//m_pMob[i]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((i + 1) * 20 + NODE_POSITSIZE)));
+				m_pMob[i]->SetDestination(D3DXVECTOR3(GSM().mobPos.x - GSM().mapSize / 3, 2.67f, m_pMob[i]->GetPosition().z));
 				m_pMob[i]->m_move = true;
 			}
 		}
