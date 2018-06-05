@@ -147,12 +147,21 @@ void Camera::Update()
 	else {
 		m_recoilX = 0;
 	}
-	if (m_recoilY > 0) {
-		m_recoilY -= 0.01f;
+	if (abs(m_recoilY) > 0.01f) {
+		if (m_recoilY > 0) {
+			m_recoilY -= 0.005f;
+		}
+		else {
+			m_recoilY += 0.005f;
+		}
 	}
 	else {
 		m_recoilY = 0;
 	}
+
+	dir.x = sin(m_rotY + m_recoilY);
+	dir.z = cos(m_rotY + m_recoilY);
+	dir.y = tan(m_rotX + m_recoilX);
 
 	if (m_freeCameraMode) {
 		//ShowCursor(false);
@@ -172,6 +181,11 @@ void Camera::Update()
 	Debug->AddText(" m_rotY : ");
 	Debug->AddText(m_rotY);
 	Debug->EndLine();
+	Debug->AddText("m_recoilX : ");
+	Debug->AddText(m_recoilX);
+	Debug->AddText(" m_recoilY : ");
+	Debug->AddText(m_recoilY);
+	Debug->EndLine();
 	Debug->AddText("프리카메라 모드:");
 	Debug->AddText(m_freeCameraMode);
 	Debug->EndLine();
@@ -189,14 +203,18 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_LBUTTONDOWN:
 	{
-		m_isLbuttonDown = true;
+		//m_isLbuttonDown = true;
 		//m_ptPrevMouse.x = LOWORD(lParam);
 		//m_ptPrevMouse.y = HIWORD(lParam);
+		if (!g_pCamera->getFreeCameraMode()) {
+			m_recoilX += (float)((float)(rand() % 20) + 10.0f) / 100.0f;
+			m_recoilY += (float)((float)(rand() % 20) - 10.0f) / 100.0f;
+		}
 	}
 	break;
 	case WM_LBUTTONUP:
 	{
-		m_isLbuttonDown = false;
+		//m_isLbuttonDown = false;
 	}
 	break;
 	case WM_RBUTTONDOWN:
@@ -233,9 +251,9 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				m_rotX = D3DX_PI * 0.3f - D3DX_16F_EPSILON;
 			}
 
-			dir.x = sin(m_rotY + m_recoilY);
-			dir.z = cos(m_rotY + m_recoilY);
-			dir.y = tan(m_rotX + m_recoilX);
+			//dir.x = sin(m_rotY + m_recoilY);
+			//dir.z = cos(m_rotY + m_recoilY);
+			//dir.y = tan(m_rotX + m_recoilX);
 
 			m_ptPrevMouse = m_currPoint;
 			if (diff_x || diff_y) //마우스 위치가 변했을때 마우스 위치를 화면 중앙으로 이동
