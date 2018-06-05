@@ -34,7 +34,7 @@ public:
 	void Render();
 	void Insert(D3DXVECTOR3 pos);
 
-	void Relese() 
+	void Release() 
 	{
    		m_pVB->Release(); 
 		m_vecAtt.clear(); 

@@ -41,6 +41,7 @@ SceneHeightmap::SceneHeightmap()
 	m_pCrosshair = NULL;
 	pImage = NULL;
 	m_pCrosshairOn = false;
+
 //	m_pSkinnedMesh = NULL;
 }
 
@@ -54,7 +55,8 @@ SceneHeightmap::~SceneHeightmap()
 	//SAFE_RELEASE(pImage);
 	SAFE_RELEASE(m_pCrosshair);
 	//m_pCrosshair->ReleaseAll();
-	m_CreateSmog->Relese();
+	//m_CreateSmog->Release();
+	SAFE_RELEASE(m_CreateSmog);
 	OnDestructIScene();
 }
 
@@ -162,6 +164,8 @@ void SceneHeightmap::Init()
 	pImage->SetTexture("resources/ui/crosshair.png");
 	pImage->SetPosition(&D3DXVECTOR3((rc.left + rc.right) / 2 - 60, (rc.top + rc.bottom) / 2 - 56, 0));
 	m_pCrosshair = pImage;
+	AddSimpleDisplayObj(pImage);
+	AddSimpleDisplayObj(m_pCrosshair);
 
 }
 
