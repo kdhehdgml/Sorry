@@ -25,6 +25,10 @@ Camera::Camera()
 
 	m_recoilX = 0.0f;
 	m_recoilY = 0.0f;
+	m_recoilXDelta = 0.0f;
+	m_recoilYDelta = 0.0f;
+
+	m_cooldown = 0;
 }
 
 
@@ -141,17 +145,50 @@ void Camera::Update()
 		}
 	}
 
-	if (m_recoilX > 0) {
-		m_recoilX -= 0.01f;
+	m_recoilX += m_recoilXDelta;
+	m_recoilY += m_recoilYDelta;
+
+	if (m_recoilXDelta > 0) {
+		m_recoilXDelta -= 0.02f;
 	}
 	else {
-		m_recoilX = 0;
+		m_recoilXDelta = 0;
+		if (m_recoilX > 0) {
+			m_recoilX -= 0.01f;
+		}
+		else {
+			m_recoilX = 0;
+		}
 	}
-	if (m_recoilY > 0) {
-		m_recoilY -= 0.01f;
+	if (abs(m_recoilYDelta) > 0.02f) {
+		if (m_recoilYDelta > 0) {
+			m_recoilYDelta -= 0.01f;
+		}
+		else {
+			m_recoilYDelta += 0.01f;
+		}
 	}
 	else {
-		m_recoilY = 0;
+		m_recoilYDelta = 0;
+		if (abs(m_recoilY) > 0.01f) {
+			if (m_recoilY > 0) {
+				m_recoilY -= 0.005f;
+			}
+			else {
+				m_recoilY += 0.005f;
+			}
+		}
+		else {
+			m_recoilY = 0;
+		}
+	}
+
+	dir.x = sin(m_rotY + m_recoilY);
+	dir.z = cos(m_rotY + m_recoilY);
+	dir.y = tan(m_rotX + m_recoilX);
+
+	if (m_cooldown >= 1) {
+		m_cooldown--;
 	}
 
 	if (m_freeCameraMode) {
@@ -172,8 +209,21 @@ void Camera::Update()
 	Debug->AddText(" m_rotY : ");
 	Debug->AddText(m_rotY);
 	Debug->EndLine();
+	Debug->AddText("m_recoilX : ");
+	Debug->AddText(m_recoilX);
+	Debug->AddText(" m_recoilY : ");
+	Debug->AddText(m_recoilY);
+	Debug->EndLine();
+	Debug->AddText("m_recoilXDelta : ");
+	Debug->AddText(m_recoilXDelta);
+	Debug->AddText(" m_recoilYDelta : ");
+	Debug->AddText(m_recoilYDelta);
+	Debug->EndLine();
 	Debug->AddText("프리카메라 모드:");
 	Debug->AddText(m_freeCameraMode);
+	Debug->EndLine();
+	Debug->AddText("쿨타임:");
+	Debug->AddText(m_cooldown);
 	Debug->EndLine();
 
 
@@ -189,14 +239,29 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_LBUTTONDOWN:
 	{
-		m_isLbuttonDown = true;
+		//m_isLbuttonDown = true;
 		//m_ptPrevMouse.x = LOWORD(lParam);
 		//m_ptPrevMouse.y = HIWORD(lParam);
+		if (m_cooldown == 0 && !g_pCamera->getFreeCameraMode()) {
+			m_recoilXDelta += (float)((float)(rand() % 4) + 8.0f) / 100.0f;
+			m_recoilYDelta += (float)((float)(rand() % 12) - 6.0f) / 100.0f;
+			Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
+			for (auto p : m_pMob)
+			{
+				bool getHit = false;
+				getHit = r.CalcIntersectSphere(p->getBoundingSphere());
+				if (getHit) {
+					p->setHealth(p->getHealth() - 100);
+					break;
+				}
+			}
+			m_cooldown = 50;
+		}
 	}
 	break;
 	case WM_LBUTTONUP:
 	{
-		m_isLbuttonDown = false;
+		//m_isLbuttonDown = false;
 	}
 	break;
 	case WM_RBUTTONDOWN:
@@ -233,9 +298,9 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				m_rotX = D3DX_PI * 0.3f - D3DX_16F_EPSILON;
 			}
 
-			dir.x = sin(m_rotY + m_recoilY);
-			dir.z = cos(m_rotY + m_recoilY);
-			dir.y = tan(m_rotX + m_recoilX);
+			//dir.x = sin(m_rotY + m_recoilY);
+			//dir.z = cos(m_rotY + m_recoilY);
+			//dir.y = tan(m_rotX + m_recoilX);
 
 			m_ptPrevMouse = m_currPoint;
 			if (diff_x || diff_y) //마우스 위치가 변했을때 마우스 위치를 화면 중앙으로 이동
@@ -314,4 +379,9 @@ void Camera::setFreeCameraMode(bool f)
 bool Camera::getFreeCameraMode()
 {
 	return m_freeCameraMode;
+}
+
+void Camera::getPMobFromUnitBox(vector<Mob*>* mob)
+{
+	m_pMob = *mob;
 }
