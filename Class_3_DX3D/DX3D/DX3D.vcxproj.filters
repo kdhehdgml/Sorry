@@ -282,6 +282,9 @@
     <ClInclude Include="BGSound.h">
       <Filter>소스 파일\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>소스 파일\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -475,6 +478,9 @@
       <Filter>소스 파일\Keyboard &amp; Mouse</Filter>
     </ClCompile>
     <ClCompile Include="BGSound.cpp">
+      <Filter>소스 파일\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
       <Filter>소스 파일\Sound</Filter>
     </ClCompile>
   </ItemGroup>
