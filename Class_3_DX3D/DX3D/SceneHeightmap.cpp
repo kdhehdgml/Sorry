@@ -182,8 +182,6 @@ void SceneHeightmap::Init()
 	string strBGFileName[] = { "resources/Sound/SoundBG.mp3" }; // 파일 위치 1개의 BG만 설정했습니다. 배열이라서 여러개 설정가능 채널을 사용해서 연관있는 사운드끼리 채널을 사용해야할것.
 	string strEffectFileName = "SoundBG.mp3";	 // 파일 이름
 	m_pBGSound->CreateBGSound(1, strBGFileName); // 첫번째 사운드를 사용하겠다.
-	m_pBGSound->PlaySoundBG(0);
-
 }
 
 void SceneHeightmap::Update()
@@ -213,6 +211,29 @@ void SceneHeightmap::Update()
 	Debug->AddText((int)(pmc.WorkingSetSize/1024));
 	Debug->AddText("KB");
 	Debug->EndLine();
+
+
+	// F5 키 누르면 음악 재생 ON / OFF
+	if ((GetAsyncKeyState(VK_F5) & 0x8000))
+	{
+		if (!musicPlayCheck)
+		{
+			musicPlayCheck = true;
+
+			if (!musicPlay)
+			{
+				musicPlay = true;
+				m_pBGSound->PlaySoundBG(0);
+			}
+			else
+			{
+				musicPlay = false;
+				m_pBGSound->StopSoundBG(0);
+			}
+		}
+	}
+	else if (musicPlayCheck)
+		musicPlayCheck = false;
 }
 
 void SceneHeightmap::Render()

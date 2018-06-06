@@ -30,6 +30,8 @@ private:
 	//SkinnedMesh *	m_pSkinnedMesh;
 
 	BGSound*		m_pBGSound;
+	bool			musicPlayCheck;
+	bool			musicPlay;
 
 	//중현이코드
 	UnitBox *		m_pUnit;
