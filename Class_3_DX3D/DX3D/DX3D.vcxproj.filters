@@ -270,6 +270,9 @@
     <ClInclude Include="GSM.h">
       <Filter>소스 파일\Minsu_Setting</Filter>
     </ClInclude>
+    <ClInclude Include="BGSound.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -458,6 +461,9 @@
     </ClCompile>
     <ClCompile Include="GSM.cpp">
       <Filter>소스 파일\Minsu_Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="BGSound.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

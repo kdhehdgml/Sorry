@@ -19,6 +19,8 @@ class Blocks;
 
 //class SkinnedMesh;
 
+class BGSound;
+
 class SceneHeightmap : public IScene
 {
 private:
@@ -26,6 +28,8 @@ private:
 	AseCharacter*	m_pAseCharacter;
 	Picking *		m_pPicking;
 	//SkinnedMesh *	m_pSkinnedMesh;
+
+	BGSound*		m_pBGSound;
 
 	//중현이코드
 	UnitBox *		m_pUnit;

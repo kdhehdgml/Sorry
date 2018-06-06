@@ -22,6 +22,8 @@
 #include "IUIObject.h"
 #include "UIImage.h"
 
+#include "BGSound.h"
+
 SceneHeightmap::SceneHeightmap()
 {
 	m_pHeightMap = NULL;
@@ -43,6 +45,7 @@ SceneHeightmap::SceneHeightmap()
 	m_pCrosshairOn = false;
 
 //	m_pSkinnedMesh = NULL;
+	m_pBGSound = NULL;
 }
 
 
@@ -57,6 +60,9 @@ SceneHeightmap::~SceneHeightmap()
 	//m_pCrosshair->ReleaseAll();
 	//m_CreateSmog->Release();
 	//SAFE_RELEASE(m_CreateSmog);
+
+	m_pBGSound->ReleaseSound();// 상속받은 형태가 없기때문에 직접 접근
+
 	OnDestructIScene();
 }
 
@@ -170,6 +176,13 @@ void SceneHeightmap::Init()
 	pImage->SetTexture("resources/ui/crosshair.png");
 	pImage->SetPosition(&D3DXVECTOR3((rc.left + rc.right) / 2 - 60, (rc.top + rc.bottom) / 2 - 56, 0));
 	m_pCrosshair = pImage;
+
+	// BGM
+	m_pBGSound = new BGSound;
+	string strBGFileName[] = { "resources/Sound/SoundBG.mp3" }; // 파일 위치 1개의 BG만 설정했습니다. 배열이라서 여러개 설정가능 채널을 사용해서 연관있는 사운드끼리 채널을 사용해야할것.
+	string strEffectFileName = "SoundBG.mp3";	 // 파일 이름
+	m_pBGSound->CreateBGSound(1, strBGFileName); // 첫번째 사운드를 사용하겠다.
+	m_pBGSound->PlaySoundBG(0);
 
 }
 
