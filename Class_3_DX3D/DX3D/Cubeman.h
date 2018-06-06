@@ -1,6 +1,8 @@
 #pragma once
 #include "IDisplayObject.h"
 #include "IUnitObject.h"
+#include "IUIObject.h"
+#include "UIImage.h"
 
 class CubemanParts;
 
@@ -28,7 +30,7 @@ private:
 	float			m_maxStepHeight;
 
 	float m_deltaYPos;
-	bool m_freeCameraMode;
+	//bool m_freeCameraMode;
 
 public:
 	Cubeman();

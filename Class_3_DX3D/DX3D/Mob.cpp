@@ -49,51 +49,90 @@ void Mob::Init()
 
 void Mob::Update()
 {
-	IUnitObject::UpdateKeyboardState();
-	IUnitObject::UpdatePositionToDestination();
+	if (health <= 0) {
+		status = 0;
+	}
+	if (status > 0) {
+		IUnitObject::UpdateKeyboardState();
+		IUnitObject::UpdatePositionToDestination();
 
-	m_pBoundingSphere->center = m_pos;
-	m_pBoundingSphere->center.y += 3.0f;
-	//if (GetAsyncKeyState('1') & 0x0001)
-	//{
-	//	m_isTurnedOnLight = !m_isTurnedOnLight;
-	//}
+		m_pBoundingSphere->center = m_pos;
+		m_pBoundingSphere->center.y += 3.0f;
+		//if (GetAsyncKeyState('1') & 0x0001)
+		//{
+		//	m_isTurnedOnLight = !m_isTurnedOnLight;
+		//}
 
-	//if (m_isTurnedOnLight == true)
-	//{
-	//	D3DXVECTOR3 pos = m_pos;
-	//	D3DXVECTOR3 dir = m_forward;
-	//	D3DXCOLOR c = BLUE;
-	//	D3DLIGHT9 light = DXUtil::InitSpot(&dir, &pos, &c);
-	//	light.Phi = D3DX_PI / 4;
-	//	//D3DLIGHT9 light = DXUtil::InitPoint(&pos, &c);
-	//	g_pDevice->SetLight(10, &light);
-	//}
-	//g_pDevice->LightEnable(10, m_isTurnedOnLight);
+		//if (m_isTurnedOnLight == true)
+		//{
+		//	D3DXVECTOR3 pos = m_pos;
+		//	D3DXVECTOR3 dir = m_forward;
+		//	D3DXCOLOR c = BLUE;
+		//	D3DLIGHT9 light = DXUtil::InitSpot(&dir, &pos, &c);
+		//	light.Phi = D3DX_PI / 4;
+		//	//D3DLIGHT9 light = DXUtil::InitPoint(&pos, &c);
+		//	g_pDevice->SetLight(10, &light);
+		//}
+		//g_pDevice->LightEnable(10, m_isTurnedOnLight);
 
-	m_pRootParts->SetMovingState(m_isMoving);
-	m_pRootParts->Update();
-
+		m_pRootParts->SetMovingState(m_isMoving);
+		m_pRootParts->Update();
+	}
 }
 
 void Mob::Render()
 {
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	m_pRootParts->Render();
+	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
+	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
+	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
+	//안개적용되는 최소 거리
+	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
+	//안개 최대치로 적용되는 거리
+	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
+	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	if (status > 0) {
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+		m_pRootParts->Render();
 
-	D3DXMATRIXA16 matI;
-	D3DXMatrixIdentity(&matI);
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	g_pDevice->SetTransform(D3DTS_WORLD, &matI);
-	g_pDevice->SetFVF(VERTEX_PC::FVF);
-	g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
-		1, &Shootpos[0], sizeof(VERTEX_PC));
+		D3DXMATRIXA16 matI;
+		D3DXMatrixIdentity(&matI);
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+		g_pDevice->SetTransform(D3DTS_WORLD, &matI);
+		g_pDevice->SetFVF(VERTEX_PC::FVF);
+		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
+			1, &Shootpos[0], sizeof(VERTEX_PC));
 
-	D3DXMATRIXA16 mat;
-	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
-	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-	g_pDevice->SetTexture(0, NULL);
-	m_pSphere->DrawSubset(0);
+		D3DXMATRIXA16 mat;
+		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
+		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+		g_pDevice->SetTexture(0, NULL);
+		m_pSphere->DrawSubset(0);
+	}
+}
+
+BoundingSphere * Mob::getBoundingSphere()
+{
+	return m_pBoundingSphere;
+}
+
+int Mob::getHealth()
+{
+	return health;
+}
+
+void Mob::setHealth(int h)
+{
+	health = h;
+}
+
+int Mob::getStatus()
+{
+	return status;
+}
+
+void Mob::setStatus(int s)
+{
+	status = s;
 }
 
 void Mob::CreateAllParts()
@@ -142,38 +181,40 @@ void Mob::CreateParts(CubemanParts *& pParts,
 bool Mob::PlayerSearch(D3DXVECTOR3 Ppos, Mob* mob)
 {
 
-	D3DXVECTOR3 move_forward;
-	move_forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
-	if (D3DXVec3LengthSq(&move_forward) > 0)
+	if (mob->m_pos.x < 164.5f)
 	{
-		mob->forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
+		D3DXVECTOR3 move_forward;
+		move_forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
+		if (D3DXVec3LengthSq(&move_forward) > 0)
+		{
+			mob->forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
+		}
+
+
+		D3DXVECTOR3 DirectPM;
+		D3DXVECTOR3 MobPos;
+		DirectPM = Ppos - mob->m_pos;
+		DirectPM.y = 0;
+		D3DXVECTOR3 DirectPMnormal = DirectPM;
+		D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
+		D3DXVec3Normalize(&mob->forward, &mob->forward);
+		float Length = abs(Ppos.x - mob->m_pos.x + Ppos.z - mob->m_pos.z);
+		float DotPM = D3DXVec3Dot(&DirectPMnormal, &mob->forward);
+		float direct = 1.0f / 2.0f;
+		
+		if ((Length < 15 && DotPM >= direct))
+		{
+			m_isShoot = true;
+			return true;
+		}
+
+		m_isShoot = false;
+		return false;
 	}
-
-
-	D3DXVECTOR3 DirectPM;
-	D3DXVECTOR3 MobPos;
-	DirectPM = Ppos - mob->m_pos;
-	DirectPM.y = 0;
-	D3DXVECTOR3 DirectPMnormal = DirectPM;
-	D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
-	D3DXVec3Normalize(&mob->forward, &mob->forward);
-	float Length = abs(Ppos.x - mob->m_pos.x + Ppos.z - mob->m_pos.z);
-	float DotPM = D3DXVec3Dot(&DirectPMnormal, &mob->forward);
-	float direct = 1.0f / 2.0f;
-	/*Debug->AddText("몹위치");
-	Debug->AddText(DotPM);
-	Debug->EndLine();*/
-	Debug->AddText("각도");
-	Debug->AddText(forward);
-	Debug->EndLine();
-	if ((Length < 15 && DotPM >= direct))
+	else
 	{
-		m_isShoot = true;
-		return true;
+		return false;
 	}
-
-	m_isShoot = false;
-	return false;
 }
 
 void Mob::ShootVertex(D3DXVECTOR3 Ppos, Mob* mob)

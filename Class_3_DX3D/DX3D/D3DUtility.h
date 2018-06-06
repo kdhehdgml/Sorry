@@ -6,6 +6,7 @@
 #define GREEN	D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f)
 #define BLUE	D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f)
 #define YELLOW	D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)
+#define SKY		D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f)
 
 namespace DXUtil
 {
@@ -16,6 +17,7 @@ namespace DXUtil
 	const D3DMATERIAL9 GREEN_MTRL = InitMtrl(GREEN, GREEN, GREEN, BLACK, 8.0f);
 	const D3DMATERIAL9 BLUE_MTRL = InitMtrl(BLUE, BLUE, BLUE, BLACK, 8.0f);
 	const D3DMATERIAL9 YELLOW_MTRL = InitMtrl(YELLOW, YELLOW, YELLOW, BLACK, 8.0f);
+	const D3DMATERIAL9 SKY_MTRL = InitMtrl(SKY, SKY, SKY, BLACK, 8.0f);
 	const D3DMATERIAL9 BLACK_MTRL = InitMtrl(BLACK, BLACK, BLACK, BLACK, 8.0f);
 
 	void ComputeNormal(D3DXVECTOR3* out, D3DXVECTOR3* p0, D3DXVECTOR3* p1, D3DXVECTOR3* p2);

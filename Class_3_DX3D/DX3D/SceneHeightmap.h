@@ -1,5 +1,8 @@
 #pragma once
 #include "IScene.h"
+#include "IDisplayObject.h"
+#include "UIBUtton.h"
+#include "UIImage.h"
 
 class HeightMap;
 class AseCharacter;
@@ -34,7 +37,13 @@ private:
 	SkyBox*			m_SkyBox;
 	ColorCube*		m_ColorCube;
 	//
-	
+	LPD3DXSPRITE m_pSprite;
+	IUIObject* m_pCrosshair;
+	UIImage* pImage;
+	bool m_pCrosshairOn;
+
+	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+
 public:
 	SceneHeightmap();
 	~SceneHeightmap();

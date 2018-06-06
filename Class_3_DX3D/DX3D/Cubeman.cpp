@@ -24,7 +24,7 @@ Cubeman::Cubeman()
 	m_destPos = m_pos;
 
 	m_deltaYPos = 7.0f;
-	m_freeCameraMode = true;
+	//m_freeCameraMode = true;
 }
 
 
@@ -45,8 +45,14 @@ void Cubeman::Init()
 	CreateAllParts();
 
 	// 실행 시 자동으로 프리카메라 모드
-	g_pCamera->setFreeCameraMode(m_freeCameraMode);
+	g_pCamera->setFreeCameraMode(true);
 	m_deltaYPos = 70.0f;
+
+	/*D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, 1.5f, 0.5f, 1);
+	D3DXMATRIXA16 matT;
+	D3DXMatrixTranslation(&matT, 150, 150, 0);
+	m_matWorld = matS * matT;*/
 }
 
 void Cubeman::Update()
@@ -57,21 +63,23 @@ void Cubeman::Update()
 	UpdatePosition();
 	UpdatePositionToCamera();
 
-	if (GetAsyncKeyState('1') & 0x0001)
+	/*if (GetAsyncKeyState('1') & 0x0001)
 	{
 		m_isTurnedOnLight = !m_isTurnedOnLight;
-	}
-	if (GetAsyncKeyState('2') & 0x0001) {
-		m_freeCameraMode = !m_freeCameraMode;
-		g_pCamera->setFreeCameraMode(m_freeCameraMode);
-		if (m_freeCameraMode) {
+	}*/
+	if (GetAsyncKeyState('V') & 0x0001) {
+		//m_freeCameraMode = !m_freeCameraMode;
+		g_pCamera->setFreeCameraMode(!g_pCamera->getFreeCameraMode());
+		if (g_pCamera->getFreeCameraMode()) {
 			m_deltaYPos = 70.0f;
+			ShowCursor(true);
 		}
 		else {
 			m_deltaYPos = 7.0f;
+			ShowCursor(false);
 		}
 	}
-	if (m_freeCameraMode) {
+	if (g_pCamera->getFreeCameraMode()) {
 		if (GetAsyncKeyState('R') & 0x8000) {
 			m_deltaYPos += 1.0f;
 		}
@@ -94,6 +102,7 @@ void Cubeman::Update()
 
 	m_pRootParts->SetMovingState(m_isMoving);
 	m_pRootParts->Update();
+	
 }
 
 void Cubeman::Render()
@@ -201,7 +210,8 @@ void Cubeman::UpdatePosition()
 void Cubeman::UpdatePositionToCamera()
 {
 	//캐릭터 위치를 카메라 위치로 변경
-	m_pos = g_pCamera->getPos();
+	m_pos.x = g_pCamera->getPos().x;
+	m_pos.z = g_pCamera->getPos().z;
 	//m_pos.z -= 10.0f;
 	//m_forward = g_pCamera->getDir();
 	//m_matWorld = g_pCamera->getMatWorld();

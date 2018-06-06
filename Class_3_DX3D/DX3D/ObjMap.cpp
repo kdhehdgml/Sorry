@@ -88,7 +88,7 @@ void ObjMap::RenderEachSubset()
 {
 	static int nSubSet = 0;
 
-	if (GetAsyncKeyState(VK_F1) & 0x0001)
+	/*if (GetAsyncKeyState(VK_F1) & 0x0001)
 	{
 		--nSubSet;
 		if (nSubSet < 0) nSubSet = 0;
@@ -97,7 +97,7 @@ void ObjMap::RenderEachSubset()
 	{
 		++nSubSet;
 		if (nSubSet > m_vecMtlTex.size() - 1) nSubSet = m_vecMtlTex.size() - 1;
-	}
+	}*/
 
 	g_pDevice->SetMaterial(&m_vecMtlTex[nSubSet]->GetMaterial());
 	g_pDevice->SetTexture(0, m_vecMtlTex[nSubSet]->GetTexture());

@@ -7,7 +7,7 @@ struct SMOG2
 };
  
 
-class CreateSmog
+class CreateSmog :public IDisplayObject
 {
 
 
@@ -29,15 +29,16 @@ public:
 	CreateSmog();
 	~CreateSmog();
 
-	void Init();
-	void Update();
-	void Render();
+	//void Init();
+	//void Update();
+	//void Render();
 	void Insert(D3DXVECTOR3 pos);
 
-	void Relese() 
-	{
-   		m_pVB->Release(); 
-		m_vecAtt.clear(); 
-	}
+
+
+	// IDisplayObject을(를) 통해 상속됨
+	virtual void Init() override;
+	virtual void Update() override;
+	virtual void Render() override;
 };
 

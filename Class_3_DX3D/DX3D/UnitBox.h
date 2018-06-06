@@ -8,7 +8,7 @@ private:
 	Cubeman *		m_pCubeman;
 	vector<Mob*>	m_pMob;
 	vector<D3DXVECTOR3> SaveLocation;
-
+	int				num;
 	bool			m_SameChk;
 
 public:
@@ -22,6 +22,7 @@ public:
 	virtual void Render() override;
 	void FindHidingInTheWallLocation(int _Mobnum);
 	void MobMoveInTheWall();
-	
+	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	vector<Mob*>* getPMob();
 };
 

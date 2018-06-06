@@ -8,7 +8,7 @@ ColorCube::ColorCube()
 	D3DXMatrixIdentity(&m_matWorld);
 	m_pVB = NULL;
 	m_pIB = NULL;
-	m_state = true;
+	m_state = false;
 	m_pos.y = 10.0f;
 
 	//m_pos.x = 109.0f;
