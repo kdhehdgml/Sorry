@@ -2,7 +2,7 @@
 #include "SceneHeightmap.h"
 #include "HeightMap.h"
 #include "AseCharacter.h"
-#include "Picking.h"
+//#include "Picking.h"
 #include "SampleUI.h"
 #include "ParticleTest.h"
 
@@ -28,7 +28,7 @@ SceneHeightmap::SceneHeightmap()
 {
 	m_pHeightMap = NULL;
 	m_pAseCharacter = NULL;
-	m_pPicking = NULL;
+	//m_pPicking = NULL;
 
 	//영락코드
 	m_CreateSmog = NULL;
@@ -88,9 +88,9 @@ void SceneHeightmap::Init()
 	AddSimpleDisplayObj(m_pAseCharacter);
 	*/
 
-	m_pPicking = new Picking;
-	m_pPicking->Init();
-	AddSimpleDisplayObj(m_pPicking);
+	//m_pPicking = new Picking;
+	//m_pPicking->Init();
+	//AddSimpleDisplayObj(m_pPicking);
 
 	//IDisplayObject* pObj;
 	////pObj = new SampleUI; pObj->Init(); AddSimpleDisplayObj(pObj);
@@ -251,7 +251,7 @@ void SceneHeightmap::Render()
 
 	SAFE_RENDER(m_SkyBox);
 	m_CreateSmog->Render();
-	m_pPicking->Render();
+	//m_pPicking->Render();
 
 	if (m_pCrosshairOn) {
 		g_pDevice->SetTexture(0, NULL);
@@ -266,6 +266,6 @@ void SceneHeightmap::Render()
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	SAFE_WNDPROC(m_pHeightMap);
-	SAFE_WNDPROC(m_pPicking);
+	//SAFE_WNDPROC(m_pPicking);
 	//SAFE_WNDPROC(m_pUnit);
 }

@@ -45,6 +45,7 @@ private:
 	float m_accuracyXDelta;
 	float m_accuracyYDelta;
 	bool m_zooming;
+	float m_prev_rotX;
 
 public:
 	void Init();

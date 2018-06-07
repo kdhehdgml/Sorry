@@ -4,6 +4,7 @@
 
 Application::Application()
 {
+	isPaused = false;
 }
 
 
@@ -35,37 +36,52 @@ void Application::Destroy()
 
 void Application::Update()
 {
-	Mouse::Get()->Update();
-	Keyboard::Get()->Update();
-	Debug->InitText();
-	g_pTimeManager->Update();
-	g_pKeyboardManager->Update();
-	g_pSceneManager->Update();
-	g_pCamera->Update();
-}
-
-void Application::Render()
-{
-	g_pDevice->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB(50, 50, 50), 1.0f, 0);
-
-	g_pDevice->BeginScene();
-
-	g_pSceneManager->Render();
-	Debug->Print();
-
+	if (!isPaused) {
+		Mouse::Get()->Update();
+		Keyboard::Get()->Update();
+		Debug->InitText();
+		g_pTimeManager->Update();
+		g_pKeyboardManager->Update();
+		g_pSceneManager->Update();
+		g_pCamera->Update();
+	}
 	if (GetAsyncKeyState('M') & 0x0001)
 	{
 		Debug->ShowMessageBox();
 	}
+	if (GetAsyncKeyState('P') & 0x0001) {
+		if (isPaused) {
+			isPaused = false;
+			ShowCursor(false);
+		}
+		else {
+			isPaused = true;
+			ShowCursor(true);
+		}
+	}
+}
 
-	g_pDevice->EndScene();
-	g_pDevice->Present(NULL, NULL, NULL, NULL);
+void Application::Render()
+{
+	if (!isPaused) {
+		g_pDevice->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+			D3DCOLOR_XRGB(50, 50, 50), 1.0f, 0);
+
+		g_pDevice->BeginScene();
+
+		g_pSceneManager->Render();
+		Debug->Print();
+
+		g_pDevice->EndScene();
+		g_pDevice->Present(NULL, NULL, NULL, NULL);
+	}
 }
 
 void Application::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	Mouse::Get()->InputProc(message, wParam, lParam);
-	g_pSceneManager->WndProc(hWnd, message, wParam, lParam);
-	g_pCamera->WndProc(hWnd, message, wParam, lParam);
+	if (!isPaused) {
+		Mouse::Get()->InputProc(message, wParam, lParam);
+		g_pSceneManager->WndProc(hWnd, message, wParam, lParam);
+		g_pCamera->WndProc(hWnd, message, wParam, lParam);
+	}
 }

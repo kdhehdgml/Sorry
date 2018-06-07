@@ -38,6 +38,8 @@ Camera::Camera()
 	m_accuracyXDelta = 0.0f;
 	m_accuracyYDelta = 0.0f;
 	m_zooming = false;
+
+	m_prev_rotX = 0.0f;
 }
 
 
@@ -109,7 +111,7 @@ void Camera::Update()
 	m_matView = matView;
 	m_matProj = matProj;
 
-
+	m_prev_rotX = m_rotX;
 
 	if (GetKeyState('A') & 0x8000)
 	{
@@ -285,13 +287,13 @@ void Camera::Update()
 		m_accuracyYDelta = 0.0f;
 	}
 
-	if ((m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY) <= -D3DX_PI * 0.5f + D3DX_16F_EPSILON)
+	if ((m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX) <= -D3DX_PI * 0.4f + D3DX_16F_EPSILON)
 	{
-		m_rotX = -D3DX_PI * 0.5f + D3DX_16F_EPSILON - m_recoilY - m_runningRecoilY -  m_accuracyY;
+		m_rotX = m_prev_rotX;
 	}
 	if ((m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX) >= D3DX_PI * 0.3f - D3DX_16F_EPSILON)
 	{
-		m_rotX = D3DX_PI * 0.3f - D3DX_16F_EPSILON - m_recoilX - m_runningRecoilX - m_accuracyX;
+		m_rotX = m_prev_rotX;
 	}
 
 	dir.x = sin(m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY);
@@ -364,7 +366,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					break;
 				}
 			}
-			m_cooldown = 50;
+			m_cooldown = 60;
 		}
 	}
 	break;
@@ -400,13 +402,13 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			m_rotY += diff_x / m_sensitivity;
 			m_rotX -= diff_y / m_sensitivity;
 
-			if (m_rotX <= -D3DX_PI * 0.5f + D3DX_16F_EPSILON)
+			if ((m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX) <= -D3DX_PI * 0.4f + D3DX_16F_EPSILON)
 			{
-				m_rotX = -D3DX_PI * 0.5f + D3DX_16F_EPSILON;
+				m_rotX = m_prev_rotX;
 			}
-			if (m_rotX >= D3DX_PI * 0.3f - D3DX_16F_EPSILON)
+			if ((m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX) >= D3DX_PI * 0.3f - D3DX_16F_EPSILON)
 			{
-				m_rotX = D3DX_PI * 0.3f - D3DX_16F_EPSILON;
+				m_rotX = m_prev_rotX;
 			}
 
 			//dir.x = sin(m_rotY + m_recoilY);
