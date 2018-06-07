@@ -33,6 +33,11 @@ Camera::Camera()
 	m_running = 0;
 	m_runningRecoilX = 0.0f;
 	m_runningRecoilY = 0.0f;
+	m_accuracyX = 0.0f;
+	m_accuracyY = 0.0f;
+	m_accuracyXDelta = 0.0f;
+	m_accuracyYDelta = 0.0f;
+	m_zooming = false;
 }
 
 
@@ -228,33 +233,73 @@ void Camera::Update()
 		}
 	}
 
+	int accuracyBuffer = rand() % 100;
+	if (accuracyBuffer < 2) {
+		m_accuracyXDelta -= 0.005f;
+	}
+	else if (accuracyBuffer >= 98) {
+		m_accuracyXDelta += 0.005f;
+	}
+	accuracyBuffer = rand() % 100;
+	if (accuracyBuffer < 2) {
+		m_accuracyYDelta -= 0.005f;
+	}
+	else if (accuracyBuffer >= 98) {
+		m_accuracyYDelta += 0.005f;
+	}
+	if (m_accuracyXDelta > 0.05f) {
+		m_accuracyXDelta = 0.05f;
+	}
+	else if (m_accuracyXDelta < -0.05f) {
+		m_accuracyXDelta = -0.05f;
+	}
+	if (m_accuracyYDelta > 0.05f) {
+		m_accuracyYDelta = 0.05f;
+	}
+	else if (m_accuracyYDelta < -0.05f) {
+		m_accuracyYDelta = -0.05f;
+	}
+	if (abs(m_accuracyX - m_accuracyXDelta) > D3DX_16F_EPSILON) {
+		if (m_accuracyX > m_accuracyXDelta) {
+			m_accuracyX -= 0.0001f;
+		}
+		else if (m_accuracyX < m_accuracyXDelta) {
+			m_accuracyX += 0.0001f;
+		}
+	}
+	if (abs(m_accuracyY - m_accuracyYDelta) > D3DX_16F_EPSILON) {
+		if (m_accuracyY > m_accuracyYDelta) {
+			m_accuracyY -= 0.0001f;
+		}
+		else if (m_accuracyY < m_accuracyYDelta) {
+			m_accuracyY += 0.0001f;
+		}
+	}
+
 	if (m_freeCameraMode) {
-		m_runningRecoilX = 0;
-		m_runningRecoilY = 0;
+		m_runningRecoilX = 0.0f;
+		m_runningRecoilY = 0.0f;
+		m_accuracyX = 0.0f;
+		m_accuracyXDelta = 0.0f;
+		m_accuracyY = 0.0f;
+		m_accuracyYDelta = 0.0f;
 	}
 
-	if ((m_rotY + m_recoilY + m_runningRecoilY) <= -D3DX_PI * 0.5f + D3DX_16F_EPSILON)
+	if ((m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY) <= -D3DX_PI * 0.5f + D3DX_16F_EPSILON)
 	{
-		m_rotX = -D3DX_PI * 0.5f + D3DX_16F_EPSILON - m_recoilY - m_runningRecoilY;
+		m_rotX = -D3DX_PI * 0.5f + D3DX_16F_EPSILON - m_recoilY - m_runningRecoilY -  m_accuracyY;
 	}
-	if ((m_rotX + m_recoilX + m_runningRecoilX) >= D3DX_PI * 0.3f - D3DX_16F_EPSILON)
+	if ((m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX) >= D3DX_PI * 0.3f - D3DX_16F_EPSILON)
 	{
-		m_rotX = D3DX_PI * 0.3f - D3DX_16F_EPSILON - m_recoilX - m_runningRecoilX;
+		m_rotX = D3DX_PI * 0.3f - D3DX_16F_EPSILON - m_recoilX - m_runningRecoilX - m_accuracyX;
 	}
 
-	dir.x = sin(m_rotY + m_recoilY + m_runningRecoilY);
-	dir.z = cos(m_rotY + m_recoilY + m_runningRecoilY);
-	dir.y = tan(m_rotX + m_recoilX + m_runningRecoilX);
+	dir.x = sin(m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY);
+	dir.z = cos(m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY);
+	dir.y = tan(m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX);
 
 	if (m_cooldown >= 1) {
 		m_cooldown--;
-	}
-
-	if (m_freeCameraMode) {
-		//ShowCursor(false);
-	}
-	else {
-		//ShowCursor(true);
 	}
 
 	Debug->AddText("마우스 좌표:");
@@ -277,6 +322,11 @@ void Camera::Update()
 	Debug->AddText(m_runningRecoilX);
 	Debug->AddText(" m_runningRecoilY : ");
 	Debug->AddText(m_runningRecoilY);
+	Debug->EndLine();
+	Debug->AddText("m_accuracyX : ");
+	Debug->AddText(m_accuracyX);
+	Debug->AddText(" m_accuracyY : ");
+	Debug->AddText(m_accuracyY);
 	Debug->EndLine();
 	Debug->AddText("프리카메라 모드:");
 	Debug->AddText(m_freeCameraMode);
@@ -326,10 +376,12 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_RBUTTONDOWN:
 		m_FOV = D3DX_PI / 8;
 		m_sensitivity = 800.0f;
+		m_zooming = true;
 		break;
 	case WM_RBUTTONUP:
 		m_FOV = D3DX_PI / 4;
 		m_sensitivity = 200.0f;
+		m_zooming = false;
 		break;
 	case WM_MOUSEMOVE:
 	{

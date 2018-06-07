@@ -40,6 +40,11 @@ private:
 	int m_running;
 	float m_runningRecoilX;
 	float m_runningRecoilY;
+	float m_accuracyX;
+	float m_accuracyY;
+	float m_accuracyXDelta;
+	float m_accuracyYDelta;
+	bool m_zooming;
 
 public:
 	void Init();
