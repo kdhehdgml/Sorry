@@ -78,6 +78,9 @@ void Mob::Update()
 
 		m_pRootParts->SetMovingState(m_isMoving);
 		m_pRootParts->Update();
+		Debug->AddText("¸÷ Ã¼·Â:");
+		Debug->AddText(health);
+		Debug->EndLine();
 	}
 }
 
@@ -107,7 +110,7 @@ void Mob::Render()
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
-		//m_pSphere->DrawSubset(0);
+		m_pSphere->DrawSubset(0);
 	}
 }
 
