@@ -4,8 +4,6 @@
 class SkinnedMesh : public IUnitObject
 {
 protected:
-	 
-
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
@@ -19,6 +17,8 @@ protected:
 	bool						m_bDrawSkeleton;
 	int							m_numFrame;
 	int							m_numMesh;
+
+	D3DXMATRIXA16				matT, matS, matR;
 
 public:
 	SkinnedMesh();

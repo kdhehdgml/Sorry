@@ -25,6 +25,7 @@ public:
 	virtual void Render() override;
 	void FindHidingInTheWallLocation(int _Mobnum);
 	void MobMoveInTheWall();
-	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	vector<Mob*>* getPMob();
 };
 

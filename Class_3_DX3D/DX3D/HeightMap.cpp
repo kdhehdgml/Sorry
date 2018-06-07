@@ -152,7 +152,7 @@ void HeightMap::Init()
 void HeightMap::Update()
 {
 	// TAB 키 누르면 AStarNode 렌더 ON / OFF
-	if ((GetKeyState(VK_TAB) & 0x8000))
+	if ((GetAsyncKeyState(VK_TAB) & 0x8000))
 	{
 		if (!TabKeyDownCheck)
 		{

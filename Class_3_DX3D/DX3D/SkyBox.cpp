@@ -2,6 +2,8 @@
 #include "SkyBox.h"
 #include "IDisplayObject.h"
 
+#define SKYBOXSIZE 1
+
 SkyBox::SkyBox()
 {
 	m_pd3dDevice = NULL;
@@ -9,6 +11,7 @@ SkyBox::SkyBox()
 	for (int i = 0; i < MAX_SKY_TEX; i++) 
 		m_pTex[i] = NULL;
 	m_pVB = NULL;
+
 }
 
 
@@ -119,6 +122,18 @@ void SkyBox::Init()
 		"resources/SKY/Left.bmp",
 		"resources/SKY/Bottom.bmp" 
 	};
+	D3DXMATRIXA16 matT, matS, matR;
+	
+	m_pos.x += 160.0f;//왼쪽으로 늘리기
+	m_pos.z += 240.0f;//앞뒤로 늘리기
+	m_pos.y += 30.0f; //위아래
+
+
+	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixScaling(&matS, SKYBOXSIZE, SKYBOXSIZE, SKYBOXSIZE);
+	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+	
+	m_matWorld =  matS * matT;
 
 	Create(g_pDevice,sky);
 	
@@ -130,6 +145,7 @@ void SkyBox::Update()
 
 void SkyBox::Render()
 {
+	g_pDevice->SetRenderState(D3DRS_FOGENABLE, false);
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	// Setup texture
 	/* D3DCULL_NONE : 뒷면의 컬링(Culling)는 하지 않는다.
@@ -149,7 +165,7 @@ void SkyBox::Render()
 	m_pd3dDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
 
-	D3DXMatrixIdentity(&m_matWorld);
+//	D3DXMatrixIdentity(&m_matWorld);
 	m_pd3dDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	m_pd3dDevice->SetFVF(D3DFVF_SKYVERTEX);
 	m_pd3dDevice->SetStreamSource(0, m_pVB, 0, sizeof(SKYVERTEX));

@@ -9,6 +9,7 @@
 #include "SkinnedMesh.h"
 #include "SkyBox.h"
 
+#include <Psapi.h>
 
 //안개생성
 #include "CreateSmog.h"
@@ -17,6 +18,11 @@
 //중현이코드
 #include "UnitBox.h"
 #include "Blocks.h"
+
+#include "IUIObject.h"
+#include "UIImage.h"
+
+
 
 SceneHeightmap::SceneHeightmap()
 {
@@ -33,8 +39,13 @@ SceneHeightmap::SceneHeightmap()
 	//중현이코드
 	m_pBlocks = NULL;
 
+	m_pSprite = NULL;
+	m_pCrosshair = NULL;
+	pImage = NULL;
+	m_pCrosshairOn = false;
 
 //	m_pSkinnedMesh = NULL;
+
 }
 
 
@@ -43,12 +54,15 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pBlocks);
 	SAFE_RELEASE(m_SkyBox);
 	SAFE_RELEASE(m_ColorCube);
-	m_CreateSmog->Relese();
+	SAFE_RELEASE(m_pSprite);
+	//SAFE_RELEASE(pImage);
+	SAFE_RELEASE(m_pCrosshair);
+	//m_pCrosshair->ReleaseAll();
+	//m_CreateSmog->Release();
+	//SAFE_RELEASE(m_CreateSmog);
+
+
 	OnDestructIScene();
-	
-	
-	
-	
 }
 
 void SceneHeightmap::Init()
@@ -107,8 +121,14 @@ void SceneHeightmap::Init()
 	//안개생성
 	m_CreateSmog = new CreateSmog;
 	m_CreateSmog->Init();
+	//460.0f, 70.0f, 485.0f
+	for (int i = 0; i < 5; i++)
+	{
+		m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f - (120.0f* (float)(i) )));
+	}
+	
+	AddSimpleDisplayObj(m_CreateSmog);
 
-	m_CreateSmog->Insert(D3DXVECTOR3(10.0f, 0.0f, 50.0f));
 
 	m_ColorCube = new ColorCube;
 	m_ColorCube->Init();
@@ -143,19 +163,83 @@ void SceneHeightmap::Init()
 	//	m_CreateSmog->Update();
 	//까지
 
-
 	m_SkyBox = new SkyBox;
 	m_SkyBox->Init();
 
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
 
+	D3DXCreateSprite(g_pDevice, &m_pSprite);
+	pImage = new UIImage(m_pSprite);
+	pImage->m_bDrawBorder = false;
+	pImage->SetTexture("resources/ui/crosshair.png");
+	pImage->SetPosition(&D3DXVECTOR3((rc.left + rc.right) / 2 - 60, (rc.top + rc.bottom) / 2 - 56, 0));
+	m_pCrosshair = pImage;
+
+	g_pSoundManager->setMusic(); // 음악 세팅
 }
 
 void SceneHeightmap::Update()
 {
-	m_CreateSmog->Update();
+	//m_CreateSmog->Update();
+
+	
 	SAFE_UPDATE(m_ColorCube);
+	
+	
+	SAFE_UPDATE(m_pCrosshair);
 	OnUpdateIScene();
 	
+	if (g_pCamera->getFreeCameraMode()) {
+		m_pCrosshairOn = false;
+	}
+	else {
+		m_pCrosshairOn = true;
+	}
+
+	g_pCamera->getPMobFromUnitBox(m_pUnit->getPMob());
+
+	PROCESS_MEMORY_COUNTERS pmc;
+	GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc));
+
+	Debug->AddText("시스템 메모리 : ");
+	Debug->AddText((int)(pmc.WorkingSetSize/1024));
+	Debug->AddText("KB");
+	Debug->EndLine();
+
+
+
+	
+
+	// F5 키 누르면 음악 재생 ON / OFF
+	if ((GetAsyncKeyState(VK_F5) & 0x8000))
+	{
+		if (!musicPlayCheck)
+		{
+			musicPlayCheck = true;
+
+			if (!musicPlay)
+			{
+				musicPlay = true;
+				g_pSoundManager->playSound(0);
+			}
+			else
+			{
+				musicPlay = false;
+				g_pSoundManager->stopSound(0);
+			}
+		}
+	}
+	else if (musicPlayCheck)
+		musicPlayCheck = false;
+
+	if(musicPlay)
+		soundSt = "[ Music Play ]";
+	else
+		soundSt = "[ Music Stop ]";
+
+	Debug->AddText(soundSt);
+	Debug->EndLine();
 }
 
 void SceneHeightmap::Render()
@@ -168,12 +252,20 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_SkyBox);
 	m_CreateSmog->Render();
 	m_pPicking->Render();
-	
+
+	if (m_pCrosshairOn) {
+		g_pDevice->SetTexture(0, NULL);
+		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+		//m_pSprite->SetTransform(&m_matWorld);
+		SAFE_RENDER(m_pCrosshair);
+		m_pSprite->End();
+	}
+
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	SAFE_WNDPROC(m_pHeightMap);
 	SAFE_WNDPROC(m_pPicking);
-	SAFE_WNDPROC(m_pUnit);
+	//SAFE_WNDPROC(m_pUnit);
 }

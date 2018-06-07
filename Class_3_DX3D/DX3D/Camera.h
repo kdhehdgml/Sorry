@@ -1,4 +1,7 @@
 #pragma once
+#include "IDisplayObject.h"
+#include "Mob.h"
+#include "Ray.h"
 
 #define g_pCamera Camera::GetInstance()
 
@@ -22,11 +25,21 @@ private:
 	D3DXVECTOR3 dir;
 	D3DXVECTOR3 pos;
 	D3DXMATRIXA16 m_matWorld;
-	float FOV;
-	float speedOffset;
-	bool freeCameraMode;
-	bool loadingComplete;
-	POINT currPoint;
+	float m_FOV;
+	float m_speedOffset;
+	bool m_freeCameraMode;
+	bool m_loadingComplete;
+	POINT m_currPoint;
+	float m_sensitivity;
+	float m_recoilX;
+	float m_recoilY;
+	float m_recoilXDelta;
+	float m_recoilYDelta;
+	vector<Mob*> m_pMob;
+	int m_cooldown;
+	int m_running;
+	float m_runningRecoilX;
+	float m_runningRecoilY;
 
 public:
 	void Init();
@@ -42,5 +55,8 @@ public:
 	void setPos(D3DXVECTOR3);
 	void setPosY(float y);
 	void setFreeCameraMode(bool f);
+	bool getFreeCameraMode();
+	
+	void getPMobFromUnitBox(vector<Mob*>* mob);
 };
 

@@ -1,5 +1,8 @@
 #pragma once
 #include "IScene.h"
+#include "IDisplayObject.h"
+#include "UIBUtton.h"
+#include "UIImage.h"
 
 class HeightMap;
 class AseCharacter;
@@ -16,6 +19,8 @@ class Blocks;
 
 //class SkinnedMesh;
 
+
+
 class SceneHeightmap : public IScene
 {
 private:
@@ -23,6 +28,10 @@ private:
 	AseCharacter*	m_pAseCharacter;
 	Picking *		m_pPicking;
 	//SkinnedMesh *	m_pSkinnedMesh;
+
+	string			soundSt;
+	bool			musicPlayCheck;
+	bool			musicPlay;
 
 	//중현이코드
 	UnitBox *		m_pUnit;
@@ -34,7 +43,13 @@ private:
 	SkyBox*			m_SkyBox;
 	ColorCube*		m_ColorCube;
 	//
-	
+	LPD3DXSPRITE m_pSprite;
+	IUIObject* m_pCrosshair;
+	UIImage* pImage;
+	bool m_pCrosshairOn;
+
+	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+
 public:
 	SceneHeightmap();
 	~SceneHeightmap();

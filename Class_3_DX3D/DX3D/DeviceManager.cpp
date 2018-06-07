@@ -36,11 +36,14 @@ HRESULT DeviceManager::Init()
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(D3DPRESENT_PARAMETERS));
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.Windowed = true;
-	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+	d3dpp.Windowed = true; //여기를 수정하면 전체 화면
+	d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
+	d3dpp.BackBufferWidth = SCREEN_X;
+	d3dpp.BackBufferHeight = SCREEN_Y;
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
-	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+	//d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; //이걸로 하면 FPS 제한이 사라짐
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
 	if (FAILED(m_pD3D->CreateDevice(
 		D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,

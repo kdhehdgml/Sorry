@@ -66,6 +66,12 @@
     <Filter Include="소스 파일\Minsu_Setting">
       <UniqueIdentifier>{143fddfb-59aa-4de3-aee4-e5850660dc39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Sound">
+      <UniqueIdentifier>{d12586f6-7912-4c2d-a195-f9af858e1982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Keyboard &amp; Mouse">
+      <UniqueIdentifier>{22962e7f-4215-4812-8b4c-e8583b329f07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -243,8 +249,6 @@
       <Filter>소스 파일\3.Object\AStar</Filter>
     </ClInclude>
     <ClInclude Include="CreateSmog.h" />
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Mouse.h" />
     <ClInclude Include="SkinnedMesh.h">
       <Filter>소스 파일\xFile</Filter>
     </ClInclude>
@@ -257,7 +261,6 @@
     <ClInclude Include="SkyBox.h">
       <Filter>소스 파일\skybox</Filter>
     </ClInclude>
-    <ClInclude Include="Terrain.h" />
     <ClInclude Include="Mob.h">
       <Filter>소스 파일\mob</Filter>
     </ClInclude>
@@ -269,6 +272,18 @@
     </ClInclude>
     <ClInclude Include="GSM.h">
       <Filter>소스 파일\Minsu_Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>소스 파일\Keyboard &amp; Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>소스 파일\Keyboard &amp; Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="BGSound.h">
+      <Filter>소스 파일\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>소스 파일\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -429,8 +444,6 @@
       <Filter>소스 파일\3.Object\AStar</Filter>
     </ClCompile>
     <ClCompile Include="CreateSmog.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="SkinnedMesh.cpp">
       <Filter>소스 파일\xFile</Filter>
     </ClCompile>
@@ -443,7 +456,6 @@
     <ClCompile Include="SkyBox.cpp">
       <Filter>소스 파일\skybox</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Mob.cpp">
       <Filter>소스 파일\mob</Filter>
     </ClCompile>
@@ -458,6 +470,18 @@
     </ClCompile>
     <ClCompile Include="GSM.cpp">
       <Filter>소스 파일\Minsu_Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>소스 파일\Keyboard &amp; Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>소스 파일\Keyboard &amp; Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="BGSound.cpp">
+      <Filter>소스 파일\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>소스 파일\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

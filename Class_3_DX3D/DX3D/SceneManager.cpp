@@ -67,4 +67,5 @@ void SceneManager::SetCurrentScene(size_t index)
 		pScene->Init();
 		m_pCurrScene = pScene;
 	}
+
 }
