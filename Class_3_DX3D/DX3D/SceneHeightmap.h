@@ -44,9 +44,13 @@ private:
 	ColorCube*		m_ColorCube;
 	//
 	LPD3DXSPRITE m_pSprite;
+	LPD3DXSPRITE m_pSprite2;
 	IUIObject* m_pCrosshair;
+	IUIObject* m_pScope;
 	UIImage* pImage;
+	UIImage* pImage2;
 	bool m_pCrosshairOn;
+	bool m_pScopeOn;
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
