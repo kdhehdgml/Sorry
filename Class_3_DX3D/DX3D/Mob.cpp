@@ -22,6 +22,7 @@ Mob::Mob()
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
+	m_BeDetermined = false;
 }
 
 
@@ -251,4 +252,22 @@ void Mob::LocationSwap(int _v1, int _v2)
 	temp = moveLocation[_v1];
 	moveLocation[_v1] = moveLocation[_v2];
 	moveLocation[_v2] = temp;
+
+	int Itemp;
+	Itemp = SaveLocationNum[_v1];
+	SaveLocationNum[_v1] = SaveLocationNum[_v2];
+	SaveLocationNum[_v2] = Itemp;
+}
+
+void Mob::TemporarySwap(int _v1, int _v2)
+{
+	D3DXVECTOR3 temp;
+	temp = Temporary_Storage[_v1];
+	Temporary_Storage[_v1] = Temporary_Storage[_v2];
+	Temporary_Storage[_v2] = temp;
+
+	int Itemp;
+	Itemp = m_SaveTempNum[_v1];
+	m_SaveTempNum[_v1] = m_SaveTempNum[_v2];
+	m_SaveTempNum[_v2] = Itemp;
 }
