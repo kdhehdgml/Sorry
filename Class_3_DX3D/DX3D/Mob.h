@@ -52,8 +52,8 @@ public:
 		D3DXVECTOR3 pos, D3DXVECTOR3 scale, D3DXVECTOR3 trans,
 		vector<vector<int>> &vecUV);
 
-	virtual bool PlayerSearch(Mob * mob);
-	void ShootVertex(Mob * mob);
+	virtual bool PlayerSearch(D3DXVECTOR3 Ppos, Mob * mob);
+	void ShootVertex(D3DXVECTOR3 Ppos, Mob * mob);
 	void GetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum) 
 	{ moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum);}
 	void GetTemporary(D3DXVECTOR3 wallLocation, int Locationnum) 

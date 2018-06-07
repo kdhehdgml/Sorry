@@ -60,6 +60,9 @@
     <Filter Include="소스 파일\skybox">
       <UniqueIdentifier>{c6fac5ee-6a62-4787-b58f-5a9db779b74e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\mob">
+      <UniqueIdentifier>{f26e2192-8aa3-42ab-abb9-7619181f4956}</UniqueIdentifier>
+    </Filter>
     <Filter Include="소스 파일\Minsu_Setting">
       <UniqueIdentifier>{143fddfb-59aa-4de3-aee4-e5850660dc39}</UniqueIdentifier>
     </Filter>
@@ -68,9 +71,6 @@
     </Filter>
     <Filter Include="소스 파일\Keyboard &amp; Mouse">
       <UniqueIdentifier>{22962e7f-4215-4812-8b4c-e8583b329f07}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\AI">
-      <UniqueIdentifier>{f26e2192-8aa3-42ab-abb9-7619181f4956}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -262,13 +262,13 @@
       <Filter>소스 파일\skybox</Filter>
     </ClInclude>
     <ClInclude Include="Mob.h">
-      <Filter>소스 파일\AI</Filter>
+      <Filter>소스 파일\mob</Filter>
     </ClInclude>
     <ClInclude Include="Blocks.h">
-      <Filter>소스 파일\AI</Filter>
+      <Filter>소스 파일\mob</Filter>
     </ClInclude>
     <ClInclude Include="UnitBox.h">
-      <Filter>소스 파일\AI</Filter>
+      <Filter>소스 파일\mob</Filter>
     </ClInclude>
     <ClInclude Include="GSM.h">
       <Filter>소스 파일\Minsu_Setting</Filter>
@@ -285,8 +285,8 @@
     <ClInclude Include="SoundManager.h">
       <Filter>소스 파일\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="TeamAI.h">
-      <Filter>소스 파일\AI</Filter>
+    <ClInclude Include="FxSound.h">
+      <Filter>소스 파일\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -460,16 +460,16 @@
       <Filter>소스 파일\skybox</Filter>
     </ClCompile>
     <ClCompile Include="Mob.cpp">
-      <Filter>소스 파일\AI</Filter>
+      <Filter>소스 파일\mob</Filter>
     </ClCompile>
     <ClCompile Include="Blocks.cpp">
-      <Filter>소스 파일\AI</Filter>
+      <Filter>소스 파일\mob</Filter>
     </ClCompile>
     <ClCompile Include="SceneHeightmap.cpp">
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
     <ClCompile Include="UnitBox.cpp">
-      <Filter>소스 파일\AI</Filter>
+      <Filter>소스 파일\mob</Filter>
     </ClCompile>
     <ClCompile Include="GSM.cpp">
       <Filter>소스 파일\Minsu_Setting</Filter>
@@ -486,8 +486,8 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>소스 파일\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="TeamAI.cpp">
-      <Filter>소스 파일\AI</Filter>
+    <ClCompile Include="FxSound.cpp">
+      <Filter>소스 파일\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

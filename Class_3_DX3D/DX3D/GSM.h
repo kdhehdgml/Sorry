@@ -21,6 +21,5 @@ public:
 
 	Pos camPos;
 	Pos mobPos;
-	Pos TeamPos;
 };
 

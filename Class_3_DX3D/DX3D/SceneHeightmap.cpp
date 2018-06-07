@@ -23,7 +23,6 @@
 #include "UIImage.h"
 
 
-
 SceneHeightmap::SceneHeightmap()
 {
 	m_pHeightMap = NULL;
@@ -212,7 +211,7 @@ void SceneHeightmap::Update()
 	
 
 	// F5 키 누르면 음악 재생 ON / OFF
-	if ((GetAsyncKeyState(VK_F5) & 0x8000))
+	if ((GetAsyncKeyState('1') & 0x8000))
 	{
 		if (!musicPlayCheck)
 		{
@@ -222,11 +221,13 @@ void SceneHeightmap::Update()
 			{
 				musicPlay = true;
 				g_pSoundManager->playSound(0);
+				g_pSoundManager->stopSound(2);
 			}
 			else
 			{
 				musicPlay = false;
 				g_pSoundManager->stopSound(0);
+				g_pSoundManager->playSound(2);
 			}
 		}
 	}
@@ -240,6 +241,11 @@ void SceneHeightmap::Update()
 
 	Debug->AddText(soundSt);
 	Debug->EndLine();
+
+	if ((GetAsyncKeyState('W') & GetAsyncKeyState(VK_SHIFT) & 0x8000))
+	{
+		g_pSoundManager->ES_Walk();
+	}
 }
 
 void SceneHeightmap::Render()

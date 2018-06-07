@@ -33,7 +33,7 @@ void ObjManager::AddToTagList(WORD _tag, IDisplayObject * _pObj)
 
 void ObjManager::RemoveFromTagList(WORD _tag, IDisplayObject * _pObj)
 {
-	m_tagList[_tag].clear();
+	m_tagList[_tag].remove(_pObj);
 }
 
 IDisplayObject * ObjManager::FindObjectByTag(WORD _tag)
@@ -44,7 +44,7 @@ IDisplayObject * ObjManager::FindObjectByTag(WORD _tag)
 	return m_tagList[_tag].front();
 }
 
-vector<IDisplayObject*> ObjManager::FindObjectsByTag(WORD _tag)
+list<IDisplayObject*> ObjManager::FindObjectsByTag(WORD _tag)
 {
 	return m_tagList[_tag];
 }
