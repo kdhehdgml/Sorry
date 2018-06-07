@@ -4,6 +4,7 @@ struct SMOG2
 {
 	D3DXVECTOR3		_position;
 	D3DXCOLOR		_color;
+	float			_MaxTransparency;
 };
  
 
@@ -14,6 +15,8 @@ class CreateSmog :public IDisplayObject
 private:
 	LPDIRECT3DVERTEXBUFFER9   m_pVB;
 	LPDIRECT3DTEXTURE9      m_pTex;
+
+	float					m_SmogSize;
 
 
 
@@ -32,7 +35,7 @@ public:
 	//void Init();
 	//void Update();
 	//void Render();
-	void Insert(D3DXVECTOR3 pos);
+	void Insert(D3DXVECTOR3 pos, float transparency);
 
 
 

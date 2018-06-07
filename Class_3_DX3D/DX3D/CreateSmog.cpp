@@ -2,12 +2,14 @@
 #include "CreateSmog.h"
 #include "IDisplayObject.h"
 
-#define SMOGSIZE 1.f
+
 
 CreateSmog::CreateSmog()
 	:m_IndexCount(0),
 	m_MaxIndex(10)
 {
+	//스모그 사이즈조절
+	m_SmogSize = 1.5f;
 }
 
 
@@ -22,12 +24,12 @@ void CreateSmog::Init()
 
 	//m_pTex->GetSurfaceLevel();
 
-	D3DXMATRIXA16 matS,matR,matT;
+
 
 	D3DXMatrixIdentity(&m_matWorld);
 	//
-	//D3DXMatrixScaling(&matS, SMOGSIZE, SMOGSIZE, SMOGSIZE);
-	//m_matWorld =  matS;
+	
+	
 
 	g_pDevice->CreateVertexBuffer(m_MaxIndex * sizeof(VERTEX_PC),
 		D3DUSAGE_POINTS | D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, VERTEX_PC::FVF,
@@ -38,15 +40,22 @@ void CreateSmog::Init()
 
 void CreateSmog::Update()
 {
+	D3DXMATRIXA16 matS, matR, matT;
+
+
 	for (size_t i = 0; i < m_vecAtt.size(); i++)
 	{
 		//m_vecAtt[i]->_position.x = 10.0f;
 		m_vecAtt[i]->_position.y = 5.0f;
-		m_vecAtt[i]->_position.z += 0.1f;
+	//	m_vecAtt[i]->_position.z += 0.1f;
 
 	//	m_vecAtt[i]->_position.x += 0.01f;
 	//안개 투명도
-		m_vecAtt[i]->_color.a = 0.6f;//1부터 0으로 수렴
+		if (m_vecAtt[i]->_color.a > 0)
+			m_vecAtt[i]->_color.a -= 0.001f;//1부터 0으로 수렴
+		else
+			m_vecAtt[i]->_color.a = m_vecAtt[i]->_MaxTransparency;
+
 		Debug->AddText(m_vecAtt[i]->_position);
 		Debug->EndLine();
 
@@ -63,6 +72,20 @@ void CreateSmog::Update()
 		v->c = p->_color;
 		v++;//아무래도 ++ 이되면 다음 주소로 가나보다
 	}
+
+	//마우스 우클릭후 확대하면 스모그가 작아지니까 그만큼 크게해줌
+	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+	{
+		m_SmogSize = 4.0f;
+	}
+	else
+	{
+		m_SmogSize = 1.5f;
+	}
+
+
+
+	
 }
 
 void CreateSmog::Render()
@@ -81,7 +104,7 @@ void CreateSmog::Render()
 
 	//g_pDevice->SetRenderState(D3DRS_POINTSIZE, FtoDw(0.5f));
 
-	g_pDevice->SetRenderState(D3DRS_POINTSIZE, FtoDw(SMOGSIZE));
+	g_pDevice->SetRenderState(D3DRS_POINTSIZE, FtoDw(m_SmogSize));
 
 
 
@@ -107,8 +130,8 @@ void CreateSmog::Render()
 
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
-
-void CreateSmog::Insert(D3DXVECTOR3 pos)
+//transparency=  투명도
+void CreateSmog::Insert(D3DXVECTOR3 pos ,float transparency)
 {
 	
 	//지금 안개갯수가 최대치면 0으로 초기화!
@@ -130,7 +153,8 @@ void CreateSmog::Insert(D3DXVECTOR3 pos)
 
 	//att->_color = 0xffffffff * GetRandomFloat(0, 1);
 	att->_color = 0xffffffff;
-	//att->_color.a = 0.6f;
+	att->_MaxTransparency = transparency;
+	att->_color.a = transparency;
 	m_vecAtt[m_IndexCount-1] = att;
 
 	
