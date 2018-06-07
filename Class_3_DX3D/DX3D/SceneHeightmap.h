@@ -19,13 +19,19 @@ class Blocks;
 
 //class SkinnedMesh;
 
+
+
 class SceneHeightmap : public IScene
 {
 private:
 	HeightMap *		m_pHeightMap;
 	AseCharacter*	m_pAseCharacter;
-	Picking *		m_pPicking;
+	//Picking *		m_pPicking;
 	//SkinnedMesh *	m_pSkinnedMesh;
+
+	string			soundSt;
+	bool			musicPlayCheck;
+	bool			musicPlay;
 
 	//중현이코드
 	UnitBox *		m_pUnit;

@@ -34,6 +34,7 @@ public:
 	
 	virtual ~IUnitObject();
 
+	void GetTargetPostion(const D3DXVECTOR3 &pos);
 	void SetDestination(const D3DXVECTOR3 &pos);
 	void UpdateKeyboardState();
 	void UpdatePositionToDestination();

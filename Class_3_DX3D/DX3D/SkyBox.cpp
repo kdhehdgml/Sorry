@@ -145,6 +145,7 @@ void SkyBox::Update()
 
 void SkyBox::Render()
 {
+	g_pDevice->SetRenderState(D3DRS_FOGENABLE, false);
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	// Setup texture
 	/* D3DCULL_NONE : 뒷면의 컬링(Culling)는 하지 않는다.

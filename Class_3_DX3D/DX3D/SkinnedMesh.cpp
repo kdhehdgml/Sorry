@@ -104,16 +104,9 @@ void SkinnedMesh::Update()
 	Debug->AddText(_T(" / "));
 	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
 	Debug->EndLine();
+	D3DXMATRIXA16 matR;
 
-	
-	if (Keyboard::Get()->KeyDown(VK_UP))
-	{
-		m_pos.z -= 5.0f;
-	}
-	if (Keyboard::Get()->KeyDown(VK_DOWN))
-	{
-		m_pos.z += 5.0f;
-	}
+
 
 	if (Keyboard::Get()->KeyDown('1'))
 	//if (GetAsyncKeyState('1') & 0x8000)
@@ -291,10 +284,11 @@ void SkinnedMesh::DrawMeshContainer(LPD3DXFRAME pFrame)
 	pMeshContainerEx->pOrigMesh->UnlockVertexBuffer();
 
 	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	if (m_bWireFrame) g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	if (m_bWireFrame)
+		g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	
-	
+	//D3DXMatrixIdentity(&m_matWorld);
+	//D3DXMatrixScaling(&m_matWorld, 5.0f, 5.0f, 5.0f);
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	for (size_t i = 0; i < pMeshContainerEx->vecMtlTex.size(); ++i)

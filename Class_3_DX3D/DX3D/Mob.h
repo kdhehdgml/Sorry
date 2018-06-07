@@ -2,6 +2,7 @@
 #include "IUnitObject.h"
 class CubemanParts;
 class Cubeman;
+
 class Mob
 	: public IUnitObject
 {
@@ -20,9 +21,11 @@ private:
 
 	bool			m_isMoving;
 	bool			m_isShoot;
-
+	bool			m_BeDetermined;
 	vector<D3DXVECTOR3> moveLocation;
-
+	vector<D3DXVECTOR3> Temporary_Storage;
+	vector<int> SaveLocationNum;
+	vector<int> m_SaveTempNum;
 	LPD3DXMESH		m_pSphere;
 	BoundingSphere* m_pBoundingSphere;
 	int health;
@@ -48,12 +51,26 @@ public:
 	void CreateParts(CubemanParts* &pParts, IDisplayObject* pParent,
 		D3DXVECTOR3 pos, D3DXVECTOR3 scale, D3DXVECTOR3 trans,
 		vector<vector<int>> &vecUV);
+
 	virtual bool PlayerSearch(D3DXVECTOR3 Ppos, Mob * mob);
 	void ShootVertex(D3DXVECTOR3 Ppos, Mob * mob);
-	void GetMoveTheWall(D3DXVECTOR3 wallLocation) { moveLocation.push_back(wallLocation); }
+	void GetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum) 
+	{ moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum);}
+	void GetTemporary(D3DXVECTOR3 wallLocation, int Locationnum) 
+	{ Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);}
+	void GetDetermined(bool _boo) { m_BeDetermined = _boo; }
+	
 	vector<D3DXVECTOR3> SetMoveTheWall() { return moveLocation; }
-	void EraseWallLocation() { moveLocation.pop_back(); }
+	vector<int> SetLocationNum() { return SaveLocationNum; }
+	vector<D3DXVECTOR3> SetTemporary() { return Temporary_Storage; }
+	vector<int> SetTemporaryNum() { return m_SaveTempNum; }
+	bool SetDetermined() { return m_BeDetermined; }
+
+	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); }
+	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); }
 	void LocationSwap(int _v1, int _v2);
+	void TemporarySwap(int _v1, int _v2);
+	void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
 	vector<vector<int>> uvBody = {
 		{ 32, 32, 32, 20, 40, 20, 40, 32 },	// ÈÄ
 	{ 20, 32, 20, 20, 28, 20, 28, 32 },	// Àü

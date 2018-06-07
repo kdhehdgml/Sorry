@@ -2,7 +2,7 @@
 #include "SceneHeightmap.h"
 #include "HeightMap.h"
 #include "AseCharacter.h"
-#include "Picking.h"
+//#include "Picking.h"
 #include "SampleUI.h"
 #include "ParticleTest.h"
 
@@ -22,11 +22,13 @@
 #include "IUIObject.h"
 #include "UIImage.h"
 
+
+
 SceneHeightmap::SceneHeightmap()
 {
 	m_pHeightMap = NULL;
 	m_pAseCharacter = NULL;
-	m_pPicking = NULL;
+	//m_pPicking = NULL;
 
 	//영락코드
 	m_CreateSmog = NULL;
@@ -43,6 +45,7 @@ SceneHeightmap::SceneHeightmap()
 	m_pCrosshairOn = false;
 
 //	m_pSkinnedMesh = NULL;
+
 }
 
 
@@ -57,6 +60,8 @@ SceneHeightmap::~SceneHeightmap()
 	//m_pCrosshair->ReleaseAll();
 	//m_CreateSmog->Release();
 	//SAFE_RELEASE(m_CreateSmog);
+
+
 	OnDestructIScene();
 }
 
@@ -83,9 +88,9 @@ void SceneHeightmap::Init()
 	AddSimpleDisplayObj(m_pAseCharacter);
 	*/
 
-	m_pPicking = new Picking;
-	m_pPicking->Init();
-	AddSimpleDisplayObj(m_pPicking);
+	//m_pPicking = new Picking;
+	//m_pPicking->Init();
+	//AddSimpleDisplayObj(m_pPicking);
 
 	//IDisplayObject* pObj;
 	////pObj = new SampleUI; pObj->Init(); AddSimpleDisplayObj(pObj);
@@ -171,6 +176,7 @@ void SceneHeightmap::Init()
 	pImage->SetPosition(&D3DXVECTOR3((rc.left + rc.right) / 2 - 60, (rc.top + rc.bottom) / 2 - 56, 0));
 	m_pCrosshair = pImage;
 
+	g_pSoundManager->setMusic(); // 음악 세팅
 }
 
 void SceneHeightmap::Update()
@@ -200,6 +206,40 @@ void SceneHeightmap::Update()
 	Debug->AddText((int)(pmc.WorkingSetSize/1024));
 	Debug->AddText("KB");
 	Debug->EndLine();
+
+
+
+	
+
+	// F5 키 누르면 음악 재생 ON / OFF
+	if ((GetAsyncKeyState(VK_F5) & 0x8000))
+	{
+		if (!musicPlayCheck)
+		{
+			musicPlayCheck = true;
+
+			if (!musicPlay)
+			{
+				musicPlay = true;
+				g_pSoundManager->playSound(0);
+			}
+			else
+			{
+				musicPlay = false;
+				g_pSoundManager->stopSound(0);
+			}
+		}
+	}
+	else if (musicPlayCheck)
+		musicPlayCheck = false;
+
+	if(musicPlay)
+		soundSt = "[ Music Play ]";
+	else
+		soundSt = "[ Music Stop ]";
+
+	Debug->AddText(soundSt);
+	Debug->EndLine();
 }
 
 void SceneHeightmap::Render()
@@ -211,7 +251,7 @@ void SceneHeightmap::Render()
 
 	SAFE_RENDER(m_SkyBox);
 	m_CreateSmog->Render();
-	m_pPicking->Render();
+	//m_pPicking->Render();
 
 	if (m_pCrosshairOn) {
 		g_pDevice->SetTexture(0, NULL);
@@ -226,6 +266,6 @@ void SceneHeightmap::Render()
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	SAFE_WNDPROC(m_pHeightMap);
-	SAFE_WNDPROC(m_pPicking);
+	//SAFE_WNDPROC(m_pPicking);
 	//SAFE_WNDPROC(m_pUnit);
 }

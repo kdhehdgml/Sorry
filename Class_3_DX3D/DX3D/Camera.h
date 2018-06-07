@@ -37,6 +37,15 @@ private:
 	float m_recoilYDelta;
 	vector<Mob*> m_pMob;
 	int m_cooldown;
+	int m_running;
+	float m_runningRecoilX;
+	float m_runningRecoilY;
+	float m_accuracyX;
+	float m_accuracyY;
+	float m_accuracyXDelta;
+	float m_accuracyYDelta;
+	bool m_zooming;
+	float m_prev_rotX;
 
 public:
 	void Init();

@@ -22,6 +22,7 @@ Mob::Mob()
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
+	m_BeDetermined = false;
 }
 
 
@@ -82,6 +83,14 @@ void Mob::Update()
 
 void Mob::Render()
 {
+	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
+	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
+	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
+	//안개적용되는 최소 거리
+	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
+	//안개 최대치로 적용되는 거리
+	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
+	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 	if (status > 0) {
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 		m_pRootParts->Render();
@@ -98,7 +107,7 @@ void Mob::Render()
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
-		m_pSphere->DrawSubset(0);
+		//m_pSphere->DrawSubset(0);
 	}
 }
 
@@ -251,4 +260,22 @@ void Mob::LocationSwap(int _v1, int _v2)
 	temp = moveLocation[_v1];
 	moveLocation[_v1] = moveLocation[_v2];
 	moveLocation[_v2] = temp;
+
+	int Itemp;
+	Itemp = SaveLocationNum[_v1];
+	SaveLocationNum[_v1] = SaveLocationNum[_v2];
+	SaveLocationNum[_v2] = Itemp;
+}
+
+void Mob::TemporarySwap(int _v1, int _v2)
+{
+	D3DXVECTOR3 temp;
+	temp = Temporary_Storage[_v1];
+	Temporary_Storage[_v1] = Temporary_Storage[_v2];
+	Temporary_Storage[_v2] = temp;
+
+	int Itemp;
+	Itemp = m_SaveTempNum[_v1];
+	m_SaveTempNum[_v1] = m_SaveTempNum[_v2];
+	m_SaveTempNum[_v2] = Itemp;
 }
