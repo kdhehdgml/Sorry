@@ -361,7 +361,8 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				bool getHit = false;
 				getHit = r.CalcIntersectSphere(p->getBoundingSphere());
-				if (getHit) {
+				if (getHit && p->getStatus()==1) {
+				//if(getHit){
 					p->setHealth(p->getHealth() - 100);
 					break;
 				}
