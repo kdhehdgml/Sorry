@@ -88,7 +88,7 @@ void IUnitObject::UpdatePositionToDestination()
 void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 {
 	D3DXVECTOR3 forward = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
-	if (g_pObjMgr->FindObjectByTag(TAG_MOB))
+	if (g_pObjMgr->FindObjectByTag(TAG_MOB) || g_pObjMgr->FindObjectByTag(TAG_TEAM))
 	{
 		if (m_start)
 		{
@@ -219,6 +219,16 @@ void IUnitObject::ApplyTargetPosition(D3DXVECTOR3 & targetPos)
 
 void IUnitObject::UpdatePosition()
 {
+	if (g_pObjMgr->FindObjectByTag(TAG_MOB) || g_pObjMgr->FindObjectByTag(TAG_TEAM))
+	{
+		if (m_start)
+		{
+			m_finalDestPos = m_pos;
+			m_destPos = m_pos;
+			m_start = false;
+		}
+	}
+
 	m_rot += m_deltaRot * m_rotationSpeed;
 
 	D3DXMATRIXA16 matRotY;

@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "Mob.h"
+#include "TeamAI.h"
 #include "CubemanParts.h"
 #include "Ray.h"
-#include "Cubeman.h"
-Mob::Mob()
+
+TeamAI::TeamAI()
 {
 	m_pRootParts = NULL;
 
 	m_isMoving = false;
 	m_isShoot = false;
 
-	//m_baseRotY = D3DX_PI;
-
+	m_baseRotY = D3DX_PI / 2;
+	
 	m_forward.z = -1;
 	m_pos.y = 3.0f;
 	m_destPos = m_pos;
@@ -22,71 +22,52 @@ Mob::Mob()
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
-	m_BeDetermined = false;
 }
 
 
-Mob::~Mob()
+TeamAI::~TeamAI()
 {
 	m_pRootParts->ReleaseAll();
-	SAFE_RELEASE(m_pCubeman);
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 }
 
-void Mob::Init()
+void TeamAI::Init()
 {
-	g_pObjMgr->AddToTagList(TAG_MOB, this);
-
+	g_pObjMgr->AddToTagList(TAG_TEAM, this);
+	
 	D3DXCreateSphere(g_pDevice, 2.5f, 10, 10, &m_pSphere, NULL);
-
+	
 	CreateAllParts();
-	IUnitObject::m_moveSpeed = GSM().mobSpeed;
+	m_moveSpeed = GSM().mobSpeed;
 
 	m_pBoundingSphere = new BoundingSphere(m_pos, 2.5f);
-
-	//m_pMob[i]->SetPosition(&D3DXVECTOR3(50.0f, 5.0f, (i + 1) * 10));
+	
 }
 
-void Mob::Update()
+void TeamAI::Update()
 {
 	if (health <= 0) {
 		status = 0;
 	}
 	if (status > 0) {
-		IUnitObject::UpdateKeyboardState();
-		IUnitObject::UpdatePositionToDestination();
+
+		UpdatePosition();
 
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 3.0f;
-		//if (GetAsyncKeyState('1') & 0x0001)
-		//{
-		//	m_isTurnedOnLight = !m_isTurnedOnLight;
-		//}
-
-		//if (m_isTurnedOnLight == true)
-		//{
-		//	D3DXVECTOR3 pos = m_pos;
-		//	D3DXVECTOR3 dir = m_forward;
-		//	D3DXCOLOR c = BLUE;
-		//	D3DLIGHT9 light = DXUtil::InitSpot(&dir, &pos, &c);
-		//	light.Phi = D3DX_PI / 4;
-		//	//D3DLIGHT9 light = DXUtil::InitPoint(&pos, &c);
-		//	g_pDevice->SetLight(10, &light);
-		//}
-		//g_pDevice->LightEnable(10, m_isTurnedOnLight);
 
 		m_pRootParts->SetMovingState(m_isMoving);
 		m_pRootParts->Update();
 	}
 }
 
-void Mob::Render()
+void TeamAI::Render()
 {
 	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
 	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
 	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
-	//안개적용되는 최소 거리
+															  //안개적용되는 최소 거리
 	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
 	//안개 최대치로 적용되는 거리
 	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
@@ -111,32 +92,32 @@ void Mob::Render()
 	}
 }
 
-BoundingSphere * Mob::getBoundingSphere()
+BoundingSphere * TeamAI::getBoundingSphere()
 {
 	return m_pBoundingSphere;
 }
 
-int Mob::getHealth()
+int TeamAI::getHealth()
 {
 	return health;
 }
 
-void Mob::setHealth(int h)
+void TeamAI::setHealth(int h)
 {
 	health = h;
 }
 
-int Mob::getStatus()
+int TeamAI::getStatus()
 {
 	return status;
 }
 
-void Mob::setStatus(int s)
+void TeamAI::setStatus(int s)
 {
 	status = s;
 }
 
-void Mob::CreateAllParts()
+void TeamAI::CreateAllParts()
 {
 	CubemanParts* pParts;
 	//몸통
@@ -165,10 +146,10 @@ void Mob::CreateAllParts()
 		D3DXVECTOR3(0.5f, 1.0f, 0.5f), D3DXVECTOR3(0, -1.0f, 0), uvRLeg);
 }
 
-void Mob::CreateParts(CubemanParts *& pParts,
-	IDisplayObject * pParent, D3DXVECTOR3 pos,
-	D3DXVECTOR3 scale, D3DXVECTOR3 trans,
-	vector<vector<int>> &vecUV)
+void TeamAI::CreateParts(CubemanParts *& pParts, 
+	IDisplayObject * pParent, D3DXVECTOR3 pos, 
+	D3DXVECTOR3 scale, D3DXVECTOR3 trans, 
+	vector<vector<int>>& vecUV)
 {
 	D3DXMATRIXA16 matS, matT, mat;
 	D3DXMatrixScaling(&matS, scale.x, scale.y, scale.z);
@@ -179,105 +160,80 @@ void Mob::CreateParts(CubemanParts *& pParts,
 	pParent->AddChild(pParts);
 }
 
-bool Mob::PlayerSearch(Mob* mob)
+bool TeamAI::MobSearch(TeamAI * _team)
 {
-
-	if (mob->m_pos.x < 164.5f)
+	D3DXVECTOR3 move_forward;
+	move_forward = D3DXVECTOR3(_team->m_destPos.x - _team->m_pos.x, 0, _team->m_destPos.z - _team->m_pos.z);
+	if (D3DXVec3LengthSq(&move_forward) > 0)
 	{
-		D3DXVECTOR3 move_forward;
-		move_forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
-		if (D3DXVec3LengthSq(&move_forward) > 0)
-		{
-			mob->forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
-		}
-
+		_team->forward = D3DXVECTOR3(_team->m_destPos.x - _team->m_pos.x, 0, _team->m_destPos.z - _team->m_pos.z);
+	}
+	int number = 0;
+	for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
+	{
 		D3DXVECTOR3 DirectPM;
 		D3DXVECTOR3 MobPos;
-		DirectPM = (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition() - mob->m_pos;
-		DirectPM.y = 0;
-		D3DXVECTOR3 DirectPMnormal = DirectPM;
-		D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
-		D3DXVec3Normalize(&mob->forward, &mob->forward);
-		float Length = abs((g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition().x - mob->m_pos.x
-			+ (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition().z - mob->m_pos.z);
-		float DotPM = D3DXVec3Dot(&DirectPMnormal, &mob->forward);
-		float direct = 1.0f / 2.0f;
-		
-		if ((Length < 15 && DotPM >= direct))
-		{
-			m_isShoot = true;
-			return true;
-		}
 
-		m_isShoot = false;
-		return false;
+		DirectPM = p->GetPosition() - _team->m_pos;
+		if (DirectPM.x < 20 && DirectPM.z < 10)
+		{
+			DirectPM.y = _team->m_pos.y;
+			D3DXVECTOR3 DirectPMnormal = DirectPM;
+			D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
+			D3DXVec3Normalize(&_team->forward, &_team->forward);
+			float Length = abs(p->GetPosition().x - _team->m_pos.x + p->GetPosition().z - _team->m_pos.z);
+			float DotPM = D3DXVec3Dot(&DirectPMnormal, &_team->forward);
+			float direct = 1.0f / 2.0f;
+
+			if ((Length < 20 && DotPM >= direct))
+			{
+				m_isShoot = true;
+				m_MobNum = number;
+				return true;
+			}
+		}
+		number++;
 	}
-	else
-	{
-		return false;
-	}
+	m_isShoot = false;
+	return false;
 }
 
-void Mob::ShootVertex(Mob* mob)
+void TeamAI::ShootVertex(TeamAI * _team)
 {
 	Ray * ray;
 	ray = new Ray();
 
 	D3DXVECTOR3 move_forward;
-	move_forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
+	move_forward = D3DXVECTOR3(_team->m_destPos.x - _team->m_pos.x, 0, _team->m_destPos.z - _team->m_pos.z);
 	if (D3DXVec3LengthSq(&move_forward) > 0)
 	{
-		mob->forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
+		_team->forward = D3DXVECTOR3((_team->m_destPos.x+ 3) - _team->m_pos.x, _team->m_pos.y, _team->m_destPos.z - _team->m_pos.z);
 	}
-
+	else
+	{
+		_team->forward = D3DXVECTOR3((_team->m_destPos.x + 3) - _team->m_pos.x, _team->m_pos.y, _team->m_destPos.z - _team->m_pos.z);
+	}
+	D3DXVECTOR3 forwardNomal = _team->forward;
+	D3DXVec3Normalize(&forwardNomal, &forwardNomal);
 	D3DCOLOR c = D3DCOLOR_XRGB(255, 0, 0);
 	D3DCOLOR d = D3DCOLOR_XRGB(0, 255, 0);
-	//D3DXVECTOR3 directPMnor = Ppos - mob->m_pos;
-	ray->m_pos = { mob->m_pos.x,  mob->m_pos.y + 4.0f, mob->m_pos.z };
-
-	ray->m_dir = { (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition().x , 
-		(g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition().y + 4.0f,
-		(g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition().z };
+	//D3DXVECTOR3 directPMnor = Ppos - _team->m_pos;
+	ray->m_pos = { _team->m_pos.x,  _team->m_pos.y + 4.0f, _team->m_pos.z };
 	if (m_isShoot == true)
 	{
+	ray->m_dir = { g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().x ,
+		g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().y + 4.0f,
+		g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().z };
 		Shootpos[0] = (VERTEX_PC(ray->m_pos, c));
 		Shootpos[1] = (VERTEX_PC(ray->m_dir, c));
 	}
 	else
 	{
 		Shootpos[0] = (VERTEX_PC(ray->m_pos, d));
-		Shootpos[1] = (VERTEX_PC(ray->m_dir, d));
+		Shootpos[1] = (VERTEX_PC(ray->m_pos + (forwardNomal*5), d));
 	}
 
 	/*if(ray.CalcIntersectTri(&m_vecObstacle[i], &intersectionDist))
 	{
 	}*/
-
-
-}
-
-void Mob::LocationSwap(int _v1, int _v2)
-{
-	D3DXVECTOR3 temp;
-	temp = moveLocation[_v1];
-	moveLocation[_v1] = moveLocation[_v2];
-	moveLocation[_v2] = temp;
-
-	int Itemp;
-	Itemp = SaveLocationNum[_v1];
-	SaveLocationNum[_v1] = SaveLocationNum[_v2];
-	SaveLocationNum[_v2] = Itemp;
-}
-
-void Mob::TemporarySwap(int _v1, int _v2)
-{
-	D3DXVECTOR3 temp;
-	temp = Temporary_Storage[_v1];
-	Temporary_Storage[_v1] = Temporary_Storage[_v2];
-	Temporary_Storage[_v2] = temp;
-
-	int Itemp;
-	Itemp = m_SaveTempNum[_v1];
-	m_SaveTempNum[_v1] = m_SaveTempNum[_v2];
-	m_SaveTempNum[_v2] = Itemp;
 }

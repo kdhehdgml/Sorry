@@ -3,16 +3,13 @@
 #include "Cubeman.h"
 #include "Mob.h"
 #include "Ray.h"
-
+#include "TeamAI.h"
 UnitBox::UnitBox()
 {
-	for (size_t i = 0; i < m_pMob.size(); i++)
-	{
-		m_pMob[i] = NULL;
-	}
 	m_pCubeman = NULL;
 	m_SameChk = false;
-	num = 0;
+	MobNum = 0;
+	TeamNum = 0;
 }
 
 
@@ -21,6 +18,10 @@ UnitBox::~UnitBox()
 	for (size_t i = 0; i < m_pMob.size(); i++)
 	{
 		SAFE_RELEASE(m_pMob[i]);
+	}
+	for (size_t i = 0; i < m_pTeam.size(); i++)
+	{
+		SAFE_RELEASE(m_pTeam[i]);
 	}
 	SAFE_RELEASE(m_pCubeman);
 }
@@ -46,13 +47,13 @@ void UnitBox::Update()
 		int GroupNum = 1;
 		for (int i = 0; i < GroupNum; i++)
 		{
-			num++;
-			m_pMob.resize(num);
-			m_pMob[num - 1] = new Mob;
-			m_pMob[num - 1]->Init();
-			//m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
-			m_pMob[num - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZE) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
-			FindHidingInTheWallLocation(num - 1);
+			MobNum++;
+			m_pMob.resize(MobNum);
+			m_pMob[MobNum - 1] = new Mob;
+			m_pMob[MobNum - 1]->Init();
+			//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
+			m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZE) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
+			FindHidingInTheWallLocation(MobNum - 1);
 		}
 	}
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
@@ -60,13 +61,13 @@ void UnitBox::Update()
 		int GroupNum = 5;
 		for (int i = 0; i < GroupNum; i++)
 		{
-			num++;
-			m_pMob.resize(num);
-			m_pMob[num - 1] = new Mob;
-			m_pMob[num - 1]->Init();
-			//m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
-			m_pMob[num - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZE) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
-			FindHidingInTheWallLocation(num - 1);
+			MobNum++;
+			m_pMob.resize(MobNum);
+			m_pMob[MobNum - 1] = new Mob;
+			m_pMob[MobNum - 1]->Init();
+			//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
+			m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZE) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
+			FindHidingInTheWallLocation(MobNum - 1);
 		}
 	}
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
@@ -74,14 +75,14 @@ void UnitBox::Update()
 		int GroupNum = 10;
 		for (int i = 0; i < GroupNum; i++)
 		{
-			num++;
-			m_pMob.resize(num);
-			m_pMob[num - 1] = new Mob;
-			m_pMob[num - 1]->Init();
-			//m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
-			m_pMob[num - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZE) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
+			MobNum++;
+			m_pMob.resize(MobNum);
+			m_pMob[MobNum - 1] = new Mob;
+			m_pMob[MobNum - 1]->Init();
+			//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
+			m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZE) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
 
-			FindHidingInTheWallLocation(num - 1);
+			FindHidingInTheWallLocation(MobNum - 1);
 		}
 	}
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
@@ -89,34 +90,61 @@ void UnitBox::Update()
 		int GroupNum = 20;
 		for (int i = 0; i < GroupNum; i++)
 		{
-			num++;
-			m_pMob.resize(num);
-			m_pMob[num - 1] = new Mob;
-			m_pMob[num - 1]->Init();
-			//m_pMob[num - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((num) * 20 + NODE_POSITSIZE)));
-			m_pMob[num - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZE) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
-			FindHidingInTheWallLocation(num - 1);
+			MobNum++;
+			m_pMob.resize(MobNum);
+			m_pMob[MobNum - 1] = new Mob;
+			m_pMob[MobNum - 1]->Init();
+			//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
+			m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZE) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
+			FindHidingInTheWallLocation(MobNum - 1);
 		}
+	}
+	if (GetAsyncKeyState(VK_F5) & 0x0001)
+	{
+		TeamNum++;
+		m_pTeam.resize(TeamNum);
+		m_pTeam[TeamNum - 1] = new TeamAI;
+		m_pTeam[TeamNum - 1]->Init();
+		//m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3(GSM().TeamPos.x + NODE_POSITSIZE, 2.67f, GSM().TeamPos.z + ((TeamNum) * 20 + NODE_POSITSIZE)));
+		m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
 	}
 
 	for (size_t i = 0; i < m_pMob.size(); i++)
 	{
 		SAFE_UPDATE(m_pMob[i]);
 	}
+	for (size_t i = 0; i < m_pTeam.size(); i++)
+	{
+		SAFE_UPDATE(m_pTeam[i]);
+	}
 	//타겟을따라서 움직이는 내용
 	if (m_pMob.size() > 0)
 	{
 		for (int i = 0; i < m_pMob.size(); i++)
 		{
-			if (m_pMob[i]->PlayerSearch(m_pCubeman->GetPosition(), m_pMob[i]) == true)
+			if (m_pMob[i]->PlayerSearch(m_pMob[i]) == true)
 			{
 				//m_pMob[i]->SetDestination(m_pCubeman->GetPosition());
 				m_pMob[i]->GetTargetPostion(m_pCubeman->GetPosition());
 				m_pMob[i]->UpdatePositionToDestination();
 			}
-			m_pMob[i]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[i]);
+			m_pMob[i]->ShootVertex(m_pMob[i]);
 		}
 	}
+	//아군Ai가 적Ai인식하는 내용
+	if (m_pTeam.size() > 0)
+	{
+		for (int i = 0; i < m_pTeam.size(); i++)
+		{
+			if (m_pTeam[i]->MobSearch(m_pTeam[i]) == true)
+			{
+				//m_pTeam[i]->SetDestination(m_pCubeman->GetPosition());
+				//m_pTeam[i]->UpdatePositionToDestination();
+			}
+			m_pTeam[i]->ShootVertex(m_pTeam[i]);
+		}
+	}
+	
 	
 	
 	//타겟과 플레이어를 이어주는 선긋기
@@ -135,6 +163,10 @@ void UnitBox::Render()
 	for (size_t i = 0; i < m_pMob.size(); i++)
 	{
 		SAFE_RENDER(m_pMob[i]);
+	}
+	for (size_t i = 0; i < m_pTeam.size(); i++)
+	{
+		SAFE_RENDER(m_pTeam[i]);
 	}
 	SAFE_RENDER(m_pCubeman);
 }

@@ -1,76 +1,53 @@
 #pragma once
 #include "IUnitObject.h"
 class CubemanParts;
-class Cubeman;
-
-class Mob
-	: public IUnitObject
+class Mob;
+class TeamAI :
+	public IUnitObject
 {
 private:
-	Cubeman * m_pCubeman;
 	CubemanParts *	m_pRootParts;
-
+	vector<Mob*>	m_pMob;
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
-	bool			m_isTurnedOnLight;
 
 	D3DXVECTOR3		m_deltaPos;
 	D3DXVECTOR3		m_deltaRot;
 	D3DXVECTOR3		m_forward;
-	D3DXVECTOR3		m_Mobpos;
+	
+	int				m_MobNum;
 
 	bool			m_isMoving;
 	bool			m_isShoot;
-	bool			m_BeDetermined;
-	vector<D3DXVECTOR3> moveLocation;
-	vector<D3DXVECTOR3> Temporary_Storage;
-	vector<int> SaveLocationNum;
-	vector<int> m_SaveTempNum;
+	
 	LPD3DXMESH		m_pSphere;
 	BoundingSphere* m_pBoundingSphere;
 	int health;
 	int status;
-
 public:
-	Mob();
-	~Mob();
+	TeamAI();
+	~TeamAI();
 	int				num;
 	bool			m_move;
 	// IDisplayObject을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
-	
+
 	BoundingSphere* getBoundingSphere();
 	int getHealth();
 	void setHealth(int h);
 	int getStatus();
 	void setStatus(int s);
-
+	void GetMob(vector<Mob*> _mob) { m_pMob = _mob; }
 	void CreateAllParts();
 	void CreateParts(CubemanParts* &pParts, IDisplayObject* pParent,
 		D3DXVECTOR3 pos, D3DXVECTOR3 scale, D3DXVECTOR3 trans,
 		vector<vector<int>> &vecUV);
 
-	virtual bool PlayerSearch(Mob * mob);
-	void ShootVertex(Mob * mob);
-	void GetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum) 
-	{ moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum);}
-	void GetTemporary(D3DXVECTOR3 wallLocation, int Locationnum) 
-	{ Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);}
-	void GetDetermined(bool _boo) { m_BeDetermined = _boo; }
+	virtual bool MobSearch(TeamAI * _team);
+	void ShootVertex(TeamAI * _team);
 	
-	vector<D3DXVECTOR3> SetMoveTheWall() { return moveLocation; }
-	vector<int> SetLocationNum() { return SaveLocationNum; }
-	vector<D3DXVECTOR3> SetTemporary() { return Temporary_Storage; }
-	vector<int> SetTemporaryNum() { return m_SaveTempNum; }
-	bool SetDetermined() { return m_BeDetermined; }
-
-	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); }
-	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); }
-	void LocationSwap(int _v1, int _v2);
-	void TemporarySwap(int _v1, int _v2);
-	void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
 	vector<vector<int>> uvBody = {
 		{ 32, 32, 32, 20, 40, 20, 40, 32 },	// 후
 	{ 20, 32, 20, 20, 28, 20, 28, 32 },	// 전
