@@ -235,7 +235,7 @@ void UnitBox::MobMoveInTheWall()
 						MoveType = 1;
 						m_CanSave[m_pMob[i]->SetLocationNum().back()] = false;
 					}
-					else if(m_pMob[i]->SetDetermined() == false)
+					else if(m_CanSave[m_pMob[i]->SetLocationNum().back()] == false && m_pMob[i]->SetDetermined() == false)
 					{
 						//2는 차선으로 가는것
 						MoveType = 2;
@@ -263,24 +263,31 @@ void UnitBox::MobMoveInTheWall()
 								break;
 							}
 						}
-						m_CanSave[m_pMob[i]->SetLocationNum().back()] = false;
-						m_pMob[i]->SetDestination(m_pMob[i]->SetMoveTheWall().back());
-						m_pMob[i]->UpdatePositionToDestination();
-						Dist = D3DXVec3Length(&(m_pMob[i]->SetMoveTheWall().back() - m_pMob[i]->GetPosition()));
+						if (m_pMob[i]->SetLocationNum().empty() == false)
+						{
+							m_CanSave[m_pMob[i]->SetLocationNum().back()] = false;
+							m_pMob[i]->SetDestination(m_pMob[i]->SetMoveTheWall().back());
+							m_pMob[i]->UpdatePositionToDestination();
+							Dist = D3DXVec3Length(&(m_pMob[i]->SetMoveTheWall().back() - m_pMob[i]->GetPosition()));
+							
+						}
 						m_pMob[i]->GetDetermined(true);
 					}
 				}
-				
-				if (Dist < 0.3f)
+				if (m_pMob[i]->SetMoveTheWall().empty() == true)
+				{
+					
+				}
+				if (Dist < 1.0f)
 				{
 					m_pMob[i]->num++;
 					if (m_pMob[i]->num > 100)
 					{
+						m_CanSave[m_pMob[i]->SetLocationNum().back()] = true;
 						m_pMob[i]->GetDetermined(false);
 						m_pMob[i]->EraseWallLocation();
 						m_pMob[i]->m_move = false;
 						m_pMob[i]->num = 0;
-						m_CanSave[m_pMob[i]->SetLocationNum().back()] = true;
 					}
 				}
 			}

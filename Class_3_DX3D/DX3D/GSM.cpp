@@ -21,7 +21,7 @@ GSM::GSM()
 	mobPos.z = 100.0f;
 
 	// 몹 속도
-	mobSpeed = 0.2f;
+	mobSpeed = 1.0f;
 
 	/*Debug->AddText("= 키보드 ============");
 	Debug->EndLine();
