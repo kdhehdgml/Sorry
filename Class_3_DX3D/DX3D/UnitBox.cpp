@@ -223,25 +223,32 @@ void UnitBox::MobMoveInTheWall()
 				m_pMob[i]->m_move = true;
 			}
 
-			if (m_pMob[i]->m_move == true)
+			if(m_pMob[i]->m_move == true)
 			{
 				float Dist = D3DXVec3Length(&(m_pMob[i]->SetMoveTheWall().back() - m_pMob[i]->GetPosition()));
-				if (Dist < 5)
+				if (Dist < 5 && m_pMob[i]->SetDetermined() == false)
 				{
-					if (m_CanSave[m_pMob[i]->SetLocationNum().back()] == true&& m_pMob[i]->SetDetermined() == false)
+					if (m_CanSave[m_pMob[i]->SetLocationNum().back()] == true)
 					{
 						m_pMob[i]->GetDetermined(true);
 						//1은 원래길로가는것
 						MoveType = 1;
 						m_CanSave[m_pMob[i]->SetLocationNum().back()] = false;
 					}
-					else if(m_CanSave[m_pMob[i]->SetLocationNum().back()] == false && m_pMob[i]->SetDetermined() == false)
+					else
 					{
 						//2는 차선으로 가는것
 						MoveType = 2;
 						int j = m_pMob[i]->SetTemporary().size() - 1;
 						while (j > -1)
 						{
+							if (m_pMob[i]->SetMoveTheWall().back().x < m_pMob[i]->SetTemporary()[j].x)
+							{
+								m_pMob[i]->EraseTemporary();
+								j = m_pMob[i]->SetTemporary().size() - 1;
+								continue;
+							}
+
 							if (m_pMob[i]->SetMoveTheWall().back().x == m_pMob[i]->SetTemporary()[j].x)
 							{
 								if (m_CanSave[m_pMob[i]->SetTemporaryNum().back()] == true)
@@ -256,6 +263,7 @@ void UnitBox::MobMoveInTheWall()
 									m_pMob[i]->EraseTemporary();
 									j = m_pMob[i]->SetTemporary().size() - 1;
 								}
+								
 							}
 							else
 							{
@@ -269,15 +277,12 @@ void UnitBox::MobMoveInTheWall()
 							m_pMob[i]->SetDestination(m_pMob[i]->SetMoveTheWall().back());
 							m_pMob[i]->UpdatePositionToDestination();
 							Dist = D3DXVec3Length(&(m_pMob[i]->SetMoveTheWall().back() - m_pMob[i]->GetPosition()));
-							
+
 						}
 						m_pMob[i]->GetDetermined(true);
 					}
 				}
-				if (m_pMob[i]->SetMoveTheWall().empty() == true)
-				{
-					
-				}
+
 				if (Dist < 1.0f)
 				{
 					m_pMob[i]->num++;
@@ -288,6 +293,7 @@ void UnitBox::MobMoveInTheWall()
 						m_pMob[i]->EraseWallLocation();
 						m_pMob[i]->m_move = false;
 						m_pMob[i]->num = 0;
+						
 					}
 				}
 			}
