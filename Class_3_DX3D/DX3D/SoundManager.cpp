@@ -20,7 +20,7 @@ void SoundManager::setMusic()
 	string strBGFileName[] = { "resources/Sound/Music/" };
 	// 파일 위치 1개의 BG만 설정했습니다.
 	// 배열이라서 여러개 설정가능 채널을 사용해서 연관있는 사운드끼리 채널을 사용해야할것.
-	string strEffectFileName = "SoundBG";	 // 파일 이름
+	string strEffectFileName = "MoDD";	 // 파일 이름
 	
 	strBGFileName[0].append(strEffectFileName);
 	strBGFileName[0].append(".mp3");

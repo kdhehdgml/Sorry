@@ -29,7 +29,7 @@ private:
 	Picking *		m_pPicking;
 	//SkinnedMesh *	m_pSkinnedMesh;
 
-
+	string			soundSt;
 	bool			musicPlayCheck;
 	bool			musicPlay;
 

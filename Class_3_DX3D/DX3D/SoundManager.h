@@ -2,12 +2,11 @@
 
 class BGSound;
 
+#define g_pSoundManager SoundManager::GetInstance()
+
 class SoundManager
 {
-public:
-	SoundManager();
-	~SoundManager();
-
+	SINGLETON(SoundManager)
 private:
 	BGSound * m_pBGSound;
 

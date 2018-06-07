@@ -22,7 +22,7 @@
 #include "IUIObject.h"
 #include "UIImage.h"
 
-#include "SoundManager.h"
+
 
 SceneHeightmap::SceneHeightmap()
 {
@@ -176,7 +176,7 @@ void SceneHeightmap::Init()
 	pImage->SetPosition(&D3DXVECTOR3((rc.left + rc.right) / 2 - 60, (rc.top + rc.bottom) / 2 - 56, 0));
 	m_pCrosshair = pImage;
 
-	SoundManager().setMusic(); // À½¾Ç ¼¼ÆÃ
+	g_pSoundManager->setMusic(); // À½¾Ç ¼¼ÆÃ
 }
 
 void SceneHeightmap::Update()
@@ -209,6 +209,7 @@ void SceneHeightmap::Update()
 
 
 
+	
 
 	// F5 Å° ´©¸£¸é À½¾Ç Àç»ý ON / OFF
 	if ((GetAsyncKeyState(VK_F5) & 0x8000))
@@ -220,17 +221,25 @@ void SceneHeightmap::Update()
 			if (!musicPlay)
 			{
 				musicPlay = true;
-				SoundManager().playSound(0);
+				g_pSoundManager->playSound(0);
 			}
 			else
 			{
 				musicPlay = false;
-				SoundManager().stopSound(0);
+				g_pSoundManager->stopSound(0);
 			}
 		}
 	}
 	else if (musicPlayCheck)
 		musicPlayCheck = false;
+
+	if(musicPlay)
+		soundSt = "[ Music Play ]";
+	else
+		soundSt = "[ Music Stop ]";
+
+	Debug->AddText(soundSt);
+	Debug->EndLine();
 }
 
 void SceneHeightmap::Render()
