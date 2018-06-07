@@ -121,24 +121,24 @@ void SceneHeightmap::Init()
 	//안개생성
 	m_CreateSmog = new CreateSmog;
 	m_CreateSmog->Init();
+	//맨왼쪾 맨위 좌표
 	//460.0f, 70.0f, 485.0f
-	for (int i = 0; i < 5; i++)
-	{
-		m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f - (120.0f* (float)(i) )));
-	}
+	m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f ),(0.6f));
+	m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 405.0f), (0.3f));
+	m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 305.0f), (0.5f));
+	m_CreateSmog->Insert(D3DXVECTOR3(350.0f, 70.0f, 205.0f), (0.6f));
+	m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 155.0f), (0.3f));
+	m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 105.0f), (0.8f));
+	//m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f), (0.6f));
+	//m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f), (0.6f));
+	//m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f), (0.6f));
+	
 	
 	AddSimpleDisplayObj(m_CreateSmog);
 
 
 	m_ColorCube = new ColorCube;
 	m_ColorCube->Init();
-
-
-	
-	//m_CreateSmog->Insert(D3DXVECTOR3(20.0f, 0.0f, 40.0f));
-	//m_CreateSmog->Insert(D3DXVECTOR3(30.0f, 0.0f, 30.0f));
-	//m_CreateSmog->Insert(D3DXVECTOR3(40.0f, 0.0f, 20.0f));
-	//m_CreateSmog->Insert(D3DXVECTOR3(50.0f, 0.0f, 10.0f));
 
 
 	//m_pSkinnedMesh = new SkinnedMesh;
