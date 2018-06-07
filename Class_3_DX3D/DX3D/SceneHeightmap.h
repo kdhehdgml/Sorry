@@ -19,7 +19,7 @@ class Blocks;
 
 //class SkinnedMesh;
 
-class BGSound;
+
 
 class SceneHeightmap : public IScene
 {
@@ -29,7 +29,7 @@ private:
 	Picking *		m_pPicking;
 	//SkinnedMesh *	m_pSkinnedMesh;
 
-	BGSound*		m_pBGSound;
+
 	bool			musicPlayCheck;
 	bool			musicPlay;
 
