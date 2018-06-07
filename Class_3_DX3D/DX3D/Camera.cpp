@@ -29,6 +29,10 @@ Camera::Camera()
 	m_recoilYDelta = 0.0f;
 
 	m_cooldown = 0;
+	
+	m_running = 0;
+	m_runningRecoilX = 0.0f;
+	m_runningRecoilY = 0.0f;
 }
 
 
@@ -135,6 +139,10 @@ void Camera::Update()
 		else {
 			m_speedOffset = 0.8f;
 		}
+		m_running++;
+		if (m_running >= 41) {
+			m_running = 1;
+		}
 	}
 	else {
 		if (m_freeCameraMode) {
@@ -142,6 +150,43 @@ void Camera::Update()
 		}
 		else {
 			m_speedOffset = 0.4f;
+		}
+		m_running = 0;
+	}
+
+	if (m_running >= 1 && m_running < 10) {
+		m_runningRecoilX = m_running * 0.005f;
+		m_runningRecoilY = m_running * -0.005f;
+	}
+	else if (m_running >= 11 & m_running < 20) {
+		m_runningRecoilX = (20 - m_running) * 0.005f;
+		m_runningRecoilY = (20 - m_running) * -0.005f;
+	}
+	else if (m_running >= 21 & m_running < 30) {
+		m_runningRecoilX = (m_running - 20) * 0.005f;
+		m_runningRecoilY = (m_running - 20) * 0.005f;
+	}
+	else if (m_running >= 31 & m_running < 40) {
+		m_runningRecoilX = (40 - m_running) * 0.005f;
+		m_runningRecoilY = (40 - m_running) * 0.005f;
+	}
+	else {
+		if (m_runningRecoilX > 0) {
+			m_runningRecoilX -= 0.005f;
+		}
+		else {
+			m_runningRecoilX = 0;
+		}
+		if (abs(m_runningRecoilY) > 0.01f) {
+			if (m_runningRecoilY > 0) {
+				m_runningRecoilY -= 0.005f;
+			}
+			else {
+				m_runningRecoilY += 0.005f;
+			}
+		}
+		else {
+			m_runningRecoilY = 0;
 		}
 	}
 
@@ -183,9 +228,23 @@ void Camera::Update()
 		}
 	}
 
-	dir.x = sin(m_rotY + m_recoilY);
-	dir.z = cos(m_rotY + m_recoilY);
-	dir.y = tan(m_rotX + m_recoilX);
+	if (m_freeCameraMode) {
+		m_runningRecoilX = 0;
+		m_runningRecoilY = 0;
+	}
+
+	if ((m_rotY + m_recoilY + m_runningRecoilY) <= -D3DX_PI * 0.5f + D3DX_16F_EPSILON)
+	{
+		m_rotX = -D3DX_PI * 0.5f + D3DX_16F_EPSILON - m_recoilY - m_runningRecoilY;
+	}
+	if ((m_rotX + m_recoilX + m_runningRecoilX) >= D3DX_PI * 0.3f - D3DX_16F_EPSILON)
+	{
+		m_rotX = D3DX_PI * 0.3f - D3DX_16F_EPSILON - m_recoilX - m_runningRecoilX;
+	}
+
+	dir.x = sin(m_rotY + m_recoilY + m_runningRecoilY);
+	dir.z = cos(m_rotY + m_recoilY + m_runningRecoilY);
+	dir.y = tan(m_rotX + m_recoilX + m_runningRecoilX);
 
 	if (m_cooldown >= 1) {
 		m_cooldown--;
@@ -214,10 +273,10 @@ void Camera::Update()
 	Debug->AddText(" m_recoilY : ");
 	Debug->AddText(m_recoilY);
 	Debug->EndLine();
-	Debug->AddText("m_recoilXDelta : ");
-	Debug->AddText(m_recoilXDelta);
-	Debug->AddText(" m_recoilYDelta : ");
-	Debug->AddText(m_recoilYDelta);
+	Debug->AddText("m_runningRecoilX : ");
+	Debug->AddText(m_runningRecoilX);
+	Debug->AddText(" m_runningRecoilY : ");
+	Debug->AddText(m_runningRecoilY);
 	Debug->EndLine();
 	Debug->AddText("프리카메라 모드:");
 	Debug->AddText(m_freeCameraMode);

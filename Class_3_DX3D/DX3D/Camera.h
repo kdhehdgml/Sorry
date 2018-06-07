@@ -37,6 +37,9 @@ private:
 	float m_recoilYDelta;
 	vector<Mob*> m_pMob;
 	int m_cooldown;
+	int m_running;
+	float m_runningRecoilX;
+	float m_runningRecoilY;
 
 public:
 	void Init();
