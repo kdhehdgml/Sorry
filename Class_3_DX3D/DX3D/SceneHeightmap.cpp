@@ -190,7 +190,7 @@ void SceneHeightmap::Init()
 	pImage2->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
 	m_pScope = pImage2;
 
-	g_pSoundManager->setMusic(); // À½¾Ç ¼¼ÆÃ
+	g_pSoundManager->createSound(); // À½¾Ç ¼¼ÆÃ
 }
 
 void SceneHeightmap::Update()
@@ -227,7 +227,7 @@ void SceneHeightmap::Update()
 
 
 	// F5 Å° ´©¸£¸é À½¾Ç Àç»ý ON / OFF
-	if ((GetAsyncKeyState(VK_F5) & 0x8000))
+	if ((GetAsyncKeyState('1') & 0x8000))
 	{
 		if (!musicPlayCheck)
 		{
@@ -236,12 +236,12 @@ void SceneHeightmap::Update()
 			if (!musicPlay)
 			{
 				musicPlay = true;
-				g_pSoundManager->playSound(0);
+				g_pSoundManager->playMusic(0);
 			}
 			else
 			{
 				musicPlay = false;
-				g_pSoundManager->stopSound(0);
+				g_pSoundManager->stopMusic(0);
 			}
 		}
 	}

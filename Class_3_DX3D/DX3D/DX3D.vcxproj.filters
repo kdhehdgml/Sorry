@@ -279,14 +279,14 @@
     <ClInclude Include="Mouse.h">
       <Filter>소스 파일\Keyboard &amp; Mouse</Filter>
     </ClInclude>
-    <ClInclude Include="BGSound.h">
-      <Filter>소스 파일\Sound</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>소스 파일\Sound</Filter>
     </ClInclude>
     <ClInclude Include="TeamAI.h">
       <Filter>소스 파일\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundControl.h">
+      <Filter>소스 파일\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -480,14 +480,14 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>소스 파일\Keyboard &amp; Mouse</Filter>
     </ClCompile>
-    <ClCompile Include="BGSound.cpp">
-      <Filter>소스 파일\Sound</Filter>
-    </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>소스 파일\Sound</Filter>
     </ClCompile>
     <ClCompile Include="TeamAI.cpp">
       <Filter>소스 파일\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundControl.cpp">
+      <Filter>소스 파일\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

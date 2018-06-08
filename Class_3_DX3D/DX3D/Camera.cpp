@@ -357,6 +357,10 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			m_recoilXDelta += (float)((float)(rand() % 4) + 8.0f) / 100.0f;
 			m_recoilYDelta += (float)((float)(rand() % 12) - 6.0f) / 100.0f;
 			Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
+
+			// 발사음 테스트
+			g_pSoundManager->playSound();
+
 			for (auto p : m_pMob)
 			{
 				bool getHit = false;
