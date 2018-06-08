@@ -51,7 +51,7 @@ void TeamAI::Update()
 		status = 0;
 	}
 	if (status > 0) {
-
+		UpdatePositionToDestination();
 		UpdatePosition();
 
 		m_pBoundingSphere->center = m_pos;

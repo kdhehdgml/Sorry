@@ -109,6 +109,23 @@ void UnitBox::Update()
 		m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
 	}
 
+	if (GetAsyncKeyState(VK_F6) & 0x0001)
+	{
+		TeamNum++;
+		m_pTeam.resize(TeamNum);
+		m_pTeam[TeamNum - 1] = new TeamAI;
+		m_pTeam[TeamNum - 1]->Init();
+		//m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3(GSM().TeamPos.x + NODE_POSITSIZE, 2.67f, GSM().TeamPos.z + ((TeamNum) * 20 + NODE_POSITSIZE)));
+		m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE - 50), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
+	}
+	if (GetAsyncKeyState(VK_F7) & 0x0001)
+	{
+		for (int i = 0; i < m_pTeam.size(); i++)
+		{
+			m_pTeam[i]->GetTargetPostion(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE), 2.67f, m_pTeam[i]->GetPosition().z));
+			m_pTeam[i]->UpdatePositionToDestination();
+		}
+	}
 	for (size_t i = 0; i < m_pMob.size(); i++)
 	{
 		SAFE_UPDATE(m_pMob[i]);

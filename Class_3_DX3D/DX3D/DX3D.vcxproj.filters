@@ -288,6 +288,7 @@
     <ClInclude Include="SoundControl.h">
       <Filter>소스 파일\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="SceneLoading.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -489,6 +490,7 @@
     <ClCompile Include="SoundControl.cpp">
       <Filter>소스 파일\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLoading.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">
