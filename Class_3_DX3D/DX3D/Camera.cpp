@@ -359,7 +359,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
 
 			// 발사음 테스트
-			g_pSoundManager->ShotSound();
+			g_pSoundManager->playSound();
 
 			for (auto p : m_pMob)
 			{
