@@ -10,7 +10,7 @@ Mob::Mob()
 	m_isMoving = false;
 	m_isShoot = false;
 
-	m_baseRotY = D3DX_PI;
+	//m_baseRotY = D3DX_PI;
 
 	m_forward.z = -1;
 	m_pos.y = 3.0f;
@@ -182,7 +182,7 @@ void Mob::CreateParts(CubemanParts *& pParts,
 	pParent->AddChild(pParts);
 }
 
-bool Mob::PlayerSearch(D3DXVECTOR3 Ppos, Mob* mob)
+bool Mob::PlayerSearch(Mob* mob)
 {
 
 	if (mob->m_pos.x < 164.5f)
@@ -194,15 +194,15 @@ bool Mob::PlayerSearch(D3DXVECTOR3 Ppos, Mob* mob)
 			mob->forward = D3DXVECTOR3(mob->m_destPos.x - mob->m_pos.x, 0, mob->m_destPos.z - mob->m_pos.z);
 		}
 
-
 		D3DXVECTOR3 DirectPM;
 		D3DXVECTOR3 MobPos;
-		DirectPM = Ppos - mob->m_pos;
+		DirectPM = (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition() - mob->m_pos;
 		DirectPM.y = 0;
 		D3DXVECTOR3 DirectPMnormal = DirectPM;
 		D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
 		D3DXVec3Normalize(&mob->forward, &mob->forward);
-		float Length = abs(Ppos.x - mob->m_pos.x + Ppos.z - mob->m_pos.z);
+		float Length = abs((g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition().x - mob->m_pos.x
+			+ (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition().z - mob->m_pos.z);
 		float DotPM = D3DXVec3Dot(&DirectPMnormal, &mob->forward);
 		float direct = 1.0f / 2.0f;
 		
@@ -221,7 +221,7 @@ bool Mob::PlayerSearch(D3DXVECTOR3 Ppos, Mob* mob)
 	}
 }
 
-void Mob::ShootVertex(D3DXVECTOR3 Ppos, Mob* mob)
+void Mob::ShootVertex(Mob* mob)
 {
 	Ray * ray;
 	ray = new Ray();
@@ -238,7 +238,9 @@ void Mob::ShootVertex(D3DXVECTOR3 Ppos, Mob* mob)
 	//D3DXVECTOR3 directPMnor = Ppos - mob->m_pos;
 	ray->m_pos = { mob->m_pos.x,  mob->m_pos.y + 4.0f, mob->m_pos.z };
 
-	ray->m_dir = { Ppos.x , Ppos.y + 4.0f, Ppos.z };
+	ray->m_dir = { (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition().x , 
+		(g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition().y + 4.0f,
+		(g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition().z };
 	if (m_isShoot == true)
 	{
 		Shootpos[0] = (VERTEX_PC(ray->m_pos, c));

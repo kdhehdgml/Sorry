@@ -2,16 +2,17 @@
 #include "IUnitObject.h"
 class Cubeman;
 class Mob;
-
+class TeamAI;
 class UnitBox : public IUnitObject
 {
 private:
 	Cubeman *		m_pCubeman;
 	vector<Mob*>	m_pMob;
-	
+	vector<TeamAI*>	m_pTeam;
 	vector<D3DXVECTOR3> m_SaveLocation;
 	vector<bool>		m_CanSave;
-	int				num;
+	int				MobNum;
+	int				TeamNum;
 	bool			m_SameChk;
 
 public:
