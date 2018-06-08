@@ -210,6 +210,7 @@
     <ClInclude Include="SampleUI.h" />
     <ClInclude Include="SceneGrid.h" />
     <ClInclude Include="SceneHeightmap.h" />
+    <ClInclude Include="SceneLoading.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObjMap.h" />
     <ClInclude Include="SceneTest.h" />
@@ -280,6 +281,7 @@
     <ClCompile Include="SampleUI.cpp" />
     <ClCompile Include="SceneGrid.cpp" />
     <ClCompile Include="SceneHeightmap.cpp" />
+    <ClCompile Include="SceneLoading.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObjMap.cpp" />
     <ClCompile Include="SceneTest.cpp" />
