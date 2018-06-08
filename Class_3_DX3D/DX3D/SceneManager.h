@@ -29,5 +29,7 @@ public:
 
 	void SetCurrentScene(size_t index);
 
+	string m_pCurrSceneString;
+
 };
 

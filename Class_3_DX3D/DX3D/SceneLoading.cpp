@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "SceneLoading.h"
-
+#include "SceneHeightmap.h"
 
 SceneLoading::SceneLoading()
 {
 	m_pSprite = NULL;
 	m_pLoadingScreen = NULL;
 	pImage = NULL;
+	m_renderComplete = false;
 }
 
 
@@ -28,12 +29,20 @@ void SceneLoading::Init()
 	pImage->SetTexture("resources/ui/LoadingScreen.png");
 	pImage->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
 	m_pLoadingScreen = pImage;
+
+	g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
+	g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP";
 }
 
 void SceneLoading::Update()
 {
 	SAFE_UPDATE(m_pLoadingScreen);
 	OnUpdateIScene();
+	if (g_pTimeManager->GetDeltaTime() > 0.001f && !m_renderComplete) {
+		m_renderComplete = true;
+		g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
+		g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP";
+	}
 }
 
 void SceneLoading::Render()
@@ -50,4 +59,13 @@ void SceneLoading::Render()
 
 void SceneLoading::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	/*switch (message) {
+	case WM_KEYDOWN:
+		switch (wParam) {
+		case VK_NUMPAD2:
+			g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
+			break;
+		}
+		break;
+	}*/
 }

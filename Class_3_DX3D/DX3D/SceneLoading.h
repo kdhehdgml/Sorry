@@ -11,6 +11,7 @@ private:
 	LPD3DXSPRITE m_pSprite;
 	IUIObject * m_pLoadingScreen;
 	UIImage* pImage;
+	bool m_renderComplete;
 public:
 	SceneLoading();
 	~SceneLoading();
