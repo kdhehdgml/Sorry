@@ -19,22 +19,19 @@ SceneManager::~SceneManager()
 
 void SceneManager::Init()
 {
-	m_vecScene.push_back(new SceneLoading());
-	SetCurrentScene(SCENE_LOADING);
-	m_pCurrSceneString = "SCENE_LOADING";
-	SAFE_RENDER(m_pCurrScene);
-	m_vecScene.push_back(new SceneHeightmap());
 	m_vecScene.push_back(new SceneGrid());
 	m_vecScene.push_back(new SceneObjMap());
+	m_vecScene.push_back(new SceneHeightmap());
 	m_vecScene.push_back(new SceneTest());
 	m_vecScene.push_back(new SceneXfile());
-
+	m_vecScene.push_back(new SceneLoading());
+	
+	//SCENE_XFILE
 	//SetCurrentScene(SCENE_GRID);
 	//SetCurrentScene(SCENE_OBJMAP);
-	//SetCurrentScene(SCENE_HEIGHTMAP);
+	SetCurrentScene(SCENE_HEIGHTMAP);
 	//SetCurrentScene(SCENE_TEST);
 	//SetCurrentScene(SCENE_XFILE);
-
 	
 }
 
@@ -49,9 +46,6 @@ void SceneManager::Destroy()
 void SceneManager::Update()
 {
 	SAFE_UPDATE(m_pCurrScene);
-	Debug->AddText("ÇöÀç ¾À : ");
-	Debug->AddText(m_pCurrSceneString);
-	Debug->EndLine();
 }
 
 void SceneManager::Render()
@@ -63,6 +57,18 @@ void SceneManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 {
 	//if (m_pCurrScene) m_pCurrScene->WndProc(hWnd, message, wParam, lParam);
 	SAFE_WNDPROC(m_pCurrScene);
+	switch (message) {
+	case WM_KEYDOWN:
+		switch (wParam) {
+		case VK_NUMPAD1:
+			SetCurrentScene(SCENE_LOADING);
+			break;
+		case VK_NUMPAD2:
+			SetCurrentScene(SCENE_HEIGHTMAP);
+			break;
+		}
+		break;
+	}
 }
 
 void SceneManager::SetCurrentScene(size_t index)

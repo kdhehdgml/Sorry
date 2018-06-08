@@ -67,7 +67,7 @@ SceneHeightmap::~SceneHeightmap()
 	//m_CreateSmog->Release();
 	//SAFE_RELEASE(m_CreateSmog);
 
-	
+
 	OnDestructIScene();
 }
 
@@ -255,6 +255,15 @@ void SceneHeightmap::Update()
 
 	Debug->AddText(soundSt);
 	Debug->EndLine();
+
+	if ((GetAsyncKeyState('W') & GetAsyncKeyState(VK_SHIFT) & 0x8000))
+	{
+		g_pSoundManager->RunSound();
+	}
+	else if ((GetAsyncKeyState('W') & 0x8000))
+	{
+		g_pSoundManager->WalkSound();
+	}
 }
 
 void SceneHeightmap::Render()
