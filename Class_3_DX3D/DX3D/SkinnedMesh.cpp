@@ -36,8 +36,9 @@ void SkinnedMesh::Init()
 	D3DXCreateSphere(g_pDevice, 0.01f, 10, 10, &m_pSphereMesh, NULL);
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
-	CString path = "resources/xFile/";
-	CString filename = "Monster.X";
+	//CString path = "resources/xFile/";
+	CString path = "resources/xFile/player_hand/";
+	CString filename = "player_hand.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 }
