@@ -6,6 +6,7 @@
 #include "SceneHeightmap.h"
 #include "SceneTest.h"
 #include "SceneXfile.h"
+#include "SceneLoading.h"
 
 SceneManager::SceneManager()
 {
@@ -23,6 +24,7 @@ void SceneManager::Init()
 	m_vecScene.push_back(new SceneHeightmap());
 	m_vecScene.push_back(new SceneTest());
 	m_vecScene.push_back(new SceneXfile());
+	m_vecScene.push_back(new SceneLoading());
 	
 	//SCENE_XFILE
 	//SetCurrentScene(SCENE_GRID);
@@ -53,8 +55,20 @@ void SceneManager::Render()
 
 void SceneManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (m_pCurrScene)
-		m_pCurrScene->WndProc(hWnd, message, wParam, lParam);
+	//if (m_pCurrScene) m_pCurrScene->WndProc(hWnd, message, wParam, lParam);
+	SAFE_WNDPROC(m_pCurrScene);
+	switch (message) {
+	case WM_KEYDOWN:
+		switch (wParam) {
+		case VK_NUMPAD1:
+			SetCurrentScene(SCENE_LOADING);
+			break;
+		case VK_NUMPAD2:
+			SetCurrentScene(SCENE_HEIGHTMAP);
+			break;
+		}
+		break;
+	}
 }
 
 void SceneManager::SetCurrentScene(size_t index)
