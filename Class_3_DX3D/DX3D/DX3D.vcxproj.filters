@@ -248,7 +248,6 @@
     <ClInclude Include="Heap.h">
       <Filter>소스 파일\3.Object\AStar</Filter>
     </ClInclude>
-    <ClInclude Include="CreateSmog.h" />
     <ClInclude Include="SkinnedMesh.h">
       <Filter>소스 파일\xFile</Filter>
     </ClInclude>
@@ -289,6 +288,9 @@
       <Filter>소스 파일\Sound</Filter>
     </ClInclude>
     <ClInclude Include="SceneLoading.h" />
+    <ClInclude Include="CreateSmog.h">
+      <Filter>소스 파일\3.Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -447,7 +449,6 @@
     <ClCompile Include="Heap.cpp">
       <Filter>소스 파일\3.Object\AStar</Filter>
     </ClCompile>
-    <ClCompile Include="CreateSmog.cpp" />
     <ClCompile Include="SkinnedMesh.cpp">
       <Filter>소스 파일\xFile</Filter>
     </ClCompile>
@@ -491,6 +492,9 @@
       <Filter>소스 파일\Sound</Filter>
     </ClCompile>
     <ClCompile Include="SceneLoading.cpp" />
+    <ClCompile Include="CreateSmog.cpp">
+      <Filter>소스 파일\3.Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

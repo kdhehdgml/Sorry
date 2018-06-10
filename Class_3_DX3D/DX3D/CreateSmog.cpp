@@ -10,6 +10,9 @@ CreateSmog::CreateSmog()
 {
 	//스모그 사이즈조절
 	m_SmogSize = 1.5f;
+	//스모그 종류
+	m_Smog_index = 0;
+
 }
 
 
@@ -20,11 +23,15 @@ CreateSmog::~CreateSmog()
 
 void CreateSmog::Init()
 {
-	m_pTex = g_pTextureManager->GetTexture(L"resources/images/smog.png");
+	//스모그 종류 초기화
+	m_pTex.push_back(g_pTextureManager->GetTexture(L"resources/images/smog.png"));
+	m_pTex.push_back(g_pTextureManager->GetTexture(L"resources/images/smoke.png"));
+	m_pTex.push_back(g_pTextureManager->GetTexture(L"resources/images/smoke2.png"));
+	m_pTex.push_back(g_pTextureManager->GetTexture(L"resources/images/smoketest2.png"));
 
 	//m_pTex->GetSurfaceLevel();
 
-
+	srand(time(NULL));
 
 	D3DXMatrixIdentity(&m_matWorld);
 	//
@@ -54,7 +61,10 @@ void CreateSmog::Update()
 		if (m_vecAtt[i]->_color.a > 0)
 			m_vecAtt[i]->_color.a -= 0.001f;//1부터 0으로 수렴
 		else
+		{
 			m_vecAtt[i]->_color.a = m_vecAtt[i]->_MaxTransparency;
+//			m_Smog_index = rand() % 4; //안개 이미지 생성시 랜덤하게 하기 도전중
+		}
 
 		Debug->AddText(m_vecAtt[i]->_position);
 		Debug->EndLine();
@@ -84,7 +94,7 @@ void CreateSmog::Update()
 	}
 
 
-
+	
 	
 }
 
@@ -118,7 +128,7 @@ void CreateSmog::Render()
 	g_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-	g_pDevice->SetTexture(0, m_pTex);
+	g_pDevice->SetTexture(0, m_pTex[m_Smog_index]);
 	g_pDevice->SetFVF(VERTEX_PC::FVF);
 	g_pDevice->SetStreamSource(0, m_pVB, 0, sizeof(VERTEX_PC));
 	g_pDevice->DrawPrimitive(D3DPT_POINTLIST, 0, m_vecAtt.size());
