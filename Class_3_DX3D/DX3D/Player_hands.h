@@ -16,6 +16,9 @@ protected:
 	int							m_numFrame;
 	int							m_numMesh;
 
+	bool						m_HandsOption;
+	float						angle;
+
 	D3DXMATRIXA16				matT, matS, matR;
 
 
