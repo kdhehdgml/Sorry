@@ -42,8 +42,10 @@ void Player_hands::Init()
 	CString filename = "player_hand.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
+	float angle = 0;
 
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+	D3DXMatrixRotationY(&matR, angle);
 }
 
 
@@ -68,7 +70,7 @@ void Player_hands::Update()
 	Debug->AddText(_T(" / "));
 	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
 	Debug->EndLine();
-	D3DXMATRIXA16 matR;
+	
 
 
 
@@ -116,7 +118,7 @@ void Player_hands::Update()
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
-	m_matWorld = matS * matT ;
+	m_matWorld = matS * matR * matT ;
 }
 
 void Player_hands::Render()
