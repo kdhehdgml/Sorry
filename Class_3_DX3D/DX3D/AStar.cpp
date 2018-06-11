@@ -87,40 +87,41 @@ void AStar::Render()
 			break;
 		}
 
-		////충돌체크!
-		//D3DXVECTOR3 Distance = p->GetLocation() - m_ColorCube->GetPostion();
-		////좌표위치 차이
-		//float p_Distance = D3DXVec3Length(&Distance);
-		////반지름합
-		//float Radius = m_ColorCube->GetRADIUS() + SPHERESIZE;
-		//
-		////충돌된것 피하는 장애물로 변환
-		////각 객체의 반지름을 합하고 두 위치 사이의 거리를 비교
-		////반지름의 합보다 사이거리가 짧을경우 충돌로 판정후 실행
-		//
-		//if (Radius > p_Distance)
-		//{
-		//	//하이드월과 노 하이드월은 탱크노드로 변경하지 않는다.
-		//	if (!(p->m_nodeState == STATE_NOHIDEWALL || p->m_nodeState == STATE_WALL ))
-		//	{
-		//		p->m_nodeState = STATE_TANK;
-		//		//닿았으면 충돌 트루
-		//		p->m_ClickBox = true;
-		//	}
-		//	//m_count++;
-		//	
-		//}
-		//else
-		//{
-		//	//닿지않았다.
-		//	p->m_ClickBox = false;
-		//}
-		//
-		////탱크가 없는곳 모두 일반노드화
-		//if (p->m_ClickBox == false && p->m_nodeState == STATE_TANK)
-		//{
-		//	p->m_nodeState = STATE_NONE;
-		//}
+
+		//충돌체크!
+		D3DXVECTOR3 Distance = p->GetLocation() - m_ColorCube->GetPostion();
+		//좌표위치 차이
+		float p_Distance = D3DXVec3Length(&Distance);
+		//반지름합
+		float Radius = m_ColorCube->GetRADIUS() + SPHERESIZE;
+		
+		//충돌된것 피하는 장애물로 변환
+		//각 객체의 반지름을 합하고 두 위치 사이의 거리를 비교
+		//반지름의 합보다 사이거리가 짧을경우 충돌로 판정후 실행
+		
+		if (Radius > p_Distance)
+		{
+			//하이드월과 노 하이드월은 탱크노드로 변경하지 않는다.
+			if (!(p->m_nodeState == STATE_NOHIDEWALL || p->m_nodeState == STATE_WALL ))
+			{
+				p->m_nodeState = STATE_TANK;
+				//닿았으면 충돌 트루
+				p->m_ClickBox = true;
+			}
+			//m_count++;
+			
+		}
+		else
+		{
+			//닿지않았다.
+			p->m_ClickBox = false;
+		}
+		
+		//탱크가 없는곳 모두 일반노드화
+		if (p->m_ClickBox == false && p->m_nodeState == STATE_TANK)
+		{
+			p->m_nodeState = STATE_NONE;
+		}
 
 
 		D3DXMatrixTranslation(&mat, p->GetLocation().x, p->GetLocation().y, p->GetLocation().z);
@@ -145,7 +146,7 @@ void AStar::InitNodes(IMap * pMap)
 	int nodeDim = 90;// 노드 한 줄 갯수
 					 //간격
 	//이 수치 
-	float interval = (pMap->GetSize().x - NODE_POSITSIZE) / (float)(nodeDim - 0.99);
+	float interval = (pMap->GetSize().x - NODE_POSITSIZE*2) / (float)(nodeDim - 0.99);
 
 
 

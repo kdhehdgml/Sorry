@@ -78,10 +78,10 @@ void IUnitObject::UpdatePositionToDestination()
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 	m_matWorld = m_matRotY * matBaseR * matT;
 
-	/*if (D3DXVec3LengthSq(&m_deltaPos) > 0 || D3DXVec3LengthSq(&m_deltaRot) > 0)
+	if (D3DXVec3LengthSq(&m_deltaPos) > 0 || D3DXVec3LengthSq(&m_deltaRot) > 0)
 		m_isMoving = true;
 	else
-		m_isMoving = false;*/
+		m_isMoving = false;
 
 }
 
@@ -121,39 +121,10 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 			m_currMoveSpeedRate = 1.0f;
 			m_deltaPos.z = 1;
 		}
-		
+
 		if (D3DXVec3Length(&forward) >= m_moveSpeed * m_currMoveSpeedRate)
 		{
-			if (g_pObjMgr->FindObjectByTag(TAG_MOB) == false)
-			{
-				targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
-			}
-			else
-			{
-				bool chk = false;
-				for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_MOB).size(); i++)
-				{
-					if (targetPos != g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())
-					{
-						if (D3DXVec3Length(&((m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate) -
-							g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())) < 2.5f)
-						{
-							
-							i = g_pObjMgr->FindObjectsByTag(TAG_MOB).size();
-
-							chk = true;
-						}
-						else
-						{
-							chk = false;
-						}
-					}
-				}
-				if (chk == false)
-				{
-					targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
-				}
-			}
+			targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
 		}
 		else
 		{

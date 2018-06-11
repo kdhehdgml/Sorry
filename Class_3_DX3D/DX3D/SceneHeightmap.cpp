@@ -193,6 +193,8 @@ void SceneHeightmap::Init()
 	pImage2->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
 	m_pScope = pImage2;
 
+	g_pSoundManager->createSound(); // 사운드 세팅								
+	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
 	m_Player_hands = new Player_hands;
 	m_Player_hands->Init();
 
