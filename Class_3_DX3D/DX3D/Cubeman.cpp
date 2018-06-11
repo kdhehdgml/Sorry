@@ -108,7 +108,7 @@ void Cubeman::Update()
 void Cubeman::Render()
 {
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	m_pRootParts->Render();
+	//m_pRootParts->Render();
 }
 
 void Cubeman::UpdatePosition()

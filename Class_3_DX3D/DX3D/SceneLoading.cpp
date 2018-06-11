@@ -44,6 +44,11 @@ void SceneLoading::Init()
 
 	//g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
 	//g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP"; //디버그용 문자
+	g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
+	g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP";
+
+	//g_pSceneManager->SetCurrentScene(SCENE_XFILE);
+	//g_pSceneManager->m_pCurrSceneString = "SCENE_XFILE";
 }
 
 void SceneLoading::Update()

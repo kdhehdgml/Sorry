@@ -12,6 +12,7 @@ class CreateSmog;
 
 class SkyBox;
 class ColorCube;
+class Player_hands;
 
 //중현이코드
 class UnitBox;
@@ -26,6 +27,7 @@ class SceneHeightmap : public IScene
 private:
 	HeightMap *		m_pHeightMap;
 	AseCharacter*	m_pAseCharacter;
+	Player_hands*	m_Player_hands;
 	//Picking *		m_pPicking;
 	//SkinnedMesh *	m_pSkinnedMesh;
 
