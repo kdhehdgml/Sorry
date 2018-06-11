@@ -190,7 +190,8 @@ void SceneHeightmap::Init()
 	pImage2->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
 	m_pScope = pImage2;
 
-	g_pSoundManager->createSound(); // 음악 세팅
+	g_pSoundManager->createSound(); // 사운드 세팅								
+	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
 }
 
 void SceneHeightmap::Update()
@@ -221,9 +222,6 @@ void SceneHeightmap::Update()
 	Debug->AddText((int)(pmc.WorkingSetSize / 1024));
 	Debug->AddText("KB");
 	Debug->EndLine();
-
-
-
 
 
 	// F5 키 누르면 음악 재생 ON / OFF
