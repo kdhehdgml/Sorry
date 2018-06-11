@@ -195,7 +195,8 @@ void SceneHeightmap::Init()
 
 	g_pSoundManager->createSound(); // 사운드 세팅								
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
-	m_Player_hands = new Player_hands;
+	
+	m_Player_hands = new Player_hands;//플레이어 손 세팅
 	m_Player_hands->Init();
 
 	AddSimpleDisplayObj(m_Player_hands);

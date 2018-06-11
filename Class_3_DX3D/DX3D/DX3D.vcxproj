@@ -168,6 +168,7 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="Monster.h" />
     <ClInclude Include="Player_hands.h" />
     <ClInclude Include="SoundControl.h" />
     <ClInclude Include="Blocks.h" />
@@ -243,6 +244,7 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Player_hands.cpp" />
     <ClCompile Include="SceneBattlefield.cpp" />
     <ClCompile Include="SoundControl.cpp" />
