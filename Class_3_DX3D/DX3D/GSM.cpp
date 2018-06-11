@@ -6,6 +6,14 @@ GSM::GSM()
 {
 	// Ω√¿€ æ¿
 	StartScene = SCENE_HEIGHTMAP;
+	// SCENE_LOADING
+	// SCENE_HEIGHTMAP
+	// SCENE_GRID
+	// SCENE_OBJMAP
+	// SCENE_TEST
+	// SCENE_XFILE
+	// SCENE_BATTLEFIELD
+
 
 	// ∏  ≈©±‚
 	mapSize = 500.0f;

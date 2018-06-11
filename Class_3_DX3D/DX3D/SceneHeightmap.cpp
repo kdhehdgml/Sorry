@@ -224,8 +224,8 @@ void SceneHeightmap::Update()
 	Debug->EndLine();
 
 
-	// F5 키 누르면 음악 재생 ON / OFF
-	if ((GetAsyncKeyState('1') & 0x8000))
+	// 0 키 누르면 음악 재생 ON / OFF
+	if ((GetAsyncKeyState('0') & 0x8000))
 	{
 		if (!musicPlayCheck)
 		{
@@ -258,7 +258,10 @@ void SceneHeightmap::Update()
 	{
 		g_pSoundManager->RunSound();
 	}
-	else if (GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('D') & 0x8000)
+	else if (GetAsyncKeyState('W') || 
+			GetAsyncKeyState('A') || 
+			GetAsyncKeyState('D') ||  
+			GetAsyncKeyState('S') & 0x8000)
 	{
 		g_pSoundManager->WalkSound();
 	}
