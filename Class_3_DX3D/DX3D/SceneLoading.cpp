@@ -31,7 +31,7 @@ void SceneLoading::Init()
 	m_pLoadingScreen = pImage;
 
 	g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
-	g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP";
+	g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP"; //디버그용 문자
 }
 
 void SceneLoading::Update()
@@ -40,8 +40,8 @@ void SceneLoading::Update()
 	OnUpdateIScene();
 	if (g_pTimeManager->GetDeltaTime() > 0.001f && !m_renderComplete) {
 		m_renderComplete = true;
-		g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
-		g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP";
+		g_pSceneManager->SetCurrentScene(SCENE_XFILE); //여기를 바꾸면 시작 씬이 바뀜
+		g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP"; //이건 디버그용 문자
 	}
 }
 
