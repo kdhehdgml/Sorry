@@ -34,8 +34,10 @@ Player_hands::~Player_hands()
 
 void Player_hands::Init()
 {
+	g_pCamera->SetTarget(&m_pos);
+	g_pKeyboardManager->SetMovingTarget(&m_keyState);
 
-
+	D3DXCreateSphere(g_pDevice, 0.01f, 10, 10, &m_pSphereMesh, NULL);
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";

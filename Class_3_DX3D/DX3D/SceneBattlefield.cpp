@@ -14,6 +14,7 @@
 //안개생성
 #include "CreateSmog.h"
 #include "ColorCube.h"
+#include "Player_hands.h"
 
 //중현이코드
 #include "UnitBox.h"
@@ -32,6 +33,7 @@ SceneBattlefield::SceneBattlefield()
 	m_CreateSmog = NULL;
 	m_SkyBox = NULL;
 	m_ColorCube = NULL;
+	m_Player_hands = NULL;
 
 
 	//중현이코드
@@ -47,6 +49,7 @@ SceneBattlefield::SceneBattlefield()
 	m_pCrosshairOn = false;
 
 	//	m_pSkinnedMesh = NULL;
+
 }
 
 SceneBattlefield::~SceneBattlefield()
@@ -56,12 +59,14 @@ SceneBattlefield::~SceneBattlefield()
 	SAFE_RELEASE(m_ColorCube);
 	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pSprite2);
+	//SAFE_RELEASE(m_Player_hands);
 	//SAFE_RELEASE(pImage);
 	SAFE_RELEASE(m_pCrosshair);
 	SAFE_RELEASE(m_pScope);
 	//m_pCrosshair->ReleaseAll();
 	//m_CreateSmog->Release();
 	//SAFE_RELEASE(m_CreateSmog);
+
 
 	OnDestructIScene();
 }
@@ -185,6 +190,11 @@ void SceneBattlefield::Init()
 	pImage2->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
 	m_pScope = pImage2;
 
+	m_Player_hands = new Player_hands;
+	m_Player_hands->Init();
+
+	AddSimpleDisplayObj(m_Player_hands);
+
 	g_pSoundManager->createSound(); // 사운드 세팅								
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
 }
@@ -292,6 +302,7 @@ void SceneBattlefield::Render()
 			m_pSprite->End();
 		}
 	}
+
 }
 
 void SceneBattlefield::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
