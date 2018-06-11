@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SceneLoading.h"
-#include "SceneHeightmap.h"
+//#include "SceneHeightmap.h"
+//#include "SceneBattlefield.h"
 
 SceneLoading::SceneLoading()
 {
@@ -57,7 +58,31 @@ void SceneLoading::Update()
 	if (g_pTimeManager->GetDeltaTime() > 0.001f && !m_renderComplete) {
 		m_renderComplete = true;
 		g_pSceneManager->SetCurrentScene(GSM().StartScene); //여기를 바꾸면 시작 씬이 바뀜
-		g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP"; //이건 디버그용 문자
+		
+		switch (GSM().StartScene) //이건 디버그용 문자
+		{
+		case SCENE_LOADING:
+			g_pSceneManager->m_pCurrSceneString = "SCENE_LOADING";
+			break;
+		case SCENE_HEIGHTMAP:
+			g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP";
+			break;
+		case SCENE_GRID:
+			g_pSceneManager->m_pCurrSceneString = "SCENE_GRID";
+			break;
+		case SCENE_OBJMAP:
+			g_pSceneManager->m_pCurrSceneString = "SCENE_OBJMAP";
+			break;
+		case SCENE_TEST:
+			g_pSceneManager->m_pCurrSceneString = "SCENE_TEST";
+			break;
+		case SCENE_XFILE:
+			g_pSceneManager->m_pCurrSceneString = "SCENE_XFILE";
+			break;
+		case SCENE_BATTLEFIELD:
+			g_pSceneManager->m_pCurrSceneString = "SCENE_BATTLEFIELD";
+			break;
+		}
 	}
 }
 
