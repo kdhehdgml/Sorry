@@ -47,6 +47,9 @@ private:
 	bool m_zooming;
 	float m_prev_rotX;
 
+	bool debugDisplayCheck;
+	bool debugDisplay;
+
 public:
 	void Init();
 	void Update();

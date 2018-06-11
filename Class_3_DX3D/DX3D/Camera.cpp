@@ -40,6 +40,9 @@ Camera::Camera()
 	m_zooming = false;
 
 	m_prev_rotX = 0.0f;
+
+	debugDisplay = false;
+	debugDisplayCheck = false;
 }
 
 
@@ -313,38 +316,60 @@ void Camera::Update()
 		m_sensitivity = 200.0f;
 	}
 
-	Debug->AddText("마우스 좌표:");
-	Debug->AddText(pos);
-	Debug->EndLine();
-	Debug->AddText("카메라 각도:");
-	Debug->AddText(dir);
-	Debug->EndLine();
-	Debug->AddText("m_rotX : ");
-	Debug->AddText(m_rotX);
-	Debug->AddText(" m_rotY : ");
-	Debug->AddText(m_rotY);
-	Debug->EndLine();
-	Debug->AddText("m_recoilX : ");
-	Debug->AddText(m_recoilX);
-	Debug->AddText(" m_recoilY : ");
-	Debug->AddText(m_recoilY);
-	Debug->EndLine();
-	Debug->AddText("m_runningRecoilX : ");
-	Debug->AddText(m_runningRecoilX);
-	Debug->AddText(" m_runningRecoilY : ");
-	Debug->AddText(m_runningRecoilY);
-	Debug->EndLine();
-	Debug->AddText("m_accuracyX : ");
-	Debug->AddText(m_accuracyX);
-	Debug->AddText(" m_accuracyY : ");
-	Debug->AddText(m_accuracyY);
-	Debug->EndLine();
-	Debug->AddText("프리카메라 모드:");
-	Debug->AddText(m_freeCameraMode);
-	Debug->EndLine();
-	Debug->AddText("쿨타임:");
-	Debug->AddText(m_cooldown);
-	Debug->EndLine();
+
+	if ((GetAsyncKeyState('4') & 0x8000))
+	{
+		if (!debugDisplayCheck)
+		{
+			debugDisplayCheck = true;
+
+			if (!debugDisplay)
+				debugDisplay = true;
+			else
+				debugDisplay = false;
+		}
+	}
+	else if (debugDisplayCheck)
+		debugDisplayCheck = false;
+
+	if (debugDisplay)
+	{
+		Debug->AddText("마우스 좌표:");
+		Debug->AddText(pos);
+		Debug->EndLine();
+		Debug->AddText("카메라 각도:");
+		Debug->AddText(dir);
+		Debug->EndLine();
+		Debug->AddText("m_rotX : ");
+		Debug->AddText(m_rotX);
+		Debug->AddText(" m_rotY : ");
+		Debug->AddText(m_rotY);
+		Debug->EndLine();
+		Debug->AddText("m_recoilX : ");
+		Debug->AddText(m_recoilX);
+		Debug->AddText(" m_recoilY : ");
+		Debug->AddText(m_recoilY);
+		Debug->EndLine();
+		Debug->AddText("m_runningRecoilX : ");
+		Debug->AddText(m_runningRecoilX);
+		Debug->AddText(" m_runningRecoilY : ");
+		Debug->AddText(m_runningRecoilY);
+		Debug->EndLine();
+		Debug->AddText("m_accuracyX : ");
+		Debug->AddText(m_accuracyX);
+		Debug->AddText(" m_accuracyY : ");
+		Debug->AddText(m_accuracyY);
+		Debug->EndLine();
+		Debug->AddText("프리카메라 모드 : ");
+		if (m_freeCameraMode)
+			Debug->AddText("ON");
+		else
+			Debug->AddText("OFF");
+		Debug->EndLine();
+		Debug->AddText("쿨타임 : ");
+		Debug->AddText(m_cooldown);
+		Debug->EndLine();
+	}
 
 
 	if (g_pTimeManager->GetDeltaTime() > 0.001f) { //DeltaTime이 Epsilon보다 크면 로딩이 완료된 걸로 간주
