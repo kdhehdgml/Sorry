@@ -294,6 +294,7 @@
     <ClInclude Include="SceneBattlefield.h">
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Player_hands.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -498,6 +499,7 @@
     <ClCompile Include="CreateSmog.cpp">
       <Filter>소스 파일\3.Object</Filter>
     </ClCompile>
+    <ClCompile Include="Player_hands.cpp" />
     <ClCompile Include="SceneBattlefield.cpp">
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>

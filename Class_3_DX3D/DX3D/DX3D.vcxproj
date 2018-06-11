@@ -244,6 +244,8 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="Player_hands.cpp" />
+    <ClCompile Include="SceneBattlefield.cpp" />
     <ClCompile Include="SoundControl.cpp" />
     <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Camera.cpp" />
