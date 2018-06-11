@@ -41,8 +41,8 @@ void SceneLoading::Init()
 	pImage->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
 	m_pLoadingScreen = pImage;
 
-	g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
-	g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP"; //디버그용 문자
+	//g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
+	//g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP"; //디버그용 문자
 }
 
 void SceneLoading::Update()
