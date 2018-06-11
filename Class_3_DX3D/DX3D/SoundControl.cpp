@@ -69,6 +69,27 @@ void SoundControl::StopSound(int nIndex)
 	}
 }
 
+void SoundControl::ChangeSound(int nIndex, int nIndex2)
+{
+	if ((nIndex < m_nSoundCount) && (nIndex2 < m_nSoundCount))
+	{
+		if (!(FMOD_Channel_IsPlaying(m_ppChannel[nIndex], m_isPlaying)))
+		{
+			StopSound(nIndex);
+			PlaySound(nIndex2);
+		}
+	}
+}
+
+bool SoundControl::isPlaying(int nIndex)
+{
+	if (nIndex < m_nSoundCount)
+		if (!(FMOD_Channel_IsPlaying(m_ppChannel[nIndex], m_isPlaying)))
+			return true;
+
+	return false;
+}
+
 void SoundControl::ReleaseSound()
 {
 	int i;

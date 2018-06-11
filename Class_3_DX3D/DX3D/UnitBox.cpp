@@ -52,6 +52,9 @@ void UnitBox::Update()
 
 	if (GetAsyncKeyState(VK_F1) & 0x0001)
 	{
+		g_pSoundManager->playMusic(1);
+		g_pSoundManager->effectSound(0);
+
 		int GroupNum = 1;
 		for (int i = 0; i < GroupNum; i++)
 		{
@@ -66,6 +69,9 @@ void UnitBox::Update()
 	}
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
 	{
+		g_pSoundManager->playMusic(1);
+		g_pSoundManager->effectSound(0);
+
 		int GroupNum = 5;
 		for (int i = 0; i < GroupNum; i++)
 		{
@@ -80,6 +86,9 @@ void UnitBox::Update()
 	}
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
 	{
+		g_pSoundManager->playMusic(1);
+		g_pSoundManager->effectSound(0);
+
 		int GroupNum = 10;
 		for (int i = 0; i < GroupNum; i++)
 		{
@@ -95,6 +104,9 @@ void UnitBox::Update()
 	}
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
 	{
+		g_pSoundManager->playMusic(1);
+		g_pSoundManager->effectSound(0);
+
 		int GroupNum = 50;
 		for (int i = 0; i < GroupNum; i++)
 		{
