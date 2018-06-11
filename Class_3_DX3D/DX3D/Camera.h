@@ -62,6 +62,7 @@ public:
 	void setPosY(float y);
 	void setFreeCameraMode(bool f);
 	bool getFreeCameraMode();
+	int getCooldown();
 	
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 };

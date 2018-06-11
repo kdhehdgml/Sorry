@@ -278,7 +278,7 @@ void SceneHeightmap::Render()
 	//m_pPicking->Render();
 
 	if (m_pCrosshairOn) {
-		if (m_pScopeOn) {
+		if (m_pScopeOn & g_pCamera->getCooldown() <= 0) {
 			g_pDevice->SetTexture(0, NULL);
 			m_pSprite2->Begin(D3DXSPRITE_ALPHABLEND);
 			D3DXMATRIX mat;

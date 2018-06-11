@@ -304,6 +304,15 @@ void Camera::Update()
 		m_cooldown--;
 	}
 
+	if (m_zooming && m_cooldown<=0) {
+		m_FOV = D3DX_PI / 8;
+		m_sensitivity = 800.0f;
+	}
+	else {
+		m_FOV = D3DX_PI / 4;
+		m_sensitivity = 200.0f;
+	}
+
 	Debug->AddText("마우스 좌표:");
 	Debug->AddText(pos);
 	Debug->EndLine();
@@ -365,13 +374,13 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				bool getHit = false;
 				getHit = r.CalcIntersectSphere(p->getBoundingSphere());
-				if (getHit && p->getStatus()==1) {
-				//if(getHit){
+				if (getHit && p->getStatus() == 1) {
+					//if(getHit){
 					p->setHealth(p->getHealth() - 100);
 					break;
 				}
 			}
-			m_cooldown = 60;
+			m_cooldown = 60; //쿨타임 (단위 : 프레임)
 		}
 	}
 	break;
@@ -381,13 +390,13 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	case WM_RBUTTONDOWN:
-		m_FOV = D3DX_PI / 8;
-		m_sensitivity = 800.0f;
+		//m_FOV = D3DX_PI / 8;
+		//m_sensitivity = 800.0f;
 		m_zooming = true;
 		break;
 	case WM_RBUTTONUP:
-		m_FOV = D3DX_PI / 4;
-		m_sensitivity = 200.0f;
+		//m_FOV = D3DX_PI / 4;
+		//m_sensitivity = 200.0f;
 		m_zooming = false;
 		break;
 	case WM_MOUSEMOVE:
@@ -497,6 +506,11 @@ void Camera::setFreeCameraMode(bool f)
 bool Camera::getFreeCameraMode()
 {
 	return m_freeCameraMode;
+}
+
+int Camera::getCooldown()
+{
+	return m_cooldown;
 }
 
 void Camera::getPMobFromUnitBox(vector<Mob*>* mob)

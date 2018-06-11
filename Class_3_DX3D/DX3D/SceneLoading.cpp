@@ -15,6 +15,8 @@ SceneLoading::~SceneLoading()
 {
 	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pLoadingScreen);
+	SAFE_RELEASE(m_loadingCircleSprite);
+	SAFE_RELEASE(m_loadingCircleTexture);
 	OnDestructIScene();
 }
 
@@ -22,6 +24,15 @@ void SceneLoading::Init()
 {
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 1.0f, 0.06f, 1.0f);
+
+	D3DXCreateSprite(g_pDevice, &m_loadingCircleSprite);
+	D3DXCreateTextureFromFileEx(g_pDevice, "resources/ui/LoadingCircle.png", 0, 0, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, D3DCOLOR_XRGB(0, 0, 0), 0, 0, &m_loadingCircleTexture);
+	m_loadingCircle.nCount = 8;
+	m_loadingCircle.nIndex = 0;
+	m_loadingCircle.dwAniTime = 100;
+	m_loadingCircle.dwOldAniTime = GetTickCount();
+	m_loadingCircle.pRect = m_loadingCircleRect;
+	//m_loadingCircle.pCenter = m_loadingCircleCenter;
 
 	D3DXCreateSprite(g_pDevice, &m_pSprite);
 	pImage = new UIImage(m_pSprite);
@@ -38,9 +49,14 @@ void SceneLoading::Update()
 {
 	SAFE_UPDATE(m_pLoadingScreen);
 	OnUpdateIScene();
+	DWORD dwCurTime = GetTickCount();
+	if (dwCurTime - m_loadingCircle.dwOldAniTime >= m_loadingCircle.dwAniTime) {
+		m_loadingCircle.dwOldAniTime = dwCurTime;
+		m_loadingCircle.nIndex = ++m_loadingCircle.nIndex % m_loadingCircle.nCount;
+	}
 	if (g_pTimeManager->GetDeltaTime() > 0.001f && !m_renderComplete) {
 		m_renderComplete = true;
-		g_pSceneManager->SetCurrentScene(SCENE_XFILE); //여기를 바꾸면 시작 씬이 바뀜
+		g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP); //여기를 바꾸면 시작 씬이 바뀜
 		g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP"; //이건 디버그용 문자
 	}
 }
@@ -55,6 +71,10 @@ void SceneLoading::Render()
 	m_pSprite->SetTransform(&mat);
 	SAFE_RENDER(m_pLoadingScreen);
 	m_pSprite->End();
+	m_loadingCircleSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	m_loadingCircleSprite->Draw(m_loadingCircleTexture, &m_loadingCircle.pRect[m_loadingCircle.nIndex], &D3DXVECTOR3(64, 64, 0), &D3DXVECTOR3(1200, 640, 0), D3DCOLOR_XRGB(255, 255, 255));
+	//SAFE_RENDER(m_pLoadingCircle);
+	m_loadingCircleSprite->End();
 }
 
 void SceneLoading::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
