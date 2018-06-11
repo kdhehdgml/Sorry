@@ -20,6 +20,7 @@ public:
 	vector<IScene*> m_vecScene;
 
 	IScene* m_pCurrScene;
+	//IScene* m_pLoadingScene;
 
 	void Init();
 	void Destroy();

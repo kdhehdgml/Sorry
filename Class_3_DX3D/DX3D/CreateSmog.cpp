@@ -66,8 +66,8 @@ void CreateSmog::Update()
 //			m_Smog_index = rand() % 4; //안개 이미지 생성시 랜덤하게 하기 도전중
 		}
 
-		Debug->AddText(m_vecAtt[i]->_position);
-		Debug->EndLine();
+		//Debug->AddText(m_vecAtt[i]->_position);
+		//Debug->EndLine();
 
 	}
 	
