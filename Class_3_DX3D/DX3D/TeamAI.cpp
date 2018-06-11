@@ -10,7 +10,7 @@ TeamAI::TeamAI()
 	m_isMoving = false;
 	m_isShoot = false;
 
-	m_baseRotY = D3DX_PI / 2;
+	//m_baseRotY = D3DX_PI / 2;
 	
 	m_forward.z = -1;
 	m_pos.y = 3.0f;
@@ -52,7 +52,7 @@ void TeamAI::Update()
 	}
 	if (status > 0) {
 		UpdatePositionToDestination();
-		UpdatePosition();
+		//UpdatePosition();
 
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 3.0f;
@@ -175,7 +175,7 @@ bool TeamAI::MobSearch(TeamAI * _team)
 		D3DXVECTOR3 MobPos;
 
 		DirectPM = p->GetPosition() - _team->m_pos;
-		if (DirectPM.x < 20 && DirectPM.z < 10)
+		if (DirectPM.x < 80 && DirectPM.z < 15)
 		{
 			DirectPM.y = _team->m_pos.y;
 			D3DXVECTOR3 DirectPMnormal = DirectPM;
@@ -185,7 +185,7 @@ bool TeamAI::MobSearch(TeamAI * _team)
 			float DotPM = D3DXVec3Dot(&DirectPMnormal, &_team->forward);
 			float direct = 1.0f / 2.0f;
 
-			if ((Length < 20 && DotPM >= direct))
+			if ((Length < 100 && DotPM >= direct))
 			{
 				m_isShoot = true;
 				m_MobNum = number;

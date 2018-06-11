@@ -9,7 +9,6 @@ UnitBox::UnitBox()
 	m_pCubeman = NULL;
 	m_SameChk = false;
 	MobNum = 0;
-	TeamNum = 0;
 }
 
 
@@ -30,12 +29,21 @@ void UnitBox::Init()
 {
 	m_pCubeman = new Cubeman; m_pCubeman->Init();
 	m_CanSave.resize(m_SaveLocation.size(),true);
+
+	TeamNum = 20;
+	m_pTeam.resize(TeamNum);
+	for (int i = 0; i < TeamNum; i++)
+	{
+		m_pTeam[i] = new TeamAI;
+		m_pTeam[i]->Init();
+		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE), 2.67f, GSM().TeamPos.z + (15 * i)));
+	}
 }
 
 void UnitBox::Update()
 {
 	SAFE_UPDATE(m_pCubeman);
-	
+
 	/*for (auto p : m_pMob) {
 		if (p->getStatus() == 0) {
 			SAFE_RELEASE(p);
@@ -87,7 +95,7 @@ void UnitBox::Update()
 	}
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
 	{
-		int GroupNum = 20;
+		int GroupNum = 50;
 		for (int i = 0; i < GroupNum; i++)
 		{
 			MobNum++;
@@ -99,33 +107,50 @@ void UnitBox::Update()
 			FindHidingInTheWallLocation(MobNum - 1);
 		}
 	}
+	//후방 제대 소환
 	if (GetAsyncKeyState(VK_F5) & 0x0001)
 	{
-		TeamNum++;
-		m_pTeam.resize(TeamNum);
-		m_pTeam[TeamNum - 1] = new TeamAI;
-		m_pTeam[TeamNum - 1]->Init();
-		//m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3(GSM().TeamPos.x + NODE_POSITSIZE, 2.67f, GSM().TeamPos.z + ((TeamNum) * 20 + NODE_POSITSIZE)));
-		m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
+		int Num = 10;
+		for (int i = 0; i < Num; i++)
+		{
+			TeamNum++;
+			m_pTeam.resize(TeamNum);
+			m_pTeam[TeamNum - 1] = new TeamAI;
+			m_pTeam[TeamNum - 1]->Init();
+			//m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3(GSM().TeamPos.x + NODE_POSITSIZE, 2.67f, GSM().TeamPos.z + ((TeamNum) * 20 + NODE_POSITSIZE)));
+			m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE - 50), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
+		}
 	}
-
+	//후방 제대 지원
 	if (GetAsyncKeyState(VK_F6) & 0x0001)
 	{
-		TeamNum++;
-		m_pTeam.resize(TeamNum);
-		m_pTeam[TeamNum - 1] = new TeamAI;
-		m_pTeam[TeamNum - 1]->Init();
-		//m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3(GSM().TeamPos.x + NODE_POSITSIZE, 2.67f, GSM().TeamPos.z + ((TeamNum) * 20 + NODE_POSITSIZE)));
-		m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE - 50), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
-	}
-	if (GetAsyncKeyState(VK_F7) & 0x0001)
-	{
-		for (int i = 0; i < m_pTeam.size(); i++)
+		for (int i = 40; i < m_pTeam.size(); i++)
 		{
-			m_pTeam[i]->GetTargetPostion(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE), 2.67f, m_pTeam[i]->GetPosition().z));
+			m_pTeam[i]->GetTargetPostion(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE), m_pTeam[i]->GetPosition().y, m_pTeam[i]->GetPosition().z));
 			m_pTeam[i]->UpdatePositionToDestination();
 		}
 	}
+	/*for (int i = 0; i < m_pMob.size(); i++)
+	{
+		for (int j = 0; j < m_pMob.size(); j++)
+		{
+			if (i != j)
+			{
+				if (D3DXVec3Length(&D3DXVECTOR3(m_pMob[i]->GetPosition().x - m_pMob[j]->GetPosition().x, 0, m_pMob[i]->GetPosition().z - m_pMob[j]->GetPosition().z)) < 4.0f)
+				{
+					D3DXVECTOR3 change = { (m_pMob[i]->GetPosition().x - m_pMob[j]->GetPosition().x) / 4.0f, 0, (m_pMob[i]->GetPosition().z - m_pMob[j]->GetPosition().z) / 4.0f };
+
+					m_pMob[i]->SetPosition(&(m_pMob[i]->GetPosition() + change));
+					m_pMob[i]->GetMove(false);
+					j = m_pMob.size();
+				}
+				else
+				{
+					m_pMob[i]->GetMove(true);
+				}
+			}
+		}
+	}*/
 	for (size_t i = 0; i < m_pMob.size(); i++)
 	{
 		SAFE_UPDATE(m_pMob[i]);
@@ -134,6 +159,8 @@ void UnitBox::Update()
 	{
 		SAFE_UPDATE(m_pTeam[i]);
 	}
+	
+	
 	//타겟을따라서 움직이는 내용
 	if (m_pMob.size() > 0)
 	{
@@ -161,16 +188,6 @@ void UnitBox::Update()
 			m_pTeam[i]->ShootVertex(m_pTeam[i]);
 		}
 	}
-	
-	
-	
-	//타겟과 플레이어를 이어주는 선긋기
-	/*m_pMob[0]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[0]);
-	m_pMob[1]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[1]);
-	m_pMob[2]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[2]);
-	m_pMob[3]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[3]);
-	m_pMob[4]->ShootVertex(m_pCubeman->GetPosition(), m_pMob[4]);*/
-	
 	//장애물뒤에 숨기
 	MobMoveInTheWall();
 }
@@ -193,7 +210,7 @@ void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
 	D3DXVECTOR3 Save;
 	for (size_t i = 0; i < m_SaveLocation.size(); i++)
 	{
-		Save = D3DXVECTOR3(m_SaveLocation[i].x + 1.0f, m_SaveLocation[i].y, m_SaveLocation[i].z);
+		Save = D3DXVECTOR3(m_SaveLocation[i].x + 4.0f, m_SaveLocation[i].y, m_SaveLocation[i].z);
 		if (abs(m_SaveLocation[i].z - m_pMob[_Mobnum]->GetPosition().z) < 10)
 		{
 			if (i == 0)
@@ -275,7 +292,7 @@ void UnitBox::MobMoveInTheWall()
 			if(m_pMob[i]->m_move == true)
 			{
 				float Dist = D3DXVec3Length(&(m_pMob[i]->SetMoveTheWall().back() - m_pMob[i]->GetPosition()));
-				if (Dist < 5 && m_pMob[i]->SetDetermined() == false)
+				if (Dist < 20 && m_pMob[i]->SetDetermined() == false)
 				{
 					if (m_CanSave[m_pMob[i]->SetLocationNum().back()] == true)
 					{
@@ -335,7 +352,7 @@ void UnitBox::MobMoveInTheWall()
 				if (Dist < 1.0f)
 				{
 					m_pMob[i]->num++;
-					if (m_pMob[i]->num > 100)
+					if (m_pMob[i]->num > 200)
 					{
 						m_CanSave[m_pMob[i]->SetLocationNum().back()] = true;
 						m_pMob[i]->GetDetermined(false);

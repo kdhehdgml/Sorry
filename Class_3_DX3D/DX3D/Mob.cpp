@@ -2,7 +2,6 @@
 #include "Mob.h"
 #include "CubemanParts.h"
 #include "Ray.h"
-#include "Cubeman.h"
 Mob::Mob()
 {
 	m_pRootParts = NULL;
@@ -29,7 +28,6 @@ Mob::Mob()
 Mob::~Mob()
 {
 	m_pRootParts->ReleaseAll();
-	SAFE_RELEASE(m_pCubeman);
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 }
@@ -56,25 +54,9 @@ void Mob::Update()
 	if (status > 0) {
 		IUnitObject::UpdateKeyboardState();
 		IUnitObject::UpdatePositionToDestination();
-
+		
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 3.0f;
-		//if (GetAsyncKeyState('1') & 0x0001)
-		//{
-		//	m_isTurnedOnLight = !m_isTurnedOnLight;
-		//}
-
-		//if (m_isTurnedOnLight == true)
-		//{
-		//	D3DXVECTOR3 pos = m_pos;
-		//	D3DXVECTOR3 dir = m_forward;
-		//	D3DXCOLOR c = BLUE;
-		//	D3DLIGHT9 light = DXUtil::InitSpot(&dir, &pos, &c);
-		//	light.Phi = D3DX_PI / 4;
-		//	//D3DLIGHT9 light = DXUtil::InitPoint(&pos, &c);
-		//	g_pDevice->SetLight(10, &light);
-		//}
-		//g_pDevice->LightEnable(10, m_isTurnedOnLight);
 
 		m_pRootParts->SetMovingState(m_isMoving);
 		m_pRootParts->Update();
