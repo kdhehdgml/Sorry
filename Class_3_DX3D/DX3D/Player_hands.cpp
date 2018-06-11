@@ -42,7 +42,7 @@ void Player_hands::Init()
 	CString filename = "player_hand.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
-	float angle = 0;
+	float angle = -1.0f * (D3DX_PI / 2);
 
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	D3DXMatrixRotationY(&matR, angle);
