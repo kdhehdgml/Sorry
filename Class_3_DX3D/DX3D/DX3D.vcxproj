@@ -168,9 +168,7 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="BaseObject.h" />
-    <ClInclude Include="SceneBattlefield.h" />
     <ClInclude Include="Player_hands.h" />
-    <ClInclude Include="SceneBattlefield.h" />
     <ClInclude Include="SoundControl.h" />
     <ClInclude Include="Blocks.h" />
     <ClInclude Include="Camera.h" />

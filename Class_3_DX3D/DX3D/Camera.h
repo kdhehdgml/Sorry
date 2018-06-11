@@ -60,6 +60,7 @@ public:
 	D3DXVECTOR3 getPos();
 	float getFOV();
 	float getSpeedOffset();
+	float getAngle();
 	D3DXMATRIXA16 getMatWorld();
 	void setPos(D3DXVECTOR3);
 	void setPosY(float y);

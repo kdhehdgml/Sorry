@@ -17,6 +17,9 @@ Player_hands::Player_hands()
 	m_bWireFrame = false;
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;
+	m_HandsOption = false;
+
+	angle = -1.0f * (D3DX_PI / 2);
 }
 
 
@@ -42,10 +45,10 @@ void Player_hands::Init()
 	CString filename = "player_hand.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
-	float angle = -1.0f * (D3DX_PI / 2);
+	
 
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
-	D3DXMatrixRotationY(&matR, angle);
+	
 }
 
 
@@ -65,12 +68,14 @@ void Player_hands::Load(LPCTSTR path, LPCTSTR filename)
 
 void Player_hands::Update()
 {
+	if (m_HandsOption)
+	{
 	Debug->AddText(_T("Anim Index = "));
 	Debug->AddText((int)m_animIndex + 1);
 	Debug->AddText(_T(" / "));
 	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
 	Debug->EndLine();
-	
+	}
 
 
 
@@ -108,11 +113,13 @@ void Player_hands::Update()
 
 	m_pos=  Camera::GetInstance()->getPos();
 	m_pos.y -= 10.0f;
+	angle = -1.0f*(Camera::GetInstance()->getAngle());
+
 
 	//IUnitObject::UpdateKeyboardState();
 	//IUnitObject::UpdatePositionToDestination();
 
-
+	D3DXMatrixRotationY(&matR, angle);
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 	//D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	UpdateAnim();
@@ -125,16 +132,26 @@ void Player_hands::Render()
 {
 	m_numFrame = 0;
 	m_numMesh = 0;
-	Debug->AddText(_T("=====DrawFrame====="));
-	Debug->EndLine();
+
+	if (Keyboard::Get()->KeyDown('4'))
+	{
+		m_HandsOption != m_HandsOption;
+	}
+
+	if(m_HandsOption)
+	{
+		Debug->AddText(_T("=====DrawFrame====="));
+		Debug->EndLine();
+		Debug->EndLine();
+		Debug->AddText(_T("numFrame = "));
+		Debug->AddText(m_numFrame);
+		Debug->EndLine();
+		Debug->AddText(_T("numMesh = "));
+		Debug->AddText(m_numMesh);
+		Debug->EndLine();
+	}
+
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
-	Debug->EndLine();
-	Debug->AddText(_T("numFrame = "));
-	Debug->AddText(m_numFrame);
-	Debug->EndLine();
-	Debug->AddText(_T("numMesh = "));
-	Debug->AddText(m_numMesh);
-	Debug->EndLine();
 	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
 
 }
@@ -231,25 +248,35 @@ void Player_hands::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 void Player_hands::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
-	if (m_numFrame % 10 == 0)
-	{
-		Debug->EndLine();
-	}
-	if (pFrame->Name == NULL)
-		Debug->AddText(_T("NULL"));
-	else
-		Debug->AddText(pFrame->Name);
 
+	if (m_HandsOption)
+	{
+		if (m_numFrame % 10 == 0)
+		{
+			Debug->EndLine();
+		}
+		if (pFrame->Name == NULL)
+			Debug->AddText(_T("NULL"));
+		else
+			Debug->AddText(pFrame->Name);
+	}
 
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
 	while (pMeshContainer != NULL)
 	{
 		m_numMesh++;
-		Debug->AddText(_T("(MESH)"));
+
+		//if (m_HandsOption)		Debug->AddText(_T("(MESH)"));
+
+
 		DrawMeshContainer(pFrame);
 		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
-	Debug->AddText(_T(" / "));
+	
+	//if (m_HandsOption)	Debug->AddText(_T(" / "));
+	//if (m_HandsOption)	Debug->AddText(_T(" / "));
+
+
 	if (pFrame->pFrameSibling != NULL)
 	{
 		DrawFrame(pFrame->pFrameSibling);
