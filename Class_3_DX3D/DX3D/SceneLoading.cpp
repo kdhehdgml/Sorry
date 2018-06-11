@@ -32,6 +32,9 @@ void SceneLoading::Init()
 
 	g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
 	g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP";
+
+	//g_pSceneManager->SetCurrentScene(SCENE_XFILE);
+	//g_pSceneManager->m_pCurrSceneString = "SCENE_XFILE";
 }
 
 void SceneLoading::Update()
@@ -42,6 +45,7 @@ void SceneLoading::Update()
 		m_renderComplete = true;
 		g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);
 		g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP";
+
 	}
 }
 

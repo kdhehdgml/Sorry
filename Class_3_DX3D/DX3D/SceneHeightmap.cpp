@@ -14,6 +14,7 @@
 //안개생성
 #include "CreateSmog.h"
 #include "ColorCube.h"
+#include "Player_hands.h"
 
 //중현이코드
 #include "UnitBox.h"
@@ -34,6 +35,7 @@ SceneHeightmap::SceneHeightmap()
 	m_CreateSmog = NULL;
 	m_SkyBox = NULL;
 	m_ColorCube = NULL;
+	m_Player_hands = NULL;
 
 
 	//중현이코드
@@ -60,6 +62,7 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_ColorCube);
 	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pSprite2);
+	//SAFE_RELEASE(m_Player_hands);
 	//SAFE_RELEASE(pImage);
 	SAFE_RELEASE(m_pCrosshair);
 	SAFE_RELEASE(m_pScope);
@@ -189,6 +192,11 @@ void SceneHeightmap::Init()
 	pImage2->SetTexture("resources/ui/Scope.png");
 	pImage2->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
 	m_pScope = pImage2;
+
+	m_Player_hands = new Player_hands;
+	m_Player_hands->Init();
+
+	AddSimpleDisplayObj(m_Player_hands);
 
 	g_pSoundManager->createSound(); // 음악 세팅
 }

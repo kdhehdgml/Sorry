@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "SkinnedMesh.h"
+#include "Player_hands.h"
 #include "AllocateHierarchy.h"
+#include "Camera.h"
 
-#define SCALE 20.0f
+#define SCALE 5.0f
 
-SkinnedMesh::SkinnedMesh()
+Player_hands::Player_hands()
 {
-	//m_Brot.y = ;
 	m_baseRotY = D3DX_PI;
 
 	m_pRootFrame = NULL;
@@ -19,7 +19,8 @@ SkinnedMesh::SkinnedMesh()
 	m_bDrawSkeleton = false;
 }
 
-SkinnedMesh::~SkinnedMesh()
+
+Player_hands::~Player_hands()
 {
 	SAFE_RELEASE(m_pSphereMesh);
 	AllocateHierarchy alloc;
@@ -28,7 +29,7 @@ SkinnedMesh::~SkinnedMesh()
 	SAFE_RELEASE(m_pAnimController);
 }
 
-void SkinnedMesh::Init()
+void Player_hands::Init()
 {
 	g_pCamera->SetTarget(&m_pos);
 	g_pKeyboardManager->SetMovingTarget(&m_keyState);
@@ -37,13 +38,16 @@ void SkinnedMesh::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/newMan/";
-	CString filename = "stand_idle.X";
+	CString path = "resources/xFile/player_hand/";
+	CString filename = "player_hand.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
+
+	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 }
 
-void SkinnedMesh::Load(LPCTSTR path, LPCTSTR filename)
+
+void Player_hands::Load(LPCTSTR path, LPCTSTR filename)
 {
 	AllocateHierarchy alloc(path);
 
@@ -56,11 +60,86 @@ void SkinnedMesh::Load(LPCTSTR path, LPCTSTR filename)
 	SetupBoneMatrixPointers(m_pRootFrame);
 }
 
-// 각 프레임의 매시 컨테이너에 있는 pSkinInfo를 이용하여 
-// 현재 매쉬에 영향을 주는 프레임들의 월드행렬 포인터를 연결 
-//Called to setup the pointers for a given bone to its transformation matrix
-void SkinnedMesh::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
+
+void Player_hands::Update()
 {
+	Debug->AddText(_T("Anim Index = "));
+	Debug->AddText((int)m_animIndex + 1);
+	Debug->AddText(_T(" / "));
+	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
+	Debug->EndLine();
+	D3DXMATRIXA16 matR;
+
+
+
+	//if (Keyboard::Get()->KeyDown('1'))
+	//	//if (GetAsyncKeyState('1') & 0x8000)
+	//{
+	//	if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+	//		m_animIndex++;
+
+	//	SetAnimationIndex(m_animIndex, true);
+	//}
+	//else if (Keyboard::Get()->KeyDown('2'))
+	//	//if (GetAsyncKeyState('2') & 0x8000)
+	//{
+	//	if (m_animIndex > 0)
+	//		m_animIndex--;
+
+	//	SetAnimationIndex(m_animIndex, true);
+	//}
+	//else if (Keyboard::Get()->KeyDown(VK_F1))
+	//	//if (GetAsyncKeyState(VK_F1) & 0x8000)
+	//{
+	//	m_bDrawFrame = !m_bDrawFrame;
+	//}
+	//else if (Keyboard::Get()->KeyDown(VK_F2))
+	//	//if (GetAsyncKeyState(VK_F2) & 0x8000)
+	//{
+	//	m_bDrawSkeleton = !m_bDrawSkeleton;
+	//}
+	//else if (Keyboard::Get()->KeyDown(VK_F3))
+	//	//if (GetAsyncKeyState(VK_F3) & 0x8000)
+	//{
+	//	m_bWireFrame = !m_bWireFrame;
+	//}
+
+	m_pos=  Camera::GetInstance()->getPos();
+	m_pos.y -= 10.0f;
+
+	//IUnitObject::UpdateKeyboardState();
+	//IUnitObject::UpdatePositionToDestination();
+
+
+	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+	//D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+	UpdateAnim();
+	UpdateFrameMatrices(m_pRootFrame, NULL);
+
+	m_matWorld = matS * matT ;
+}
+
+void Player_hands::Render()
+{
+	m_numFrame = 0;
+	m_numMesh = 0;
+	Debug->AddText(_T("=====DrawFrame====="));
+	Debug->EndLine();
+	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
+	Debug->EndLine();
+	Debug->AddText(_T("numFrame = "));
+	Debug->AddText(m_numFrame);
+	Debug->EndLine();
+	Debug->AddText(_T("numMesh = "));
+	Debug->AddText(m_numMesh);
+	Debug->EndLine();
+	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+
+}
+
+void Player_hands::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
+{
+
 	if (pFrame->pMeshContainer != NULL)
 	{
 		SetupBoneMatrixPointersOnMesh(pFrame->pMeshContainer);
@@ -77,7 +156,7 @@ void SkinnedMesh::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
 	}
 }
 
-void SkinnedMesh::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBase)
+void Player_hands::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBase)
 {
 	DWORD numBones;
 	FRAME_EX* pFrameExInfluence;
@@ -97,65 +176,7 @@ void SkinnedMesh::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContain
 	}
 }
 
-
-void SkinnedMesh::Update()
-{
-	Debug->AddText(_T("Anim Index = "));
-	Debug->AddText((int)m_animIndex + 1);
-	Debug->AddText(_T(" / "));
-	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
-	Debug->EndLine();
-	D3DXMATRIXA16 matR;
-
-
-
-	if (Keyboard::Get()->KeyDown('1'))
-	//if (GetAsyncKeyState('1') & 0x8000)
-	{
-		if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
-			m_animIndex++;
-
-		SetAnimationIndex(m_animIndex, true);
-	}
-	else if (Keyboard::Get()->KeyDown('2'))
-	//if (GetAsyncKeyState('2') & 0x8000)
-	{
-		if (m_animIndex > 0)
-			m_animIndex--;
-
-		SetAnimationIndex(m_animIndex, true);
-	}
-	else if (Keyboard::Get()->KeyDown(VK_F1))
-	//if (GetAsyncKeyState(VK_F1) & 0x8000)
-	{
-		m_bDrawFrame = !m_bDrawFrame;
-	}
-	else if (Keyboard::Get()->KeyDown(VK_F2))
-	//if (GetAsyncKeyState(VK_F2) & 0x8000)
-	{
-		m_bDrawSkeleton = !m_bDrawSkeleton;
-	}
-	else if (Keyboard::Get()->KeyDown(VK_F3))
-	//if (GetAsyncKeyState(VK_F3) & 0x8000)
-	{
-		m_bWireFrame = !m_bWireFrame;
-	}
-
-
-	//IUnitObject::UpdateKeyboardState();
-	//IUnitObject::UpdatePositionToDestination();
-	
-
-	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
-	UpdateAnim();
-	UpdateFrameMatrices(m_pRootFrame, NULL);
-
-	m_matWorld = matT * matS;
-}
-
-
-void SkinnedMesh::UpdateAnim()
+void Player_hands::UpdateAnim()
 {
 	float fDeltaTime = g_pTimeManager->GetDeltaTime();
 	// AdvanceTime 함수가 호출된 간격으로 Anim 키프레임 계산
@@ -181,7 +202,7 @@ void SkinnedMesh::UpdateAnim()
 	}
 }
 
-void SkinnedMesh::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
+void Player_hands::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 
@@ -205,26 +226,7 @@ void SkinnedMesh::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	}
 }
 
-
-void SkinnedMesh::Render()
-{
-	m_numFrame = 0;
-	m_numMesh = 0;
-	Debug->AddText(_T("=====DrawFrame====="));
-	Debug->EndLine();
-	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
-	Debug->EndLine();
-	Debug->AddText(_T("numFrame = "));
-	Debug->AddText(m_numFrame);
-	Debug->EndLine();
-	Debug->AddText(_T("numMesh = "));
-	Debug->AddText(m_numMesh);
-	Debug->EndLine();
-	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
-}
-
-// Desc: Called to render a frame in the hierarchy
-void SkinnedMesh::DrawFrame(LPD3DXFRAME pFrame)
+void Player_hands::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
 	if (m_numFrame % 10 == 0)
@@ -257,7 +259,7 @@ void SkinnedMesh::DrawFrame(LPD3DXFRAME pFrame)
 	}
 }
 
-void SkinnedMesh::DrawMeshContainer(LPD3DXFRAME pFrame)
+void Player_hands::DrawMeshContainer(LPD3DXFRAME pFrame)
 {
 	if (pFrame->pMeshContainer->pSkinInfo == NULL)
 		return;
@@ -301,9 +303,10 @@ void SkinnedMesh::DrawMeshContainer(LPD3DXFRAME pFrame)
 	}
 
 	g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
 }
 
-void SkinnedMesh::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
+void Player_hands::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 	FRAME_EX* pParentFrameEx = (FRAME_EX*)pParent;
@@ -345,8 +348,7 @@ void SkinnedMesh::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	}
 }
 
-
-void SkinnedMesh::SetAnimationIndex(int nIndex, bool isBlend)
+void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 {
 	LPD3DXANIMATIONSET pNextAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
