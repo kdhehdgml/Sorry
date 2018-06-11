@@ -6,13 +6,13 @@ GSM::GSM()
 {
 	// ½ÃÀÛ ¾À
 	StartScene = SCENE_HEIGHTMAP;
-	// SCENE_LOADING
-	// SCENE_HEIGHTMAP
-	// SCENE_GRID
-	// SCENE_OBJMAP
-	// SCENE_TEST
-	// SCENE_XFILE
-	// SCENE_BATTLEFIELD
+	// SCENE_LOADING       // º¹ºÙ¿ë
+	// SCENE_HEIGHTMAP     //
+	// SCENE_GRID          //
+	// SCENE_OBJMAP        //
+	// SCENE_TEST          //
+	// SCENE_XFILE         //
+	// SCENE_BATTLEFIELD   //
 
 
 	// ¸Ê Å©±â
