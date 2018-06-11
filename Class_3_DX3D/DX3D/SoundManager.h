@@ -13,6 +13,7 @@ private:
 	SoundControl * m_pAmbient;		string * s_ambient;		vector<string> s_ambient_f;
 
 	SoundControl * m_pShot_1;		string * s_shot_1;		vector<string> s_shot_1_f;
+	SoundControl * m_pReload;		string * s_reload;		vector<string> s_reload_f;
 	SoundControl * m_pWalk_Dirt;	string * s_walk_dirt;	vector<string> s_walk_dirt_f;
 	SoundControl * m_pRun_Dirt;		string * s_run_dirt;	vector<string> s_run_dirt_f;
 	SoundControl * m_pGear_Walk;	string * s_gear_walk;	vector<string> s_gear_walk_f;
@@ -20,6 +21,7 @@ private:
 
 	int walkInterval;
 	int runInterval;
+	int reloadInterval;
 
 public:
 	void soundList();

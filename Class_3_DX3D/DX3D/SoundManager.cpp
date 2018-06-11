@@ -24,13 +24,16 @@ SoundManager::SoundManager()
 {
 	m_pBGSound = NULL;
 	m_pAmbient = NULL;
+
 	m_pShot_1 = NULL;
+	m_pReload = NULL;
 	m_pWalk_Dirt = NULL;
 	m_pRun_Dirt = NULL;
 	m_pGear_Walk = NULL;
 
 	walkInterval = 0;
 	runInterval = 0;
+	reloadInterval = 0;
 }
 
 
@@ -38,7 +41,9 @@ SoundManager::~SoundManager()
 {
 	m_pBGSound->ReleaseSound();
 	m_pAmbient->ReleaseSound();
+
 	m_pShot_1->ReleaseSound();
+	m_pReload->ReleaseSound();
 	m_pWalk_Dirt->ReleaseSound();
 	m_pRun_Dirt->ReleaseSound();
 	m_pGear_Walk->ReleaseSound();
@@ -58,6 +63,8 @@ void SoundManager::soundList()
 	s_shot_1_f.push_back("Kar98az1p");
 	s_shot_1_f.push_back("Kar98az2p");
 
+	// 재장전
+	s_reload_f.push_back("reload7");
 
 	// 발소리
 	s_walk_dirt_f.push_back("Boot_dirt_walk1");
@@ -75,10 +82,7 @@ void SoundManager::soundList()
 	s_run_dirt_f.push_back("Boot_dirt_run6");
 
 	s_gear_walk_f.push_back("Gear_Walk1");
-	s_gear_walk_f.push_back("Gear_Walk2");
-	s_gear_walk_f.push_back("Gear_Walk3");
 	s_gear_walk_f.push_back("Gear_Walk4");
-	s_gear_walk_f.push_back("Gear_Walk5");
 }
 
 void SoundManager::setMP3(string folder, string * s_name, vector<string> s_name_file)
@@ -111,6 +115,7 @@ void SoundManager::createSound()
 	CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
 
 	CreateWAV(m_pShot_1, "Shot/", s_shot_1, s_shot_1_f, EFFECT);
+	CreateWAV(m_pReload, "Reload/", s_reload, s_reload_f, EFFECT);
 	CreateWAV(m_pWalk_Dirt, "Walk/", s_walk_dirt, s_walk_dirt_f, EFFECT);
 	CreateWAV(m_pRun_Dirt, "Run/", s_run_dirt, s_run_dirt_f, EFFECT);
 	CreateWAV(m_pGear_Walk, "Gear/", s_gear_walk, s_gear_walk_f, EFFECT);
@@ -140,19 +145,22 @@ void SoundManager::stopAmbient(int soundNum)
 void SoundManager::ShotSound()
 {
 	int rN = rand() % s_shot_1_f.size();
+
 	m_pShot_1->PlaySound(rN);
+	m_pReload->PlaySound(0);
+
 }
 
 void SoundManager::WalkSound()
 {
 	int r6 = rand() % 6;
-	int r5 = rand() % 5;
+	int rGW = rand() % s_gear_walk_f.size();
 
 	walkInterval++;
 	if (walkInterval > 30)
 	{
 		m_pWalk_Dirt->PlaySound(r6);
-		m_pGear_Walk->PlaySound(r5);
+		m_pGear_Walk->PlaySound(rGW);
 
 		walkInterval = 0;
 	}
@@ -161,13 +169,13 @@ void SoundManager::WalkSound()
 void SoundManager::RunSound()
 {
 	int r6 = rand() % 6;
-	int r5 = rand() % 5;
+	int rGW = rand() % s_gear_walk_f.size();
 
 	runInterval++;
 	if (runInterval > 20)
 	{
 		m_pRun_Dirt->PlaySound(r6);
-		m_pGear_Walk->PlaySound(r5);
+		m_pGear_Walk->PlaySound(rGW);
 
 		runInterval = 0;
 	}
