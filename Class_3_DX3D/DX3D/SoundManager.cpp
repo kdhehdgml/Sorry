@@ -23,6 +23,7 @@ enum SoundType
 SoundManager::SoundManager()
 {
 	m_pBGSound = NULL;
+	m_pAmbient = NULL;
 	m_pShot_1 = NULL;
 	m_pWalk_Dirt = NULL;
 	m_pRun_Dirt = NULL;
@@ -36,6 +37,7 @@ SoundManager::SoundManager()
 SoundManager::~SoundManager()
 {
 	m_pBGSound->ReleaseSound();
+	m_pAmbient->ReleaseSound();
 	m_pShot_1->ReleaseSound();
 	m_pWalk_Dirt->ReleaseSound();
 	m_pRun_Dirt->ReleaseSound();
@@ -44,15 +46,20 @@ SoundManager::~SoundManager()
 
 void SoundManager::soundList()
 {
+	// 배경음
 	s_music_f.push_back("MoDD");
 	s_music_f.push_back("Test");
 
+	// 환경음
 	s_ambient_f.push_back("ambient_test_4");
 
+
+	// 총소리
 	s_shot_1_f.push_back("Kar98az1p");
 	s_shot_1_f.push_back("Kar98az2p");
 
 
+	// 발소리
 	s_walk_dirt_f.push_back("Boot_dirt_walk1");
 	s_walk_dirt_f.push_back("Boot_dirt_walk2");
 	s_walk_dirt_f.push_back("Boot_dirt_walk3");
