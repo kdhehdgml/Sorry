@@ -139,7 +139,7 @@ void Camera::Update()
 		pos.z -= (dir.z* m_speedOffset);
 	}
 
-	if (GetKeyState(VK_SHIFT) & 0x8000) {
+	if (GetKeyState(VK_SHIFT) & GetKeyState('W') & 0x8000) {
 		if (m_freeCameraMode) {
 			m_speedOffset = 4.0f;
 		}
@@ -380,7 +380,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					break;
 				}
 			}
-			m_cooldown = 60; //쿨타임 (단위 : 프레임)
+			m_cooldown = 170; //쿨타임 (단위 : 프레임)
 		}
 	}
 	break;

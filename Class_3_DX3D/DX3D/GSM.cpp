@@ -4,6 +4,9 @@
 
 GSM::GSM()
 {
+	// 시작 씬
+	StartScene = SCENE_HEIGHTMAP;
+
 	// 맵 크기
 	mapSize = 500.0f;
 
@@ -23,6 +26,7 @@ GSM::GSM()
 	// 아군 초기 위치
 	TeamPos.x = mapSize - 450.0f;
 	TeamPos.z = 100.0f;
+
 	// 몹 속도
 	mobSpeed = 1.0f;
 
@@ -38,7 +42,7 @@ GSM::GSM()
 	Debug->EndLine();
 	Debug->AddText("H : 노드 바꾸는 큐브 렌더 On/Off");
 	Debug->EndLine();
-	Debug->AddText("방향키 : 큐브 이동 ");
+	Debug->AddText("1 : 배경음악 On/Off");
 	Debug->EndLine();*/
 }
 

@@ -258,7 +258,7 @@ void SceneHeightmap::Update()
 	{
 		g_pSoundManager->RunSound();
 	}
-	else if ((GetAsyncKeyState('W') & 0x8000))
+	else if (GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('D') & 0x8000)
 	{
 		g_pSoundManager->WalkSound();
 	}

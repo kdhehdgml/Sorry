@@ -56,7 +56,7 @@ void SceneLoading::Update()
 	}
 	if (g_pTimeManager->GetDeltaTime() > 0.001f && !m_renderComplete) {
 		m_renderComplete = true;
-		g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP); //여기를 바꾸면 시작 씬이 바뀜
+		g_pSceneManager->SetCurrentScene(GSM().StartScene); //여기를 바꾸면 시작 씬이 바뀜
 		g_pSceneManager->m_pCurrSceneString = "SCENE_HEIGHTMAP"; //이건 디버그용 문자
 	}
 }
