@@ -47,6 +47,9 @@ private:
 	bool m_zooming;
 	float m_prev_rotX;
 
+	bool debugDisplayCheck;
+	bool debugDisplay;
+
 public:
 	void Init();
 	void Update();
@@ -62,6 +65,7 @@ public:
 	void setPosY(float y);
 	void setFreeCameraMode(bool f);
 	bool getFreeCameraMode();
+	int getCooldown();
 	
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 };

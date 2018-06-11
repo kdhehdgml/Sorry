@@ -60,9 +60,6 @@
     <Filter Include="소스 파일\skybox">
       <UniqueIdentifier>{c6fac5ee-6a62-4787-b58f-5a9db779b74e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Minsu_Setting">
-      <UniqueIdentifier>{143fddfb-59aa-4de3-aee4-e5850660dc39}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Sound">
       <UniqueIdentifier>{d12586f6-7912-4c2d-a195-f9af858e1982}</UniqueIdentifier>
     </Filter>
@@ -71,6 +68,9 @@
     </Filter>
     <Filter Include="소스 파일\AI">
       <UniqueIdentifier>{f26e2192-8aa3-42ab-abb9-7619181f4956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\GSM">
+      <UniqueIdentifier>{143fddfb-59aa-4de3-aee4-e5850660dc39}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -270,7 +270,7 @@
       <Filter>소스 파일\AI</Filter>
     </ClInclude>
     <ClInclude Include="GSM.h">
-      <Filter>소스 파일\Minsu_Setting</Filter>
+      <Filter>소스 파일\GSM</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>소스 파일\Keyboard &amp; Mouse</Filter>
@@ -291,6 +291,10 @@
     <ClInclude Include="CreateSmog.h">
       <Filter>소스 파일\3.Object</Filter>
     </ClInclude>
+    <ClInclude Include="SceneBattlefield.h">
+      <Filter>소스 파일\4.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_hands.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -474,7 +478,7 @@
       <Filter>소스 파일\AI</Filter>
     </ClCompile>
     <ClCompile Include="GSM.cpp">
-      <Filter>소스 파일\Minsu_Setting</Filter>
+      <Filter>소스 파일\GSM</Filter>
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>소스 파일\Keyboard &amp; Mouse</Filter>
@@ -494,6 +498,10 @@
     <ClCompile Include="SceneLoading.cpp" />
     <ClCompile Include="CreateSmog.cpp">
       <Filter>소스 파일\3.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_hands.cpp" />
+    <ClCompile Include="SceneBattlefield.cpp">
+      <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

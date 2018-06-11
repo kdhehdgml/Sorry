@@ -5,6 +5,8 @@ public:
 	GSM();
 	virtual ~GSM();
 
+	int StartScene;
+
 	float mapSize;
 
 	float fogMin;

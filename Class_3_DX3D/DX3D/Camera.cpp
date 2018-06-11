@@ -40,6 +40,9 @@ Camera::Camera()
 	m_zooming = false;
 
 	m_prev_rotX = 0.0f;
+
+	debugDisplay = false;
+	debugDisplayCheck = false;
 }
 
 
@@ -139,7 +142,7 @@ void Camera::Update()
 		pos.z -= (dir.z* m_speedOffset);
 	}
 
-	if (GetKeyState(VK_SHIFT) & 0x8000) {
+	if (GetKeyState(VK_SHIFT) & GetKeyState('W') & 0x8000) {
 		if (m_freeCameraMode) {
 			m_speedOffset = 4.0f;
 		}
@@ -304,38 +307,69 @@ void Camera::Update()
 		m_cooldown--;
 	}
 
-	Debug->AddText("마우스 좌표:");
-	Debug->AddText(pos);
-	Debug->EndLine();
-	Debug->AddText("카메라 각도:");
-	Debug->AddText(dir);
-	Debug->EndLine();
-	Debug->AddText("m_rotX : ");
-	Debug->AddText(m_rotX);
-	Debug->AddText(" m_rotY : ");
-	Debug->AddText(m_rotY);
-	Debug->EndLine();
-	Debug->AddText("m_recoilX : ");
-	Debug->AddText(m_recoilX);
-	Debug->AddText(" m_recoilY : ");
-	Debug->AddText(m_recoilY);
-	Debug->EndLine();
-	Debug->AddText("m_runningRecoilX : ");
-	Debug->AddText(m_runningRecoilX);
-	Debug->AddText(" m_runningRecoilY : ");
-	Debug->AddText(m_runningRecoilY);
-	Debug->EndLine();
-	Debug->AddText("m_accuracyX : ");
-	Debug->AddText(m_accuracyX);
-	Debug->AddText(" m_accuracyY : ");
-	Debug->AddText(m_accuracyY);
-	Debug->EndLine();
-	Debug->AddText("프리카메라 모드:");
-	Debug->AddText(m_freeCameraMode);
-	Debug->EndLine();
-	Debug->AddText("쿨타임:");
-	Debug->AddText(m_cooldown);
-	Debug->EndLine();
+	if (m_zooming && m_cooldown<=0) {
+		m_FOV = D3DX_PI / 8;
+		m_sensitivity = 800.0f;
+	}
+	else {
+		m_FOV = D3DX_PI / 4;
+		m_sensitivity = 200.0f;
+	}
+
+
+	if ((GetAsyncKeyState('4') & 0x8000))
+	{
+		if (!debugDisplayCheck)
+		{
+			debugDisplayCheck = true;
+
+			if (!debugDisplay)
+				debugDisplay = true;
+			else
+				debugDisplay = false;
+		}
+	}
+	else if (debugDisplayCheck)
+		debugDisplayCheck = false;
+
+	if (debugDisplay)
+	{
+		Debug->AddText("마우스 좌표:");
+		Debug->AddText(pos);
+		Debug->EndLine();
+		Debug->AddText("카메라 각도:");
+		Debug->AddText(dir);
+		Debug->EndLine();
+		Debug->AddText("m_rotX : ");
+		Debug->AddText(m_rotX);
+		Debug->AddText(" m_rotY : ");
+		Debug->AddText(m_rotY);
+		Debug->EndLine();
+		Debug->AddText("m_recoilX : ");
+		Debug->AddText(m_recoilX);
+		Debug->AddText(" m_recoilY : ");
+		Debug->AddText(m_recoilY);
+		Debug->EndLine();
+		Debug->AddText("m_runningRecoilX : ");
+		Debug->AddText(m_runningRecoilX);
+		Debug->AddText(" m_runningRecoilY : ");
+		Debug->AddText(m_runningRecoilY);
+		Debug->EndLine();
+		Debug->AddText("m_accuracyX : ");
+		Debug->AddText(m_accuracyX);
+		Debug->AddText(" m_accuracyY : ");
+		Debug->AddText(m_accuracyY);
+		Debug->EndLine();
+		Debug->AddText("프리카메라 모드 : ");
+		if (m_freeCameraMode)
+			Debug->AddText("ON");
+		else
+			Debug->AddText("OFF");
+		Debug->EndLine();
+		Debug->AddText("쿨타임 : ");
+		Debug->AddText(m_cooldown);
+		Debug->EndLine();
+	}
 
 
 	if (g_pTimeManager->GetDeltaTime() > 0.001f) { //DeltaTime이 Epsilon보다 크면 로딩이 완료된 걸로 간주
@@ -365,13 +399,13 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				bool getHit = false;
 				getHit = r.CalcIntersectSphere(p->getBoundingSphere());
-				if (getHit && p->getStatus()==1) {
-				//if(getHit){
+				if (getHit && p->getStatus() == 1) {
+					//if(getHit){
 					p->setHealth(p->getHealth() - 100);
 					break;
 				}
 			}
-			m_cooldown = 60;
+			m_cooldown = 170; //쿨타임 (단위 : 프레임)
 		}
 	}
 	break;
@@ -381,13 +415,13 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	case WM_RBUTTONDOWN:
-		m_FOV = D3DX_PI / 8;
-		m_sensitivity = 800.0f;
+		//m_FOV = D3DX_PI / 8;
+		//m_sensitivity = 800.0f;
 		m_zooming = true;
 		break;
 	case WM_RBUTTONUP:
-		m_FOV = D3DX_PI / 4;
-		m_sensitivity = 200.0f;
+		//m_FOV = D3DX_PI / 4;
+		//m_sensitivity = 200.0f;
 		m_zooming = false;
 		break;
 	case WM_MOUSEMOVE:
@@ -497,6 +531,11 @@ void Camera::setFreeCameraMode(bool f)
 bool Camera::getFreeCameraMode()
 {
 	return m_freeCameraMode;
+}
+
+int Camera::getCooldown()
+{
+	return m_cooldown;
 }
 
 void Camera::getPMobFromUnitBox(vector<Mob*>* mob)

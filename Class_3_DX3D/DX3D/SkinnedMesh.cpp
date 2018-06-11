@@ -2,7 +2,7 @@
 #include "SkinnedMesh.h"
 #include "AllocateHierarchy.h"
 
-#define SCALE 2.0f
+#define SCALE 20.0f
 
 SkinnedMesh::SkinnedMesh()
 {
@@ -37,8 +37,8 @@ void SkinnedMesh::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/player_hand/";
-	CString filename = "player_hand.X";
+	CString path = "resources/xFile/newMan/";
+	CString filename = "stand_idle.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -144,6 +144,7 @@ void SkinnedMesh::Update()
 
 	//IUnitObject::UpdateKeyboardState();
 	//IUnitObject::UpdatePositionToDestination();
+	
 
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
@@ -330,7 +331,7 @@ void SkinnedMesh::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, &line[0], sizeof(VERTEX_PC));
-		g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	}
 
 	if (pFrame->pFrameSibling != NULL)
@@ -349,9 +350,11 @@ void SkinnedMesh::SetAnimationIndex(int nIndex, bool isBlend)
 {
 	LPD3DXANIMATIONSET pNextAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
-
+	//isBlend = false;
 	if (isBlend)
 	{
+		m_fPassedBlendTime = 0.0f;
+
 		LPD3DXANIMATIONSET pPrevAnimSet = NULL;
 
 		m_pAnimController->GetTrackAnimationSet(0, &pPrevAnimSet);
