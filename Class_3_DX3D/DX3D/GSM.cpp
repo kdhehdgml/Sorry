@@ -36,7 +36,7 @@ GSM::GSM()
 	TeamPos.z = 100.0f;
 
 	// 몹 속도
-	mobSpeed = 1.0f;
+	mobSpeed = 2.0f;
 
 	/*Debug->AddText("= 키보드 ============");
 	Debug->EndLine();

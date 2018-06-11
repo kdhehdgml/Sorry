@@ -168,15 +168,15 @@ void Camera::Update()
 		m_runningRecoilX = m_running * 0.005f;
 		m_runningRecoilY = m_running * -0.005f;
 	}
-	else if (m_running >= 11 & m_running < 20) {
+	else if (m_running >= 11 && m_running < 20) {
 		m_runningRecoilX = (20 - m_running) * 0.005f;
 		m_runningRecoilY = (20 - m_running) * -0.005f;
 	}
-	else if (m_running >= 21 & m_running < 30) {
+	else if (m_running >= 21 && m_running < 30) {
 		m_runningRecoilX = (m_running - 20) * 0.005f;
 		m_runningRecoilY = (m_running - 20) * 0.005f;
 	}
-	else if (m_running >= 31 & m_running < 40) {
+	else if (m_running >= 31 && m_running < 40) {
 		m_runningRecoilX = (40 - m_running) * 0.005f;
 		m_runningRecoilY = (40 - m_running) * 0.005f;
 	}
