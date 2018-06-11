@@ -169,6 +169,7 @@
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="Player_hands.h" />
+    <ClInclude Include="SceneBattlefield.h" />
     <ClInclude Include="SoundControl.h" />
     <ClInclude Include="Blocks.h" />
     <ClInclude Include="Camera.h" />
@@ -243,7 +244,6 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="BaseObject.cpp" />
-    <ClCompile Include="Player_hands.cpp" />
     <ClCompile Include="SoundControl.cpp" />
     <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Camera.cpp" />

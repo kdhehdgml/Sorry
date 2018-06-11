@@ -199,6 +199,8 @@ void SceneHeightmap::Init()
 	AddSimpleDisplayObj(m_Player_hands);
 
 	g_pSoundManager->createSound(); // 음악 세팅
+	g_pSoundManager->createSound(); // 사운드 세팅								
+	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
 }
 
 void SceneHeightmap::Update()
@@ -231,11 +233,8 @@ void SceneHeightmap::Update()
 	Debug->EndLine();
 
 
-
-
-
-	// F5 키 누르면 음악 재생 ON / OFF
-	if ((GetAsyncKeyState('1') & 0x8000))
+	// 0 키 누르면 음악 재생 ON / OFF
+	if ((GetAsyncKeyState('0') & 0x8000))
 	{
 		if (!musicPlayCheck)
 		{
@@ -268,7 +267,10 @@ void SceneHeightmap::Update()
 	{
 		g_pSoundManager->RunSound();
 	}
-	else if ((GetAsyncKeyState('W') & 0x8000))
+	else if (GetAsyncKeyState('W') || 
+			GetAsyncKeyState('A') || 
+			GetAsyncKeyState('D') ||  
+			GetAsyncKeyState('S') & 0x8000)
 	{
 		g_pSoundManager->WalkSound();
 	}
@@ -286,7 +288,7 @@ void SceneHeightmap::Render()
 	//m_pPicking->Render();
 
 	if (m_pCrosshairOn) {
-		if (m_pScopeOn) {
+		if (m_pScopeOn & g_pCamera->getCooldown() <= 0) {
 			g_pDevice->SetTexture(0, NULL);
 			m_pSprite2->Begin(D3DXSPRITE_ALPHABLEND);
 			D3DXMATRIX mat;
