@@ -7,6 +7,8 @@ Minimap::Minimap()
 	m_pRootUI = NULL;
 	minimapWidth = 256.0f;
 	minimapHeight = 256.0f;
+	m_pMobNum = 0;
+	m_pMobOldNum = 0;
 }
 
 Minimap::~Minimap()
@@ -27,6 +29,14 @@ void Minimap::Init()
 	m_pRootUI->AddChild(m_playerIcon);
 	m_playerIcon->SetTexture("resources/ui/point01.bmp");
 	m_playerIcon->SetPosition(&D3DXVECTOR3(0, 0, 0));
+
+	/*for (int i = 0; i <= m_pMob.size(); i++) {
+		UIImage* tempUIImage = new UIImage(m_minimapSprite);
+		m_enemyIcon.push_back(tempUIImage);
+		m_pRootUI->AddChild(m_enemyIcon.back());
+		m_enemyIcon.back()->SetTexture("resources/ui/point02.bmp");
+		m_enemyIcon.back()->SetPosition(&D3DXVECTOR3(0, 0, 0));
+	}*/
 
 	//D3DXMATRIXA16 matS;
 	//D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1);
@@ -54,8 +64,21 @@ void Minimap::Update()
 	//플레이어 위치 미니맵 표시 계산 끝
 
 	//적 위치 미니맵 표시 계산
-	for (auto p : m_pMob) {
-
+	for (int i = 0; i < m_enemyIcon.size();i++) {
+		if (m_pMob[i]->getStatus() != 0) {
+			D3DXVECTOR3 enemyPos = m_pMob[i]->GetPosition();
+			tempX = enemyPos.x / 1.953125;
+			tempZ = enemyPos.z / 1.953125;
+			if (tempX < 0) tempX = 0;
+			if (tempZ < 0) tempZ = 0;
+			if (tempX > minimapWidth) tempX = minimapWidth;
+			if (tempZ > minimapHeight) tempZ = minimapHeight;
+			tempZ = minimapWidth - tempZ;
+			m_enemyIcon[i]->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0));
+		}
+		else {
+			m_enemyIcon[i]->SetPosition(&D3DXVECTOR3(0, 0, -1));
+		}
 	}
 }
 
@@ -71,4 +94,20 @@ void Minimap::Render()
 void Minimap::getPMobFromUnitBox(vector<Mob*>* mob)
 {
 	m_pMob = *mob;
+	m_pMobNum = mob->size();
+	if (m_pMobNum != m_pMobOldNum) {
+		for (int i = 0; i < m_pMobNum - m_pMobOldNum; i++) {
+			addEnemy();
+		}
+	}
+	m_pMobOldNum = m_pMobNum;
+}
+
+void Minimap::addEnemy()
+{
+	UIImage* tempUIImage = new UIImage(m_minimapSprite);
+	m_pRootUI->AddChild(tempUIImage);
+	tempUIImage->SetTexture("resources/ui/point02.bmp");
+	tempUIImage->SetPosition(&D3DXVECTOR3(0, 0, 0));
+	m_enemyIcon.push_back(tempUIImage);
 }

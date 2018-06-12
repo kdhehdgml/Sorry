@@ -18,6 +18,8 @@ private:
 	float minimapHeight;
 
 	vector<Mob*> m_pMob;
+	int m_pMobNum;
+	int m_pMobOldNum;
 
 public:
 	Minimap();
@@ -27,5 +29,6 @@ public:
 	virtual void Render() override;
 
 	void getPMobFromUnitBox(vector<Mob*>* mob);
+	void addEnemy();
 };
 
