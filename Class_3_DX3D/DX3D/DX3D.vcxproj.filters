@@ -295,6 +295,7 @@
     <ClInclude Include="SceneBattlefield.h">
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="MONSTER.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -503,6 +504,7 @@
     <ClCompile Include="SceneBattlefield.cpp">
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
+    <ClCompile Include="MONSTER.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

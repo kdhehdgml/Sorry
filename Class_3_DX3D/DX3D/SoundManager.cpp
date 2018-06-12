@@ -22,7 +22,7 @@ enum SoundType
 
 SoundManager::SoundManager()
 {
-	m_pBGSound = NULL;
+	m_pMusic = NULL;
 	m_pAmbient = NULL;
 
 	m_pShot_1 = NULL;
@@ -30,6 +30,7 @@ SoundManager::SoundManager()
 	m_pWalk_Dirt = NULL;
 	m_pRun_Dirt = NULL;
 	m_pGear_Walk = NULL;
+	m_pWhistle = NULL;
 
 	walkInterval = 0;
 	runInterval = 0;
@@ -39,7 +40,7 @@ SoundManager::SoundManager()
 
 SoundManager::~SoundManager()
 {
-	m_pBGSound->ReleaseSound();
+	m_pMusic->ReleaseSound();
 	m_pAmbient->ReleaseSound();
 
 	m_pShot_1->ReleaseSound();
@@ -47,13 +48,14 @@ SoundManager::~SoundManager()
 	m_pWalk_Dirt->ReleaseSound();
 	m_pRun_Dirt->ReleaseSound();
 	m_pGear_Walk->ReleaseSound();
+	m_pWhistle->ReleaseSound();
 }
 
 void SoundManager::soundList()
 {
 	// 배경음
 	s_music_f.push_back("MoDD");
-	s_music_f.push_back("Test");
+	s_music_f.push_back("21. Days of Thunder");
 
 	// 환경음
 	s_ambient_f.push_back("ambient_test_4");
@@ -62,6 +64,9 @@ void SoundManager::soundList()
 	// 총소리
 	s_shot_1_f.push_back("Kar98az1p");
 	s_shot_1_f.push_back("Kar98az2p");
+
+	// 휘슬
+	s_whistle_f.push_back("TrenchWhistle");
 
 	// 재장전
 	s_reload_f.push_back("reload7");
@@ -111,7 +116,7 @@ void SoundManager::createSound()
 {
 	soundList();
 
-	CreateMP3(m_pBGSound, "Music/", s_music, s_music_f, MUSIC);
+	CreateMP3(m_pMusic, "Music/", s_music, s_music_f, MUSIC);
 	CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
 
 	CreateWAV(m_pShot_1, "Shot/", s_shot_1, s_shot_1_f, EFFECT);
@@ -119,17 +124,30 @@ void SoundManager::createSound()
 	CreateWAV(m_pWalk_Dirt, "Walk/", s_walk_dirt, s_walk_dirt_f, EFFECT);
 	CreateWAV(m_pRun_Dirt, "Run/", s_run_dirt, s_run_dirt_f, EFFECT);
 	CreateWAV(m_pGear_Walk, "Gear/", s_gear_walk, s_gear_walk_f, EFFECT);
+	CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
 
 }
 
 void SoundManager::playMusic(int soundNum)
 {
-	m_pBGSound->PlaySound(soundNum);
+	for (int i = 0; i < s_music_f.size(); i++)
+	{
+		if(i != soundNum)
+			m_pMusic->StopSound(i);
+	}
+
+	if(!m_pMusic->isPlaying(soundNum))
+		m_pMusic->PlaySound(soundNum);
 }
 
 void SoundManager::stopMusic(int soundNum)
 {
-	m_pBGSound->StopSound(soundNum);
+	m_pMusic->StopSound(soundNum);
+}
+
+void SoundManager::changeMusic(int soundNum1, int soundNum2)
+{
+	m_pMusic->ChangeSound(soundNum1, soundNum2);
 }
 
 void SoundManager::playAmbient(int soundNum)
@@ -141,6 +159,14 @@ void SoundManager::stopAmbient(int soundNum)
 {
 	m_pAmbient->StopSound(soundNum);
 }
+
+
+
+//===========================================================================================
+//     넘을 수 없는 4차원의 벽
+//===========================================================================================
+
+
 
 void SoundManager::ShotSound()
 {
@@ -179,4 +205,9 @@ void SoundManager::RunSound()
 
 		runInterval = 0;
 	}
+}
+
+void SoundManager::effectSound(int soundNum)
+{
+		m_pWhistle->PlaySound(0);
 }
