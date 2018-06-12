@@ -3,6 +3,7 @@
 #include "IDisplayObject.h"
 #include "UIBUtton.h"
 #include "UIImage.h"
+#include "Minimap.h"
 
 class HeightMap;
 class AseCharacter;
@@ -53,6 +54,8 @@ private:
 	UIImage* pImage2;
 	bool m_pCrosshairOn;
 	bool m_pScopeOn;
+
+	Minimap * m_minimap;
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 

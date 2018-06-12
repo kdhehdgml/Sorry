@@ -50,6 +50,10 @@ SceneHeightmap::SceneHeightmap()
 	m_pCrosshairOn = false;
 	m_pCrosshairOn = false;
 	
+	m_pScopeOn = false;
+	
+	m_minimap = NULL;
+
 	//	m_pSkinnedMesh = NULL;
 	volume_music = GSM().volume_music_init;
 }
@@ -66,6 +70,7 @@ SceneHeightmap::~SceneHeightmap()
 	//SAFE_RELEASE(pImage);
 	SAFE_RELEASE(m_pCrosshair);
 	SAFE_RELEASE(m_pScope);
+	SAFE_RELEASE(m_minimap);
 	//m_pCrosshair->ReleaseAll();
 	//m_CreateSmog->Release();
 	//SAFE_RELEASE(m_CreateSmog);
@@ -197,6 +202,9 @@ void SceneHeightmap::Init()
 	m_Player_hands = new Player_hands;
 	m_Player_hands->Init();
 
+	m_minimap = new Minimap;
+	m_minimap->Init();
+
 	AddSimpleDisplayObj(m_Player_hands);
 
 	g_pSoundManager->createSound(); // 사운드 세팅								
@@ -210,7 +218,7 @@ void SceneHeightmap::Update()
 
 	SAFE_UPDATE(m_ColorCube);
 
-
+	SAFE_UPDATE(m_minimap);
 	SAFE_UPDATE(m_pCrosshair);
 	SAFE_UPDATE(m_pScope);
 	OnUpdateIScene();
@@ -294,6 +302,7 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_pBlocks);
 
 	SAFE_RENDER(m_SkyBox);
+	SAFE_RENDER(m_minimap);
 	m_CreateSmog->Render();
 	//m_pPicking->Render();
 

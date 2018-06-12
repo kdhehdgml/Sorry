@@ -1,4 +1,6 @@
 #pragma once
+#include "IUnitObject.h"
+
 class MONSTER : public IUnitObject
 {
 

@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 class Player_hands : public IUnitObject
 {
 protected:
@@ -17,7 +17,8 @@ protected:
 	int							m_numMesh;
 
 	bool						m_HandsOption;
-	float						angle;
+	float						angleX, angleY;
+
 
 	D3DXMATRIXA16				matT, matS, matR;
 
@@ -26,7 +27,6 @@ public:
 	Player_hands();
 	~Player_hands();
 
-	// IUnitObject¿ª(∏¶) ≈Î«ÿ ªÛº”µ 
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
@@ -47,4 +47,3 @@ private:
 public:
 	void SetAnimationIndex(int nIndex, bool isBlend);
 };
-
