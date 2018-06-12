@@ -509,7 +509,12 @@ float Camera::getSpeedOffset()
 	return m_speedOffset;
 }
 
-float Camera::getAngle()
+float Camera::getAngleX()
+{
+	return m_rotX;
+}
+
+float Camera::getAngleY()
 {
 	return m_rotY;
 }
