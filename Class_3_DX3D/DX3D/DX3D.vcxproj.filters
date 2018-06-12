@@ -248,9 +248,6 @@
     <ClInclude Include="Heap.h">
       <Filter>소스 파일\3.Object\AStar</Filter>
     </ClInclude>
-    <ClInclude Include="SkinnedMesh.h">
-      <Filter>소스 파일\xFile</Filter>
-    </ClInclude>
     <ClInclude Include="AllocateHierarchy.h">
       <Filter>소스 파일\xFile</Filter>
     </ClInclude>
@@ -296,6 +293,9 @@
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
     <ClInclude Include="MONSTER.h" />
+    <ClInclude Include="SkinnedMesh.h">
+      <Filter>소스 파일\xFile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">

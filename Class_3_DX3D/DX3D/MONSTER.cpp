@@ -2,7 +2,7 @@
 #include "MONSTER.h"
 #include "AllocateHierarchy.h"
 
-#define SCALE 20.0f
+#define SCALE 10.0f
 
 
 MONSTER::MONSTER()
@@ -136,7 +136,6 @@ void MONSTER::UpdateAnim()
 			m_pAnimController->SetTrackEnable(1, false);
 		}
 	}
-
 }
 
 void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
