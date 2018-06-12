@@ -2,6 +2,7 @@
 #include "IDisplayObject.h"
 #include "UIImage.h"
 #include "Mob.h"
+#include "TeamAI.h"
 
 class Minimap :
 	public IDisplayObject
@@ -18,8 +19,11 @@ private:
 	float minimapHeight;
 
 	vector<Mob*> m_pMob;
+	vector<TeamAI*> m_pTeam;
 	int m_pMobNum;
 	int m_pMobOldNum;
+	int m_pTeamNum;
+	int m_pTeamOldNum;
 
 public:
 	Minimap();
@@ -29,6 +33,8 @@ public:
 	virtual void Render() override;
 
 	void getPMobFromUnitBox(vector<Mob*>* mob);
+	void getPTeamFromUnitBox(vector<TeamAI*>* team);
 	void addEnemy();
+	void addTeam();
 };
 

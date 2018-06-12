@@ -203,8 +203,9 @@ void SceneHeightmap::Init()
 	m_Player_hands->Init();
 
 	m_minimap = new Minimap;
-	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
 	m_minimap->Init();
+	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
+	m_minimap->getPTeamFromUnitBox(m_pUnit->getPTeam());
 
 	AddSimpleDisplayObj(m_Player_hands);
 
@@ -233,6 +234,7 @@ void SceneHeightmap::Update()
 
 	g_pCamera->getPMobFromUnitBox(m_pUnit->getPMob());
 	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
+	m_minimap->getPTeamFromUnitBox(m_pUnit->getPTeam());
 
 	PROCESS_MEMORY_COUNTERS pmc;
 	GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc));

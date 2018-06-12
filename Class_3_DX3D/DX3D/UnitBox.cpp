@@ -405,3 +405,8 @@ vector<Mob*>* UnitBox::getPMob()
 {
 	return &m_pMob;
 }
+
+vector<TeamAI*>* UnitBox::getPTeam()
+{
+	return &m_pTeam;
+}
