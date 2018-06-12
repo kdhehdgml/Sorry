@@ -14,7 +14,7 @@ IUnitObject::IUnitObject()
 	m_jumpPower = 1.0f;
 	m_gravity = 0.05f;
 	m_currGravity = 0.0f;
-
+	m_colision = false;
 	m_maxStepHeight = 2.0f;
 }
 
@@ -130,26 +130,23 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 			}
 			else
 			{
-				bool chk = false;
 				for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_MOB).size(); i++)
 				{
 					if (targetPos != g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())
 					{
 						if (D3DXVec3Length(&((m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate) -
-							g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())) < 2.5f)
+							g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())) < 3.0f)
 						{
-							
 							i = g_pObjMgr->FindObjectsByTag(TAG_MOB).size();
-
-							chk = true;
+							m_colision = true;
 						}
 						else
 						{
-							chk = false;
+							m_colision = false;
 						}
 					}
 				}
-				if (chk == false)
+				if (m_colision == false)
 				{
 					targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
 				}

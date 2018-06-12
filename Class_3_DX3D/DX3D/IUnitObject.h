@@ -9,7 +9,7 @@ protected:
 	D3DXVECTOR3		m_forward;
 	
 	KEYBOARD_STATE	m_keyState;
-
+	bool			m_colision;
 	bool			m_isMoving;
 	bool			m_start;
 	float			m_moveSpeed;
