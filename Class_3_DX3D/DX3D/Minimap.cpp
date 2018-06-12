@@ -28,11 +28,14 @@ void Minimap::Init()
 	m_playerIcon->SetTexture("resources/ui/point01.dds");
 	m_playerIcon->SetPosition(&D3DXVECTOR3(0, 0, 0));
 
-	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1);
-	D3DXMATRIXA16 matT;
-	D3DXMatrixTranslation(&matT, 0, 50, 0);
-	m_matWorld = matS * matT;
+	//D3DXMATRIXA16 matS;
+	//D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1);
+	//D3DXMATRIXA16 matT;
+	//D3DXMatrixTranslation(&matT, 0, 464, 0);
+	D3DXMATRIXA16 matR;
+	D3DXMatrixTransformation2D(&matR, NULL, NULL, NULL, &D3DXVECTOR2(128, 128), 270 * D3DX_PI / 180, &D3DXVECTOR2(0, 464));
+	//m_matWorld = matS * matT;
+	m_matWorld = matR;
 }
 
 void Minimap::Update()
