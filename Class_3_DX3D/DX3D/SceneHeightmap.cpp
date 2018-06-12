@@ -53,7 +53,7 @@ SceneHeightmap::SceneHeightmap()
 	m_minimap = NULL;
 
 	//	m_pSkinnedMesh = NULL;
-
+	volume_music = GSM().volume_music_init;
 }
 
 
@@ -273,6 +273,22 @@ void SceneHeightmap::Update()
 	{
 		g_pSoundManager->WalkSound();
 	}
+	if ((GetAsyncKeyState('I') & 0x8000))
+	{
+		if (volume_music <= 10.0f)
+			volume_music += 0.049999f;
+		g_pSoundManager->volumeControl_Music(volume_music);
+	}
+	if ((GetAsyncKeyState('K') & 0x8000))
+	{
+		if (volume_music >= 0.049999f)
+			volume_music -= 0.049999f;
+		g_pSoundManager->volumeControl_Music(volume_music);
+	}
+
+	Debug->AddText("volume(music) : ");
+	Debug->AddText(volume_music);
+	Debug->EndLine();
 }
 
 void SceneHeightmap::Render()
