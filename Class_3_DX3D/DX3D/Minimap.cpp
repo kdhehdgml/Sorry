@@ -5,6 +5,8 @@ Minimap::Minimap()
 {
 	m_minimapSprite = NULL;
 	m_pRootUI = NULL;
+	minimapWidth = 256.0f;
+	minimapHeight = 256.0f;
 }
 
 Minimap::~Minimap()
@@ -17,24 +19,34 @@ void Minimap::Init()
 {
 	D3DXCreateSprite(g_pDevice, &m_minimapSprite);
 	m_minimap = new UIImage(m_minimapSprite);
+	m_minimap->m_bDrawBorder = false;
 	m_minimap->SetTexture("resources/heightmap/terrain_minimap.png");
-	m_minimap->SetPosition(&D3DXVECTOR3(200, 0, 0));
+	m_minimap->SetPosition(&D3DXVECTOR3(0, 0, 0));
 	m_pRootUI = m_minimap;
 	m_playerIcon = new UIImage(m_minimapSprite);
 	m_pRootUI->AddChild(m_playerIcon);
-	m_playerIcon->SetTexture("resources/ui/panel-info.png.png");
+	m_playerIcon->SetTexture("resources/ui/point01.dds");
 	m_playerIcon->SetPosition(&D3DXVECTOR3(0, 0, 0));
 
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1);
 	D3DXMATRIXA16 matT;
-	D3DXMatrixTranslation(&matT, 150, 150, 0);
+	D3DXMatrixTranslation(&matT, 0, 50, 0);
 	m_matWorld = matS * matT;
 }
 
 void Minimap::Update()
 {
 	SAFE_UPDATE(m_pRootUI);
+	D3DXVECTOR3 playerPos = g_pCamera->getPos();
+	float tempX = playerPos.x / 1.953125;
+	float tempZ = playerPos.z / 1.953125;
+	if (tempX < 0) tempX = 0;
+	if (tempZ < 0) tempZ = 0;
+	if (tempX > minimapWidth) tempX = minimapWidth;
+	if (tempZ > minimapHeight) tempZ = minimapHeight;
+	tempZ = minimapWidth - tempZ;
+	m_playerIcon->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0));
 }
 
 void Minimap::Render()

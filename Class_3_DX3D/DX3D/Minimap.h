@@ -13,6 +13,9 @@ private:
 	vector<UIImage*> m_enemyIcon;
 	IUIObject* m_pRootUI;
 
+	float minimapWidth;
+	float minimapHeight;
+
 public:
 	Minimap();
 	~Minimap();
