@@ -15,6 +15,7 @@
 #include "CreateSmog.h"
 #include "ColorCube.h"
 #include "Player_hands.h"
+#include "MONSTER.h"
 
 //중현이코드
 #include "UnitBox.h"
@@ -36,6 +37,7 @@ SceneHeightmap::SceneHeightmap()
 	m_SkyBox = NULL;
 	m_ColorCube = NULL;
 	m_Player_hands = NULL;
+
 
 
 	//중현이코드
