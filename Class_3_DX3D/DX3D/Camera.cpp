@@ -397,11 +397,16 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			for (auto p : m_pMob)
 			{
-				bool getHit = false;
-				getHit = r.CalcIntersectSphere(p->getBoundingSphere());
-				if (getHit && p->getStatus() == 1) {
-					//if(getHit){
+				bool getHitHead = false;
+				getHitHead = r.CalcIntersectSphere(p->getBoundingSphereHead());
+				if (getHitHead && p->getStatus() == 1) {
 					p->setHealth(p->getHealth() - 100);
+					break;
+				}
+				bool getHitBody = false;
+				getHitBody = r.CalcIntersectSphere(p->getBoundingSphereBody());
+				if (getHitBody && p->getStatus() == 1) {
+					p->setHealth(p->getHealth() - 50);
 					break;
 				}
 			}

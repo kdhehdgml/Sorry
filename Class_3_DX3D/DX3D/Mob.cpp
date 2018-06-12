@@ -19,7 +19,8 @@ Mob::Mob()
 	num = 0;
 	m_moveSpeed = 0.4f;
 
-	m_pSphere = NULL;
+	m_pSphereBody = NULL;
+	m_pSphereHead = NULL;
 	health = 100;
 	status = 1;
 	m_BeDetermined = false;
@@ -30,23 +31,26 @@ Mob::~Mob()
 {
 	//m_pRootParts->ReleaseAll();
 	SAFE_RELEASE(m_MONSTER);
-	SAFE_RELEASE(m_pSphere);
-	SAFE_DELETE(m_pBoundingSphere);
+	SAFE_RELEASE(m_pSphereBody);
+	SAFE_RELEASE(m_pSphereHead);
+	SAFE_DELETE(m_pBoundingSphereBody);
+	SAFE_DELETE(m_pBoundingSphereHead);
 }
 
 void Mob::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_MOB, this);
 
-	D3DXCreateSphere(g_pDevice, 2.5f, 10, 10, &m_pSphere, NULL);
+	D3DXCreateSphere(g_pDevice, 1.5f, 10, 10, &m_pSphereHead, NULL);
+	m_pBoundingSphereHead = new BoundingSphere(m_pos, 1.5f);
+	D3DXCreateSphere(g_pDevice, 2.0f, 10, 10, &m_pSphereBody, NULL);
+	m_pBoundingSphereBody = new BoundingSphere(m_pos, 2.0f);
 
 	m_MONSTER = new MONSTER;
 	m_MONSTER->Init();
 
 	//CreateAllParts();
 	IUnitObject::m_moveSpeed = GSM().mobSpeed;
-
-	m_pBoundingSphere = new BoundingSphere(m_pos, 2.5f);
 
 	//m_pMob[i]->SetPosition(&D3DXVECTOR3(50.0f, 5.0f, (i + 1) * 10));
 }
@@ -60,8 +64,10 @@ void Mob::Update()
 		IUnitObject::UpdateKeyboardState();
 		IUnitObject::UpdatePositionToDestination();
 		
-		m_pBoundingSphere->center = m_pos;
-		m_pBoundingSphere->center.y += 3.0f;
+		m_pBoundingSphereBody->center = m_pos;
+		m_pBoundingSphereBody->center.y += 2.0f;
+		m_pBoundingSphereHead->center = m_pos;
+		m_pBoundingSphereHead->center.y += 5.0f;
 
 		//m_pRootParts->SetMovingState(m_isMoving);
 		//m_pRootParts->Update();
@@ -98,17 +104,28 @@ void Mob::Render()
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 			1, &Shootpos[0], sizeof(VERTEX_PC));
 
-	/*	D3DXMATRIXA16 mat;
-		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
+		D3DXMATRIXA16 mat;
+		D3DXMatrixTranslation(&mat, m_pBoundingSphereBody->center.x, m_pBoundingSphereBody->center.y, m_pBoundingSphereBody->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
-		m_pSphere->DrawSubset(0);*/
+		m_pSphereBody->DrawSubset(0);
+		//D3DXMATRIXA16 mat2;
+		D3DXMatrixIdentity(&mat);
+		D3DXMatrixTranslation(&mat, m_pBoundingSphereHead->center.x, m_pBoundingSphereHead->center.y, m_pBoundingSphereHead->center.z);
+		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+		g_pDevice->SetTexture(0, NULL);
+		m_pSphereHead->DrawSubset(0);
 	}
 }
 
-BoundingSphere * Mob::getBoundingSphere()
+BoundingSphere * Mob::getBoundingSphereBody()
 {
-	return m_pBoundingSphere;
+	return m_pBoundingSphereBody;
+}
+
+BoundingSphere * Mob::getBoundingSphereHead()
+{
+	return m_pBoundingSphereHead;
 }
 
 int Mob::getHealth()
