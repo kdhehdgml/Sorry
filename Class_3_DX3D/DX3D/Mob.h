@@ -1,12 +1,15 @@
 #pragma once
 #include "IUnitObject.h"
 class CubemanParts;
+class MONSTER;
+
 
 class Mob
 	: public IUnitObject
 {
 private:
 	CubemanParts *	m_pRootParts;
+	MONSTER		*	m_MONSTER;
 
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;

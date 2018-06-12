@@ -113,7 +113,7 @@ void Player_hands::Update()
 
 	m_pos=  Camera::GetInstance()->getPos();
 	m_pos.y -= 10.0f;
-	angle = -1.0f*(Camera::GetInstance()->getAngle());
+	angle = (Camera::GetInstance()->getAngle()) - D3DX_PI;
 
 
 	//IUnitObject::UpdateKeyboardState();

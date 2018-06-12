@@ -17,6 +17,8 @@ protected:
 	int							m_numFrame;
 	int							m_numMesh;
 
+	int							m_state;
+
 	bool						m_HandsOption;
 	float						angle;
 
@@ -33,6 +35,9 @@ public:
 	virtual void Render() override;
 
 	void Load(LPCTSTR path, LPCTSTR filename);
+	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
+	void SetState(int state) { m_state = state; }
+
 
 private:
 	void SetupBoneMatrixPointers(LPD3DXFRAME pFrame);
@@ -44,6 +49,7 @@ private:
 	void DrawFrame(LPD3DXFRAME pFrame);
 	void DrawMeshContainer(LPD3DXFRAME pFrame);
 	void DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
+
 
 public:
 	void SetAnimationIndex(int nIndex, bool isBlend);

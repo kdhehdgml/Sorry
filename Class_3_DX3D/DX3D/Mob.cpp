@@ -2,10 +2,11 @@
 #include "Mob.h"
 #include "CubemanParts.h"
 #include "Ray.h"
+#include "MONSTER.h"
 Mob::Mob()
 {
-	m_pRootParts = NULL;
-
+//	m_pRootParts = NULL;
+	m_MONSTER = NULL;//몬스터 클래스 추가
 	m_isMoving = false;
 	m_isShoot = false;
 
@@ -27,7 +28,8 @@ Mob::Mob()
 
 Mob::~Mob()
 {
-	m_pRootParts->ReleaseAll();
+	//m_pRootParts->ReleaseAll();
+	SAFE_RELEASE(m_MONSTER);
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 }
@@ -38,7 +40,10 @@ void Mob::Init()
 
 	D3DXCreateSphere(g_pDevice, 2.5f, 10, 10, &m_pSphere, NULL);
 
-	CreateAllParts();
+	m_MONSTER = new MONSTER;
+	m_MONSTER->Init();
+
+	//CreateAllParts();
 	IUnitObject::m_moveSpeed = GSM().mobSpeed;
 
 	m_pBoundingSphere = new BoundingSphere(m_pos, 2.5f);
@@ -58,8 +63,11 @@ void Mob::Update()
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 3.0f;
 
-		m_pRootParts->SetMovingState(m_isMoving);
-		m_pRootParts->Update();
+		//m_pRootParts->SetMovingState(m_isMoving);
+		//m_pRootParts->Update();
+		m_MONSTER->SetPos(m_pos);
+		m_MONSTER->Update();
+
 		Debug->AddText("몹 체력:");
 		Debug->AddText(health);
 		Debug->EndLine();
@@ -76,9 +84,11 @@ void Mob::Render()
 	//안개 최대치로 적용되는 거리
 	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	
 	if (status > 0) {
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		m_pRootParts->Render();
+		//m_pRootParts->Render();
+		m_MONSTER->Render();
 
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);
@@ -88,11 +98,11 @@ void Mob::Render()
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 			1, &Shootpos[0], sizeof(VERTEX_PC));
 
-		D3DXMATRIXA16 mat;
+	/*	D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
-		m_pSphere->DrawSubset(0);
+		m_pSphere->DrawSubset(0);*/
 	}
 }
 
