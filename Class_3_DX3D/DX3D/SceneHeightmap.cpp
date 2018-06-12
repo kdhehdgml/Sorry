@@ -255,14 +255,6 @@ void SceneHeightmap::Update()
 	else if (musicPlayCheck)
 		musicPlayCheck = false;
 
-	if (musicPlay)
-		soundSt = "[ Music Play ]";
-	else
-		soundSt = "[ Music Stop ]";
-
-	Debug->AddText(soundSt);
-	Debug->EndLine();
-
 	if ((GetAsyncKeyState('W') & GetAsyncKeyState(VK_SHIFT) & 0x8000))
 	{
 		g_pSoundManager->RunSound();
