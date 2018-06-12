@@ -48,7 +48,6 @@ SceneHeightmap::SceneHeightmap()
 	pImage = NULL;
 	pImage2 = NULL;
 	m_pCrosshairOn = false;
-	m_pCrosshairOn = false;
 	
 	m_pScopeOn = false;
 	
