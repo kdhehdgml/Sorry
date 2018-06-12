@@ -1,6 +1,7 @@
 #pragma once
 #include "IDisplayObject.h"
 #include "UIImage.h"
+#include "Mob.h"
 
 class Minimap :
 	public IDisplayObject
@@ -16,11 +17,15 @@ private:
 	float minimapWidth;
 	float minimapHeight;
 
+	vector<Mob*> m_pMob;
+
 public:
 	Minimap();
 	~Minimap();
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
+
+	void getPMobFromUnitBox(vector<Mob*>* mob);
 };
 

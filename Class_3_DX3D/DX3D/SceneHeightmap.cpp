@@ -48,13 +48,12 @@ SceneHeightmap::SceneHeightmap()
 	pImage = NULL;
 	pImage2 = NULL;
 	m_pCrosshairOn = false;
-	
 	m_pScopeOn = false;
-	
+
 	m_minimap = NULL;
 
 	//	m_pSkinnedMesh = NULL;
-	volume_music = GSM().volume_music_init;
+
 }
 
 
@@ -230,6 +229,7 @@ void SceneHeightmap::Update()
 	}
 
 	g_pCamera->getPMobFromUnitBox(m_pUnit->getPMob());
+	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
 
 	PROCESS_MEMORY_COUNTERS pmc;
 	GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc));
@@ -266,31 +266,13 @@ void SceneHeightmap::Update()
 	{
 		g_pSoundManager->RunSound();
 	}
-	else if (GetAsyncKeyState('W') || 
-			GetAsyncKeyState('A') || 
-			GetAsyncKeyState('D') ||  
-			GetAsyncKeyState('S') & 0x8000)
+	else if (GetAsyncKeyState('W') ||
+		GetAsyncKeyState('A') ||
+		GetAsyncKeyState('D') ||
+		GetAsyncKeyState('S') & 0x8000)
 	{
 		g_pSoundManager->WalkSound();
 	}
-
-	// ¹è°æÀ½¾Ç º¼·ý Á¶Àý
-	if ((GetAsyncKeyState('I') & 0x8000))
-	{
-		if (volume_music <= 10.0f)
-			volume_music += 0.049999f;
-		g_pSoundManager->volumeControl_Music(volume_music);
-	}
-	if ((GetAsyncKeyState('K') & 0x8000))
-	{
-		if (volume_music >= 0.049999f)
-			volume_music -= 0.049999f;
-		g_pSoundManager->volumeControl_Music(volume_music);
-	}
-
-	Debug->AddText("volume(music) : ");
-	Debug->AddText(volume_music);
-	Debug->EndLine();
 }
 
 void SceneHeightmap::Render()

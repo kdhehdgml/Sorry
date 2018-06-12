@@ -25,7 +25,7 @@ void Minimap::Init()
 	m_pRootUI = m_minimap;
 	m_playerIcon = new UIImage(m_minimapSprite);
 	m_pRootUI->AddChild(m_playerIcon);
-	m_playerIcon->SetTexture("resources/ui/point01.dds");
+	m_playerIcon->SetTexture("resources/ui/point01.bmp");
 	m_playerIcon->SetPosition(&D3DXVECTOR3(0, 0, 0));
 
 	//D3DXMATRIXA16 matS;
@@ -41,6 +41,7 @@ void Minimap::Init()
 void Minimap::Update()
 {
 	SAFE_UPDATE(m_pRootUI);
+	//플레이어 위치 미니맵 표시 계산
 	D3DXVECTOR3 playerPos = g_pCamera->getPos();
 	float tempX = playerPos.x / 1.953125;
 	float tempZ = playerPos.z / 1.953125;
@@ -50,6 +51,12 @@ void Minimap::Update()
 	if (tempZ > minimapHeight) tempZ = minimapHeight;
 	tempZ = minimapWidth - tempZ;
 	m_playerIcon->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0));
+	//플레이어 위치 미니맵 표시 계산 끝
+
+	//적 위치 미니맵 표시 계산
+	for (auto p : m_pMob) {
+
+	}
 }
 
 void Minimap::Render()
@@ -59,4 +66,9 @@ void Minimap::Render()
 	m_minimapSprite->SetTransform(&m_matWorld);
 	SAFE_RENDER(m_pRootUI);
 	m_minimapSprite->End();
+}
+
+void Minimap::getPMobFromUnitBox(vector<Mob*>* mob)
+{
+	m_pMob = *mob;
 }
