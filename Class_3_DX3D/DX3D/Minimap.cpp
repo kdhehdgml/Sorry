@@ -9,6 +9,8 @@ Minimap::Minimap()
 	minimapHeight = 256.0f;
 	m_pMobNum = 0;
 	m_pMobOldNum = 0;
+	m_pTeamNum = 0;
+	m_pTeamOldNum = 0;
 }
 
 Minimap::~Minimap()
@@ -80,6 +82,26 @@ void Minimap::Update()
 			m_enemyIcon[i]->SetPosition(&D3DXVECTOR3(0, 0, -1));
 		}
 	}
+	//적 위치 미니맵 표시 계산 끝
+
+	//팀 위치 미니맵 표시 계산
+	for (int i = 0; i < m_teamIcon.size(); i++) {
+		if (m_pTeam[i]->getStatus() != 0) {
+			D3DXVECTOR3 enemyPos = m_pTeam[i]->GetPosition();
+			tempX = enemyPos.x / 1.953125;
+			tempZ = enemyPos.z / 1.953125;
+			if (tempX < 0) tempX = 0;
+			if (tempZ < 0) tempZ = 0;
+			if (tempX > minimapWidth) tempX = minimapWidth;
+			if (tempZ > minimapHeight) tempZ = minimapHeight;
+			tempZ = minimapWidth - tempZ;
+			m_teamIcon[i]->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0));
+		}
+		else {
+			m_teamIcon[i]->SetPosition(&D3DXVECTOR3(0, 0, -1));
+		}
+	}
+	//팀 위치 미니맵 표시 계산 끝
 }
 
 void Minimap::Render()
@@ -103,6 +125,18 @@ void Minimap::getPMobFromUnitBox(vector<Mob*>* mob)
 	m_pMobOldNum = m_pMobNum;
 }
 
+void Minimap::getPTeamFromUnitBox(vector<TeamAI*>* team)
+{
+	m_pTeam = *team;
+	m_pTeamNum = team->size();
+	if (m_pTeamNum != m_pTeamOldNum) {
+		for (int i = 0; i < m_pTeamNum - m_pTeamOldNum; i++) {
+			addTeam();
+		}
+	}
+	m_pTeamOldNum = m_pTeamNum;
+}
+
 void Minimap::addEnemy()
 {
 	UIImage* tempUIImage = new UIImage(m_minimapSprite);
@@ -110,4 +144,13 @@ void Minimap::addEnemy()
 	tempUIImage->SetTexture("resources/ui/point02.bmp");
 	tempUIImage->SetPosition(&D3DXVECTOR3(0, 0, 0));
 	m_enemyIcon.push_back(tempUIImage);
+}
+
+void Minimap::addTeam()
+{
+	UIImage* tempUIImage = new UIImage(m_minimapSprite);
+	m_pRootUI->AddChild(tempUIImage);
+	tempUIImage->SetTexture("resources/ui/point03.bmp");
+	tempUIImage->SetPosition(&D3DXVECTOR3(0, 0, 0));
+	m_teamIcon.push_back(tempUIImage);
 }

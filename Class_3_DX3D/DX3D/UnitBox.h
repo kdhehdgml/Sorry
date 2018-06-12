@@ -28,5 +28,6 @@ public:
 	void MobMoveInTheWall();
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();
+	vector<TeamAI*>* getPTeam();
 };
 
