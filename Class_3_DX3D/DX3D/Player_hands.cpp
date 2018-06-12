@@ -19,9 +19,7 @@ Player_hands::Player_hands()
 	m_bDrawSkeleton = false;
 	m_HandsOption = false;
 
-	angleX =0;
-	angleY =0;
-	
+	angle = -1.0f * (D3DX_PI / 2);
 }
 
 
@@ -72,11 +70,11 @@ void Player_hands::Update()
 {
 	if (m_HandsOption)
 	{
-		Debug->AddText(_T("Anim Index = "));
-		Debug->AddText((int)m_animIndex + 1);
-		Debug->AddText(_T(" / "));
-		Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
-		Debug->EndLine();
+	Debug->AddText(_T("Anim Index = "));
+	Debug->AddText((int)m_animIndex + 1);
+	Debug->AddText(_T(" / "));
+	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
+	Debug->EndLine();
 	}
 
 
@@ -115,20 +113,13 @@ void Player_hands::Update()
 
 	m_pos=  Camera::GetInstance()->getPos();
 	m_pos.y -= 10.0f;
-	angleX = (Camera::GetInstance()->getAngleX()) ;
-	angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
+	angle = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
 
 
 	//IUnitObject::UpdateKeyboardState();
 	//IUnitObject::UpdatePositionToDestination();
-	D3DXMATRIXA16 matR_X , matR_Y;
 
-	D3DXMatrixRotationX(&matR_X, angleX);
-	D3DXMatrixRotationY(&matR_Y, angleY);
-	
-	matR = matR_X * matR_Y;
-	
-
+	D3DXMatrixRotationY(&matR, angle);
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 	//D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	UpdateAnim();
