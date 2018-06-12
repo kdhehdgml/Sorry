@@ -33,6 +33,7 @@ private:
 
 	bool			musicPlayCheck;
 	bool			musicPlay;
+	float			volume_music;
 
 	//중현이코드
 	UnitBox *		m_pUnit;

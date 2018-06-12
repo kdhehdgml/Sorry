@@ -90,6 +90,14 @@ bool SoundControl::isPlaying(int nIndex)
 	return false;
 }
 
+void SoundControl::volumeControl(int nIndex, float volume)
+{
+	if (nIndex < m_nSoundCount)
+	{
+		FMOD_Channel_SetVolume(m_ppChannel[nIndex], volume);
+	}
+}
+
 void SoundControl::ReleaseSound()
 {
 	int i;

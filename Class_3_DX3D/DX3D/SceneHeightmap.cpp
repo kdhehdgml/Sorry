@@ -49,9 +49,9 @@ SceneHeightmap::SceneHeightmap()
 	pImage2 = NULL;
 	m_pCrosshairOn = false;
 	m_pCrosshairOn = false;
-
+	
 	//	m_pSkinnedMesh = NULL;
-
+	volume_music = GSM().volume_music_init;
 }
 
 
@@ -266,6 +266,24 @@ void SceneHeightmap::Update()
 	{
 		g_pSoundManager->WalkSound();
 	}
+
+	// ¹è°æÀ½¾Ç º¼·ý Á¶Àý
+	if ((GetAsyncKeyState('I') & 0x8000))
+	{
+		if (volume_music <= 10.0f)
+			volume_music += 0.049999f;
+		g_pSoundManager->volumeControl_Music(volume_music);
+	}
+	if ((GetAsyncKeyState('K') & 0x8000))
+	{
+		if (volume_music >= 0.049999f)
+			volume_music -= 0.049999f;
+		g_pSoundManager->volumeControl_Music(volume_music);
+	}
+
+	Debug->AddText("volume(music) : ");
+	Debug->AddText(volume_music);
+	Debug->EndLine();
 }
 
 void SceneHeightmap::Render()
