@@ -27,7 +27,7 @@ void SceneLoading::Init()
 	D3DXMatrixScaling(&matS, 1.0f, 0.06f, 1.0f);
 
 	D3DXCreateSprite(g_pDevice, &m_loadingCircleSprite);
-	D3DXCreateTextureFromFileEx(g_pDevice, "resources/ui/LoadingCircle.png", 0, 0, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, D3DCOLOR_XRGB(0, 0, 0), 0, 0, &m_loadingCircleTexture);
+	D3DXCreateTextureFromFileEx(g_pDevice, _T("resources/ui/LoadingCircle.png"), 0, 0, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, D3DCOLOR_XRGB(0, 0, 0), 0, 0, &m_loadingCircleTexture);
 	m_loadingCircle.nCount = 8;
 	m_loadingCircle.nIndex = 0;
 	m_loadingCircle.dwAniTime = 100;

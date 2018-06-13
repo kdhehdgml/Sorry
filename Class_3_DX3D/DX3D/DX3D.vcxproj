@@ -30,7 +30,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -168,8 +168,11 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="CD3Mesh.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="MONSTER.h" />
+    <ClInclude Include="ObjLoader.h" />
+    <ClInclude Include="ObjRen.h" />
     <ClInclude Include="Player_hands.h" />
     <ClInclude Include="SceneBattlefield.h" />
     <ClInclude Include="SoundControl.h" />
@@ -182,7 +185,6 @@
     <ClInclude Include="D3DUtility.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DeviceManager.h" />
-    <ClInclude Include="DrawingGroup.h" />
     <ClInclude Include="DX3D.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="Frustum.h" />
@@ -204,9 +206,7 @@
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Mob.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="ObjManager.h" />
-    <ClInclude Include="ObjMap.h" />
     <ClInclude Include="ParticleTest.h" />
     <ClInclude Include="Picking.h" />
     <ClInclude Include="Ray.h" />
@@ -246,8 +246,11 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="CD3Mesh.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="MONSTER.cpp" />
+    <ClCompile Include="ObjLoader.cpp" />
+    <ClCompile Include="ObjRen.cpp" />
     <ClCompile Include="Player_hands.cpp" />
     <ClCompile Include="SceneBattlefield.cpp" />
     <ClCompile Include="SoundControl.cpp" />
@@ -260,7 +263,6 @@
     <ClCompile Include="D3DUtility.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DeviceManager.cpp" />
-    <ClCompile Include="DrawingGroup.cpp" />
     <ClCompile Include="DX3D.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Frustum.cpp" />
@@ -280,9 +282,7 @@
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Mob.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="ObjLoader.cpp" />
     <ClCompile Include="ObjManager.cpp" />
-    <ClCompile Include="ObjMap.cpp" />
     <ClCompile Include="ParticleTest.cpp" />
     <ClCompile Include="Picking.cpp" />
     <ClCompile Include="Ray.cpp" />
