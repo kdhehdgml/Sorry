@@ -43,12 +43,12 @@ void Player_hands::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/player_hand/";
-	CString filename = "player_hand.X";
+	CString path = "resources/xFile/kar98_hands/";
+	CString filename = "kar98_hans.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
-
+	
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 
 }
@@ -79,24 +79,24 @@ void Player_hands::Update()
 		Debug->EndLine();
 	}
 
+	
 
+	if (Keyboard::Get()->KeyDown('1'))
+		//if (GetAsyncKeyState('1') & 0x8000)
+	{
+		if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+			m_animIndex++;
 
-	//if (Keyboard::Get()->KeyDown('1'))
-	//	//if (GetAsyncKeyState('1') & 0x8000)
-	//{
-	//	if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
-	//		m_animIndex++;
+		SetAnimationIndex(m_animIndex, true);
+	}
+	else if (Keyboard::Get()->KeyDown('2'))
+		//if (GetAsyncKeyState('2') & 0x8000)
+	{
+		if (m_animIndex > 0)
+			m_animIndex--;
 
-	//	SetAnimationIndex(m_animIndex, true);
-	//}
-	//else if (Keyboard::Get()->KeyDown('2'))
-	//	//if (GetAsyncKeyState('2') & 0x8000)
-	//{
-	//	if (m_animIndex > 0)
-	//		m_animIndex--;
-
-	//	SetAnimationIndex(m_animIndex, true);
-	//}
+		SetAnimationIndex(m_animIndex, true);
+	}
 	//else if (Keyboard::Get()->KeyDown(VK_F1))
 	//	//if (GetAsyncKeyState(VK_F1) & 0x8000)
 	//{
@@ -114,7 +114,8 @@ void Player_hands::Update()
 	//}
 
 	m_pos = Camera::GetInstance()->getPos();
-	m_pos.y -= 10.0f;
+	//m_pos.x -= 0.1f;
+	m_pos.y -= 4.0f;
 	angleX = (Camera::GetInstance()->getAngleX());
 	angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
 
@@ -161,7 +162,7 @@ void Player_hands::Render()
 	}
 
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
-	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+	//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
 
 }
 
