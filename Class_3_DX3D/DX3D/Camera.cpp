@@ -302,7 +302,7 @@ void Camera::Update()
 	dir.x = sin(m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY);
 	dir.z = cos(m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY);
 	dir.y = tan(m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX);
-
+	
 	if (m_cooldown >= 1) {
 		m_cooldown--;
 	}
