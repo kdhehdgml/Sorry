@@ -59,7 +59,6 @@ void Mob::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		g_pObjMgr->RemoveObject(this);
 		m_pos = { 500,10,500 };
 	}
 	if (status > 0) {

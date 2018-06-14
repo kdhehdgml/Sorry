@@ -128,7 +128,7 @@ bool TeamAI::MobSearch()
 			forward = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
 		}
 		int number = 0;
-
+		
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
 		{
 			D3DXVECTOR3 DirectPM;
@@ -144,7 +144,7 @@ bool TeamAI::MobSearch()
 				float Length = abs(p->GetPosition().x - m_pos.x + p->GetPosition().z - m_pos.z);
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 1.0f / 2.0f;
-
+				
 				if (Length < 15)
 				{
 					m_isShoot = true;
@@ -196,6 +196,7 @@ void TeamAI::ShootVertex()
 		float kill = rand() % 10;
 
 		m_CooldownTime++;
+		
 		if (m_CooldownTime > 100)
 		{
 			if (kill < 5)
