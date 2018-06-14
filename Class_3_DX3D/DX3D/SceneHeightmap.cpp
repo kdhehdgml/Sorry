@@ -340,22 +340,22 @@ void SceneHeightmap::Update()
 	float minDistance = 9999999.0f;
 	bool getHit = false;
 	//float conWidth = cos(30 * D3DX_PI / 180.0f);
-	float conWidth = 0.866f;
+	float conWidth = 0.866f; //대화가 가능한 각도 cos(각도 * 파이 / 180)
 	//Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
 	for (auto p : m_pTeam){
 		D3DXVECTOR3 teamPos = p->GetPosition(); //팀 위치
 		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
 		teamPos.y += 7.0f;
-		D3DXVECTOR3 playerDir = g_pCamera->getDir();
-		D3DXVECTOR3 posDiff = teamPos - playerPos;
+		D3DXVECTOR3 playerDir = g_pCamera->getDir(); //내가 보는 방향
+		D3DXVECTOR3 posDiff = teamPos - playerPos; //팀원 위치랑 내 위치의 차이
 		D3DXVECTOR3 lookDir;
-		D3DXVec3Normalize(&lookDir, &posDiff);
-		float viewAngle = D3DXVec3Dot(&playerDir, &lookDir);
+		D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
+		float viewAngle = D3DXVec3Dot(&playerDir, &lookDir); //내가 보는 각도
 		float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //아군과의 거리 계산
 		if (distance < minDistance) {
 			minDistance = distance; //가장 가까운 아군과의 거리만 남긴다
-			if (minDistance < 10.0f) {
-				if (viewAngle > conWidth) {
+			if (minDistance < 10.0f) { //거리가 10 미만이면
+				if (viewAngle > conWidth) { //대화가 가능한 거리라면
 					getHit = true;
 				}
 			}
