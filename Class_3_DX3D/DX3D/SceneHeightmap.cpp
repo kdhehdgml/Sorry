@@ -2,7 +2,6 @@
 #include "SceneHeightmap.h"
 #include "HeightMap.h"
 #include "AseCharacter.h"
-#include "Ray.h"
 #include "SampleUI.h"
 #include "ParticleTest.h"
 
@@ -340,20 +339,32 @@ void SceneHeightmap::Update()
 	vector<TeamAI*> m_pTeam = *m_pUnit->getPTeam();
 	float minDistance = 9999999.0f;
 	bool getHit = false;
-	Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
+	//float conWidth = cos(30 * D3DX_PI / 180.0f);
+	float conWidth = 0.866f;
+	//Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
 	for (auto p : m_pTeam){
 		D3DXVECTOR3 teamPos = p->GetPosition(); //팀 위치
 		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
-		//D3DXVECTOR3 playerDir = g_pCamera->getDir();
+		teamPos.y += 7.0f;
+		D3DXVECTOR3 playerDir = g_pCamera->getDir();
 		D3DXVECTOR3 posDiff = teamPos - playerPos;
+		D3DXVECTOR3 lookDir;
+		D3DXVec3Normalize(&lookDir, &posDiff);
+		float viewAngle = D3DXVec3Dot(&playerDir, &lookDir);
 		float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //아군과의 거리 계산
 		if (distance < minDistance) {
 			minDistance = distance; //가장 가까운 아군과의 거리만 남긴다
-			if (minDistance < 13.0f) {
-				getHit = r.CalcIntersectSphere(p->getBoundingSphere());
+			if (minDistance < 10.0f) {
+				if (viewAngle > conWidth) {
+					getHit = true;
+				}
 			}
 		}
 	}
+	if (minDistance < 4.0f) {
+		g_pCamera->setPos(m_pPlayerOldPos);
+	}
+	m_pPlayerOldPos = g_pCamera->getPos();
 	if (getHit) {
 		m_pTalkOn = true;
 	}

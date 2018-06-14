@@ -16,7 +16,7 @@ Camera::Camera()
 	pos.x = GSM().camPos.x;
 	pos.z = GSM().camPos.z;
 	pos.y = GSM().camPos.y;
-	
+
 
 	m_FOV = D3DX_PI / 4.0f;
 	m_speedOffset = 0.4f;
@@ -29,7 +29,7 @@ Camera::Camera()
 	m_recoilYDelta = 0.0f;
 
 	m_cooldown = 0;
-	
+
 	m_running = 0;
 	m_runningRecoilX = 0.0f;
 	m_runningRecoilY = 0.0f;
@@ -302,12 +302,12 @@ void Camera::Update()
 	dir.x = sin(m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY);
 	dir.z = cos(m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY);
 	dir.y = tan(m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX);
-	
+
 	if (m_cooldown >= 1) {
 		m_cooldown--;
 	}
 
-	if (m_zooming && m_cooldown<=0) {
+	if (m_zooming && m_cooldown <= 0) {
 		m_FOV = D3DX_PI / 8;
 		m_sensitivity = 800.0f;
 	}
@@ -315,7 +315,6 @@ void Camera::Update()
 		m_FOV = D3DX_PI / 4;
 		m_sensitivity = 200.0f;
 	}
-
 
 	if ((GetAsyncKeyState('4') & 0x8000))
 	{
@@ -410,7 +409,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					break;
 				}
 			}
-			m_cooldown = 60; //쿨타임 (단위 : 프레임)
+			m_cooldown = 170; //쿨타임 (단위 : 프레임)
 		}
 	}
 	break;
@@ -470,7 +469,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				m_ptPrevMouse.x = (rc.right - rc.left) / 2;
 				m_ptPrevMouse.y = (rc.bottom - rc.top) / 2;
 			}
-			
+
 		}
 		else {
 			m_ptPrevMouse = m_currPoint;
@@ -529,8 +528,9 @@ D3DXMATRIXA16 Camera::getMatWorld()
 	return m_matWorld;
 }
 
-void Camera::setPos(D3DXVECTOR3)
+void Camera::setPos(D3DXVECTOR3 p)
 {
+	pos = p;
 }
 
 void Camera::setPosY(float y)

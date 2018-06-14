@@ -63,12 +63,12 @@ public:
 	float getAngleX();
 	float getAngleY();
 	D3DXMATRIXA16 getMatWorld();
-	void setPos(D3DXVECTOR3);
+	void setPos(D3DXVECTOR3 p);
 	void setPosY(float y);
 	void setFreeCameraMode(bool f);
 	bool getFreeCameraMode();
 	int getCooldown();
-	
+
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 };
 
