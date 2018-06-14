@@ -17,10 +17,11 @@ Player_hands::Player_hands()
 	m_bWireFrame = false;
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;
-	m_HandsOption = false;
 
 	angleX = 0;
 	angleY = 0;
+
+	m_Reload = false;
 
 }
 
@@ -70,48 +71,24 @@ void Player_hands::Load(LPCTSTR path, LPCTSTR filename)
 
 void Player_hands::Update()
 {
-	if (m_HandsOption)
+
+	if (Keyboard::Get()->KeyDown('R'))
 	{
-		Debug->AddText(_T("Anim Index = "));
-		Debug->AddText((int)m_animIndex + 1);
-		Debug->AddText(_T(" / "));
-		Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
-		Debug->EndLine();
+		m_Reload = !m_Reload;
 	}
 
-	
 
-	if (Keyboard::Get()->KeyDown('1'))
-		//if (GetAsyncKeyState('1') & 0x8000)
+	if (m_Reload)
 	{
 		if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
 			m_animIndex++;
 
 		SetAnimationIndex(m_animIndex, true);
+		m_Reload = false;
 	}
-	else if (Keyboard::Get()->KeyDown('2'))
-		//if (GetAsyncKeyState('2') & 0x8000)
-	{
-		if (m_animIndex > 0)
-			m_animIndex--;
+	
 
-		SetAnimationIndex(m_animIndex, true);
-	}
-	//else if (Keyboard::Get()->KeyDown(VK_F1))
-	//	//if (GetAsyncKeyState(VK_F1) & 0x8000)
-	//{
-	//	m_bDrawFrame = !m_bDrawFrame;
-	//}
-	//else if (Keyboard::Get()->KeyDown(VK_F2))
-	//	//if (GetAsyncKeyState(VK_F2) & 0x8000)
-	//{
-	//	m_bDrawSkeleton = !m_bDrawSkeleton;
-	//}
-	//else if (Keyboard::Get()->KeyDown(VK_F3))
-	//	//if (GetAsyncKeyState(VK_F3) & 0x8000)
-	//{
-	//	m_bWireFrame = !m_bWireFrame;
-	//}
+
 
 	m_pos = Camera::GetInstance()->getPos();
 	//m_pos.x -= 0.1f;
@@ -143,23 +120,7 @@ void Player_hands::Render()
 	m_numFrame = 0;
 	m_numMesh = 0;
 
-	if (Keyboard::Get()->KeyDown('4'))
-	{
-		m_HandsOption != m_HandsOption;
-	}
 
-	if (m_HandsOption)
-	{
-		Debug->AddText(_T("=====DrawFrame====="));
-		Debug->EndLine();
-		Debug->EndLine();
-		Debug->AddText(_T("numFrame = "));
-		Debug->AddText(m_numFrame);
-		Debug->EndLine();
-		Debug->AddText(_T("numMesh = "));
-		Debug->AddText(m_numMesh);
-		Debug->EndLine();
-	}
 
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 	//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
@@ -259,17 +220,6 @@ void Player_hands::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
 
-	if (m_HandsOption)
-	{
-		if (m_numFrame % 10 == 0)
-		{
-			Debug->EndLine();
-		}
-		if (pFrame->Name == NULL)
-			Debug->AddText(_T("NULL"));
-		else
-			Debug->AddText(pFrame->Name);
-	}
 
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
 	while (pMeshContainer != NULL)
@@ -391,6 +341,7 @@ void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 {
 	LPD3DXANIMATIONSET pNextAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
+
 	//isBlend = false;
 	if (isBlend)
 	{
@@ -410,10 +361,16 @@ void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 
 		SAFE_RELEASE(pPrevAnimSet);
 
+		Debug->AddText(m_fPassedBlendTime);
+		Debug->EndLine();
+
 		m_fPassedBlendTime = 0.0f;
+		
 	}
 
+
 	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
+	
 	m_pAnimController->ResetTime();
 
 	SAFE_RELEASE(pNextAnimSet);
