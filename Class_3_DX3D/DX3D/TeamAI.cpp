@@ -124,6 +124,11 @@ void TeamAI::setStatus(int s)
 	status = s;
 }
 
+vector<Mob*>* TeamAI::getPMob()
+{
+	return &m_pMob;
+}
+
 void TeamAI::CreateAllParts()
 {
 	CubemanParts* pParts;

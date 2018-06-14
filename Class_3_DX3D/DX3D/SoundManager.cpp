@@ -35,6 +35,7 @@ SoundManager::SoundManager()
 	walkInterval = 0;
 	runInterval = 0;
 	reloadInterval = 0;
+	volume_music = GSM().volume_music_init;
 }
 
 
@@ -128,6 +129,15 @@ void SoundManager::createSound()
 
 }
 
+void SoundManager::volumeControl_Music(float volume)
+{
+	for (int i = 0; i < s_music_f.size(); i++)
+	{
+		m_pMusic->volumeControl(i, volume);
+		volume_music = volume;
+	}
+}
+
 void SoundManager::playMusic(int soundNum)
 {
 	for (int i = 0; i < s_music_f.size(); i++)
@@ -136,8 +146,11 @@ void SoundManager::playMusic(int soundNum)
 			m_pMusic->StopSound(i);
 	}
 
-	if(!m_pMusic->isPlaying(soundNum))
+	if (!m_pMusic->isPlaying(soundNum))
+	{
 		m_pMusic->PlaySound(soundNum);
+		m_pMusic->volumeControl(soundNum, volume_music);
+	}
 }
 
 void SoundManager::stopMusic(int soundNum)

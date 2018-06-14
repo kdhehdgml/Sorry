@@ -8,7 +8,6 @@ class AseCharacter;
 class SceneObjMap : public IScene
 {
 private:
-	ObjMap *		m_pObjMap;
 	Cubeman *		m_pCubeman;
 	AseCharacter*	m_pAseCharacter;
 

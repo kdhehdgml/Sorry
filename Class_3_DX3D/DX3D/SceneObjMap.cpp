@@ -1,12 +1,10 @@
 #include "stdafx.h"
 #include "SceneObjMap.h"
-#include "ObjMap.h"
 #include "Cubeman.h"
 #include "AseCharacter.h"
 
 SceneObjMap::SceneObjMap()
 {
-	m_pObjMap = NULL;
 	m_pCubeman = NULL;
 	m_pAseCharacter = NULL;
 }
@@ -19,9 +17,6 @@ SceneObjMap::~SceneObjMap()
 
 void SceneObjMap::Init()
 {
-	m_pObjMap = new ObjMap; m_pObjMap->Init(); 
-	AddSimpleDisplayObj(m_pObjMap);
-	//m_pCubeman = new Cubeman; m_pCubeman->Init();
 	AddSimpleDisplayObj(m_pCubeman);
 	m_pAseCharacter = new AseCharacter; m_pAseCharacter->Init();
 	AddSimpleDisplayObj(m_pAseCharacter);

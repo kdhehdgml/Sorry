@@ -28,8 +28,10 @@ private:
 	vector<D3DXVECTOR3> Temporary_Storage;
 	vector<int> SaveLocationNum;
 	vector<int> m_SaveTempNum;
-	LPD3DXMESH		m_pSphere;
-	BoundingSphere* m_pBoundingSphere;
+	LPD3DXMESH		m_pSphereBody;
+	BoundingSphere* m_pBoundingSphereBody;
+	LPD3DXMESH		m_pSphereHead;
+	BoundingSphere* m_pBoundingSphereHead;
 	int health;
 	int status;
 
@@ -43,7 +45,8 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 	
-	BoundingSphere* getBoundingSphere();
+	BoundingSphere* getBoundingSphereBody();
+	BoundingSphere* getBoundingSphereHead();
 	int getHealth();
 	void setHealth(int h);
 	int getStatus();

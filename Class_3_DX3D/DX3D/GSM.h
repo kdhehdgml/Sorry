@@ -14,6 +14,8 @@ public:
 
 	float mobSpeed;
 
+	float volume_music_init;
+
 	struct Pos
 	{
 		float x;

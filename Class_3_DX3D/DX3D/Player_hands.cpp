@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Player_hands.h"
 #include "AllocateHierarchy.h"
 #include "Camera.h"
@@ -19,7 +19,9 @@ Player_hands::Player_hands()
 	m_bDrawSkeleton = false;
 	m_HandsOption = false;
 
-	angle = -1.0f * (D3DX_PI / 2);
+	angleX = 0;
+	angleY = 0;
+
 }
 
 
@@ -41,14 +43,14 @@ void Player_hands::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/player_hand/";
-	CString filename = "player_hand.X";
+	CString path = "resources/xFile/kar98_hands/";
+	CString filename = "kar98_hans.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
-	
 
-	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	
+	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+
 }
 
 
@@ -70,31 +72,31 @@ void Player_hands::Update()
 {
 	if (m_HandsOption)
 	{
-	Debug->AddText(_T("Anim Index = "));
-	Debug->AddText((int)m_animIndex + 1);
-	Debug->AddText(_T(" / "));
-	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
-	Debug->EndLine();
+		Debug->AddText(_T("Anim Index = "));
+		Debug->AddText((int)m_animIndex + 1);
+		Debug->AddText(_T(" / "));
+		Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
+		Debug->EndLine();
 	}
 
+	
 
+	if (Keyboard::Get()->KeyDown('1'))
+		//if (GetAsyncKeyState('1') & 0x8000)
+	{
+		if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+			m_animIndex++;
 
-	//if (Keyboard::Get()->KeyDown('1'))
-	//	//if (GetAsyncKeyState('1') & 0x8000)
-	//{
-	//	if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
-	//		m_animIndex++;
+		SetAnimationIndex(m_animIndex, true);
+	}
+	else if (Keyboard::Get()->KeyDown('2'))
+		//if (GetAsyncKeyState('2') & 0x8000)
+	{
+		if (m_animIndex > 0)
+			m_animIndex--;
 
-	//	SetAnimationIndex(m_animIndex, true);
-	//}
-	//else if (Keyboard::Get()->KeyDown('2'))
-	//	//if (GetAsyncKeyState('2') & 0x8000)
-	//{
-	//	if (m_animIndex > 0)
-	//		m_animIndex--;
-
-	//	SetAnimationIndex(m_animIndex, true);
-	//}
+		SetAnimationIndex(m_animIndex, true);
+	}
 	//else if (Keyboard::Get()->KeyDown(VK_F1))
 	//	//if (GetAsyncKeyState(VK_F1) & 0x8000)
 	//{
@@ -111,21 +113,29 @@ void Player_hands::Update()
 	//	m_bWireFrame = !m_bWireFrame;
 	//}
 
-	m_pos=  Camera::GetInstance()->getPos();
-	m_pos.y -= 10.0f;
-	angle = (Camera::GetInstance()->getAngle()) - D3DX_PI;
+	m_pos = Camera::GetInstance()->getPos();
+	//m_pos.x -= 0.1f;
+	m_pos.y -= 4.0f;
+	angleX = (Camera::GetInstance()->getAngleX());
+	angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
 
 
 	//IUnitObject::UpdateKeyboardState();
 	//IUnitObject::UpdatePositionToDestination();
+	D3DXMATRIXA16 matR_X, matR_Y;
 
-	D3DXMatrixRotationY(&matR, angle);
+	D3DXMatrixRotationX(&matR_X, angleX);
+	D3DXMatrixRotationY(&matR_Y, angleY);
+
+	matR = matR_X * matR_Y;
+
+
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 	//D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
-	m_matWorld = matS * matR * matT ;
+	m_matWorld = matS * matR * matT;
 }
 
 void Player_hands::Render()
@@ -138,7 +148,7 @@ void Player_hands::Render()
 		m_HandsOption != m_HandsOption;
 	}
 
-	if(m_HandsOption)
+	if (m_HandsOption)
 	{
 		Debug->AddText(_T("=====DrawFrame====="));
 		Debug->EndLine();
@@ -152,7 +162,7 @@ void Player_hands::Render()
 	}
 
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
-	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+	//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
 
 }
 
@@ -198,7 +208,7 @@ void Player_hands::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContai
 void Player_hands::UpdateAnim()
 {
 	float fDeltaTime = g_pTimeManager->GetDeltaTime();
-	// AdvanceTime ÇÔ¼ö°¡ È£ÃâµÈ °£°ÝÀ¸·Î Anim Å°ÇÁ·¹ÀÓ °è»ê
+	// AdvanceTime ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Anim Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	m_pAnimController->AdvanceTime(fDeltaTime, NULL);
 
 	if (m_fPassedBlendTime <= m_fBlendTime)
@@ -272,7 +282,7 @@ void Player_hands::DrawFrame(LPD3DXFRAME pFrame)
 		DrawMeshContainer(pFrame);
 		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
-	
+
 	//if (m_HandsOption)	Debug->AddText(_T(" / "));
 	//if (m_HandsOption)	Debug->AddText(_T(" / "));
 

@@ -161,20 +161,11 @@
     <ClInclude Include="Hexagon.h">
       <Filter>소스 파일\3.Object\Grid</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingGroup.h">
-      <Filter>소스 파일\3.Object\OBJ</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjLoader.h">
-      <Filter>소스 파일\3.Object\OBJ</Filter>
-    </ClInclude>
     <ClInclude Include="SceneObjMap.h">
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>소스 파일\2.Singleton</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjMap.h">
-      <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClInclude>
     <ClInclude Include="IMap.h">
       <Filter>소스 파일\3.Object\_Base</Filter>
@@ -296,6 +287,16 @@
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
     <ClInclude Include="MONSTER.h" />
+    <ClInclude Include="Minimap.h" />
+    <ClInclude Include="CD3Mesh.h">
+      <Filter>소스 파일\3.Object\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjLoader.h">
+      <Filter>소스 파일\3.Object\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjRen.h">
+      <Filter>소스 파일\3.Object\OBJ</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -376,20 +377,11 @@
     <ClCompile Include="Hexagon.cpp">
       <Filter>소스 파일\3.Object\Grid</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingGroup.cpp">
-      <Filter>소스 파일\3.Object\OBJ</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjLoader.cpp">
-      <Filter>소스 파일\3.Object\OBJ</Filter>
-    </ClCompile>
     <ClCompile Include="SceneObjMap.cpp">
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>소스 파일\2.Singleton</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjMap.cpp">
-      <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClCompile>
     <ClCompile Include="MapManager.cpp">
       <Filter>소스 파일\2.Singleton</Filter>
@@ -505,6 +497,16 @@
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
     <ClCompile Include="MONSTER.cpp" />
+    <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="CD3Mesh.cpp">
+      <Filter>소스 파일\3.Object\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjLoader.cpp">
+      <Filter>소스 파일\3.Object\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjRen.cpp">
+      <Filter>소스 파일\3.Object\OBJ</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

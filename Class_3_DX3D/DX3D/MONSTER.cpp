@@ -2,7 +2,7 @@
 #include "MONSTER.h"
 #include "AllocateHierarchy.h"
 
-#define SCALE 20.0f
+#define SCALE 4.0f
 
 
 MONSTER::MONSTER()
@@ -40,6 +40,8 @@ void MONSTER::Init()
 	CString filename = "stand_idle.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
+
+	D3DXMatrixRotationY(&matR, D3DX_PI / 2);
 }
 
 void MONSTER::Update()

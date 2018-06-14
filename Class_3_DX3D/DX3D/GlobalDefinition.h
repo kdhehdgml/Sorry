@@ -31,6 +31,9 @@ public:\
 #define SAFE_RENDER(p) if(p) { (p)->Render();}
 #define SAFE_RELEASE(p) if(p) { (p)->Release(); (p) = NULL;}
 #define SAFE_DELETE(p) if(p) { delete (p); (p) = NULL;}
+#define SAFE_DELETE_ARRAY(p) if(p) { delete[] (p);   (p)=NULL; }
+#define MIN(x,y) ( (x)<(y)? (x) : (y) )
+#define MAX(x,y) ( (x)>(y)? (x) : (y) )
 
 #define SCREEN_POINT(lParam) LOWORD(lParam), HIWORD(lParam)
 
@@ -178,3 +181,130 @@ struct BoundingSphere
 DWORD FtoDw(float f);
 
 float  GetRandomFloat(float lowBound, float highBound);
+
+# define LINE_BUFF_SIZE 4096
+
+struct TObjMaterial
+{
+	char name[MAX_PATH];
+	float Ka[3];
+	float Kd[3];
+	float Ks[3];
+	float Tf[3];
+	float Tr;
+	float Ns;
+	float Ni;
+	int illum;
+	char map_Ka[MAX_PATH];
+	char map_Kd[MAX_PATH];
+	char map_Ks[MAX_PATH];
+	char map_Ns[MAX_PATH];
+	char map_Tr[MAX_PATH];
+	char map_Disp[MAX_PATH];
+	char map_Bump[MAX_PATH];
+	char map_Refl[MAX_PATH];
+
+
+	TObjMaterial()
+	{
+		strncpy_s(name, "default", MAX_PATH);
+		Ka[0] = 0.2f; Ka[1] = 0.2f; Ka[2] = 0.2f;
+		Kd[0] = 0.8f; Kd[1] = 0.8f; Kd[2] = 0.8f;
+		Ks[0] = 0.f; Ks[1] = 0.f; Ks[2] = 0.f;
+		Tf[0] = 1.0f; Tf[1] = 1.0f; Tf[2] = 1.0f;
+		Tr = 1.f;
+		Ns = 32.f;
+		Ni = 1.f;
+		illum = 2;
+		map_Ka[0] = 0;
+		map_Kd[0] = 0;
+		map_Ks[0] = 0;
+		map_Ns[0] = 0;
+		map_Tr[0] = 0;
+		map_Disp[0] = 0;
+		map_Bump[0] = 0;
+		map_Refl[0] = 0;
+	}
+};
+
+struct TObjMesh
+{
+# ifdef __D3DX9_H__
+	typedef D3DXVECTOR3 TFloat3;
+	typedef D3DXVECTOR2 TFloat2;
+# else
+	struct TFloat3 { float x, y, z; };
+	struct TFloat2 { float x, y; };
+# endif
+
+	struct TFace
+	{
+		INT firstVertex;
+		INT firstTexCoord;
+		INT firstNormal;
+		INT vCount;
+	};
+
+	struct TGroup
+	{
+		UINT firstFace;
+		UINT numFaces;
+		char name[MAX_PATH];
+	};
+
+
+	std::vector< TFloat3 >		vertices;
+	std::vector< TFloat3 >		normals;
+	std::vector< TFloat2 >		texCoords;
+	std::vector< TFace >		faces;
+
+	std::vector< INT >			faceVertices;
+	std::vector< INT >			faceNormals;
+	std::vector< INT >			faceTexCoords;
+
+	std::vector< TGroup >		groups;
+	std::vector< TGroup >		matGroups;
+
+	std::vector< TObjMaterial* > materials;
+
+	UINT					numTriangles;
+	TFloat3					bbmin;
+	TFloat3					bbmax;
+
+	char sMtlFileName[MAX_PATH];
+
+
+	TObjMesh() { numTriangles = 0; }
+
+	void Free()
+	{
+		vertices.clear();
+		normals.clear();
+		texCoords.clear();
+		faces.clear();
+		matGroups.clear();
+		faceVertices.clear();
+		faceNormals.clear();
+		numTriangles = 0;
+		for (UINT i = 0; i<materials.size(); i++)
+			delete materials[i];
+		materials.clear();
+	}
+
+};
+
+struct ObjTriVertex
+{
+	INT iPos;
+	INT iNormal;
+	INT iTex;
+
+	void Init() { iPos = iNormal = iTex = -1; }
+};
+
+struct ObjTriangle
+{
+	ObjTriVertex vertex[3];
+
+	void Init() { vertex[0].Init(); vertex[1].Init(); vertex[2].Init(); }
+};

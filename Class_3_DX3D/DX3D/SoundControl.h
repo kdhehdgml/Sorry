@@ -18,6 +18,9 @@ public:
 	void StopSound(int nIndex);
 	void ChangeSound(int nIndex, int nIndex2);
 	bool isPlaying(int nIndex);
+	void volumeControl(int nIndex, float volume);
+
+
 	void ReleaseSound();
 	void Update();
 };

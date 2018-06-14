@@ -302,7 +302,7 @@ void Camera::Update()
 	dir.x = sin(m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY);
 	dir.z = cos(m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY);
 	dir.y = tan(m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX);
-
+	
 	if (m_cooldown >= 1) {
 		m_cooldown--;
 	}
@@ -397,11 +397,16 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			for (auto p : m_pMob)
 			{
-				bool getHit = false;
-				getHit = r.CalcIntersectSphere(p->getBoundingSphere());
-				if (getHit && p->getStatus() == 1) {
-					//if(getHit){
+				bool getHitHead = false;
+				getHitHead = r.CalcIntersectSphere(p->getBoundingSphereHead());
+				if (getHitHead && p->getStatus() == 1) {
 					p->setHealth(p->getHealth() - 100);
+					break;
+				}
+				bool getHitBody = false;
+				getHitBody = r.CalcIntersectSphere(p->getBoundingSphereBody());
+				if (getHitBody && p->getStatus() == 1) {
+					p->setHealth(p->getHealth() - 50);
 					break;
 				}
 			}
@@ -509,7 +514,12 @@ float Camera::getSpeedOffset()
 	return m_speedOffset;
 }
 
-float Camera::getAngle()
+float Camera::getAngleX()
+{
+	return m_rotX;
+}
+
+float Camera::getAngleY()
 {
 	return m_rotY;
 }

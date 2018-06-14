@@ -40,6 +40,7 @@ public:
 	int getStatus();
 	void setStatus(int s);
 	void GetMob(vector<Mob*> _mob) { m_pMob = _mob; }
+	vector<Mob*>* getPMob();
 	void CreateAllParts();
 	void CreateParts(CubemanParts* &pParts, IDisplayObject* pParent,
 		D3DXVECTOR3 pos, D3DXVECTOR3 scale, D3DXVECTOR3 trans,

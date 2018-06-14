@@ -23,12 +23,14 @@ private:
 	int walkInterval;
 	int runInterval;
 	int reloadInterval;
+	float volume_music;
 
 public:
 	void soundList();
 	void setMP3(string folder, string * s_name, vector<string> s_name_file);
 	void setWAV(string folder, string * s_name, vector<string> s_name_file);
 	void createSound();
+	void volumeControl_Music(float volume);
 
 	void playMusic(int soundNum);
 	void stopMusic(int soundNum);
