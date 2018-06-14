@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "TeamAI.h"
 #include "CubemanParts.h"
-#include "MONSTER.h"
+#include "TEAM_TEX.h"
 
 TeamAI::TeamAI()
 {
-	m_MONSTER = NULL;//몬스터 클래스 추가
+	m_TEAM_TEX = NULL;//몬스터 클래스 추가
 	m_MobNum = NULL;
 	m_isMoving = false;
 	m_isShoot = false;
@@ -27,7 +27,7 @@ TeamAI::TeamAI()
 
 TeamAI::~TeamAI()
 {
-	SAFE_RELEASE(m_MONSTER);
+	SAFE_RELEASE(m_TEAM_TEX);
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 }
@@ -36,14 +36,16 @@ void TeamAI::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
 	
-	D3DXCreateSphere(g_pDevice, 5.0f, 10, 10, &m_pSphere, NULL);
+	D3DXCreateSphere(g_pDevice, 3.0f, 10, 10, &m_pSphere, NULL);
 
-	m_MONSTER = new MONSTER;
-	m_MONSTER->Init();
+	m_TEAM_TEX = new TEAM_TEX;
+	m_TEAM_TEX->Init();
+
+
 	
 	m_moveSpeed = GSM().mobSpeed;
 
-	m_pBoundingSphere = new BoundingSphere(m_pos, 5.0f);
+	m_pBoundingSphere = new BoundingSphere(m_pos, 3.0f);
 	
 }
 
@@ -57,10 +59,10 @@ void TeamAI::Update()
 		//UpdatePosition();
 
 		m_pBoundingSphere->center = m_pos;
-		m_pBoundingSphere->center.y += 5.0f;
+		m_pBoundingSphere->center.y += 4.0f;
 
-		m_MONSTER->SetPos(m_pos);
-		m_MONSTER->Update();
+		m_TEAM_TEX->SetPos(m_pos);
+		m_TEAM_TEX->Update();
 
 	}
 }
@@ -75,9 +77,10 @@ void TeamAI::Render()
 	//안개 최대치로 적용되는 거리
 	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	if (status > 0) {
-		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		m_MONSTER->Render();
+	if (status > 0) 
+	{
+		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	
 
 
 
@@ -89,6 +92,7 @@ void TeamAI::Render()
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 			1, &Shootpos[0], sizeof(VERTEX_PC));
 
+		m_TEAM_TEX->Render();
 		/*D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
