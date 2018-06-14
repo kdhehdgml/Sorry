@@ -1,13 +1,12 @@
 #include "stdafx.h"
 #include "TeamAI.h"
 #include "CubemanParts.h"
-#include "Ray.h"
 #include "MONSTER.h"
 
 TeamAI::TeamAI()
 {
 	m_MONSTER = NULL;//몬스터 클래스 추가
-
+	m_MobNum = NULL;
 	m_isMoving = false;
 	m_isShoot = false;
 
@@ -19,7 +18,7 @@ TeamAI::TeamAI()
 	m_move = false;
 	num = 0;
 	m_moveSpeed = 0.4f;
-
+	m_CooldownTime = 0;
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
@@ -41,8 +40,6 @@ void TeamAI::Init()
 
 	m_MONSTER = new MONSTER;
 	m_MONSTER->Init();
-
-
 	
 	m_moveSpeed = GSM().mobSpeed;
 
@@ -58,13 +55,6 @@ void TeamAI::Update()
 	if (status > 0) {
 		UpdatePositionToDestination();
 		//UpdatePosition();
-
-		if (MobSearch() == true)
-		{
-			//m_pTeam[i]->SetDestination(m_pCubeman->GetPosition());
-			//m_pTeam[i]->UpdatePositionToDestination();
-		}
-		ShootVertex();
 
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 5.0f;
@@ -112,16 +102,6 @@ BoundingSphere * TeamAI::getBoundingSphere()
 	return m_pBoundingSphere;
 }
 
-int TeamAI::getHealth()
-{
-	return health;
-}
-
-void TeamAI::setHealth(int h)
-{
-	health = h;
-}
-
 int TeamAI::getStatus()
 {
 	return status;
@@ -155,7 +135,7 @@ bool TeamAI::MobSearch()
 			D3DXVECTOR3 MobPos;
 
 			DirectPM = p->GetPosition() - m_pos;
-			if (DirectPM.x < 80 && DirectPM.z < 15)
+			if (DirectPM.x < 90 && DirectPM.z < 25)
 			{
 				DirectPM.y = m_pos.y;
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
@@ -165,10 +145,28 @@ bool TeamAI::MobSearch()
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 1.0f / 2.0f;
 
-				if ((Length < 100 && DotPM >= direct))
+				if (Length < 15)
 				{
 					m_isShoot = true;
 					m_MobNum = number;
+					return true;
+				}
+				else if (Length < 30 && DotPM >= direct)
+				{
+					m_isShoot = true;
+					if (m_MobNum == NULL)
+					{
+						m_MobNum = number;
+					}
+					return true;
+				}
+				else if (Length < 110 && DotPM >= direct)
+				{
+					m_isShoot = true;
+					if (m_MobNum == NULL)
+					{
+						m_MobNum = number;
+					}
 					return true;
 				}
 			}
@@ -181,32 +179,52 @@ bool TeamAI::MobSearch()
 
 void TeamAI::ShootVertex()
 {
-	Ray * ray;
-	ray = new Ray();
-
-	D3DXVECTOR3 move_forward;
-	move_forward = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
-	forward = D3DXVECTOR3((m_destPos.x + 3) - m_pos.x, m_pos.y, m_destPos.z - m_pos.z);
-	D3DXVECTOR3 forwardNormal = forward;
-	D3DXVec3Normalize(&forwardNormal, &forwardNormal);
+	D3DXVECTOR3 myPos = D3DXVECTOR3(m_pos.x, m_pos.y + 4.0f, m_pos.z);
+	D3DXVECTOR3 forward = D3DXVECTOR3(myPos.x, myPos.y, myPos.z);
 	D3DCOLOR c = D3DCOLOR_XRGB(255, 0, 0);
 	D3DCOLOR d = D3DCOLOR_XRGB(0, 255, 0);
 	//D3DXVECTOR3 directPMnor = Ppos - m_pos;
-	ray->m_pos = { m_pos.x,  m_pos.y + 4.0f, m_pos.z };
+
 	if (m_isShoot == true)
 	{
-	ray->m_dir = { g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().x ,
+		D3DXVECTOR3 Direction = { g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().x ,
 		g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().y + 4.0f,
 		g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().z };
-		Shootpos[0] = (VERTEX_PC(ray->m_pos, c));
-		Shootpos[1] = (VERTEX_PC(ray->m_dir, c));
+		Shootpos[0] = (VERTEX_PC(myPos, c));
+		Shootpos[1] = (VERTEX_PC(Direction, c));
+
+		float kill = rand() % 10;
+
+		m_CooldownTime++;
+		if (m_CooldownTime > 100)
+		{
+			if (kill < 5)
+			{
+				int damage = rand() % 10;
+				if (damage < 3)
+				{
+					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth(0);
+				}
+				else
+				{
+					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() - 50);
+				}
+				if (g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() <= 0)
+				{
+					m_MobNum = NULL;
+				}
+			}
+			m_CooldownTime = 0;
+		}
+		
+		
 	}
 	else
 	{
-		Shootpos[0] = (VERTEX_PC(ray->m_pos, d));
-		Shootpos[1] = (VERTEX_PC(ray->m_pos + (forwardNormal*5), d));
+		Shootpos[0] = (VERTEX_PC(myPos, d));
+		Shootpos[1] = (VERTEX_PC(forward, d));
 	}
-
+	
 	/*if(ray.CalcIntersectTri(&m_vecObstacle[i], &intersectionDist))
 	{
 	}*/

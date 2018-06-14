@@ -3,7 +3,6 @@
 class CubemanParts;
 class Mob;
 class MONSTER;
-
 class TeamAI :
 	public IUnitObject
 {
@@ -13,19 +12,17 @@ private:
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
 	MONSTER		*	m_MONSTER;
-
 	D3DXVECTOR3		m_deltaPos;
 	D3DXVECTOR3		m_deltaRot;
 	D3DXVECTOR3		m_forward;
 	
 	int				m_MobNum;
-
+	int				m_CooldownTime;
 	bool			m_isMoving;
 	bool			m_isShoot;
 	
 	LPD3DXMESH		m_pSphere;
 	BoundingSphere* m_pBoundingSphere;
-	int health;
 	int status;
 public:
 	TeamAI();
@@ -38,8 +35,6 @@ public:
 	virtual void Render() override;
 
 	BoundingSphere* getBoundingSphere();
-	int getHealth();
-	void setHealth(int h);
 	int getStatus();
 	void setStatus(int s);
 	void GetMob(vector<Mob*> _mob) { m_pMob = _mob; }

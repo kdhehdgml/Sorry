@@ -3,24 +3,24 @@
 #define g_pObjMgr ObjManager::GetInstance()
 
 class BaseObject;
-class IDisplayObject;
+class IUnitObject;
 
 class ObjManager
 {
 	SINGLETON(ObjManager)
 private:
 	set<BaseObject*> m_setObject;
-	map<WORD, vector<IDisplayObject*>> m_tagList;
+	map<WORD, vector<IUnitObject*>> m_tagList;
 
 public:
 	void AddObject(BaseObject* pObj);
 	void RemoveObject(BaseObject* pObj);
 	void Destroy();
 
-	void AddToTagList(WORD _tag, IDisplayObject* _pObj);
-	void RemoveFromTagList(WORD _tag, IDisplayObject* _pObj);
-	IDisplayObject* FindObjectByTag(WORD _tag);
-	vector<IDisplayObject*> FindObjectsByTag(WORD _tag);
+	void AddToTagList(WORD _tag, IUnitObject* _pObj);
+	void RemoveFromTagList(WORD _tag, IUnitObject* _pObj);
+	IUnitObject* FindObjectByTag(WORD _tag);
+	vector<IUnitObject*> FindObjectsByTag(WORD _tag);
 
 };
 

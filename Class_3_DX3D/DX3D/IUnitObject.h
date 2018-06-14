@@ -24,6 +24,8 @@ protected:
 	float			m_maxStepHeight;
 	float			m_baseRotY;
 
+	int health;
+
 	D3DXVECTOR3		m_destPos;
 	D3DXVECTOR3		m_finalDestPos;
 	vector<int>		m_vecAStarIndex;
@@ -41,6 +43,9 @@ public:
 	void UpdateKeyboardState();
 	void UpdatePositionToDestination();
 
+	int getHealth() { return health; }
+	void setHealth(int h) { health = h; }
+	
 	void SetMove(bool _move) { m_colision = _move; }
 	void UpdateTargetPosition(OUT D3DXVECTOR3 &targetPos);
 	void ApplyTargetPosition(D3DXVECTOR3 &targetPos);
