@@ -297,6 +297,7 @@
     <ClInclude Include="ObjRen.h">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClInclude>
+    <ClInclude Include="TEAM_TEX.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -507,6 +508,7 @@
     <ClCompile Include="ObjRen.cpp">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClCompile>
+    <ClCompile Include="TEAM_TEX.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">
