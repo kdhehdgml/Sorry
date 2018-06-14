@@ -37,7 +37,7 @@ void TeamAI::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
 	
-	D3DXCreateSphere(g_pDevice, 5.0f, 10, 10, &m_pSphere, NULL);
+	D3DXCreateSphere(g_pDevice, 3.0f, 10, 10, &m_pSphere, NULL);
 
 	m_TEAM_TEX = new TEAM_TEX;
 	m_TEAM_TEX->Init();
@@ -46,7 +46,7 @@ void TeamAI::Init()
 	
 	m_moveSpeed = GSM().mobSpeed;
 
-	m_pBoundingSphere = new BoundingSphere(m_pos, 5.0f);
+	m_pBoundingSphere = new BoundingSphere(m_pos, 3.0f);
 	
 }
 
@@ -67,7 +67,7 @@ void TeamAI::Update()
 		ShootVertex();
 
 		m_pBoundingSphere->center = m_pos;
-		m_pBoundingSphere->center.y += 5.0f;
+		m_pBoundingSphere->center.y += 4.0f;
 
 		m_TEAM_TEX->SetPos(m_pos);
 		m_TEAM_TEX->Update();

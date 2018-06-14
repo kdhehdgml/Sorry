@@ -71,6 +71,7 @@ private:
 	IUIObject* m_pTalk;
 	UIImage* m_pTalkImage;
 	bool m_pTalkOn;
+	LPARAM m_pLParam;
 
 	Minimap * m_minimap;
 
