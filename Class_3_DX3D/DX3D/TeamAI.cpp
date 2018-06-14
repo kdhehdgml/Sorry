@@ -37,7 +37,7 @@ void TeamAI::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
 	
-	D3DXCreateSphere(g_pDevice, 2.5f, 10, 10, &m_pSphere, NULL);
+	D3DXCreateSphere(g_pDevice, 5.0f, 10, 10, &m_pSphere, NULL);
 
 	m_MONSTER = new MONSTER;
 	m_MONSTER->Init();
@@ -46,7 +46,7 @@ void TeamAI::Init()
 	
 	m_moveSpeed = GSM().mobSpeed;
 
-	m_pBoundingSphere = new BoundingSphere(m_pos, 2.5f);
+	m_pBoundingSphere = new BoundingSphere(m_pos, 5.0f);
 	
 }
 
@@ -67,7 +67,7 @@ void TeamAI::Update()
 		ShootVertex();
 
 		m_pBoundingSphere->center = m_pos;
-		m_pBoundingSphere->center.y += 3.0f;
+		m_pBoundingSphere->center.y += 5.0f;
 
 		m_MONSTER->SetPos(m_pos);
 		m_MONSTER->Update();
@@ -99,11 +99,11 @@ void TeamAI::Render()
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 			1, &Shootpos[0], sizeof(VERTEX_PC));
 
-		D3DXMATRIXA16 mat;
+		/*D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
-		//m_pSphere->DrawSubset(0);
+		m_pSphere->DrawSubset(0);*/
 	}
 }
 
