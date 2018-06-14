@@ -6,7 +6,7 @@
 Mob::Mob()
 {
 //	m_pRootParts = NULL;
-	m_MONSTER = NULL;//몬스터 클래스 추가
+	//m_MONSTER = NULL;//몬스터 클래스 추가
 	m_isMoving = false;
 	m_isShoot = false;
 
@@ -29,7 +29,7 @@ Mob::Mob()
 Mob::~Mob()
 {
 	//m_pRootParts->ReleaseAll();
-	SAFE_RELEASE(m_MONSTER);
+	//SAFE_RELEASE(m_MONSTER);
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 }
@@ -37,11 +37,10 @@ Mob::~Mob()
 void Mob::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_MOB, this);
-
 	D3DXCreateSphere(g_pDevice, 2.5f, 10, 10, &m_pSphere, NULL);
 
-	m_MONSTER = new MONSTER;
-	m_MONSTER->Init();
+	/*m_MONSTER = new MONSTER;
+	m_MONSTER->Init();*/
 
 	//CreateAllParts();
 	IUnitObject::m_moveSpeed = GSM().mobSpeed;
@@ -65,8 +64,8 @@ void Mob::Update()
 
 		//m_pRootParts->SetMovingState(m_isMoving);
 		//m_pRootParts->Update();
-		m_MONSTER->SetPos(m_pos);
-		m_MONSTER->Update();
+		/*m_MONSTER->SetPos(m_pos);
+		m_MONSTER->Update();*/
 
 		Debug->AddText("몹 체력:");
 		Debug->AddText(health);
@@ -88,7 +87,7 @@ void Mob::Render()
 	if (status > 0) {
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 		//m_pRootParts->Render();
-		m_MONSTER->Render();
+		//m_MONSTER->Render();
 
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);
@@ -98,11 +97,11 @@ void Mob::Render()
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 			1, &Shootpos[0], sizeof(VERTEX_PC));
 
-	/*	D3DXMATRIXA16 mat;
+		D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
-		m_pSphere->DrawSubset(0);*/
+		m_pSphere->DrawSubset(0);
 	}
 }
 
@@ -249,6 +248,13 @@ void Mob::ShootVertex(Mob* mob)
 	}*/
 
 
+}
+
+void Mob::InsertAction(int _first, int _second)
+{
+	m_Action.resize(2);
+	m_Action[0] = _first;
+	m_Action[1] = _second;
 }
 
 void Mob::LocationSwap(int _v1, int _v2)

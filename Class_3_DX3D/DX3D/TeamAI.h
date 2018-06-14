@@ -45,8 +45,8 @@ public:
 		D3DXVECTOR3 pos, D3DXVECTOR3 scale, D3DXVECTOR3 trans,
 		vector<vector<int>> &vecUV);
 
-	virtual bool MobSearch(TeamAI * _team);
-	void ShootVertex(TeamAI * _team);
+	virtual bool MobSearch();
+	void ShootVertex();
 	
 	vector<vector<int>> uvBody = {
 		{ 32, 32, 32, 20, 40, 20, 40, 32 },	// ÈÄ

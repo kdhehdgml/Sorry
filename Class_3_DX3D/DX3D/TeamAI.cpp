@@ -54,6 +54,13 @@ void TeamAI::Update()
 		UpdatePositionToDestination();
 		//UpdatePosition();
 
+		if (MobSearch() == true)
+		{
+			//m_pTeam[i]->SetDestination(m_pCubeman->GetPosition());
+			//m_pTeam[i]->UpdatePositionToDestination();
+		}
+		ShootVertex();
+
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 3.0f;
 
@@ -160,65 +167,62 @@ void TeamAI::CreateParts(CubemanParts *& pParts,
 	pParent->AddChild(pParts);
 }
 
-bool TeamAI::MobSearch(TeamAI * _team)
+bool TeamAI::MobSearch()
 {
-	D3DXVECTOR3 move_forward;
-	move_forward = D3DXVECTOR3(_team->m_destPos.x - _team->m_pos.x, 0, _team->m_destPos.z - _team->m_pos.z);
-	if (D3DXVec3LengthSq(&move_forward) > 0)
+	if (g_pObjMgr->FindObjectsByTag(TAG_MOB).size() > 0)
 	{
-		_team->forward = D3DXVECTOR3(_team->m_destPos.x - _team->m_pos.x, 0, _team->m_destPos.z - _team->m_pos.z);
-	}
-	int number = 0;
-	for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
-	{
-		D3DXVECTOR3 DirectPM;
-		D3DXVECTOR3 MobPos;
-
-		DirectPM = p->GetPosition() - _team->m_pos;
-		if (DirectPM.x < 80 && DirectPM.z < 15)
+		D3DXVECTOR3 move_forward;
+		move_forward = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
+		if (D3DXVec3LengthSq(&move_forward) > 0)
 		{
-			DirectPM.y = _team->m_pos.y;
-			D3DXVECTOR3 DirectPMnormal = DirectPM;
-			D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
-			D3DXVec3Normalize(&_team->forward, &_team->forward);
-			float Length = abs(p->GetPosition().x - _team->m_pos.x + p->GetPosition().z - _team->m_pos.z);
-			float DotPM = D3DXVec3Dot(&DirectPMnormal, &_team->forward);
-			float direct = 1.0f / 2.0f;
-
-			if ((Length < 100 && DotPM >= direct))
-			{
-				m_isShoot = true;
-				m_MobNum = number;
-				return true;
-			}
+			forward = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
 		}
-		number++;
+		int number = 0;
+
+		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
+		{
+			D3DXVECTOR3 DirectPM;
+			D3DXVECTOR3 MobPos;
+
+			DirectPM = p->GetPosition() - m_pos;
+			if (DirectPM.x < 80 && DirectPM.z < 15)
+			{
+				DirectPM.y = m_pos.y;
+				D3DXVECTOR3 DirectPMnormal = DirectPM;
+				D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
+				D3DXVec3Normalize(&forward, &forward);
+				float Length = abs(p->GetPosition().x - m_pos.x + p->GetPosition().z - m_pos.z);
+				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
+				float direct = 1.0f / 2.0f;
+
+				if ((Length < 100 && DotPM >= direct))
+				{
+					m_isShoot = true;
+					m_MobNum = number;
+					return true;
+				}
+			}
+			number++;
+		}
+		m_isShoot = false;
+		return false;
 	}
-	m_isShoot = false;
-	return false;
 }
 
-void TeamAI::ShootVertex(TeamAI * _team)
+void TeamAI::ShootVertex()
 {
 	Ray * ray;
 	ray = new Ray();
 
 	D3DXVECTOR3 move_forward;
-	move_forward = D3DXVECTOR3(_team->m_destPos.x - _team->m_pos.x, 0, _team->m_destPos.z - _team->m_pos.z);
-	if (D3DXVec3LengthSq(&move_forward) > 0)
-	{
-		_team->forward = D3DXVECTOR3((_team->m_destPos.x+ 3) - _team->m_pos.x, _team->m_pos.y, _team->m_destPos.z - _team->m_pos.z);
-	}
-	else
-	{
-		_team->forward = D3DXVECTOR3((_team->m_destPos.x + 3) - _team->m_pos.x, _team->m_pos.y, _team->m_destPos.z - _team->m_pos.z);
-	}
-	D3DXVECTOR3 forwardNomal = _team->forward;
-	D3DXVec3Normalize(&forwardNomal, &forwardNomal);
+	move_forward = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
+	forward = D3DXVECTOR3((m_destPos.x + 3) - m_pos.x, m_pos.y, m_destPos.z - m_pos.z);
+	D3DXVECTOR3 forwardNormal = forward;
+	D3DXVec3Normalize(&forwardNormal, &forwardNormal);
 	D3DCOLOR c = D3DCOLOR_XRGB(255, 0, 0);
 	D3DCOLOR d = D3DCOLOR_XRGB(0, 255, 0);
-	//D3DXVECTOR3 directPMnor = Ppos - _team->m_pos;
-	ray->m_pos = { _team->m_pos.x,  _team->m_pos.y + 4.0f, _team->m_pos.z };
+	//D3DXVECTOR3 directPMnor = Ppos - m_pos;
+	ray->m_pos = { m_pos.x,  m_pos.y + 4.0f, m_pos.z };
 	if (m_isShoot == true)
 	{
 	ray->m_dir = { g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().x ,
@@ -230,7 +234,7 @@ void TeamAI::ShootVertex(TeamAI * _team)
 	else
 	{
 		Shootpos[0] = (VERTEX_PC(ray->m_pos, d));
-		Shootpos[1] = (VERTEX_PC(ray->m_pos + (forwardNomal*5), d));
+		Shootpos[1] = (VERTEX_PC(ray->m_pos + (forwardNormal*5), d));
 	}
 
 	/*if(ray.CalcIntersectTri(&m_vecObstacle[i], &intersectionDist))
