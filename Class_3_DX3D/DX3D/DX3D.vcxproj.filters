@@ -72,6 +72,9 @@
     <Filter Include="소스 파일\GSM">
       <UniqueIdentifier>{143fddfb-59aa-4de3-aee4-e5850660dc39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Skin">
+      <UniqueIdentifier>{fb920c46-affd-44db-982d-ff9677573176}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -278,15 +281,12 @@
     <ClInclude Include="SoundControl.h">
       <Filter>소스 파일\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="SceneLoading.h" />
     <ClInclude Include="CreateSmog.h">
       <Filter>소스 파일\3.Object</Filter>
     </ClInclude>
-    <ClInclude Include="Player_hands.h" />
     <ClInclude Include="SceneBattlefield.h">
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
-    <ClInclude Include="MONSTER.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="CD3Mesh.h">
       <Filter>소스 파일\3.Object\OBJ</Filter>
@@ -297,7 +297,18 @@
     <ClInclude Include="ObjRen.h">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClInclude>
-    <ClInclude Include="TEAM_TEX.h" />
+    <ClInclude Include="MONSTER.h">
+      <Filter>소스 파일\Skin</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_hands.h">
+      <Filter>소스 파일\Skin</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLoading.h">
+      <Filter>소스 파일\Skin</Filter>
+    </ClInclude>
+    <ClInclude Include="TEAM_TEX.h">
+      <Filter>소스 파일\Skin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -489,15 +500,12 @@
     <ClCompile Include="SoundControl.cpp">
       <Filter>소스 파일\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="SceneLoading.cpp" />
     <ClCompile Include="CreateSmog.cpp">
       <Filter>소스 파일\3.Object</Filter>
     </ClCompile>
-    <ClCompile Include="Player_hands.cpp" />
     <ClCompile Include="SceneBattlefield.cpp">
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
-    <ClCompile Include="MONSTER.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="CD3Mesh.cpp">
       <Filter>소스 파일\3.Object\OBJ</Filter>
@@ -508,7 +516,18 @@
     <ClCompile Include="ObjRen.cpp">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClCompile>
-    <ClCompile Include="TEAM_TEX.cpp" />
+    <ClCompile Include="MONSTER.cpp">
+      <Filter>소스 파일\Skin</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_hands.cpp">
+      <Filter>소스 파일\Skin</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLoading.cpp">
+      <Filter>소스 파일\Skin</Filter>
+    </ClCompile>
+    <ClCompile Include="TEAM_TEX.cpp">
+      <Filter>소스 파일\Skin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

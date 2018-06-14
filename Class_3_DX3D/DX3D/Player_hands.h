@@ -15,7 +15,8 @@ protected:
 	bool						m_bDrawSkeleton;
 	int							m_numFrame;
 	int							m_numMesh;
-
+	//렌더 껏다키기
+	bool						m_Render;
 	bool						m_Reload;
 	float						angleX, angleY;
 
