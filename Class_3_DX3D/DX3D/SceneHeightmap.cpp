@@ -24,6 +24,7 @@
 #include "IUIObject.h"
 #include "UIImage.h"
 
+#include "ObjRen.h"// obj 해더
 
 
 SceneHeightmap::SceneHeightmap()
@@ -56,6 +57,17 @@ SceneHeightmap::SceneHeightmap()
 
 	//	m_pSkinnedMesh = NULL;
 	volume_music = GSM().volume_music_init;
+
+	// obj 관련
+	m_Tree = NULL;
+	m_Stone = NULL;
+	m_MD = NULL;
+	m_wall01 = NULL;
+	m_wall02 = NULL;
+	m_wall03 = NULL;
+	m_wall04 = NULL;
+	m_wall05 = NULL;
+	m_wall06 = NULL;
 }
 
 
@@ -75,6 +87,16 @@ SceneHeightmap::~SceneHeightmap()
 	//m_CreateSmog->Release();
 	//SAFE_RELEASE(m_CreateSmog);
 
+	//obj 관련 직접 접근해서 릴리즈함
+	m_Tree->~ObjRen();
+	m_Stone->~ObjRen();
+	m_MD->~ObjRen();
+	m_wall01->~ObjRen();
+	m_wall02->~ObjRen();
+	m_wall03->~ObjRen();
+	m_wall04->~ObjRen();
+	m_wall05->~ObjRen();
+	m_wall06->~ObjRen();
 
 	OnDestructIScene();
 }
@@ -110,6 +132,17 @@ void SceneHeightmap::Init()
 	////pObj = new SampleUI; pObj->Init(); AddSimpleDisplayObj(pObj);
 	//pObj = new ParticleTest; pObj->Init(); AddSimpleDisplayObj(pObj);
 	//
+
+	// obj 관련 (크기, obj파일 위치, png파일 위치, x, y, z, 회전) 테스트용으로 넣은것임..
+	m_Tree = new ObjRen; m_Tree->Init(80.0f, _T("resources/obj/Tree/TreeStage.obj"), _T("resources/obj/Tree/tree-high_b_dead_clr.png"), 250, 14, 230, 0);
+	m_Stone = new ObjRen; m_Stone->Init(80.0f, _T("resources/obj/Stone/StoneStage.obj"), _T("resources/obj/Stone/StoneDetail edit.png"), 250, 5, 230, 0);
+	m_MD = new ObjRen; m_MD->Init(90.0f, _T("resources/obj/MD/MD.obj"), _T("resources/obj/MD/MD.png"), 210, 8, 250, 0);
+	m_wall01 = new ObjRen; m_wall01->Init(5.0f, _T("resources/obj/wall/wall01.obj"), _T("resources/obj/wall/wall01.png"), 332, 8, 291, 1.6);
+	m_wall02 = new ObjRen; m_wall02->Init(5.0f, _T("resources/obj/wall/wall01.obj"), _T("resources/obj/wall/wall01.png"), 243, 8, 356, 1.6);
+	m_wall03 = new ObjRen; m_wall03->Init(5.0f, _T("resources/obj/wall/wall02.obj"), _T("resources/obj/wall/wall02.png"), 333, 8, 242, 1.6);
+	m_wall04 = new ObjRen; m_wall04->Init(5.0f, _T("resources/obj/wall/wall02.obj"), _T("resources/obj/wall/wall02.png"), 297, 8, 337, 1.6);
+	m_wall05 = new ObjRen; m_wall05->Init(5.0f, _T("resources/obj/wall/wall02.obj"), _T("resources/obj/wall/wall02.png"), 187, 8, 240, 1.6);
+	m_wall06 = new ObjRen; m_wall06->Init(5.0f, _T("resources/obj/wall/wall02.obj"), _T("resources/obj/wall/wall02.png"), 242, 8, 217, 1.6);
 
 
 	//중현이코드
@@ -307,6 +340,17 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_minimap);
 	m_CreateSmog->Render();
 	//m_pPicking->Render();
+
+	//obj 관련
+	SAFE_RENDER(m_Tree);
+	SAFE_RENDER(m_Stone);
+	SAFE_RENDER(m_MD);
+	SAFE_RENDER(m_wall01);
+	SAFE_RENDER(m_wall02);
+	SAFE_RENDER(m_wall03);
+	SAFE_RENDER(m_wall04);
+	SAFE_RENDER(m_wall05);
+	SAFE_RENDER(m_wall06);
 
 	if (m_pCrosshairOn) {
 		if (m_pScopeOn & g_pCamera->getCooldown() <= 0) {
