@@ -23,6 +23,7 @@ private:
 	bool			m_isMoving;
 	bool			m_isShoot;
 	bool			m_BeDetermined;
+	vector<int>		m_Action;
 	vector<D3DXVECTOR3> moveLocation;
 	vector<D3DXVECTOR3> Temporary_Storage;
 	vector<int> SaveLocationNum;
@@ -63,14 +64,14 @@ public:
 	void GetTemporary(D3DXVECTOR3 wallLocation, int Locationnum) 
 	{ Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);}
 	void GetDetermined(bool _boo) { m_BeDetermined = _boo; }
-	void GetMove(bool _move) { m_colision = _move; }
+	void InsertAction(int _first, int _second);
 	
 	vector<D3DXVECTOR3> SetMoveTheWall() { return moveLocation; }
 	vector<int> SetLocationNum() { return SaveLocationNum; }
 	vector<D3DXVECTOR3> SetTemporary() { return Temporary_Storage; }
 	vector<int> SetTemporaryNum() { return m_SaveTempNum; }
 	bool SetDetermined() { return m_BeDetermined; }
-	bool SetMove() { return m_colision; }
+	vector<int> SetAction() { return m_Action; }
 	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); }
 	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); }
 	void LocationSwap(int _v1, int _v2);

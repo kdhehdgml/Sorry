@@ -36,9 +36,12 @@ public:
 
 	void GetTargetPostion(const D3DXVECTOR3 &pos);
 	void SetDestination(const D3DXVECTOR3 &pos);
+	bool GetMove() { return m_colision; }
+	
 	void UpdateKeyboardState();
 	void UpdatePositionToDestination();
 
+	void SetMove(bool _move) { m_colision = _move; }
 	void UpdateTargetPosition(OUT D3DXVECTOR3 &targetPos);
 	void ApplyTargetPosition(D3DXVECTOR3 &targetPos);
 

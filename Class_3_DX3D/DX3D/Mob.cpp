@@ -268,6 +268,13 @@ void Mob::ShootVertex(Mob* mob)
 
 }
 
+void Mob::InsertAction(int _first, int _second)
+{
+	m_Action.resize(2);
+	m_Action[0] = _first;
+	m_Action[1] = _second;
+}
+
 void Mob::LocationSwap(int _v1, int _v2)
 {
 	D3DXVECTOR3 temp;
