@@ -2,7 +2,6 @@
 #include "SceneHeightmap.h"
 #include "HeightMap.h"
 #include "AseCharacter.h"
-//#include "Picking.h"
 #include "SampleUI.h"
 #include "ParticleTest.h"
 
@@ -339,23 +338,34 @@ void SceneHeightmap::Update()
 	}
 	vector<TeamAI*> m_pTeam = *m_pUnit->getPTeam();
 	float minDistance = 9999999.0f;
-	float dot = 0.0f;
-	float fAngle = 0.0f;
+	bool getHit = false;
+	//float conWidth = cos(30 * D3DX_PI / 180.0f);
+	float conWidth = 0.866f; //대화가 가능한 각도 cos(각도 * 파이 / 180)
+	//Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
 	for (auto p : m_pTeam){
 		D3DXVECTOR3 teamPos = p->GetPosition(); //팀 위치
 		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
-		D3DXVECTOR3 playerDir = g_pCamera->getDir();
-		D3DXVECTOR3 posDiff = teamPos - playerPos;
+		teamPos.y += 7.0f;
+		D3DXVECTOR3 playerDir = g_pCamera->getDir(); //내가 보는 방향
+		D3DXVECTOR3 posDiff = teamPos - playerPos; //팀원 위치랑 내 위치의 차이
+		D3DXVECTOR3 lookDir;
+		D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
+		float viewAngle = D3DXVec3Dot(&playerDir, &lookDir); //내가 보는 각도
 		float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //아군과의 거리 계산
 		if (distance < minDistance) {
 			minDistance = distance; //가장 가까운 아군과의 거리만 남긴다
-			D3DXVec3Normalize(&teamPos, &teamPos);
-			D3DXVec3Normalize(&playerPos, &playerPos);
-			dot = D3DXVec3Dot(&playerPos, &teamPos);
-			fAngle = acos(dot);
+			if (minDistance < 10.0f) { //거리가 10 미만이면
+				if (viewAngle > conWidth) { //대화가 가능한 거리라면
+					getHit = true;
+				}
+			}
 		}
 	}
-	if (minDistance < 13.0f) {
+	if (minDistance < 4.0f) {
+		g_pCamera->setPos(m_pPlayerOldPos);
+	}
+	m_pPlayerOldPos = g_pCamera->getPos();
+	if (getHit) {
 		m_pTalkOn = true;
 	}
 	else {
@@ -363,12 +373,6 @@ void SceneHeightmap::Update()
 	}
 	Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
-	Debug->EndLine();
-	Debug->AddText("아군과의 각도 : ");
-	Debug->AddText(fAngle * D3DX_PI / 180);
-	Debug->EndLine();
-	Debug->AddText("Dot : ");
-	Debug->AddText(dot);
 	Debug->EndLine();
 	Debug->AddText("volume(music) : ");
 	Debug->AddText(volume_music);
@@ -430,6 +434,9 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	SAFE_WNDPROC(m_pHeightMap);
 	//SAFE_WNDPROC(m_pPicking);
 	//SAFE_WNDPROC(m_pUnit);
+	
+	m_pLParam = lParam;
+
 	switch (message) {
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {

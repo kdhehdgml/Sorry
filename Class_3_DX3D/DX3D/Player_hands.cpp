@@ -22,7 +22,7 @@ Player_hands::Player_hands()
 	angleY = 0;
 
 	m_Reload = false;
-
+	m_Render = false;
 }
 
 
@@ -71,66 +71,78 @@ void Player_hands::Load(LPCTSTR path, LPCTSTR filename)
 
 void Player_hands::Update()
 {
-
-	if (Keyboard::Get()->KeyDown('R'))
+	//렌더 껏다키기
+	if (Keyboard::Get()->KeyDown('V'))
 	{
-		m_Reload = !m_Reload;
+		m_Render = !m_Render;
 	}
 
 
-	if (m_Reload)
+	if (m_Render)
 	{
-		/*if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+		if (Keyboard::Get()->KeyDown('R'))
+		{
+			m_Reload = !m_Reload;
+		}
+
+
+		if (m_Reload)
+		{
+			/*if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
 			m_animIndex++;
-*/
+			*/
 
-		if (m_animIndex == 1)
-			m_animIndex = 0;
-		else
-			m_animIndex = 1;
+			if (m_animIndex == 1)
+				m_animIndex = 0;
+			else
+				m_animIndex = 1;
 
-		SetAnimationIndex(m_animIndex, true);
-		m_Reload = false;
+			SetAnimationIndex(m_animIndex, true);
+			m_Reload = false;
+		}
+
+
+
+
+		m_pos = Camera::GetInstance()->getPos();
+		//m_pos.x -= 0.1f;
+		m_pos.y -= 4.0f;
+		angleX = (Camera::GetInstance()->getAngleX());
+		angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
+
+
+		//IUnitObject::UpdateKeyboardState();
+		//IUnitObject::UpdatePositionToDestination();
+		D3DXMATRIXA16 matR_X, matR_Y;
+
+		D3DXMatrixRotationX(&matR_X, angleX);
+		D3DXMatrixRotationY(&matR_Y, angleY);
+
+		matR = matR_X * matR_Y;
+
+
+		D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+		//D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+		UpdateAnim();
+		UpdateFrameMatrices(m_pRootFrame, NULL);
+
+		m_matWorld = matS * matR * matT;
 	}
 	
-
-
-
-	m_pos = Camera::GetInstance()->getPos();
-	//m_pos.x -= 0.1f;
-	m_pos.y -= 4.0f;
-	angleX = (Camera::GetInstance()->getAngleX());
-	angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
-
-
-	//IUnitObject::UpdateKeyboardState();
-	//IUnitObject::UpdatePositionToDestination();
-	D3DXMATRIXA16 matR_X, matR_Y;
-
-	D3DXMatrixRotationX(&matR_X, angleX);
-	D3DXMatrixRotationY(&matR_Y, angleY);
-
-	matR = matR_X * matR_Y;
-
-
-	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	//D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
-	UpdateAnim();
-	UpdateFrameMatrices(m_pRootFrame, NULL);
-
-	m_matWorld = matS * matR * matT;
 }
 
 void Player_hands::Render()
 {
-	m_numFrame = 0;
-	m_numMesh = 0;
+	if (m_Render)
+	{
+		m_numFrame = 0;
+		m_numMesh = 0;
 
 
 
-	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
-	//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
-
+		if (m_bDrawFrame)DrawFrame(m_pRootFrame);
+		//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+	}
 }
 
 void Player_hands::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)

@@ -41,7 +41,7 @@ void TEAM_TEX::Init()
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
-	D3DXMatrixRotationY(&matR, D3DX_PI / 2);
+	D3DXMatrixRotationY(&matR, D3DX_PI / 2 + D3DX_PI);
 }
 
 void TEAM_TEX::Update()
