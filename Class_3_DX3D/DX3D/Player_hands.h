@@ -16,7 +16,7 @@ protected:
 	int							m_numFrame;
 	int							m_numMesh;
 
-	bool						m_HandsOption;
+	bool						m_Reload;
 	float						angleX, angleY;
 
 
