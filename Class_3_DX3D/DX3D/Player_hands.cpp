@@ -80,8 +80,14 @@ void Player_hands::Update()
 
 	if (m_Reload)
 	{
-		if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+		/*if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
 			m_animIndex++;
+*/
+
+		if (m_animIndex == 1)
+			m_animIndex = 0;
+		else
+			m_animIndex = 1;
 
 		SetAnimationIndex(m_animIndex, true);
 		m_Reload = false;
