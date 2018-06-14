@@ -44,13 +44,15 @@ void Player_hands::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/kar98_hands/";
-	CString filename = "kar98_hans.X";
+	CString path = "resources/xFile/player_ani/";
+	CString filename = "player_hands_ani.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
 	
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+
+	m_animIndex = 6;
 
 }
 
@@ -80,28 +82,49 @@ void Player_hands::Update()
 
 	if (m_Render)
 	{
+
+		
+
 		if (Keyboard::Get()->KeyDown('R'))
 		{
 			m_Reload = !m_Reload;
+			m_animIndex = 볼트액션;
 		}
-
-
-		if (m_Reload)
+		else if (Keyboard::Get()->KeyDown(VK_SHIFT))
 		{
-			/*if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
-			m_animIndex++;
-			*/
-
-			if (m_animIndex == 1)
-				m_animIndex = 0;
-			else
-				m_animIndex = 1;
-
-			SetAnimationIndex(m_animIndex, true);
-			m_Reload = false;
+			m_animIndex = 달리기준비;
+		}
+		else if (Keyboard::Get()->KeyPress(VK_SHIFT))
+		{
+			m_animIndex = 달리는중;
+		}
+		else if (Keyboard::Get()->KeyUp(VK_SHIFT))
+		{
+			m_animIndex = 달리기해제;
+		}
+		else if (Mouse::Get()->ButtonPress(VK_LBUTTON))
+		{
+			if(!m_Reload)
+				m_animIndex = 줌_모드;
+		}
+		else if (Mouse::Get()->ButtonUp(VK_LBUTTON))
+		{
+			m_animIndex = 줌아웃;
+		}
+		else
+		{
+			if(!m_Reload)
+				m_animIndex = 기본상태;
 		}
 
 
+
+
+
+		SetAnimationIndex(m_animIndex, true);
+
+
+		
 
 
 		m_pos = Camera::GetInstance()->getPos();
