@@ -66,6 +66,11 @@ private:
 	UIImage* m_pScopeImage;
 	bool m_pCrosshairOn;
 	bool m_pScopeOn;
+	
+	LPD3DXSPRITE m_pTalkSprite;
+	IUIObject* m_pTalk;
+	UIImage* m_pTalkImage;
+	bool m_pTalkOn;
 
 	Minimap * m_minimap;
 

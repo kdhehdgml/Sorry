@@ -52,6 +52,11 @@ SceneHeightmap::SceneHeightmap()
 	m_pScopeImage = NULL;
 	m_pCrosshairOn = false;
 	m_pScopeOn = false;
+	
+	m_pTalk = NULL;
+	m_pTalkImage = NULL;
+	m_pTalkSprite = NULL;
+	m_pTalkOn = false;
 
 	m_minimap = NULL;
 
@@ -83,6 +88,8 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pCrosshair);
 	SAFE_RELEASE(m_pScope);
 	SAFE_RELEASE(m_minimap);
+	SAFE_RELEASE(m_pTalkSprite);
+	SAFE_RELEASE(m_pTalk);
 	//m_pCrosshair->ReleaseAll();
 	//m_CreateSmog->Release();
 	//SAFE_RELEASE(m_CreateSmog);
@@ -231,6 +238,12 @@ void SceneHeightmap::Init()
 	m_pScopeImage->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
 	m_pScope = m_pScopeImage;
 
+	D3DXCreateSprite(g_pDevice, &m_pTalkSprite);
+	m_pTalkImage = new UIImage(m_pTalkSprite);
+	m_pTalkImage->m_bDrawBorder = false;
+	m_pTalkImage->SetTexture("resources/ui/talk.png");
+	m_pTalkImage->SetPosition(&D3DXVECTOR3(200, 100, 0));
+	m_pTalk = m_pTalkImage;
 
 	m_Player_hands = new Player_hands;
 	m_Player_hands->Init();
@@ -256,6 +269,7 @@ void SceneHeightmap::Update()
 	SAFE_UPDATE(m_minimap);
 	SAFE_UPDATE(m_pCrosshair);
 	SAFE_UPDATE(m_pScope);
+	SAFE_UPDATE(m_pTalk);
 	OnUpdateIScene();
 
 	if (g_pCamera->getFreeCameraMode()) {
@@ -323,7 +337,39 @@ void SceneHeightmap::Update()
 			volume_music -= 0.049999f;
 		g_pSoundManager->volumeControl_Music(volume_music);
 	}
-
+	vector<TeamAI*> m_pTeam = *m_pUnit->getPTeam();
+	float minDistance = 9999999.0f;
+	float dot = 0.0f;
+	float fAngle = 0.0f;
+	for (auto p : m_pTeam){
+		D3DXVECTOR3 teamPos = p->GetPosition(); //팀 위치
+		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
+		D3DXVECTOR3 playerDir = g_pCamera->getDir();
+		D3DXVECTOR3 posDiff = teamPos - playerPos;
+		float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //아군과의 거리 계산
+		if (distance < minDistance) {
+			minDistance = distance; //가장 가까운 아군과의 거리만 남긴다
+			D3DXVec3Normalize(&teamPos, &teamPos);
+			D3DXVec3Normalize(&playerPos, &playerPos);
+			dot = D3DXVec3Dot(&playerPos, &teamPos);
+			fAngle = acos(dot);
+		}
+	}
+	if (minDistance < 13.0f) {
+		m_pTalkOn = true;
+	}
+	else {
+		m_pTalkOn = false;
+	}
+	Debug->AddText("아군과의 거리 : ");
+	Debug->AddText(minDistance);
+	Debug->EndLine();
+	Debug->AddText("아군과의 각도 : ");
+	Debug->AddText(fAngle * D3DX_PI / 180);
+	Debug->EndLine();
+	Debug->AddText("Dot : ");
+	Debug->AddText(dot);
+	Debug->EndLine();
 	Debug->AddText("volume(music) : ");
 	Debug->AddText(volume_music);
 	Debug->EndLine();
@@ -371,7 +417,12 @@ void SceneHeightmap::Render()
 			m_pCrosshairSprite->End();
 		}
 	}
-
+	if (m_pTalkOn) {
+		g_pDevice->SetTexture(0, NULL);
+		m_pTalkSprite->Begin(D3DXSPRITE_ALPHABLEND);
+		SAFE_RENDER(m_pTalk);
+		m_pTalkSprite->End();
+	}
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

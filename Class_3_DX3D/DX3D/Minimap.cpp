@@ -45,6 +45,7 @@ void Minimap::Init()
 	//D3DXMATRIXA16 matT;
 	//D3DXMatrixTranslation(&matT, 0, 464, 0);
 	D3DXMATRIXA16 matR;
+	//270도 회전
 	D3DXMatrixTransformation2D(&matR, NULL, NULL, NULL, &D3DXVECTOR2(128, 128), 270 * D3DX_PI / 180, &D3DXVECTOR2(0, 464));
 	//m_matWorld = matS * matT;
 	m_matWorld = matR;
@@ -76,10 +77,10 @@ void Minimap::Update()
 			if (tempX > minimapWidth) tempX = minimapWidth;
 			if (tempZ > minimapHeight) tempZ = minimapHeight;
 			tempZ = minimapWidth - tempZ;
-			m_enemyIcon[i]->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0));
+			m_enemyIcon[i]->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0)); //위치 표시
 		}
 		else {
-			m_enemyIcon[i]->SetPosition(&D3DXVECTOR3(0, 0, -1));
+			m_enemyIcon[i]->SetPosition(&D3DXVECTOR3(0, 0, -1)); //죽었으면 화면에서 제거
 		}
 	}
 	//적 위치 미니맵 표시 계산 끝
@@ -95,10 +96,10 @@ void Minimap::Update()
 			if (tempX > minimapWidth) tempX = minimapWidth;
 			if (tempZ > minimapHeight) tempZ = minimapHeight;
 			tempZ = minimapWidth - tempZ;
-			m_teamIcon[i]->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0));
+			m_teamIcon[i]->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0)); //위치 표시
 		}
 		else {
-			m_teamIcon[i]->SetPosition(&D3DXVECTOR3(0, 0, -1));
+			m_teamIcon[i]->SetPosition(&D3DXVECTOR3(0, 0, -1)); //죽었으면 화면에서 제거
 		}
 	}
 	//팀 위치 미니맵 표시 계산 끝
