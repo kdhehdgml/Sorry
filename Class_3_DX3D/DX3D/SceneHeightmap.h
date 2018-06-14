@@ -58,12 +58,12 @@ private:
 	SkyBox*			m_SkyBox;
 	ColorCube*		m_ColorCube;
 	//
-	LPD3DXSPRITE m_pSprite;
-	LPD3DXSPRITE m_pSprite2;
+	LPD3DXSPRITE m_pCrosshairSprite;
+	LPD3DXSPRITE m_pScopeSprite;
 	IUIObject* m_pCrosshair;
 	IUIObject* m_pScope;
-	UIImage* pImage;
-	UIImage* pImage2;
+	UIImage* m_pCrosshairImage;
+	UIImage* m_pScopeImage;
 	bool m_pCrosshairOn;
 	bool m_pScopeOn;
 

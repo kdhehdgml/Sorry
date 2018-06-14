@@ -44,12 +44,12 @@ SceneHeightmap::SceneHeightmap()
 	//중현이코드
 	m_pBlocks = NULL;
 
-	m_pSprite = NULL;
-	m_pSprite2 = NULL;
+	m_pCrosshairSprite = NULL;
+	m_pScopeSprite = NULL;
 	m_pCrosshair = NULL;
 	m_pScope = NULL;
-	pImage = NULL;
-	pImage2 = NULL;
+	m_pCrosshairImage = NULL;
+	m_pScopeImage = NULL;
 	m_pCrosshairOn = false;
 	m_pScopeOn = false;
 
@@ -76,8 +76,8 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pBlocks);
 	SAFE_RELEASE(m_SkyBox);
 	SAFE_RELEASE(m_ColorCube);
-	SAFE_RELEASE(m_pSprite);
-	SAFE_RELEASE(m_pSprite2);
+	SAFE_RELEASE(m_pCrosshairSprite);
+	SAFE_RELEASE(m_pScopeSprite);
 	//SAFE_RELEASE(m_Player_hands);
 	//SAFE_RELEASE(pImage);
 	SAFE_RELEASE(m_pCrosshair);
@@ -218,18 +218,18 @@ void SceneHeightmap::Init()
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 
-	D3DXCreateSprite(g_pDevice, &m_pSprite);
-	pImage = new UIImage(m_pSprite);
-	pImage->m_bDrawBorder = false;
-	pImage->SetTexture("resources/ui/Crosshair.png");
-	pImage->SetPosition(&D3DXVECTOR3((rc.left + rc.right) / 2 - 64, (rc.top + rc.bottom) / 2 - 52, 0));
-	m_pCrosshair = pImage;
-	D3DXCreateSprite(g_pDevice, &m_pSprite2);
-	pImage2 = new UIImage(m_pSprite2);
-	pImage2->m_bDrawBorder = false;
-	pImage2->SetTexture("resources/ui/Scope.png");
-	pImage2->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
-	m_pScope = pImage2;
+	D3DXCreateSprite(g_pDevice, &m_pCrosshairSprite);
+	m_pCrosshairImage = new UIImage(m_pCrosshairSprite);
+	m_pCrosshairImage->m_bDrawBorder = false;
+	m_pCrosshairImage->SetTexture("resources/ui/Crosshair.png");
+	m_pCrosshairImage->SetPosition(&D3DXVECTOR3((rc.left + rc.right) / 2 - 64, (rc.top + rc.bottom) / 2 - 52, 0));
+	m_pCrosshair = m_pCrosshairImage;
+	D3DXCreateSprite(g_pDevice, &m_pScopeSprite);
+	m_pScopeImage = new UIImage(m_pScopeSprite);
+	m_pScopeImage->m_bDrawBorder = false;
+	m_pScopeImage->SetTexture("resources/ui/Scope.png");
+	m_pScopeImage->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
+	m_pScope = m_pScopeImage;
 
 
 	m_Player_hands = new Player_hands;
@@ -355,20 +355,20 @@ void SceneHeightmap::Render()
 	if (m_pCrosshairOn) {
 		if (m_pScopeOn & g_pCamera->getCooldown() <= 0) {
 			g_pDevice->SetTexture(0, NULL);
-			m_pSprite2->Begin(D3DXSPRITE_ALPHABLEND);
+			m_pScopeSprite->Begin(D3DXSPRITE_ALPHABLEND);
 			D3DXMATRIX mat;
 			D3DXVECTOR2 scaling(1.5f, 1.5f);
 			D3DXMatrixTransformation2D(&mat, NULL, 0.0, &scaling, &D3DXVECTOR2(0.0f, 0.0f), 0.0f, &D3DXVECTOR2(-160.0f, 0.0f));
-			m_pSprite2->SetTransform(&mat);
+			m_pScopeSprite->SetTransform(&mat);
 			SAFE_RENDER(m_pScope);
-			m_pSprite2->End();
+			m_pScopeSprite->End();
 		}
 		else {
 			g_pDevice->SetTexture(0, NULL);
-			m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+			m_pCrosshairSprite->Begin(D3DXSPRITE_ALPHABLEND);
 			//m_pSprite->SetTransform(&m_matWorld);
 			SAFE_RENDER(m_pCrosshair);
-			m_pSprite->End();
+			m_pCrosshairSprite->End();
 		}
 	}
 
