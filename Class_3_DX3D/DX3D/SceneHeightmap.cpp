@@ -344,15 +344,17 @@ void SceneHeightmap::Update()
 	for (auto p : m_pTeam){
 		D3DXVECTOR3 teamPos = p->GetPosition(); //팀 위치
 		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
-		D3DXVECTOR3 playerDir = g_pCamera->getDir();
+		//D3DXVECTOR3 playerDir = g_pCamera->getDir();
 		D3DXVECTOR3 posDiff = teamPos - playerPos;
 		float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //아군과의 거리 계산
 		if (distance < minDistance) {
 			minDistance = distance; //가장 가까운 아군과의 거리만 남긴다
-			getHit = r.CalcIntersectSphere(p->getBoundingSphere());
+			if (minDistance < 13.0f) {
+				getHit = r.CalcIntersectSphere(p->getBoundingSphere());
+			}
 		}
 	}
-	if (minDistance < 13.0f && getHit) {
+	if (getHit) {
 		m_pTalkOn = true;
 	}
 	else {
