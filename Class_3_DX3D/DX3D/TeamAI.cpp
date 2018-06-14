@@ -85,9 +85,10 @@ void TeamAI::Render()
 	//안개 최대치로 적용되는 거리
 	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	if (status > 0) {
-		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		m_TEAM_TEX->Render();
+	if (status > 0) 
+	{
+		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	
 
 
 
@@ -99,6 +100,7 @@ void TeamAI::Render()
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 			1, &Shootpos[0], sizeof(VERTEX_PC));
 
+		m_TEAM_TEX->Render();
 		/*D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);

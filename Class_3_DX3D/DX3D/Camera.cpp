@@ -516,12 +516,12 @@ float Camera::getSpeedOffset()
 
 float Camera::getAngleX()
 {
-	return m_rotX;
+	return m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX;
 }
 
 float Camera::getAngleY()
 {
-	return m_rotY;
+	return m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY;
 }
 
 D3DXMATRIXA16 Camera::getMatWorld()
