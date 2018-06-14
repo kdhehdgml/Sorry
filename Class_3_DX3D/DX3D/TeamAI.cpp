@@ -2,11 +2,11 @@
 #include "TeamAI.h"
 #include "CubemanParts.h"
 #include "Ray.h"
-#include "MONSTER.h"
+#include "TEAM_TEX.h"
 
 TeamAI::TeamAI()
 {
-	m_MONSTER = NULL;//몬스터 클래스 추가
+	m_TEAM_TEX = NULL;//몬스터 클래스 추가
 
 	m_isMoving = false;
 	m_isShoot = false;
@@ -28,7 +28,7 @@ TeamAI::TeamAI()
 
 TeamAI::~TeamAI()
 {
-	SAFE_RELEASE(m_MONSTER);
+	SAFE_RELEASE(m_TEAM_TEX);
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 }
@@ -39,8 +39,8 @@ void TeamAI::Init()
 	
 	D3DXCreateSphere(g_pDevice, 5.0f, 10, 10, &m_pSphere, NULL);
 
-	m_MONSTER = new MONSTER;
-	m_MONSTER->Init();
+	m_TEAM_TEX = new TEAM_TEX;
+	m_TEAM_TEX->Init();
 
 
 	
@@ -69,8 +69,8 @@ void TeamAI::Update()
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 5.0f;
 
-		m_MONSTER->SetPos(m_pos);
-		m_MONSTER->Update();
+		m_TEAM_TEX->SetPos(m_pos);
+		m_TEAM_TEX->Update();
 
 	}
 }
@@ -87,7 +87,7 @@ void TeamAI::Render()
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 	if (status > 0) {
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		m_MONSTER->Render();
+		m_TEAM_TEX->Render();
 
 
 

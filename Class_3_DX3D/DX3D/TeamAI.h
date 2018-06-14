@@ -2,7 +2,7 @@
 #include "IUnitObject.h"
 class CubemanParts;
 class Mob;
-class MONSTER;
+class TEAM_TEX;
 
 class TeamAI :
 	public IUnitObject
@@ -12,7 +12,7 @@ private:
 	vector<Mob*>	m_pMob;
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
-	MONSTER		*	m_MONSTER;
+	TEAM_TEX		*m_TEAM_TEX;
 
 	D3DXVECTOR3		m_deltaPos;
 	D3DXVECTOR3		m_deltaRot;
