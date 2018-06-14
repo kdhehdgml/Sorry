@@ -2,10 +2,11 @@
 #include "TeamAI.h"
 #include "CubemanParts.h"
 #include "Ray.h"
+#include "MONSTER.h"
 
 TeamAI::TeamAI()
 {
-	m_pRootParts = NULL;
+	m_MONSTER = NULL;//¸ó½ºÅÍ Å¬·¡½º Ãß°¡
 
 	m_isMoving = false;
 	m_isShoot = false;
@@ -27,7 +28,7 @@ TeamAI::TeamAI()
 
 TeamAI::~TeamAI()
 {
-	m_pRootParts->ReleaseAll();
+	SAFE_RELEASE(m_MONSTER);
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 }
@@ -37,8 +38,12 @@ void TeamAI::Init()
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
 	
 	D3DXCreateSphere(g_pDevice, 2.5f, 10, 10, &m_pSphere, NULL);
+
+	m_MONSTER = new MONSTER;
+	m_MONSTER->Init();
+
+
 	
-	CreateAllParts();
 	m_moveSpeed = GSM().mobSpeed;
 
 	m_pBoundingSphere = new BoundingSphere(m_pos, 2.5f);
@@ -64,8 +69,9 @@ void TeamAI::Update()
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 3.0f;
 
-		m_pRootParts->SetMovingState(m_isMoving);
-		m_pRootParts->Update();
+		m_MONSTER->SetPos(m_pos);
+		m_MONSTER->Update();
+
 	}
 }
 
@@ -81,7 +87,9 @@ void TeamAI::Render()
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 	if (status > 0) {
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		m_pRootParts->Render();
+		m_MONSTER->Render();
+
+
 
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);
@@ -127,49 +135,6 @@ void TeamAI::setStatus(int s)
 vector<Mob*>* TeamAI::getPMob()
 {
 	return &m_pMob;
-}
-
-void TeamAI::CreateAllParts()
-{
-	CubemanParts* pParts;
-	//¸öÅë
-	m_pRootParts = new CubemanParts();
-	CreateParts(m_pRootParts, this, D3DXVECTOR3(0.0f, 3.0f, 0.0f),
-		D3DXVECTOR3(1.0f, 1.0f, 0.5f), D3DXVECTOR3(0, 0, 0), uvBody);
-	//¸Ó¸®
-	pParts = new CubemanParts();
-	CreateParts(pParts, m_pRootParts, D3DXVECTOR3(0.0f, 1.6f, 0.0f),
-		D3DXVECTOR3(0.8f, 0.8f, 0.8f), D3DXVECTOR3(0, 0, 0), uvHead);
-	//¿ÞÆÈ
-	pParts = new CubemanParts(0.1f);
-	CreateParts(pParts, m_pRootParts, D3DXVECTOR3(-1.5f, 1.0f, 0.0f),
-		D3DXVECTOR3(0.5f, 1.0f, 0.5f), D3DXVECTOR3(0, -1.0f, 0), uvLArm);
-	//¿À¸¥ÆÈ
-	pParts = new CubemanParts(-0.1f);
-	CreateParts(pParts, m_pRootParts, D3DXVECTOR3(1.5f, 1.0f, 0.0f),
-		D3DXVECTOR3(0.5f, 1.0f, 0.5f), D3DXVECTOR3(0, -1.0f, 0), uvRArm);
-	//¿Þ´Ù¸®
-	pParts = new CubemanParts(-0.1f);
-	CreateParts(pParts, m_pRootParts, D3DXVECTOR3(-0.5f, -1.0f, 0.0f),
-		D3DXVECTOR3(0.5f, 1.0f, 0.5f), D3DXVECTOR3(0, -1.0f, 0), uvLLeg);
-	//¿À¸¥´Ù¸®
-	pParts = new CubemanParts(0.1f);
-	CreateParts(pParts, m_pRootParts, D3DXVECTOR3(0.5f, -1.0f, 0.0f),
-		D3DXVECTOR3(0.5f, 1.0f, 0.5f), D3DXVECTOR3(0, -1.0f, 0), uvRLeg);
-}
-
-void TeamAI::CreateParts(CubemanParts *& pParts, 
-	IDisplayObject * pParent, D3DXVECTOR3 pos, 
-	D3DXVECTOR3 scale, D3DXVECTOR3 trans, 
-	vector<vector<int>>& vecUV)
-{
-	D3DXMATRIXA16 matS, matT, mat;
-	D3DXMatrixScaling(&matS, scale.x, scale.y, scale.z);
-	D3DXMatrixTranslation(&matT, trans.x, trans.y, trans.z);
-	mat = matS * matT;
-	pParts->Init(&mat, vecUV);
-	pParts->SetPosition(&pos);
-	pParent->AddChild(pParts);
 }
 
 bool TeamAI::MobSearch()

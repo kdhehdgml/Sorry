@@ -39,6 +39,9 @@ public:
 	void Load(LPCTSTR path, LPCTSTR filename);
 	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
 	void SetState(int state) { m_state = state; }
+	void SetMatS(D3DXMATRIXA16 S) { matS = S; }
+	void SetMatR(D3DXMATRIXA16 R) { matR = R; }
+	void SetMatT(D3DXMATRIXA16 T) { matT = T; }
 
 
 private:
