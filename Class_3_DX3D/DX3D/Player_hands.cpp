@@ -112,7 +112,7 @@ void Player_hands::Update()
 			Debug->AddText(count);
 			Debug->EndLine();
 
-			if (count == 130)
+			if (count == 75)
 				m_Reload = false;
 		}
 		else
@@ -138,7 +138,7 @@ void Player_hands::Update()
 
 		m_pos = Camera::GetInstance()->getPos();
 		//m_pos.x -= 0.1f;
-		m_pos.y -= 4.0f;
+		m_pos.y -= 3.5f;
 		angleX = (Camera::GetInstance()->getAngleX());
 		angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
 
