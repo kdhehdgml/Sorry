@@ -453,7 +453,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	switch (message) {
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {
-			m_pScopeOn = true;
+			//m_pScopeOn = true;
 		}
 		break;
 	case WM_RBUTTONUP:

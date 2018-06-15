@@ -30,6 +30,8 @@
 	I, K : 배경음악 볼륨 조절
 
 	M : 디버그 팝업창
+
+	E : 아군AI와 상호작용
 */
 
 
@@ -66,7 +68,7 @@ GSM::GSM()
 	TeamPos.z = 100.0f;
 
 	// 몹 속도
-	mobSpeed = 2.0f;
+	mobSpeed = 0.5f;
 
 	// 사운드 초기 볼륨
 	volume_music_init = 5.0f;
