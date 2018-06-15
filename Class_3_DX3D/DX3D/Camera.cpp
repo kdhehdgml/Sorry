@@ -43,6 +43,9 @@ Camera::Camera()
 
 	debugDisplay = false;
 	debugDisplayCheck = false;
+
+	shotCheck = false;
+	reloadTime = 0;
 }
 
 
@@ -370,6 +373,16 @@ void Camera::Update()
 		Debug->EndLine();
 	}
 
+	if (shotCheck)
+		reloadTime++;
+
+	if (reloadTime >= 15) // 재장전 사운드 재생 지연 시간
+	{
+		g_pSoundManager->ReloadSound();
+		shotCheck = false;
+		reloadTime = 0;
+	}
+
 
 	if (g_pTimeManager->GetDeltaTime() > 0.001f) { //DeltaTime이 Epsilon보다 크면 로딩이 완료된 걸로 간주
 		m_loadingComplete = true;
@@ -393,6 +406,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			// 발사음 테스트
 			g_pSoundManager->ShotSound();
+			shotCheck = true; // 총 발사 체크
 
 			for (auto p : m_pMob)
 			{

@@ -121,6 +121,11 @@ vector<Mob*>* TeamAI::getPMob()
 	return &m_pMob;
 }
 
+D3DXMATRIXA16 TeamAI::getMatWorld()
+{
+	return m_matWorld;
+}
+
 bool TeamAI::MobSearch()
 {
 	if (g_pObjMgr->FindObjectsByTag(TAG_MOB).size() > 0)

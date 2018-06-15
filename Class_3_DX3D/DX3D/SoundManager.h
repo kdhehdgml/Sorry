@@ -40,6 +40,7 @@ public:
 	void stopAmbient(int soundNum);
 
 	void ShotSound();
+	void ReloadSound();
 	void WalkSound();
 	void RunSound();
 
