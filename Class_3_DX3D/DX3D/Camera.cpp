@@ -409,7 +409,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					break;
 				}
 			}
-			m_cooldown = 170; //쿨타임 (단위 : 프레임)
+			m_cooldown = 60; //쿨타임 (단위 : 프레임)
 		}
 	}
 	break;
