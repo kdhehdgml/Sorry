@@ -23,6 +23,7 @@ Player_hands::Player_hands()
 
 	m_Reload = false;
 	m_Render = false;
+	m_zooming = false;
 }
 
 
@@ -79,11 +80,11 @@ void Player_hands::Update()
 		m_Render = !m_Render;
 	}
 
-
+	//프리모드 아닐경우만 발동
 	if (m_Render)
 	{
 
-		
+		//상태값들
 
 		if (Keyboard::Get()->KeyDown('R'))
 		{
@@ -102,22 +103,21 @@ void Player_hands::Update()
 		{
 			m_animIndex = 달리기해제;
 		}
-		else if (Mouse::Get()->ButtonPress(VK_LBUTTON))
-		{
-			if(!m_Reload)
-				m_animIndex = 줌_모드;
-		}
-		else if (Mouse::Get()->ButtonUp(VK_LBUTTON))
-		{
-			m_animIndex = 줌아웃;
-		}
 		else
-		{
+		{//
+			
+
 			if(!m_Reload)
 				m_animIndex = 기본상태;
 		}
 
+		if (!m_Reload && m_zooming)
+			m_animIndex = 줌_모드;
 
+
+		Debug->AddText("줌인 상태");
+		Debug->AddText(m_zooming);
+		Debug->EndLine();
 
 
 
@@ -165,6 +165,40 @@ void Player_hands::Render()
 
 		if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 		//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+	}
+}
+
+void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_LBUTTONDOWN:
+	{
+		
+	}
+	break;
+	case WM_LBUTTONUP:
+	{
+		
+	}
+	break;
+	case WM_RBUTTONDOWN:
+		
+		m_zooming = true;
+		break;
+	case WM_RBUTTONUP:
+		
+		m_zooming = false;
+		break;
+	case WM_MOUSEMOVE:
+	{
+		
+		
+		
+	}break;
+	case WM_MOUSEWHEEL:
+
+		break;
 	}
 }
 
