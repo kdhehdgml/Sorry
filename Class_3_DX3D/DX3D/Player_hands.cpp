@@ -24,6 +24,8 @@ Player_hands::Player_hands()
 	m_Reload = false;
 	m_Render = false;
 	m_zooming = false;
+
+	count = 0;
 }
 
 
@@ -85,13 +87,7 @@ void Player_hands::Update()
 	{
 
 		//상태값들
-
-		if (Keyboard::Get()->KeyDown('R'))
-		{
-			m_Reload = !m_Reload;
-			m_animIndex = 볼트액션;
-		}
-		else if (Keyboard::Get()->KeyDown(VK_SHIFT))
+		if (Keyboard::Get()->KeyDown(VK_SHIFT))
 		{
 			m_animIndex = 달리기준비;
 		}
@@ -104,20 +100,33 @@ void Player_hands::Update()
 			m_animIndex = 달리기해제;
 		}
 		else
-		{//
-			
-
+		{
 			if(!m_Reload)
 				m_animIndex = 기본상태;
+		}
+
+		if (m_Reload)
+		{
+			count++;
+			Debug->AddText("재장전시간 : ");
+			Debug->AddText(count);
+			Debug->EndLine();
+
+			if (count == 130)
+				m_Reload = false;
+		}
+		else
+		{
+			count = 0;
 		}
 
 		if (!m_Reload && m_zooming)
 			m_animIndex = 줌_모드;
 
 
-		Debug->AddText("줌인 상태");
+	/*	Debug->AddText("줌인 상태");
 		Debug->AddText(m_zooming);
-		Debug->EndLine();
+		Debug->EndLine();*/
 
 
 
@@ -174,7 +183,8 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	{
 	case WM_LBUTTONDOWN:
 	{
-		
+		m_Reload = true;
+		m_animIndex = 볼트액션;
 	}
 	break;
 	case WM_LBUTTONUP:

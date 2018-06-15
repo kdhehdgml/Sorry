@@ -51,6 +51,7 @@ protected:
 
 	float						angleX, angleY;
 
+	int							count;
 
 	D3DXMATRIXA16				matT, matS, matR;
 
