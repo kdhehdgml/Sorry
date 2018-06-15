@@ -312,18 +312,22 @@ void SceneHeightmap::Update()
 	}
 	else if (musicPlayCheck)
 		musicPlayCheck = false;
+	
+	if (!g_pCamera->getFreeCameraMode()) // 프리카메라가 OFF 일 경우
+	{
+		if ((GetAsyncKeyState('W') & GetAsyncKeyState(VK_SHIFT) & 0x8000))
+		{
+			g_pSoundManager->RunSound();
+		}
+		else if (GetAsyncKeyState('W') ||
+			GetAsyncKeyState('A') ||
+			GetAsyncKeyState('D') ||
+			GetAsyncKeyState('S') & 0x8000)
+		{
+			g_pSoundManager->WalkSound();
+		}
+	}
 
-	if ((GetAsyncKeyState('W') & GetAsyncKeyState(VK_SHIFT) & 0x8000))
-	{
-		g_pSoundManager->RunSound();
-	}
-	else if (GetAsyncKeyState('W') ||
-		GetAsyncKeyState('A') ||
-		GetAsyncKeyState('D') ||
-		GetAsyncKeyState('S') & 0x8000)
-	{
-		g_pSoundManager->WalkSound();
-	}
 	if ((GetAsyncKeyState('I') & 0x8000))
 	{
 		if (volume_music <= 10.0f)
