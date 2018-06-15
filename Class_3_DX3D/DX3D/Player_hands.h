@@ -43,11 +43,15 @@ protected:
 	bool						m_bDrawSkeleton;
 	int							m_numFrame;
 	int							m_numMesh;
+	
 	//렌더 껏다키기
 	bool						m_Render;
 	bool						m_Reload;
+	bool						m_zooming;
+
 	float						angleX, angleY;
 
+	int							count;
 
 	D3DXMATRIXA16				matT, matS, matR;
 
@@ -59,7 +63,7 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
-
+	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void Load(LPCTSTR path, LPCTSTR filename);
 
 private:

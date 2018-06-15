@@ -23,6 +23,9 @@ Player_hands::Player_hands()
 
 	m_Reload = false;
 	m_Render = false;
+	m_zooming = false;
+
+	count = 0;
 }
 
 
@@ -79,18 +82,12 @@ void Player_hands::Update()
 		m_Render = !m_Render;
 	}
 
-
+	//프리모드 아닐경우만 발동
 	if (m_Render)
 	{
 
-		
-
-		if (Keyboard::Get()->KeyDown('R'))
-		{
-			m_Reload = !m_Reload;
-			m_animIndex = 볼트액션;
-		}
-		else if (Keyboard::Get()->KeyDown(VK_SHIFT))
+		//상태값들
+		if (Keyboard::Get()->KeyDown(VK_SHIFT))
 		{
 			m_animIndex = 달리기준비;
 		}
@@ -102,22 +99,34 @@ void Player_hands::Update()
 		{
 			m_animIndex = 달리기해제;
 		}
-		else if (Mouse::Get()->ButtonPress(VK_LBUTTON))
-		{
-			if(!m_Reload)
-				m_animIndex = 줌_모드;
-		}
-		else if (Mouse::Get()->ButtonUp(VK_LBUTTON))
-		{
-			m_animIndex = 줌아웃;
-		}
 		else
 		{
 			if(!m_Reload)
 				m_animIndex = 기본상태;
 		}
 
+		if (m_Reload)
+		{
+			count++;
+			Debug->AddText("재장전시간 : ");
+			Debug->AddText(count);
+			Debug->EndLine();
 
+			if (count == 75)
+				m_Reload = false;
+		}
+		else
+		{
+			count = 0;
+		}
+
+		if (!m_Reload && m_zooming)
+			m_animIndex = 줌_모드;
+
+
+	/*	Debug->AddText("줌인 상태");
+		Debug->AddText(m_zooming);
+		Debug->EndLine();*/
 
 
 
@@ -129,7 +138,7 @@ void Player_hands::Update()
 
 		m_pos = Camera::GetInstance()->getPos();
 		//m_pos.x -= 0.1f;
-		m_pos.y -= 4.0f;
+		m_pos.y -= 3.5f;
 		angleX = (Camera::GetInstance()->getAngleX());
 		angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
 
@@ -165,6 +174,41 @@ void Player_hands::Render()
 
 		if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 		//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+	}
+}
+
+void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_LBUTTONDOWN:
+	{
+		m_Reload = true;
+		m_animIndex = 볼트액션;
+	}
+	break;
+	case WM_LBUTTONUP:
+	{
+		
+	}
+	break;
+	case WM_RBUTTONDOWN:
+		
+		m_zooming = true;
+		break;
+	case WM_RBUTTONUP:
+		
+		m_zooming = false;
+		break;
+	case WM_MOUSEMOVE:
+	{
+		
+		
+		
+	}break;
+	case WM_MOUSEWHEEL:
+
+		break;
 	}
 }
 
