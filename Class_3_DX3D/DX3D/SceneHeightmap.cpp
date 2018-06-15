@@ -338,10 +338,10 @@ void SceneHeightmap::Update()
 	}
 	vector<TeamAI*> m_pTeam = *m_pUnit->getPTeam();
 	float minDistance = 9999999.0f;
-	bool getHit = false;
+	bool talkAble = false;
+	int tempIndex = 0, teamIndex = -1;
 	//float conWidth = cos(30 * D3DX_PI / 180.0f);
-	float conWidth = 0.866f; //대화가 가능한 각도 cos(각도 * 파이 / 180)
-	//Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
+	float conWidth = 0.866f; //대화가 가능한 각도 (현재 각도 : 30도) cos(각도 * 파이 / 180)
 	for (auto p : m_pTeam){
 		D3DXVECTOR3 teamPos = p->GetPosition(); //팀 위치
 		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
@@ -354,22 +354,32 @@ void SceneHeightmap::Update()
 		float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //아군과의 거리 계산
 		if (distance < minDistance) {
 			minDistance = distance; //가장 가까운 아군과의 거리만 남긴다
-			if (minDistance < 10.0f) { //거리가 10 미만이면
-				if (viewAngle > conWidth) { //대화가 가능한 거리라면
-					getHit = true;
+			if (minDistance < 10.0f) { //대화가 가능한 거리라면
+				if (viewAngle > conWidth) { //대화가 가능한 각도라면
+					talkAble = true;
+					teamIndex = tempIndex;
 				}
 			}
 		}
+		tempIndex++;
 	}
 	if (minDistance < 4.0f) {
 		g_pCamera->setPos(m_pPlayerOldPos);
 	}
 	m_pPlayerOldPos = g_pCamera->getPos();
-	if (getHit) {
+	if (talkAble) {
 		m_pTalkOn = true;
 	}
 	else {
 		m_pTalkOn = false;
+	}
+	if ((GetAsyncKeyState('E') & 0x0001))
+	{
+		if (talkAble) {
+			TCHAR str[100];
+			wsprintf(str, TEXT("%d 번 아군과 대화하였습니다."), teamIndex);
+			MessageBox(NULL, str, TEXT("DEBUG"), MB_OK);
+		}
 	}
 	Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
