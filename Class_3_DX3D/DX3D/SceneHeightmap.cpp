@@ -384,8 +384,16 @@ void SceneHeightmap::Update()
 			MessageBox(NULL, str, TEXT("DEBUG"), MB_OK);
 		}
 	}
+
+	float height;
+	D3DXVECTOR3 playerPos = g_pCamera->getPos();
+	bool isIntersected = g_pCurrentMap->GetHeight(height, playerPos);
+
 	Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
+	Debug->EndLine();
+	Debug->AddText("현재 높이 : ");
+	Debug->AddText(height);
 	Debug->EndLine();
 	Debug->AddText("volume(music) : ");
 	Debug->AddText(volume_music);
