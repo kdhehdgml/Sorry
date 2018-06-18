@@ -368,7 +368,7 @@ void SceneHeightmap::Update()
 		if (distance < 4.0f) { //아군과의 거리가 너무 가까우면
 			//플레이어와 아군 사이의 벡터를 구해 그 역벡터를 구하고,
 			//가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
-			D3DXVECTOR3 lookDirInverse = -lookDir / distance;
+			D3DXVECTOR3 lookDirInverse = -1.2f * lookDir / distance;
 			lookDirInverse.y = 0; //y축 값은 필요없다.
 			g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
 		}
