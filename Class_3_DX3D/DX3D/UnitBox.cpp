@@ -37,7 +37,7 @@ void UnitBox::Init()
 	{
 		m_pTeam[i] = new TeamAI;
 		m_pTeam[i]->Init();
-		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE), 2.67f, GSM().TeamPos.z + (15 * i)));
+		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), 2.67f, GSM().TeamPos.z + (15 * i)));
 	}
 	
 }
@@ -60,7 +60,7 @@ void UnitBox::Update()
 			m_pMob[MobNum - 1]->Init();
 
 			//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
-			m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZE) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
+			m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZEX) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
 			if (m_pMob[MobNum - 1]->m_Act._moving == 1)
 				FindHidingInTheWallLocation(MobNum - 1);
 			else if(m_pMob[MobNum - 1]->m_Act._engage != 몹_무시하고돌격)
@@ -78,7 +78,7 @@ void UnitBox::Update()
 			m_pTeam[TeamNum - 1] = new TeamAI;
 			m_pTeam[TeamNum - 1]->Init();
 			//m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3(GSM().TeamPos.x + NODE_POSITSIZE, 2.67f, GSM().TeamPos.z + ((TeamNum) * 20 + NODE_POSITSIZE)));
-			m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE - 50), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
+			m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX - 50), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
 		}
 	}
 	//후방 제대 지원
@@ -86,7 +86,7 @@ void UnitBox::Update()
 	{
 		for (int i = 40; i < m_pTeam.size(); i++)
 		{
-			m_pTeam[i]->SetTargetPostion(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZE), m_pTeam[i]->GetPosition().y, m_pTeam[i]->GetPosition().z));
+			m_pTeam[i]->SetTargetPostion(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), m_pTeam[i]->GetPosition().y, m_pTeam[i]->GetPosition().z));
 			m_pTeam[i]->UpdatePositionToDestination();
 		}
 	}

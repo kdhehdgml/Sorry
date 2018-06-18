@@ -24,7 +24,7 @@ void Minimap::Init()
 	D3DXCreateSprite(g_pDevice, &m_minimapSprite);
 	m_minimap = new UIImage(m_minimapSprite);
 	m_minimap->m_bDrawBorder = false;
-	m_minimap->SetTexture("resources/heightmap/terrain_minimap.png");
+	m_minimap->SetTexture("resources/heightmap/terrain_minimapBF.png");
 	m_minimap->SetPosition(&D3DXVECTOR3(0, 0, 0));
 	m_pRootUI = m_minimap;
 	m_playerIcon = new UIImage(m_minimapSprite);

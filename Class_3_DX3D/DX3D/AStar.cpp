@@ -145,16 +145,14 @@ void AStar::InitNodes(IMap * pMap)
 	int nodeDim = 90;// 노드 한 줄 갯수
 					 //간격
 	//이 수치 
-	float interval = (pMap->GetSize().x - NODE_POSITSIZE) / (float)(nodeDim - 0.99);
-
-
+	float interval = (pMap->GetSize().x - NODE_POSITSIZEZ * 2) / (float)(nodeDim - 0.99);
 
 	for (int posZ = 0; posZ < nodeDim; posZ++)
 	{
 		for (int posX = 0; posX < nodeDim; posX++)
 		{
 			//여길건드리면 시작점이다름
-			D3DXVECTOR3 location(NODE_POSITSIZE + posX * interval, 0, NODE_POSITSIZE + posZ * interval);
+			D3DXVECTOR3 location(NODE_POSITSIZEX + posX * interval, 0, NODE_POSITSIZEZ + posZ * interval);
 
 			pMap->GetHeight(location.y, location);
 
