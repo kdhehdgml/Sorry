@@ -2,6 +2,7 @@
 #include "TEAM_TEX.h"
 #include "AllocateHierarchy.h"
 
+//아군 스킨 사이즈 조절
 #define SCALE 4.0f
 
 
@@ -41,7 +42,10 @@ void TEAM_TEX::Init()
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
-	D3DXMatrixRotationY(&matR, D3DX_PI / 2 + D3DX_PI);
+
+	m_angle = D3DX_PI / 2 + D3DX_PI;
+
+	D3DXMatrixRotationY(&matR, m_angle);
 }
 
 void TEAM_TEX::Update()
