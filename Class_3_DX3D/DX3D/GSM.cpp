@@ -48,7 +48,7 @@ GSM::GSM()
 	// SCENE_BATTLEFIELD   //
 
 	// 맵 크기
-	mapSize = 1000.0f;
+	mapSize = 750.0f;
 
 	// 안개 거리
 	fogMin = mapSize / 5;
@@ -56,7 +56,7 @@ GSM::GSM()
 
 	// 카메라 초기 위치
 	camPos.x = 160.0f;
-	camPos.z = 500.0f;
+	camPos.z = 375.0f;
 	camPos.y = -10.0f;
 
 	// 몹 초기 위치

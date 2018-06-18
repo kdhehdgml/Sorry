@@ -115,7 +115,7 @@ SceneHeightmap::~SceneHeightmap()
 void SceneHeightmap::Init()
 {
 	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 1.0f, 0.13f, 1.0f);
+	D3DXMatrixScaling(&matS, 1.0f, 0.15f, 1.0f);
 
 	m_pHeightMap = new HeightMap; AddSimpleDisplayObj(m_pHeightMap);
 	m_pHeightMap->SetDimension(GSM().mapSize);
@@ -125,7 +125,7 @@ void SceneHeightmap::Init()
 
 
 	m_pHeightMap->SetMtlTex(mtl,
-		g_pTextureManager->GetTexture(L"resources/heightmap/terrainBF.jpg"));
+		g_pTextureManager->GetTexture(L"resources/heightmap/terrainBF.png"));
 
 	g_pMapManager->AddMap("heightmap", m_pHeightMap);
 	g_pMapManager->SetCurrentMap("heightmap");
