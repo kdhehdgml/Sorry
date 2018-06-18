@@ -160,6 +160,8 @@ void Player_hands::Update()
 
 		m_matWorld = matS * matR * matT;
 	}
+
+
 	
 }
 
@@ -202,9 +204,8 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 		break;
 	case WM_MOUSEMOVE:
 	{
-		
-		
-		
+
+
 	}break;
 	case WM_MOUSEWHEEL:
 

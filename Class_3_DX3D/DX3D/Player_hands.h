@@ -27,6 +27,7 @@ enum PLAYER_STATE
 };
 
 
+
 class Player_hands : public IUnitObject
 {
 protected:
@@ -36,6 +37,7 @@ protected:
 	int							m_animIndex;
 	float						m_fBlendTime;
 	float						m_fPassedBlendTime;
+
 
 	LPD3DXMESH					m_pSphereMesh;
 	bool						m_bWireFrame;
