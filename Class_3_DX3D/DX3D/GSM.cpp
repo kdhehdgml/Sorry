@@ -48,7 +48,7 @@ GSM::GSM()
 	// SCENE_BATTLEFIELD   //
 
 	// 맵 크기
-	mapSize = 500.0f;
+	mapSize = 1000.0f;
 
 	// 안개 거리
 	fogMin = mapSize / 5;
