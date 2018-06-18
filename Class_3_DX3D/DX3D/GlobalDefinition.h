@@ -7,8 +7,8 @@ extern CString ASSET_PATH;
 #define CUBE_INDEX_SIZE 36
 extern WORD g_aCubeIndex[];
 #define CUBE_VERTEX_SIZE 8
-#define NODE_POSITSIZEZ 256
-#define NODE_POSITSIZEX 130
+#define NODE_POSITSIZEZ 190
+#define NODE_POSITSIZEX 140
 extern D3DXVECTOR3 g_aCubeVertex[];
 extern D3DXVECTOR3 g_Cube_TesT[];
 

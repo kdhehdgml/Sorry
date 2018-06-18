@@ -142,10 +142,10 @@ void AStar::Render()
 void AStar::InitNodes(IMap * pMap)
 {
 	temp_Imap = pMap;
-	int nodeDim = 90;// 노드 한 줄 갯수
+	int nodeDim = 100;// 노드 한 줄 갯수
 					 //간격
 	//이 수치 
-	float interval = (pMap->GetSize().x - NODE_POSITSIZEZ * 2) / (float)(nodeDim - 0.99);
+	float interval = ((pMap->GetSize().x - NODE_POSITSIZEZ * 2)-20) / (float)(nodeDim - 0.99);
 
 	for (int posZ = 0; posZ < nodeDim; posZ++)
 	{
