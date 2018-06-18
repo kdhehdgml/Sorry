@@ -24,6 +24,7 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
+	void FindHidingInTheWallLocationRushSoldier(int _Mobnum);
 	void FindHidingInTheWallLocation(int _Mobnum);
 	void MobMoveInTheWall();
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
