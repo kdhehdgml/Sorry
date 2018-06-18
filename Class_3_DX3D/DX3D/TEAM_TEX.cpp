@@ -3,7 +3,7 @@
 #include "AllocateHierarchy.h"
 
 //아군 스킨 사이즈 조절
-#define SCALE 4.0f
+#define SCALE 2.0f
 
 
 TEAM_TEX::TEAM_TEX()
@@ -37,8 +37,8 @@ void TEAM_TEX::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/newMan/";
-	CString filename = "stand_idle.X";
+	CString path = "resources/xFile/TEAM_AI/";
+	CString filename = "TEAM.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
