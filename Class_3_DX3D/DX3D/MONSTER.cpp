@@ -13,7 +13,7 @@ MONSTER::MONSTER()
 	m_pAnimController = NULL;
 	m_fBlendTime = 0.3f;
 	m_fPassedBlendTime = 0.0f;
-	m_animIndex = 0;
+	m_AnimaTionIndex = 0;
 	m_bWireFrame = false;
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;

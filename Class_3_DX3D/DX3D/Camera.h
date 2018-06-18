@@ -50,6 +50,9 @@ private:
 	bool debugDisplayCheck;
 	bool debugDisplay;
 
+	bool shotCheck; // 총 발사 여부 체크
+	int reloadTime; // 재장전 사운드 재생까지의 지연시간
+
 public:
 	void Init();
 	void Update();

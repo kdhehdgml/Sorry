@@ -13,7 +13,7 @@ Player_hands::Player_hands()
 	m_pAnimController = NULL;
 	m_fBlendTime = 0.3f;
 	m_fPassedBlendTime = 0.0f;
-	m_animIndex = 0;
+	m_AnimaTionIndex = 0;
 	m_bWireFrame = false;
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;
@@ -23,6 +23,9 @@ Player_hands::Player_hands()
 
 	m_Reload = false;
 	m_Render = false;
+	m_zooming = false;
+
+	count = 0;
 }
 
 
@@ -44,13 +47,15 @@ void Player_hands::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/kar98_hands/";
-	CString filename = "kar98_hans.X";
+	CString path = "resources/xFile/player_ani/";
+	CString filename = "player_hands_ani.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
 	
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+
+	m_AnimaTionIndex = 6;
 
 }
 
@@ -77,36 +82,63 @@ void Player_hands::Update()
 		m_Render = !m_Render;
 	}
 
-
+	//프리모드 아닐경우만 발동
 	if (m_Render)
 	{
-		if (Keyboard::Get()->KeyDown('R'))
-		{
-			m_Reload = !m_Reload;
-		}
 
+		//상태값들
+		if (Keyboard::Get()->KeyDown(VK_SHIFT))
+		{
+			m_AnimaTionIndex = 달리기준비;
+		}
+		else if (Keyboard::Get()->KeyPress(VK_SHIFT))
+		{
+			m_AnimaTionIndex = 달리는중;
+		}
+		else if (Keyboard::Get()->KeyUp(VK_SHIFT))
+		{
+			m_AnimaTionIndex = 달리기해제;
+		}
+		else
+		{
+			if(!m_Reload)
+				m_AnimaTionIndex = 기본상태;
+		}
 
 		if (m_Reload)
 		{
-			/*if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
-			m_animIndex++;
-			*/
+			count++;
+			Debug->AddText("재장전시간 : ");
+			Debug->AddText(count);
+			Debug->EndLine();
 
-			if (m_animIndex == 1)
-				m_animIndex = 0;
-			else
-				m_animIndex = 1;
-
-			SetAnimationIndex(m_animIndex, true);
-			m_Reload = false;
+			if (count == 75)
+				m_Reload = false;
+		}
+		else
+		{
+			count = 0;
 		}
 
+		if (!m_Reload && m_zooming)
+			m_AnimaTionIndex = 줌_모드;
 
+
+	/*	Debug->AddText("줌인 상태");
+		Debug->AddText(m_zooming);
+		Debug->EndLine();*/
+
+
+
+		SetAnimationIndex(m_AnimaTionIndex, true);
+
+
+		
 
 
 		m_pos = Camera::GetInstance()->getPos();
 		//m_pos.x -= 0.1f;
-		m_pos.y -= 4.0f;
+		m_pos.y -= 3.5f;
 		angleX = (Camera::GetInstance()->getAngleX());
 		angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
 
@@ -128,6 +160,8 @@ void Player_hands::Update()
 
 		m_matWorld = matS * matR * matT;
 	}
+
+
 	
 }
 
@@ -142,6 +176,42 @@ void Player_hands::Render()
 
 		if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 		//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+	}
+}
+
+void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_LBUTTONDOWN:
+	{
+		m_Reload = true;
+		m_AnimaTionIndex = 볼트액션;
+		//액션 처음으로 초기화
+		m_pAnimController->SetTrackPosition(0, 0);
+	}
+	break;
+	case WM_LBUTTONUP:
+	{
+		
+	}
+	break;
+	case WM_RBUTTONDOWN:
+		
+		m_zooming = true;
+		break;
+	case WM_RBUTTONUP:
+		
+		m_zooming = false;
+		break;
+	case WM_MOUSEMOVE:
+	{
+
+
+	}break;
+	case WM_MOUSEWHEEL:
+
+		break;
 	}
 }
 
@@ -244,15 +314,9 @@ void Player_hands::DrawFrame(LPD3DXFRAME pFrame)
 	{
 		m_numMesh++;
 
-		//if (m_HandsOption)		Debug->AddText(_T("(MESH)"));
-
-
 		DrawMeshContainer(pFrame);
 		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
-
-	//if (m_HandsOption)	Debug->AddText(_T(" / "));
-	//if (m_HandsOption)	Debug->AddText(_T(" / "));
 
 
 	if (pFrame->pFrameSibling != NULL)
@@ -360,9 +424,25 @@ void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 	LPD3DXANIMATIONSET pNextAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
 
+	//애니메이션 이름으로 호출가능. ㅠㅠ
+	//stand_idle
+	//m_pAnimController->GetAnimationSetByName("stand_idle",&pNextAnimSet)
+
+	//Debug->AddText("애니메이션 이름 : ");
+	//Debug->AddText();
+	//Debug->EndLine();
+
 	//isBlend = false;
 	if (isBlend)
 	{
+		//애니메이션 시간으로 지정!
+	//	m_pAnimController->SetTrackPosition(0, 0);
+
+	//Debug->AddText("애니메이션 시간? : ");
+	//Debug->AddText(m_pAnimController->GetTime());
+	//Debug->EndLine();
+		
+
 		m_fPassedBlendTime = 0.0f;
 
 		LPD3DXANIMATIONSET pPrevAnimSet = NULL;
@@ -373,22 +453,22 @@ void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 		D3DXTRACK_DESC trackDesc;
 		m_pAnimController->GetTrackDesc(0, &trackDesc);
 		m_pAnimController->SetTrackDesc(1, &trackDesc);
+		
 
 		m_pAnimController->SetTrackWeight(0, 0.0f);
 		m_pAnimController->SetTrackWeight(1, 1.0f);
 
 		SAFE_RELEASE(pPrevAnimSet);
 
-		Debug->AddText(m_fPassedBlendTime);
-		Debug->EndLine();
+
 
 		m_fPassedBlendTime = 0.0f;
 		
 	}
 
-
-	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
 	
+	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
+	//SetTrackPosition
 	m_pAnimController->ResetTime();
 
 	SAFE_RELEASE(pNextAnimSet);

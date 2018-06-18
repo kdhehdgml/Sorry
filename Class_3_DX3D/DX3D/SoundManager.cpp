@@ -70,7 +70,8 @@ void SoundManager::soundList()
 	s_whistle_f.push_back("TrenchWhistle");
 
 	// 재장전
-	s_reload_f.push_back("reload7");
+	s_reload_f.push_back("reload7"); 
+	s_reload_f.push_back("Reload2altdrycut");
 
 	// 발소리
 	s_walk_dirt_f.push_back("Boot_dirt_walk1");
@@ -186,8 +187,11 @@ void SoundManager::ShotSound()
 	int rN = rand() % s_shot_1_f.size();
 
 	m_pShot_1->PlaySound(rN);
-	m_pReload->PlaySound(0);
+}
 
+void SoundManager::ReloadSound()
+{
+	m_pReload->PlaySound(1);
 }
 
 void SoundManager::WalkSound()
@@ -222,5 +226,5 @@ void SoundManager::RunSound()
 
 void SoundManager::effectSound(int soundNum)
 {
-		m_pWhistle->PlaySound(0);
+	m_pWhistle->PlaySound(0);
 }

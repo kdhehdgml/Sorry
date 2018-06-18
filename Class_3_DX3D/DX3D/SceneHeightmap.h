@@ -72,7 +72,7 @@ private:
 	UIImage* m_pTalkImage;
 	bool m_pTalkOn;
 	LPARAM m_pLParam;
-	D3DXVECTOR3 m_pPlayerOldPos;
+	D3DXMATRIXA16 m_pTalkMatrix;
 
 	Minimap * m_minimap;
 

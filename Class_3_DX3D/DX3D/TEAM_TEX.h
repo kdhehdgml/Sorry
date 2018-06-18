@@ -8,7 +8,7 @@ protected:
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
-	int							m_animIndex;
+	int							m_AnimaTionIndex;
 	float						m_fBlendTime;
 	float						m_fPassedBlendTime;
 
@@ -42,6 +42,7 @@ public:
 	void SetMatS(D3DXMATRIXA16 S) { matS = S; }
 	void SetMatR(D3DXMATRIXA16 R) { matR = R; }
 	void SetMatT(D3DXMATRIXA16 T) { matT = T; }
+	//void SetAnimation(int animationIndex) { m_AnimaTionIndex = animationIndex; }
 
 
 private:

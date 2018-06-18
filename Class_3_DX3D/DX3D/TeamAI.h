@@ -46,6 +46,7 @@ public:
 	void setStatus(int s);
 	void GetMob(vector<Mob*> _mob) { m_pMob = _mob; }
 	vector<Mob*>* getPMob();
+	D3DXMATRIXA16 getMatWorld();
 
 	virtual bool MobSearch();
 	void ShootVertex();

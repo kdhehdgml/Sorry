@@ -1,13 +1,43 @@
 ﻿#pragma once
+
+/*
+0 기본상태
+0~5 줌인
+5~10 줌아웃
+10~20 달리기준비
+20~30 달리는중
+30~45 달리기해제
+45~85 볼트액션
+5~5   줌 기본상태
+
+*/
+// x파일 로더가 애니메이션 셋을 받아올떄 거꾸로 받아오기때문에 거꾸로 해줘야한다!
+//아마 중간에 끝에서부터 시작되는 이유도 그게 문제지 않을까 싶다.
+//플레이어 액션 상태값
+enum PLAYER_STATE
+{
+	줌_모드,
+	볼트액션,
+	달리기해제,
+	달리는중,
+	달리기준비,
+	줌아웃,
+	줌인,
+	기본상태
+};
+
+
+
 class Player_hands : public IUnitObject
 {
 protected:
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
-	int							m_animIndex;
+	int							m_AnimaTionIndex;
 	float						m_fBlendTime;
 	float						m_fPassedBlendTime;
+
 
 	LPD3DXMESH					m_pSphereMesh;
 	bool						m_bWireFrame;
@@ -15,11 +45,15 @@ protected:
 	bool						m_bDrawSkeleton;
 	int							m_numFrame;
 	int							m_numMesh;
+	
 	//렌더 껏다키기
 	bool						m_Render;
 	bool						m_Reload;
+	bool						m_zooming;
+
 	float						angleX, angleY;
 
+	int							count;
 
 	D3DXMATRIXA16				matT, matS, matR;
 
@@ -31,7 +65,7 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
-
+	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void Load(LPCTSTR path, LPCTSTR filename);
 
 private:

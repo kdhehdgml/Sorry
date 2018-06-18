@@ -13,7 +13,7 @@ SkinnedMesh::SkinnedMesh()
 	m_pAnimController = NULL;
 	m_fBlendTime = 0.3f;
 	m_fPassedBlendTime = 0.0f;
-	m_animIndex = 0;
+	m_AnimaTionIndex = 0;
 	m_bWireFrame = false;
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;
@@ -101,7 +101,7 @@ void SkinnedMesh::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContain
 void SkinnedMesh::Update()
 {
 	Debug->AddText(_T("Anim Index = "));
-	Debug->AddText((int)m_animIndex + 1);
+	Debug->AddText((int)m_AnimaTionIndex + 1);
 	Debug->AddText(_T(" / "));
 	Debug->AddText((int)m_pAnimController->GetMaxNumAnimationSets());
 	Debug->EndLine();
@@ -112,18 +112,18 @@ void SkinnedMesh::Update()
 	if (Keyboard::Get()->KeyDown('1'))
 	//if (GetAsyncKeyState('1') & 0x8000)
 	{
-		if (m_animIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
-			m_animIndex++;
+		if (m_AnimaTionIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+			m_AnimaTionIndex++;
 
-		SetAnimationIndex(m_animIndex, true);
+		SetAnimationIndex(m_AnimaTionIndex, true);
 	}
 	else if (Keyboard::Get()->KeyDown('2'))
 	//if (GetAsyncKeyState('2') & 0x8000)
 	{
-		if (m_animIndex > 0)
-			m_animIndex--;
+		if (m_AnimaTionIndex > 0)
+			m_AnimaTionIndex--;
 
-		SetAnimationIndex(m_animIndex, true);
+		SetAnimationIndex(m_AnimaTionIndex, true);
 	}
 	else if (Keyboard::Get()->KeyDown(VK_F1))
 	//if (GetAsyncKeyState(VK_F1) & 0x8000)
