@@ -34,7 +34,7 @@ protected:
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
-	int							m_animIndex;
+	int							m_AnimaTionIndex;
 	float						m_fBlendTime;
 	float						m_fPassedBlendTime;
 

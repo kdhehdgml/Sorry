@@ -56,8 +56,9 @@ void Minimap::Update()
 	SAFE_UPDATE(m_pRootUI);
 	//플레이어 위치 미니맵 표시 계산
 	D3DXVECTOR3 playerPos = g_pCamera->getPos();
-	float tempX = playerPos.x / 1.953125;
-	float tempZ = playerPos.z / 1.953125;
+	float temp = GSM().mapSize / minimapWidth;
+	float tempX = playerPos.x / temp;
+	float tempZ = playerPos.z / temp;
 	if (tempX < 0) tempX = 0;
 	if (tempZ < 0) tempZ = 0;
 	if (tempX > minimapWidth) tempX = minimapWidth;
