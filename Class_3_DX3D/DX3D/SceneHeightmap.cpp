@@ -495,5 +495,8 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	case WM_RBUTTONUP:
 		m_pScopeOn = false;
 		break;
+	case WM_MOUSEMOVE:
+		m_Player_hands->SetPosToCamera();
+		break;
 	}
 }

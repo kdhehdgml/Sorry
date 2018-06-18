@@ -2,6 +2,7 @@
 #include "MONSTER.h"
 #include "AllocateHierarchy.h"
 
+//적군 스킨 사이즈 조절
 #define SCALE 4.0f
 
 
@@ -41,7 +42,9 @@ void MONSTER::Init()
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
-	D3DXMatrixRotationY(&matR, D3DX_PI / 2);
+	m_angle = D3DX_PI / 2;
+
+	D3DXMatrixRotationY(&matR, m_angle);
 }
 
 void MONSTER::Update()
