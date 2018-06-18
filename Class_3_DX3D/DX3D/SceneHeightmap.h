@@ -76,6 +76,11 @@ private:
 
 	Minimap * m_minimap;
 
+	LPD3DXMESH		m_pTempBox;
+	BoundingBox* m_pTempBoundingBox;
+
+	Ray r;
+
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
 public:

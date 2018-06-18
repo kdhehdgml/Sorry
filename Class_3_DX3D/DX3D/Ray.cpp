@@ -62,7 +62,7 @@ bool Ray::CalcIntersectSphere(BoundingSphere * pSphere)
 bool Ray::CalcIntersectBox(BoundingBox * pBox)
 {
 	float x_min = (pBox->aa.x - m_pos.x) / m_dir.x;
-	float x_max = (pBox->aa.x - m_pos.x) / m_dir.x;
+	float x_max = (pBox->bb.x - m_pos.x) / m_dir.x;
 
 	if (x_min > x_max) {
 		float temp;
@@ -71,7 +71,7 @@ bool Ray::CalcIntersectBox(BoundingBox * pBox)
 		x_max = temp;
 	}
 	float y_min = (pBox->aa.y - m_pos.y) / m_dir.y;
-	float y_max = (pBox->aa.y - m_pos.y) / m_dir.y;
+	float y_max = (pBox->bb.y - m_pos.y) / m_dir.y;
 
 	if (y_min > y_max) {
 		float temp;
@@ -85,7 +85,7 @@ bool Ray::CalcIntersectBox(BoundingBox * pBox)
 	if (y_max < x_max) x_max = y_max;
 
 	float z_min = (pBox->aa.z - m_pos.z) / m_dir.z;
-	float z_max = (pBox->aa.z - m_pos.z) / m_dir.z;
+	float z_max = (pBox->bb.z - m_pos.z) / m_dir.z;
 
 	if (z_min > z_max) {
 		float temp;

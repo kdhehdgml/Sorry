@@ -51,13 +51,16 @@ SceneHeightmap::SceneHeightmap()
 	m_pScopeImage = NULL;
 	m_pCrosshairOn = false;
 	m_pScopeOn = false;
-	
+
 	m_pTalk = NULL;
 	m_pTalkImage = NULL;
 	m_pTalkSprite = NULL;
 	m_pTalkOn = false;
 
 	m_minimap = NULL;
+
+	m_pTempBox = NULL;
+	m_pTempBoundingBox = NULL;
 
 	//	m_pSkinnedMesh = NULL;
 	volume_music = GSM().volume_music_init;
@@ -89,6 +92,8 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_minimap);
 	SAFE_RELEASE(m_pTalkSprite);
 	SAFE_RELEASE(m_pTalk);
+	SAFE_RELEASE(m_pTempBox);
+	SAFE_DELETE(m_pTempBoundingBox);
 	//m_pCrosshair->ReleaseAll();
 	//m_CreateSmog->Release();
 	//SAFE_RELEASE(m_CreateSmog);
@@ -110,17 +115,17 @@ SceneHeightmap::~SceneHeightmap()
 void SceneHeightmap::Init()
 {
 	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 1.0f, 0.12f, 1.0f);
+	D3DXMatrixScaling(&matS, 1.0f, 0.06f, 1.0f);
 
 	m_pHeightMap = new HeightMap; AddSimpleDisplayObj(m_pHeightMap);
 	m_pHeightMap->SetDimension(GSM().mapSize);
-	m_pHeightMap->Load("resources/heightmap/HeightMapBF.raw", &matS);
+	m_pHeightMap->Load("resources/heightmap/HeightMap.raw", &matS);
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
 
 
 	m_pHeightMap->SetMtlTex(mtl,
-		g_pTextureManager->GetTexture(L"resources/heightmap/terrainBF.jpg"));
+		g_pTextureManager->GetTexture(L"resources/heightmap/terrain.jpg"));
 
 	g_pMapManager->AddMap("heightmap", m_pHeightMap);
 	g_pMapManager->SetCurrentMap("heightmap");
@@ -252,6 +257,12 @@ void SceneHeightmap::Init()
 	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
 	m_minimap->getPTeamFromUnitBox(m_pUnit->getPTeam());
 
+	D3DXVECTOR3 tmp_box(300.0f, 10.0f, 300.0f);
+	D3DXCreateBox(g_pDevice, 10.0f, 10.0f, 10.0f, &m_pTempBox, NULL);
+	D3DXVECTOR3 aa(300.0f, 10.0f, 300.0f);
+	D3DXVECTOR3 bb(310.0f, 20.0f, 310.0f);
+	m_pTempBoundingBox = new BoundingBox(aa, bb);
+
 	AddSimpleDisplayObj(m_Player_hands);
 
 	g_pSoundManager->createSound(); // 사운드 세팅								
@@ -312,7 +323,7 @@ void SceneHeightmap::Update()
 	}
 	else if (musicPlayCheck)
 		musicPlayCheck = false;
-	
+
 	if (!g_pCamera->getFreeCameraMode()) // 프리카메라가 OFF 일 경우
 	{
 		if ((GetAsyncKeyState('W') & GetAsyncKeyState(VK_SHIFT) & 0x8000))
@@ -346,7 +357,7 @@ void SceneHeightmap::Update()
 	int tempIndex = 0, teamIndex = -1;
 	//float conWidth = cos(30 * D3DX_PI / 180.0f);
 	float conWidth = 0.866f; //대화가 가능한 각도 (현재 각도 : 30도) cos(각도 * 파이 / 180)
-	for (auto p : m_pTeam){
+	for (auto p : m_pTeam) {
 		D3DXVECTOR3 teamPos = p->GetPosition(); //팀 위치
 		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
 		teamPos.y += 7.0f;
@@ -366,8 +377,8 @@ void SceneHeightmap::Update()
 			}
 		}
 		if (distance < 4.0f) { //아군과의 거리가 너무 가까우면
-			//플레이어와 아군 사이의 벡터를 구해 그 역벡터를 구하고,
-			//가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
+							   //플레이어와 아군 사이의 벡터를 구해 그 역벡터를 구하고,
+							   //가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
 			D3DXVECTOR3 lookDirInverse = -1.2f * lookDir / distance;
 			lookDirInverse.y = 0; //y축 값은 필요없다.
 			g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
@@ -393,11 +404,18 @@ void SceneHeightmap::Update()
 	D3DXVECTOR3 playerPos = g_pCamera->getPos();
 	bool isIntersected = g_pCurrentMap->GetHeight(height, playerPos);
 
+	r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
+	bool getHitBox = false;
+	getHitBox = r.CalcIntersectBox(m_pTempBoundingBox);
+
 	Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
 	Debug->EndLine();
 	Debug->AddText("현재 높이 : ");
 	Debug->AddText(height);
+	Debug->EndLine();
+	Debug->AddText("Bounding Box Collision : ");
+	Debug->AddText(getHitBox);
 	Debug->EndLine();
 	Debug->AddText("volume(music) : ");
 	Debug->AddText(volume_music);
@@ -452,6 +470,11 @@ void SceneHeightmap::Render()
 		SAFE_RENDER(m_pTalk);
 		m_pTalkSprite->End();
 	}
+	D3DXMATRIXA16 mat;
+	D3DXMatrixTranslation(&mat, (m_pTempBoundingBox->aa.x + m_pTempBoundingBox->bb.x) / 2, (m_pTempBoundingBox->aa.y + m_pTempBoundingBox->bb.y) / 2, (m_pTempBoundingBox->aa.z + m_pTempBoundingBox->bb.z) / 2);
+	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+	g_pDevice->SetTexture(0, NULL);
+	m_pTempBox->DrawSubset(0);
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
