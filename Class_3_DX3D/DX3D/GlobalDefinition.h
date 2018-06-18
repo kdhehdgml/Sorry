@@ -179,6 +179,16 @@ struct BoundingSphere
 		radius(_radius), isPicked(false) {}
 };
 
+struct BoundingBox
+{
+	D3DXVECTOR3 aa;
+	D3DXVECTOR3 bb;
+	bool isPicked;
+	BoundingBox() :isPicked(false) {}
+	BoundingBox(D3DXVECTOR3 _aa, D3DXVECTOR3 _bb) :aa(_aa),
+		bb(_bb), isPicked(false) {}
+};
+
 DWORD FtoDw(float f);
 
 float  GetRandomFloat(float lowBound, float highBound);
