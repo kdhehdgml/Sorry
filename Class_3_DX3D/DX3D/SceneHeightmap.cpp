@@ -257,10 +257,10 @@ void SceneHeightmap::Init()
 	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
 	m_minimap->getPTeamFromUnitBox(m_pUnit->getPTeam());
 
-	D3DXVECTOR3 tmp_box(300.0f, 10.0f, 300.0f); //ÀÓ½Ã BoundingBox Mesh ÁÂÇ¥
+	D3DXVECTOR3 tmp_box(300.0f, 20.0f, 300.0f); //ÀÓ½Ã BoundingBox Mesh ÁÂÇ¥
 	D3DXCreateBox(g_pDevice, 10.0f, 10.0f, 10.0f, &m_pTempBox, NULL); //ÀÓ½Ã BoundingBox Mesh »ý¼º
-	D3DXVECTOR3 aa(300.0f, 10.0f, 300.0f); //ÀÓ½Ã BoundingBox ÁÂÇ¥1
-	D3DXVECTOR3 bb(310.0f, 20.0f, 310.0f); //ÀÓ½Ã BoundingBox ÁÂÇ¥2
+	D3DXVECTOR3 aa(300.0f, 20.0f, 300.0f); //ÀÓ½Ã BoundingBox ÁÂÇ¥1
+	D3DXVECTOR3 bb(310.0f, 30.0f, 310.0f); //ÀÓ½Ã BoundingBox ÁÂÇ¥2
 	m_pTempBoundingBox = new BoundingBox(aa, bb); //ÀÓ½Ã BoundingBox »ý¼º
 
 	AddSimpleDisplayObj(m_Player_hands);
