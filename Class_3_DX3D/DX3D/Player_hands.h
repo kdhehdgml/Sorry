@@ -67,6 +67,7 @@ public:
 	virtual void Render() override;
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void Load(LPCTSTR path, LPCTSTR filename);
+	void SetPosToCamera();
 
 private:
 	void SetupBoneMatrixPointers(LPD3DXFRAME pFrame);

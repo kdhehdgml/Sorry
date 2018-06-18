@@ -132,33 +132,7 @@ void Player_hands::Update()
 
 		SetAnimationIndex(m_AnimaTionIndex, true);
 
-
-		
-
-
-		m_pos = Camera::GetInstance()->getPos();
-		//m_pos.x -= 0.1f;
-		m_pos.y -= 3.5f;
-		angleX = (Camera::GetInstance()->getAngleX());
-		angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
-
-
-		//IUnitObject::UpdateKeyboardState();
-		//IUnitObject::UpdatePositionToDestination();
-		D3DXMATRIXA16 matR_X, matR_Y;
-
-		D3DXMatrixRotationX(&matR_X, angleX);
-		D3DXMatrixRotationY(&matR_Y, angleY);
-
-		matR = matR_X * matR_Y;
-
-
-		D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-		//D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
-		UpdateAnim();
-		UpdateFrameMatrices(m_pRootFrame, NULL);
-
-		m_matWorld = matS * matR * matT;
+		SetPosToCamera();
 	}
 
 
@@ -417,6 +391,33 @@ void Player_hands::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	{
 		DrawSkeleton(pFrame->pFrameFirstChild, pFrame);
 	}
+}
+
+void Player_hands::SetPosToCamera()
+{
+	m_pos = Camera::GetInstance()->getPos();
+	//m_pos.x -= 0.1f;
+	m_pos.y -= 3.5f;
+	angleX = (Camera::GetInstance()->getAngleX());
+	angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
+
+
+	//IUnitObject::UpdateKeyboardState();
+	//IUnitObject::UpdatePositionToDestination();
+	D3DXMATRIXA16 matR_X, matR_Y;
+
+	D3DXMatrixRotationX(&matR_X, angleX);
+	D3DXMatrixRotationY(&matR_Y, angleY);
+
+	matR = matR_X * matR_Y;
+
+
+	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+	//D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+	UpdateAnim();
+	UpdateFrameMatrices(m_pRootFrame, NULL);
+
+	m_matWorld = matS * matR * matT;
 }
 
 void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
