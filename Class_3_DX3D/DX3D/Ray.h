@@ -12,6 +12,7 @@ public:
 	static Ray RayAtWorldSpace(int x, int y);
 
 	bool CalcIntersectSphere(BoundingSphere* pSphere);
+	bool CalcIntersectBox(BoundingBox* pBox);
 	bool CalcIntersectTri(D3DXVECTOR3* pStart, float *distance);
 };
 
