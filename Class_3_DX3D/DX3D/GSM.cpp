@@ -60,8 +60,9 @@ GSM::GSM()
 	camPos.y = -10.0f;
 
 	// 몹 초기 위치
-	mobPos.x = mapSize / 10.0f;
-	mobPos.z = 100.0f;
+	// mobPos.x = mapSize - 50.0f;
+	mobPos.x = NODE_POSITSIZEX + 360; // 테스트용
+	mobPos.z = NODE_POSITSIZEZ;
 
 	// 아군 초기 위치
 	TeamPos.x = mapSize / 10.0f;

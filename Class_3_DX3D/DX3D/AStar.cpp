@@ -168,9 +168,9 @@ void AStar::InitNodes(IMap * pMap)
 			// 벽생성 (매크로 사용)
 			bool lineodd = true;
 			int lineNum = 0;
-			for (int x = 20; x < 60; x += 4)
+			for (int x = 35; x < 100; x += 4)
 			{
-				for (int z = 22; z < 67; z += 5)
+				for (int z = 4; z < 96; z += 5)
 				{
 					if (lineodd)
 					{
