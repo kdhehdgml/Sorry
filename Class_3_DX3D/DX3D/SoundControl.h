@@ -19,7 +19,7 @@ public:
 	void ChangeSound(int nIndex, int nIndex2);
 	bool isPlaying(int nIndex);
 	void volumeControl(int nIndex, float volume);
-
+	void sound3D(int nIndex);
 
 	void ReleaseSound();
 	void Update();

@@ -98,6 +98,19 @@ void SoundControl::volumeControl(int nIndex, float volume)
 	}
 }
 
+void SoundControl::sound3D(int nIndex)
+{
+	FMOD_System_Set3DSettings(m_pSystem, 1.0, 1.0, 1.0);
+	FMOD_VECTOR pos = { 0.0f, 0.0f, 0.0f };
+	FMOD_VECTOR vel = { 0.0f, 0.0f, 0.0f };
+	FMOD_VECTOR alt_pan_pos = { 0.0f,0.0f,0.0f };
+	float freq = 0.0f;
+	FMOD_Channel_Set3DAttributes(m_ppChannel[nIndex], &pos, &vel, &alt_pan_pos);
+	FMOD_Channel_GetFrequency(m_ppChannel[nIndex], &freq);
+	//FMOD_Channel_SetVolume(m_ppChannel[nIndex], volume);
+
+}
+
 void SoundControl::ReleaseSound()
 {
 	int i;
