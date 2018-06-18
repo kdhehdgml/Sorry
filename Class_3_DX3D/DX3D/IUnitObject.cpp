@@ -23,7 +23,7 @@ IUnitObject::~IUnitObject()
 {
 }
 
-void IUnitObject::GetTargetPostion(const D3DXVECTOR3 & pos)
+void IUnitObject::SetTargetPostion(const D3DXVECTOR3 & pos)
 {
 	m_destPos = m_pos;// 현재포지션으로 초기화 
 	m_finalDestPos = pos;

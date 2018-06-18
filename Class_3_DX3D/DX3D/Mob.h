@@ -1,17 +1,42 @@
 #pragma once
 #include "IUnitObject.h"
 class MONSTER;
-enum MOB_STATE
+
+enum MOB_MOVING
 {
-	숨는애,
-	안숨는애,
-	제자리사격,
-	엄폐사격,
-	엄폐옆에서사격,
-	무시하고이동,
-	총일부만쏨,
-	총알소진까지쏨
+	몹_돌격이동,
+	몹_엄폐이동
 };
+enum MOB_ENGAGE
+{
+	몹_제자리멈춤,
+	몹_엄폐물에숨기,
+	몹_무시하고돌격
+};
+enum MOB_GUNSHOT
+{
+	몹_일부사격,
+	몹_소진까지사격
+};
+enum MOB_RELOAD
+{
+	몹_장전함,
+	몹_장전안함
+};
+enum MOB_HIDING
+{
+	몹_숨었다,
+	몹_안숨었다
+};
+struct MobAction
+{
+	MOB_MOVING	_moving;
+	MOB_ENGAGE	_engage;
+	MOB_GUNSHOT _gunshot;
+	MOB_RELOAD	_reload;
+	MOB_HIDING	_hiding;
+};
+
 class Mob
 	: public IUnitObject
 {
@@ -26,11 +51,13 @@ private:
 	D3DXVECTOR3		m_forward;
 	D3DXVECTOR3		m_Mobpos;
 
+	int				m_bullet;
+	int				m_TeamAINum;
 	int				m_ShootCooldownTime;
 	bool			m_isMoving;
 	bool			m_isShoot;
-	bool			m_BeDetermined;
-	vector<MOB_STATE>		m_Action;
+	bool			m_BeDetermined;//장애물 너로 정했다
+	
 	vector<D3DXVECTOR3> moveLocation;
 	vector<D3DXVECTOR3> Temporary_Storage;
 	vector<int> SaveLocationNum;
@@ -45,8 +72,11 @@ private:
 public:
 	Mob();
 	~Mob();
+	//유닛박스에서 벽에 숨어있는시간
 	int				num;
+	//숨었니안숨었니
 	bool			m_move;
+	MobAction		m_Act;
 	// IDisplayObject을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Update() override;
@@ -60,23 +90,24 @@ public:
 
 	virtual bool PlayerSearch();
 	void ShootVertex();
-	void GetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum) 
+	void SetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum) 
 	{ moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum);}
-	void GetTemporary(D3DXVECTOR3 wallLocation, int Locationnum) 
+	void SetTemporary(D3DXVECTOR3 wallLocation, int Locationnum) 
 	{ Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);}
-	void GetDetermined(bool _boo) { m_BeDetermined = _boo; }
-	void InsertAction(int _hide, int _behavior, int _shootmount);
+	void SetDetermined(bool _boo) { m_BeDetermined = _boo; }
+
+	vector<D3DXVECTOR3> GetMoveTheWall() { return moveLocation; }
+	vector<int> GetLocationNum() { return SaveLocationNum; }
+	vector<D3DXVECTOR3> GetTemporary() { return Temporary_Storage; }
+	vector<int> GetTemporaryNum() { return m_SaveTempNum; }
+	bool GetDetermined() { return m_BeDetermined; }
 	
-	vector<D3DXVECTOR3> SetMoveTheWall() { return moveLocation; }
-	vector<int> SetLocationNum() { return SaveLocationNum; }
-	vector<D3DXVECTOR3> SetTemporary() { return Temporary_Storage; }
-	vector<int> SetTemporaryNum() { return m_SaveTempNum; }
-	bool SetDetermined() { return m_BeDetermined; }
-	vector<MOB_STATE> SetAction() { return m_Action; }
+	void EraseLocationSoldier();
 	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); }
 	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); }
 	void LocationSwap(int _v1, int _v2);
 	void TemporarySwap(int _v1, int _v2);
 	void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
+	void SaveAction();
 };
 

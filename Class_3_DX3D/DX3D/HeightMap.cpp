@@ -391,19 +391,19 @@ void HeightMap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		//	a++;
 		//}
-		D3DXVECTOR3 pos;
-		if (CalcPickedPosition(pos, SCREEN_POINT(lParam)) == true)
-		{
+		//D3DXVECTOR3 pos;
+		//if (CalcPickedPosition(pos, SCREEN_POINT(lParam)) == true)
+		//{
 
-			//케릭터 pos 로 이동하게 하기
-			GetHeight(pos.y, pos);
-			//static_cast<IUnitObject*>
-			//	(g_pObjMgr->FindObjectByTag(TAG_PLAYER))
-			//	->SetPosition(&pos);
-			static_cast<IUnitObject*>
-				(g_pObjMgr->FindObjectByTag(TAG_PLAYER))
-				->SetDestination(pos);
-		}
+		//	//케릭터 pos 로 이동하게 하기
+		//	GetHeight(pos.y, pos);
+		//	//static_cast<IUnitObject*>
+		//	//	(g_pObjMgr->FindObjectByTag(TAG_PLAYER))
+		//	//	->SetPosition(&pos);
+		//	static_cast<IUnitObject*>
+		//		(g_pObjMgr->FindObjectByTag(TAG_PLAYER))
+		//		->SetDestination(pos);
+		//}
 
 	}
 	break;

@@ -11,7 +11,7 @@ TeamAI::TeamAI()
 	m_isShoot = false;
 
 	//m_baseRotY = D3DX_PI / 2;
-	
+	m_Action = ÆÀ_°ø°Ý;
 	m_forward.z = -1;
 	m_pos.y = 3.0f;
 	m_destPos = m_pos;
@@ -53,6 +53,7 @@ void TeamAI::Update()
 {
 	if (health <= 0) {
 		status = 0;
+		m_pos = { 1000,10,-1000 };
 	}
 	if (status > 0) {
 		UpdatePositionToDestination();
@@ -129,14 +130,13 @@ bool TeamAI::MobSearch()
 		move_forward = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
 		if (D3DXVec3LengthSq(&move_forward) > 0)
 		{
-			forward = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
+			forward = move_forward;
 		}
 		int number = 0;
 		
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
 		{
 			D3DXVECTOR3 DirectPM;
-			D3DXVECTOR3 MobPos;
 
 			DirectPM = p->GetPosition() - m_pos;
 			if (DirectPM.x < 90 && DirectPM.z < 25)
@@ -201,7 +201,7 @@ void TeamAI::ShootVertex()
 
 		m_CooldownTime++;
 		
-		if (m_CooldownTime > 100)
+		if (m_CooldownTime > 50)
 		{
 			if (kill < 5)
 			{
@@ -220,9 +220,8 @@ void TeamAI::ShootVertex()
 				}
 			}
 			m_CooldownTime = 0;
+			m_Action = TEAM_STATE(rand() % 2);
 		}
-		
-		
 	}
 	else
 	{

@@ -36,10 +36,10 @@ public:
 	
 	virtual ~IUnitObject();
 
-	void GetTargetPostion(const D3DXVECTOR3 &pos);
+	void SetTargetPostion(const D3DXVECTOR3 &pos);
 	void SetDestination(const D3DXVECTOR3 &pos);
 	bool GetMove() { return m_colision; }
-	
+	void SetMoveSpeed(int _movespeed) { m_moveSpeed = _movespeed; }
 	void UpdateKeyboardState();
 	void UpdatePositionToDestination();
 
