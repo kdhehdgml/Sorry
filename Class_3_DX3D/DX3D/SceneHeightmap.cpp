@@ -257,11 +257,11 @@ void SceneHeightmap::Init()
 	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
 	m_minimap->getPTeamFromUnitBox(m_pUnit->getPTeam());
 
-	D3DXVECTOR3 tmp_box(300.0f, 10.0f, 300.0f);
-	D3DXCreateBox(g_pDevice, 10.0f, 10.0f, 10.0f, &m_pTempBox, NULL);
-	D3DXVECTOR3 aa(300.0f, 10.0f, 300.0f);
-	D3DXVECTOR3 bb(310.0f, 20.0f, 310.0f);
-	m_pTempBoundingBox = new BoundingBox(aa, bb);
+	D3DXVECTOR3 tmp_box(300.0f, 10.0f, 300.0f); //임시 BoundingBox Mesh 좌표
+	D3DXCreateBox(g_pDevice, 10.0f, 10.0f, 10.0f, &m_pTempBox, NULL); //임시 BoundingBox Mesh 생성
+	D3DXVECTOR3 aa(300.0f, 10.0f, 300.0f); //임시 BoundingBox 좌표1
+	D3DXVECTOR3 bb(310.0f, 20.0f, 310.0f); //임시 BoundingBox 좌표2
+	m_pTempBoundingBox = new BoundingBox(aa, bb); //임시 BoundingBox 생성
 
 	AddSimpleDisplayObj(m_Player_hands);
 
