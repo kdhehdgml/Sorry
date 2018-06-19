@@ -31,6 +31,7 @@ void Minimap::Init()
 	m_pRootUI->AddChild(m_playerIcon);
 	m_playerIcon->SetTexture("resources/ui/point01.bmp");
 	m_playerIcon->SetPosition(&D3DXVECTOR3(0, 0, 0));
+	m_pScaleBuf = GSM().mapSize / minimapWidth;
 
 	/*for (int i = 0; i <= m_pMob.size(); i++) {
 		UIImage* tempUIImage = new UIImage(m_minimapSprite);
@@ -56,9 +57,9 @@ void Minimap::Update()
 	SAFE_UPDATE(m_pRootUI);
 	//플레이어 위치 미니맵 표시 계산
 	D3DXVECTOR3 playerPos = g_pCamera->getPos();
-	float temp = GSM().mapSize / minimapWidth;
-	float tempX = playerPos.x / temp;
-	float tempZ = playerPos.z / temp;
+
+	float tempX = playerPos.x / m_pScaleBuf;
+	float tempZ = playerPos.z / m_pScaleBuf;
 	if (tempX < 0) tempX = 0;
 	if (tempZ < 0) tempZ = 0;
 	if (tempX > minimapWidth) tempX = minimapWidth;
@@ -71,8 +72,8 @@ void Minimap::Update()
 	for (int i = 0; i < m_enemyIcon.size();i++) {
 		if (m_pMob[i]->getStatus() != 0) {
 			D3DXVECTOR3 enemyPos = m_pMob[i]->GetPosition();
-			tempX = enemyPos.x / 1.953125;
-			tempZ = enemyPos.z / 1.953125;
+			tempX = enemyPos.x / m_pScaleBuf;
+			tempZ = enemyPos.z / m_pScaleBuf;
 			if (tempX < 0) tempX = 0;
 			if (tempZ < 0) tempZ = 0;
 			if (tempX > minimapWidth) tempX = minimapWidth;
@@ -90,8 +91,8 @@ void Minimap::Update()
 	for (int i = 0; i < m_teamIcon.size(); i++) {
 		if (m_pTeam[i]->getStatus() != 0) {
 			D3DXVECTOR3 enemyPos = m_pTeam[i]->GetPosition();
-			tempX = enemyPos.x / 1.953125;
-			tempZ = enemyPos.z / 1.953125;
+			tempX = enemyPos.x / m_pScaleBuf;
+			tempZ = enemyPos.z / m_pScaleBuf;
 			if (tempX < 0) tempX = 0;
 			if (tempZ < 0) tempZ = 0;
 			if (tempX > minimapWidth) tempX = minimapWidth;
