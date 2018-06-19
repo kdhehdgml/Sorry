@@ -62,8 +62,8 @@ SceneHeightmap::SceneHeightmap()
 
 	m_minimap = NULL;
 
-	m_pTempBox = NULL;
-	m_pTempBoundingBox = NULL;
+	m_pSphere = NULL;
+	m_pBoundingSphere = NULL;
 
 	//	m_pSkinnedMesh = NULL;
 	volume_music = GSM().volume_music_init;
@@ -95,8 +95,8 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_minimap);
 	SAFE_RELEASE(m_pTalkSprite);
 	SAFE_RELEASE(m_pTalk);
-	SAFE_RELEASE(m_pTempBox);
-	SAFE_DELETE(m_pTempBoundingBox);
+	SAFE_RELEASE(m_pSphere);
+	SAFE_DELETE(m_pBoundingSphere);
 	//m_pCrosshair->ReleaseAll();
 	//m_CreateSmog->Release();
 	//SAFE_RELEASE(m_CreateSmog);
@@ -271,6 +271,9 @@ void SceneHeightmap::Init()
 	wallManager->addWall(aa, bb); //새로 벽 추가하고 싶을땐 이렇게
 								  //(aa가 수치가 작은 쪽 좌표, bb가 큰 쪽 좌표)
 
+	D3DXCreateSphere(g_pDevice, 3.0f, 10, 10, &m_pSphere, NULL);
+	m_pBoundingSphere = new BoundingSphere(g_pCamera->getPos(), 3.0f);
+
 	g_pSoundManager->createSound(); // 사운드 세팅								
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
 }
@@ -420,6 +423,9 @@ void SceneHeightmap::Update()
 		}
 	}
 
+	m_pBoundingSphere->center = g_pCamera->getPos();
+	m_pBoundingSphere->center.y = height;
+
 	Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
 	Debug->EndLine();
@@ -482,6 +488,11 @@ void SceneHeightmap::Render()
 		SAFE_RENDER(m_pTalk);
 		m_pTalkSprite->End();
 	}
+	D3DXMATRIXA16 mat;
+	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
+	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+	g_pDevice->SetTexture(0, NULL);
+	m_pSphere->DrawSubset(0);
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

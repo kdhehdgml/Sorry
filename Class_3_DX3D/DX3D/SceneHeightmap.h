@@ -78,8 +78,8 @@ private:
 
 	Minimap * m_minimap;
 
-	LPD3DXMESH		m_pTempBox;
-	BoundingBox* m_pTempBoundingBox;
+	LPD3DXMESH		m_pSphere;
+	BoundingSphere* m_pBoundingSphere;
 
 	WallManager * wallManager;
 

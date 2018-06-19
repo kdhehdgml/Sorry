@@ -57,9 +57,6 @@ protected:
 
 	D3DXMATRIXA16				matT, matS, matR;
 
-	LPD3DXMESH		m_pSphere;
-	BoundingSphere* m_pBoundingSphere;
-
 public:
 	Player_hands();
 	~Player_hands();
