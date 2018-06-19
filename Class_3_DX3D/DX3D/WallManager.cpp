@@ -17,6 +17,10 @@ WallManager::~WallManager()
 
 void WallManager::Init()
 {
+	for (size_t i = 0; i < walls.size(); i++)
+	{
+		walls[i]->Init();
+	}
 }
 
 void WallManager::Update()
