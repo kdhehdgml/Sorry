@@ -21,6 +21,5 @@ public:
 	void RemoveFromTagList(WORD _tag, IUnitObject* _pObj);
 	IUnitObject* FindObjectByTag(WORD _tag);
 	vector<IUnitObject*> FindObjectsByTag(WORD _tag);
-
 };
 

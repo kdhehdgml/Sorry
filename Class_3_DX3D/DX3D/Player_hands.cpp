@@ -149,9 +149,6 @@ void Player_hands::Update()
 
 		SetPosToCamera();
 	}
-
-
-	
 }
 
 void Player_hands::Render()
