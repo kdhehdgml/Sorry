@@ -51,6 +51,8 @@ Player_hands::~Player_hands()
 	D3DXFrameDestroy(m_pRootFrame, &alloc);
 
 	SAFE_RELEASE(m_pAnimController);
+	SAFE_RELEASE(m_pSphere);
+	SAFE_DELETE(m_pBoundingSphere);
 }
 
 void Player_hands::Init()
