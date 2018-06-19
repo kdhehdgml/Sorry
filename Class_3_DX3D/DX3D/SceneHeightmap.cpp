@@ -415,7 +415,19 @@ void SceneHeightmap::Update()
 
 	r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
 	bool getHitBox = false;
+	bool getCollision = false;
 	for (auto p : wallManager->getWalls()) {
+		D3DXVECTOR3 wallPos = p->GetPosition(); //벽 위치
+		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
+		D3DXVECTOR3 posDiff = wallPos - playerPos; //벽 위치랑 내 위치의 차이
+		D3DXVECTOR3 lookDir;
+		D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
+		getCollision = wallManager->IntersectSphereBox(m_pBoundingSphere, p->getBoundingBox());
+		/*if (getCollision) {
+			D3DXVECTOR3 lookDirInverse = -0.8f * lookDir; //내 위치와 벽 사이 벡터의 역벡터
+			lookDirInverse.y = 0; //y축 값은 필요없다.
+			g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
+		}*/
 		bool tempGetHitBox = false;
 		tempGetHitBox = r.CalcIntersectBox(p->getBoundingBox());
 		if (tempGetHitBox) {
@@ -424,7 +436,7 @@ void SceneHeightmap::Update()
 	}
 
 	m_pBoundingSphere->center = g_pCamera->getPos();
-	m_pBoundingSphere->center.y = height;
+	m_pBoundingSphere->center.y = height + 3.0f;
 
 	Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
@@ -432,8 +444,11 @@ void SceneHeightmap::Update()
 	Debug->AddText("현재 높이 : ");
 	Debug->AddText(height);
 	Debug->EndLine();
-	Debug->AddText("Bounding Box Collision : ");
+	Debug->AddText("Bounding Box Collision with Ray: ");
 	Debug->AddText(getHitBox);
+	Debug->EndLine();
+	Debug->AddText("Bounding Box Collision with Player: ");
+	Debug->AddText(getCollision);
 	Debug->EndLine();
 	Debug->AddText("volume(music) : ");
 	Debug->AddText(volume_music);
