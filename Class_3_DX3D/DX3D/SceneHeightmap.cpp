@@ -268,7 +268,8 @@ void SceneHeightmap::Init()
 	D3DXVECTOR3 aa(300.0f, 25.0f, 300.0f); //임시 BoundingBox 좌표1
 	D3DXVECTOR3 bb(310.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
 
-	wallManager->addWall(aa, bb, D3DXVECTOR3(10.0f, 10.0f, 10.0f)); //새로 벽 추가하고 싶을땐 이렇게
+	wallManager->addWall(aa, bb); //새로 벽 추가하고 싶을땐 이렇게
+								  //(aa가 수치가 작은 쪽 좌표, bb가 큰 쪽 좌표)
 
 	g_pSoundManager->createSound(); // 사운드 세팅								
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)

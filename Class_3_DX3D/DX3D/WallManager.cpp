@@ -35,9 +35,9 @@ void WallManager::Render()
 	}
 }
 
-void WallManager::addWall(D3DXVECTOR3 _aa, D3DXVECTOR3 _bb, D3DXVECTOR3 _size)
+void WallManager::addWall(D3DXVECTOR3 _aa, D3DXVECTOR3 _bb)
 {
-	Wall* tempWall = new Wall(_aa, _bb, _size);
+	Wall* tempWall = new Wall(_aa, _bb);
 	walls.push_back(tempWall);
 	walls.back()->Init();
 }

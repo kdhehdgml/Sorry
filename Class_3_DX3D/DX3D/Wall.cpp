@@ -2,13 +2,13 @@
 #include "Wall.h"
 
 
-Wall::Wall(D3DXVECTOR3 _aa, D3DXVECTOR3 _bb, D3DXVECTOR3 _size)
+Wall::Wall(D3DXVECTOR3 _aa, D3DXVECTOR3 _bb)
 {
 	m_pBox = NULL;
 	m_pBoundingBox = NULL;
 	aa = _aa;
 	bb = _bb;
-	size = _size;
+	size = bb - aa;
 }
 
 

@@ -11,7 +11,7 @@ private:
 	D3DXVECTOR3 size;
 	D3DXVECTOR3 center;
 public:
-	Wall(D3DXVECTOR3 _aa, D3DXVECTOR3 _bb, D3DXVECTOR3 _size);
+	Wall(D3DXVECTOR3 _aa, D3DXVECTOR3 _bb);
 	~Wall();
 	virtual void Init() override;
 	virtual void Update() override;
