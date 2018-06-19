@@ -267,6 +267,13 @@ void SceneHeightmap::Init()
 
 	D3DXVECTOR3 aa(200.0f, 25.0f, 300.0f); //임시 BoundingBox 좌표1
 	D3DXVECTOR3 bb(310.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
+	
+	D3DXVECTOR3 aa2(0.0f, 25.0f, 100.0f); //임시 BoundingBox 좌표1
+	D3DXVECTOR3 bb2(10.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
+
+	D3DXVECTOR3 aa3(100.0f, 25.0f, 400.0f); //임시 BoundingBox 좌표1
+	D3DXVECTOR3 bb3(210.0f, 35.0f, 410.0f); //임시 BoundingBox 좌표2
+
 
 	wallManager->addWall(aa, bb); //새로 벽 추가하고 싶을땐 이렇게
 								  //(aa가 수치가 작은 쪽 좌표, bb가 큰 쪽 좌표)
