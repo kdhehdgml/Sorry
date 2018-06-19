@@ -3,7 +3,7 @@
 #include "AllocateHierarchy.h"
 
 //아군 스킨 사이즈 조절
-#define SCALE 4.0f
+#define SCALE 2.0f
 
 
 TEAM_TEX::TEAM_TEX()
@@ -37,13 +37,14 @@ void TEAM_TEX::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/newMan/";
-	CString filename = "stand_idle.X";
+	CString path = "resources/xFile/TEAM_AI/";
+	CString filename = "TEAM.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
 
 	m_angle = D3DX_PI / 2 + D3DX_PI;
+	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 
 	D3DXMatrixRotationY(&matR, m_angle);
 }
@@ -52,7 +53,6 @@ void TEAM_TEX::Update()
 {
 
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 

@@ -3,7 +3,6 @@
 #include "IDisplayObject.h"
 #include "UIBUtton.h"
 #include "UIImage.h"
-#include "Minimap.h"
 
 class HeightMap;
 class AseCharacter;
@@ -15,6 +14,9 @@ class SkyBox;
 class ColorCube;
 class Player_hands;
 
+class WallManager;
+class Wall;
+class Minimap;
 
 //중현이코드
 class UnitBox;
@@ -27,7 +29,7 @@ class ObjRen;	//obj 클래스
 class SceneHeightmap : public IScene
 {
 private:
-	HeightMap *		m_pHeightMap;
+	HeightMap * m_pHeightMap;
 	AseCharacter*	m_pAseCharacter;
 	Player_hands*	m_Player_hands;
 	//Picking *		m_pPicking;
@@ -66,7 +68,7 @@ private:
 	UIImage* m_pScopeImage;
 	bool m_pCrosshairOn;
 	bool m_pScopeOn;
-	
+
 	LPD3DXSPRITE m_pTalkSprite;
 	IUIObject* m_pTalk;
 	UIImage* m_pTalkImage;
@@ -78,6 +80,8 @@ private:
 
 	LPD3DXMESH		m_pTempBox;
 	BoundingBox* m_pTempBoundingBox;
+
+	WallManager * wallManager;
 
 	Ray r;
 

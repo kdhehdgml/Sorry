@@ -9,6 +9,9 @@
 #include "SkyBox.h"
 
 #include <Psapi.h>
+#include "Minimap.h"
+#include "WallManager.h"
+#include "Wall.h"
 
 //안개생성
 #include "CreateSmog.h"
@@ -119,7 +122,7 @@ void SceneHeightmap::Init()
 
 	m_pHeightMap = new HeightMap; AddSimpleDisplayObj(m_pHeightMap);
 	m_pHeightMap->SetDimension(GSM().mapSize);
-	m_pHeightMap->Load("resources/heightmap/HeightMapBF.raw", &matS);
+	m_pHeightMap->Load("resources/heightmap/HeightMapBF2.raw", &matS);
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
 
@@ -251,19 +254,22 @@ void SceneHeightmap::Init()
 
 	m_Player_hands = new Player_hands;
 	m_Player_hands->Init();
+	AddSimpleDisplayObj(m_Player_hands);
 
 	m_minimap = new Minimap;
 	m_minimap->Init();
 	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
 	m_minimap->getPTeamFromUnitBox(m_pUnit->getPTeam());
 
-	D3DXVECTOR3 tmp_box(300.0f, 20.0f, 300.0f); //임시 BoundingBox Mesh 좌표
-	D3DXCreateBox(g_pDevice, 10.0f, 10.0f, 10.0f, &m_pTempBox, NULL); //임시 BoundingBox Mesh 생성
-	D3DXVECTOR3 aa(300.0f, 20.0f, 300.0f); //임시 BoundingBox 좌표1
-	D3DXVECTOR3 bb(310.0f, 30.0f, 310.0f); //임시 BoundingBox 좌표2
-	m_pTempBoundingBox = new BoundingBox(aa, bb); //임시 BoundingBox 생성
+	wallManager = new WallManager();
+	wallManager->Init();
+	AddSimpleDisplayObj(wallManager);
 
-	AddSimpleDisplayObj(m_Player_hands);
+	D3DXVECTOR3 aa(300.0f, 25.0f, 300.0f); //임시 BoundingBox 좌표1
+	D3DXVECTOR3 bb(310.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
+
+	wallManager->addWall(aa, bb); //새로 벽 추가하고 싶을땐 이렇게
+								  //(aa가 수치가 작은 쪽 좌표, bb가 큰 쪽 좌표)
 
 	g_pSoundManager->createSound(); // 사운드 세팅								
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
@@ -406,7 +412,13 @@ void SceneHeightmap::Update()
 
 	r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
 	bool getHitBox = false;
-	getHitBox = r.CalcIntersectBox(m_pTempBoundingBox);
+	for (auto p : wallManager->getWalls()) {
+		bool tempGetHitBox = false;
+		tempGetHitBox = r.CalcIntersectBox(p->getBoundingBox());
+		if (tempGetHitBox) {
+			getHitBox = true;
+		}
+	}
 
 	Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
@@ -470,11 +482,6 @@ void SceneHeightmap::Render()
 		SAFE_RENDER(m_pTalk);
 		m_pTalkSprite->End();
 	}
-	D3DXMATRIXA16 mat;
-	D3DXMatrixTranslation(&mat, (m_pTempBoundingBox->aa.x + m_pTempBoundingBox->bb.x) / 2, (m_pTempBoundingBox->aa.y + m_pTempBoundingBox->bb.y) / 2, (m_pTempBoundingBox->aa.z + m_pTempBoundingBox->bb.z) / 2);
-	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-	g_pDevice->SetTexture(0, NULL);
-	m_pTempBox->DrawSubset(0);
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
