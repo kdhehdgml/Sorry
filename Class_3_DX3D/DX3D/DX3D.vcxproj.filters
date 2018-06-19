@@ -311,6 +311,9 @@
     </ClInclude>
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallManager.h" />
+    <ClInclude Include="ALLTexTURE.h">
+      <Filter>소스 파일\Skin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -532,6 +535,9 @@
     </ClCompile>
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallManager.cpp" />
+    <ClCompile Include="ALLTexTURE.cpp">
+      <Filter>소스 파일\Skin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

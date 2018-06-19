@@ -22,6 +22,7 @@ TeamAI::TeamAI()
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
+	m_render = false;
 }
 
 
@@ -65,6 +66,12 @@ void TeamAI::Update()
 		m_TEAM_TEX->SetPos(m_pos);
 		m_TEAM_TEX->Update();
 	}
+
+	//아군 렌더 할까말까
+	if (Keyboard::Get()->KeyDown('H'))
+	{
+		m_render = !m_render;
+	}
 }
 
 void TeamAI::Render()
@@ -82,7 +89,9 @@ void TeamAI::Render()
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		m_TEAM_TEX->Render();
+
+		if(m_render)
+			m_TEAM_TEX->Render();
 
 
 

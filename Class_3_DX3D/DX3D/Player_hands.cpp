@@ -478,12 +478,40 @@ void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 		Debug->EndLine();*/
 
 
+		//시간 재기용
+		D3DXTRACK_DESC track;
+		m_pAnimController->GetTrackDesc(0, &track);
+		LPD3DXANIMATIONSET pCurrAnimSet = NULL;
+		m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
+
+		////전체 시간
+		//
+		//pCurrAnimSet->GetPeriod();
+
+		////현재 시간
+		//pCurrAnimSet->GetPeriodicPosition(track.Position);
+		//
+
 		m_pAnimController->SetTrackWeight(0, 0.0f);
 		m_pAnimController->SetTrackWeight(1, 1.0f);
 
 		SAFE_RELEASE(pPrevAnimSet);
 
+		Debug->AddText("전체시간 :");
+		Debug->AddText(pCurrAnimSet->GetPeriod());
+		Debug->EndLine();
 
+		Debug->AddText("현재시간 :");
+		Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
+		Debug->EndLine();
+
+
+		if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f)
+		{
+			m_pAnimController->SetTrackPosition(0, 0);
+		}
+			
+		pCurrAnimSet->Release();
 
 		m_fPassedBlendTime = 0.0f;
 		
