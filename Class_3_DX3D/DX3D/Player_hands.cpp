@@ -60,6 +60,9 @@ void Player_hands::Init()
 
 	D3DXCreateSphere(g_pDevice, 0.01f, 10, 10, &m_pSphereMesh, NULL);
 
+	D3DXCreateSphere(g_pDevice, 3.0f, 10, 10, &m_pSphere, NULL);
+	m_pBoundingSphere = new BoundingSphere(m_pos, 3.0f);
+
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
 	CString path = "resources/xFile/player_ani/";
@@ -143,7 +146,8 @@ void Player_hands::Update()
 		Debug->AddText(m_zooming);
 		Debug->EndLine();*/
 
-
+		m_pBoundingSphere->center = m_pos;
+		m_pBoundingSphere->center.y += 4.0f;
 
 		SetAnimationIndex(m_AnimaTionIndex, true);
 
@@ -166,6 +170,11 @@ void Player_hands::Render()
 		if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 		//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
 	}
+	D3DXMATRIXA16 mat;
+	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
+	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+	g_pDevice->SetTexture(0, NULL);
+	m_pSphere->DrawSubset(0);
 }
 
 void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
