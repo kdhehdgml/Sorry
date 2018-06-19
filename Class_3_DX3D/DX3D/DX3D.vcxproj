@@ -232,6 +232,8 @@
     <ClInclude Include="UIImage.h" />
     <ClInclude Include="UIText.h" />
     <ClInclude Include="UnitBox.h" />
+    <ClInclude Include="Wall.h" />
+    <ClInclude Include="WallManager.h" />
     <ClInclude Include="Walls.h" />
   </ItemGroup>
   <ItemGroup>
@@ -312,6 +314,8 @@
     <ClCompile Include="UIImage.cpp" />
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="UnitBox.cpp" />
+    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="WallManager.cpp" />
     <ClCompile Include="Walls.cpp" />
   </ItemGroup>
   <ItemGroup>
