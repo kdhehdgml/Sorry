@@ -43,3 +43,8 @@ BoundingBox * Wall::getBoundingBox()
 {
 	return m_pBoundingBox;
 }
+
+D3DXVECTOR3 Wall::getCenter()
+{
+	return center;
+}

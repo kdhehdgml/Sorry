@@ -49,27 +49,27 @@ vector<Wall*> WallManager::getWalls()
 
 bool WallManager::IntersectSphereBox(BoundingSphere * pSphere, BoundingBox * pBox)
 {
-	float rr = pSphere->radius * pSphere->radius;
+	float rr = sqrt(pSphere->radius) * 1.1;
 	float dmin = 0.0f;
 	if (pSphere->center.x < pBox->aa.x) {
-		dmin += sqrt(pSphere->center.x - pBox->aa.x);
+		dmin += sqrt(abs(pSphere->center.x - pBox->aa.x));
 	}
 	else if (pSphere->center.x > pBox->bb.x) {
-		dmin += sqrt(pSphere->center.x - pBox->bb.x);
+		dmin += sqrt(abs(pSphere->center.x - pBox->bb.x));
 	}
 
 	if (pSphere->center.y < pBox->aa.y) {
-		dmin += sqrt(pSphere->center.y - pBox->aa.y);
+		dmin += sqrt(abs(pSphere->center.y - pBox->aa.y));
 	}
 	else if (pSphere->center.y > pBox->bb.y) {
-		dmin += sqrt(pSphere->center.y - pBox->bb.y);
+		dmin += sqrt(abs(pSphere->center.y - pBox->bb.y));
 	}
 
 	if (pSphere->center.z < pBox->aa.z) {
-		dmin += sqrt(pSphere->center.z - pBox->aa.z);
+		dmin += sqrt(abs(pSphere->center.z - pBox->aa.z));
 	}
 	else if (pSphere->center.z > pBox->bb.z) {
-		dmin += sqrt(pSphere->center.z - pBox->bb.z);
+		dmin += sqrt(abs(pSphere->center.z - pBox->bb.z));
 	}
 	if (dmin <= rr) {
 		return true;
