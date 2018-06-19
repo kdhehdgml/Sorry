@@ -9,6 +9,9 @@
 #include "SkyBox.h"
 
 #include <Psapi.h>
+#include "Minimap.h"
+#include "WallManager.h"
+#include "Wall.h"
 
 //안개생성
 #include "CreateSmog.h"
@@ -119,7 +122,7 @@ void SceneHeightmap::Init()
 
 	m_pHeightMap = new HeightMap; AddSimpleDisplayObj(m_pHeightMap);
 	m_pHeightMap->SetDimension(GSM().mapSize);
-	m_pHeightMap->Load("resources/heightmap/HeightMapBF2.raw", &matS);
+	m_pHeightMap->Load("resources/heightmap/HeightMapBF.raw", &matS);
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
 
@@ -257,11 +260,16 @@ void SceneHeightmap::Init()
 	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
 	m_minimap->getPTeamFromUnitBox(m_pUnit->getPTeam());
 
-	D3DXVECTOR3 tmp_box(300.0f, 20.0f, 300.0f); //임시 BoundingBox Mesh 좌표
-	D3DXCreateBox(g_pDevice, 10.0f, 10.0f, 10.0f, &m_pTempBox, NULL); //임시 BoundingBox Mesh 생성
+	wallManager = new WallManager();
+	wallManager->Init();
+	AddSimpleDisplayObj(wallManager);
+
+	//D3DXCreateBox(g_pDevice, 10.0f, 10.0f, 10.0f, &m_pTempBox, NULL); //임시 BoundingBox Mesh 생성
 	D3DXVECTOR3 aa(300.0f, 20.0f, 300.0f); //임시 BoundingBox 좌표1
 	D3DXVECTOR3 bb(310.0f, 30.0f, 310.0f); //임시 BoundingBox 좌표2
-	m_pTempBoundingBox = new BoundingBox(aa, bb); //임시 BoundingBox 생성
+										   //m_pTempBoundingBox = new BoundingBox(aa, bb); //임시 BoundingBox 생성
+
+	wallManager->addWall(aa, bb, D3DXVECTOR3(10.0f, 10.0f, 10.0f));
 
 	AddSimpleDisplayObj(m_Player_hands);
 
@@ -406,7 +414,13 @@ void SceneHeightmap::Update()
 
 	r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
 	bool getHitBox = false;
-	getHitBox = r.CalcIntersectBox(m_pTempBoundingBox);
+	for (auto p : wallManager->getWalls()) {
+		bool tempGetHitBox = false;
+		tempGetHitBox = r.CalcIntersectBox(p->getBoundingBox());
+		if (tempGetHitBox) {
+			getHitBox = true;
+		}
+	}
 
 	Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
