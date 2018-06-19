@@ -44,6 +44,7 @@ void TEAM_TEX::Init()
 
 
 	m_angle = D3DX_PI / 2 + D3DX_PI;
+	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 
 	D3DXMatrixRotationY(&matR, m_angle);
 }
@@ -52,7 +53,6 @@ void TEAM_TEX::Update()
 {
 
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 

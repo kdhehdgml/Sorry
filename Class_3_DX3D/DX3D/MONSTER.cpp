@@ -45,13 +45,14 @@ void MONSTER::Init()
 	m_angle = D3DX_PI / 2;
 
 	D3DXMatrixRotationY(&matR, m_angle);
+	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 }
 
 void MONSTER::Update()
 {
 
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+	
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
