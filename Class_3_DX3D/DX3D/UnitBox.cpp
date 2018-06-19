@@ -60,7 +60,7 @@ void UnitBox::Update()
 			m_pMob[MobNum - 1]->Init();
 
 			//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
-			m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3((GSM().mobPos.x + NODE_POSITSIZEX) + (rand() % 100), 2.67f, GSM().mobPos.z + 70 + (rand() % 160)));
+			m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
 			if (m_pMob[MobNum - 1]->m_Act._moving == 1)
 				FindHidingInTheWallLocation(MobNum - 1);
 			else if(m_pMob[MobNum - 1]->m_Act._engage != 몹_무시하고돌격)

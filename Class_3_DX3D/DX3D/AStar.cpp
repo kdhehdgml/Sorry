@@ -142,10 +142,10 @@ void AStar::Render()
 void AStar::InitNodes(IMap * pMap)
 {
 	temp_Imap = pMap;
-	int nodeDim = 90;// 노드 한 줄 갯수
+	int nodeDim = 100;// 노드 한 줄 갯수
 					 //간격
 	//이 수치 
-	float interval = (pMap->GetSize().x - NODE_POSITSIZEZ * 2) / (float)(nodeDim - 0.99);
+	float interval = ((pMap->GetSize().x - NODE_POSITSIZEZ * 2)-20) / (float)(nodeDim - 0.99);
 
 	for (int posZ = 0; posZ < nodeDim; posZ++)
 	{
@@ -168,9 +168,9 @@ void AStar::InitNodes(IMap * pMap)
 			// 벽생성 (매크로 사용)
 			bool lineodd = true;
 			int lineNum = 0;
-			for (int x = 20; x < 60; x += 4)
+			for (int x = 35; x < 100; x += 4)
 			{
-				for (int z = 22; z < 67; z += 5)
+				for (int z = 4; z < 96; z += 5)
 				{
 					if (lineodd)
 					{

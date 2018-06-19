@@ -59,6 +59,47 @@ bool Ray::CalcIntersectSphere(BoundingSphere * pSphere)
 	return qv * qv - (qq - rr) >= 0;
 }
 
+bool Ray::CalcIntersectBox(BoundingBox * pBox)
+{
+	float x_min = (pBox->aa.x - m_pos.x) / m_dir.x;
+	float x_max = (pBox->bb.x - m_pos.x) / m_dir.x;
+
+	if (x_min > x_max) {
+		float temp;
+		temp = x_min;
+		x_min = x_max;
+		x_max = temp;
+	}
+	float y_min = (pBox->aa.y - m_pos.y) / m_dir.y;
+	float y_max = (pBox->bb.y - m_pos.y) / m_dir.y;
+
+	if (y_min > y_max) {
+		float temp;
+		temp = y_min;
+		y_min = y_max;
+		y_max = temp;
+	}
+
+	if ((x_min > y_max) || (y_min > x_max)) return false;
+	if (y_min > x_min) x_min = y_min;
+	if (y_max < x_max) x_max = y_max;
+
+	float z_min = (pBox->aa.z - m_pos.z) / m_dir.z;
+	float z_max = (pBox->bb.z - m_pos.z) / m_dir.z;
+
+	if (z_min > z_max) {
+		float temp;
+		temp = z_min;
+		z_min = z_max;
+		z_max = temp;
+	}
+	if ((x_min > z_max) || (z_min > x_max)) return false;
+	if (z_min > x_min) x_min = z_min;
+	if (z_max < x_max) x_max = z_max;
+
+	return true;
+}
+
 bool Ray::CalcIntersectTri(D3DXVECTOR3 * pStart, float * distance)
 {
 	return D3DXIntersectTri(pStart, pStart + 1, pStart + 2, &m_pos, &m_dir,

@@ -25,6 +25,8 @@ private:
 	int m_pTeamNum;
 	int m_pTeamOldNum;
 
+	float m_pScaleBuf;
+
 public:
 	Minimap();
 	~Minimap();

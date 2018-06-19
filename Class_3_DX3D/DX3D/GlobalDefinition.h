@@ -7,8 +7,8 @@ extern CString ASSET_PATH;
 #define CUBE_INDEX_SIZE 36
 extern WORD g_aCubeIndex[];
 #define CUBE_VERTEX_SIZE 8
-#define NODE_POSITSIZEZ 256
-#define NODE_POSITSIZEX 130
+#define NODE_POSITSIZEZ 190
+#define NODE_POSITSIZEX 140
 extern D3DXVECTOR3 g_aCubeVertex[];
 extern D3DXVECTOR3 g_Cube_TesT[];
 
@@ -177,6 +177,16 @@ struct BoundingSphere
 	BoundingSphere() :isPicked(false) {}
 	BoundingSphere(D3DXVECTOR3 _center, float _radius) :center(_center),
 		radius(_radius), isPicked(false) {}
+};
+
+struct BoundingBox
+{
+	D3DXVECTOR3 aa;
+	D3DXVECTOR3 bb;
+	bool isPicked;
+	BoundingBox() :isPicked(false) {}
+	BoundingBox(D3DXVECTOR3 _aa, D3DXVECTOR3 _bb) :aa(_aa),
+		bb(_bb), isPicked(false) {}
 };
 
 DWORD FtoDw(float f);
