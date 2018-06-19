@@ -11,7 +11,7 @@ Mob::Mob()
 	m_ShootCooldownTime = 0;
 	//m_baseRotY = D3DX_PI;
 	m_bullet = 5;
-
+	m_reloading = 0;
 	m_TeamAINum = NULL;
 	m_forward.z = -1;
 	m_pos.y = 3.0f;
@@ -19,7 +19,7 @@ Mob::Mob()
 	m_move = false;
 	num = 0;
 	m_moveSpeed = 0.4f;
-
+	m_shootingbullet = false;
 	m_pSphereBody = NULL;
 	m_pSphereHead = NULL;
 	health = 100;
@@ -52,6 +52,7 @@ void Mob::Init()
 	m_MONSTER->Init();
 	SaveAction();
 
+	m_bullet = 5;
 	//CreateAllParts();
 	IUnitObject::m_moveSpeed = GSM().mobSpeed;
 	
@@ -145,7 +146,7 @@ void Mob::setStatus(int s)
 bool Mob::PlayerSearch()
 {
 	//참호근처까지갔을때
-	if (m_pos.x < 160.0f)
+	if (m_pos.x < NODE_POSITSIZEX + 50.0f)
 	{
 		float nearAI = 100;
 		int AINum;
@@ -159,9 +160,11 @@ bool Mob::PlayerSearch()
 				AINum = i;
 			}
 		}
+		m_TeamAINum = AINum;
+		return true;
 	}
 	//멀리서 각도안에 인식가능한지
-	else if (m_pos.x < 230.0f)
+	else if (m_pos.x < NODE_POSITSIZEX + 180.0f && m_Act._engage !=몹_무시하고돌격)
 	{
 		if (g_pObjMgr->FindObjectsByTag(TAG_TEAM).size() > 0)
 		{
@@ -176,7 +179,7 @@ bool Mob::PlayerSearch()
 
 			for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_TEAM)))
 			{
-				DirectPM = D3DXVECTOR3(p->GetPosition().x - m_pos.x, 0, p->GetPosition().z - m_pos.z);
+				DirectPM = D3DXVECTOR3(abs(p->GetPosition().x - m_pos.x), 0, abs(p->GetPosition().z - m_pos.z));
 				if (DirectPM.x < 90 && DirectPM.z < 25)
 				{
 
@@ -235,6 +238,21 @@ void Mob::ShootVertex()
 
 	if (m_isShoot == true)
 	{
+		if (!m_randshootbullet)
+		{
+			switch (m_Act._gunshot)
+			{
+			case 몹_일부사격:
+				m_shootingbullet = rand() % 4 + 1;
+				m_randshootbullet = true;
+				break;
+			case 몹_소진까지사격:
+				m_shootingbullet = 5;
+				m_randshootbullet = true;
+				break;
+			}
+		}
+
 		D3DXVECTOR3 Direction = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().x ,
 			g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().y + 4.0f,
 			g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().z };
@@ -243,29 +261,63 @@ void Mob::ShootVertex()
 		Shootpos[1] = (VERTEX_PC(Direction, d));
 
 		float kill = rand() % 10;
-
 		m_ShootCooldownTime++;
-
-		if (m_ShootCooldownTime > 100)
+		if (m_bullet > 0)
 		{
-			if (kill < 5)
+			if (m_ShootCooldownTime > 100)
 			{
-				int damage = rand() % 10;
-				if (damage < 3)
+				if (kill < 5)
 				{
-					g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(0);
+					int damage = rand() % 10;
+					if (damage < 3)
+					{
+						g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(0);
+					}
+					else
+					{
+						g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() - 50);
+					}
+					if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
+					{
+						m_TeamAINum = NULL;
+					}
 				}
-				else
-				{
-					g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() - 50);
-				}
-				if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
-				{
-					m_TeamAINum = NULL;
-				}
+				m_ShootCooldownTime = 0;
+				m_shootingbullet--;
+				m_bullet--;
 			}
-			m_ShootCooldownTime = 0;
-			m_bullet--;
+		}
+		else //총알이없을때
+		{
+			switch (m_Act._reload)
+			{
+			case 몹_장전함:
+				if (m_Act._engage == 몹_제자리멈춤)
+				{
+					if (D3DXVec3Length(&(moveLocation.back() - m_pos)) < 1.0f)
+					{
+						m_reloading++;
+						if (m_reloading > 100)
+						{
+							m_bullet = 5;
+							m_randshootbullet = false;
+						}
+					}
+				}
+				if (m_Act._engage == 몹_엄폐물에숨기)
+				{
+					m_Act._hiding == 몹_숨었다;
+					m_reloading++;
+					if (m_reloading > 100)
+					{
+						m_bullet = 5;
+						m_randshootbullet = false;
+					}
+				}
+				break;
+			case 몹_장전안함:
+				break;
+			}
 		}
 	}
 	else

@@ -37,7 +37,7 @@ void UnitBox::Init()
 	{
 		m_pTeam[i] = new TeamAI;
 		m_pTeam[i]->Init();
-		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), 2.67f, GSM().TeamPos.z + (15 * i)));
+		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), 2.67f, GSM().TeamPos.z + (23 * i)));
 	}
 	
 }
@@ -120,7 +120,7 @@ void UnitBox::Update()
 			}
 			else if (m_pMob[i]->m_Act._engage == ¸÷_Á¦ÀÚ¸®¸ØÃã)
 			{
-				m_pMob[i]->SetMoveSpeed(GSM().mobSpeed);
+				m_pMob[i]->SetMoveSpeed(2.0f);
 			}
 			m_pMob[i]->ShootVertex();
 		}
@@ -302,8 +302,9 @@ void UnitBox::MobMoveInTheWall()
 		}
 		else
 		{
-			//¾öÆóÀÌµ¿ÇÏ´Â³ð ¶Ç´Â µ¹°ÝÀÌµ¿ÀÌ¾îµµ ±³Àü½Ã¿¡ ¾öÆä¹°¼ûÀ»³ð
-			if (m_pMob[i]->m_Act._moving == ¸÷_¾öÆóÀÌµ¿ || (m_pMob[i]->m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â && m_pMob[i]->PlayerSearch() == true))
+			//¾öÆóÀÌµ¿ÇÏ´Â³ð && µ¹°ÝÀÌµ¿ÀÌ¾îµµ ±³Àü½Ã¿¡ ¾öÆä¹°¼ûÀ»³ð && Á¦ÀÚ¸®»ç°Ý ÇÏ´Ù°¡ ¾öÆó¹° ¼ûÀ»³ð
+			if (m_pMob[i]->m_Act._moving == ¸÷_¾öÆóÀÌµ¿ || (m_pMob[i]->m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â && m_pMob[i]->PlayerSearch() == true)
+				|| (m_pMob[i]->GetBullet() <=0 && m_pMob[i]->m_Act._engage == ¸÷_Á¦ÀÚ¸®¸ØÃã))
 			{
 				if (m_pMob[i]->m_move == false)
 				{
