@@ -119,7 +119,7 @@ void SceneHeightmap::Init()
 
 	m_pHeightMap = new HeightMap; AddSimpleDisplayObj(m_pHeightMap);
 	m_pHeightMap->SetDimension(GSM().mapSize);
-	m_pHeightMap->Load("resources/heightmap/HeightMapBF.raw", &matS);
+	m_pHeightMap->Load("resources/heightmap/HeightMapBF2.raw", &matS);
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
 
