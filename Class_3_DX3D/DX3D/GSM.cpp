@@ -66,7 +66,7 @@ GSM::GSM()
 
 	// 아군 초기 위치
 	TeamPos.x = mapSize / 10.0f;
-	TeamPos.z = 100.0f;
+	TeamPos.z = NODE_POSITSIZEZ + 20.0f;
 
 	// 몹 속도
 	mobSpeed = 0.5f;

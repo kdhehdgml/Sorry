@@ -51,13 +51,16 @@ private:
 	D3DXVECTOR3		m_forward;
 	D3DXVECTOR3		m_Mobpos;
 
+	int				m_maxbullet;
+	int				m_reloading;
 	int				m_bullet;
+	int				m_shootingbullet;
 	int				m_TeamAINum;
 	int				m_ShootCooldownTime;
 	bool			m_isMoving;
 	bool			m_isShoot;
 	bool			m_BeDetermined;//장애물 너로 정했다
-	
+	bool			m_randshootbullet;
 	vector<D3DXVECTOR3> moveLocation;
 	vector<D3DXVECTOR3> Temporary_Storage;
 	vector<int> SaveLocationNum;
@@ -95,13 +98,13 @@ public:
 	void SetTemporary(D3DXVECTOR3 wallLocation, int Locationnum) 
 	{ Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);}
 	void SetDetermined(bool _boo) { m_BeDetermined = _boo; }
-
+	
 	vector<D3DXVECTOR3> GetMoveTheWall() { return moveLocation; }
 	vector<int> GetLocationNum() { return SaveLocationNum; }
 	vector<D3DXVECTOR3> GetTemporary() { return Temporary_Storage; }
 	vector<int> GetTemporaryNum() { return m_SaveTempNum; }
 	bool GetDetermined() { return m_BeDetermined; }
-	
+	int GetBullet() { return m_bullet; }
 	void EraseLocationSoldier();
 	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); }
 	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); }

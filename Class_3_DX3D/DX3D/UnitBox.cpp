@@ -37,7 +37,7 @@ void UnitBox::Init()
 	{
 		m_pTeam[i] = new TeamAI;
 		m_pTeam[i]->Init();
-		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), 2.67f, GSM().TeamPos.z + (15 * i)));
+		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), 2.67f, GSM().TeamPos.z + (16 * i)));
 	}
 	
 }
@@ -112,15 +112,15 @@ void UnitBox::Update()
 			{
 				if (m_pMob[i]->m_Act._engage == ¸÷_Á¦ÀÚ¸®¸ØÃã)
 				{
-					m_pMob[i]->SetMoveSpeed(0);
+					m_pMob[i]->SetMoveSpeed(0.1f);
 				}
 				
-				m_pMob[i]->SetTargetPostion(m_pCubeman->GetPosition());
-				m_pMob[i]->UpdatePositionToDestination();
+				/*m_pMob[i]->SetTargetPostion(m_pCubeman->GetPosition());
+				m_pMob[i]->UpdatePositionToDestination();*/
 			}
 			else if (m_pMob[i]->m_Act._engage == ¸÷_Á¦ÀÚ¸®¸ØÃã)
 			{
-				m_pMob[i]->SetMoveSpeed(GSM().mobSpeed);
+				m_pMob[i]->SetMoveSpeed(2.0f);
 			}
 			m_pMob[i]->ShootVertex();
 		}
@@ -296,14 +296,15 @@ void UnitBox::MobMoveInTheWall()
 			if (m_pMob[i]->m_move == false)
 			{
 				//m_pMob[i]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((i + 1) * 20 + NODE_POSITSIZE)));
-				m_pMob[i]->SetDestination(D3DXVECTOR3(GSM().mobPos.x - GSM().mapSize / 3, 2.67f, m_pMob[i]->GetPosition().z));
+				m_pMob[i]->SetDestination(D3DXVECTOR3(GSM().mobPos.x - 340.0f, 2.67f, m_pMob[i]->GetPosition().z));
 				m_pMob[i]->m_move = true;
 			}
 		}
 		else
 		{
-			//¾öÆóÀÌµ¿ÇÏ´Â³ð ¶Ç´Â µ¹°ÝÀÌµ¿ÀÌ¾îµµ ±³Àü½Ã¿¡ ¾öÆä¹°¼ûÀ»³ð
-			if (m_pMob[i]->m_Act._moving == ¸÷_¾öÆóÀÌµ¿ || (m_pMob[i]->m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â && m_pMob[i]->PlayerSearch() == true))
+			//¾öÆóÀÌµ¿ÇÏ´Â³ð && µ¹°ÝÀÌµ¿ÀÌ¾îµµ ±³Àü½Ã¿¡ ¾öÆä¹°¼ûÀ»³ð && Á¦ÀÚ¸®»ç°Ý ÇÏ´Ù°¡ ¾öÆó¹° ¼ûÀ»³ð
+			if (m_pMob[i]->m_Act._moving == ¸÷_¾öÆóÀÌµ¿ || (m_pMob[i]->m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â && m_pMob[i]->PlayerSearch() == true)
+				|| (m_pMob[i]->GetBullet() <=0 && m_pMob[i]->m_Act._engage == ¸÷_Á¦ÀÚ¸®¸ØÃã))
 			{
 				if (m_pMob[i]->m_move == false)
 				{
