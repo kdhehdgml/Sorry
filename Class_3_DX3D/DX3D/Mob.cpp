@@ -114,13 +114,13 @@ void Mob::Render()
 		D3DXMatrixTranslation(&mat, m_pBoundingSphereBody->center.x, m_pBoundingSphereBody->center.y, m_pBoundingSphereBody->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
-		m_pSphereBody->DrawSubset(0);
+		//m_pSphereBody->DrawSubset(0);
 		//D3DXMATRIXA16 mat2;
 		D3DXMatrixIdentity(&mat);
 		D3DXMatrixTranslation(&mat, m_pBoundingSphereHead->center.x, m_pBoundingSphereHead->center.y, m_pBoundingSphereHead->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
-		m_pSphereHead->DrawSubset(0);
+		//m_pSphereHead->DrawSubset(0);
 	}
 }
 

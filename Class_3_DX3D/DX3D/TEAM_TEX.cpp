@@ -44,9 +44,10 @@ void TEAM_TEX::Init()
 
 
 	m_angle = D3DX_PI / 2 + D3DX_PI;
+	D3DXMatrixRotationY(&matR, m_angle);
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 
-	D3DXMatrixRotationY(&matR, m_angle);
+	
 }
 
 void TEAM_TEX::Update()
@@ -64,7 +65,7 @@ void TEAM_TEX::Render()
 	m_numFrame = 0;
 	m_numMesh = 0;
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
-	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+//	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
 }
 
 void TEAM_TEX::Load(LPCTSTR path, LPCTSTR filename)
