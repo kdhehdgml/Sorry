@@ -122,7 +122,7 @@ void SceneHeightmap::Init()
 
 	m_pHeightMap = new HeightMap; AddSimpleDisplayObj(m_pHeightMap);
 	m_pHeightMap->SetDimension(GSM().mapSize);
-	m_pHeightMap->Load("resources/heightmap/HeightMapBF.raw", &matS);
+	m_pHeightMap->Load("resources/heightmap/HeightMapBF2.raw", &matS);
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
 
@@ -265,12 +265,10 @@ void SceneHeightmap::Init()
 	wallManager->Init();
 	AddSimpleDisplayObj(wallManager);
 
-	//D3DXCreateBox(g_pDevice, 10.0f, 10.0f, 10.0f, &m_pTempBox, NULL); //임시 BoundingBox Mesh 생성
-	D3DXVECTOR3 aa(300.0f, 20.0f, 300.0f); //임시 BoundingBox 좌표1
-	D3DXVECTOR3 bb(310.0f, 30.0f, 310.0f); //임시 BoundingBox 좌표2
-										   //m_pTempBoundingBox = new BoundingBox(aa, bb); //임시 BoundingBox 생성
+	D3DXVECTOR3 aa(300.0f, 25.0f, 300.0f); //임시 BoundingBox 좌표1
+	D3DXVECTOR3 bb(310.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
 
-	wallManager->addWall(aa, bb, D3DXVECTOR3(10.0f, 10.0f, 10.0f));
+	wallManager->addWall(aa, bb, D3DXVECTOR3(10.0f, 10.0f, 10.0f)); //새로 벽 추가하고 싶을땐 이렇게
 
 	g_pSoundManager->createSound(); // 사운드 세팅								
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
@@ -413,13 +411,13 @@ void SceneHeightmap::Update()
 
 	r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
 	bool getHitBox = false;
-	/*for (auto p : wallManager->getWalls()) {
+	for (auto p : wallManager->getWalls()) {
 		bool tempGetHitBox = false;
 		tempGetHitBox = r.CalcIntersectBox(p->getBoundingBox());
 		if (tempGetHitBox) {
 			getHitBox = true;
 		}
-	}*/
+	}
 
 	Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);

@@ -17,10 +17,6 @@ WallManager::~WallManager()
 
 void WallManager::Init()
 {
-	for (size_t i = 0; i < walls.size(); i++)
-	{
-		walls[i]->Init();
-	}
 }
 
 void WallManager::Update()
@@ -43,6 +39,7 @@ void WallManager::addWall(D3DXVECTOR3 _aa, D3DXVECTOR3 _bb, D3DXVECTOR3 _size)
 {
 	Wall* tempWall = new Wall(_aa, _bb, _size);
 	walls.push_back(tempWall);
+	walls.back()->Init();
 }
 
 vector<Wall*> WallManager::getWalls()

@@ -6,6 +6,7 @@ class WallManager :
 {
 private:
 	vector<Wall*> walls;
+	int wallsNum;
 public:
 	WallManager();
 	~WallManager();

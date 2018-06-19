@@ -23,7 +23,7 @@ void Wall::Init()
 	D3DXCreateBox(g_pDevice, size.x, size.y, size.z, &m_pBox, NULL);
 	bb = aa + size;
 	m_pBoundingBox = new BoundingBox(aa, bb);
-	center = aa + bb / 2;
+	center = (aa + bb) / 2;
 }
 
 void Wall::Update()
@@ -36,10 +36,10 @@ void Wall::Render()
 	D3DXMatrixTranslation(&mat, center.x, center.y, center.z);
 	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 	g_pDevice->SetTexture(0, NULL);
-	//m_pBox->DrawSubset(0);
+	m_pBox->DrawSubset(0);
 }
 
 BoundingBox * Wall::getBoundingBox()
 {
-	return nullptr;
+	return m_pBoundingBox;
 }
