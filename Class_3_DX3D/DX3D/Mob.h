@@ -51,6 +51,7 @@ private:
 	D3DXVECTOR3		m_forward;
 	D3DXVECTOR3		m_Mobpos;
 
+	int				m_maxbullet;
 	int				m_reloading;
 	int				m_bullet;
 	int				m_shootingbullet;

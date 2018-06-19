@@ -37,7 +37,7 @@ void UnitBox::Init()
 	{
 		m_pTeam[i] = new TeamAI;
 		m_pTeam[i]->Init();
-		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), 2.67f, GSM().TeamPos.z + (23 * i)));
+		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), 2.67f, GSM().TeamPos.z + (16 * i)));
 	}
 	
 }
@@ -112,11 +112,11 @@ void UnitBox::Update()
 			{
 				if (m_pMob[i]->m_Act._engage == 各_力磊府肛勉)
 				{
-					m_pMob[i]->SetMoveSpeed(0);
+					m_pMob[i]->SetMoveSpeed(0.1f);
 				}
 				
-				m_pMob[i]->SetTargetPostion(m_pCubeman->GetPosition());
-				m_pMob[i]->UpdatePositionToDestination();
+				/*m_pMob[i]->SetTargetPostion(m_pCubeman->GetPosition());
+				m_pMob[i]->UpdatePositionToDestination();*/
 			}
 			else if (m_pMob[i]->m_Act._engage == 各_力磊府肛勉)
 			{
@@ -296,7 +296,7 @@ void UnitBox::MobMoveInTheWall()
 			if (m_pMob[i]->m_move == false)
 			{
 				//m_pMob[i]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((i + 1) * 20 + NODE_POSITSIZE)));
-				m_pMob[i]->SetDestination(D3DXVECTOR3(GSM().mobPos.x - GSM().mapSize / 3, 2.67f, m_pMob[i]->GetPosition().z));
+				m_pMob[i]->SetDestination(D3DXVECTOR3(GSM().mobPos.x - 340.0f, 2.67f, m_pMob[i]->GetPosition().z));
 				m_pMob[i]->m_move = true;
 			}
 		}
