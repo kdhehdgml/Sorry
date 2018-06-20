@@ -1,5 +1,10 @@
 #pragma once
 #include "IDisplayObject.h"
+
+class UnitBox;
+class TeamAI;
+class Mob;
+
 class Frustum : public IDisplayObject
 {
 	vector<D3DXVECTOR3> m_vecProjVtx;
@@ -7,6 +12,11 @@ class Frustum : public IDisplayObject
 	vector<D3DXPLANE>	m_vecPlane;
 	vector<BoundingSphere*> m_vecpBoundary;
 	LPD3DXMESH		m_pMesh;
+
+	//여기서 랜더해주고 업뎃해줄꺼임
+	UnitBox*		m_Unit;
+	
+
 
 public:
 	Frustum();
@@ -19,5 +29,7 @@ public:
 
 	void UpdateFrustum();
 	bool IsSphereInsideFrustum(BoundingSphere* pSphere);
+	bool IsTeamAIFrustum(TeamAI* Unit);
+	bool IsMobAIFrustum(Mob* Unit);
 };
 

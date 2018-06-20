@@ -18,6 +18,9 @@ class WallManager;
 class Wall;
 class Minimap;
 
+//컬링
+class Frustum;
+
 //중현이코드
 class UnitBox;
 class Blocks;
@@ -34,6 +37,10 @@ private:
 	Player_hands*	m_Player_hands;
 	//Picking *		m_pPicking;
 	//SkinnedMesh *	m_pSkinnedMesh;
+	
+
+	//최적화를 위한 컬링
+	Frustum			*m_Frustum;
 
 	bool			musicPlayCheck;
 	bool			musicPlay;
@@ -45,15 +52,8 @@ private:
 	//
 
 	//obj 관련
-	ObjRen*			m_Tree;			//통짜 이미지
-	ObjRen*			m_Stone;
-	ObjRen*			m_MD;
-	ObjRen*			m_wall01;		//단일 이미지
-	ObjRen*			m_wall02;
-	ObjRen*			m_wall03;
-	ObjRen*			m_wall04;
-	ObjRen*			m_wall05;
-	ObjRen*			m_wall06;
+	ObjRen*			m_MapTest;
+	ObjRen*			m_MapTest0;
 
 	//영락코드
 	CreateSmog*		m_CreateSmog;
