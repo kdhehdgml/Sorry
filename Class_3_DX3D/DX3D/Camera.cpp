@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Camera.h"
 
+
 Camera::Camera()
 {
 	m_distance = 10.0f;
@@ -46,26 +47,6 @@ Camera::Camera()
 
 	shotCheck = false;
 	reloadTime = 0;
-
-	m_baseRotY = D3DX_PI;
-
-	m_pRootFrame = NULL;
-	m_pAnimController = NULL;
-	m_fBlendTime = 0.3f;
-	m_fPassedBlendTime = 0.0f;
-	m_AnimaTionIndex = 0;
-	m_bWireFrame = false;
-	m_bDrawFrame = true;
-	m_bDrawSkeleton = false;
-
-	angleX = 0;
-	angleY = 0;
-
-	m_Reload = false;
-	m_Render = false;
-	m_zooming = false;
-
-	count = 0;
 }
 
 
@@ -462,7 +443,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				tempIndex++;
 			}
 			if (enemyIndex != -1) {
-				m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - damageGiven);
+				m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - 50);
 			}
 			m_cooldown = 60; //쿨타임 (단위 : 프레임)
 		}

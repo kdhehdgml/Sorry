@@ -5,18 +5,6 @@
 
 #define g_pCamera Camera::GetInstance()
 
-enum PLAYER_STATE
-{
-	줌_모드,
-	볼트액션,
-	달리기해제,
-	달리는중,
-	달리기준비,
-	줌아웃,
-	줌인,
-	기본상태
-};
-
 class Camera
 {
 	SINGLETON(Camera)
@@ -56,6 +44,7 @@ private:
 	float m_accuracyY;
 	float m_accuracyXDelta;
 	float m_accuracyYDelta;
+	bool m_zooming;
 	float m_prev_rotX;
 
 	bool debugDisplayCheck;
@@ -84,49 +73,5 @@ public:
 	int getCooldown();
 
 	void getPMobFromUnitBox(vector<Mob*>* mob);
-protected:
-	LPD3DXFRAME					m_pRootFrame;
-	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
-
-	int							m_AnimaTionIndex;
-	float						m_fBlendTime;
-	float						m_fPassedBlendTime;
-
-
-	LPD3DXMESH					m_pSphereMesh;
-	bool						m_bWireFrame;
-	bool						m_bDrawFrame;
-	bool						m_bDrawSkeleton;
-	int							m_numFrame;
-	int							m_numMesh;
-
-	//렌더 껏다키기
-	bool						m_Render;
-	bool						m_Reload;
-	bool						m_zooming;
-
-	float						angleX, angleY;
-
-	int							count;
-
-	D3DXMATRIXA16				matT, matS, matR;
-
-	float m_baseRotY;
-
-public:
-	void Load(LPCTSTR path, LPCTSTR filename);
-	void SetPosToCamera();
-	void SetAnimationIndex(int nIndex, bool isBlend);
-
-private:
-	void SetupBoneMatrixPointers(LPD3DXFRAME pFrame);
-	void SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBase);
-
-	void UpdateAnim();
-	void UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
-
-	void DrawFrame(LPD3DXFRAME pFrame);
-	void DrawMeshContainer(LPD3DXFRAME pFrame);
-	void DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
 };
 
