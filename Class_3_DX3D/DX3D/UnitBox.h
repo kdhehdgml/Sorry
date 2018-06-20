@@ -26,7 +26,7 @@ public:
 	virtual void Render() override;
 	void FindHidingInTheWallLocationRushSoldier(int _Mobnum);
 	void FindHidingInTheWallLocation(int _Mobnum);
-	void MobMoveInTheWall();
+	void MobMoveInTheWall(int _Mobnum);
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();
 	vector<TeamAI*>* getPTeam();
