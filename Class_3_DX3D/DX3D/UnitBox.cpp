@@ -39,7 +39,6 @@ void UnitBox::Init()
 		m_pTeam[i]->Init();
 		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), 2.67f, GSM().TeamPos.z + (16 * i)));
 	}
-	
 }
 
 void UnitBox::Update()

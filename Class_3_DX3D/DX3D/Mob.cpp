@@ -413,7 +413,7 @@ bool Mob::CanShooting()
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
 				D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
 				D3DXVec3Normalize(&forward, &forward);
-				float Length = abs(p->GetPosition().x - m_pos.x) + abs(p->GetPosition().z - m_pos.z);
+				float Length = m_pos.x - p->GetPosition().x + m_pos.z - p->GetPosition().z;
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 0.5f / 2.0f;
 
@@ -426,7 +426,7 @@ bool Mob::CanShooting()
 					}
 					return true;
 				}
-				else if (Length < 160 && DotPM >= direct)
+				else if (Length < 180 && DotPM >= direct)
 				{
 
 					if (m_TeamAINum == NULL)
