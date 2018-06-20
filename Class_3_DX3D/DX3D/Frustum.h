@@ -5,27 +5,33 @@ class UnitBox;
 class TeamAI;
 class Mob;
 
-class Frustum : public IDisplayObject
+#define g_pFrustum Frustum::GetInstance()
+
+class Frustum
 {
+	SINGLETON(Frustum);
+
+private:
+
 	vector<D3DXVECTOR3> m_vecProjVtx;
 	vector<D3DXVECTOR3> m_vecWorldVtx;
 	vector<D3DXPLANE>	m_vecPlane;
-	vector<BoundingSphere*> m_vecpBoundary;
+	//vector<BoundingSphere*> m_vecpBoundary;
 	LPD3DXMESH		m_pMesh;
 
-	//여기서 랜더해주고 업뎃해줄꺼임
-	UnitBox*		m_Unit;
 	
 
 
 public:
-	Frustum();
-	~Frustum();
+	/*Frustum();
+	~Frustum();*/
 
 	// IDisplayObject을(를) 통해 상속됨
-	virtual void Init() override;
-	virtual void Update() override;
-	virtual void Render() override;
+	void Init();
+	void Update();
+	void Render();
+	void Destroy();
+
 
 	void UpdateFrustum();
 	bool IsSphereInsideFrustum(BoundingSphere* pSphere);

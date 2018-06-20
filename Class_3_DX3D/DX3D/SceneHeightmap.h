@@ -19,7 +19,7 @@ class Wall;
 class Minimap;
 
 //컬링
-class Frustum;
+//class Frustum;
 
 //중현이코드
 class UnitBox;
@@ -40,7 +40,7 @@ private:
 	
 
 	//최적화를 위한 컬링
-	Frustum			*m_Frustum;
+	//Frustum			*m_Frustum;
 
 	bool			musicPlayCheck;
 	bool			musicPlay;

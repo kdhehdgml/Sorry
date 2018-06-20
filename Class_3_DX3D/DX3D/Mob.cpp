@@ -115,7 +115,9 @@ void Mob::Render()
 	if (status > 0) {
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 		//m_pRootParts->Render();
-		m_MONSTER->Render();
+		
+		if(g_pFrustum->IsMobAIFrustum(this))
+			m_MONSTER->Render();
 
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Frustum.h"
-#include "UnitBox.h"
 #include "TeamAI.h"
 #include "Mob.h"
 
@@ -9,16 +8,20 @@
 Frustum::Frustum()
 {
 	m_pMesh = NULL;
-	m_Unit = NULL;
 	
 }
 
 
 Frustum::~Frustum()
 {
-	SAFE_RELEASE(m_pMesh);
-	SAFE_RELEASE(m_Unit);
 	
+	
+}
+
+void Frustum::Destroy()
+{
+	SAFE_RELEASE(m_pMesh);
+
 }
 
 void Frustum::Init()
@@ -35,9 +38,9 @@ void Frustum::Init()
 	m_vecWorldVtx.resize(8);
 	m_vecPlane.resize(6);
 
-	m_Unit = new UnitBox;
+	/*m_Unit = new UnitBox;
 	m_Unit->Init();
-
+*/
 	////구체 그려주기 dim * dim * dim
 	//int dim = 6;
 	//float offset = 4;
@@ -72,11 +75,11 @@ void Frustum::Update()
 
 void Frustum::Render()
 {
-	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	//g_pDevice->SetMaterial(&DXUtil::BLUE_MTRL);
-	//g_pDevice->SetTexture(0, NULL);
+	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pDevice->SetMaterial(&DXUtil::BLUE_MTRL);
+	g_pDevice->SetTexture(0, NULL);
 	
-	for (auto p : *m_Unit->getPTeam())
+	/*for (auto p : *m_Unit->getPTeam())
 	{
 		if (IsTeamAIFrustum(p) == true)
 		{
@@ -91,7 +94,7 @@ void Frustum::Render()
 		{
 			p->Render();
 		}
-	}
+	}*/
 }
 
 void Frustum::UpdateFrustum()
@@ -160,10 +163,8 @@ bool Frustum::IsMobAIFrustum(Mob * mob)
 {
 	for (auto p : m_vecPlane)
 	{
-
 		//몹 충돌범위
 		//2.0f
-
 		if (D3DXPlaneDotCoord(&p, &mob->GetPosition()) > 2.0f)
 		{
 			//center 가 면의 앞쪽에 위치하고 

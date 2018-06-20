@@ -90,9 +90,12 @@ void TeamAI::Render()
 
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
-		if(m_render)
-			m_TEAM_TEX->Render();
-
+		if (g_pFrustum->IsTeamAIFrustum(this) == true)
+		{
+			
+			if(m_render)
+				m_TEAM_TEX->Render();
+		}
 
 
 		D3DXMATRIXA16 matI;
