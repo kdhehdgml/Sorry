@@ -10,6 +10,7 @@ Application::Application()
 
 Application::~Application()
 {
+	
 }
 
 void Application::Init()
@@ -19,6 +20,7 @@ void Application::Init()
 
 	g_pCamera->Init();
 	g_pSceneManager->Init();
+	g_pFrustum->Init();
 
 }
 
@@ -26,17 +28,22 @@ void Application::Destroy()
 {
 	Mouse::Get()->Delete();
 	Keyboard::Get()->Delete();
+	
+	g_pFrustum->Destroy();
 	g_pSceneManager->Destroy();
 	g_pObjMgr->Destroy();
 	g_pTextureManager->Destroy();
 	g_pFontMgr->Destroy();
 	Debug->Destroy();
 	g_pDeviceManager->Destroy();
+
+	
 }
 
 void Application::Update()
 {
-	if (!isPaused) {
+	if (!isPaused)
+	{
 		Mouse::Get()->Update();
 		Keyboard::Get()->Update();
 		Debug->InitText();
@@ -44,6 +51,7 @@ void Application::Update()
 		g_pKeyboardManager->Update();
 		g_pSceneManager->Update();
 		g_pCamera->Update();
+		g_pFrustum->Update();
 	}
 	if (GetAsyncKeyState('M') & 0x0001)
 	{
@@ -83,5 +91,6 @@ void Application::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		Mouse::Get()->InputProc(message, wParam, lParam);
 		g_pSceneManager->WndProc(hWnd, message, wParam, lParam);
 		g_pCamera->WndProc(hWnd, message, wParam, lParam);
+		//g_pFrustum
 	}
 }

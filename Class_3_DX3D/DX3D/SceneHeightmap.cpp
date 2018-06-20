@@ -18,7 +18,7 @@
 #include "ColorCube.h"
 #include "Player_hands.h"
 #include "MONSTER.h"
-#include "Frustum.h"
+//#include "Frustum.h"
 
 //중현이코드
 #include "UnitBox.h"
@@ -42,7 +42,7 @@ SceneHeightmap::SceneHeightmap()
 	m_SkyBox = NULL;
 	m_ColorCube = NULL;
 	m_Player_hands = NULL;
-	m_Frustum = NULL;
+	//m_Frustum = NULL;
 	
 
 	//중현이코드

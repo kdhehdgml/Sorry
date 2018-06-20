@@ -23,7 +23,7 @@ void ObjManager::RemoveObject(BaseObject * pObj)
 
 void ObjManager::Destroy()
 {
-	assert(m_setObject.empty() && "생성된 객체 중 삭제되지 않은 객체가 있습니다.");
+//	assert(m_setObject.empty() && "생성된 객체 중 삭제되지 않은 객체가 있습니다.");
 }
 
 void ObjManager::AddToTagList(WORD _tag, IUnitObject * _pObj)

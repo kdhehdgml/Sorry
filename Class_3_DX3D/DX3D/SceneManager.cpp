@@ -44,7 +44,7 @@ void SceneManager::Destroy()
 {
 	for (auto p : m_vecScene)
 	{
-		SAFE_RELEASE(p);
+ 		SAFE_RELEASE(p);
 	}
 }
 
