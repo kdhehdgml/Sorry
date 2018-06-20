@@ -44,7 +44,7 @@ void UnitBox::Init()
 void UnitBox::Update()
 {
 	SAFE_UPDATE(m_pCubeman);
-
+	Debug->EndLine();
 	if (GetAsyncKeyState(VK_F1) & 0x0001)
 	{
 		g_pSoundManager->playMusic(1);
@@ -60,9 +60,10 @@ void UnitBox::Update()
 
 			//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
 			m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
-			if (m_pMob[MobNum - 1]->m_Act._moving == 各_决企捞悼 || m_pMob[MobNum-1]->m_Act._reload == 各_厘傈窃 
-				|| m_pMob[MobNum-1]->m_Act._engage == 各_决企拱俊见扁)
+			if (m_pMob[MobNum - 1]->m_Act._moving == 各_决企捞悼 || m_pMob[MobNum - 1]->m_Act._reload == 各_厘傈窃 || m_pMob[MobNum - 1]->m_Act._engage == 各_决企拱俊见扁)
+			{
 				FindHidingInTheWallLocation(MobNum - 1);
+			}
 		}
 	}
 	//饶规 力措 家券
@@ -310,7 +311,7 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 					}
 				}
 				//促澜 厘局拱肺 啊扁 困茄 炼扒巩
-				if (Dist < 3.0f)
+				if (Dist < 3.0f && m_pMob[_Mobnum]->PlayerSearch()== false)
 				{
 					m_pMob[_Mobnum]->num++;
 					if (m_pMob[_Mobnum]->num > 100)

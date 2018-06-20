@@ -54,7 +54,7 @@ void TeamAI::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		m_pos = { 1000,10,-1000 };
+		m_pos = { 2000,10,2000 };
 	}
 	if (status > 0) {
 		UpdatePositionToDestination();

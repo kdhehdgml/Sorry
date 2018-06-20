@@ -52,7 +52,7 @@ void Mob::Init()
 	m_MONSTER = new MONSTER;
 	m_MONSTER->Init();
 	SaveAction();
-
+	Act_GunShot();
 	m_bullet = 5;
 	//CreateAllParts();
 	IUnitObject::m_moveSpeed = GSM().mobSpeed;
@@ -68,8 +68,6 @@ void Mob::Update()
 	}
 	if (status > 0) {
 		Act_Moving();
-		
-		Act_GunShot();
 		Act_Hiding();
 		Shooting();
 		if (PlayerSearch() == true)
@@ -183,10 +181,10 @@ void Mob::SaveAction()
 	if (r1 == 1 && r2 == 2) { r2 = 1; }
 	//¹«½ÃÇÏ°íµ¹°ÝÀº ÀåÀü¾ÈÇÔ
 	if (r2 == 2) { r4 = 1; }
-	m_Act._moving = MOB_MOVING(r1);
-	m_Act._engage = MOB_ENGAGE(r2);
+	m_Act._moving = MOB_MOVING(1);
+	m_Act._engage = MOB_ENGAGE(1);
 	m_Act._gunshot = MOB_GUNSHOT(r3);
-	m_Act._reload = MOB_RELOAD(r4);
+	m_Act._reload = MOB_RELOAD(0);
 	m_Act._hiding = MOB_HIDING(1);
 }
 
@@ -220,7 +218,7 @@ void Mob::Act_Engage()
 		if (HaveBullet())
 			m_moveSpeed = 0.01f;
 		else
-			m_moveSpeed = 2.0f;
+			m_moveSpeed = GSM().mobSpeed;
 		break;
 	case ¸÷_¾öÆó¹°¿¡¼û±â:
 		break;
@@ -238,19 +236,14 @@ void Mob::Act_Engage()
 
 void Mob::Act_GunShot()
 {
-	if (!m_randshootbullet)
+	switch (m_Act._gunshot)
 	{
-		switch (m_Act._gunshot)
-		{
-		case ¸÷_ÀÏºÎ»ç°Ý:
-			m_shootingbullet = rand() % 4 + 1;
-			m_randshootbullet = true;
-			break;
-		case ¸÷_¼ÒÁø±îÁö»ç°Ý:
-			m_shootingbullet = 5;
-			m_randshootbullet = true;
-			break;
-		}
+	case ¸÷_ÀÏºÎ»ç°Ý:
+		m_shootingbullet = rand() % 4 + 1;
+		break;
+	case ¸÷_¼ÒÁø±îÁö»ç°Ý:
+		m_shootingbullet = 5;
+		break;
 	}
 }
 //ÃÑ¾ËÀº´Ù¾²°í ÀåÀüÇØ¾ßÇÒ¶§
@@ -275,7 +268,7 @@ void Mob::Act_Reload()
 						else
 							m_bullet = 5;
 						m_maxbullet -= 5 - Temp_bullet;
-						m_randshootbullet = false;
+						Act_GunShot();
 						m_reloading = 0;
 						m_Act._hiding = ¸÷_¾È¼û¾ú´Ù;
 					}
@@ -295,7 +288,7 @@ void Mob::Act_Reload()
 					m_bullet = 5;
 
 				m_maxbullet -= 5 - Temp_bullet;
-				m_randshootbullet = false;
+				Act_GunShot();
 				m_reloading = 0;
 				m_Act._hiding = ¸÷_¾È¼û¾ú´Ù;
 			}
@@ -407,38 +400,31 @@ bool Mob::CanShooting()
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_TEAM)))
 		{
 			DirectPM = D3DXVECTOR3(abs(p->GetPosition().x - m_pos.x), 0, abs(p->GetPosition().z - m_pos.z));
-			if (DirectPM.x < 170 && DirectPM.z < 40)
+			if ((DirectPM.x > 0 && DirectPM.x < 220) && (DirectPM.z < 40 && DirectPM.z > 0))
 			{
 
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
 				D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
 				D3DXVec3Normalize(&forward, &forward);
-				float Length = m_pos.x - p->GetPosition().x + m_pos.z - p->GetPosition().z;
+				float Length = abs(m_pos.x - p->GetPosition().x) + abs(m_pos.z - p->GetPosition().z);
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 0.5f / 2.0f;
 
-				if (Length < 70 && DotPM >= direct)
+				if (Length > 0 && Length < 240 && DotPM >= direct)
 				{
 
-					if (m_TeamAINum == NULL)
+					if (m_TeamAINum == NULL && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[number]->getHealth() > 0)
 					{
 						m_TeamAINum = number;
+						
 					}
-					return true;
+					if(m_TeamAINum !=NULL)
+						return true;
 				}
-				else if (Length < 180 && DotPM >= direct)
-				{
-
-					if (m_TeamAINum == NULL)
-					{
-						m_TeamAINum = number;
-					}
-					return true;
-				}
-
 			}
 			number++;
 		}
+		return false;
 	}
 	m_isShoot = false;
 	return false;
@@ -479,10 +465,6 @@ void Mob::Shooting()
 						{
 							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() - 50);
 						}
-						if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
-						{
-							m_TeamAINum = NULL;
-						}
 					}
 					m_ShootCooldownTime = 0;
 					m_shootingbullet--;
@@ -499,6 +481,10 @@ void Mob::Shooting()
 			moveLocation.clear();
 			SaveLocationNum.clear();
 		}
+	}
+	if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
+	{
+		m_TeamAINum = NULL;
 	}
 	if (CanShooting() == false || m_TeamAINum == NULL)
 	{
