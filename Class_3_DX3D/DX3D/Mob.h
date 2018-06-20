@@ -1,7 +1,6 @@
 #pragma once
 #include "IUnitObject.h"
 class MONSTER;
-
 enum MOB_MOVING
 {
 	몹_돌격이동,
@@ -46,11 +45,12 @@ private:
 	D3DXVECTOR3		forward;
 	bool			m_isTurnedOnLight;
 
+	D3DXVECTOR3		m_StartPosition;
 	D3DXVECTOR3		m_deltaPos;
 	D3DXVECTOR3		m_deltaRot;
 	D3DXVECTOR3		m_forward;
 	D3DXVECTOR3		m_Mobpos;
-
+	vector<D3DXVECTOR3> m_AllSaveLocation;
 	int				m_maxbullet;
 	int				m_reloading;
 	int				m_bullet;
@@ -61,6 +61,8 @@ private:
 	bool			m_isShoot;
 	bool			m_BeDetermined;//장애물 너로 정했다
 	bool			m_randshootbullet;
+	bool			m_LocationCanSave;
+	bool			m_Setdest;
 	vector<D3DXVECTOR3> moveLocation;
 	vector<D3DXVECTOR3> Temporary_Storage;
 	vector<int> SaveLocationNum;
@@ -69,7 +71,6 @@ private:
 	BoundingSphere* m_pBoundingSphereBody;
 	LPD3DXMESH		m_pSphereHead;
 	BoundingSphere* m_pBoundingSphereHead;
-	
 	int status;
 
 public:
@@ -91,26 +92,37 @@ public:
 	int getStatus();
 	void setStatus(int s);
 
+	void SaveAction();
+	void Act_Moving();
+	void Act_Engage();
+	void Act_GunShot();
+	void Act_Reload();
+	void Act_Hiding();
 	virtual bool PlayerSearch();
-	void ShootVertex();
+	bool TrenchFight();
+	bool CanShooting();
+	void Shooting();
+	void SetAllSaveLocation(vector<D3DXVECTOR3> m_SaveLocation) { m_AllSaveLocation = m_SaveLocation; }
 	void SetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum) 
 	{ moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum);}
 	void SetTemporary(D3DXVECTOR3 wallLocation, int Locationnum) 
 	{ Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);}
 	void SetDetermined(bool _boo) { m_BeDetermined = _boo; }
-	
+	void SetCanSave(bool _Can) { m_LocationCanSave = _Can; }
 	vector<D3DXVECTOR3> GetMoveTheWall() { return moveLocation; }
 	vector<int> GetLocationNum() { return SaveLocationNum; }
 	vector<D3DXVECTOR3> GetTemporary() { return Temporary_Storage; }
 	vector<int> GetTemporaryNum() { return m_SaveTempNum; }
 	bool GetDetermined() { return m_BeDetermined; }
-	int GetBullet() { return m_bullet; }
+	bool HaveBullet();
+	bool MaxBullet();
 	void EraseLocationSoldier();
 	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); }
 	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); }
-	void LocationSwap(int _v1, int _v2);
-	void TemporarySwap(int _v1, int _v2);
-	void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
-	void SaveAction();
+	
+	//void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
+	void LocationSwap();
+	void TemporarySwap();
+	
 };
 

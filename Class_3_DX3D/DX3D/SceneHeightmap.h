@@ -52,15 +52,8 @@ private:
 	//
 
 	//obj 관련
-	ObjRen*			m_Tree;			//통짜 이미지
-	ObjRen*			m_Stone;
-	ObjRen*			m_MD;
-	ObjRen*			m_wall01;		//단일 이미지
-	ObjRen*			m_wall02;
-	ObjRen*			m_wall03;
-	ObjRen*			m_wall04;
-	ObjRen*			m_wall05;
-	ObjRen*			m_wall06;
+	ObjRen*			m_MapTest;
+	ObjRen*			m_MapTest0;
 
 	//영락코드
 	CreateSmog*		m_CreateSmog;
