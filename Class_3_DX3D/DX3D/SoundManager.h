@@ -12,6 +12,8 @@ private:
 	SoundControl * m_pMusic;		string * s_music;		vector<string> s_music_f;
 	SoundControl * m_pAmbient;		string * s_ambient;		vector<string> s_ambient_f;
 
+	SoundControl * m_p3D;			string * s_3D;			vector<string> s_3D_f;
+
 	SoundControl * m_pShot_1;		string * s_shot_1;		vector<string> s_shot_1_f;
 	SoundControl * m_pReload;		string * s_reload;		vector<string> s_reload_f;
 	SoundControl * m_pWalk_Dirt;	string * s_walk_dirt;	vector<string> s_walk_dirt_f;
@@ -24,6 +26,17 @@ private:
 	int runInterval;
 	int reloadInterval;
 	float volume_music;
+
+	// 3D Setting
+	FMOD_VECTOR ListenerPos;
+	FMOD_VECTOR ListenerVel;
+	FMOD_VECTOR ListenerForward;
+	FMOD_VECTOR ListenerUp;
+	FMOD_VECTOR ListenerLastPos;
+
+	FMOD_VECTOR SpeakerPos;
+	FMOD_VECTOR SpeakerVel;
+	
 
 public:
 	void soundList();
@@ -39,6 +52,12 @@ public:
 	void playAmbient(int soundNum);
 	void stopAmbient(int soundNum);
 
+	void play3D(int soundNum);
+	void update3D(int soundNum, D3DXVECTOR3 lPos, D3DXVECTOR3 sPos);
+	D3DXVECTOR3 getSpeakerPos();
+	D3DXVECTOR3 getListenerPos();
+
+	// 넘을 수 없는 벽
 	void ShotSound();
 	void ReloadSound();
 	void WalkSound();
