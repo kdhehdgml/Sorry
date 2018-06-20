@@ -407,21 +407,42 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			// 발사음 테스트
 			g_pSoundManager->ShotSound();
 			shotCheck = true; // 총 발사 체크
-
+			float minDistance = 9999999.0f;
+			int tempIndex = 0, enemyIndex = -1, damageGiven = 0;
 			for (auto p : m_pMob)
 			{
+				D3DXVECTOR3 enemyPos = p->GetPosition(); //적 위치
+				D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
+				enemyPos.y += 7.0f;
+				D3DXVECTOR3 playerDir = g_pCamera->getDir(); //내가 보는 방향
+				D3DXVECTOR3 posDiff = enemyPos - playerPos; //적 위치랑 내 위치의 차이
+				float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //적과의 거리 계산
 				bool getHitHead = false;
 				getHitHead = r.CalcIntersectSphere(p->getBoundingSphereHead());
 				if (getHitHead && p->getStatus() == 1) {
-					p->setHealth(p->getHealth() - 100);
-					break;
+					//p->setHealth(p->getHealth() - 100);
+					//break;
+					damageGiven = 100;
+					if (distance < minDistance) {
+						minDistance = distance;
+						enemyIndex = tempIndex;
+					}
 				}
 				bool getHitBody = false;
 				getHitBody = r.CalcIntersectSphere(p->getBoundingSphereBody());
-				if (getHitBody && p->getStatus() == 1) {
-					p->setHealth(p->getHealth() - 50);
-					break;
+				if (!getHitHead && getHitBody && p->getStatus() == 1) {
+					//p->setHealth(p->getHealth() - 50);
+					//break;
+					damageGiven = 50;
+					if (distance < minDistance) {
+						minDistance = distance;
+						enemyIndex = tempIndex;
+					}
 				}
+				tempIndex++;
+			}
+			if (enemyIndex != -1) {
+				m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - 50);
 			}
 			m_cooldown = 60; //쿨타임 (단위 : 프레임)
 		}
