@@ -52,5 +52,8 @@ public:
 
 	virtual bool MobSearch();
 	void ShootVertex();
+
+
+
 };
 

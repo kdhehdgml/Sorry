@@ -417,6 +417,7 @@ void UnitBox::MobMoveInTheWall()
 
 vector<Mob*>* UnitBox::getPMob()
 {
+	
 	return &m_pMob;
 }
 

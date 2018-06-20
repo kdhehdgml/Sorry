@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Camera.h"
 
+
 Camera::Camera()
 {
 	m_distance = 10.0f;

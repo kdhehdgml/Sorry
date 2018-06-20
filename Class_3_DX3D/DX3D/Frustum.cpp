@@ -1,16 +1,24 @@
 #include "stdafx.h"
 #include "Frustum.h"
+#include "UnitBox.h"
+#include "TeamAI.h"
+#include "Mob.h"
+
 
 
 Frustum::Frustum()
 {
-
+	m_pMesh = NULL;
+	m_Unit = NULL;
+	
 }
 
 
 Frustum::~Frustum()
 {
 	SAFE_RELEASE(m_pMesh);
+	SAFE_RELEASE(m_Unit);
+	
 }
 
 void Frustum::Init()
@@ -27,51 +35,62 @@ void Frustum::Init()
 	m_vecWorldVtx.resize(8);
 	m_vecPlane.resize(6);
 
-	//구체 그려주기 dim * dim * dim
-	int dim = 6;
-	float offset = 4;
-	float half = (dim - 1) * offset / 2.0f;
-	float radius = 0.6f;
-	D3DXCreateSphere(g_pDevice, radius, 10, 10, &m_pMesh, NULL);
+	m_Unit = new UnitBox;
+	m_Unit->Init();
 
-	m_vecpBoundary.reserve(dim * dim * dim);
-	for (int i = 0; i < dim; i++)
-	{
-		for (int j = 0; j < dim; j++)
-		{
-			for (int k = 0; k < dim; k++)
-			{
-				BoundingSphere* s = new BoundingSphere(D3DXVECTOR3(
-					i * offset - half, j * offset - half, k * offset - half), radius);
-				m_vecpBoundary.push_back(s);
-			}
-		}
-	}
+	////구체 그려주기 dim * dim * dim
+	//int dim = 6;
+	//float offset = 4;
+	//float half = (dim - 1) * offset / 2.0f;
+	//float radius = 0.6f;
+	//D3DXCreateSphere(g_pDevice, radius, 10, 10, &m_pMesh, NULL);
+
+	//m_vecpBoundary.reserve(dim * dim * dim);
+	//for (int i = 0; i < dim; i++)
+	//{
+	//	for (int j = 0; j < dim; j++)
+	//	{
+	//		for (int k = 0; k < dim; k++)
+	//		{
+	//			BoundingSphere* s = new BoundingSphere(D3DXVECTOR3(
+	//				i * offset - half, j * offset - half, k * offset - half), radius);
+	//			m_vecpBoundary.push_back(s);
+	//		}
+	//	}
+	//}
 
 	UpdateFrustum();
 }
 
 void Frustum::Update()
 {
-	if (GetAsyncKeyState(VK_SPACE) & 0x0001)
-	{
-		UpdateFrustum();
-	}
+	m_Unit->Update();
+
+
+	UpdateFrustum();
+
 }
 
 void Frustum::Render()
 {
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	g_pDevice->SetMaterial(&DXUtil::BLUE_MTRL);
-	g_pDevice->SetTexture(0, NULL);
-	for (auto p : m_vecpBoundary)
+	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	//g_pDevice->SetMaterial(&DXUtil::BLUE_MTRL);
+	//g_pDevice->SetTexture(0, NULL);
+	
+	for (auto p : *m_Unit->getPTeam())
 	{
-		if (IsSphereInsideFrustum(p) == true)
+		if (IsTeamAIFrustum(p) == true)
 		{
-			D3DXMATRIXA16 mat;
-			D3DXMatrixTranslation(&mat, p->center.x, p->center.y, p->center.z);
-			g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-			m_pMesh->DrawSubset(0);
+			p->Render();
+		}
+	}
+
+
+	for (auto p : *m_Unit->getPMob())
+	{
+		if (IsMobAIFrustum(p) == true)
+		{
+			p->Render();
 		}
 	}
 }
@@ -111,7 +130,44 @@ bool Frustum::IsSphereInsideFrustum(BoundingSphere * pSphere)
 {
 	for (auto p : m_vecPlane)
 	{
+		
 		if (D3DXPlaneDotCoord(&p, &pSphere->center) > pSphere->radius)
+		{
+			//center 가 면의 앞쪽에 위치하고 
+			//center 와 면의 거리가 radius 보다 크다
+			return false;
+		}
+	}
+	return true;
+}
+
+bool Frustum::IsTeamAIFrustum(TeamAI* Team)
+{
+	for (auto p : m_vecPlane)
+	{
+
+
+			//아군 충돌범위
+			//3.0f
+			if (D3DXPlaneDotCoord(&p, &Team->GetPosition()) > 3.0f)
+			{
+				//center 가 면의 앞쪽에 위치하고 
+				//center 와 면의 거리가 radius 보다 크다
+				return false;
+			}
+	}
+	return true;
+}
+
+bool Frustum::IsMobAIFrustum(Mob * mob)
+{
+	for (auto p : m_vecPlane)
+	{
+
+		//몹 충돌범위
+		//2.0f
+
+		if (D3DXPlaneDotCoord(&p, &mob->GetPosition()) > 2.0f)
 		{
 			//center 가 면의 앞쪽에 위치하고 
 			//center 와 면의 거리가 radius 보다 크다

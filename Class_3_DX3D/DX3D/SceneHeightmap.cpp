@@ -18,6 +18,7 @@
 #include "ColorCube.h"
 #include "Player_hands.h"
 #include "MONSTER.h"
+#include "Frustum.h"
 
 //중현이코드
 #include "UnitBox.h"
@@ -27,6 +28,7 @@
 #include "UIImage.h"
 
 #include "ObjRen.h"// obj 해더
+
 
 
 SceneHeightmap::SceneHeightmap()
@@ -40,8 +42,8 @@ SceneHeightmap::SceneHeightmap()
 	m_SkyBox = NULL;
 	m_ColorCube = NULL;
 	m_Player_hands = NULL;
-
-
+	m_Frustum = NULL;
+	
 
 	//중현이코드
 	m_pBlocks = NULL;
@@ -97,9 +99,10 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pTalk);
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
+	SAFE_RELEASE(m_pUnit);
+	
+
 	//m_pCrosshair->ReleaseAll();
-	//m_CreateSmog->Release();
-	//SAFE_RELEASE(m_CreateSmog);
 
 	//obj 관련 직접 접근해서 릴리즈함
 	m_Tree->~ObjRen();
@@ -126,7 +129,7 @@ void SceneHeightmap::Init()
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
 
-
+	
 	m_pHeightMap->SetMtlTex(mtl,
 		g_pTextureManager->GetTexture(L"resources/heightmap/terrainBF.png"));
 
@@ -162,8 +165,14 @@ void SceneHeightmap::Init()
 	//중현이코드
 	m_pUnit = new UnitBox();
 	m_pUnit->SetLocation(m_pHeightMap->SetWall());
-	m_pUnit->Init();
-	AddSimpleDisplayObj(m_pUnit);
+	//m_pUnit->Init();
+	//AddSimpleDisplayObj(m_pUnit);
+
+	//프러스텀
+	m_Frustum = new Frustum;
+	m_Frustum->Init();
+
+	AddSimpleDisplayObj(m_Frustum);
 
 
 	m_pBlocks = new Blocks();
@@ -530,6 +539,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	//SAFE_WNDPROC(m_pPicking);
 	//SAFE_WNDPROC(m_pUnit);
 	SAFE_WNDPROC(m_Player_hands);
+	
 
 	m_pLParam = lParam;
 
