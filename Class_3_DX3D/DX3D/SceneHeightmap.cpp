@@ -145,14 +145,13 @@ void SceneHeightmap::Init()
 	//중현이코드
 	m_pUnit = new UnitBox();
 	m_pUnit->SetLocation(m_pHeightMap->SetWall());
-	//m_pUnit->Init();
+	m_pUnit->Init();
 	//AddSimpleDisplayObj(m_pUnit);
 
 	//프러스텀
-	m_Frustum = new Frustum;
-	m_Frustum->Init();
-
-	AddSimpleDisplayObj(m_Frustum);
+	//m_Frustum = new Frustum;
+	//m_Frustum->Init();
+	//AddSimpleDisplayObj(m_Frustum);
 
 
 	m_pBlocks = new Blocks();
@@ -280,6 +279,7 @@ void SceneHeightmap::Update()
 
 
 	SAFE_UPDATE(m_ColorCube);
+	SAFE_UPDATE(m_pUnit);
 
 	SAFE_UPDATE(m_minimap);
 	SAFE_UPDATE(m_pCrosshair);
@@ -464,7 +464,7 @@ void SceneHeightmap::Render()
 	OnRenderIScene();
 	SAFE_RENDER(m_ColorCube);
 	SAFE_RENDER(m_pBlocks);
-
+	SAFE_RENDER(m_pUnit);
 	SAFE_RENDER(m_SkyBox);
 	SAFE_RENDER(m_minimap);
 	m_CreateSmog->Render();

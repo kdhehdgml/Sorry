@@ -22,7 +22,7 @@ TeamAI::TeamAI()
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
-	m_render = true;
+	m_render = false;
 }
 
 

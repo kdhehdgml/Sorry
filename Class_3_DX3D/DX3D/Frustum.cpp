@@ -64,8 +64,7 @@ void Frustum::Init()
 
 void Frustum::Update()
 {
-	m_Unit->Update();
-
+	//m_Unit->Update();
 
 	UpdateFrustum();
 
@@ -145,16 +144,14 @@ bool Frustum::IsTeamAIFrustum(TeamAI* Team)
 {
 	for (auto p : m_vecPlane)
 	{
-
-
-			//아군 충돌범위
-			//3.0f
-			if (D3DXPlaneDotCoord(&p, &Team->GetPosition()) > 3.0f)
-			{
-				//center 가 면의 앞쪽에 위치하고 
-				//center 와 면의 거리가 radius 보다 크다
-				return false;
-			}
+		//아군 충돌범위
+		//3.0f
+		if (D3DXPlaneDotCoord(&p, &Team->GetPosition()) > 3.0f)
+		{
+			//center 가 면의 앞쪽에 위치하고 
+			//center 와 면의 거리가 radius 보다 크다
+			return false;
+		}
 	}
 	return true;
 }
