@@ -57,7 +57,6 @@ protected:
 
 	D3DXMATRIXA16				matT, matS, matR;
 
-
 public:
 	Player_hands();
 	~Player_hands();

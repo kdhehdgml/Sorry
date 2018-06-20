@@ -22,6 +22,7 @@ TeamAI::TeamAI()
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
+	m_render = false;
 }
 
 
@@ -64,24 +65,33 @@ void TeamAI::Update()
 
 		m_TEAM_TEX->SetPos(m_pos);
 		m_TEAM_TEX->Update();
+	}
 
+	//아군 렌더 할까말까
+	if (Keyboard::Get()->KeyDown('H'))
+	{
+		m_render = !m_render;
 	}
 }
 
 void TeamAI::Render()
 {
-	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
-	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
-	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
-															  //안개적용되는 최소 거리
-	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
-	//안개 최대치로 적용되는 거리
-	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
-	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	//g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
+	//g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
+	//g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
+	//														  //안개적용되는 최소 거리
+	//g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
+	////안개 최대치로 적용되는 거리
+	//g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
+	//g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 	if (status > 0) 
 	{
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	
+
+		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+
+		if(m_render)
+			m_TEAM_TEX->Render();
 
 
 
@@ -93,7 +103,9 @@ void TeamAI::Render()
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 			1, &Shootpos[0], sizeof(VERTEX_PC));
 
-		m_TEAM_TEX->Render();
+	
+
+
 		/*D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);

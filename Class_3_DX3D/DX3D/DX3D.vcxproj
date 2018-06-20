@@ -160,6 +160,7 @@
     <ClInclude Include="ActionRepeat.h" />
     <ClInclude Include="ActionSequence.h" />
     <ClInclude Include="AllocateHierarchy.h" />
+    <ClInclude Include="ALLTexTURE.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Asciitok.h" />
     <ClInclude Include="AseCharacter.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="ActionRepeat.cpp" />
     <ClCompile Include="ActionSequence.cpp" />
     <ClCompile Include="AllocateHierarchy.cpp" />
+    <ClCompile Include="ALLTexTURE.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AseCharacter.cpp" />
     <ClCompile Include="AseLoader.cpp" />

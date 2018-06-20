@@ -15,5 +15,6 @@ public:
 	virtual void Render() override;
 	void addWall(D3DXVECTOR3 _aa, D3DXVECTOR3 _bb);
 	vector<Wall*> getWalls();
+	bool IntersectSphereBox(BoundingSphere* pSphere, BoundingBox* pBox);
 };
 

@@ -37,8 +37,8 @@ void SkinnedMesh::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/newMan/";
-	CString filename = "stand_idle.X";
+	CString path = "resources/xFile/TEAM_AI/";
+	CString filename = "TEAM.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 }

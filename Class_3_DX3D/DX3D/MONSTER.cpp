@@ -64,7 +64,7 @@ void MONSTER::Render()
 	m_numFrame = 0;
 	m_numMesh = 0;
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
-	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+//	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
 }
 
 void MONSTER::Load(LPCTSTR path, LPCTSTR filename)

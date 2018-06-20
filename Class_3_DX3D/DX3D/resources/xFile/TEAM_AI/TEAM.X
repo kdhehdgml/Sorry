@@ -199707,6 +199707,8 @@ AnimationSet stand_idle {
  }
 }
 
+
+
 AnimationSet stand_shot {
  
 
@@ -201491,3 +201493,4 @@ AnimationSet stand_shot {
   }
  }
 }
+

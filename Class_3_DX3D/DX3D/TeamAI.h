@@ -27,6 +27,8 @@ private:
 	int				m_CooldownTime;
 	bool			m_isMoving;
 	bool			m_isShoot;
+
+	bool			m_render;
 	
 	LPD3DXMESH		m_pSphere;
 	BoundingSphere* m_pBoundingSphere;

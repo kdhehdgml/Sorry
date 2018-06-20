@@ -5,6 +5,21 @@
 
 #define SCALE 5.0f
 
+/*
+
+	D3DXTRACK_DESC track;
+	m_pAnimController->GetTrackDesc(0, &track);
+	LPD3DXANIMATIONSET pCurrAnimSet = NULL;
+	m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
+
+	//전체 시간
+	pCurrAnimSet->GetPeriod(); 
+
+	//현재 시간
+	pCurrAnimSet->GetPeriodicPosition(track.Position); 
+	pCurrAnimSet->Release();
+*/
+
 Player_hands::Player_hands()
 {
 	m_baseRotY = D3DX_PI;
@@ -134,9 +149,6 @@ void Player_hands::Update()
 
 		SetPosToCamera();
 	}
-
-
-	
 }
 
 void Player_hands::Render()
@@ -231,8 +243,12 @@ void Player_hands::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContai
 void Player_hands::UpdateAnim()
 {
 	float fDeltaTime = g_pTimeManager->GetDeltaTime();
-	// AdvanceTime �Լ��� ȣ��� �������� Anim Ű������ ���
+	// AdvanceTime 
 	m_pAnimController->AdvanceTime(fDeltaTime, NULL);
+	//Debug->AddText("델타 타임: ");
+	//Debug->AddText(fDeltaTime);
+	//Debug->EndLine();
+	//printf("델타 타임 : %f \n", fDeltaTime);
 
 	if (m_fPassedBlendTime <= m_fBlendTime)
 	{
@@ -242,6 +258,7 @@ void Player_hands::UpdateAnim()
 		{
 			float fWeight = m_fPassedBlendTime / m_fBlendTime;
 
+			//fWeight = 애니메이션 셋 트랙 두개를 보간해주는 가중치
 			m_pAnimController->SetTrackWeight(0, fWeight);
 			m_pAnimController->SetTrackWeight(1, 1.0f - fWeight);
 		}
@@ -437,12 +454,13 @@ void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 	if (isBlend)
 	{
 		//애니메이션 시간으로 지정!
-	//	m_pAnimController->SetTrackPosition(0, 0);
+	//	m_pAnimController->SetTrackPosition(0, count);
 
 	//Debug->AddText("애니메이션 시간? : ");
 	//Debug->AddText(m_pAnimController->GetTime());
 	//Debug->EndLine();
 		
+	//m_pAnimController->SetTrackPosition(0, count);
 
 		m_fPassedBlendTime = 0.0f;
 
@@ -455,13 +473,45 @@ void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 		m_pAnimController->GetTrackDesc(0, &trackDesc);
 		m_pAnimController->SetTrackDesc(1, &trackDesc);
 		
+	/*	Debug->AddText("트랙데스트 :");
+		Debug->AddText(trackDesc.Position);
+		Debug->EndLine();*/
+
+
+		//시간 재기용
+		D3DXTRACK_DESC track;
+		m_pAnimController->GetTrackDesc(0, &track);
+		LPD3DXANIMATIONSET pCurrAnimSet = NULL;
+		m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
+
+		////전체 시간
+		//
+		//pCurrAnimSet->GetPeriod();
+
+		////현재 시간
+		//pCurrAnimSet->GetPeriodicPosition(track.Position);
+		//
 
 		m_pAnimController->SetTrackWeight(0, 0.0f);
 		m_pAnimController->SetTrackWeight(1, 1.0f);
 
 		SAFE_RELEASE(pPrevAnimSet);
 
+		Debug->AddText("전체시간 :");
+		Debug->AddText(pCurrAnimSet->GetPeriod());
+		Debug->EndLine();
 
+		Debug->AddText("현재시간 :");
+		Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
+		Debug->EndLine();
+
+
+		if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f)
+		{
+			m_pAnimController->SetTrackPosition(0, 0);
+		}
+			
+		pCurrAnimSet->Release();
 
 		m_fPassedBlendTime = 0.0f;
 		
