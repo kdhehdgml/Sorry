@@ -72,7 +72,13 @@ SceneHeightmap::SceneHeightmap()
 
 	// obj 관련
 	m_MapTest = NULL;
-	//m_MapTest0 = NULL;
+	m_MapTest0 = NULL;
+	m_MapTest1 = NULL;
+	m_MapTest2 = NULL;
+	m_MapTest3 = NULL;
+	m_MapTest4 = NULL;
+	m_MapTest5 = NULL;
+	m_MapTest6 = NULL;
 
 }
 
@@ -100,7 +106,13 @@ SceneHeightmap::~SceneHeightmap()
 
 	//obj 관련 직접 접근해서 릴리즈함
 	m_MapTest->~ObjRen();
-	//m_MapTest0->~ObjRen();
+	m_MapTest0->~ObjRen();
+	m_MapTest1->~ObjRen();
+	m_MapTest2->~ObjRen();
+	m_MapTest3->~ObjRen();
+	m_MapTest4->~ObjRen();
+	m_MapTest5->~ObjRen();
+	m_MapTest6->~ObjRen();
 
 	OnDestructIScene();
 }
@@ -138,8 +150,14 @@ void SceneHeightmap::Init()
 	//
 
 	// obj 관련 (크기, obj파일 위치, png파일 위치, x, y, z, 회전) 테스트용으로 넣은것임..
-	m_MapTest = new ObjRen; m_MapTest->Init(66.9f, _T("resources/obj/WoodenBarrierTest02.obj"), _T("resources/obj/images.png"), 363.0f, 11.5f, -537.0f, 0.0f);
-	//m_MapTest0 = new ObjRen; m_MapTest0->Init(66.9f, _T("resources/obj/SaddleBagTest02.obj"), _T("resources/obj/SaddleBagTex.png"), 375.0f, 40.3f, -565.9f, 0.0f);
+	m_MapTest = new ObjRen; m_MapTest->Init(66.9f, _T("resources/obj/WoodenBarrier/WoodenBarrierTest02.obj"), _T("resources/obj/WoodenBarrier/images.png"), 363.0f, 11.5f, -537.0f, 0.0f);
+	m_MapTest0 = new ObjRen; m_MapTest0->Init(12.5f, _T("resources/obj/WoodenBarrier/WoodenBarrierPartTest00.obj"), _T("resources/obj/WoodenBarrier/images.png"), 100.5f, 5.0f, 77.8f, 0.0f);
+	m_MapTest1 = new ObjRen; m_MapTest1->Init(18.0f, _T("resources/obj/WoodenBarrier/WoodenBarrierPartTest01.obj"), _T("resources/obj/WoodenBarrier/images.png"), 210.6f, 7.5f, 22.8f, 0.0f);
+	m_MapTest2 = new ObjRen; m_MapTest2->Init(13.5f, _T("resources/obj/WoodenBarrier/WoodenBarrierPartTest02.obj"), _T("resources/obj/WoodenBarrier/images.png"), 260.6f, 7.9f, 164.8f, 0.0f);
+	m_MapTest3 = new ObjRen; m_MapTest3->Init(11.6f, _T("resources/obj/WoodenBarrier/WoodenBarrierPartTest03.obj"), _T("resources/obj/WoodenBarrier/images.png"), 142.0f, 7.9f, 335.6f, 0.0f);
+	m_MapTest4 = new ObjRen; m_MapTest4->Init(12.8f, _T("resources/obj/WoodenBarrier/WoodenBarrierPartTest04.obj"), _T("resources/obj/WoodenBarrier/images.png"), 225.0f, 0.0f, 444.3f, 0.0f);
+	m_MapTest5 = new ObjRen; m_MapTest5->Init(13.8f, _T("resources/obj/WoodenBarrier/WoodenBarrierPartTest05.obj"), _T("resources/obj/WoodenBarrier/images.png"), 114.5f, 7.0f, 532.8f, 0.0f);
+	m_MapTest6 = new ObjRen; m_MapTest6->Init(16.8f, _T("resources/obj/WoodenBarrier/WoodenBarrierPartTest06.obj"), _T("resources/obj/WoodenBarrier/images.png"), 259.0f, 19.2f, 490.6f, 0.0f);
 
 
 	//중현이코드
@@ -472,7 +490,13 @@ void SceneHeightmap::Render()
 
 	//obj 관련
 	SAFE_RENDER(m_MapTest);
-	//AFE_RENDER(m_MapTest0);
+	SAFE_RENDER(m_MapTest0);
+	SAFE_RENDER(m_MapTest1);
+	SAFE_RENDER(m_MapTest2);
+	SAFE_RENDER(m_MapTest3);
+	SAFE_RENDER(m_MapTest4);
+	SAFE_RENDER(m_MapTest5);
+	SAFE_RENDER(m_MapTest6);
 
 	if (m_pCrosshairOn) {
 		if (m_pScopeOn & g_pCamera->getCooldown() <= 0) {
