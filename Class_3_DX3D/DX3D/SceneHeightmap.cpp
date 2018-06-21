@@ -444,16 +444,18 @@ void SceneHeightmap::Update()
 		D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
 		getCollision = wallManager->IntersectSphereBox(m_pBoundingSphere, p->getBoundingBox());
 		if (getCollision) {
-			D3DXVECTOR3 lookDirInverse = -1.0f * lookDir; //내 위치와 벽 사이 벡터의 역벡터
-			lookDirInverse.y = 0; //y축 값은 필요없다.
-			if (lookDirInverse.x > lookDirInverse.z) {
-				lookDirInverse.x = 0;
+			D3DXVECTOR3 camPosDiff = playerPos - m_pOldPos;
+			if ((p->getSize().z + 5.0f) / 2.0f > abs(posDiff.z)) {
+				camPosDiff.x = 0;
 			}
 			else {
-				lookDirInverse.z = 0;
+				camPosDiff.z = 0;
 			}
-			D3DXVec3Normalize(&lookDirInverse, &lookDirInverse);
-			g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
+			camPosDiff.y = 0;
+			g_pCamera->setPos(m_pOldPos + camPosDiff);
+		}
+		else {
+			m_pOldPos = g_pCamera->getPos();
 		}
 		bool tempGetHitBox = false;
 		tempGetHitBox = r.CalcIntersectBox(p->getBoundingBox());
