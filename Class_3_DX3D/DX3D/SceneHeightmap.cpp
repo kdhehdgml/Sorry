@@ -43,7 +43,7 @@ SceneHeightmap::SceneHeightmap()
 	m_ColorCube = NULL;
 	m_Player_hands = NULL;
 	//m_Frustum = NULL;
-	
+
 
 	//중현이코드
 	m_pBlocks = NULL;
@@ -79,6 +79,7 @@ SceneHeightmap::SceneHeightmap()
 	m_MapTest4 = NULL;
 	m_MapTest5 = NULL;
 	m_MapTest6 = NULL;
+	//m_MapTest0 = NULL;
 
 }
 
@@ -100,7 +101,7 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 	SAFE_RELEASE(m_pUnit);
-	
+
 
 	//m_pCrosshair->ReleaseAll();
 
@@ -113,6 +114,7 @@ SceneHeightmap::~SceneHeightmap()
 	m_MapTest4->~ObjRen();
 	m_MapTest5->~ObjRen();
 	m_MapTest6->~ObjRen();
+	//m_MapTest0->~ObjRen();
 
 	OnDestructIScene();
 }
@@ -128,7 +130,7 @@ void SceneHeightmap::Init()
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
 
-	
+
 	m_pHeightMap->SetMtlTex(mtl,
 		g_pTextureManager->GetTexture(L"resources/heightmap/terrainBF.png"));
 
@@ -158,6 +160,7 @@ void SceneHeightmap::Init()
 	m_MapTest4 = new ObjRen; m_MapTest4->Init(12.8f, _T("resources/obj/WoodenBarrier/WoodenBarrierPartTest04.obj"), _T("resources/obj/WoodenBarrier/images.png"), 225.0f, 0.0f, 444.3f, 0.0f);
 	m_MapTest5 = new ObjRen; m_MapTest5->Init(13.8f, _T("resources/obj/WoodenBarrier/WoodenBarrierPartTest05.obj"), _T("resources/obj/WoodenBarrier/images.png"), 114.5f, 7.0f, 532.8f, 0.0f);
 	m_MapTest6 = new ObjRen; m_MapTest6->Init(16.8f, _T("resources/obj/WoodenBarrier/WoodenBarrierPartTest06.obj"), _T("resources/obj/WoodenBarrier/images.png"), 259.0f, 19.2f, 490.6f, 0.0f);
+	//m_MapTest0 = new ObjRen; m_MapTest0->Init(66.9f, _T("resources/obj/SaddleBagTest02.obj"), _T("resources/obj/SaddleBagTex.png"), 375.0f, 40.3f, -565.9f, 0.0f);
 
 
 	//중현이코드
@@ -273,7 +276,7 @@ void SceneHeightmap::Init()
 
 	D3DXVECTOR3 aa(200.0f, 25.0f, 300.0f); //임시 BoundingBox 좌표1
 	D3DXVECTOR3 bb(310.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
-	
+
 	D3DXVECTOR3 aa2(0.0f, 25.0f, 100.0f); //임시 BoundingBox 좌표1
 	D3DXVECTOR3 bb2(10.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
 
@@ -497,6 +500,7 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_MapTest4);
 	SAFE_RENDER(m_MapTest5);
 	SAFE_RENDER(m_MapTest6);
+	//AFE_RENDER(m_MapTest0);
 
 	if (m_pCrosshairOn) {
 		if (m_pScopeOn & g_pCamera->getCooldown() <= 0) {
@@ -536,7 +540,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	//SAFE_WNDPROC(m_pPicking);
 	//SAFE_WNDPROC(m_pUnit);
 	SAFE_WNDPROC(m_Player_hands);
-	
+
 
 	m_pLParam = lParam;
 

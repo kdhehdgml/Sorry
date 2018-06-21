@@ -49,7 +49,7 @@ vector<Wall*> WallManager::getWalls()
 
 bool WallManager::IntersectSphereBox(BoundingSphere * pSphere, BoundingBox * pBox)
 {
-	float rr = sqrt(pSphere->radius) * 1.1;
+	float rr = sqrt(pSphere->radius);
 	float dmin = 0.0f;
 	if (pSphere->center.x < pBox->aa.x) {
 		dmin += sqrt(abs(pSphere->center.x - pBox->aa.x));

@@ -52,3 +52,8 @@ D3DXVECTOR3 Wall::getCenter()
 {
 	return center;
 }
+
+D3DXVECTOR3 Wall::getSize()
+{
+	return size;
+}

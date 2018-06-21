@@ -91,6 +91,8 @@ private:
 
 	Ray r;
 
+	D3DXVECTOR3 m_pOldPos;
+
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
 public:

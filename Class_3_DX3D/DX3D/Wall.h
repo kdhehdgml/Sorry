@@ -18,5 +18,6 @@ public:
 	virtual void Render() override;
 	BoundingBox* getBoundingBox();
 	D3DXVECTOR3 getCenter();
+	D3DXVECTOR3 getSize();
 };
 
