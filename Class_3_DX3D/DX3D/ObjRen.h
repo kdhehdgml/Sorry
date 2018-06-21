@@ -26,7 +26,6 @@ public:
 	D3DXMATRIX mWorld;
 	D3DXMATRIX mWVP, mWI, mWIT, mView, mProj;
 
-	// IDisplayObject을(를) 통해 상속됨
 	void Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float y, float z, float rotation);
 	void Update();
 	void Render();
