@@ -16,15 +16,8 @@ public:
 
 	float volume_music_init;
 
-	struct Pos
-	{
-		float x;
-		float y;
-		float z;
-	};
-
-	Pos camPos;
-	Pos mobPos;
-	Pos TeamPos;
+	D3DXVECTOR3 camPos;
+	D3DXVECTOR3 mobPos;
+	D3DXVECTOR3 TeamPos;
 };
 
