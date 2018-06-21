@@ -418,10 +418,6 @@ void Player_hands::SetPosToCamera()
 
 	D3DXVECTOR3 dir = g_pCamera->getDir();
 
-	Debug->AddText("dir : ");
-	Debug->AddText(dir);
-	Debug->EndLine();
-
 	angleX = atan(dir.y); //카메라 방향벡터의 역함수를 구함
 	angleY = asin(dir.x) * -1;
 
