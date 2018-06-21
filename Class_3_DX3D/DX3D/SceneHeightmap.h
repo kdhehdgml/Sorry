@@ -54,6 +54,12 @@ private:
 	//obj 관련
 	ObjRen*			m_MapTest;
 	ObjRen*			m_MapTest0;
+	ObjRen*			m_MapTest1;
+	ObjRen*			m_MapTest2;
+	ObjRen*			m_MapTest3;
+	ObjRen*			m_MapTest4;
+	ObjRen*			m_MapTest5;
+	ObjRen*			m_MapTest6;
 
 	//영락코드
 	CreateSmog*		m_CreateSmog;
@@ -84,6 +90,8 @@ private:
 	WallManager * wallManager;
 
 	Ray r;
+
+	D3DXVECTOR3 m_pOldPos;
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
