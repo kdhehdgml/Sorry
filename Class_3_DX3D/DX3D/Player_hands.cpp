@@ -415,12 +415,19 @@ void Player_hands::SetPosToCamera()
 	m_pos = Camera::GetInstance()->getPos();
 	//m_pos.x -= 0.1f;
 	m_pos.y -= 3.5f;
-	angleX = (Camera::GetInstance()->getAngleX());
-	angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
 
+	D3DXVECTOR3 dir = g_pCamera->getDir();
+
+	angleX = atan(dir.y); //카메라 방향벡터의 역함수를 구함
+	angleY = asin(dir.x) * -1;
+
+	if (dir.z > 0) { //90~270도 사이일때
+		angleY = D3DX_PI - angleY; //역방향을 취함
+	} //역삼각함수가 단사함수가 아니기 때문에 해야 하는 연산들
 
 	//IUnitObject::UpdateKeyboardState();
 	//IUnitObject::UpdatePositionToDestination();
+
 	D3DXMATRIXA16 matR_X, matR_Y;
 
 	D3DXMatrixRotationX(&matR_X, angleX);
@@ -430,7 +437,7 @@ void Player_hands::SetPosToCamera()
 
 
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	//D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 

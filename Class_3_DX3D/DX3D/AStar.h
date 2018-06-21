@@ -53,5 +53,8 @@ private:
 	void CalcEraseCount(const D3DXVECTOR3& pos,
 		const vector<int>& vecIndex, bool bByStartPos,
 		OUT int &numEraseNode);
+
+public:
+	void MakeWall(int posX, int posZ, AStarNode * pNode);
 };
 
