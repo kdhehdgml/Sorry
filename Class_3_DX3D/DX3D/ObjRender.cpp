@@ -111,18 +111,18 @@ void ObjRender::Init()
 	m_BarbedWire03 = new ObjRen; m_BarbedWire03->Init(1.0f, _T("resources/ObjImages/BarbedWire/BarbedWire03.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 0.0f, 40.0f, 0.0f, 0.0f);
 	m_BarbedWire04 = new ObjRen; m_BarbedWire04->Init(1.0f, _T("resources/ObjImages/BarbedWire/BarbedWire04.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 0.0f, 40.0f, 0.0f, 0.0f);
 
-	m_BarbedWireT00 = new ObjRen; m_BarbedWireT00->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 531.0f, D3DX_PI/2);
-	m_BarbedWireT01 = new ObjRen; m_BarbedWireT01->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 515.0f, D3DX_PI/2);
-	m_BarbedWireT02 = new ObjRen; m_BarbedWireT02->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire03.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 475.0f, D3DX_PI/2);
-	m_BarbedWireT03 = new ObjRen; m_BarbedWireT03->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire03.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 459.0f, D3DX_PI/2);
-	m_BarbedWireT04 = new ObjRen; m_BarbedWireT04->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 419.0f, D3DX_PI/2);
-	m_BarbedWireT05 = new ObjRen; m_BarbedWireT05->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire04.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 403.0f, D3DX_PI/2);
-	m_BarbedWireT06 = new ObjRen; m_BarbedWireT06->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire03.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 370.0f, D3DX_PI/2);
-	m_BarbedWireT07 = new ObjRen; m_BarbedWireT07->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire04.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 355.0f, D3DX_PI/2);
-	m_BarbedWireT08 = new ObjRen; m_BarbedWireT08->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 315.0f, D3DX_PI/2);
-	m_BarbedWireT09 = new ObjRen; m_BarbedWireT09->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire03.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 300.0f, D3DX_PI/2);
-	m_BarbedWireT10 = new ObjRen; m_BarbedWireT10->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire04.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 260.0f, D3DX_PI/2);
-	m_BarbedWireT11 = new ObjRen; m_BarbedWireT11->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 34.0f, 245.0f, D3DX_PI/2);
+	m_BarbedWireT00 = new ObjRen; m_BarbedWireT00->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 31.0f, 531.0f, D3DX_PI/2);
+	m_BarbedWireT01 = new ObjRen; m_BarbedWireT01->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 31.0f, 515.0f, D3DX_PI/2);
+	m_BarbedWireT02 = new ObjRen; m_BarbedWireT02->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire03.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 32.0f, 475.0f, D3DX_PI/2);
+	m_BarbedWireT03 = new ObjRen; m_BarbedWireT03->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire03.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 33.0f, 458.0f, D3DX_PI/2);
+	m_BarbedWireT04 = new ObjRen; m_BarbedWireT04->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 33.0f, 419.0f, D3DX_PI/2);
+	m_BarbedWireT05 = new ObjRen; m_BarbedWireT05->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire04.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 500.0f, 31.0f, 374.0f, D3DX_PI/2);//
+	m_BarbedWireT06 = new ObjRen; m_BarbedWireT06->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire03.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 31.0f, 370.0f, D3DX_PI/2);
+	m_BarbedWireT07 = new ObjRen; m_BarbedWireT07->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire04.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 31.0f, 355.0f, D3DX_PI/2);
+	m_BarbedWireT08 = new ObjRen; m_BarbedWireT08->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 31.0f, 315.0f, D3DX_PI/2);
+	m_BarbedWireT09 = new ObjRen; m_BarbedWireT09->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire03.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 31.0f, 300.0f, D3DX_PI/2);
+	m_BarbedWireT10 = new ObjRen; m_BarbedWireT10->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire04.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 31.0f, 260.0f, D3DX_PI/2);
+	m_BarbedWireT11 = new ObjRen; m_BarbedWireT11->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 494.0f, 31.0f, 245.0f, D3DX_PI/2);
 	
 	//³ª¹«
 	m_Tree00 = new ObjRen; m_Tree00->Init(1.0f, _T("resources/ObjImages/Environment/Tree00.obj"), _T("resources/ObjImages/Environment/TreeTex.png"), 0.0f, 40.0f, 0.0f, 0.0f);
