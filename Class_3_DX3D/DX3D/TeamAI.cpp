@@ -62,6 +62,10 @@ void TeamAI::Update()
 			m_Action = ÆÀ_ÀçÀåÀü;
 			Reloading();
 		}
+		if(HaveBullet() == true)
+		{
+			m_Action = ÆÀ_»ç°Ý;
+		}
 		MobSearch();
 		ShootVertex();
 
@@ -162,14 +166,19 @@ bool TeamAI::MobSearch()
 {
 	if (m_MobNum != NULL)
 	{
+		if (g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() <= 0)
+			m_MobNum = NULL;
+
 		if (HaveBullet() == true)
+		{
 			Shooting();
-		return true;
+			return true;
+		}
 	}
 	if (g_pObjMgr->FindObjectsByTag(TAG_MOB).size() > 0)
 	{
 		D3DXVECTOR3 move_forward;
-		move_forward = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
+		move_forward = D3DXVECTOR3(1, 0, 0);
 		if (D3DXVec3LengthSq(&move_forward) > 0)
 		{
 			forward = move_forward;
@@ -184,7 +193,6 @@ bool TeamAI::MobSearch()
 				DirectPM.y = m_pos.y;
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
 				D3DXVec3Normalize(&DirectPMnormal, &DirectPMnormal);
-				D3DXVec3Normalize(&forward, &forward);
 				float Length = abs(p->GetPosition().x - m_pos.x + p->GetPosition().z - m_pos.z);
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 1.0f / 2.0f;
@@ -203,11 +211,11 @@ bool TeamAI::MobSearch()
 				else if (Length < 240 && DotPM >= direct)
 				{
 					m_isShoot = true;
-					if (m_MobNum == NULL)
+					if (m_MobNum == NULL && g_pObjMgr->FindObjectsByTag(TAG_MOB)[number]->getHealth() > 0)
 					{
 						m_MobNum = number;
-						Shooting();
 					}
+					Shooting();
 					return true;
 				}
 				m_MobNum = NULL;
@@ -279,8 +287,6 @@ void TeamAI::TrenchFight(int _num)
 			{
 				m_moveSpeed = 1.0f;
 			}
-			if (g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() <= 0)
-				m_MobNum = NULL;
 
 		}
 		if (_num == 2)
@@ -292,27 +298,20 @@ void TeamAI::TrenchFight(int _num)
 
 void TeamAI::Shooting()
 {
-	if (HaveBullet() == true && m_Action == ÆÀ_»ç°Ý)
+	if (HaveBullet() == true && m_Action == ÆÀ_»ç°Ý && m_MobNum !=NULL)
 	{
 		float kill = rand() % 10;
 		m_ShootCooldownTime++;
-		if (m_ShootCooldownTime > 100)
+		
+		int damage = rand() % 10;
+		if (damage < 3)
 		{
-			if (kill < 5)
-			{
-				int damage = rand() % 10;
-				if (damage < 3)
-				{
-					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth(0);
-				}
-				else
-				{
-					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth
-					(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() - 50);
-				}
-			}
-			m_ShootCooldownTime = 0;
-			m_bullet--;
+			g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth(0);
+		}
+		else
+		{
+			g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth
+			(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() - 50);
 		}
 	}
 }
