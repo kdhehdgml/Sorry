@@ -95,7 +95,14 @@ void Mob::Update()
 		Debug->AddText(" / Åº¾à: ");
 		Debug->AddText(m_maxbullet);
 		Debug->EndLine();
+		
 	}
+	else
+	{
+		ani_state = ´Þ¸®´Ù°¡Á×±â;
+	}
+
+	m_MONSTER->SetAnimationIndex(ani_state, true);
 }
 
 void Mob::Render()
@@ -113,8 +120,7 @@ void Mob::Render()
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 		//m_pRootParts->Render();
 		
-		if(g_pFrustum->IsMobAIFrustum(this))
-			m_MONSTER->Render();
+	
 
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);
@@ -136,6 +142,9 @@ void Mob::Render()
 		g_pDevice->SetTexture(0, NULL);
 		//m_pSphereHead->DrawSubset(0);
 	}
+
+	if (g_pFrustum->IsMobAIFrustum(this))
+		m_MONSTER->Render();
 }
 
 BoundingSphere * Mob::getBoundingSphereBody()
@@ -310,7 +319,8 @@ void Mob::Act_Hiding()
 	case ¸÷_¿òÁ÷ÀÎ´Ù:
 		if (m_moveSpeed > 0)
 		{
-
+			ani_state = ´Þ¸®¸é¼­½î±â;
+			
 		}
 		break;
 	}

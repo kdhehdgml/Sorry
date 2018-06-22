@@ -1,6 +1,19 @@
 #pragma once
 #include "IUnitObject.h"
 class MONSTER;
+
+enum ANI_STATE
+{
+	대기상태,
+	달리다가서기3,
+	달리다가서기2,
+	달리닫가서기1,
+	달리다가죽기,
+	달리면서쏘기2,
+	달리면서쏘기,
+	수그리면서달리기
+};
+
 enum MOB_MOVING
 {
 	몹_돌격이동,
@@ -73,6 +86,7 @@ private:
 	LPD3DXMESH		m_pSphereHead;
 	BoundingSphere* m_pBoundingSphereHead;
 	int status;
+	int ani_state;
 
 public:
 	Mob();
