@@ -8,7 +8,6 @@ Mob::Mob()
 //	m_pRootParts = NULL;
 	m_MONSTER = NULL;//¸ó½ºÅÍ Å¬·¡½º Ãß°¡
 	m_isMoving = false;
-	m_isShoot = false;
 	m_maxbullet = 15;
 	m_ShootCooldownTime = 0;
 	//m_baseRotY = D3DX_PI;
@@ -69,7 +68,6 @@ void Mob::Update()
 	if (status > 0) {
 		Act_Moving();
 		Act_Hiding();
-		Shooting();
 		if (PlayerSearch() == true)
 		{
 			Act_Engage();
@@ -260,46 +258,18 @@ void Mob::Act_Reload()
 	switch (m_Act._reload)
 	{
 	case ¸÷_ÀåÀüÇÔ:
-		if (m_Act._engage == ¸÷_Á¦ÀÚ¸®¸ØÃã)
+		m_Act._hiding = ¸÷_¼û¾î¼­ÀåÀü;
+		m_reloading++;
+		if (m_reloading > 100)
 		{
-			if (moveLocation.empty() == false)
-			{
-				if (D3DXVec3Length(&(moveLocation.back() - m_pos)) < 2.0f)
-				{
-					m_Act._hiding = ¸÷_¼û¾ú´Ù;
-					m_reloading++;
-					if (m_reloading > 100)
-					{
-						int Temp_bullet = m_bullet;
-						if (m_maxbullet < 5)
-							m_bullet = m_maxbullet;
-						else
-							m_bullet = 5;
-						m_maxbullet -= 5 - Temp_bullet;
-						Act_GunShot();
-						m_reloading = 0;
-						m_Act._hiding = ¸÷_¾È¼û¾ú´Ù;
-					}
-				}
-			}
-		}
-		if (m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â)
-		{
-			m_Act._hiding = ¸÷_¼û¾ú´Ù;
-			m_reloading++;
-			if (m_reloading > 100)
-			{
-				int Temp_bullet = m_bullet;
-				if (m_maxbullet < 5)
-					m_bullet = m_maxbullet;
-				else
-					m_bullet = 5;
-
-				m_maxbullet -= 5 - Temp_bullet;
-				Act_GunShot();
-				m_reloading = 0;
-				m_Act._hiding = ¸÷_¾È¼û¾ú´Ù;
-			}
+			int Temp_bullet = m_bullet;
+			if (m_maxbullet < 5)
+				m_bullet = m_maxbullet;
+			else
+				m_bullet = 5;
+			m_maxbullet -= 5 - Temp_bullet;
+			Act_GunShot();
+			m_reloading = 0;
 		}
 		break;
 	case ¸÷_ÀåÀü¾ÈÇÔ:
@@ -312,15 +282,12 @@ void Mob::Act_Hiding()
 {
 	switch (m_Act._hiding)
 	{
-	case ¸÷_¼û¾ú´Ù:
+	case ¸÷_¼û¾îÀÖÀ½:
 		break;
-	case ¸÷_¾È¼û¾ú´Ù:
-		break;
-	case ¸÷_¿òÁ÷ÀÎ´Ù:
+	case ¸÷_¶Ù´ÂÁß:
 		if (m_moveSpeed > 0)
 		{
 			ani_state = ´Þ¸®¸é¼­½î±â;
-			
 		}
 		break;
 	}
@@ -351,7 +318,6 @@ bool Mob::TrenchFight()
 {
 	moveLocation.clear();
 	SaveLocationNum.clear();
-	m_isShoot = false;
 	float nearAI = 150;
 	int AINum = NULL;
 	//°¡±î¿î³ð Ã£±â(MinÃ£´Â¹æ½Ä)
@@ -401,6 +367,14 @@ bool Mob::TrenchFight()
 
 bool Mob::CanShooting()
 {
+	if (m_TeamAINum != NULL)
+	{
+		if (HaveBullet() == true)
+		{
+			m_Act._hiding = ¸÷_»ç°ÝÁß;
+			return true;
+		}
+	}
 	if (g_pObjMgr->FindObjectsByTag(TAG_TEAM).size() > 0)
 	{
 		D3DXVECTOR3 move_forward;
@@ -414,8 +388,9 @@ bool Mob::CanShooting()
 
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_TEAM)))
 		{
-			DirectPM = D3DXVECTOR3(abs(p->GetPosition().x - m_pos.x), 0, abs(p->GetPosition().z - m_pos.z));
-			if ((DirectPM.x > 0 && DirectPM.x < 220) && (DirectPM.z < 40 && DirectPM.z > 0))
+			DirectPM = D3DXVECTOR3(p->GetPosition().x - m_pos.x, 0, p->GetPosition().z - m_pos.z);
+			D3DXVECTOR3 AbsPm = { abs(DirectPM.x),0,abs(DirectPM.z) };
+			if (AbsPm.x > 0 && AbsPm.x < 220 && AbsPm.z < 40 && AbsPm.z > 0)
 			{
 
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
@@ -427,21 +402,18 @@ bool Mob::CanShooting()
 
 				if (Length > 0 && Length < 240 && DotPM >= direct)
 				{
-
 					if (m_TeamAINum == NULL && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[number]->getHealth() > 0)
 					{
 						m_TeamAINum = number;
-						
-					}
-					if(m_TeamAINum !=NULL)
+						m_Act._hiding = ¸÷_»ç°ÝÁß;
 						return true;
+					}	
 				}
 			}
 			number++;
 		}
 		return false;
 	}
-	m_isShoot = false;
 	return false;
 }
 
@@ -461,9 +433,9 @@ void Mob::Shooting()
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
 
-		if (HaveBullet())
+		if (HaveBullet() == true)
 		{
-			if (m_Act._hiding == ¸÷_¾È¼û¾ú´Ù || m_Act._hiding == ¸÷_¿òÁ÷ÀÎ´Ù)
+			if (m_Act._hiding == ¸÷_»ç°ÝÁß)
 			{
 				float kill = rand() % 10;
 				m_ShootCooldownTime++;
@@ -487,14 +459,11 @@ void Mob::Shooting()
 				}
 			}
 		}
-		else if (m_maxbullet > 0)//ÃÑ¾ËÀÌ¾øÀ»¶§
-		{
-			Act_Reload();
-		}
-		else
+		else if (m_maxbullet < 0)
 		{
 			moveLocation.clear();
 			SaveLocationNum.clear();
+			m_Act._hiding = ¸÷_¶Ù´ÂÁß;
 		}
 	}
 	if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
