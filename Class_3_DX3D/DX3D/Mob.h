@@ -22,10 +22,11 @@ enum MOB_RELOAD
 	¸÷_ÀåÀüÇÔ,
 	¸÷_ÀåÀü¾ÈÇÔ
 };
-enum MOB_HIDING
+enum MOB_ACTION
 {
 	¸÷_¼û¾ú´Ù,
-	¸÷_¾È¼û¾ú´Ù
+	¸÷_¾È¼û¾ú´Ù,
+	¸÷_¿òÁ÷ÀÎ´Ù
 };
 struct MobAction
 {
@@ -33,7 +34,7 @@ struct MobAction
 	MOB_ENGAGE	_engage;
 	MOB_GUNSHOT _gunshot;
 	MOB_RELOAD	_reload;
-	MOB_HIDING	_hiding;
+	MOB_ACTION	_hiding;
 };
 
 class Mob

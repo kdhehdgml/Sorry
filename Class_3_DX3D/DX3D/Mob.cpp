@@ -184,7 +184,7 @@ void Mob::SaveAction()
 	m_Act._engage = MOB_ENGAGE(r2);
 	m_Act._gunshot = MOB_GUNSHOT(r3);
 	m_Act._reload = MOB_RELOAD(r4);
-	m_Act._hiding = MOB_HIDING(1);
+	m_Act._hiding = MOB_ACTION(2);
 }
 
 void Mob::Act_Moving()
@@ -306,6 +306,12 @@ void Mob::Act_Hiding()
 	case 各_见菌促:
 		break;
 	case 各_救见菌促:
+		break;
+	case 各_框流牢促:
+		if (m_moveSpeed > 0)
+		{
+
+		}
 		break;
 	}
 }

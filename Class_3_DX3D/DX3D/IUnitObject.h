@@ -42,7 +42,7 @@ public:
 	void SetMoveSpeed(int _movespeed) { m_moveSpeed = _movespeed; }
 	void UpdateKeyboardState();
 	void UpdatePositionToDestination();
-
+	
 	int getHealth() { return health; }
 	void setHealth(int h) { health = h; }
 	

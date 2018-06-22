@@ -293,15 +293,18 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 				//다음 장애물로 가기 위한 조건문
 				if (Dist < 3.0f && m_pMob[_Mobnum]->PlayerSearch()== false)
 				{
+					m_pMob[_Mobnum]->m_Act._hiding = 몹_숨었다;
+					m_pMob[_Mobnum]->SetMoveSpeed(0);
 					m_pMob[_Mobnum]->num++;
 					if (m_pMob[_Mobnum]->num > 100)
 					{
+						m_pMob[_Mobnum]->SetMoveSpeed(1.0f);
 						m_CanSave[m_pMob[_Mobnum]->GetLocationNum().back()] = true;
 						m_pMob[_Mobnum]->SetDetermined(false);
 						m_pMob[_Mobnum]->EraseWallLocation();
 						m_pMob[_Mobnum]->m_move = false;
 						m_pMob[_Mobnum]->num = 0;
-
+						m_pMob[_Mobnum]->m_Act._hiding = 몹_움직인다;
 					}
 				}
 			}
