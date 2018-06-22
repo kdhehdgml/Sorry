@@ -9,8 +9,8 @@ enum ANI_STATE
 	달리다가서기2,
 	달리닫가서기1,
 	달리다가죽기,
-	달리면서쏘기2,
 	달리면서쏘기,
+	달리기,
 	수그리면서달리기
 };
 
@@ -54,7 +54,7 @@ class Mob
 	: public IUnitObject
 {
 private:
-	MONSTER		*	m_MONSTER;
+	MONSTER * m_MONSTER;
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
 	bool			m_isTurnedOnLight;
@@ -86,7 +86,10 @@ private:
 	LPD3DXMESH		m_pSphereHead;
 	BoundingSphere* m_pBoundingSphereHead;
 	int status;
+	//애니메이션 인덱스
 	int ani_state;
+	//애니메이션 시작과 끝
+	bool ani_start;
 
 public:
 	Mob();
@@ -100,10 +103,10 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
-	
+
 	BoundingSphere* getBoundingSphereBody();
 	BoundingSphere* getBoundingSphereHead();
-	
+
 	int getStatus();
 	void setStatus(int s);
 
@@ -118,10 +121,14 @@ public:
 	bool CanShooting();
 	void Shooting();
 	void SetAllSaveLocation(vector<D3DXVECTOR3> m_SaveLocation) { m_AllSaveLocation = m_SaveLocation; }
-	void SetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum) 
-	{ moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum);}
-	void SetTemporary(D3DXVECTOR3 wallLocation, int Locationnum) 
-	{ Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);}
+	void SetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum)
+	{
+		moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum);
+	}
+	void SetTemporary(D3DXVECTOR3 wallLocation, int Locationnum)
+	{
+		Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);
+	}
 	void SetDetermined(bool _boo) { m_BeDetermined = _boo; }
 	void SetCanSave(bool _Can) { m_LocationCanSave = _Can; }
 	vector<D3DXVECTOR3> GetMoveTheWall() { return moveLocation; }
@@ -134,10 +141,11 @@ public:
 	void EraseLocationSoldier();
 	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); }
 	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); }
-	
+
 	//void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
 	void LocationSwap();
 	void TemporarySwap();
-	
+
+
 };
 

@@ -5,7 +5,7 @@
 #include "UnitBox.h"
 Mob::Mob()
 {
-//	m_pRootParts = NULL;
+	//	m_pRootParts = NULL;
 	m_MONSTER = NULL;//몬스터 클래스 추가
 	m_isMoving = false;
 	m_isShoot = false;
@@ -27,6 +27,8 @@ Mob::Mob()
 	status = 1;
 	m_BeDetermined = false;
 	m_Setdest = false;
+
+	ani_start = true;
 }
 
 
@@ -57,14 +59,15 @@ void Mob::Init()
 	//CreateAllParts();
 	IUnitObject::m_moveSpeed = GSM().mobSpeed;
 	m_pos = D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350));
-	
+
 }
 
 void Mob::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		m_pos = { 1000,10,1000 };
+		ani_state = 달리다가죽기;
+		//m_pos = { 1000,10,1000 };
 	}
 	if (status > 0) {
 		Act_Moving();
@@ -76,7 +79,7 @@ void Mob::Update()
 		}
 		IUnitObject::UpdateKeyboardState();
 		IUnitObject::UpdatePositionToDestination();
-		
+
 		//EraseLocationSoldier();
 		m_pBoundingSphereBody->center = m_pos;
 		m_pBoundingSphereBody->center.y += 2.0f;
@@ -85,8 +88,6 @@ void Mob::Update()
 
 		//m_pRootParts->SetMovingState(m_isMoving);
 		//m_pRootParts->Update();
-		m_MONSTER->SetPos(m_pos);
-		m_MONSTER->Update();
 
 		Debug->AddText("몹 체력: ");
 		Debug->AddText(health);
@@ -95,14 +96,19 @@ void Mob::Update()
 		Debug->AddText(" / 탄약: ");
 		Debug->AddText(m_maxbullet);
 		Debug->EndLine();
-		
-	}
-	else
-	{
-		ani_state = 달리다가죽기;
+
 	}
 
-	m_MONSTER->SetAnimationIndex(ani_state, true);
+
+	//if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f)
+	//{
+	//	m_Reload = false;
+	//	//m_pAnimController->SetTrackPosition(0, 0);
+	//}
+	m_MONSTER->SetPos(m_pos);
+	m_MONSTER->Update();
+
+	m_MONSTER->SetAnimationIndex(ani_state);
 }
 
 void Mob::Render()
@@ -110,39 +116,39 @@ void Mob::Render()
 	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
 	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
 	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
-	//안개적용되는 최소 거리
+															  //안개적용되는 최소 거리
 	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
 	//안개 최대치로 적용되는 거리
 	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	
-	if (status > 0) {
-		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		//m_pRootParts->Render();
-		
-		if(g_pFrustum->IsMobAIFrustum(this))
-			m_MONSTER->Render();
 
-		D3DXMATRIXA16 matI;
-		D3DXMatrixIdentity(&matI);
-		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		g_pDevice->SetTransform(D3DTS_WORLD, &matI);
-		g_pDevice->SetFVF(VERTEX_PC::FVF);
-		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
-			1, &Shootpos[0], sizeof(VERTEX_PC));
+	//if (status > 0) {
+	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//m_pRootParts->Render();
 
-		D3DXMATRIXA16 mat;
-		D3DXMatrixTranslation(&mat, m_pBoundingSphereBody->center.x, m_pBoundingSphereBody->center.y, m_pBoundingSphereBody->center.z);
-		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-		g_pDevice->SetTexture(0, NULL);
-		//m_pSphereBody->DrawSubset(0);
-		//D3DXMATRIXA16 mat2;
-		D3DXMatrixIdentity(&mat);
-		D3DXMatrixTranslation(&mat, m_pBoundingSphereHead->center.x, m_pBoundingSphereHead->center.y, m_pBoundingSphereHead->center.z);
-		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-		g_pDevice->SetTexture(0, NULL);
-		//m_pSphereHead->DrawSubset(0);
-	}
+	if (g_pFrustum->IsMobAIFrustum(this))
+		m_MONSTER->Render();
+
+	D3DXMATRIXA16 matI;
+	D3DXMatrixIdentity(&matI);
+	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	g_pDevice->SetTransform(D3DTS_WORLD, &matI);
+	g_pDevice->SetFVF(VERTEX_PC::FVF);
+	g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
+		1, &Shootpos[0], sizeof(VERTEX_PC));
+
+	D3DXMATRIXA16 mat;
+	D3DXMatrixTranslation(&mat, m_pBoundingSphereBody->center.x, m_pBoundingSphereBody->center.y, m_pBoundingSphereBody->center.z);
+	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+	g_pDevice->SetTexture(0, NULL);
+	//m_pSphereBody->DrawSubset(0);
+	//D3DXMATRIXA16 mat2;
+	D3DXMatrixIdentity(&mat);
+	D3DXMatrixTranslation(&mat, m_pBoundingSphereHead->center.x, m_pBoundingSphereHead->center.y, m_pBoundingSphereHead->center.z);
+	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+	g_pDevice->SetTexture(0, NULL);
+	//m_pSphereHead->DrawSubset(0);
+	//}
 }
 
 BoundingSphere * Mob::getBoundingSphereBody()
@@ -201,7 +207,7 @@ void Mob::Act_Moving()
 	case 몹_돌격이동:
 		if (PlayerSearch() == false)
 		{
-			if(m_Setdest == false)
+			if (m_Setdest == false)
 				SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pos.z));
 			m_Setdest = true;
 		}
@@ -209,7 +215,7 @@ void Mob::Act_Moving()
 		{
 			m_Setdest = false;
 		}
-			
+
 		break;
 	case 몹_엄폐이동:
 		break;
@@ -317,8 +323,8 @@ void Mob::Act_Hiding()
 	case 몹_움직인다:
 		if (m_moveSpeed > 0)
 		{
-			ani_state = 달리면서쏘기;
-			
+			if (status > 0)
+				ani_state = 달리기;
 		}
 		break;
 	}
@@ -332,13 +338,13 @@ bool Mob::PlayerSearch()
 		return TrenchFight();
 	}
 	//멀리서 각도안에 인식가능한지
-	else if (m_pos.x < NODE_POSITSIZEX + 270.0f && m_Act._engage !=몹_무시하고돌격)
+	else if (m_pos.x < NODE_POSITSIZEX + 270.0f && m_Act._engage != 몹_무시하고돌격)
 	{
 		CanShooting();
 		Shooting();
 		if (m_TeamAINum == NULL)
 			return false;
-		else 
+		else
 			return true;
 	}
 	//너무멀면 그냥 불가
@@ -367,7 +373,7 @@ bool Mob::TrenchFight()
 		m_TeamAINum = AINum;
 		D3DXVECTOR3 collision = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition() - m_pos };
 		D3DXVec3Normalize(&collision, &collision);
-		if(m_Setdest == true)
+		if (m_Setdest == true)
 			SetTargetPostion(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition() - collision * 1.5f);
 		m_Setdest = false;
 		D3DXVECTOR3 Direction = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().x ,
@@ -429,9 +435,9 @@ bool Mob::CanShooting()
 					if (m_TeamAINum == NULL && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[number]->getHealth() > 0)
 					{
 						m_TeamAINum = number;
-						
+
 					}
-					if(m_TeamAINum !=NULL)
+					if (m_TeamAINum != NULL)
 						return true;
 				}
 			}
