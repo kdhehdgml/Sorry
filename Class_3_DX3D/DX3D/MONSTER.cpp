@@ -3,7 +3,7 @@
 #include "AllocateHierarchy.h"
 
 //적군 스킨 사이즈 조절
-#define SCALE 4.0f
+#define SCALE 6.0f
 
 
 MONSTER::MONSTER()

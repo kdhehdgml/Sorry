@@ -123,6 +123,8 @@ void SceneHeightmap::Init()
 	g_pMapManager->AddMap("heightmap", m_pHeightMap);
 	g_pMapManager->SetCurrentMap("heightmap");
 
+	m_pOldPos = g_pCamera->getPos();
+	
 	/*m_pAseCharacter = new AseCharacter;
 	m_pAseCharacter->Init();
 	AddSimpleDisplayObj(m_pAseCharacter);
@@ -405,8 +407,47 @@ void SceneHeightmap::Update()
 	}
 
 	float height;
-	D3DXVECTOR3 playerPos = g_pCamera->getPos();
-	bool isIntersected = g_pCurrentMap->GetHeight(height, playerPos);
+	D3DXVECTOR3 currentPos = g_pCamera->getPos();
+	bool isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
+	/*if (!g_pCamera->getFreeCameraMode()) {
+		float dx1, dx2, dy1, dy2;
+		currentPos.x += 0.1;
+		currentPos.z += 0.1;
+		isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
+		isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
+		currentPos.x -= 0.2;
+		currentPos.z -= 0.2;
+		isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
+		isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
+		dx1 -= height;
+		dy1 -= height;
+		dx2 -= height;
+		dy2 -= height;
+		currentPos.x += 0.1;
+		currentPos.z += 0.1;
+		D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
+		cPosDiff.y = 0;
+		if (dx1 > 0.2 && cPosDiff.x > 0) {
+			cPosDiff.x = 0;
+		}
+		if (dy1 > 0.2 && cPosDiff.z > 0) {
+			cPosDiff.z = 0;
+		}
+		if (dx2 > 0.2 && cPosDiff.x < 0) {
+			cPosDiff.x = 0;
+		}
+		if (dy2 > 0.2 && cPosDiff.z < 0) {
+			cPosDiff.z = 0;
+		}
+		g_pCamera->setPos(m_pOldPos + cPosDiff);
+	}
+	currentPos = g_pCamera->getPos();
+	isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
+	currentPos.y = height + 7.0f;
+	if (g_pCamera->getFreeCameraMode()) {
+		currentPos.y += 63.0f;
+	}
+	g_pCamera->setPos(currentPos);*/
 
 	m_pBoundingSphere->center = g_pCamera->getPos();
 	m_pBoundingSphere->center.y = height + 3.0f;
@@ -432,9 +473,6 @@ void SceneHeightmap::Update()
 			camPosDiff.y = 0;
 			g_pCamera->setPos(m_pOldPos + camPosDiff);
 		}
-		else {
-			m_pOldPos = g_pCamera->getPos();
-		}
 		bool tempGetHitBox = false;
 		tempGetHitBox = r.CalcIntersectBox(p->getBoundingBox());
 		if (tempGetHitBox) {
@@ -442,11 +480,16 @@ void SceneHeightmap::Update()
 		}
 	}
 
+	m_pOldPos = g_pCamera->getPos();
+
 	Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
 	Debug->EndLine();
 	Debug->AddText("현재 높이 : ");
 	Debug->AddText(height);
+	Debug->EndLine();
+	Debug->AddText("현재 위치 : ");
+	Debug->AddText(m_pOldPos);
 	Debug->EndLine();
 	Debug->AddText("Bounding Box Collision with Ray: ");
 	Debug->AddText(getHitBox);
