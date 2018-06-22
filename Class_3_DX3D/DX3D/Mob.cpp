@@ -116,7 +116,6 @@ void Mob::Render()
 	
 	if (status > 0) {
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		//m_pRootParts->Render();
 		
 		if(g_pFrustum->IsMobAIFrustum(this))
 			m_MONSTER->Render();
@@ -185,8 +184,8 @@ void Mob::SaveAction()
 	if (r1 == 1 && r2 == 2) { r2 = 1; }
 	//무시하고돌격은 장전안함
 	if (r2 == 2) { r4 = 1; }
-	m_Act._moving = MOB_MOVING(r1);
-	m_Act._engage = MOB_ENGAGE(r2);
+	m_Act._moving = MOB_MOVING(0);
+	m_Act._engage = MOB_ENGAGE(1);
 	m_Act._gunshot = MOB_GUNSHOT(r3);
 	m_Act._reload = MOB_RELOAD(r4);
 	m_Act._hiding = MOB_ACTION(2);
@@ -197,17 +196,13 @@ void Mob::Act_Moving()
 	switch (m_Act._moving)
 	{
 	case 몹_돌격이동:
+		EraseLocationSoldier();
 		if (PlayerSearch() == false)
 		{
 			if(m_Setdest == false)
 				SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pos.z));
 			m_Setdest = true;
 		}
-		else
-		{
-			m_Setdest = false;
-		}
-			
 		break;
 	case 몹_엄폐이동:
 		break;
@@ -331,10 +326,8 @@ bool Mob::TrenchFight()
 	if (AINum != NULL)
 	{
 		m_TeamAINum = AINum;
-		D3DXVECTOR3 collision = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition() - m_pos };
-		D3DXVec3Normalize(&collision, &collision);
 		if(m_Setdest == true)
-			SetTargetPostion(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition() - collision * 1.5f);
+			SetTargetPostion(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
 		m_Setdest = false;
 		D3DXVECTOR3 Direction = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().x ,
 			g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().y + 4.0f,
@@ -345,12 +338,17 @@ bool Mob::TrenchFight()
 		Shootpos[1] = (VERTEX_PC(Direction, d));
 		if (D3DXVec3Length(&(m_pos - g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition())) < 5.0f)
 		{
+			m_moveSpeed = 0;
 			m_ShootCooldownTime++;
 			if (m_ShootCooldownTime > 100)
 			{
 				g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() - 25.0f);
 				m_ShootCooldownTime = 0;
 			}
+		}
+		else
+		{
+			m_moveSpeed = 1.0f;
 		}
 		if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
 		{
@@ -496,14 +494,14 @@ void Mob::EraseLocationSoldier()
 	{
 		for (int j = moveLocation.size() - 1; j >= 0; j--)
 		{
-			if (m_pos.x < moveLocation[j].x)
+			if (m_pos.x + 5.0f < moveLocation[j].x)
 				EraseWallLocation();
 			else
 				break;
 		}
 		for (int j = Temporary_Storage.size() - 1; j >= 0; j--)
 		{
-			if (m_pos.x < Temporary_Storage[j].x)
+			if (m_pos.x + 5.0f < Temporary_Storage[j].x)
 				EraseTemporary();
 			else
 				break;

@@ -4,9 +4,22 @@ class CubemanParts;
 class Mob;
 class TEAM_TEX;
 
+enum ANI_TEAMSTATE
+{
+	ÈÞ½Ä,
+	°æ°è,
+	»ç°Ý,
+	¾öÆó,
+	ÀçÀåÀü,
+	±ÙÁ¢µ¹°Ý,
+	±ÙÁ¢´ë±â
+};
 enum TEAM_STATE{
+	ÆÀ_´ë±â,
 	ÆÀ_¾öÆó,
-	ÆÀ_°ø°Ý
+	ÆÀ_»ç°Ý,
+	ÆÀ_ÀçÀåÀü,
+	ÆÀ_±ÙÁ¢½Î¿ò
 };
 class TeamAI :
 	public IUnitObject
@@ -22,12 +35,12 @@ private:
 	D3DXVECTOR3		m_deltaPos;
 	D3DXVECTOR3		m_deltaRot;
 	D3DXVECTOR3		m_forward;
-	
+	int				m_reloading;
 	int				m_MobNum;
 	int				m_ShootCooldownTime;
 	bool			m_isMoving;
 	bool			m_isShoot;
-
+	int				m_bullet;
 	bool			m_render;
 	
 	LPD3DXMESH		m_pSphere;
@@ -49,12 +62,12 @@ public:
 	void GetMob(vector<Mob*> _mob) { m_pMob = _mob; }
 	vector<Mob*>* getPMob();
 	D3DXMATRIXA16 getMatWorld();
-
+	bool HaveBullet();
 	virtual bool MobSearch();
 	void ShootVertex();
-	bool TrenchFight();
-	bool CanShooting();
+	void TrenchFight(int _num);
 	void Shooting();
+	void Reloading();
 
 
 };

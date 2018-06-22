@@ -9,9 +9,9 @@ TeamAI::TeamAI()
 	m_MobNum = NULL;
 	m_isMoving = false;
 	m_isShoot = false;
-
+	m_reloading = 0;
 	//m_baseRotY = D3DX_PI / 2;
-	m_Action = ∆¿_∞¯∞›;
+	m_Action = ∆¿_¥Î±‚;
 	m_forward.z = -1;
 	m_pos.y = 3.0f;
 	m_destPos = m_pos;
@@ -57,6 +57,13 @@ void TeamAI::Update()
 		m_pos = { 2000,10,2000 };
 	}
 	if (status > 0) {
+		if (m_MobNum == NULL || HaveBullet() == false)
+		{
+			m_Action = ∆¿_¿Á¿Â¿¸;
+			Reloading();
+		}
+			
+
 		UpdatePositionToDestination();
 		//UpdatePosition();
 
@@ -142,8 +149,22 @@ D3DXMATRIXA16 TeamAI::getMatWorld()
 	return m_matWorld;
 }
 
+bool TeamAI::HaveBullet()
+{
+	if (m_bullet < 1)
+		return false;
+
+	return true;
+}
+
 bool TeamAI::MobSearch()
 {
+	if (m_MobNum != NULL)
+	{
+		if (HaveBullet() == true)
+			Shooting();
+		return true;
+	}
 	if (g_pObjMgr->FindObjectsByTag(TAG_MOB).size() > 0)
 	{
 		D3DXVECTOR3 move_forward;
@@ -169,7 +190,13 @@ bool TeamAI::MobSearch()
 				
 				if (Length < 15)
 				{
-					TrenchFight();
+					TrenchFight(1);
+					return true;
+				}
+				else if (Length < 30)
+				{
+					m_isShoot = true;
+					TrenchFight(1);
 					return true;
 				}
 				else if (Length < 240 && DotPM >= direct)
@@ -178,12 +205,14 @@ bool TeamAI::MobSearch()
 					if (m_MobNum == NULL)
 					{
 						m_MobNum = number;
+						Shooting();
 					}
 					return true;
 				}
 			}
 			number++;
 		}
+		m_Action = ∆¿_¥Î±‚;
 		m_isShoot = false;
 		return false;
 	}
@@ -192,66 +221,106 @@ bool TeamAI::MobSearch()
 void TeamAI::ShootVertex()
 {
 	D3DXVECTOR3 myPos = D3DXVECTOR3(m_pos.x, m_pos.y + 4.0f, m_pos.z);
-	D3DXVECTOR3 forward = D3DXVECTOR3(myPos.x, myPos.y, myPos.z);
+	D3DXVECTOR3 forward = D3DXVECTOR3(myPos.x + 4.0f, myPos.y, myPos.z);
 	D3DCOLOR c = D3DCOLOR_XRGB(255, 0, 0);
 	D3DCOLOR d = D3DCOLOR_XRGB(0, 255, 0);
-	//D3DXVECTOR3 directPMnor = Ppos - m_pos;
 
-	if (m_isShoot == true)
+	if (m_MobNum != NULL)
 	{
 		D3DXVECTOR3 Direction = { g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().x ,
 		g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().y + 4.0f,
 		g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().z };
 		Shootpos[0] = (VERTEX_PC(myPos, c));
 		Shootpos[1] = (VERTEX_PC(Direction, c));
-
-		float kill = rand() % 10;
-
-		m_ShootCooldownTime++;
-		
-		if (m_ShootCooldownTime > 50)
-		{
-			if (kill < 5)
-			{
-				int damage = rand() % 10;
-				if (damage < 3)
-				{
-					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth(0);
-				}
-				else
-				{
-					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() - 50);
-				}
-				if (g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() <= 0)
-				{
-					m_MobNum = NULL;
-				}
-			}
-			m_ShootCooldownTime = 0;
-			m_Action = TEAM_STATE(rand() % 2);
-		}
 	}
 	else
 	{
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(forward, d));
 	}
-	
-	/*if(ray.CalcIntersectTri(&m_vecObstacle[i], &intersectionDist))
+}
+
+void TeamAI::TrenchFight(int _num)
+{
+	float nearEnemy = 100;
+	int EnemyNum = NULL;
+
+	//∞°±ÓøÓ≥ √£±‚(Min√£¥¬πÊΩƒ)
+	for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_MOB).size(); i++)
 	{
-	}*/
-}
+		float length = D3DXVec3Length(&(g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition() - m_pos));
+		if (length < nearEnemy)
+		{
+			nearEnemy = length;
+			EnemyNum = i;
+		}
+	}
+	if (EnemyNum != NULL)
+	{
+		m_MobNum = EnemyNum;
+		
+		if (_num == 1)
+		{
 
-bool TeamAI::TrenchFight()
-{
-	return false;
-}
+			if (D3DXVec3Length(&(m_pos - g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition())) < 5.0f)
+			{
+				m_moveSpeed = 0;
+				m_ShootCooldownTime++;
+				if (m_ShootCooldownTime > 100)
+				{
+					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth
+					(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() - 25.0f);
+					m_ShootCooldownTime = 0;
+				}
+			}
+			else
+			{
+				m_moveSpeed = 1.0f;
+			}
+			if (g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() <= 0)
+				m_MobNum = NULL;
 
-bool TeamAI::CanShooting()
-{
-	return false;
+		}
+		if (_num == 2)
+		{
+			Shooting();
+		}
+	}
 }
 
 void TeamAI::Shooting()
 {
+	if (HaveBullet() == true && m_Action == ∆¿_ªÁ∞›)
+	{
+		float kill = rand() % 10;
+		m_ShootCooldownTime++;
+		if (m_ShootCooldownTime > 100)
+		{
+			if (kill < 5)
+			{
+				int damage = rand() % 10;
+				if (damage < 3)
+				{
+					g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_MobNum]->setHealth(0);
+				}
+				else
+				{
+					g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_MobNum]->setHealth
+					(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_MobNum]->getHealth() - 50);
+				}
+			}
+			m_ShootCooldownTime = 0;
+			m_bullet--;
+		}
+	}
+}
+
+void TeamAI::Reloading()
+{
+	m_reloading++;
+	if (m_reloading > 100)
+	{
+		m_bullet = 5;
+		m_reloading = 0;
+	}
 }
