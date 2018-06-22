@@ -11,6 +11,8 @@ public:
 	Grid * m_pGrid;
 	SkyBox * m_SkyBox;
 
+	D3DXVECTOR3 SpeakerPos;
+
 	SceneTest();
 	~SceneTest();
 

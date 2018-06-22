@@ -88,14 +88,11 @@ void Mob::Update()
 		m_MONSTER->SetPos(m_pos);
 		m_MONSTER->Update();
 
-		
-		Debug->AddText("¸÷ Ã¼·Â:");
+		Debug->AddText("¸÷ Ã¼·Â: ");
 		Debug->AddText(health);
-		Debug->EndLine();
-		Debug->AddText("¸÷ ÃÑ¾Ë¼ö:");
+		Debug->AddText(" / ÀåÀü: ");
 		Debug->AddText(m_bullet);
-		Debug->EndLine();
-		Debug->AddText("¸÷ ÃÑÃÑ¾Ë¼ö:");
+		Debug->AddText(" / Åº¾à: ");
 		Debug->AddText(m_maxbullet);
 		Debug->EndLine();
 	}

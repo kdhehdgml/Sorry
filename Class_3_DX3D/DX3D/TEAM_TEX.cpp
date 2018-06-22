@@ -39,6 +39,8 @@ void TEAM_TEX::Init()
 	//CString path = "resources/xFile/";
 	CString path = "resources/xFile/TEAM_AI/";
 	CString filename = "TEAM.X";
+	//CString path = "resources/xFile/newMan/";
+	//CString filename = "stand_idle.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 

@@ -31,6 +31,13 @@ enum PLAYER_STATE
 class Player_hands : public IUnitObject
 {
 protected:
+
+	//애니메이션 조절용
+	LPD3DXANIMATIONSET			pCurrAnimSet;
+	LPD3DXANIMATIONSET			pNextAnimSet;
+	D3DXTRACK_DESC				track;
+
+	//
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
@@ -56,6 +63,8 @@ protected:
 	int							count;
 
 	D3DXMATRIXA16				matT, matS, matR;
+
+	float						m_FrameTime;
 
 public:
 	Player_hands();

@@ -90,9 +90,9 @@ void TeamAI::Render()
 
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
+		//ÇÁ·¯½ºÅÒ Àû¿ë 
 		if (g_pFrustum->IsTeamAIFrustum(this) == true)
 		{
-			
 			if(m_render)
 				m_TEAM_TEX->Render();
 		}

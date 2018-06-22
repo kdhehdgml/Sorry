@@ -314,6 +314,9 @@
     <ClInclude Include="ALLTexTURE.h">
       <Filter>소스 파일\Skin</Filter>
     </ClInclude>
+    <ClInclude Include="ObjRender.h">
+      <Filter>소스 파일\3.Object\OBJ</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -537,6 +540,9 @@
     <ClCompile Include="WallManager.cpp" />
     <ClCompile Include="ALLTexTURE.cpp">
       <Filter>소스 파일\Skin</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjRender.cpp">
+      <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

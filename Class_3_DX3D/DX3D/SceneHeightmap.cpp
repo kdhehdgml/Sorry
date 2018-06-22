@@ -27,7 +27,7 @@
 #include "IUIObject.h"
 #include "UIImage.h"
 
-#include "ObjRen.h"// obj 해더
+#include "ObjRender.h"// obj 해더
 
 
 
@@ -43,7 +43,7 @@ SceneHeightmap::SceneHeightmap()
 	m_ColorCube = NULL;
 	m_Player_hands = NULL;
 	//m_Frustum = NULL;
-	
+
 
 	//중현이코드
 	m_pBlocks = NULL;
@@ -71,7 +71,8 @@ SceneHeightmap::SceneHeightmap()
 	volume_music = GSM().volume_music_init;
 
 	// obj 관련
-	m_MapTest = NULL;
+	m_ObjRender = NULL;
+
 	//m_MapTest0 = NULL;
 
 }
@@ -94,13 +95,12 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 	SAFE_RELEASE(m_pUnit);
-	
+
 
 	//m_pCrosshair->ReleaseAll();
 
 	//obj 관련 직접 접근해서 릴리즈함
-	m_MapTest->~ObjRen();
-	//m_MapTest0->~ObjRen();
+	m_ObjRender->~ObjRender();
 
 	OnDestructIScene();
 }
@@ -116,7 +116,7 @@ void SceneHeightmap::Init()
 	m_pHeightMap->Init();
 	D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
 
-	
+
 	m_pHeightMap->SetMtlTex(mtl,
 		g_pTextureManager->GetTexture(L"resources/heightmap/terrainBF.png"));
 
@@ -138,9 +138,8 @@ void SceneHeightmap::Init()
 	//
 
 	// obj 관련 (크기, obj파일 위치, png파일 위치, x, y, z, 회전) 테스트용으로 넣은것임..
-	m_MapTest = new ObjRen; m_MapTest->Init(66.9f, _T("resources/obj/WoodenBarrierTest02.obj"), _T("resources/obj/images.png"), 363.0f, 11.5f, -537.0f, 0.0f);
-	//m_MapTest0 = new ObjRen; m_MapTest0->Init(66.9f, _T("resources/obj/SaddleBagTest02.obj"), _T("resources/obj/SaddleBagTex.png"), 375.0f, 40.3f, -565.9f, 0.0f);
-
+	m_ObjRender = new ObjRender;
+	m_ObjRender->Init();
 
 	//중현이코드
 	m_pUnit = new UnitBox();
@@ -255,7 +254,7 @@ void SceneHeightmap::Init()
 
 	D3DXVECTOR3 aa(200.0f, 25.0f, 300.0f); //임시 BoundingBox 좌표1
 	D3DXVECTOR3 bb(310.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
-	
+
 	D3DXVECTOR3 aa2(0.0f, 25.0f, 100.0f); //임시 BoundingBox 좌표1
 	D3DXVECTOR3 bb2(10.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
 
@@ -423,16 +422,18 @@ void SceneHeightmap::Update()
 		D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
 		getCollision = wallManager->IntersectSphereBox(m_pBoundingSphere, p->getBoundingBox());
 		if (getCollision) {
-			D3DXVECTOR3 lookDirInverse = -1.0f * lookDir; //내 위치와 벽 사이 벡터의 역벡터
-			lookDirInverse.y = 0; //y축 값은 필요없다.
-			if (lookDirInverse.x > lookDirInverse.z) {
-				lookDirInverse.x = 0;
+			D3DXVECTOR3 camPosDiff = playerPos - m_pOldPos;
+			if ((p->getSize().z + 5.0f) / 2.0f > abs(posDiff.z)) {
+				camPosDiff.x = 0;
 			}
 			else {
-				lookDirInverse.z = 0;
+				camPosDiff.z = 0;
 			}
-			D3DXVec3Normalize(&lookDirInverse, &lookDirInverse);
-			g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
+			camPosDiff.y = 0;
+			g_pCamera->setPos(m_pOldPos + camPosDiff);
+		}
+		else {
+			m_pOldPos = g_pCamera->getPos();
 		}
 		bool tempGetHitBox = false;
 		tempGetHitBox = r.CalcIntersectBox(p->getBoundingBox());
@@ -471,8 +472,7 @@ void SceneHeightmap::Render()
 	//m_pPicking->Render();
 
 	//obj 관련
-	SAFE_RENDER(m_MapTest);
-	//AFE_RENDER(m_MapTest0);
+	m_ObjRender->Render();
 
 	if (m_pCrosshairOn) {
 		if (m_pScopeOn & g_pCamera->getCooldown() <= 0) {
@@ -512,7 +512,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	//SAFE_WNDPROC(m_pPicking);
 	//SAFE_WNDPROC(m_pUnit);
 	SAFE_WNDPROC(m_Player_hands);
-	
+
 
 	m_pLParam = lParam;
 

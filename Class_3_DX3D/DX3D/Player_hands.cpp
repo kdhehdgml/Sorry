@@ -41,6 +41,10 @@ Player_hands::Player_hands()
 	m_zooming = false;
 
 	count = 0;
+
+	pCurrAnimSet = NULL;
+	pNextAnimSet = NULL;
+	track;
 }
 
 
@@ -55,6 +59,8 @@ Player_hands::~Player_hands()
 
 void Player_hands::Init()
 {
+
+
 	g_pCamera->SetTarget(&m_pos);
 	g_pKeyboardManager->SetMovingTarget(&m_keyState);
 
@@ -70,8 +76,13 @@ void Player_hands::Init()
 	
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 
-	m_AnimaTionIndex = 6;
 
+	m_AnimaTionIndex = 기본상태;
+
+
+	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pNextAnimSet);
+	m_pAnimController->GetTrackDesc(0, &track);
+	m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
 }
 
 
@@ -91,6 +102,8 @@ void Player_hands::Load(LPCTSTR path, LPCTSTR filename)
 
 void Player_hands::Update()
 {
+
+
 	//렌더 껏다키기
 	if (Keyboard::Get()->KeyDown('V'))
 	{
@@ -120,32 +133,50 @@ void Player_hands::Update()
 				m_AnimaTionIndex = 기본상태;
 		}
 
-		if (m_Reload)
-		{
-			count++;
-			Debug->AddText("재장전시간 : ");
-			Debug->AddText(count);
-			Debug->EndLine();
-
-			if (count == 75)
-				m_Reload = false;
-		}
-		else
-		{
-			count = 0;
-		}
-
 		if (!m_Reload && m_zooming)
 			m_AnimaTionIndex = 줌_모드;
 
 
-	/*	Debug->AddText("줌인 상태");
-		Debug->AddText(m_zooming);
-		Debug->EndLine();*/
+		//애니메이션 컨테이너 설정
+		m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
+		m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
+
+		Debug->AddText("전체시간 :");
+		Debug->AddText(pCurrAnimSet->GetPeriod());
+		Debug->EndLine();
+
+		Debug->AddText("현재시간 :");
+		Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
+		Debug->EndLine();
 
 
+		/*float total = pCurrAnimSet->GetPeriod() * pCurrAnimSet->GetNumAnimations();
 
+		Debug->AddText("시간 :");
+		Debug->AddText(total);
+		Debug->EndLine();
+		Debug->AddText("gettickCount :");
+		Debug->AddText(GetTickCount());
+		Debug->EndLine();
+*/
+		//if (count >= total)
+		//{
+		//	count = 0;
+		///*	SetAnimationIndex(m_AnimaTionIndex, false);
+		//	m_Reload = false;*/
+		//}
+
+		//현재 애니메이션의 전체타임과  현재 애니메이션 타임의 비교연산
+		//현재 애니메이션 타임이 더 커지면 애니메이션 끄기
+		if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f)
+		{
+			m_Reload = false;
+			//m_pAnimController->SetTrackPosition(0, 0);
+		}
+		
 		SetAnimationIndex(m_AnimaTionIndex, true);
+
+
 
 		SetPosToCamera();
 	}
@@ -158,8 +189,6 @@ void Player_hands::Render()
 		m_numFrame = 0;
 		m_numMesh = 0;
 
-
-
 		if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 		//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
 	}
@@ -171,10 +200,15 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	{
 	case WM_LBUTTONDOWN:
 	{
-		m_Reload = true;
-		m_AnimaTionIndex = 볼트액션;
-		//액션 처음으로 초기화
-		m_pAnimController->SetTrackPosition(0, 0);
+		if (!m_Reload)
+		{
+			m_Reload = true;
+			m_AnimaTionIndex = 볼트액션;
+			//액션 처음으로 초기화
+			m_pAnimController->SetTrackPosition(0, 0);
+		}
+		
+		
 	}
 	break;
 	case WM_LBUTTONUP:
@@ -415,12 +449,19 @@ void Player_hands::SetPosToCamera()
 	m_pos = Camera::GetInstance()->getPos();
 	//m_pos.x -= 0.1f;
 	m_pos.y -= 3.5f;
-	angleX = (Camera::GetInstance()->getAngleX());
-	angleY = (Camera::GetInstance()->getAngleY()) - D3DX_PI;
 
+	D3DXVECTOR3 dir = g_pCamera->getDir();
+
+	angleX = atan(dir.y); //카메라 방향벡터의 역함수를 구함
+	angleY = asin(dir.x) * -1;
+
+	if (dir.z > 0) { //90~270도 사이일때
+		angleY = D3DX_PI - angleY; //역방향을 취함
+	} //역삼각함수가 단사함수가 아니기 때문에 해야 하는 연산들
 
 	//IUnitObject::UpdateKeyboardState();
 	//IUnitObject::UpdatePositionToDestination();
+
 	D3DXMATRIXA16 matR_X, matR_Y;
 
 	D3DXMatrixRotationX(&matR_X, angleX);
@@ -430,7 +471,7 @@ void Player_hands::SetPosToCamera()
 
 
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	//D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
@@ -439,7 +480,7 @@ void Player_hands::SetPosToCamera()
 
 void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 {
-	LPD3DXANIMATIONSET pNextAnimSet = NULL;
+	//LPD3DXANIMATIONSET pNextAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
 
 	//애니메이션 이름으로 호출가능. ㅠㅠ
@@ -479,9 +520,11 @@ void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 
 
 		//시간 재기용
-		D3DXTRACK_DESC track;
-		m_pAnimController->GetTrackDesc(0, &track);
+		/*D3DXTRACK_DESC track;
+		
 		LPD3DXANIMATIONSET pCurrAnimSet = NULL;
+		*/
+		m_pAnimController->GetTrackDesc(0, &track);
 		m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
 
 		////전체 시간
@@ -497,19 +540,13 @@ void Player_hands::SetAnimationIndex(int nIndex, bool isBlend)
 
 		SAFE_RELEASE(pPrevAnimSet);
 
-		Debug->AddText("전체시간 :");
-		Debug->AddText(pCurrAnimSet->GetPeriod());
-		Debug->EndLine();
-
-		Debug->AddText("현재시간 :");
-		Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
-		Debug->EndLine();
 
 
-		if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f)
+	/*	if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) )
 		{
+			isBlend = false;
 			m_pAnimController->SetTrackPosition(0, 0);
-		}
+		}*/
 			
 		pCurrAnimSet->Release();
 

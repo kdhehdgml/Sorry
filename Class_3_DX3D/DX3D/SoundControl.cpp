@@ -1,18 +1,36 @@
 #include "stdafx.h"
 #include "SoundControl.h"
 
+#define ERRCHK(TEXT) 	if (result != FMOD_OK) cout << TEXT << " FAIL" << endl; else cout << TEXT << " OK" << endl
+
+#define INTERFACE_UPDATETIME 50
+
+#define MAX_CHANNELS 32
+
+#define DOPPLER_SCALE	0.0
+#define DISTANCE_FACTOR 10.0
+#define ROLLOFF_SCALE	0.1
+
+#define minDistance 0.5
+#define maxDistance 500.0
+
 enum SoundType
 {
 	MUSIC,
 	EFFECT,
-	AMBIENT
+	AMBIENT,
+	_3D
 };
 
 SoundControl::SoundControl()
 {
-	//fmod 사용을 위한 설정
-	FMOD_System_Create(&m_pSystem);
-	FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
+	m_pChannelGroup = NULL;
+
+	result = FMOD_System_Create(&m_pSystem);
+	result = FMOD_System_Init(m_pSystem, MAX_CHANNELS, FMOD_INIT_NORMAL, NULL);
+
+	// 3D Setting
+	result = FMOD_System_Set3DSettings(m_pSystem, DOPPLER_SCALE, DISTANCE_FACTOR, ROLLOFF_SCALE);
 }
 
 
@@ -28,7 +46,7 @@ void SoundControl::CreateSound(int nCount, string * SoundFileName, int type)
 	m_ppSound = new FMOD_SOUND*[nCount];
 	m_ppChannel = new FMOD_CHANNEL*[nCount];
 
-	switch(type)
+	switch (type)
 	{
 	case MUSIC:
 		for (int i = 0; i < nCount; i++)
@@ -48,16 +66,22 @@ void SoundControl::CreateSound(int nCount, string * SoundFileName, int type)
 			FMOD_System_CreateSound(m_pSystem, SoundFileName[i].data(), FMOD_LOOP_NORMAL, 0, &m_ppSound[i]);
 		}
 		break;
+	case _3D:
+		for (int i = 0; i < nCount; i++)
+		{
+			result = FMOD_System_CreateSound(m_pSystem, SoundFileName[i].data(), FMOD_3D, 0, &m_ppSound[i]);
+			result = FMOD_Sound_Set3DMinMaxDistance(m_ppSound[i], minDistance, maxDistance);
+		}
+		break;
 	}
-
 }
+
 
 void SoundControl::PlaySound(int nIndex)
 {
-	FMOD_CHANNELGROUP *pChannelss = NULL;
 	if (nIndex < m_nSoundCount)
 	{
-		FMOD_System_PlaySound(m_pSystem, m_ppSound[nIndex], pChannelss, 0, &m_ppChannel[nIndex]);
+		result = FMOD_System_PlaySound(m_pSystem, m_ppSound[nIndex], m_pChannelGroup, false, &m_ppChannel[nIndex]);
 	}
 }
 
@@ -98,17 +122,15 @@ void SoundControl::volumeControl(int nIndex, float volume)
 	}
 }
 
-void SoundControl::sound3D(int nIndex)
-{
-	FMOD_System_Set3DSettings(m_pSystem, 1.0, 1.0, 1.0);
-	FMOD_VECTOR pos = { 0.0f, 0.0f, 0.0f };
-	FMOD_VECTOR vel = { 0.0f, 0.0f, 0.0f };
-	FMOD_VECTOR alt_pan_pos = { 0.0f,0.0f,0.0f };
-	float freq = 0.0f;
-	FMOD_Channel_Set3DAttributes(m_ppChannel[nIndex], &pos, &vel, &alt_pan_pos);
-	FMOD_Channel_GetFrequency(m_ppChannel[nIndex], &freq);
+void SoundControl::setSpeaker(int nIndex, FMOD_VECTOR sPos, FMOD_VECTOR sVel)
+{	
+	result = FMOD_Channel_Set3DAttributes(m_ppChannel[nIndex], &sPos, &sVel, 0);
 	//FMOD_Channel_SetVolume(m_ppChannel[nIndex], volume);
+}
 
+void SoundControl::setListener(int nIndex, FMOD_VECTOR lPos, FMOD_VECTOR lVel, FMOD_VECTOR lFoward, FMOD_VECTOR lUp)
+{
+	result = FMOD_System_Set3DListenerAttributes(m_pSystem, 0, &lPos, &lVel, &lFoward, &lUp);
 }
 
 void SoundControl::ReleaseSound()
@@ -122,6 +144,6 @@ void SoundControl::ReleaseSound()
 
 void SoundControl::Update()
 {
-	if (!m_pSystem)
-		FMOD_System_Update(m_pSystem);
+	result = FMOD_System_Update(m_pSystem);
+
 }

@@ -14,7 +14,10 @@
 			{ pNode->m_nodeState = STATE_NOHIDEWALL; }
 
 //노드 구체 사이즈 조절
-#define SPHERESIZE 1.0f
+#define SPHERESIZE 2.5f
+
+// 노드 한 줄 갯수
+#define nodeDim 50
 
 AStar::AStar()
 {
@@ -142,9 +145,7 @@ void AStar::Render()
 void AStar::InitNodes(IMap * pMap)
 {
 	temp_Imap = pMap;
-	int nodeDim = 100;// 노드 한 줄 갯수
-					 //간격
-	//이 수치 
+
 	float interval = ((pMap->GetSize().x - NODE_POSITSIZEZ * 2)-20) / (float)(nodeDim - 0.99);
 
 	for (int posZ = 0; posZ < nodeDim; posZ++)
@@ -164,42 +165,9 @@ void AStar::InitNodes(IMap * pMap)
 			//if (posX == 25 && (posZ > 40 && posZ < 42))
 			//{ pNode->m_nodeState = STATE_WALL;
 			//	Wall_location.push_back(pNode->m_location);	/*m_pUnit->SetLocation(pNode->m_location);*/ }
-			
-			// 벽생성 (매크로 사용)
-			bool lineodd = true;
-			int lineNum = 0;
-			for (int x = 35; x < 95; x += 8)
-			{
-				for (int z = 4; z < 96; z += 5)
-				{
-					if (lineodd)
-					{
-						if (lineNum % 3 != 1)
-						{
-							WALL(x, x, z, z + 2);
-						}
-						else
-						{
-							nWALL(x, x, z, z + 2);
-						}
-						lineodd = false;
-					}
-					else
-					{
-						if (lineNum % 3 != 1)
-						{
-							WALL(x, x, z + 2, z + 4);
-						}
-						else
-						{
-							nWALL(x, x, z + 2, z + 4);
-						}
-						lineodd = true;
-					}	
-				}
-				lineNum++;
-			}
 
+
+			MakeWall(posX, posZ, pNode); // 벽생성 함수
 		}
 	}
 	//위에 노드까는코드
@@ -448,6 +416,43 @@ void AStar::CalcEraseCount(const D3DXVECTOR3 & pos, const vector<int>& vecIndex,
 		{
 			numEraseNode++;//자기이후를 자름
 		}
+	}
+}
+
+void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
+{
+	// 벽생성 (매크로 사용)
+	bool lineodd = true;
+	int lineNum = 0;
+
+	for (int x = 18; x < nodeDim; x += 4) {
+		for (int z = 0; z < nodeDim; z += 4) {
+			if (lineodd)
+			{
+				if (lineNum % 3 != 1)
+				{
+					WALL(x, x, z, z + 2);
+				}
+				else
+				{
+					nWALL(x, x, z, z + 2);
+				}
+				lineodd = false;
+			}
+			else
+			{
+				if (lineNum % 3 != 1)
+				{
+					WALL(x, x, z + 2, z + 4);
+				}
+				else
+				{
+					nWALL(x, x, z + 2, z + 4);
+				}
+				lineodd = true;
+			}
+		}
+		lineNum++;
 	}
 }
 

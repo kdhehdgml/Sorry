@@ -26,8 +26,8 @@ class UnitBox;
 class Blocks;
 
 //class SkinnedMesh;
-class ObjRen;	//obj 클래스
 
+class ObjRender;	//obj 클래스
 
 class SceneHeightmap : public IScene
 {
@@ -52,8 +52,7 @@ private:
 	//
 
 	//obj 관련
-	ObjRen*			m_MapTest;
-	ObjRen*			m_MapTest0;
+	ObjRender*			m_ObjRender;
 
 	//영락코드
 	CreateSmog*		m_CreateSmog;
@@ -84,6 +83,8 @@ private:
 	WallManager * wallManager;
 
 	Ray r;
+
+	D3DXVECTOR3 m_pOldPos;
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 

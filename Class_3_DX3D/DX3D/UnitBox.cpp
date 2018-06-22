@@ -46,39 +46,19 @@ void UnitBox::Update()
 	SAFE_UPDATE(m_pCubeman);
 	Debug->EndLine();
 	if (GetAsyncKeyState(VK_F1) & 0x0001)
-	{
-		g_pSoundManager->playMusic(1);
-		g_pSoundManager->effectSound(0);
+		mobSummon(1);
+	if (GetAsyncKeyState(VK_F2) & 0x0001)
+		mobSummon(10);
+	if (GetAsyncKeyState(VK_F3) & 0x0001)
+		mobSummon(20);
+	if (GetAsyncKeyState(VK_F4) & 0x0001)
+		mobSummon(40);
 
-		int GroupNum = 1;
-		for (int i = 0; i < GroupNum; i++)
-		{
-			MobNum++;
-			m_pMob.resize(MobNum);
-			m_pMob[MobNum - 1] = new Mob;
-			m_pMob[MobNum - 1]->Init();
 
-			//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
-			m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
-			if (m_pMob[MobNum - 1]->m_Act._moving == 各_决企捞悼 || m_pMob[MobNum - 1]->m_Act._reload == 各_厘傈窃 || m_pMob[MobNum - 1]->m_Act._engage == 各_决企拱俊见扁)
-			{
-				FindHidingInTheWallLocation(MobNum - 1);
-			}
-		}
-	}
 	//饶规 力措 家券
 	if (GetAsyncKeyState(VK_F5) & 0x0001)
 	{
-		int Num = 10;
-		for (int i = 0; i < Num; i++)
-		{
-			TeamNum++;
-			m_pTeam.resize(TeamNum);
-			m_pTeam[TeamNum - 1] = new TeamAI;
-			m_pTeam[TeamNum - 1]->Init();
-			//m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3(GSM().TeamPos.x + NODE_POSITSIZE, 2.67f, GSM().TeamPos.z + ((TeamNum) * 20 + NODE_POSITSIZE)));
-			m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX - 50), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
-		}
+		teamSummon();		
 	}
 	//饶规 力措 瘤盔
 	if (GetAsyncKeyState(VK_F6) & 0x0001)
@@ -326,6 +306,41 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 				}
 			}
 		}
+	}
+}
+
+void UnitBox::mobSummon(int num)
+{
+	g_pSoundManager->playMusic(1);
+	g_pSoundManager->effectSound(0);
+
+	for (int i = 0; i < num; i++)
+	{
+		MobNum++;
+		m_pMob.resize(MobNum);
+		m_pMob[MobNum - 1] = new Mob;
+		m_pMob[MobNum - 1]->Init();
+
+		//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
+		m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
+		if (m_pMob[MobNum - 1]->m_Act._moving == 各_决企捞悼 || m_pMob[MobNum - 1]->m_Act._reload == 各_厘傈窃 || m_pMob[MobNum - 1]->m_Act._engage == 各_决企拱俊见扁)
+		{
+			FindHidingInTheWallLocation(MobNum - 1);
+		}
+	}
+}
+
+void UnitBox::teamSummon()
+{
+	int num = 1;
+	for (int i = 0; i < num; i++)
+	{
+		TeamNum++;
+		m_pTeam.resize(TeamNum);
+		m_pTeam[TeamNum - 1] = new TeamAI;
+		m_pTeam[TeamNum - 1]->Init();
+		//m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3(GSM().TeamPos.x + NODE_POSITSIZE, 2.67f, GSM().TeamPos.z + ((TeamNum) * 20 + NODE_POSITSIZE)));
+		m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX - 50), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
 	}
 }
 
