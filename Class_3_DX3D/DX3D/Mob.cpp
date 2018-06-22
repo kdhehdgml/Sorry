@@ -26,6 +26,9 @@ Mob::Mob()
 	status = 1;
 	m_BeDetermined = false;
 	m_Setdest = false;
+
+	ani_start = true;
+
 }
 
 
@@ -63,7 +66,9 @@ void Mob::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		m_pos = { 1000,10,1000 };
+		ani_state = 달리다가죽기;
+
+	//	m_pos = { 1000,10,1000 };
 	}
 	if (status > 0) {
 		Act_Moving();
@@ -95,12 +100,11 @@ void Mob::Update()
 		Debug->EndLine();
 		
 	}
-	else
-	{
-		ani_state = 달리다가죽기;
-	}
 
-	m_MONSTER->SetAnimationIndex(ani_state, true);
+	m_MONSTER->SetPos(m_pos);
+	m_MONSTER->Update();
+
+	m_MONSTER->SetAnimationIndex(ani_state);
 }
 
 void Mob::Render()
@@ -114,11 +118,15 @@ void Mob::Render()
 	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 	
+	
+	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+
+	if (g_pFrustum->IsMobAIFrustum(this))
+		m_MONSTER->Render();
+
+
 	if (status > 0) {
-		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		
-		if(g_pFrustum->IsMobAIFrustum(this))
-			m_MONSTER->Render();
+
 
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);
