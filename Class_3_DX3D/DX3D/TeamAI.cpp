@@ -62,7 +62,8 @@ void TeamAI::Update()
 			m_Action = ∆¿_¿Á¿Â¿¸;
 			Reloading();
 		}
-			
+		MobSearch();
+		ShootVertex();
 
 		UpdatePositionToDestination();
 		//UpdatePosition();
@@ -209,6 +210,7 @@ bool TeamAI::MobSearch()
 					}
 					return true;
 				}
+				m_MobNum = NULL;
 			}
 			number++;
 		}
@@ -301,12 +303,12 @@ void TeamAI::Shooting()
 				int damage = rand() % 10;
 				if (damage < 3)
 				{
-					g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_MobNum]->setHealth(0);
+					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth(0);
 				}
 				else
 				{
-					g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_MobNum]->setHealth
-					(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_MobNum]->getHealth() - 50);
+					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth
+					(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() - 50);
 				}
 			}
 			m_ShootCooldownTime = 0;

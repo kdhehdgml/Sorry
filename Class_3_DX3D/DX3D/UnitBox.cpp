@@ -92,15 +92,6 @@ void UnitBox::Update()
 		{
 			SAFE_UPDATE(m_pTeam[i]);
 		}
-		for (int i = 0; i < m_pTeam.size(); i++)
-		{
-			if (m_pTeam[i]->MobSearch() == true)
-			{
-				//	//m_pTeam[i]->SetDestination(m_pCubeman->GetPosition());
-				//	//m_pTeam[i]->UpdatePositionToDestination();
-			}
-			//m_pTeam[i]->ShootVertex();
-		}
 	}
 	//장애물뒤에 숨기
 	for (int i = 0; i < m_pMob.size(); i++)
