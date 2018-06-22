@@ -2,6 +2,8 @@
 #include "ObjRender.h"
 #include "ObjRen.h"
 
+#define CREATE_OBJ(obj_name, size, folder, objFile, TextureImage, x, y, z, rotation) obj_name = new ObjRen;\
+		obj_name->Init(size, _T("resources/ObjImages/" ## #folder ##"/" ## #objFile),_T("resources/ObjImages/" ## #folder ##"/" ## #TextureImage), x, y, z, rotation);
 
 ObjRender::ObjRender()
 {
@@ -96,16 +98,17 @@ ObjRender::~ObjRender()
 void ObjRender::Init()
 {
 	//ÂüÈ£ ÆÇÀÚ
-	m_MapTest = new ObjRen; m_MapTest->Init(66.9f, _T("resources/ObjImages/WoodenBarrier/WoodenBarrierTest02.obj"), _T("resources/ObjImages/WoodenBarrier/images.png"), 363.0f, 11.5f, -537.0f, 0.0f);
-	m_MapTest0 = new ObjRen; m_MapTest0->Init(12.5f, _T("resources/ObjImages/WoodenBarrier/WoodenBarrierPartTest00.obj"), _T("resources/ObjImages/WoodenBarrier/images.png"), 100.5f, 5.0f, 77.8f, 0.0f);
-	m_MapTest1 = new ObjRen; m_MapTest1->Init(18.0f, _T("resources/ObjImages/WoodenBarrier/WoodenBarrierPartTest01.obj"), _T("resources/ObjImages/WoodenBarrier/images.png"), 210.6f, 7.5f, 22.8f, 0.0f);
-	m_MapTest2 = new ObjRen; m_MapTest2->Init(13.5f, _T("resources/ObjImages/WoodenBarrier/WoodenBarrierPartTest02.obj"), _T("resources/ObjImages/WoodenBarrier/images.png"), 260.6f, 7.9f, 164.8f, 0.0f);
-	m_MapTest3 = new ObjRen; m_MapTest3->Init(11.6f, _T("resources/ObjImages/WoodenBarrier/WoodenBarrierPartTest03.obj"), _T("resources/ObjImages/WoodenBarrier/images.png"), 142.0f, 7.9f, 335.6f, 0.0f);
-	m_MapTest4 = new ObjRen; m_MapTest4->Init(12.8f, _T("resources/ObjImages/WoodenBarrier/WoodenBarrierPartTest04.obj"), _T("resources/ObjImages/WoodenBarrier/images.png"), 225.0f, 0.0f, 444.3f, 0.0f);
-	m_MapTest5 = new ObjRen; m_MapTest5->Init(13.8f, _T("resources/ObjImages/WoodenBarrier/WoodenBarrierPartTest05.obj"), _T("resources/ObjImages/WoodenBarrier/images.png"), 114.5f, 7.0f, 532.8f, 0.0f);
-	m_MapTest6 = new ObjRen; m_MapTest6->Init(16.8f, _T("resources/ObjImages/WoodenBarrier/WoodenBarrierPartTest06.obj"), _T("resources/ObjImages/WoodenBarrier/images.png"), 259.0f, 19.2f, 490.6f, 0.0f);
+	CREATE_OBJ(m_MapTest, 66.9f, WoodenBarrier, WoodenBarrierTest02.obj, images.png, 363.0f, 11.5f, -537.0f, 0.0f);
+	CREATE_OBJ(m_MapTest0, 12.5f, WoodenBarrier, WoodenBarrierPartTest00.obj, images.png, 100.5f, 5.0f, 77.8f, 0.0f);
+	CREATE_OBJ(m_MapTest1, 18.0f, WoodenBarrier, WoodenBarrierPartTest01.obj, images.png, 210.6f, 7.5f, 22.8f, 0.0f);
+	CREATE_OBJ(m_MapTest2, 13.5f, WoodenBarrier, WoodenBarrierPartTest02.obj, images.png, 260.6f, 7.9f, 164.8f, 0.0f);
+	CREATE_OBJ(m_MapTest3, 11.6f, WoodenBarrier, WoodenBarrierPartTest03.obj, images.png, 142.0f, 7.9f, 335.6f, 0.0f);
+	CREATE_OBJ(m_MapTest4, 12.8f, WoodenBarrier, WoodenBarrierPartTest04.obj, images.png, 225.0f, 0.0f, 444.3f, 0.0f);
+	CREATE_OBJ(m_MapTest5, 13.8f, WoodenBarrier, WoodenBarrierPartTest05.obj, images.png, 114.5f, 7.0f, 532.8f, 0.0f);
+	CREATE_OBJ(m_MapTest6, 16.8f, WoodenBarrier, WoodenBarrierPartTest06.obj, images.png, 259.0f, 19.2f, 490.6f, 0.0f);
+	
 	//Ã¶Á¶¸Á
-	m_BarbedWire00 = new ObjRen; m_BarbedWire00->Init(1.0f, _T("resources/ObjImages/BarbedWire/BarbedWire00.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 0.0f, 40.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_BarbedWire00, 1.0f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 0.0f, 40.0f, 0.0f, 0.0f);
 	m_BarbedWire01 = new ObjRen; m_BarbedWire01->Init(1.0f, _T("resources/ObjImages/BarbedWire/BarbedWire01.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 0.0f, 40.0f, 0.0f, 0.0f);
 	m_BarbedWire02 = new ObjRen; m_BarbedWire02->Init(3.5f, _T("resources/ObjImages/BarbedWire/BarbedWire02.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 0.0f, 34.0f, 0.0f, D3DX_PI/2);
 	m_BarbedWire03 = new ObjRen; m_BarbedWire03->Init(1.0f, _T("resources/ObjImages/BarbedWire/BarbedWire03.obj"), _T("resources/ObjImages/BarbedWire/BarbedWireTex.png"), 0.0f, 40.0f, 0.0f, 0.0f);
