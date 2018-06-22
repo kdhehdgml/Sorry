@@ -79,7 +79,7 @@ void Player_hands::Init()
 
 	m_AnimaTionIndex = 기본상태;
 
-
+	//처음생성시 기본설정
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pNextAnimSet);
 	m_pAnimController->GetTrackDesc(0, &track);
 	m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
@@ -136,7 +136,7 @@ void Player_hands::Update()
 		if (!m_Reload && m_zooming)
 			m_AnimaTionIndex = 줌_모드;
 
-
+		//업데이트 안해주면 처음값만 계속불러온다 그래서 업데이트에서 설정
 		//애니메이션 컨테이너 설정
 		m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 		m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
@@ -149,7 +149,7 @@ void Player_hands::Update()
 		Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
 		Debug->EndLine();
 
-
+		//훈회형이말한 타임 아무래도 애니메이션 전체의 타임인것같다.
 		/*float total = pCurrAnimSet->GetPeriod() * pCurrAnimSet->GetNumAnimations();
 
 		Debug->AddText("시간 :");
@@ -159,12 +159,7 @@ void Player_hands::Update()
 		Debug->AddText(GetTickCount());
 		Debug->EndLine();
 */
-		//if (count >= total)
-		//{
-		//	count = 0;
-		///*	SetAnimationIndex(m_AnimaTionIndex, false);
-		//	m_Reload = false;*/
-		//}
+
 
 		//현재 애니메이션의 전체타임과  현재 애니메이션 타임의 비교연산
 		//현재 애니메이션 타임이 더 커지면 애니메이션 끄기
@@ -207,8 +202,6 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 			//액션 처음으로 초기화
 			m_pAnimController->SetTrackPosition(0, 0);
 		}
-		
-		
 	}
 	break;
 	case WM_LBUTTONUP:
@@ -224,11 +217,7 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 		
 		m_zooming = false;
 		break;
-	case WM_MOUSEMOVE:
-	{
 
-
-	}break;
 	case WM_MOUSEWHEEL:
 
 		break;
@@ -277,12 +266,10 @@ void Player_hands::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContai
 void Player_hands::UpdateAnim()
 {
 	float fDeltaTime = g_pTimeManager->GetDeltaTime();
-	// AdvanceTime 
+	// AdvanceTime  메쉬를 애니메이션화하고 전역 애니메이션 시간을 지정된 양만큼 전진시킵니다.
+	//전역 애니메이션 시간을 앞당길 양 (초). TimeDelta 값은 음수가 아니거나 0이어야합니다.
 	m_pAnimController->AdvanceTime(fDeltaTime, NULL);
-	//Debug->AddText("델타 타임: ");
-	//Debug->AddText(fDeltaTime);
-	//Debug->EndLine();
-	//printf("델타 타임 : %f \n", fDeltaTime);
+
 
 	if (m_fPassedBlendTime <= m_fBlendTime)
 	{
