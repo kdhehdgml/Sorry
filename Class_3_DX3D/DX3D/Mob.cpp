@@ -180,10 +180,10 @@ void Mob::SaveAction()
 	if (r1 == 1 && r2 == 2) { r2 = 1; }
 	//무시하고돌격은 장전안함
 	if (r2 == 2) { r4 = 1; }
-	m_Act._moving = MOB_MOVING(1);
-	m_Act._engage = MOB_ENGAGE(1);
+	m_Act._moving = MOB_MOVING(r1);
+	m_Act._engage = MOB_ENGAGE(r2);
 	m_Act._gunshot = MOB_GUNSHOT(r3);
-	m_Act._reload = MOB_RELOAD(0);
+	m_Act._reload = MOB_RELOAD(r4);
 	m_Act._hiding = MOB_HIDING(1);
 }
 

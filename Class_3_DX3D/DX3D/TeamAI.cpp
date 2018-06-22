@@ -18,7 +18,7 @@ TeamAI::TeamAI()
 	m_move = false;
 	num = 0;
 	m_moveSpeed = 0.4f;
-	m_CooldownTime = 0;
+	m_ShootCooldownTime = 0;
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
@@ -219,9 +219,9 @@ void TeamAI::ShootVertex()
 
 		float kill = rand() % 10;
 
-		m_CooldownTime++;
+		m_ShootCooldownTime++;
 		
-		if (m_CooldownTime > 50)
+		if (m_ShootCooldownTime > 50)
 		{
 			if (kill < 5)
 			{
@@ -239,7 +239,7 @@ void TeamAI::ShootVertex()
 					m_MobNum = NULL;
 				}
 			}
-			m_CooldownTime = 0;
+			m_ShootCooldownTime = 0;
 			m_Action = TEAM_STATE(rand() % 2);
 		}
 	}
@@ -252,4 +252,18 @@ void TeamAI::ShootVertex()
 	/*if(ray.CalcIntersectTri(&m_vecObstacle[i], &intersectionDist))
 	{
 	}*/
+}
+
+bool TeamAI::TrenchFight()
+{
+	return false;
+}
+
+bool TeamAI::CanShooting()
+{
+	return false;
+}
+
+void TeamAI::Shooting()
+{
 }

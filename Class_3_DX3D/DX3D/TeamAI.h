@@ -24,7 +24,7 @@ private:
 	D3DXVECTOR3		m_forward;
 	
 	int				m_MobNum;
-	int				m_CooldownTime;
+	int				m_ShootCooldownTime;
 	bool			m_isMoving;
 	bool			m_isShoot;
 
@@ -52,7 +52,9 @@ public:
 
 	virtual bool MobSearch();
 	void ShootVertex();
-
+	bool TrenchFight();
+	bool CanShooting();
+	void Shooting();
 
 
 };

@@ -26,8 +26,8 @@ class UnitBox;
 class Blocks;
 
 //class SkinnedMesh;
-class ObjRen;	//obj 클래스
 
+class ObjRender;	//obj 클래스
 
 class SceneHeightmap : public IScene
 {
@@ -52,14 +52,7 @@ private:
 	//
 
 	//obj 관련
-	ObjRen*			m_MapTest;
-	ObjRen*			m_MapTest0;
-	ObjRen*			m_MapTest1;
-	ObjRen*			m_MapTest2;
-	ObjRen*			m_MapTest3;
-	ObjRen*			m_MapTest4;
-	ObjRen*			m_MapTest5;
-	ObjRen*			m_MapTest6;
+	ObjRender*			m_ObjRender;
 
 	//영락코드
 	CreateSmog*		m_CreateSmog;
