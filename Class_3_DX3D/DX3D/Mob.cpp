@@ -315,6 +315,7 @@ bool Mob::PlayerSearch()
 			return true;
 	}
 	//너무멀면 그냥 불가
+	m_TeamAINum = NULL;
 	return false;
 }
 
@@ -472,11 +473,14 @@ void Mob::Shooting()
 			SaveLocationNum.clear();
 			m_Act._hiding = 몹_뛰는중;
 		}
+		if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
+		{
+			m_TeamAINum = NULL;
+			if (m_Act._moving == 몹_돌격이동)
+				m_Setdest = false;
+		}
 	}
-	if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
-	{
-		m_TeamAINum = NULL;
-	}
+	
 	if (CanShooting() == false || m_TeamAINum == NULL)
 	{
 		Shootpos[0] = (VERTEX_PC(myPos, c));
@@ -505,14 +509,14 @@ void Mob::EraseLocationSoldier()
 	{
 		for (int j = moveLocation.size() - 1; j >= 0; j--)
 		{
-			if (m_pos.x + 5.0f < moveLocation[j].x)
+			if (m_pos.x + 1.0f < moveLocation[j].x)
 				EraseWallLocation();
 			else
 				break;
 		}
 		for (int j = Temporary_Storage.size() - 1; j >= 0; j--)
 		{
-			if (m_pos.x + 5.0f < Temporary_Storage[j].x)
+			if (m_pos.x + 1.0f < Temporary_Storage[j].x)
 				EraseTemporary();
 			else
 				break;
