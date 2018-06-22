@@ -87,5 +87,7 @@ private:
 public:
 	void SetAnimationIndex(int nIndex) { m_AnimaTionIndex = nIndex; }
 	void SetAnimationIndex(int nIndex, bool isBlend);
+
+	
 };
 

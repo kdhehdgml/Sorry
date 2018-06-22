@@ -49,7 +49,7 @@ void MONSTER::Init()
 
 	m_angle = D3DX_PI / 2;
 
-	D3DXMatrixRotationY(&matR, m_angle);
+	
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 
 	//처음생성시 기본설정
@@ -66,6 +66,7 @@ void MONSTER::Update()
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
+	D3DXMatrixRotationY(&matR, m_angle);
 	m_matWorld = matS * matR * matT;
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);

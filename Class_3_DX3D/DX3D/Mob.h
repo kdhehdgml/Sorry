@@ -90,6 +90,8 @@ private:
 	int ani_state;
 	//애니메이션 시작과 끝
 	bool ani_start;
+	//각도
+	float angle;
 
 public:
 	Mob();

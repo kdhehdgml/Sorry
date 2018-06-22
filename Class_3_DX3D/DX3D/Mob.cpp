@@ -29,6 +29,8 @@ Mob::Mob()
 
 	ani_start = true;
 
+	angle = D3DX_PI / 2;
+
 }
 
 
@@ -88,8 +90,8 @@ void Mob::Update()
 
 		//m_pRootParts->SetMovingState(m_isMoving);
 		//m_pRootParts->Update();
-		m_MONSTER->SetPos(m_pos);
-		m_MONSTER->Update();
+	/*	m_MONSTER->SetPos(m_pos);
+		m_MONSTER->Update();*/
 
 		Debug->AddText("¸÷ Ã¼·Â: ");
 		Debug->AddText(health);
@@ -102,6 +104,7 @@ void Mob::Update()
 	}
 
 	m_MONSTER->SetPos(m_pos);
+	m_MONSTER->SetAngle(angle);
 	m_MONSTER->Update();
 
 	m_MONSTER->SetAnimationIndex(ani_state);
