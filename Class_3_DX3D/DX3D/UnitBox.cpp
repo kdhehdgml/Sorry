@@ -291,20 +291,28 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 					}
 				}
 				//´ÙÀ½ Àå¾Ö¹°·Î °¡±â À§ÇÑ Á¶°Ç¹®
-				if (Dist < 3.0f && m_pMob[_Mobnum]->PlayerSearch()== false)
+				if (Dist < 2.0f)
 				{
-					m_pMob[_Mobnum]->m_Act._hiding = ¸÷_¼û¾ú´Ù;
-					m_pMob[_Mobnum]->SetMoveSpeed(0);
-					m_pMob[_Mobnum]->num++;
-					if (m_pMob[_Mobnum]->num > 100)
+					if (m_pMob[_Mobnum]->PlayerSearch() == false)
 					{
-						m_pMob[_Mobnum]->SetMoveSpeed(1.0f);
-						m_CanSave[m_pMob[_Mobnum]->GetLocationNum().back()] = true;
-						m_pMob[_Mobnum]->SetDetermined(false);
-						m_pMob[_Mobnum]->EraseWallLocation();
-						m_pMob[_Mobnum]->m_move = false;
-						m_pMob[_Mobnum]->num = 0;
-						m_pMob[_Mobnum]->m_Act._hiding = ¸÷_¿òÁ÷ÀÎ´Ù;
+						m_pMob[_Mobnum]->m_Act._hiding = ¸÷_¼û¾îÀÖÀ½;
+						m_pMob[_Mobnum]->SetMoveSpeed(0);
+						m_pMob[_Mobnum]->num++;
+						if (m_pMob[_Mobnum]->num > 100)
+						{
+							m_pMob[_Mobnum]->SetMoveSpeed(1.0f);
+							m_CanSave[m_pMob[_Mobnum]->GetLocationNum().back()] = true;
+							m_pMob[_Mobnum]->SetDetermined(false);
+							m_pMob[_Mobnum]->EraseWallLocation();
+							m_pMob[_Mobnum]->m_move = false;
+							m_pMob[_Mobnum]->num = 0;
+							m_pMob[_Mobnum]->m_Act._hiding = ¸÷_¶Ù´ÂÁß;
+						}
+					}
+					else
+					{
+						if(m_pMob[_Mobnum]->HaveBullet() == false)
+							m_pMob[_Mobnum]->Act_Reload();
 					}
 				}
 			}

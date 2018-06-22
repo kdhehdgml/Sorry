@@ -37,9 +37,10 @@ enum MOB_RELOAD
 };
 enum MOB_ACTION
 {
-	¸÷_¼û¾ú´Ù,
-	¸÷_¾È¼û¾ú´Ù,
-	¸÷_¿òÁ÷ÀÎ´Ù
+	¸÷_¼û¾î¼­ÀåÀü,
+	¸÷_¼û¾îÀÖÀ½,
+	¸÷_¶Ù´ÂÁß,
+	¸÷_»ç°ÝÁß,
 };
 struct MobAction
 {
@@ -72,7 +73,6 @@ private:
 	int				m_TeamAINum;
 	int				m_ShootCooldownTime;
 	bool			m_isMoving;
-	bool			m_isShoot;
 	bool			m_BeDetermined;//Àå¾Ö¹° ³Ê·Î Á¤Çß´Ù
 	bool			m_randshootbullet;
 	bool			m_LocationCanSave;

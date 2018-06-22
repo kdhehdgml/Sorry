@@ -5,10 +5,9 @@
 #include "UnitBox.h"
 Mob::Mob()
 {
-	//	m_pRootParts = NULL;
+//	m_pRootParts = NULL;
 	m_MONSTER = NULL;//¸ó½ºÅÍ Å¬·¡½º Ãß°¡
 	m_isMoving = false;
-	m_isShoot = false;
 	m_maxbullet = 15;
 	m_ShootCooldownTime = 0;
 	//m_baseRotY = D3DX_PI;
@@ -27,8 +26,6 @@ Mob::Mob()
 	status = 1;
 	m_BeDetermined = false;
 	m_Setdest = false;
-
-	ani_start = true;
 }
 
 
@@ -59,27 +56,25 @@ void Mob::Init()
 	//CreateAllParts();
 	IUnitObject::m_moveSpeed = GSM().mobSpeed;
 	m_pos = D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350));
-
+	
 }
 
 void Mob::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		ani_state = ´Þ¸®´Ù°¡Á×±â;
-		//m_pos = { 1000,10,1000 };
+		m_pos = { 1000,10,1000 };
 	}
 	if (status > 0) {
 		Act_Moving();
 		Act_Hiding();
-		Shooting();
 		if (PlayerSearch() == true)
 		{
 			Act_Engage();
 		}
 		IUnitObject::UpdateKeyboardState();
 		IUnitObject::UpdatePositionToDestination();
-
+		
 		//EraseLocationSoldier();
 		m_pBoundingSphereBody->center = m_pos;
 		m_pBoundingSphereBody->center.y += 2.0f;
@@ -88,6 +83,8 @@ void Mob::Update()
 
 		//m_pRootParts->SetMovingState(m_isMoving);
 		//m_pRootParts->Update();
+		m_MONSTER->SetPos(m_pos);
+		m_MONSTER->Update();
 
 		Debug->AddText("¸÷ Ã¼·Â: ");
 		Debug->AddText(health);
@@ -96,19 +93,14 @@ void Mob::Update()
 		Debug->AddText(" / Åº¾à: ");
 		Debug->AddText(m_maxbullet);
 		Debug->EndLine();
-
+		
+	}
+	else
+	{
+		ani_state = ´Þ¸®´Ù°¡Á×±â;
 	}
 
-
-	//if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f)
-	//{
-	//	m_Reload = false;
-	//	//m_pAnimController->SetTrackPosition(0, 0);
-	//}
-	m_MONSTER->SetPos(m_pos);
-	m_MONSTER->Update();
-
-	m_MONSTER->SetAnimationIndex(ani_state);
+	m_MONSTER->SetAnimationIndex(ani_state, true);
 }
 
 void Mob::Render()
@@ -116,39 +108,39 @@ void Mob::Render()
 	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
 	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
 	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //°­µµ 0~1f
-															  //¾È°³Àû¿ëµÇ´Â ÃÖ¼Ò °Å¸®
+	//¾È°³Àû¿ëµÇ´Â ÃÖ¼Ò °Å¸®
 	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
 	//¾È°³ ÃÖ´ëÄ¡·Î Àû¿ëµÇ´Â °Å¸®
 	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	
+	if (status > 0) {
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+		//m_pRootParts->Render();
+		
+		if(g_pFrustum->IsMobAIFrustum(this))
+			m_MONSTER->Render();
 
-	//if (status > 0) {
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	//m_pRootParts->Render();
+		D3DXMATRIXA16 matI;
+		D3DXMatrixIdentity(&matI);
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+		g_pDevice->SetTransform(D3DTS_WORLD, &matI);
+		g_pDevice->SetFVF(VERTEX_PC::FVF);
+		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
+			1, &Shootpos[0], sizeof(VERTEX_PC));
 
-	if (g_pFrustum->IsMobAIFrustum(this))
-		m_MONSTER->Render();
-
-	D3DXMATRIXA16 matI;
-	D3DXMatrixIdentity(&matI);
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	g_pDevice->SetTransform(D3DTS_WORLD, &matI);
-	g_pDevice->SetFVF(VERTEX_PC::FVF);
-	g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
-		1, &Shootpos[0], sizeof(VERTEX_PC));
-
-	D3DXMATRIXA16 mat;
-	D3DXMatrixTranslation(&mat, m_pBoundingSphereBody->center.x, m_pBoundingSphereBody->center.y, m_pBoundingSphereBody->center.z);
-	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-	g_pDevice->SetTexture(0, NULL);
-	//m_pSphereBody->DrawSubset(0);
-	//D3DXMATRIXA16 mat2;
-	D3DXMatrixIdentity(&mat);
-	D3DXMatrixTranslation(&mat, m_pBoundingSphereHead->center.x, m_pBoundingSphereHead->center.y, m_pBoundingSphereHead->center.z);
-	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-	g_pDevice->SetTexture(0, NULL);
-	//m_pSphereHead->DrawSubset(0);
-	//}
+		D3DXMATRIXA16 mat;
+		D3DXMatrixTranslation(&mat, m_pBoundingSphereBody->center.x, m_pBoundingSphereBody->center.y, m_pBoundingSphereBody->center.z);
+		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+		g_pDevice->SetTexture(0, NULL);
+		//m_pSphereBody->DrawSubset(0);
+		//D3DXMATRIXA16 mat2;
+		D3DXMatrixIdentity(&mat);
+		D3DXMatrixTranslation(&mat, m_pBoundingSphereHead->center.x, m_pBoundingSphereHead->center.y, m_pBoundingSphereHead->center.z);
+		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+		g_pDevice->SetTexture(0, NULL);
+		//m_pSphereHead->DrawSubset(0);
+	}
 }
 
 BoundingSphere * Mob::getBoundingSphereBody()
@@ -207,7 +199,7 @@ void Mob::Act_Moving()
 	case ¸÷_µ¹°ÝÀÌµ¿:
 		if (PlayerSearch() == false)
 		{
-			if (m_Setdest == false)
+			if(m_Setdest == false)
 				SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pos.z));
 			m_Setdest = true;
 		}
@@ -215,7 +207,7 @@ void Mob::Act_Moving()
 		{
 			m_Setdest = false;
 		}
-
+			
 		break;
 	case ¸÷_¾öÆóÀÌµ¿:
 		break;
@@ -264,46 +256,18 @@ void Mob::Act_Reload()
 	switch (m_Act._reload)
 	{
 	case ¸÷_ÀåÀüÇÔ:
-		if (m_Act._engage == ¸÷_Á¦ÀÚ¸®¸ØÃã)
+		m_Act._hiding = ¸÷_¼û¾î¼­ÀåÀü;
+		m_reloading++;
+		if (m_reloading > 100)
 		{
-			if (moveLocation.empty() == false)
-			{
-				if (D3DXVec3Length(&(moveLocation.back() - m_pos)) < 2.0f)
-				{
-					m_Act._hiding = ¸÷_¼û¾ú´Ù;
-					m_reloading++;
-					if (m_reloading > 100)
-					{
-						int Temp_bullet = m_bullet;
-						if (m_maxbullet < 5)
-							m_bullet = m_maxbullet;
-						else
-							m_bullet = 5;
-						m_maxbullet -= 5 - Temp_bullet;
-						Act_GunShot();
-						m_reloading = 0;
-						m_Act._hiding = ¸÷_¾È¼û¾ú´Ù;
-					}
-				}
-			}
-		}
-		if (m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â)
-		{
-			m_Act._hiding = ¸÷_¼û¾ú´Ù;
-			m_reloading++;
-			if (m_reloading > 100)
-			{
-				int Temp_bullet = m_bullet;
-				if (m_maxbullet < 5)
-					m_bullet = m_maxbullet;
-				else
-					m_bullet = 5;
-
-				m_maxbullet -= 5 - Temp_bullet;
-				Act_GunShot();
-				m_reloading = 0;
-				m_Act._hiding = ¸÷_¾È¼û¾ú´Ù;
-			}
+			int Temp_bullet = m_bullet;
+			if (m_maxbullet < 5)
+				m_bullet = m_maxbullet;
+			else
+				m_bullet = 5;
+			m_maxbullet -= 5 - Temp_bullet;
+			Act_GunShot();
+			m_reloading = 0;
 		}
 		break;
 	case ¸÷_ÀåÀü¾ÈÇÔ:
@@ -316,15 +280,12 @@ void Mob::Act_Hiding()
 {
 	switch (m_Act._hiding)
 	{
-	case ¸÷_¼û¾ú´Ù:
+	case ¸÷_¼û¾îÀÖÀ½:
 		break;
-	case ¸÷_¾È¼û¾ú´Ù:
-		break;
-	case ¸÷_¿òÁ÷ÀÎ´Ù:
+	case ¸÷_¶Ù´ÂÁß:
 		if (m_moveSpeed > 0)
 		{
-			if (status > 0)
-				ani_state = ´Þ¸®±â;
+			ani_state = ´Þ¸®¸é¼­½î±â;
 		}
 		break;
 	}
@@ -338,13 +299,13 @@ bool Mob::PlayerSearch()
 		return TrenchFight();
 	}
 	//¸Ö¸®¼­ °¢µµ¾È¿¡ ÀÎ½Ä°¡´ÉÇÑÁö
-	else if (m_pos.x < NODE_POSITSIZEX + 270.0f && m_Act._engage != ¸÷_¹«½ÃÇÏ°íµ¹°Ý)
+	else if (m_pos.x < NODE_POSITSIZEX + 270.0f && m_Act._engage !=¸÷_¹«½ÃÇÏ°íµ¹°Ý)
 	{
 		CanShooting();
 		Shooting();
 		if (m_TeamAINum == NULL)
 			return false;
-		else
+		else 
 			return true;
 	}
 	//³Ê¹«¸Ö¸é ±×³É ºÒ°¡
@@ -355,7 +316,6 @@ bool Mob::TrenchFight()
 {
 	moveLocation.clear();
 	SaveLocationNum.clear();
-	m_isShoot = false;
 	float nearAI = 150;
 	int AINum = NULL;
 	//°¡±î¿î³ð Ã£±â(MinÃ£´Â¹æ½Ä)
@@ -373,7 +333,7 @@ bool Mob::TrenchFight()
 		m_TeamAINum = AINum;
 		D3DXVECTOR3 collision = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition() - m_pos };
 		D3DXVec3Normalize(&collision, &collision);
-		if (m_Setdest == true)
+		if(m_Setdest == true)
 			SetTargetPostion(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition() - collision * 1.5f);
 		m_Setdest = false;
 		D3DXVECTOR3 Direction = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().x ,
@@ -405,6 +365,14 @@ bool Mob::TrenchFight()
 
 bool Mob::CanShooting()
 {
+	if (m_TeamAINum != NULL)
+	{
+		if (HaveBullet() == true)
+		{
+			m_Act._hiding = ¸÷_»ç°ÝÁß;
+			return true;
+		}
+	}
 	if (g_pObjMgr->FindObjectsByTag(TAG_TEAM).size() > 0)
 	{
 		D3DXVECTOR3 move_forward;
@@ -418,8 +386,9 @@ bool Mob::CanShooting()
 
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_TEAM)))
 		{
-			DirectPM = D3DXVECTOR3(abs(p->GetPosition().x - m_pos.x), 0, abs(p->GetPosition().z - m_pos.z));
-			if ((DirectPM.x > 0 && DirectPM.x < 220) && (DirectPM.z < 40 && DirectPM.z > 0))
+			DirectPM = D3DXVECTOR3(p->GetPosition().x - m_pos.x, 0, p->GetPosition().z - m_pos.z);
+			D3DXVECTOR3 AbsPm = { abs(DirectPM.x),0,abs(DirectPM.z) };
+			if (AbsPm.x > 0 && AbsPm.x < 220 && AbsPm.z < 40 && AbsPm.z > 0)
 			{
 
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
@@ -431,21 +400,18 @@ bool Mob::CanShooting()
 
 				if (Length > 0 && Length < 240 && DotPM >= direct)
 				{
-
 					if (m_TeamAINum == NULL && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[number]->getHealth() > 0)
 					{
 						m_TeamAINum = number;
-
-					}
-					if (m_TeamAINum != NULL)
+						m_Act._hiding = ¸÷_»ç°ÝÁß;
 						return true;
+					}	
 				}
 			}
 			number++;
 		}
 		return false;
 	}
-	m_isShoot = false;
 	return false;
 }
 
@@ -465,9 +431,9 @@ void Mob::Shooting()
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
 
-		if (HaveBullet())
+		if (HaveBullet() == true)
 		{
-			if (m_Act._hiding == ¸÷_¾È¼û¾ú´Ù || m_Act._hiding == ¸÷_¿òÁ÷ÀÎ´Ù)
+			if (m_Act._hiding == ¸÷_»ç°ÝÁß)
 			{
 				float kill = rand() % 10;
 				m_ShootCooldownTime++;
@@ -491,14 +457,11 @@ void Mob::Shooting()
 				}
 			}
 		}
-		else if (m_maxbullet > 0)//ÃÑ¾ËÀÌ¾øÀ»¶§
-		{
-			Act_Reload();
-		}
-		else
+		else if (m_maxbullet < 0)
 		{
 			moveLocation.clear();
 			SaveLocationNum.clear();
+			m_Act._hiding = ¸÷_¶Ù´ÂÁß;
 		}
 	}
 	if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
