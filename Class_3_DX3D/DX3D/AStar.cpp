@@ -426,17 +426,17 @@ void AStar::CalcEraseCount(const D3DXVECTOR3 & pos, const vector<int>& vecIndex,
 			}
 		}
 
-		/*for (size_t i = 0; i < m_vecObstacle.size(); i += 3)
+		for (size_t i = 0; i < m_vecObstacle.size(); i += 3)
 		{
-		if (ray.CalcIntersectTri(&m_vecObstacle[i], &intersectionDist))
-		{
-		if (intersectionDist < nodeDist)
-		{
-		isIntersected = true;
-		break;
+			if (ray.CalcIntersectTri(&m_vecObstacle[i], &intersectionDist))
+			{
+				if (intersectionDist < nodeDist)
+				{
+					isIntersected = true;
+					break;
+				}
+			}
 		}
-		}
-		}*/
 		//충돌했을떄
 		if (isIntersected == true)
 		{
@@ -455,29 +455,29 @@ void AStar::MakeDirectPath(const D3DXVECTOR3 & startPos,
 	const D3DXVECTOR3 & destPos, OUT vector<int>& vecIndex)
 {
 
-	//if (m_vecObstacle.empty() == true)
-	//{
-	//	//장애물 없으면 직선이동
-	//	vecIndex.clear();
-	//}
-	//else
-	//{
-	int numNodeToErase = 0;
-	//시작지점부터 체크하고 교차 이전 지점까지 노드 삭제
-	CalcEraseCount(startPos, vecIndex, true, numNodeToErase);
-	//뒤에서부터 제거?
-	if (numNodeToErase > 0)
-		vecIndex.erase(vecIndex.end() - numNodeToErase, vecIndex.end());
+	if (m_vecObstacle.empty() == true)
+	{
+		////장애물 없으면 직선이동
+		//vecIndex.clear();
+	}
+	else
+	{
+		int numNodeToErase = 0;
+		//시작지점부터 체크하고 교차 이전 지점까지 노드 삭제
+		CalcEraseCount(startPos, vecIndex, true, numNodeToErase);
+		//뒤에서부터 제거?
+		if (numNodeToErase > 0)
+			vecIndex.erase(vecIndex.end() - numNodeToErase, vecIndex.end());
 
 
 
-	//마지막점부터 체크하고 교차 이전 지점까지 노드 삭제
-	CalcEraseCount(destPos, vecIndex, true, numNodeToErase);
+		//마지막점부터 체크하고 교차 이전 지점까지 노드 삭제
+		CalcEraseCount(destPos, vecIndex, true, numNodeToErase);
 
-	if (numNodeToErase == vecIndex.size()) numNodeToErase--;
+		if (numNodeToErase == vecIndex.size()) numNodeToErase--;
 
-	if (numNodeToErase > 0)
-		vecIndex.erase(vecIndex.begin(), vecIndex.begin() + numNodeToErase);
+		if (numNodeToErase > 0)
+			vecIndex.erase(vecIndex.begin(), vecIndex.begin() + numNodeToErase);
 
-	//}
+	}
 }
