@@ -18,6 +18,11 @@ MONSTER::MONSTER()
 	m_bWireFrame = false;
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;
+
+	m_animationSTATE = true;
+
+	pCurrAnimSet = NULL;
+	pNextAnimSet = NULL;
 }
 
 
@@ -46,6 +51,11 @@ void MONSTER::Init()
 
 	D3DXMatrixRotationY(&matR, m_angle);
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+
+	//처음생성시 기본설정
+	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pNextAnimSet);
+	m_pAnimController->GetTrackDesc(0, &track);
+	m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
 }
 
 void MONSTER::Update()
@@ -57,6 +67,32 @@ void MONSTER::Update()
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
 	m_matWorld = matS * matR * matT;
+
+	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
+	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
+
+	//Debug->AddText("트랙속도 : ");
+	//Debug->AddText(track.Speed);
+	//Debug->EndLine();
+
+	if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f &&
+		m_AnimaTionIndex == 4)
+	{
+
+		//트랙속도 감소!
+		m_pAnimController->SetTrackSpeed(0, 0);
+		
+	}
+	//나중에 다시 불러올떄 1로 다시해주면 속도가 돌아온다
+	//m_pAnimController->SetTrackSpeed(0, 1);
+
+	//
+	//Debug->AddText("애니메이션 On/Off : ");
+	//Debug->AddText(m_animationSTATE);
+	//Debug->EndLine();
+
+
+	SetAnimationIndex(m_AnimaTionIndex, m_animationSTATE);
 }
 
 void MONSTER::Render()
@@ -284,11 +320,18 @@ void MONSTER::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 
 void MONSTER::SetAnimationIndex(int nIndex, bool isBlend)
 {
-	LPD3DXANIMATIONSET pNextAnimSet = NULL;
+	//LPD3DXANIMATIONSET pNextAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
 	//isBlend = false;
+
+	
+
 	if (isBlend)
 	{
+		//D3DXTRACK_DESC track;
+		//LPD3DXANIMATIONSET pCurrAnimSet = NULL;
+
+
 		m_fPassedBlendTime = 0.0f;
 
 		LPD3DXANIMATIONSET pPrevAnimSet = NULL;
@@ -299,6 +342,20 @@ void MONSTER::SetAnimationIndex(int nIndex, bool isBlend)
 		D3DXTRACK_DESC trackDesc;
 		m_pAnimController->GetTrackDesc(0, &trackDesc);
 		m_pAnimController->SetTrackDesc(1, &trackDesc);
+		
+		m_pAnimController->GetTrackDesc(0, &track);
+		m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
+
+
+		Debug->AddText("전체시간 :");
+		Debug->AddText(pCurrAnimSet->GetPeriod());
+		Debug->EndLine();
+
+		Debug->AddText("현재시간 :");
+		Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
+		Debug->EndLine();
+
+
 
 		m_pAnimController->SetTrackWeight(0, 0.0f);
 		m_pAnimController->SetTrackWeight(1, 1.0f);

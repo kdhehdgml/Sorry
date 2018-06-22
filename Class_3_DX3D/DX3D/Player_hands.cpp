@@ -44,7 +44,7 @@ Player_hands::Player_hands()
 
 	pCurrAnimSet = NULL;
 	pNextAnimSet = NULL;
-	track;
+	
 }
 
 
@@ -167,11 +167,11 @@ void Player_hands::Update()
 		{
 			m_Reload = false;
 			//m_pAnimController->SetTrackPosition(0, 0);
+			//SetTrackAnimationTime
+			//m_pAnimController->SetTrackAnimationSet(pCurrAnimSet->GetPeriod(), pCurrAnimSet);
 		}
 		
 		SetAnimationIndex(m_AnimaTionIndex, true);
-
-
 
 		SetPosToCamera();
 	}
