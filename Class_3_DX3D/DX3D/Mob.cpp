@@ -120,7 +120,8 @@ void Mob::Render()
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 		//m_pRootParts->Render();
 		
-	
+		if(g_pFrustum->IsMobAIFrustum(this))
+			m_MONSTER->Render();
 
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);
@@ -142,9 +143,6 @@ void Mob::Render()
 		g_pDevice->SetTexture(0, NULL);
 		//m_pSphereHead->DrawSubset(0);
 	}
-
-	if (g_pFrustum->IsMobAIFrustum(this))
-		m_MONSTER->Render();
 }
 
 BoundingSphere * Mob::getBoundingSphereBody()
