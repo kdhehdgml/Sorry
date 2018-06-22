@@ -453,7 +453,7 @@ void Mob::Shooting()
 
 		if (HaveBullet())
 		{
-			if (m_Act._hiding == 各_救见菌促)
+			if (m_Act._hiding == 各_救见菌促 || m_Act._hiding == 各_框流牢促)
 			{
 				float kill = rand() % 10;
 				m_ShootCooldownTime++;

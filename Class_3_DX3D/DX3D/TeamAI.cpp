@@ -156,10 +156,8 @@ bool TeamAI::MobSearch()
 		
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
 		{
-			D3DXVECTOR3 DirectPM;
-
-			DirectPM = p->GetPosition() - m_pos;
-			if (DirectPM.x < 90 && DirectPM.z < 25)
+			D3DXVECTOR3 DirectPM = p->GetPosition() - m_pos;
+			if (abs(DirectPM.x) < 220 && abs(DirectPM.z) < 40)
 			{
 				DirectPM.y = m_pos.y;
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
@@ -171,20 +169,10 @@ bool TeamAI::MobSearch()
 				
 				if (Length < 15)
 				{
-					m_isShoot = true;
-					m_MobNum = number;
+					TrenchFight();
 					return true;
 				}
-				else if (Length < 30 && DotPM >= direct)
-				{
-					m_isShoot = true;
-					if (m_MobNum == NULL)
-					{
-						m_MobNum = number;
-					}
-					return true;
-				}
-				else if (Length < 110 && DotPM >= direct)
+				else if (Length < 240 && DotPM >= direct)
 				{
 					m_isShoot = true;
 					if (m_MobNum == NULL)
