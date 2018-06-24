@@ -11,7 +11,8 @@ enum ANI_STATE_MOB
 	달리다가죽기,
 	달리면서쏘기,
 	달리기,
-	수그리면서달리기
+	달리면서쏘기2
+	
 };
 
 enum MOB_MOVING

@@ -70,15 +70,16 @@ void Mob::Update()
 		status = 0;
 		ani_state = 달리다가죽기;
 
-	//	m_pos = { 1000,10,1000 };
+		m_pos = { 1000,10,1000 };
 	}
 	if (status > 0) {
 		Act_Moving();
-		Act_Hiding();
+		
 		if (PlayerSearch() == true)
 		{
 			Act_Engage();
 		}
+		Act_Hiding();
 		IUnitObject::UpdateKeyboardState();
 		IUnitObject::UpdatePositionToDestination();
 		
@@ -103,7 +104,8 @@ void Mob::Update()
 		
 	}
 
-	m_MONSTER->SetPos(m_pos);
+	if(health>0)
+		m_MONSTER->SetPos(m_pos);
 
 	//Debug->AddText("m_rot: ");
 	//Debug->AddText(m_rot.y);
@@ -302,7 +304,7 @@ void Mob::Act_Hiding()
 		}
 		break;
 	case 몹_사격중:
-		ani_state = 수그리면서달리기;
+		ani_state = 달리면서쏘기2;
 
 		break;
 	}
