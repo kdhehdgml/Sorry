@@ -60,7 +60,7 @@ void TeamAI::Update()
 		status = 0;
 
 		ani_state = 서서죽음;
-		//m_pos = { 2000,10,2000 };
+		m_pos = { 2000,10,2000 };
 	}
 	if (status > 0) {
 		if (m_MobNum == NULL || HaveBullet() == false)
@@ -82,17 +82,20 @@ void TeamAI::Update()
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 4.0f;
 
+		//살아있을때만 포지션을 받아온다
+		m_TEAM_TEX->SetPos(m_pos);
 
 	}
-	Debug->AddText("아군 생명력 :");
-	Debug->AddText(health);
-	Debug->EndLine();
-	Debug->AddText("아군 On/oFF :");
-	Debug->AddText(status);
-	Debug->EndLine();
+	//Debug->AddText("아군 생명력 :");
+	//Debug->AddText(health);
+	//Debug->EndLine();
+	//Debug->AddText("아군 On/oFF :");
+	//Debug->AddText(status);
+	//Debug->EndLine();
 
 
-	m_TEAM_TEX->SetPos(m_pos);
+	
+
 	m_TEAM_TEX->SetAnimationIndex(ani_state);
 
 	m_TEAM_TEX->Update();
@@ -123,7 +126,7 @@ void TeamAI::Render()
 			m_TEAM_TEX->Render();
 	}
 
-
+	//198371
 	if (status > 0) 
 	{
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);

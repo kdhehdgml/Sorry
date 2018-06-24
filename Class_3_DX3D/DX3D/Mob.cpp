@@ -102,10 +102,11 @@ void Mob::Update()
 		Debug->AddText(m_maxbullet);
 		Debug->EndLine();
 		
+		//살아있을때만 포지션을 받아온다
+		m_MONSTER->SetPos(m_pos);
 	}
 
-	if(health>0)
-		m_MONSTER->SetPos(m_pos);
+	
 
 	//Debug->AddText("m_rot: ");
 	//Debug->AddText(m_rot.y);
