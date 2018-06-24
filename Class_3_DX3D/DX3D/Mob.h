@@ -2,7 +2,7 @@
 #include "IUnitObject.h"
 class MONSTER;
 
-enum ANI_STATE
+enum ANI_STATE_MOB
 {
 	대기상태,
 	달리다가서기3,
@@ -91,7 +91,7 @@ private:
 	//애니메이션 시작과 끝
 	bool ani_start;
 	//각도
-	float angle;
+	float m_angle;
 
 public:
 	Mob();
@@ -111,6 +111,7 @@ public:
 
 	int getStatus();
 	void setStatus(int s);
+	void SetAngle(float angle) { m_angle = angle; }
 
 	void SaveAction();
 	void Act_Moving();

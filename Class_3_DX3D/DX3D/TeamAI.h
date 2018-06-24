@@ -14,6 +14,27 @@ enum ANI_TEAMSTATE
 	근접돌격,
 	근접대기
 };
+
+/*
+0 = 스탠드 자세 1
+1 = 스탠드 자세 2
+2 = 스탠드 자세 3
+3 = 앉은 자세 1
+4 = 스탠드 샷 1
+5 = 서서 쏘다가 죽는 자세
+*/
+
+
+enum ANI_STATE_TEAM
+{
+	대기상태1,
+	대기상태2,
+	대기상태3,
+	앉은자세,
+	서서쏘기,
+	서서쏘다가죽음
+};
+
 enum TEAM_STATE{
 	팀_대기,
 	팀_엄폐,
@@ -46,6 +67,14 @@ private:
 	LPD3DXMESH		m_pSphere;
 	BoundingSphere* m_pBoundingSphere;
 	int status;
+
+	//애니메이션 인덱스
+	int ani_state;
+	//애니메이션 시작과 끝
+	bool ani_start;
+	//각도
+	float m_angle;
+
 public:
 	TeamAI();
 	~TeamAI();
