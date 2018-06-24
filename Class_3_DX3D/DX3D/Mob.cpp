@@ -214,11 +214,12 @@ void Mob::Act_Moving()
 	{
 	case ¸÷_µ¹°ÝÀÌµ¿:
 		EraseLocationSoldier();
-		if (PlayerSearch() == false)
+		if (PlayerSearch() == false && TrenchFight() == false)
 		{
-			if(m_Setdest == false)
+			if(m_Setdest == false || m_isMoving == false)
 				SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pos.z));
 			m_Setdest = true;
+			m_isMoving = true;
 		}
 		break;
 	case ¸÷_¾öÆóÀÌµ¿:
@@ -483,7 +484,10 @@ void Mob::Shooting()
 		{
 			m_TeamAINum = NULL;
 			if (m_Act._moving == ¸÷_µ¹°ÝÀÌµ¿)
+			{
 				m_Setdest = false;
+				m_isMoving = false;
+			}
 		}
 	}
 	
