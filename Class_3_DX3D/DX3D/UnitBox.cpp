@@ -92,15 +92,6 @@ void UnitBox::Update()
 		{
 			SAFE_UPDATE(m_pTeam[i]);
 		}
-		for (int i = 0; i < m_pTeam.size(); i++)
-		{
-			if (m_pTeam[i]->MobSearch() == true)
-			{
-				//	//m_pTeam[i]->SetDestination(m_pCubeman->GetPosition());
-				//	//m_pTeam[i]->UpdatePositionToDestination();
-			}
-			//m_pTeam[i]->ShootVertex();
-		}
 	}
 	//장애물뒤에 숨기
 	for (int i = 0; i < m_pMob.size(); i++)
@@ -213,7 +204,7 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 		if (m_pMob[_Mobnum]->m_move == false)
 		{
 			//m_pMob[_Mobnum]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((_Mobnum + 1) * 20 + NODE_POSITSIZE)));
-			m_pMob[_Mobnum]->SetDestination(D3DXVECTOR3(NODE_POSITSIZEX+100.0f, 2.67f, m_pMob[_Mobnum]->GetPosition().z));
+			m_pMob[_Mobnum]->SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pMob[_Mobnum]->GetPosition().z));
 			m_pMob[_Mobnum]->m_move = true;
 		}
 	}
@@ -291,20 +282,28 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 					}
 				}
 				//다음 장애물로 가기 위한 조건문
-				if (Dist < 3.0f && m_pMob[_Mobnum]->PlayerSearch()== false)
+				if (Dist < 2.0f)
 				{
-					m_pMob[_Mobnum]->m_Act._hiding = 몹_숨었다;
-					m_pMob[_Mobnum]->SetMoveSpeed(0);
-					m_pMob[_Mobnum]->num++;
-					if (m_pMob[_Mobnum]->num > 100)
+					if (m_pMob[_Mobnum]->PlayerSearch() == false)
 					{
-						m_pMob[_Mobnum]->SetMoveSpeed(1.0f);
-						m_CanSave[m_pMob[_Mobnum]->GetLocationNum().back()] = true;
-						m_pMob[_Mobnum]->SetDetermined(false);
-						m_pMob[_Mobnum]->EraseWallLocation();
-						m_pMob[_Mobnum]->m_move = false;
-						m_pMob[_Mobnum]->num = 0;
-						m_pMob[_Mobnum]->m_Act._hiding = 몹_움직인다;
+						m_pMob[_Mobnum]->m_Act._hiding = 몹_숨어있음;
+						m_pMob[_Mobnum]->SetMoveSpeed(0);
+						m_pMob[_Mobnum]->num++;
+						if (m_pMob[_Mobnum]->num > 100)
+						{
+							m_pMob[_Mobnum]->SetMoveSpeed(1.0f);
+							m_CanSave[m_pMob[_Mobnum]->GetLocationNum().back()] = true;
+							m_pMob[_Mobnum]->SetDetermined(false);
+							m_pMob[_Mobnum]->EraseWallLocation();
+							m_pMob[_Mobnum]->m_move = false;
+							m_pMob[_Mobnum]->num = 0;
+							m_pMob[_Mobnum]->m_Act._hiding = 몹_뛰는중;
+						}
+					}
+					else
+					{
+						if (m_pMob[_Mobnum]->HaveBullet() == false)
+							m_pMob[_Mobnum]->Act_Reload();
 					}
 				}
 			}

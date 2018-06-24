@@ -2,16 +2,17 @@
 #include "IUnitObject.h"
 class MONSTER;
 
-enum ANI_STATE
+enum ANI_STATE_MOB
 {
 	대기상태,
 	달리다가서기3,
 	달리다가서기2,
 	달리닫가서기1,
 	달리다가죽기,
-	달리면서쏘기2,
 	달리면서쏘기,
-	수그리면서달리기
+	달리기,
+	달리면서쏘기2
+	
 };
 
 enum MOB_MOVING
@@ -37,9 +38,10 @@ enum MOB_RELOAD
 };
 enum MOB_ACTION
 {
-	몹_숨었다,
-	몹_안숨었다,
-	몹_움직인다
+	몹_숨어서장전,
+	몹_숨어있음,
+	몹_뛰는중,
+	몹_사격중,
 };
 struct MobAction
 {
@@ -54,7 +56,7 @@ class Mob
 	: public IUnitObject
 {
 private:
-	MONSTER		*	m_MONSTER;
+	MONSTER * m_MONSTER;
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
 	bool			m_isTurnedOnLight;
@@ -72,7 +74,6 @@ private:
 	int				m_TeamAINum;
 	int				m_ShootCooldownTime;
 	bool			m_isMoving;
-	bool			m_isShoot;
 	bool			m_BeDetermined;//장애물 너로 정했다
 	bool			m_randshootbullet;
 	bool			m_LocationCanSave;
@@ -86,7 +87,12 @@ private:
 	LPD3DXMESH		m_pSphereHead;
 	BoundingSphere* m_pBoundingSphereHead;
 	int status;
+	//애니메이션 인덱스
 	int ani_state;
+	//애니메이션 시작과 끝
+	bool ani_start;
+	//각도
+	float m_angle;
 
 public:
 	Mob();
@@ -100,12 +106,13 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
-	
+
 	BoundingSphere* getBoundingSphereBody();
 	BoundingSphere* getBoundingSphereHead();
-	
+
 	int getStatus();
 	void setStatus(int s);
+	void SetAngle(float angle) { m_angle = angle; }
 
 	void SaveAction();
 	void Act_Moving();
@@ -118,10 +125,14 @@ public:
 	bool CanShooting();
 	void Shooting();
 	void SetAllSaveLocation(vector<D3DXVECTOR3> m_SaveLocation) { m_AllSaveLocation = m_SaveLocation; }
-	void SetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum) 
-	{ moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum);}
-	void SetTemporary(D3DXVECTOR3 wallLocation, int Locationnum) 
-	{ Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);}
+	void SetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum)
+	{
+		moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum);
+	}
+	void SetTemporary(D3DXVECTOR3 wallLocation, int Locationnum)
+	{
+		Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);
+	}
 	void SetDetermined(bool _boo) { m_BeDetermined = _boo; }
 	void SetCanSave(bool _Can) { m_LocationCanSave = _Can; }
 	vector<D3DXVECTOR3> GetMoveTheWall() { return moveLocation; }
@@ -134,10 +145,11 @@ public:
 	void EraseLocationSoldier();
 	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); }
 	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); }
-	
+
 	//void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
 	void LocationSwap();
 	void TemporarySwap();
-	
+
+
 };
 

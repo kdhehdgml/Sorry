@@ -1,10 +1,31 @@
 #pragma once
 #include "IUnitObject.h"
 
+
+/*
+m_AnimaTionIndex
+
+3 = 앉은자세
+2 = 서서죽음
+1 = 서서기본자세
+0 = 서서쏘기
+
+*/
+
+
 class TEAM_TEX : public IUnitObject
 {
 
 protected:
+
+	//애니메이션 조절용
+	LPD3DXANIMATIONSET			pCurrAnimSet;
+	LPD3DXANIMATIONSET			pNextAnimSet;
+	D3DXTRACK_DESC				track;
+
+	//
+
+
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
@@ -61,5 +82,6 @@ private:
 	float m_angle;
 
 public:
+	void SetAnimationIndex(int nIndex) { m_AnimaTionIndex = nIndex; }
 	void SetAnimationIndex(int nIndex, bool isBlend);
 };

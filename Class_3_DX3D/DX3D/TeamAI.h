@@ -4,9 +4,41 @@ class CubemanParts;
 class Mob;
 class TEAM_TEX;
 
+enum ANI_TEAMSTATE
+{
+	휴식,
+	경계,
+	사격,
+	엄폐,
+	재장전,
+	근접돌격,
+	근접대기
+};
+
+/*
+
+3 = 앉은자세
+2 = 서서죽음
+1 = 서서기본자세
+0 = 서서쏘기
+
+*/
+
+
+enum ANI_STATE_TEAM
+{
+	서서쏘기,
+	서서기본자세,
+	서서죽음,
+	앉은자세
+};
+
 enum TEAM_STATE{
+	팀_대기,
 	팀_엄폐,
-	팀_공격
+	팀_사격,
+	팀_재장전,
+	팀_근접싸움
 };
 class TeamAI :
 	public IUnitObject
@@ -22,17 +54,25 @@ private:
 	D3DXVECTOR3		m_deltaPos;
 	D3DXVECTOR3		m_deltaRot;
 	D3DXVECTOR3		m_forward;
-	
+	int				m_reloading;
 	int				m_MobNum;
 	int				m_ShootCooldownTime;
 	bool			m_isMoving;
 	bool			m_isShoot;
-
+	int				m_bullet;
 	bool			m_render;
 	
 	LPD3DXMESH		m_pSphere;
 	BoundingSphere* m_pBoundingSphere;
 	int status;
+
+	//애니메이션 인덱스
+	int ani_state;
+	//애니메이션 시작과 끝
+	bool ani_start;
+	//각도
+	float m_angle;
+
 public:
 	TeamAI();
 	~TeamAI();
@@ -49,12 +89,12 @@ public:
 	void GetMob(vector<Mob*> _mob) { m_pMob = _mob; }
 	vector<Mob*>* getPMob();
 	D3DXMATRIXA16 getMatWorld();
-
+	bool HaveBullet();
 	virtual bool MobSearch();
 	void ShootVertex();
-	bool TrenchFight();
-	bool CanShooting();
+	void TrenchFight(int _num);
 	void Shooting();
+	void Reloading();
 
 
 };

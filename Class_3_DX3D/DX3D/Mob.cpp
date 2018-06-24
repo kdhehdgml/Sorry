@@ -8,7 +8,6 @@ Mob::Mob()
 //	m_pRootParts = NULL;
 	m_MONSTER = NULL;//¸ó½ºÅÍ Å¬·¡½º Ãß°¡
 	m_isMoving = false;
-	m_isShoot = false;
 	m_maxbullet = 15;
 	m_ShootCooldownTime = 0;
 	//m_baseRotY = D3DX_PI;
@@ -27,6 +26,11 @@ Mob::Mob()
 	status = 1;
 	m_BeDetermined = false;
 	m_Setdest = false;
+
+	ani_start = true;
+
+	m_angle = D3DX_PI / 2;
+
 }
 
 
@@ -64,16 +68,18 @@ void Mob::Update()
 {
 	if (health <= 0) {
 		status = 0;
+		ani_state = ´Þ¸®´Ù°¡Á×±â;
+
 		m_pos = { 1000,10,1000 };
 	}
 	if (status > 0) {
 		Act_Moving();
-		Act_Hiding();
-		Shooting();
+		
 		if (PlayerSearch() == true)
 		{
 			Act_Engage();
 		}
+		Act_Hiding();
 		IUnitObject::UpdateKeyboardState();
 		IUnitObject::UpdatePositionToDestination();
 		
@@ -85,8 +91,8 @@ void Mob::Update()
 
 		//m_pRootParts->SetMovingState(m_isMoving);
 		//m_pRootParts->Update();
-		m_MONSTER->SetPos(m_pos);
-		m_MONSTER->Update();
+	/*	m_MONSTER->SetPos(m_pos);
+		m_MONSTER->Update();*/
 
 		Debug->AddText("¸÷ Ã¼·Â: ");
 		Debug->AddText(health);
@@ -97,12 +103,19 @@ void Mob::Update()
 		Debug->EndLine();
 		
 	}
-	else
-	{
-		ani_state = ´Þ¸®´Ù°¡Á×±â;
-	}
 
-	m_MONSTER->SetAnimationIndex(ani_state, true);
+	if(health>0)
+		m_MONSTER->SetPos(m_pos);
+
+	//Debug->AddText("m_rot: ");
+	//Debug->AddText(m_rot.y);
+	//Debug->EndLine();
+
+	m_MONSTER->SetAngle(m_rot.y);
+	m_MONSTER->SetAnimationIndex(ani_state);
+
+	m_MONSTER->Update();
+
 }
 
 void Mob::Render()
@@ -116,12 +129,15 @@ void Mob::Render()
 	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 	
+	
+	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+
+	if (g_pFrustum->IsMobAIFrustum(this))
+		m_MONSTER->Render();
+
+
 	if (status > 0) {
-		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		//m_pRootParts->Render();
-		
-		if(g_pFrustum->IsMobAIFrustum(this))
-			m_MONSTER->Render();
+
 
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);
@@ -187,8 +203,8 @@ void Mob::SaveAction()
 	if (r1 == 1 && r2 == 2) { r2 = 1; }
 	//¹«½ÃÇÏ°íµ¹°ÝÀº ÀåÀü¾ÈÇÔ
 	if (r2 == 2) { r4 = 1; }
-	m_Act._moving = MOB_MOVING(r1);
-	m_Act._engage = MOB_ENGAGE(r2);
+	m_Act._moving = MOB_MOVING(0);
+	m_Act._engage = MOB_ENGAGE(1);
 	m_Act._gunshot = MOB_GUNSHOT(r3);
 	m_Act._reload = MOB_RELOAD(r4);
 	m_Act._hiding = MOB_ACTION(2);
@@ -199,17 +215,14 @@ void Mob::Act_Moving()
 	switch (m_Act._moving)
 	{
 	case ¸÷_µ¹°ÝÀÌµ¿:
-		if (PlayerSearch() == false)
+		EraseLocationSoldier();
+		if (PlayerSearch() == false && TrenchFight() == false)
 		{
-			if(m_Setdest == false)
+			if(m_Setdest == false || m_isMoving == false)
 				SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pos.z));
 			m_Setdest = true;
+			m_isMoving = true;
 		}
-		else
-		{
-			m_Setdest = false;
-		}
-			
 		break;
 	case ¸÷_¾öÆóÀÌµ¿:
 		break;
@@ -258,46 +271,18 @@ void Mob::Act_Reload()
 	switch (m_Act._reload)
 	{
 	case ¸÷_ÀåÀüÇÔ:
-		if (m_Act._engage == ¸÷_Á¦ÀÚ¸®¸ØÃã)
+		m_Act._hiding = ¸÷_¼û¾î¼­ÀåÀü;
+		m_reloading++;
+		if (m_reloading > 100)
 		{
-			if (moveLocation.empty() == false)
-			{
-				if (D3DXVec3Length(&(moveLocation.back() - m_pos)) < 2.0f)
-				{
-					m_Act._hiding = ¸÷_¼û¾ú´Ù;
-					m_reloading++;
-					if (m_reloading > 100)
-					{
-						int Temp_bullet = m_bullet;
-						if (m_maxbullet < 5)
-							m_bullet = m_maxbullet;
-						else
-							m_bullet = 5;
-						m_maxbullet -= 5 - Temp_bullet;
-						Act_GunShot();
-						m_reloading = 0;
-						m_Act._hiding = ¸÷_¾È¼û¾ú´Ù;
-					}
-				}
-			}
-		}
-		if (m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â)
-		{
-			m_Act._hiding = ¸÷_¼û¾ú´Ù;
-			m_reloading++;
-			if (m_reloading > 100)
-			{
-				int Temp_bullet = m_bullet;
-				if (m_maxbullet < 5)
-					m_bullet = m_maxbullet;
-				else
-					m_bullet = 5;
-
-				m_maxbullet -= 5 - Temp_bullet;
-				Act_GunShot();
-				m_reloading = 0;
-				m_Act._hiding = ¸÷_¾È¼û¾ú´Ù;
-			}
+			int Temp_bullet = m_bullet;
+			if (m_maxbullet < 5)
+				m_bullet = m_maxbullet;
+			else
+				m_bullet = 5;
+			m_maxbullet -= 5 - Temp_bullet;
+			Act_GunShot();
+			m_reloading = 0;
 		}
 		break;
 	case ¸÷_ÀåÀü¾ÈÇÔ:
@@ -310,16 +295,17 @@ void Mob::Act_Hiding()
 {
 	switch (m_Act._hiding)
 	{
-	case ¸÷_¼û¾ú´Ù:
+	case ¸÷_¼û¾îÀÖÀ½:
 		break;
-	case ¸÷_¾È¼û¾ú´Ù:
-		break;
-	case ¸÷_¿òÁ÷ÀÎ´Ù:
+	case ¸÷_¶Ù´ÂÁß:
 		if (m_moveSpeed > 0)
 		{
-			ani_state = ´Þ¸®¸é¼­½î±â;
-			
+			ani_state = ´Þ¸®±â;
 		}
+		break;
+	case ¸÷_»ç°ÝÁß:
+		ani_state = ´Þ¸®¸é¼­½î±â2;
+
 		break;
 	}
 }
@@ -342,6 +328,7 @@ bool Mob::PlayerSearch()
 			return true;
 	}
 	//³Ê¹«¸Ö¸é ±×³É ºÒ°¡
+	m_TeamAINum = NULL;
 	return false;
 }
 
@@ -349,7 +336,6 @@ bool Mob::TrenchFight()
 {
 	moveLocation.clear();
 	SaveLocationNum.clear();
-	m_isShoot = false;
 	float nearAI = 150;
 	int AINum = NULL;
 	//°¡±î¿î³ð Ã£±â(MinÃ£´Â¹æ½Ä)
@@ -365,10 +351,8 @@ bool Mob::TrenchFight()
 	if (AINum != NULL)
 	{
 		m_TeamAINum = AINum;
-		D3DXVECTOR3 collision = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition() - m_pos };
-		D3DXVec3Normalize(&collision, &collision);
 		if(m_Setdest == true)
-			SetTargetPostion(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition() - collision * 1.5f);
+			SetTargetPostion(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
 		m_Setdest = false;
 		D3DXVECTOR3 Direction = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().x ,
 			g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().y + 4.0f,
@@ -379,12 +363,17 @@ bool Mob::TrenchFight()
 		Shootpos[1] = (VERTEX_PC(Direction, d));
 		if (D3DXVec3Length(&(m_pos - g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition())) < 5.0f)
 		{
+			m_moveSpeed = 0;
 			m_ShootCooldownTime++;
 			if (m_ShootCooldownTime > 100)
 			{
 				g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() - 25.0f);
 				m_ShootCooldownTime = 0;
 			}
+		}
+		else
+		{
+			m_moveSpeed = 1.0f;
 		}
 		if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
 		{
@@ -399,6 +388,14 @@ bool Mob::TrenchFight()
 
 bool Mob::CanShooting()
 {
+	if (m_TeamAINum != NULL)
+	{
+		if (HaveBullet() == true)
+		{
+			m_Act._hiding = ¸÷_»ç°ÝÁß;
+			return true;
+		}
+	}
 	if (g_pObjMgr->FindObjectsByTag(TAG_TEAM).size() > 0)
 	{
 		D3DXVECTOR3 move_forward;
@@ -412,8 +409,9 @@ bool Mob::CanShooting()
 
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_TEAM)))
 		{
-			DirectPM = D3DXVECTOR3(abs(p->GetPosition().x - m_pos.x), 0, abs(p->GetPosition().z - m_pos.z));
-			if ((DirectPM.x > 0 && DirectPM.x < 220) && (DirectPM.z < 40 && DirectPM.z > 0))
+			DirectPM = D3DXVECTOR3(p->GetPosition().x - m_pos.x, 0, p->GetPosition().z - m_pos.z);
+			D3DXVECTOR3 AbsPm = { abs(DirectPM.x),0,abs(DirectPM.z) };
+			if (AbsPm.x > 0 && AbsPm.x < 220 && AbsPm.z < 40 && AbsPm.z > 0)
 			{
 
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
@@ -425,21 +423,18 @@ bool Mob::CanShooting()
 
 				if (Length > 0 && Length < 240 && DotPM >= direct)
 				{
-
 					if (m_TeamAINum == NULL && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[number]->getHealth() > 0)
 					{
 						m_TeamAINum = number;
-						
-					}
-					if(m_TeamAINum !=NULL)
+						m_Act._hiding = ¸÷_»ç°ÝÁß;
 						return true;
+					}	
 				}
 			}
 			number++;
 		}
 		return false;
 	}
-	m_isShoot = false;
 	return false;
 }
 
@@ -459,9 +454,9 @@ void Mob::Shooting()
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
 
-		if (HaveBullet())
+		if (HaveBullet() == true)
 		{
-			if (m_Act._hiding == ¸÷_¾È¼û¾ú´Ù || m_Act._hiding == ¸÷_¿òÁ÷ÀÎ´Ù)
+			if (m_Act._hiding == ¸÷_»ç°ÝÁß)
 			{
 				float kill = rand() % 10;
 				m_ShootCooldownTime++;
@@ -485,20 +480,23 @@ void Mob::Shooting()
 				}
 			}
 		}
-		else if (m_maxbullet > 0)//ÃÑ¾ËÀÌ¾øÀ»¶§
-		{
-			Act_Reload();
-		}
-		else
+		else if (m_maxbullet < 0)
 		{
 			moveLocation.clear();
 			SaveLocationNum.clear();
+			m_Act._hiding = ¸÷_¶Ù´ÂÁß;
+		}
+		if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
+		{
+			m_TeamAINum = NULL;
+			if (m_Act._moving == ¸÷_µ¹°ÝÀÌµ¿)
+			{
+				m_Setdest = false;
+				m_isMoving = false;
+			}
 		}
 	}
-	if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
-	{
-		m_TeamAINum = NULL;
-	}
+	
 	if (CanShooting() == false || m_TeamAINum == NULL)
 	{
 		Shootpos[0] = (VERTEX_PC(myPos, c));
@@ -527,14 +525,14 @@ void Mob::EraseLocationSoldier()
 	{
 		for (int j = moveLocation.size() - 1; j >= 0; j--)
 		{
-			if (m_pos.x < moveLocation[j].x)
+			if (m_pos.x + 1.0f < moveLocation[j].x)
 				EraseWallLocation();
 			else
 				break;
 		}
 		for (int j = Temporary_Storage.size() - 1; j >= 0; j--)
 		{
-			if (m_pos.x < Temporary_Storage[j].x)
+			if (m_pos.x + 1.0f < Temporary_Storage[j].x)
 				EraseTemporary();
 			else
 				break;
