@@ -9,49 +9,31 @@ public:
 	~ObjRender();
 
 	//참호 판자
-	ObjRen*			m_MapTest;
-	ObjRen*			m_MapTest0;
-	ObjRen*			m_MapTest1;
-	ObjRen*			m_MapTest2;
-	ObjRen*			m_MapTest3;
-	ObjRen*			m_MapTest4;
-	ObjRen*			m_MapTest5;
-	ObjRen*			m_MapTest6;
+	ObjRen*			m_MapTest[8];
 
 	//철조망
-	ObjRen*			m_BarbedWire00;
-	ObjRen*			m_BarbedWire01;
-	ObjRen*			m_BarbedWire02;
-	ObjRen*			m_BarbedWire03;
-	ObjRen*			m_BarbedWire04;
-	//맨 윗줄
-	ObjRen*			m_BarbedWireT00;
-	ObjRen*			m_BarbedWireT01;
-	ObjRen*			m_BarbedWireT02;
-	ObjRen*			m_BarbedWireT03;
-	ObjRen*			m_BarbedWireT04;
-	ObjRen*			m_BarbedWireT05;
-	ObjRen*			m_BarbedWireT06;
-	ObjRen*			m_BarbedWireT07;
-	ObjRen*			m_BarbedWireT08;
-	ObjRen*			m_BarbedWireT09;
-	ObjRen*			m_BarbedWireT10;
-	ObjRen*			m_BarbedWireT11;
+	ObjRen*			m_BarbedWireT[38];
+
+	//사격받침
+	ObjRen*			m_FireStep00;
+
+	//주머니
+	ObjRen*			SaddleBag0[20];
 
 	//나무
-	ObjRen*			m_Tree00;
-	ObjRen*			m_Tree01;
-	ObjRen*			m_Tree02;
-	ObjRen*			m_Tree03;
-	ObjRen*			m_Tree04;
-	ObjRen*			m_Tree05;
-	ObjRen*			m_Tree06;
+	ObjRen*			m_Tree00[10];
+	ObjRen*			m_Tree01[10];
+	ObjRen*			m_Tree02[10];
+	ObjRen*			m_Tree03[10];
+	ObjRen*			m_Tree04[10];
+	ObjRen*			m_Tree05[10];
+	ObjRen*			m_Tree06[10];
 
-	//지푸라기
-	ObjRen*			m_Straw00;
+	////지푸라기
+	//ObjRen*			m_Straw00[6];
 
-	//돌
-	ObjRen*			m_Stone00;
+	////돌
+	//ObjRen*			m_Stone00[20];
 
 	void Init();
 	void Render();
