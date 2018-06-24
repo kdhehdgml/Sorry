@@ -84,11 +84,11 @@ void TEAM_TEX::Update()
 	//m_AnimaTionIndex = rand() % 5;
 
 	if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f &&
-		m_AnimaTionIndex == 5)
+		m_AnimaTionIndex == 2)
 	{
 
 		//트랙속도 감소!
-		//m_pAnimController->SetTrackSpeed(0, 0);
+		m_pAnimController->SetTrackSpeed(0, 0);
 
 	}
 

@@ -298,8 +298,12 @@ void Mob::Act_Hiding()
 	case 몹_뛰는중:
 		if (m_moveSpeed > 0)
 		{
-			ani_state = 달리면서쏘기;
+			ani_state = 달리기;
 		}
+		break;
+	case 몹_사격중:
+		ani_state = 수그리면서달리기;
+
 		break;
 	}
 }

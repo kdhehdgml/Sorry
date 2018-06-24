@@ -26,7 +26,7 @@ TeamAI::TeamAI()
 
 	m_angle = D3DX_PI / 2;
 
-	ani_state = 서서쏘기;
+	ani_state = 서서기본자세;
 }
 
 
@@ -59,7 +59,7 @@ void TeamAI::Update()
 	if (health <= 0) {
 		status = 0;
 
-		ani_state = 5;
+		ani_state = 서서죽음;
 		//m_pos = { 2000,10,2000 };
 	}
 	if (status > 0) {
@@ -71,6 +71,7 @@ void TeamAI::Update()
 		if(HaveBullet() == true)
 		{
 			m_Action = 팀_사격;
+			ani_state = 서서쏘기;
 		}
 		MobSearch();
 		ShootVertex();
@@ -90,7 +91,6 @@ void TeamAI::Update()
 	Debug->AddText(status);
 	Debug->EndLine();
 
-	ani_state = 1;
 
 	m_TEAM_TEX->SetPos(m_pos);
 	m_TEAM_TEX->SetAnimationIndex(ani_state);

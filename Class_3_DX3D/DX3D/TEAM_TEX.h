@@ -1,6 +1,18 @@
 #pragma once
 #include "IUnitObject.h"
 
+
+/*
+m_AnimaTionIndex
+
+3 = 앉은자세
+2 = 서서죽음
+1 = 서서기본자세
+0 = 서서쏘기
+
+*/
+
+
 class TEAM_TEX : public IUnitObject
 {
 
