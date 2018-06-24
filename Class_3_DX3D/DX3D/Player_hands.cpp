@@ -3,7 +3,7 @@
 #include "AllocateHierarchy.h"
 #include "Camera.h"
 
-#define SCALE 5.0f
+#define SCALE 1.0f
 
 /*
 
@@ -69,7 +69,7 @@ void Player_hands::Init()
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
 	CString path = "resources/xFile/player_ani/";
-	CString filename = "player_hands_ani.X";
+	CString filename = "player.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -435,7 +435,8 @@ void Player_hands::SetPosToCamera()
 {
 	m_pos = Camera::GetInstance()->getPos();
 	//m_pos.x -= 0.1f;
-	m_pos.y -= 3.5f;
+	//m_pos.z += 3.5f;
+	//m_pos.y -= 1.5f;
 
 	D3DXVECTOR3 dir = g_pCamera->getDir();
 
