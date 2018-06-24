@@ -130,6 +130,7 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 			}
 			else
 			{
+				
 				for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_MOB).size(); i++)
 				{
 					if (targetPos != g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())

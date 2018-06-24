@@ -5,6 +5,15 @@ class TEAM_TEX : public IUnitObject
 {
 
 protected:
+
+	//애니메이션 조절용
+	LPD3DXANIMATIONSET			pCurrAnimSet;
+	LPD3DXANIMATIONSET			pNextAnimSet;
+	D3DXTRACK_DESC				track;
+
+	//
+
+
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
@@ -61,5 +70,6 @@ private:
 	float m_angle;
 
 public:
+	void SetAnimationIndex(int nIndex) { m_AnimaTionIndex = nIndex; }
 	void SetAnimationIndex(int nIndex, bool isBlend);
 };

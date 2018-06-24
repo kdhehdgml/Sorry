@@ -25,6 +25,10 @@ TEAM_TEX::TEAM_TEX()
 	m_bWireFrame = false;
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;
+
+
+	pCurrAnimSet = NULL;
+	pNextAnimSet = NULL;
 }
 
 
@@ -56,6 +60,12 @@ void TEAM_TEX::Init()
 	D3DXMatrixRotationY(&matR, m_angle);
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 
+
+	//처음생성시 기본설정
+	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pNextAnimSet);
+	m_pAnimController->GetTrackDesc(0, &track);
+	m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
+
 	
 }
 
@@ -67,6 +77,23 @@ void TEAM_TEX::Update()
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
 	m_matWorld = matS * matR * matT;
+
+	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
+	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
+
+	//m_AnimaTionIndex = rand() % 5;
+
+	if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f &&
+		m_AnimaTionIndex == 5)
+	{
+
+		//트랙속도 감소!
+		//m_pAnimController->SetTrackSpeed(0, 0);
+
+	}
+
+	SetAnimationIndex(m_AnimaTionIndex, true);
+
 }
 
 void TEAM_TEX::Render()
@@ -294,7 +321,7 @@ void TEAM_TEX::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 
 void TEAM_TEX::SetAnimationIndex(int nIndex, bool isBlend)
 {
-	LPD3DXANIMATIONSET pNextAnimSet = NULL;
+	//LPD3DXANIMATIONSET pNextAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
 
 
@@ -312,6 +339,10 @@ void TEAM_TEX::SetAnimationIndex(int nIndex, bool isBlend)
 		D3DXTRACK_DESC trackDesc;
 		m_pAnimController->GetTrackDesc(0, &trackDesc);
 		m_pAnimController->SetTrackDesc(1, &trackDesc);
+
+		m_pAnimController->GetTrackDesc(0, &track);
+		m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
+
 
 		m_pAnimController->SetTrackWeight(0, 0.0f);
 		m_pAnimController->SetTrackWeight(1, 1.0f);

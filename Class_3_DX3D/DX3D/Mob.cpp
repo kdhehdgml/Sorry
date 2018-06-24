@@ -29,7 +29,7 @@ Mob::Mob()
 
 	ani_start = true;
 
-	angle = D3DX_PI / 2;
+	m_angle = D3DX_PI / 2;
 
 }
 
@@ -104,10 +104,16 @@ void Mob::Update()
 	}
 
 	m_MONSTER->SetPos(m_pos);
-	m_MONSTER->SetAngle(angle);
+
+	//Debug->AddText("m_rot: ");
+	//Debug->AddText(m_rot.y);
+	//Debug->EndLine();
+
+	m_MONSTER->SetAngle(m_rot.y);
+	m_MONSTER->SetAnimationIndex(ani_state);
+
 	m_MONSTER->Update();
 
-	m_MONSTER->SetAnimationIndex(ani_state);
 }
 
 void Mob::Render()

@@ -93,7 +93,7 @@ void MONSTER::Update()
 	//Debug->EndLine();
 
 
-	SetAnimationIndex(m_AnimaTionIndex, m_animationSTATE);
+	SetAnimationIndex(m_AnimaTionIndex, true);
 }
 
 void MONSTER::Render()
@@ -348,13 +348,13 @@ void MONSTER::SetAnimationIndex(int nIndex, bool isBlend)
 		m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
 
 
-		Debug->AddText("전체시간 :");
-		Debug->AddText(pCurrAnimSet->GetPeriod());
-		Debug->EndLine();
+		//Debug->AddText("전체시간 :");
+		//Debug->AddText(pCurrAnimSet->GetPeriod());
+		//Debug->EndLine();
 
-		Debug->AddText("현재시간 :");
-		Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
-		Debug->EndLine();
+		//Debug->AddText("현재시간 :");
+		//Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
+		//Debug->EndLine();
 
 
 

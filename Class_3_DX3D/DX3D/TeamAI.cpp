@@ -23,6 +23,10 @@ TeamAI::TeamAI()
 	health = 100;
 	status = 1;
 	m_render = false;
+
+	m_angle = D3DX_PI / 2;
+
+	ani_state = 서서쏘기;
 }
 
 
@@ -54,7 +58,9 @@ void TeamAI::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		m_pos = { 2000,10,2000 };
+
+		ani_state = 5;
+		//m_pos = { 2000,10,2000 };
 	}
 	if (status > 0) {
 		if (m_MobNum == NULL || HaveBullet() == false)
@@ -75,9 +81,22 @@ void TeamAI::Update()
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 4.0f;
 
-		m_TEAM_TEX->SetPos(m_pos);
-		m_TEAM_TEX->Update();
+
 	}
+	Debug->AddText("아군 생명력 :");
+	Debug->AddText(health);
+	Debug->EndLine();
+	Debug->AddText("아군 On/oFF :");
+	Debug->AddText(status);
+	Debug->EndLine();
+
+	ani_state = 1;
+
+	m_TEAM_TEX->SetPos(m_pos);
+	m_TEAM_TEX->SetAnimationIndex(ani_state);
+
+	m_TEAM_TEX->Update();
+
 
 	//아군 렌더 할까말까
 	if (Keyboard::Get()->KeyDown('H'))
@@ -96,19 +115,22 @@ void TeamAI::Render()
 	////안개 최대치로 적용되는 거리
 	//g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	//g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+
+	//프러스텀 적용 
+	if (g_pFrustum->IsTeamAIFrustum(this) == true)
+	{
+		if (m_render)
+			m_TEAM_TEX->Render();
+	}
+
+
 	if (status > 0) 
 	{
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
-		//프러스텀 적용 
-		if (g_pFrustum->IsTeamAIFrustum(this) == true)
-		{
-			if(m_render)
-				m_TEAM_TEX->Render();
-		}
-
+	
 
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);
