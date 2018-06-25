@@ -590,7 +590,7 @@ void SceneHeightmap::Render()
 	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 	g_pDevice->SetTexture(0, NULL);
-	m_pSphere->DrawSubset(0);
+	//m_pSphere->DrawSubset(0);
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
