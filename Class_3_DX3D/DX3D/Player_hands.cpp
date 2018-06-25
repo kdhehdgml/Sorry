@@ -183,9 +183,14 @@ void Player_hands::Render()
 	{
 		m_numFrame = 0;
 		m_numMesh = 0;
+		//팔짤리는거 방지용으로 컬모즈를 잠시 제거함
+		g_pDevice->SetRenderState(D3DRS_CULLMODE, false);
 
 		if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 		//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+		//컬모드 원래대로 돌려주는것
+		g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 	}
 }
 
