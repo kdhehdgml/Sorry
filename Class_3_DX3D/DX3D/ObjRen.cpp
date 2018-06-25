@@ -19,7 +19,7 @@ ObjRen::~ObjRen()
 	SAFE_DELETE(g_pD3DMesh);
 }
 
-void ObjRen::Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float y, float z, float rotation)
+void ObjRen::Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float y, float z, float rotationX, float rotationY, float rotationZ)
 {
 	g_fScale = size;
 	g_pLoader->LoadObj(objFile, &objMesh);
@@ -37,15 +37,17 @@ void ObjRen::Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float y
 
 	sizeFactor *= g_fScale;
 
-	D3DXMATRIX mT, mR, mS;
+	D3DXMATRIX mT, mRX, mRY, mRZ, mS;
 
 	D3DXMatrixIdentity(&m_matWorld);
 
 	D3DXMatrixTranslation(&mT, -bbCenter.x + x, -bbCenter.y + y, -bbCenter.z + z);
 	D3DXMatrixScaling(&mS, sizeFactor, sizeFactor, sizeFactor);
-	D3DXMatrixRotationY(&mR, rotation);
+	D3DXMatrixRotationX(&mRX, rotationX);
+	D3DXMatrixRotationY(&mRY, rotationY);
+	D3DXMatrixRotationZ(&mRZ, rotationZ);
 
-	m_matWorld = mS * mR * mT;
+	m_matWorld = mS * mRX * mRY * mRZ * mT;
 
 	g_pD3DMesh->m_MtlTex = new MTLTEX;
 

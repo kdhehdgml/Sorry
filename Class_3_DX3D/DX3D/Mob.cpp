@@ -29,7 +29,7 @@ Mob::Mob()
 
 	ani_start = true;
 
-	angle = D3DX_PI / 2;
+	m_angle = D3DX_PI / 2;
 
 }
 
@@ -70,16 +70,17 @@ void Mob::Update()
 		status = 0;
 		ani_state = 달리다가죽기;
 
-	//	m_pos = { 1000,10,1000 };
+		m_pos = { 1000,10,1000 };
 	}
 	if (status > 0) {
 		Act_Moving();
-		Act_Hiding();
+		
 		if (PlayerSearch() == true)
 		{
 			Act_Engage();
 			Shooting();
 		}
+		Act_Hiding();
 		IUnitObject::UpdateKeyboardState();
 		IUnitObject::UpdatePositionToDestination();
 		
@@ -102,13 +103,21 @@ void Mob::Update()
 		Debug->AddText(m_maxbullet);
 		Debug->EndLine();
 		
+		//살아있을때만 포지션을 받아온다
+		m_MONSTER->SetPos(m_pos);
 	}
 
-	m_MONSTER->SetPos(m_pos);
-	m_MONSTER->SetAngle(angle);
+	
+
+	//Debug->AddText("m_rot: ");
+	//Debug->AddText(m_rot.y);
+	//Debug->EndLine();
+
+	m_MONSTER->SetAngle(m_rot.y);
+	m_MONSTER->SetAnimationIndex(ani_state);
+
 	m_MONSTER->Update();
 
-	m_MONSTER->SetAnimationIndex(ani_state);
 }
 
 void Mob::Render()
@@ -292,8 +301,12 @@ void Mob::Act_Hiding()
 	case 몹_뛰는중:
 		if (m_moveSpeed > 0)
 		{
-			ani_state = 달리면서쏘기;
+			ani_state = 달리기;
 		}
+		break;
+	case 몹_사격중:
+		ani_state = 달리면서쏘기2;
+
 		break;
 	}
 }

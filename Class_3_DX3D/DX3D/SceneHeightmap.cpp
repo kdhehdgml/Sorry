@@ -290,44 +290,74 @@ void SceneHeightmap::Update()
 	float height;
 	D3DXVECTOR3 currentPos = g_pCamera->getPos();
 	bool isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
-	if (!g_pCamera->getFreeCameraMode()) {
+	/*if (!g_pCamera->getFreeCameraMode()) {
 		float oldHeight;
 		isIntersected = g_pCurrentMap->GetHeight(oldHeight, m_pOldPos);
 		float dxdy = oldHeight - height;
 		D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
+		D3DXVECTOR3 cPosPush(0.0f, 0.0f, 0.0f);
 		if (dxdy < -0.3) {
-			g_pCamera->setPos(m_pOldPos);
+			float dx1, dx2, dy1, dy2;
+			currentPos.x += 0.2f;
+			isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
+			currentPos.x -= 0.2f;
+			currentPos.z += 0.2f;
+			isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
+			currentPos.z -= 0.2f;
+			currentPos.x -= 0.2f;
+			isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
+			currentPos.x += 0.2f;
+			currentPos.z -= 0.2f;
+			isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
+			currentPos.z += 0.2f;
+			if (oldHeight - dx1 < -0.3f) {
+				cPosPush.x -= 0.4f;
+			}
+			if (oldHeight - dx2 < -0.3f) {
+				cPosPush.x += 0.4f;
+			}
+			if (oldHeight - dy1 < -0.3f) {
+				cPosPush.z -= 0.4f;
+			}
+			if (oldHeight - dy2 < -0.3f) {
+				cPosPush.z += 0.4f;
+			}
+			g_pCamera->setPos(m_pOldPos + cPosPush);
 		}
-	}
+	}*/
 
-	/*if (!g_pCamera->getFreeCameraMode()) {
+	if (!g_pCamera->getFreeCameraMode()) {
 		float dx1, dx2, dy1, dy2;
-		currentPos.x += 0.2;
-		currentPos.z += 0.2;
+		const float distanceDiffBuffer = 0.2f;
+		const float heightDiffBuffer = 0.3f;
+		currentPos.x += distanceDiffBuffer;
 		isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
+		currentPos.x -= distanceDiffBuffer;
+		currentPos.z += distanceDiffBuffer;
 		isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
-		currentPos.x -= 0.4;
-		currentPos.z -= 0.4;
+		currentPos.z -= distanceDiffBuffer;
+		currentPos.x -= distanceDiffBuffer;
 		isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
+		currentPos.x += distanceDiffBuffer;
+		currentPos.z -= distanceDiffBuffer;
 		isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
+		currentPos.z += distanceDiffBuffer;
 		dx1 -= height;
 		dy1 -= height;
 		dx2 -= height;
 		dy2 -= height;
-		currentPos.x += 0.2;
-		currentPos.z += 0.2;
 		D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
 		cPosDiff.y = 0;
-		if (dx1 > 0.3 && cPosDiff.x > 0) {
+		if (dx1 > heightDiffBuffer && cPosDiff.x > 0) {
 			cPosDiff.x = 0;
 		}
-		if (dy1 > 0.3 && cPosDiff.z > 0) {
+		if (dy1 > heightDiffBuffer && cPosDiff.z > 0) {
 			cPosDiff.z = 0;
 		}
-		if (dx2 > 0.3 && cPosDiff.x < 0) {
+		if (dx2 > heightDiffBuffer && cPosDiff.x < 0) {
 			cPosDiff.x = 0;
 		}
-		if (dy2 > 0.3 && cPosDiff.z < 0) {
+		if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
 			cPosDiff.z = 0;
 		}
 		g_pCamera->setPos(m_pOldPos + cPosDiff);
@@ -338,7 +368,7 @@ void SceneHeightmap::Update()
 	if (g_pCamera->getFreeCameraMode()) {
 		currentPos.y += 63.0f;
 	}
-	g_pCamera->setPos(currentPos);*/
+	g_pCamera->setPos(currentPos);
 
 
 	OnUpdateIScene();
