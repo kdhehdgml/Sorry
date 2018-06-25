@@ -17,13 +17,12 @@ TeamAI::TeamAI()
 	m_destPos = m_pos;
 	m_move = false;
 	num = 0;
-	m_moveSpeed = 0.4f;
 	m_ShootCooldownTime = 0;
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
 	m_render = false;
-
+	m_bullet = 5;
 	m_angle = D3DX_PI / 2;
 
 	ani_state = 서서기본자세;
@@ -40,18 +39,13 @@ TeamAI::~TeamAI()
 void TeamAI::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
-	
 	D3DXCreateSphere(g_pDevice, 3.0f, 10, 10, &m_pSphere, NULL);
 
 	m_TEAM_TEX = new TEAM_TEX;
 	m_TEAM_TEX->Init();
 
-
-	
 	m_moveSpeed = GSM().mobSpeed;
-
 	m_pBoundingSphere = new BoundingSphere(m_pos, 3.0f);
-	
 }
 
 void TeamAI::Update()
@@ -68,12 +62,16 @@ void TeamAI::Update()
 			m_Action = 팀_재장전;
 			Reloading();
 		}
-		if(HaveBullet() == true)
+		if(HaveBullet() == true && MobSearch() == true)
 		{
 			m_Action = 팀_사격;
 			ani_state = 서서쏘기;
+			Shooting();
 		}
-		MobSearch();
+		if (m_Action == 팀_대기)
+		{
+			ani_state = 서서기본자세;
+		}
 		ShootVertex();
 
 		UpdatePositionToDestination();
@@ -93,13 +91,8 @@ void TeamAI::Update()
 	//Debug->AddText(status);
 	//Debug->EndLine();
 
-
-	
-
 	m_TEAM_TEX->SetAnimationIndex(ani_state);
-
 	m_TEAM_TEX->Update();
-
 
 	//아군 렌더 할까말까
 	if (Keyboard::Get()->KeyDown('H'))
@@ -130,11 +123,6 @@ void TeamAI::Render()
 	if (status > 0) 
 	{
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-
-		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-
-	
-
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
@@ -142,9 +130,6 @@ void TeamAI::Render()
 		g_pDevice->SetFVF(VERTEX_PC::FVF);
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 			1, &Shootpos[0], sizeof(VERTEX_PC));
-
-	
-
 
 		/*D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
@@ -193,12 +178,8 @@ bool TeamAI::MobSearch()
 	{
 		if (g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() <= 0)
 			m_MobNum = NULL;
-
-		if (HaveBullet() == true)
-		{
-			Shooting();
+		else
 			return true;
-		}
 	}
 	if (g_pObjMgr->FindObjectsByTag(TAG_MOB).size() > 0)
 	{
@@ -229,26 +210,22 @@ bool TeamAI::MobSearch()
 				}
 				else if (Length < 30)
 				{
-					m_isShoot = true;
-					TrenchFight(1);
+					TrenchFight(2);
 					return true;
 				}
 				else if (Length < 240 && DotPM >= direct)
 				{
-					m_isShoot = true;
-					if (m_MobNum == NULL && g_pObjMgr->FindObjectsByTag(TAG_MOB)[number]->getHealth() > 0)
+					if (m_MobNum == NULL && p->getHealth() > 0)
 					{
 						m_MobNum = number;
+						return true;
 					}
-					Shooting();
-					return true;
 				}
 				m_MobNum = NULL;
 			}
 			number++;
 		}
 		m_Action = 팀_대기;
-		m_isShoot = false;
 		return false;
 	}
 }
@@ -310,34 +287,34 @@ void TeamAI::TrenchFight(int _num)
 			}
 			else
 			{
-				m_moveSpeed = 1.0f;
+				m_moveSpeed = GSM().mobSpeed;
 			}
 
-		}
-		if (_num == 2)
-		{
-			Shooting();
 		}
 	}
 }
 
 void TeamAI::Shooting()
 {
-	if (HaveBullet() == true && m_Action == 팀_사격 && m_MobNum !=NULL)
+	m_ShootCooldownTime++;
+	if (m_ShootCooldownTime > 100)
 	{
 		float kill = rand() % 10;
-		m_ShootCooldownTime++;
-		
-		int damage = rand() % 10;
-		if (damage < 3)
+		if (kill < 5)
 		{
-			g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth(0);
+			int damage = rand() % 10;
+			if (damage < 3)
+			{
+				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth(0);
+			}
+			else
+			{
+				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth
+				(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() - 50);
+			}
+			m_bullet--;
 		}
-		else
-		{
-			g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth
-			(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() - 50);
-		}
+		m_ShootCooldownTime = 0;
 	}
 }
 

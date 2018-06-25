@@ -136,7 +136,7 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 					if (targetPos != g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())
 					{
 						if (D3DXVec3Length(&((m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate) -
-							g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())) < 3.0f)
+							g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())) < 4.0f)
 						{
 							m_colision = true;
 							break;
