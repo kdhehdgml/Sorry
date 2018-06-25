@@ -264,7 +264,7 @@ void SceneHeightmap::Init()
 	D3DXVECTOR3 bb3(210.0f, 35.0f, 410.0f); //임시 BoundingBox 좌표2
 
 
-	wallManager->addWall(aa, bb); //새로 벽 추가하고 싶을땐 이렇게
+	//wallManager->addWall(aa, bb); //새로 벽 추가하고 싶을땐 이렇게
 								  //(aa가 수치가 작은 쪽 좌표, bb가 큰 쪽 좌표)
 
 	D3DXCreateSphere(g_pDevice, 5.0f, 10, 10, &m_pSphere, NULL);
@@ -328,7 +328,7 @@ void SceneHeightmap::Update()
 
 	if (!g_pCamera->getFreeCameraMode()) {
 		float dx1, dx2, dy1, dy2;
-		const float distanceDiffBuffer = 0.2f;
+		const float distanceDiffBuffer = 0.3f;
 		const float heightDiffBuffer = 0.3f;
 		currentPos.x += distanceDiffBuffer;
 		isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
@@ -387,7 +387,7 @@ void SceneHeightmap::Update()
 	PROCESS_MEMORY_COUNTERS pmc;
 	GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc));
 
-	Debug->AddText("시스템 메모리 : ");
+	Debug->AddText("메모리 사용량 : ");
 	Debug->AddText((int)(pmc.WorkingSetSize / 1024));
 	Debug->AddText("KB");
 	Debug->EndLine();
@@ -590,7 +590,7 @@ void SceneHeightmap::Render()
 	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 	g_pDevice->SetTexture(0, NULL);
-	m_pSphere->DrawSubset(0);
+	//m_pSphere->DrawSubset(0);
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
