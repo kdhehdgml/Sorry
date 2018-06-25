@@ -78,6 +78,7 @@ void Mob::Update()
 		if (PlayerSearch() == true)
 		{
 			Act_Engage();
+			Shooting();
 		}
 		IUnitObject::UpdateKeyboardState();
 		IUnitObject::UpdatePositionToDestination();
@@ -240,7 +241,6 @@ void Mob::Act_Engage()
 				SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pos.z));
 			m_Setdest = true;
 		}
-
 		break;
 	}
 }
@@ -308,12 +308,7 @@ bool Mob::PlayerSearch()
 	//멀리서 각도안에 인식가능한지
 	else if (m_pos.x < NODE_POSITSIZEX + 270.0f && m_Act._engage !=몹_무시하고돌격)
 	{
-		CanShooting();
-		Shooting();
-		if (m_TeamAINum == NULL)
-			return false;
-		else 
-			return true;
+		return CanShooting();
 	}
 	//너무멀면 그냥 불가
 	m_TeamAINum = NULL;
