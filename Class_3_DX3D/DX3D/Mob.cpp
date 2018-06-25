@@ -18,7 +18,6 @@ Mob::Mob()
 	m_destPos = m_pos;
 	m_move = false;
 	num = 0;
-	m_moveSpeed = 0.4f;
 	m_shootingbullet = false;
 	m_pSphereBody = NULL;
 	m_pSphereHead = NULL;
@@ -59,7 +58,7 @@ void Mob::Init()
 	Act_GunShot();
 	m_bullet = 5;
 	//CreateAllParts();
-	IUnitObject::m_moveSpeed = GSM().mobSpeed;
+	m_moveSpeed = GSM().mobSpeed;
 	m_pos = D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350));
 	
 }
@@ -205,8 +204,8 @@ void Mob::SaveAction()
 	if (r1 == 1 && r2 == 2) { r2 = 1; }
 	//무시하고돌격은 장전안함
 	if (r2 == 2) { r4 = 1; }
-	m_Act._moving = MOB_MOVING(0);
-	m_Act._engage = MOB_ENGAGE(1);
+	m_Act._moving = MOB_MOVING(r1);
+	m_Act._engage = MOB_ENGAGE(r2);
 	m_Act._gunshot = MOB_GUNSHOT(r3);
 	m_Act._reload = MOB_RELOAD(r4);
 	m_Act._hiding = MOB_ACTION(2);
@@ -306,7 +305,6 @@ void Mob::Act_Hiding()
 		break;
 	case 몹_사격중:
 		ani_state = 달리면서쏘기2;
-
 		break;
 	}
 }
@@ -369,7 +367,7 @@ bool Mob::TrenchFight()
 		}
 		else
 		{
-			m_moveSpeed = 1.0f;
+			m_moveSpeed = GSM().mobSpeed;
 		}
 		if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
 		{

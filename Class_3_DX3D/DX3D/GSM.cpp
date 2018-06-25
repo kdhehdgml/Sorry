@@ -69,7 +69,7 @@ GSM::GSM()
 	TeamPos.z = NODE_POSITSIZEZ + 20.0f;
 
 	// 몹 속도
-	mobSpeed = 1.0f;
+	mobSpeed = 0.5f;
 
 	// 사운드 초기 볼륨
 	volume_music_init = 5.0f;
