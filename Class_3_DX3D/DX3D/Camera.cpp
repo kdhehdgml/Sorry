@@ -405,6 +405,25 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			m_recoilYDelta += (float)((float)(rand() % 12) - 6.0f) / 100.0f;
 			Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
 
+			D3DXVECTOR3 rayPos = r.getPos();
+			D3DXVECTOR3 rayDir = r.getDir();
+			float rayHeight;
+			bool isIntersected;
+			for (int i = 0; i < 100; i++) {
+				if (i < 50) {
+					rayPos = rayPos + rayDir * 2;
+				}
+				else {
+					rayPos = rayPos + rayDir * 5;
+				}
+				isIntersected = g_pCurrentMap->GetHeight(rayHeight, rayPos);
+
+				if (rayPos.y < rayHeight) {
+					MessageBox(NULL, TEXT("ÃÑ¾ËÀÌ ¶¥¿¡ ºÎµúÇû½À´Ï´Ù."), TEXT("DEBUG"), MB_OK);
+					break;
+				}
+			}
+
 			// ¹ß»çÀ½ Å×½ºÆ®
 			g_pSoundManager->ShotSound();
 			shotCheck = true; // ÃÑ ¹ß»ç Ã¼Å©
