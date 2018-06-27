@@ -22,7 +22,7 @@ private:
 	int				MobNum;
 	int				TeamNum;
 	bool			m_SameChk;
-
+	bool			MobStart;
 public:
 	UnitBox();
 	~UnitBox();
@@ -37,7 +37,8 @@ public:
 	void FindHidingInTheWallLocationRushSoldier(int _Mobnum);
 	void FindHidingInTheWallLocation(int _Mobnum);
 	void MobMoveInTheWall(int _Mobnum);
-	void mobSummon(int num);
+	void CreateMob(int num);
+	void ReSetMob();
 	void teamSummon();
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();

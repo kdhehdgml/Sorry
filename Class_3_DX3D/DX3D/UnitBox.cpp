@@ -9,6 +9,7 @@ UnitBox::UnitBox()
 	m_pCubeman = NULL;
 	m_SameChk = false;
 	MobNum = 0;
+	MobStart = false;
 }
 
 
@@ -47,20 +48,16 @@ void UnitBox::Update()
 {
 	SAFE_UPDATE(m_pCubeman);
 	Debug->EndLine();
-	if (GetAsyncKeyState(VK_F1) & 0x0001)
-		mobSummon(1);
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
-		mobSummon(10);
+		CreateMob(20);
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
-		mobSummon(20);
+		MobStart = true;
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
-		mobSummon(40);
-
-
+		ReSetMob();
 	//후방 제대 소환
 	if (GetAsyncKeyState(VK_F5) & 0x0001)
 	{
-		teamSummon();		
+		teamSummon();
 	}
 	//후방 제대 지원
 	if (GetAsyncKeyState(VK_F6) & 0x0001)
@@ -78,15 +75,6 @@ void UnitBox::Update()
 	//	if(p->m_Act._moving==몹_돌격이동)
 	//		p->EraseLocationSoldier();
 	//}
-
-	//타겟을따라서 움직이는 내용
-	if (m_pMob.size() > 0)
-	{
-		for (size_t i = 0; i < m_pMob.size(); i++)
-		{
-			SAFE_UPDATE(m_pMob[i]);
-		}
-	}
 	//아군Ai가 적Ai인식하는 내용
 	if (m_pTeam.size() > 0)
 	{
@@ -95,15 +83,22 @@ void UnitBox::Update()
 			SAFE_UPDATE(m_pTeam[i]);
 		}
 	}
-	//장애물뒤에 숨기
-	for (int i = 0; i < m_pMob.size(); i++)
+	if (MobStart)
 	{
-		if (m_pMob[i]->GetPosition().x > NODE_POSITSIZEX + 150.0f)
+		//타겟을따라서 움직이는 내용
+		if (m_pMob.size() > 0)
 		{
-			MobMoveInTheWall(i);
+			for (size_t i = 0; i < m_pMob.size(); i++)
+			{
+				SAFE_UPDATE(m_pMob[i]);
+				//장애물뒤에 숨기
+				if (m_pMob[i]->GetPosition().x > NODE_POSITSIZEX + 150.0f)
+				{
+					MobMoveInTheWall(i);
+				}
+			}
 		}
 	}
-	
 }
 
 void UnitBox::Render()
@@ -344,7 +339,7 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 	}
 }
 
-void UnitBox::mobSummon(int num)
+void UnitBox::CreateMob(int num)
 {
 	g_pSoundManager->playMusic(1);
 	g_pSoundManager->effectSound(0);
@@ -355,14 +350,25 @@ void UnitBox::mobSummon(int num)
 		m_pMob.resize(MobNum);
 		m_pMob[MobNum - 1] = new Mob;
 		m_pMob[MobNum - 1]->Init();
-
-		//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
 		m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
 		if (m_pMob[MobNum - 1]->m_Act._moving == 몹_엄폐이동 || m_pMob[MobNum - 1]->m_Act._reload == 몹_장전함 || m_pMob[MobNum - 1]->m_Act._engage == 몹_엄폐물에숨기)
 		{
 			FindHidingInTheWallLocation(MobNum - 1);
 		}
 	}
+}
+
+void UnitBox::ReSetMob()
+{
+	for (auto p : m_pMob)
+	{
+		p->ResetAll();
+		if (m_pMob[MobNum - 1]->m_Act._moving == 몹_엄폐이동 || m_pMob[MobNum - 1]->m_Act._reload == 몹_장전함 || m_pMob[MobNum - 1]->m_Act._engage == 몹_엄폐물에숨기)
+		{
+			FindHidingInTheWallLocation(MobNum - 1);
+		}
+	}
+	MobStart = false;
 }
 
 void UnitBox::teamSummon()

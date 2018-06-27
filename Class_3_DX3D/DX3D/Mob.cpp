@@ -56,11 +56,7 @@ void Mob::Init()
 	m_MONSTER->Init();
 	SaveAction();
 	Act_GunShot();
-	m_bullet = 5;
-	//CreateAllParts();
 	m_moveSpeed = GSM().mobSpeed;
-	m_pos = D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350));
-	
 }
 
 void Mob::Update()
@@ -631,6 +627,32 @@ void Mob::EraseLocationSoldier()
 				break;
 		}
 	}
+}
+
+void Mob::ResetAll()
+{
+	m_isMoving = false;
+	m_maxbullet = 15;
+	m_ShootCooldownTime = 0;
+	m_bullet = 5;
+	m_reloading = 0;
+	m_forward.z = -1;
+	m_move = false;
+	num = 0;
+	m_shootingbullet = false;
+	health = 100;
+	status = 1;
+	m_BeDetermined = false;
+	m_Setdest = false;
+	hidingChk = false;
+	ani_start = true;
+	moveLocation.clear(); SaveLocationNum.clear(); CanSeeDriection.clear();
+	Temporary_Storage.clear(); m_SaveTempNum.clear(); TemporaryDirection.clear();
+	SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
+	SaveAction();
+	Act_GunShot();
+	m_moveSpeed = GSM().mobSpeed;
+
 }
 
 void Mob::LocationSwap()
