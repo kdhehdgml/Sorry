@@ -4,15 +4,12 @@ class MONSTER;
 
 enum ANI_STATE_MOB
 {
-	대기상태,
 	달리다가서기3,
 	달리다가서기2,
 	달리닫가서기1,
-	달리다가죽기,
-	달리면서쏘기,
-	달리기,
-	달리면서쏘기2
 	
+	달리면서쏘기,
+	달리면서쏘기2,
 };
 
 enum MOB_MOVING
@@ -38,10 +35,23 @@ enum MOB_RELOAD
 };
 enum MOB_ACTION
 {
-	몹_숨어서장전,
-	몹_숨어있음,
-	몹_뛰는중,
-	몹_사격중,
+	몹_대기상태,
+	몹_달리기,
+	몹_죽음,
+	몹_달리다가죽기,
+	몹_좌엄폐사격,
+	몹_우엄폐사격,
+	몹_서서쏘기,
+	몹_뒤로앉아서장전,
+	몹_근접전투,
+	몹_칼든상태
+};
+enum situation
+{
+	주변적없음,
+	근접_거리닿음,
+	근접_거리안닿음,
+	원거리인식
 };
 struct MobAction
 {
@@ -49,7 +59,7 @@ struct MobAction
 	MOB_ENGAGE	_engage;
 	MOB_GUNSHOT _gunshot;
 	MOB_RELOAD	_reload;
-	MOB_ACTION	_hiding;
+	MOB_ACTION	_action;
 };
 
 class Mob
@@ -59,9 +69,7 @@ private:
 	MONSTER * m_MONSTER;
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
-	bool			m_isTurnedOnLight;
 
-	D3DXVECTOR3		m_StartPosition;
 	D3DXVECTOR3		m_deltaPos;
 	D3DXVECTOR3		m_deltaRot;
 	D3DXVECTOR3		m_forward;
@@ -78,6 +86,8 @@ private:
 	bool			m_randshootbullet;
 	bool			m_LocationCanSave;
 	bool			m_Setdest;
+	vector<int> CanSeeDriection;
+	vector<int> TemporaryDirection;
 	vector<D3DXVECTOR3> moveLocation;
 	vector<D3DXVECTOR3> Temporary_Storage;
 	vector<int> SaveLocationNum;
@@ -102,6 +112,7 @@ public:
 	//숨었니안숨었니
 	bool			m_move;
 	MobAction		m_Act;
+	bool			hidingChk;
 	// IDisplayObject을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Update() override;
@@ -113,25 +124,25 @@ public:
 	int getStatus();
 	void setStatus(int s);
 	void SetAngle(float angle) { m_angle = angle; }
-
 	void SaveAction();
+	void SelectAction();
 	void Act_Moving();
 	void Act_Engage();
 	void Act_GunShot();
 	void Act_Reload();
-	void Act_Hiding();
-	virtual bool PlayerSearch();
-	bool TrenchFight();
-	bool CanShooting();
+	void Act_Action();
+	situation PlayerSearch();
+	situation TrenchFight();
+	situation CanShooting();
 	void Shooting();
 	void SetAllSaveLocation(vector<D3DXVECTOR3> m_SaveLocation) { m_AllSaveLocation = m_SaveLocation; }
-	void SetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum)
+	void SetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum, int _CanseeDirection)
 	{
-		moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum);
+		moveLocation.push_back(wallLocation); SaveLocationNum.push_back(Locationnum); CanSeeDriection.push_back(_CanseeDirection);
 	}
-	void SetTemporary(D3DXVECTOR3 wallLocation, int Locationnum)
+	void SetTemporary(D3DXVECTOR3 wallLocation, int Locationnum, int _CanseeDirection)
 	{
-		Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum);
+		Temporary_Storage.push_back(wallLocation); m_SaveTempNum.push_back(Locationnum); TemporaryDirection.push_back(_CanseeDirection);
 	}
 	void SetDetermined(bool _boo) { m_BeDetermined = _boo; }
 	void SetCanSave(bool _Can) { m_LocationCanSave = _Can; }
@@ -139,12 +150,13 @@ public:
 	vector<int> GetLocationNum() { return SaveLocationNum; }
 	vector<D3DXVECTOR3> GetTemporary() { return Temporary_Storage; }
 	vector<int> GetTemporaryNum() { return m_SaveTempNum; }
+	vector<int> GetTemporaryDirection() { return TemporaryDirection; }
 	bool GetDetermined() { return m_BeDetermined; }
 	bool HaveBullet();
 	bool MaxBullet();
 	void EraseLocationSoldier();
-	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); }
-	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); }
+	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); CanSeeDriection.pop_back(); }
+	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); TemporaryDirection.pop_back(); }
 
 	//void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
 	void LocationSwap();

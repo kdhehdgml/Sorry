@@ -25,7 +25,6 @@ protected:
 	float			m_baseRotY;
 
 	int health;
-
 	D3DXVECTOR3		m_destPos;
 	D3DXVECTOR3		m_finalDestPos;
 	vector<int>		m_vecAStarIndex;
@@ -33,7 +32,7 @@ protected:
 	IUnitObject();
 
 public:
-	
+	bool CanFight;
 	virtual ~IUnitObject();
 
 	void SetTargetPostion(const D3DXVECTOR3 &pos);

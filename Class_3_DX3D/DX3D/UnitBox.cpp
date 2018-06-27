@@ -25,11 +25,13 @@ UnitBox::~UnitBox()
 	SAFE_RELEASE(m_pCubeman);
 }
 
+
+
 void UnitBox::Init()
 {
 	m_pCubeman = new Cubeman; m_pCubeman->Init();
 	m_CanSave.resize(m_SaveLocation.size(),true);
-
+	FindEmptyWallDirection();
 	//아군AI생성
 	TeamNum = 20;
 	m_pTeam.resize(TeamNum);
@@ -117,6 +119,40 @@ void UnitBox::Render()
 	SAFE_RENDER(m_pCubeman);
 }
 
+void UnitBox::FindEmptyWallDirection()
+{
+	
+	for (int i = 0; i < m_SaveLocation.size(); i++)
+	{
+		int sum = 0;
+		for (int j = 0; j < m_SaveLocation.size(); j++)
+		{
+			if (i != j && m_SaveLocation[i].x == m_SaveLocation[j].x)
+			{
+				float leng = m_SaveLocation[i].z - m_SaveLocation[j].z;
+				if (abs(leng) < 7.5f)
+				{
+					leng > 0 ? sum+= (int)좌장애물있음 : sum += (int)우장애물있음;
+				}
+			}
+		}
+		switch (sum)
+		{
+		case 0:
+			m_CanSeeDirection.push_back(비지않음);
+		case 1:
+			m_CanSeeDirection.push_back(좌장애물있음);
+			break;
+		case 2:
+			m_CanSeeDirection.push_back(우장애물있음);
+			break;
+		case 3:
+			m_CanSeeDirection.push_back(비지않음);
+			break;
+		}
+	}
+}
+
 void UnitBox::FindHidingInTheWallLocationRushSoldier(int _Mobnum)
 {
 	D3DXVECTOR3 Save;
@@ -127,7 +163,7 @@ void UnitBox::FindHidingInTheWallLocationRushSoldier(int _Mobnum)
 		{
 			if (i == 0)
 			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save, i);
+				m_pMob[_Mobnum]->SetMoveTheWall(Save, i, m_CanSeeDirection[i]);
 				continue;
 			}
 			for (int j = 0; j < m_pMob[_Mobnum]->GetMoveTheWall().size(); j++)
@@ -139,13 +175,13 @@ void UnitBox::FindHidingInTheWallLocationRushSoldier(int _Mobnum)
 				else
 				{
 					m_SameChk = true;
-					m_pMob[_Mobnum]->SetTemporary(Save, i);
+					m_pMob[_Mobnum]->SetTemporary(Save, i, m_CanSeeDirection[i]);
 					j = m_pMob[_Mobnum]->GetMoveTheWall().size();
 				}
 			}
 			if (m_SameChk == false)
 			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save, i);
+				m_pMob[_Mobnum]->SetMoveTheWall(Save, i, m_CanSeeDirection[i]);
 			}
 			m_SameChk = false;
 		}
@@ -165,7 +201,7 @@ void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
 		{
 			if (i == 0)
 			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save,i);
+				m_pMob[_Mobnum]->SetMoveTheWall(Save,i, m_CanSeeDirection[i]);
 				continue;
 			}
 
@@ -179,13 +215,13 @@ void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
 				else //내가 저장한위치와 다음의 장애물위치의 x값이 같으면 임시저장
 				{
 					m_SameChk = true;
-					m_pMob[_Mobnum]->SetTemporary(Save,i);
+					m_pMob[_Mobnum]->SetTemporary(Save,i, m_CanSeeDirection[i]);
 					j = m_pMob[_Mobnum]->GetMoveTheWall().size();
 				}
 			}
 			if (m_SameChk == false)
 			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save,i);
+				m_pMob[_Mobnum]->SetMoveTheWall(Save,i, m_CanSeeDirection[i]);
 			}
 			m_SameChk = false;
 		}
@@ -226,7 +262,7 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 				float Dist = D3DXVec3Length(&(m_pMob[_Mobnum]->GetMoveTheWall().back() - m_pMob[_Mobnum]->GetPosition()));
 				if (Dist < 20 && m_pMob[_Mobnum]->GetDetermined() == false)
 				{
-					//1은 원래길로가는것
+					//원래길로가는것
 					if (m_CanSave[m_pMob[_Mobnum]->GetLocationNum().back()] == true)
 					{
 						m_pMob[_Mobnum]->SetDetermined(true);
@@ -251,7 +287,8 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 								if (m_CanSave[m_pMob[_Mobnum]->GetTemporaryNum().back()] == true)
 								{
 									m_pMob[_Mobnum]->EraseWallLocation();
-									m_pMob[_Mobnum]->SetMoveTheWall(m_pMob[_Mobnum]->GetTemporary().back(), m_pMob[_Mobnum]->GetTemporaryNum().back());
+									m_pMob[_Mobnum]->SetMoveTheWall(m_pMob[_Mobnum]->GetTemporary().back(), m_pMob[_Mobnum]->GetTemporaryNum().back()
+									,m_pMob[_Mobnum]->GetTemporaryDirection().back());
 									m_pMob[_Mobnum]->EraseTemporary();
 									break;
 								}
@@ -282,11 +319,11 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 					}
 				}
 				//다음 장애물로 가기 위한 조건문
-				if (Dist < 2.0f)
+				if (Dist < 1.0f)
 				{
-					if (m_pMob[_Mobnum]->PlayerSearch() == false)
+					m_pMob[_Mobnum]->hidingChk = true;
+					if (m_pMob[_Mobnum]->PlayerSearch() == 주변적없음)
 					{
-						m_pMob[_Mobnum]->m_Act._hiding = 몹_숨어있음;
 						m_pMob[_Mobnum]->SetMoveSpeed(0);
 						m_pMob[_Mobnum]->num++;
 						if (m_pMob[_Mobnum]->num > 100)
@@ -294,16 +331,12 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 							m_pMob[_Mobnum]->SetMoveSpeed(1.0f);
 							m_CanSave[m_pMob[_Mobnum]->GetLocationNum().back()] = true;
 							m_pMob[_Mobnum]->SetDetermined(false);
-							m_pMob[_Mobnum]->EraseWallLocation();
+							if(!m_pMob[_Mobnum]->GetMoveTheWall().empty())
+								m_pMob[_Mobnum]->EraseWallLocation();
 							m_pMob[_Mobnum]->m_move = false;
 							m_pMob[_Mobnum]->num = 0;
-							m_pMob[_Mobnum]->m_Act._hiding = 몹_뛰는중;
+							m_pMob[_Mobnum]->hidingChk = false;
 						}
-					}
-					else
-					{
-						if (m_pMob[_Mobnum]->HaveBullet() == false)
-							m_pMob[_Mobnum]->Act_Reload();
 					}
 				}
 			}

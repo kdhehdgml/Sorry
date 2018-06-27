@@ -1,8 +1,15 @@
 #pragma once
 #include "IUnitObject.h"
+using std::pair;
 class Cubeman;
 class Mob;
 class TeamAI;
+enum EmptyWall 
+{
+	비지않음,
+	좌장애물있음,
+	우장애물있음
+};
 class UnitBox : public IUnitObject
 {
 private:
@@ -10,6 +17,7 @@ private:
 	vector<Mob*>	m_pMob;
 	vector<TeamAI*>	m_pTeam;
 	vector<D3DXVECTOR3> m_SaveLocation;
+	vector<EmptyWall> m_CanSeeDirection;
 	vector<bool>		m_CanSave;
 	int				MobNum;
 	int				TeamNum;
@@ -20,10 +28,12 @@ public:
 	~UnitBox();
 
 	virtual void SetLocation(vector<D3DXVECTOR3> _location) { m_SaveLocation = _location; }
+	
 	// IDisplayObject을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
+	void FindEmptyWallDirection();
 	void FindHidingInTheWallLocationRushSoldier(int _Mobnum);
 	void FindHidingInTheWallLocation(int _Mobnum);
 	void MobMoveInTheWall(int _Mobnum);

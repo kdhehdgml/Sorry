@@ -6,11 +6,11 @@
 #include "ColorCube.h"
 
 // 벽생성 매크로
-#define WALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
+#define WALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ > Z1 && posZ < Z2))\
 			{ pNode->m_nodeState = STATE_WALL;\
 			Wall_location.push_back(pNode->m_location); }
 
-#define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
+#define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ > Z1 && posZ < Z2))\
 			{ pNode->m_nodeState = STATE_NOHIDEWALL; }
 
 //노드 구체 사이즈 조절
@@ -431,11 +431,11 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 			{
 				if (lineNum % 3 != 1)
 				{
-					WALL(x, x, z, z + 2);
+					WALL(x, x, z, z + 3);
 				}
 				else
 				{
-					nWALL(x, x, z, z + 2);
+					nWALL(x, x, z, z + 3);
 				}
 				lineodd = false;
 			}
@@ -443,11 +443,11 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 			{
 				if (lineNum % 3 != 1)
 				{
-					WALL(x, x, z + 2, z + 4);
+					WALL(x, x, z + 2, z + 5);
 				}
 				else
 				{
-					nWALL(x, x, z + 2, z + 4);
+					nWALL(x, x, z + 2, z + 5);
 				}
 				lineodd = true;
 			}

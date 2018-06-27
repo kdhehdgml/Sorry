@@ -25,7 +25,7 @@ Mob::Mob()
 	status = 1;
 	m_BeDetermined = false;
 	m_Setdest = false;
-
+	hidingChk = false;
 	ani_start = true;
 
 	m_angle = D3DX_PI / 2;
@@ -67,19 +67,17 @@ void Mob::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		ani_state = 달리다가죽기;
-
 		m_pos = { 1000,10,1000 };
 	}
 	if (status > 0) {
 		Act_Moving();
 		
-		if (PlayerSearch() == true)
+		if (PlayerSearch() == 원거리인식)
 		{
 			Act_Engage();
 			Shooting();
 		}
-		Act_Hiding();
+		SelectAction();
 		IUnitObject::UpdateKeyboardState();
 		IUnitObject::UpdatePositionToDestination();
 		
@@ -105,7 +103,7 @@ void Mob::Update()
 		//살아있을때만 포지션을 받아온다
 		m_MONSTER->SetPos(m_pos);
 	}
-
+	Act_Action();
 	
 
 	//Debug->AddText("m_rot: ");
@@ -208,7 +206,91 @@ void Mob::SaveAction()
 	m_Act._engage = MOB_ENGAGE(r2);
 	m_Act._gunshot = MOB_GUNSHOT(r3);
 	m_Act._reload = MOB_RELOAD(r4);
-	m_Act._hiding = MOB_ACTION(2);
+	m_Act._action = MOB_ACTION(1);
+}
+
+void Mob::SelectAction()
+{
+	if (health > 0 ) {
+		if (m_Act._engage != 몹_무시하고돌격)
+		{
+			switch (PlayerSearch())
+			{
+			case 주변적없음:
+				if (hidingChk)
+				{
+					m_Act._action = 몹_대기상태; 
+					CanFight = false;
+				}
+				else
+					m_Act._action = 몹_달리기;
+				break;
+			case 근접_거리닿음:
+				m_Act._action = 몹_근접전투;
+					break;
+			case 근접_거리안닿음:
+				m_Act._action = 몹_칼든상태;
+				break;
+			case 원거리인식:
+				if (hidingChk == false)
+				{
+					if (m_Act._engage != 몹_제자리멈춤)
+						m_Act._action = 몹_달리기;
+					else
+						m_Act._action = 몹_서서쏘기;
+				}
+				else
+				{
+					if (HaveBullet() == true)
+					{
+						if (m_Act._engage == 몹_제자리멈춤)
+						{
+							m_Act._action = 몹_서서쏘기;
+						}
+						else
+						{
+							switch (CanSeeDriection.back())
+							{
+							case 0:
+								m_Act._action = 몹_서서쏘기;
+								break;
+							case 1:
+								m_Act._action = 몹_우엄폐사격;
+								break;
+							case 2:
+								m_Act._action = 몹_좌엄폐사격;
+								break;
+							}
+						}
+					}
+					else
+					{
+						Act_Reload();
+					}
+				}
+				break;
+			}
+		}
+		else
+		{
+			switch (PlayerSearch())
+			{
+			case 주변적없음:
+				m_Act._action = 몹_달리기;
+				break;
+			case 근접_거리닿음:
+				m_Act._action = 몹_근접전투;
+				break;
+			case 근접_거리안닿음:
+				m_Act._action = 몹_칼든상태;
+				break;
+			}
+		}
+	}
+	else
+	{
+		m_moveSpeed > 0 ? m_Act._action = 몹_달리다가죽기 : m_Act._action = 몹_죽음;
+	}
 }
 
 void Mob::Act_Moving()
@@ -219,10 +301,8 @@ void Mob::Act_Moving()
 		EraseLocationSoldier();
 		if (PlayerSearch() == false && TrenchFight() == false)
 		{
-			if(m_Setdest == false || m_isMoving == false)
+			if(m_Act._action == 주변적없음)
 				SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pos.z));
-			m_Setdest = true;
-			m_isMoving = true;
 		}
 		break;
 	case 몹_엄폐이동:
@@ -236,18 +316,16 @@ void Mob::Act_Engage()
 	{
 	case 몹_제자리멈춤:
 		if (HaveBullet())
-			m_moveSpeed = 0.01f;
+			m_moveSpeed = 0;
 		else
 			m_moveSpeed = GSM().mobSpeed;
 		break;
 	case 몹_엄폐물에숨기:
 		break;
 	case 몹_무시하고돌격:
-		if (TrenchFight() == false)
+		if (m_Act._action != 근접_거리안닿음&& m_Act._action != 근접_거리닿음)
 		{
-			if (m_Setdest == false)
-				SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pos.z));
-			m_Setdest = true;
+			SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pos.z));
 		}
 		break;
 	}
@@ -268,52 +346,74 @@ void Mob::Act_GunShot()
 //총알은다쓰고 장전해야할때
 void Mob::Act_Reload()
 {
+	CanFight = false;
 	switch (m_Act._reload)
 	{
 	case 몹_장전함:
-		m_Act._hiding = 몹_숨어서장전;
-		m_reloading++;
-		if (m_reloading > 100)
+		if (MaxBullet())
 		{
-			int Temp_bullet = m_bullet;
-			if (m_maxbullet < 5)
-				m_bullet = m_maxbullet;
-			else
-				m_bullet = 5;
-			m_maxbullet -= 5 - Temp_bullet;
-			Act_GunShot();
-			m_reloading = 0;
+			m_Act._action = 몹_뒤로앉아서장전;
+			m_reloading++;
+			if (m_reloading > 100)
+			{
+				int Temp_bullet = m_bullet;
+				if (m_maxbullet < 5)
+					m_bullet = m_maxbullet;
+				else
+					m_bullet = 5;
+				m_maxbullet -= 5 - Temp_bullet;
+				Act_GunShot();
+				m_reloading = 0;
+				CanFight = true;
+			}
 		}
+		else
+			m_Act._reload = 몹_장전안함;
 		break;
 	case 몹_장전안함:
 		moveLocation.clear();
+		m_maxbullet = 0;
 		break;
 	}
 }
 
-void Mob::Act_Hiding()
+void Mob::Act_Action()
 {
-	switch (m_Act._hiding)
+	switch (m_Act._action)
 	{
-	case 몹_숨어있음:
-		break;
-	case 몹_뛰는중:
-		if (m_moveSpeed > 0)
+		switch (m_Act._action)
 		{
-			ani_state = 달리기;
+		case 몹_대기상태:
+			break;
+		case 몹_달리기:
+			break;
+		case 몹_달리다가죽기:
+			break;
+		case 몹_좌엄폐사격:
+			break;
+		case 몹_우엄폐사격:
+			break;
+		case 몹_서서쏘기:
+			break;
+		case 몹_죽음:
+			break;
+		case 몹_뒤로앉아서장전:
+			break;
+		case 몹_근접전투:
+			break;
+		case 몹_칼든상태:
+			break;
+		default:
+			break;
 		}
-		break;
-	case 몹_사격중:
-		ani_state = 달리면서쏘기2;
-		break;
 	}
 }
 
-bool Mob::PlayerSearch()
+situation Mob::PlayerSearch()
 {
 	//참호근처까지갔을때
 	if (m_pos.x < NODE_POSITSIZEX + 150.0f)
-	{
+	{	
 		return TrenchFight();
 	}
 	//멀리서 각도안에 인식가능한지
@@ -323,10 +423,10 @@ bool Mob::PlayerSearch()
 	}
 	//너무멀면 그냥 불가
 	m_TeamAINum = NULL;
-	return false;
+	return 주변적없음;
 }
 
-bool Mob::TrenchFight()
+situation Mob::TrenchFight()
 {
 	moveLocation.clear();
 	SaveLocationNum.clear();
@@ -364,30 +464,31 @@ bool Mob::TrenchFight()
 				g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() - 25.0f);
 				m_ShootCooldownTime = 0;
 			}
+			if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
+			{
+				m_TeamAINum = NULL;
+				m_Setdest = true;
+				return 주변적없음;
+			}
+			return 근접_거리닿음;
 		}
 		else
 		{
-			m_moveSpeed = GSM().mobSpeed;
+			return 근접_거리안닿음;
 		}
-		if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
-		{
-			m_TeamAINum = NULL;
-			m_Setdest = true;
-			return false;
-		}
-		return true;
 	}
-	return false;
+	return 주변적없음;
 }
 
-bool Mob::CanShooting()
+situation Mob::CanShooting()
 {
+	if (!HaveBullet() && !MaxBullet())
+		return 주변적없음;
 	if (m_TeamAINum != NULL)
 	{
 		if (HaveBullet() == true)
 		{
-			m_Act._hiding = 몹_사격중;
-			return true;
+			return 원거리인식;
 		}
 	}
 	if (g_pObjMgr->FindObjectsByTag(TAG_TEAM).size() > 0)
@@ -405,7 +506,7 @@ bool Mob::CanShooting()
 		{
 			DirectPM = D3DXVECTOR3(p->GetPosition().x - m_pos.x, 0, p->GetPosition().z - m_pos.z);
 			D3DXVECTOR3 AbsPm = { abs(DirectPM.x),0,abs(DirectPM.z) };
-			if (AbsPm.x > 0 && AbsPm.x < 220 && AbsPm.z < 40 && AbsPm.z > 0)
+			if (AbsPm.x > 0 && AbsPm.x < 240 && AbsPm.z < 60 && AbsPm.z > 0)
 			{
 
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
@@ -420,16 +521,15 @@ bool Mob::CanShooting()
 					if (m_TeamAINum == NULL && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[number]->getHealth() > 0)
 					{
 						m_TeamAINum = number;
-						m_Act._hiding = 몹_사격중;
-						return true;
-					}	
+						return 원거리인식;
+					}
 				}
 			}
 			number++;
 		}
-		return false;
+		return 주변적없음;
 	}
-	return false;
+	return 주변적없음;
 }
 
 void Mob::Shooting()
@@ -439,7 +539,7 @@ void Mob::Shooting()
 	D3DCOLOR c = D3DCOLOR_XRGB(255, 0, 0);
 	D3DCOLOR d = D3DCOLOR_XRGB(0, 255, 0);
 
-	if (CanShooting())
+	if (CanShooting() == 원거리인식)
 	{
 		D3DXVECTOR3 Direction = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().x ,
 			g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().y + 4.0f,
@@ -450,7 +550,7 @@ void Mob::Shooting()
 
 		if (HaveBullet() == true)
 		{
-			if (m_Act._hiding == 몹_사격중)
+			if (m_Act._action == 몹_서서쏘기 || m_Act._action == 몹_좌엄폐사격 || m_Act._action == 몹_우엄폐사격)
 			{
 				float kill = rand() % 10;
 				m_ShootCooldownTime++;
@@ -478,7 +578,6 @@ void Mob::Shooting()
 		{
 			moveLocation.clear();
 			SaveLocationNum.clear();
-			m_Act._hiding = 몹_뛰는중;
 		}
 		if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
 		{
@@ -491,7 +590,7 @@ void Mob::Shooting()
 		}
 	}
 	
-	if (CanShooting() == false || m_TeamAINum == NULL)
+	if (CanShooting() == 주변적없음 || m_TeamAINum == NULL)
 	{
 		Shootpos[0] = (VERTEX_PC(myPos, c));
 		Shootpos[1] = (VERTEX_PC(forward, c));
@@ -554,6 +653,11 @@ void Mob::LocationSwap()
 					Itemp = SaveLocationNum[j];
 					SaveLocationNum[j] = SaveLocationNum[j + 1];
 					SaveLocationNum[j + 1] = Itemp;
+
+					int Itemp2;
+					Itemp2 = CanSeeDriection[j];
+					CanSeeDriection[j] = CanSeeDriection[j + 1];
+					CanSeeDriection[j + 1] = Itemp2;
 				}
 			}
 		}
@@ -580,6 +684,11 @@ void Mob::TemporarySwap()
 					Itemp = m_SaveTempNum[j];
 					m_SaveTempNum[j] = m_SaveTempNum[j + 1];
 					m_SaveTempNum[j + 1] = Itemp;
+
+					int Itemp2;
+					Itemp2 = TemporaryDirection[j];
+					TemporaryDirection[j] = TemporaryDirection[j + 1];
+					TemporaryDirection[j + 1] = Itemp2;
 				}
 			}
 		}
