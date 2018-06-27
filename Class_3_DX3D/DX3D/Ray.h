@@ -14,5 +14,8 @@ public:
 	bool CalcIntersectSphere(BoundingSphere* pSphere);
 	bool CalcIntersectBox(BoundingBox* pBox);
 	bool CalcIntersectTri(D3DXVECTOR3* pStart, float *distance);
+
+	D3DXVECTOR3 getPos();
+	D3DXVECTOR3 getDir();
 };
 

@@ -29,7 +29,33 @@
 
 #include "ObjRender.h"// obj 해더
 
+static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
+static int numProcessors;
+static HANDLE self;
+int cpuUsageCount = 0;
+float cpuUsage = 0.0f;
 
+double getCurrentValue() {
+	FILETIME ftime, fsys, fuser;
+	ULARGE_INTEGER now, sys, user;
+	double percent;
+
+	GetSystemTimeAsFileTime(&ftime);
+	memcpy(&now, &ftime, sizeof(FILETIME));
+
+
+	GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
+	memcpy(&sys, &fsys, sizeof(FILETIME));
+	memcpy(&user, &fuser, sizeof(FILETIME));
+	percent = (sys.QuadPart - lastSysCPU.QuadPart) + (user.QuadPart - lastUserCPU.QuadPart);
+	percent /= (now.QuadPart - lastCPU.QuadPart);
+	percent /= numProcessors;
+	lastCPU = now;
+	lastUserCPU = user;
+	lastSysCPU = sys;
+
+	return percent * 100;
+}
 
 SceneHeightmap::SceneHeightmap()
 {
@@ -272,6 +298,20 @@ void SceneHeightmap::Init()
 
 	g_pSoundManager->createSound(); // 사운드 세팅								
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
+
+	SYSTEM_INFO sysInfo;
+	FILETIME ftime, fsys, fuser;
+	GetSystemInfo(&sysInfo);
+	numProcessors = sysInfo.dwNumberOfProcessors;
+
+	GetSystemTimeAsFileTime(&ftime);
+	memcpy(&lastCPU, &ftime, sizeof(FILETIME));
+
+
+	self = GetCurrentProcess();
+	GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
+	memcpy(&lastSysCPU, &fsys, sizeof(FILETIME));
+	memcpy(&lastUserCPU, &fuser, sizeof(FILETIME));
 }
 
 void SceneHeightmap::Update()
@@ -392,6 +432,18 @@ void SceneHeightmap::Update()
 	Debug->AddText("KB");
 	Debug->EndLine();
 
+	if (cpuUsageCount <= 0) {
+		cpuUsage = getCurrentValue();
+		cpuUsageCount = 60;
+	}
+	else {
+		cpuUsageCount--;
+	}
+
+	Debug->AddText("CPU 사용량 : ");
+	Debug->AddText(cpuUsage);
+	Debug->AddText("%");
+	Debug->EndLine();
 
 	// 0 키 누르면 음악 재생 ON / OFF
 	if ((GetAsyncKeyState('0') & 0x8000))

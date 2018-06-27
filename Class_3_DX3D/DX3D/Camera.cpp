@@ -443,7 +443,37 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				tempIndex++;
 			}
 			if (enemyIndex != -1) {
-				m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - 50);
+				D3DXVECTOR3 rayPos = r.getPos();
+				D3DXVECTOR3 rayDir = r.getDir();
+				float rayHeight;
+				bool isIntersected;
+				for (int i = 0; i < 100; i++) {
+					if (i < 50) {
+						rayPos = rayPos + rayDir * 2;
+					}
+					else {
+						rayPos = rayPos + rayDir * 5;
+					}
+					isIntersected = g_pCurrentMap->GetHeight(rayHeight, rayPos);
+
+					if (rayPos.y < rayHeight) {
+						//MessageBox(NULL, TEXT("√—æÀ¿Ã ∂•ø° ∫Œµ˙«˚Ω¿¥œ¥Ÿ."), TEXT("DEBUG"), MB_OK);
+						break;
+					}
+				}
+				D3DXVECTOR3 enemyPos = m_pMob[enemyIndex]->GetPosition();
+				D3DXVECTOR3 playerPos = g_pCamera->getPos();
+				enemyPos.y += 7.0f;
+				D3DXVECTOR3 posDiff1 = enemyPos - playerPos;
+				D3DXVECTOR3 posDiff2 = rayPos - playerPos;
+				float distance1 = sqrtf(D3DXVec3Dot(&posDiff1, &posDiff1));
+				float distance2 = sqrtf(D3DXVec3Dot(&posDiff2, &posDiff2));
+				if (distance2 < distance1) {
+					MessageBox(NULL, TEXT("√—æÀ¿Ã ∂•ø° ∫Œµ˙«˚Ω¿¥œ¥Ÿ."), TEXT("DEBUG"), MB_OK);
+				}
+				else {
+					m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - 50);
+				}
 			}
 			m_cooldown = 60; //ƒ≈∏¿” (¥‹¿ß : «¡∑π¿”)
 		}
