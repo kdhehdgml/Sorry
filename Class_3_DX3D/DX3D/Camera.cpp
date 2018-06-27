@@ -47,6 +47,8 @@ Camera::Camera()
 
 	shotCheck = false;
 	reloadTime = 0;
+
+	m_magazine = 5;
 }
 
 
@@ -369,9 +371,6 @@ void Camera::Update()
 		else
 			Debug->AddText("OFF");
 		Debug->EndLine();
-		Debug->AddText("ƒ≈∏¿” : ");
-		Debug->AddText(m_cooldown);
-		Debug->EndLine();
 	}
 
 	if (shotCheck)
@@ -446,7 +445,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				D3DXVECTOR3 rayPos = r.getPos();
 				D3DXVECTOR3 rayDir = r.getDir();
 				float rayHeight;
-				bool isIntersected;
+				bool isIntersected, rayHit = false;
 				for (int i = 0; i < 100; i++) {
 					if (i < 50) {
 						rayPos = rayPos + rayDir * 2;
@@ -458,6 +457,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 					if (rayPos.y < rayHeight) {
 						//MessageBox(NULL, TEXT("√—æÀ¿Ã ∂•ø° ∫Œµ˙«˚Ω¿¥œ¥Ÿ."), TEXT("DEBUG"), MB_OK);
+						rayHit = true;
 						break;
 					}
 				}
@@ -468,14 +468,22 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				D3DXVECTOR3 posDiff2 = rayPos - playerPos;
 				float distance1 = sqrtf(D3DXVec3Dot(&posDiff1, &posDiff1));
 				float distance2 = sqrtf(D3DXVec3Dot(&posDiff2, &posDiff2));
-				if (distance2 < distance1) {
+				if (rayHit && distance2 < distance1) {
 					MessageBox(NULL, TEXT("√—æÀ¿Ã ∂•ø° ∫Œµ˙«˚Ω¿¥œ¥Ÿ."), TEXT("DEBUG"), MB_OK);
 				}
 				else {
 					m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - 50);
 				}
 			}
-			m_cooldown = 60; //ƒ≈∏¿” (¥‹¿ß : «¡∑π¿”)
+			m_magazine--;
+			if (m_magazine > 0) {
+				m_cooldown = 60;
+			}
+			else {
+				m_magazine = 5;
+				m_cooldown = 200;
+			}
+			//m_cooldown = 60; //ƒ≈∏¿” (¥‹¿ß : «¡∑π¿”)
 		}
 	}
 	break;
@@ -617,6 +625,11 @@ bool Camera::getFreeCameraMode()
 int Camera::getCooldown()
 {
 	return m_cooldown;
+}
+
+int Camera::getMagazine()
+{
+	return m_magazine;
 }
 
 void Camera::getPMobFromUnitBox(vector<Mob*>* mob)
