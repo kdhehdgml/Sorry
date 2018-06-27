@@ -60,11 +60,14 @@ void TeamAI::Update()
 			CanFight = false;
 			Reloading();
 		}
-		if(HaveBullet() == true && MobSearch() == true)
+		if(HaveBullet() == true)
 		{
-			m_Action = ÆÀ_»ç°Ý;
 			CanFight = true;
-			Shooting();
+			if (MobSearch() == true)
+			{
+				m_Action = ÆÀ_»ç°Ý;
+				Shooting();
+			}
 		}
 		ShootVertex();
 
@@ -314,7 +317,7 @@ void TeamAI::Shooting()
 	if (m_ShootCooldownTime > 100)
 	{
 		float kill = rand() % 10;
-		if (kill < 5)
+		if (kill < 5 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
 		{
 			int damage = rand() % 10;
 			if (damage < 3)

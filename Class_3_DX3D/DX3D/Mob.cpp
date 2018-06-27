@@ -132,8 +132,6 @@ void Mob::Render()
 
 
 	if (status > 0) {
-
-
 		D3DXMATRIXA16 matI;
 		D3DXMatrixIdentity(&matI);
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
@@ -207,7 +205,9 @@ void Mob::SaveAction()
 
 void Mob::SelectAction()
 {
-	if (health > 0 ) {
+	if (health > 0 ) 
+	{
+		CanFight = true;
 		if (m_Act._engage != 몹_무시하고돌격)
 		{
 			switch (PlayerSearch())
@@ -219,7 +219,9 @@ void Mob::SelectAction()
 					CanFight = false;
 				}
 				else
+				{
 					m_Act._action = 몹_달리기;
+				}
 				break;
 			case 근접_거리닿음:
 				m_Act._action = 몹_근접전투;
@@ -552,7 +554,7 @@ void Mob::Shooting()
 				m_ShootCooldownTime++;
 				if (m_ShootCooldownTime > 100)
 				{
-					if (kill < 5)
+					if (kill < 5 && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
 					{
 						int damage = rand() % 10;
 						if (damage < 3)
