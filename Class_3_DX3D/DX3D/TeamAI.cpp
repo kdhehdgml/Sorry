@@ -238,10 +238,10 @@ bool TeamAI::MobSearch()
 						return true;
 					}
 				}
-				m_MobNum = NULL;
 			}
 			number++;
 		}
+		m_MobNum = NULL;
 		m_Action = ÆÀ_´ë±â;
 		return false;
 	}

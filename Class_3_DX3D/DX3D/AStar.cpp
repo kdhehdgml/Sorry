@@ -385,9 +385,9 @@ void AStar::CalcEraseCount(const D3DXVECTOR3 & pos, const vector<int>& vecIndex,
 		for (size_t i = 0; i < m_vecNode.size(); i++)
 		{
 			float a = D3DXVec3Length(&(m_vecNode[i]->m_location - ray.m_pos));
-			if ((m_vecNode[i]->m_nodeState == STATE_WALL && a + 0.3 < nodeDist) ||
-				(m_vecNode[i]->m_nodeState == STATE_NOHIDEWALL && a + 0.3 < nodeDist) ||
-				(m_vecNode[i]->m_nodeState == STATE_TANK && a + 0.3 < nodeDist))
+			if ((m_vecNode[i]->m_nodeState == STATE_WALL && a < nodeDist) ||
+				(m_vecNode[i]->m_nodeState == STATE_NOHIDEWALL && a < nodeDist) ||
+				(m_vecNode[i]->m_nodeState == STATE_TANK && a < nodeDist))
 			{
 				isIntersected = true;
 				break;
@@ -460,10 +460,10 @@ void AStar::MakeDirectPath(const D3DXVECTOR3 & startPos,
 	const D3DXVECTOR3 & destPos, OUT vector<int>& vecIndex)
 {
 
-	if (m_vecObstacle.empty() == true)
+	if (Wall_location.empty() == true)
 	{
 		////장애물 없으면 직선이동
-		//vecIndex.clear();
+		vecIndex.clear();
 	}
 	else
 	{
