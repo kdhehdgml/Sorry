@@ -587,12 +587,15 @@ void SceneHeightmap::Update()
 	Debug->AddText("ÇöÀç À§Ä¡ : ");
 	Debug->AddText(m_pOldPos);
 	Debug->EndLine();
-	Debug->AddText("Bounding Box Collision with Ray: ");
+	Debug->AddText("ÀÜÅº ¼ö : ");
+	Debug->AddText(g_pCamera->getMagazine());
+	Debug->EndLine();
+	/*Debug->AddText("Bounding Box Collision with Ray: ");
 	Debug->AddText(getHitBox);
 	Debug->EndLine();
 	Debug->AddText("Bounding Box Collision with Player: ");
 	Debug->AddText(getCollision);
-	Debug->EndLine();
+	Debug->EndLine();*/
 	Debug->AddText("volume(music) : ");
 	Debug->AddText(volume_music);
 	Debug->EndLine();

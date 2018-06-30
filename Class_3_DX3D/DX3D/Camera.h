@@ -37,6 +37,7 @@ private:
 	float m_recoilYDelta;
 	vector<Mob*> m_pMob;
 	int m_cooldown;
+	int m_magazine;
 	int m_running;
 	float m_runningRecoilX;
 	float m_runningRecoilY;
@@ -71,6 +72,7 @@ public:
 	void setFreeCameraMode(bool f);
 	bool getFreeCameraMode();
 	int getCooldown();
+	int getMagazine();
 
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 };

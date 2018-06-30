@@ -4,17 +4,6 @@ class CubemanParts;
 class Mob;
 class TEAM_TEX;
 
-enum ANI_TEAMSTATE
-{
-	휴식,
-	경계,
-	사격,
-	엄폐,
-	재장전,
-	근접돌격,
-	근접대기
-};
-
 /*
 
 3 = 앉은자세
@@ -30,15 +19,16 @@ enum ANI_STATE_TEAM
 	서서쏘기,
 	서서기본자세,
 	서서죽음,
-	앉은자세
+	앉은자세 
+	//뒤로앉아서장전, 칼빵대전, 칼든상태, 서서쏘기, 서서죽음, 대기상태
 };
 
 enum TEAM_STATE{
 	팀_대기,
-	팀_엄폐,
 	팀_사격,
 	팀_재장전,
-	팀_근접싸움
+	팀_근접싸움,
+	팀_죽음
 };
 class TeamAI :
 	public IUnitObject
@@ -58,7 +48,6 @@ private:
 	int				m_MobNum;
 	int				m_ShootCooldownTime;
 	bool			m_isMoving;
-	bool			m_isShoot;
 	int				m_bullet;
 	bool			m_render;
 	
@@ -85,6 +74,7 @@ public:
 
 	BoundingSphere* getBoundingSphere();
 	int getStatus();
+	void Animation();
 	void setStatus(int s);
 	void GetMob(vector<Mob*> _mob) { m_pMob = _mob; }
 	vector<Mob*>* getPMob();

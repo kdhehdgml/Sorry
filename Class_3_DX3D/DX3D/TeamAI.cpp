@@ -8,7 +8,6 @@ TeamAI::TeamAI()
 	m_TEAM_TEX = NULL;//몬스터 클래스 추가
 	m_MobNum = NULL;
 	m_isMoving = false;
-	m_isShoot = false;
 	m_reloading = 0;
 	//m_baseRotY = D3DX_PI / 2;
 	m_Action = 팀_대기;
@@ -52,25 +51,23 @@ void TeamAI::Update()
 {
 	if (health <= 0) {
 		status = 0;
-
-		ani_state = 서서죽음;
 		m_pos = { 2000,10,2000 };
 	}
 	if (status > 0) {
 		if (m_MobNum == NULL || HaveBullet() == false)
 		{
 			m_Action = 팀_재장전;
+			CanFight = false;
 			Reloading();
 		}
-		if(HaveBullet() == true && MobSearch() == true)
+		if(HaveBullet() == true)
 		{
-			m_Action = 팀_사격;
-			ani_state = 서서쏘기;
-			Shooting();
-		}
-		if (m_Action == 팀_대기)
-		{
-			ani_state = 서서기본자세;
+			CanFight = true;
+			if (MobSearch() == true)
+			{
+				m_Action = 팀_사격;
+				Shooting();
+			}
 		}
 		ShootVertex();
 
@@ -84,6 +81,7 @@ void TeamAI::Update()
 		m_TEAM_TEX->SetPos(m_pos);
 
 	}
+	Animation();
 	//Debug->AddText("아군 생명력 :");
 	//Debug->AddText(health);
 	//Debug->EndLine();
@@ -119,7 +117,6 @@ void TeamAI::Render()
 			m_TEAM_TEX->Render();
 	}
 
-	//198371
 	if (status > 0) 
 	{
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
@@ -147,6 +144,26 @@ BoundingSphere * TeamAI::getBoundingSphere()
 int TeamAI::getStatus()
 {
 	return status;
+}
+
+void TeamAI::Animation()
+{
+	switch (m_Action)
+	{
+	case 팀_사격:
+		ani_state = 서서쏘기;
+		break;
+	case 팀_대기:
+		ani_state = 서서기본자세;
+		break;
+	case 팀_재장전:
+		break;
+	case 팀_근접싸움:
+		break;
+	case 팀_죽음:
+		ani_state = 서서죽음;
+		break;
+	}
 }
 
 void TeamAI::setStatus(int s)
@@ -190,11 +207,11 @@ bool TeamAI::MobSearch()
 			forward = move_forward;
 		}
 		int number = 0;
-		
+		//아군인식범위안 적군찾기
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
 		{
 			D3DXVECTOR3 DirectPM = p->GetPosition() - m_pos;
-			if (abs(DirectPM.x) < 220 && abs(DirectPM.z) < 40)
+			if (abs(DirectPM.x) < 200 && abs(DirectPM.z) < 40)
 			{
 				DirectPM.y = m_pos.y;
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
@@ -221,10 +238,10 @@ bool TeamAI::MobSearch()
 						return true;
 					}
 				}
-				m_MobNum = NULL;
 			}
 			number++;
 		}
+		m_MobNum = NULL;
 		m_Action = 팀_대기;
 		return false;
 	}
@@ -251,8 +268,8 @@ void TeamAI::ShootVertex()
 		Shootpos[1] = (VERTEX_PC(forward, d));
 	}
 }
-
-void TeamAI::TrenchFight(int _num)
+//근접전투
+void TeamAI::TrenchFight(int _num) 
 {
 	float nearEnemy = 100;
 	int EnemyNum = NULL;
@@ -300,7 +317,7 @@ void TeamAI::Shooting()
 	if (m_ShootCooldownTime > 100)
 	{
 		float kill = rand() % 10;
-		if (kill < 5)
+		if (kill < 5 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
 		{
 			int damage = rand() % 10;
 			if (damage < 3)

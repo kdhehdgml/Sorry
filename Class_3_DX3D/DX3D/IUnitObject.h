@@ -25,7 +25,6 @@ protected:
 	float			m_baseRotY;
 
 	int health;
-
 	D3DXVECTOR3		m_destPos;
 	D3DXVECTOR3		m_finalDestPos;
 	vector<int>		m_vecAStarIndex;
@@ -33,7 +32,7 @@ protected:
 	IUnitObject();
 
 public:
-	
+	bool CanFight;
 	virtual ~IUnitObject();
 
 	void SetTargetPostion(const D3DXVECTOR3 &pos);
@@ -46,6 +45,7 @@ public:
 	int getHealth() { return health; }
 	void setHealth(int h) { health = h; }
 	
+	float GetMoveSpeed() { return m_moveSpeed; }
 	void SetMove(bool _move) { m_colision = _move; }
 	void UpdateTargetPosition(OUT D3DXVECTOR3 &targetPos);
 	void ApplyTargetPosition(D3DXVECTOR3 &targetPos);

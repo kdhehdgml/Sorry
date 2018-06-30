@@ -9,6 +9,7 @@ UnitBox::UnitBox()
 	m_pCubeman = NULL;
 	m_SameChk = false;
 	MobNum = 0;
+	MobStart = false;
 }
 
 
@@ -25,11 +26,13 @@ UnitBox::~UnitBox()
 	SAFE_RELEASE(m_pCubeman);
 }
 
+
+
 void UnitBox::Init()
 {
 	m_pCubeman = new Cubeman; m_pCubeman->Init();
 	m_CanSave.resize(m_SaveLocation.size(),true);
-
+	FindEmptyWallDirection();
 	//아군AI생성
 	TeamNum = 20;
 	m_pTeam.resize(TeamNum);
@@ -45,20 +48,16 @@ void UnitBox::Update()
 {
 	SAFE_UPDATE(m_pCubeman);
 	Debug->EndLine();
-	if (GetAsyncKeyState(VK_F1) & 0x0001)
-		mobSummon(1);
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
-		mobSummon(10);
+		CreateMob(20);
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
-		mobSummon(20);
+		MobStart = true;
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
-		mobSummon(40);
-
-
+		ReSetMob();
 	//후방 제대 소환
 	if (GetAsyncKeyState(VK_F5) & 0x0001)
 	{
-		teamSummon();		
+		teamSummon();
 	}
 	//후방 제대 지원
 	if (GetAsyncKeyState(VK_F6) & 0x0001)
@@ -76,15 +75,6 @@ void UnitBox::Update()
 	//	if(p->m_Act._moving==몹_돌격이동)
 	//		p->EraseLocationSoldier();
 	//}
-
-	//타겟을따라서 움직이는 내용
-	if (m_pMob.size() > 0)
-	{
-		for (size_t i = 0; i < m_pMob.size(); i++)
-		{
-			SAFE_UPDATE(m_pMob[i]);
-		}
-	}
 	//아군Ai가 적Ai인식하는 내용
 	if (m_pTeam.size() > 0)
 	{
@@ -93,15 +83,22 @@ void UnitBox::Update()
 			SAFE_UPDATE(m_pTeam[i]);
 		}
 	}
-	//장애물뒤에 숨기
-	for (int i = 0; i < m_pMob.size(); i++)
+	if (MobStart)
 	{
-		if (m_pMob[i]->GetPosition().x > NODE_POSITSIZEX + 150.0f)
+		//타겟을따라서 움직이는 내용
+		if (m_pMob.size() > 0)
 		{
-			MobMoveInTheWall(i);
+			for (size_t i = 0; i < m_pMob.size(); i++)
+			{
+				SAFE_UPDATE(m_pMob[i]);
+				//장애물뒤에 숨기
+				if (m_pMob[i]->GetPosition().x > NODE_POSITSIZEX + 150.0f)
+				{
+					MobMoveInTheWall(i);
+				}
+			}
 		}
 	}
-	
 }
 
 void UnitBox::Render()
@@ -117,6 +114,40 @@ void UnitBox::Render()
 	SAFE_RENDER(m_pCubeman);
 }
 
+void UnitBox::FindEmptyWallDirection()
+{
+	
+	for (int i = 0; i < m_SaveLocation.size(); i++)
+	{
+		int sum = 0;
+		for (int j = 0; j < m_SaveLocation.size(); j++)
+		{
+			if (i != j && m_SaveLocation[i].x == m_SaveLocation[j].x)
+			{
+				float leng = m_SaveLocation[i].z - m_SaveLocation[j].z;
+				if (abs(leng) < 7.5f)
+				{
+					leng > 0 ? sum+= (int)좌장애물있음 : sum += (int)우장애물있음;
+				}
+			}
+		}
+		switch (sum)
+		{
+		case 0:
+			m_CanSeeDirection.push_back(비지않음);
+		case 1:
+			m_CanSeeDirection.push_back(좌장애물있음);
+			break;
+		case 2:
+			m_CanSeeDirection.push_back(우장애물있음);
+			break;
+		case 3:
+			m_CanSeeDirection.push_back(비지않음);
+			break;
+		}
+	}
+}
+
 void UnitBox::FindHidingInTheWallLocationRushSoldier(int _Mobnum)
 {
 	D3DXVECTOR3 Save;
@@ -127,7 +158,7 @@ void UnitBox::FindHidingInTheWallLocationRushSoldier(int _Mobnum)
 		{
 			if (i == 0)
 			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save, i);
+				m_pMob[_Mobnum]->SetMoveTheWall(Save, i, m_CanSeeDirection[i]);
 				continue;
 			}
 			for (int j = 0; j < m_pMob[_Mobnum]->GetMoveTheWall().size(); j++)
@@ -139,13 +170,13 @@ void UnitBox::FindHidingInTheWallLocationRushSoldier(int _Mobnum)
 				else
 				{
 					m_SameChk = true;
-					m_pMob[_Mobnum]->SetTemporary(Save, i);
+					m_pMob[_Mobnum]->SetTemporary(Save, i, m_CanSeeDirection[i]);
 					j = m_pMob[_Mobnum]->GetMoveTheWall().size();
 				}
 			}
 			if (m_SameChk == false)
 			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save, i);
+				m_pMob[_Mobnum]->SetMoveTheWall(Save, i, m_CanSeeDirection[i]);
 			}
 			m_SameChk = false;
 		}
@@ -165,7 +196,7 @@ void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
 		{
 			if (i == 0)
 			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save,i);
+				m_pMob[_Mobnum]->SetMoveTheWall(Save,i, m_CanSeeDirection[i]);
 				continue;
 			}
 
@@ -179,13 +210,13 @@ void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
 				else //내가 저장한위치와 다음의 장애물위치의 x값이 같으면 임시저장
 				{
 					m_SameChk = true;
-					m_pMob[_Mobnum]->SetTemporary(Save,i);
+					m_pMob[_Mobnum]->SetTemporary(Save,i, m_CanSeeDirection[i]);
 					j = m_pMob[_Mobnum]->GetMoveTheWall().size();
 				}
 			}
 			if (m_SameChk == false)
 			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save,i);
+				m_pMob[_Mobnum]->SetMoveTheWall(Save,i, m_CanSeeDirection[i]);
 			}
 			m_SameChk = false;
 		}
@@ -226,7 +257,7 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 				float Dist = D3DXVec3Length(&(m_pMob[_Mobnum]->GetMoveTheWall().back() - m_pMob[_Mobnum]->GetPosition()));
 				if (Dist < 20 && m_pMob[_Mobnum]->GetDetermined() == false)
 				{
-					//1은 원래길로가는것
+					//원래길로가는것
 					if (m_CanSave[m_pMob[_Mobnum]->GetLocationNum().back()] == true)
 					{
 						m_pMob[_Mobnum]->SetDetermined(true);
@@ -251,7 +282,8 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 								if (m_CanSave[m_pMob[_Mobnum]->GetTemporaryNum().back()] == true)
 								{
 									m_pMob[_Mobnum]->EraseWallLocation();
-									m_pMob[_Mobnum]->SetMoveTheWall(m_pMob[_Mobnum]->GetTemporary().back(), m_pMob[_Mobnum]->GetTemporaryNum().back());
+									m_pMob[_Mobnum]->SetMoveTheWall(m_pMob[_Mobnum]->GetTemporary().back(), m_pMob[_Mobnum]->GetTemporaryNum().back()
+									,m_pMob[_Mobnum]->GetTemporaryDirection().back());
 									m_pMob[_Mobnum]->EraseTemporary();
 									break;
 								}
@@ -282,11 +314,11 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 					}
 				}
 				//다음 장애물로 가기 위한 조건문
-				if (Dist < 2.0f)
+				if (Dist < 1.0f)
 				{
-					if (m_pMob[_Mobnum]->PlayerSearch() == false)
+					m_pMob[_Mobnum]->hidingChk = true;
+					if (m_pMob[_Mobnum]->PlayerSearch() == 주변적없음)
 					{
-						m_pMob[_Mobnum]->m_Act._hiding = 몹_숨어있음;
 						m_pMob[_Mobnum]->SetMoveSpeed(0);
 						m_pMob[_Mobnum]->num++;
 						if (m_pMob[_Mobnum]->num > 100)
@@ -294,16 +326,12 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 							m_pMob[_Mobnum]->SetMoveSpeed(1.0f);
 							m_CanSave[m_pMob[_Mobnum]->GetLocationNum().back()] = true;
 							m_pMob[_Mobnum]->SetDetermined(false);
-							m_pMob[_Mobnum]->EraseWallLocation();
+							if(!m_pMob[_Mobnum]->GetMoveTheWall().empty())
+								m_pMob[_Mobnum]->EraseWallLocation();
 							m_pMob[_Mobnum]->m_move = false;
 							m_pMob[_Mobnum]->num = 0;
-							m_pMob[_Mobnum]->m_Act._hiding = 몹_뛰는중;
+							m_pMob[_Mobnum]->hidingChk = false;
 						}
-					}
-					else
-					{
-						if (m_pMob[_Mobnum]->HaveBullet() == false)
-							m_pMob[_Mobnum]->Act_Reload();
 					}
 				}
 			}
@@ -311,7 +339,7 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 	}
 }
 
-void UnitBox::mobSummon(int num)
+void UnitBox::CreateMob(int num)
 {
 	g_pSoundManager->playMusic(1);
 	g_pSoundManager->effectSound(0);
@@ -322,14 +350,25 @@ void UnitBox::mobSummon(int num)
 		m_pMob.resize(MobNum);
 		m_pMob[MobNum - 1] = new Mob;
 		m_pMob[MobNum - 1]->Init();
-
-		//m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((MobNum) * 20 + NODE_POSITSIZE)));
 		m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
 		if (m_pMob[MobNum - 1]->m_Act._moving == 몹_엄폐이동 || m_pMob[MobNum - 1]->m_Act._reload == 몹_장전함 || m_pMob[MobNum - 1]->m_Act._engage == 몹_엄폐물에숨기)
 		{
 			FindHidingInTheWallLocation(MobNum - 1);
 		}
 	}
+}
+
+void UnitBox::ReSetMob()
+{
+	for (auto p : m_pMob)
+	{
+		p->ResetAll();
+		if (m_pMob[MobNum - 1]->m_Act._moving == 몹_엄폐이동 || m_pMob[MobNum - 1]->m_Act._reload == 몹_장전함 || m_pMob[MobNum - 1]->m_Act._engage == 몹_엄폐물에숨기)
+		{
+			FindHidingInTheWallLocation(MobNum - 1);
+		}
+	}
+	MobStart = false;
 }
 
 void UnitBox::teamSummon()
