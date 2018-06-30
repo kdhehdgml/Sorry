@@ -96,15 +96,19 @@ void Mob::Update()
 		Debug->AddText(m_maxbullet);
 		Debug->EndLine();
 		
-		//살아있을때만 포지션을 받아온다
-		m_MONSTER->SetPos(m_pos);
+		
 	}
 	Act_Action();
 	
-
+	
 	//Debug->AddText("m_rot: ");
 	//Debug->AddText(m_rot.y);
 	//Debug->EndLine();
+
+
+	//살아있을때만 포지션을 받아온다
+	m_MONSTER->SetPos(m_pos);
+
 
 	m_MONSTER->SetAngle(m_rot.y);
 	m_MONSTER->SetAnimationIndex(ani_state);
@@ -221,6 +225,7 @@ void Mob::SelectAction()
 				else
 				{
 					m_Act._action = 몹_달리기;
+					
 				}
 				break;
 			case 근접_거리닿음:
@@ -289,6 +294,8 @@ void Mob::SelectAction()
 	{
 		m_moveSpeed > 0 ? m_Act._action = 몹_달리다가죽기 : m_Act._action = 몹_죽음;
 	}
+
+	
 }
 
 void Mob::Act_Moving()
@@ -377,7 +384,7 @@ void Mob::Act_Reload()
 
 void Mob::Act_Action()
 {
-	switch (m_Act._action)
+	/*switch (m_Act._action)
 	{
 		switch (m_Act._action)
 		{
@@ -404,7 +411,10 @@ void Mob::Act_Action()
 		default:
 			break;
 		}
-	}
+	}*/
+
+	ani_state = m_Act._action;
+
 }
 
 situation Mob::PlayerSearch()

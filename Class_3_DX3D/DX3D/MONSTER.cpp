@@ -3,7 +3,7 @@
 #include "AllocateHierarchy.h"
 
 //적군 스킨 사이즈 조절
-#define SCALE 6.0f
+#define SCALE 0.25f
 
 
 MONSTER::MONSTER()
@@ -42,8 +42,8 @@ void MONSTER::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/newMan/";
-	CString filename = "stand_idle.X";
+	CString path = "resources/xFile/MONSTER_AI/";
+	CString filename = "MOB_ANI_ALL.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
