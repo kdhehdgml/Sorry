@@ -68,8 +68,8 @@ void Player_hands::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/player_ani/";
-	CString filename = "player.X";
+	CString path = "resources/xFile/player_test/";
+	CString filename = "test_player.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -127,11 +127,14 @@ void Player_hands::Update()
 		{
 			m_AnimaTionIndex = 달리기해제;
 		}
+		
 		else
 		{
 			if(!m_Reload)
-				m_AnimaTionIndex = 기본상태;
+				m_AnimaTionIndex = 2;
 		}
+
+
 
 		if (!m_Reload && m_zooming)
 			m_AnimaTionIndex = 줌_모드;
@@ -170,8 +173,18 @@ void Player_hands::Update()
 			//SetTrackAnimationTime
 			//m_pAnimController->SetTrackAnimationSet(pCurrAnimSet->GetPeriod(), pCurrAnimSet);
 		}
-		
-		SetAnimationIndex(m_AnimaTionIndex, true);
+		if (Keyboard::Get()->KeyPress('R'))
+		{
+			SetAnimationIndex(0, true);
+		}
+		else if (Keyboard::Get()->KeyUp('R'))
+		{
+			m_pAnimController->SetTrackPosition(0, 0);
+		}
+		else
+		{
+			SetAnimationIndex(m_AnimaTionIndex, true);
+		}
 
 		SetPosToCamera();
 	}
@@ -203,7 +216,8 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 		if (!m_Reload)
 		{
 			m_Reload = true;
-			m_AnimaTionIndex = 볼트액션;
+			//m_AnimaTionIndex = 볼트액션;
+			m_AnimaTionIndex = 1;
 			//액션 처음으로 초기화
 			m_pAnimController->SetTrackPosition(0, 0);
 		}
