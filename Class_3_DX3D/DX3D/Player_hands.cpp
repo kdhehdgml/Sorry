@@ -179,7 +179,9 @@ void Player_hands::Update()
 		}
 		else if (Keyboard::Get()->KeyUp('R'))
 		{
+			
 			m_pAnimController->SetTrackPosition(0, 0);
+			SetAnimationIndex(0, false);
 		}
 		else
 		{
