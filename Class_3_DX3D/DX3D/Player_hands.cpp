@@ -178,8 +178,15 @@ void Player_hands::Update()
 		Debug->AddText(g_pCamera->getMagazine());
 		Debug->EndLine();
 
-		if (g_pCamera->getMagazine() == 0)
+		//m_magazine = 5  최대 잔탄수
+		//m_cooldown = 150 최대 쿨타임
+
+		if (g_pCamera->getMagazine() == 5 &&
+			g_pCamera->getCooldown() >0)
 		{
+			if(g_pCamera->getCooldown() == 150)
+				m_pAnimController->SetTrackPosition(0, 0);
+
 			m_AnimaTionIndex = 0;
 		}
 		
@@ -201,6 +208,7 @@ void Player_hands::Render()
 
 		if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 		//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+
 		//컬모드 원래대로 돌려주는것
 		g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 

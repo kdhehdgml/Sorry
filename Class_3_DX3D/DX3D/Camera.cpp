@@ -475,13 +475,16 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - 50);
 				}
 			}
+			
+
+
 			m_magazine--;
 			if (m_magazine > 0) {
 				m_cooldown = 60;
 			}
 			else {
 				m_magazine = 5;
-				m_cooldown = 200;
+				m_cooldown = 150;
 			}
 			//m_cooldown = 60; //쿨타임 (단위 : 프레임)
 		}
