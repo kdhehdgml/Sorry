@@ -69,7 +69,7 @@ void Player_hands::Init()
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
 	CString path = "resources/xFile/player_test/";
-	CString filename = "test_player.X";
+	CString filename = "test_player2.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -115,23 +115,14 @@ void Player_hands::Update()
 	{
 
 		//상태값들
-		if (Keyboard::Get()->KeyDown(VK_SHIFT))
-		{
-			m_AnimaTionIndex = 달리기준비;
-		}
-		else if (Keyboard::Get()->KeyPress(VK_SHIFT))
+		if (Keyboard::Get()->KeyPress(VK_SHIFT))
 		{
 			m_AnimaTionIndex = 달리는중;
 		}
-		else if (Keyboard::Get()->KeyUp(VK_SHIFT))
-		{
-			m_AnimaTionIndex = 달리기해제;
-		}
-		
 		else
 		{
 			if(!m_Reload)
-				m_AnimaTionIndex = 2;
+				m_AnimaTionIndex = 기본상태;
 		}
 
 
@@ -174,20 +165,21 @@ void Player_hands::Update()
 			//m_pAnimController->SetTrackAnimationSet(pCurrAnimSet->GetPeriod(), pCurrAnimSet);
 		}
 
-		Debug->AddText("잔탄 : ");
-		Debug->AddText(g_pCamera->getMagazine());
-		Debug->EndLine();
+		//Debug->AddText("잔탄 : ");
+		//Debug->AddText(g_pCamera->getMagazine());
+		//Debug->EndLine();
 
 		//m_magazine = 5  최대 잔탄수
 		//m_cooldown = 150 최대 쿨타임
 
+		//전탄장전
 		if (g_pCamera->getMagazine() == 5 &&
 			g_pCamera->getCooldown() >0)
 		{
 			if(g_pCamera->getCooldown() == 150)
 				m_pAnimController->SetTrackPosition(0, 0);
 
-			m_AnimaTionIndex = 0;
+			m_AnimaTionIndex = 전탄장전;
 		}
 		
 		SetAnimationIndex(m_AnimaTionIndex, true);
@@ -224,8 +216,8 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 		if (!m_Reload)
 		{
 			m_Reload = true;
-			//m_AnimaTionIndex = 볼트액션;
-			m_AnimaTionIndex = 1;
+			m_AnimaTionIndex = 볼트액션;
+			
 			//액션 처음으로 초기화
 			m_pAnimController->SetTrackPosition(0, 0);
 		}
