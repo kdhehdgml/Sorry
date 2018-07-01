@@ -173,20 +173,18 @@ void Player_hands::Update()
 			//SetTrackAnimationTime
 			//m_pAnimController->SetTrackAnimationSet(pCurrAnimSet->GetPeriod(), pCurrAnimSet);
 		}
-		if (Keyboard::Get()->KeyPress('R'))
+
+		Debug->AddText("잔탄 : ");
+		Debug->AddText(g_pCamera->getMagazine());
+		Debug->EndLine();
+
+		if (g_pCamera->getMagazine() == 0)
 		{
-			SetAnimationIndex(0, true);
+			m_AnimaTionIndex = 0;
 		}
-		else if (Keyboard::Get()->KeyUp('R'))
-		{
-			
-			m_pAnimController->SetTrackPosition(0, 0);
-			SetAnimationIndex(0, false);
-		}
-		else
-		{
-			SetAnimationIndex(m_AnimaTionIndex, true);
-		}
+		
+		SetAnimationIndex(m_AnimaTionIndex, true);
+		
 
 		SetPosToCamera();
 	}
