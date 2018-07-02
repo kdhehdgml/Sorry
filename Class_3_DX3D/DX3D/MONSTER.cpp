@@ -4,8 +4,8 @@
 
 //적군 스킨 사이즈 조절
 #define SCALE 0.25f
-
-
+//최신버전 존나큼;;
+//#define SCALE 0.001f
 MONSTER::MONSTER()
 {
 	m_baseRotY = D3DX_PI;
@@ -72,18 +72,26 @@ void MONSTER::Update()
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
 
-	//Debug->AddText("트랙속도 : ");
-	//Debug->AddText(track.Speed);
-	//Debug->EndLine();
+	Debug->AddText("애니 인덱스 : ");
+	Debug->AddText(m_AnimaTionIndex);
+	Debug->EndLine();
 
-	if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f &&
-		m_AnimaTionIndex == 4)
-	{
+	//if (Keyboard::Get()->KeyDown('F7'))
+	//{
+	//	m_AnimaTionIndex++;
 
-		//트랙속도 감소!
-		m_pAnimController->SetTrackSpeed(0, 0);
-		
-	}
+	//	if (m_AnimaTionIndex > 9)
+	//		m_AnimaTionIndex = 0;
+	//}
+
+	//if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f &&
+	//	m_AnimaTionIndex == 4)
+	//{
+
+	//	//트랙속도 감소!
+	//	m_pAnimController->SetTrackSpeed(0, 0);
+	//	
+	//}
 	//나중에 다시 불러올떄 1로 다시해주면 속도가 돌아온다
 	//m_pAnimController->SetTrackSpeed(0, 1);
 
