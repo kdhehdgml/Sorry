@@ -119,10 +119,6 @@ void Player_hands::Update()
 		{
 			m_AnimaTionIndex = 달리는중;
 		}
-		else if (Keyboard::Get()->KeyPress('F'))
-		{
-			m_pAnimController->SetTrackPosition(0, 0);
-		}
 		else
 		{
 			if(!m_Reload)
