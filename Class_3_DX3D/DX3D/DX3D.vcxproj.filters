@@ -75,6 +75,12 @@
     <Filter Include="소스 파일\Skin">
       <UniqueIdentifier>{fb920c46-affd-44db-982d-ff9677573176}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Minimap">
+      <UniqueIdentifier>{a18aae85-d1a6-408a-8f58-66a780db75a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Wall">
+      <UniqueIdentifier>{a050065c-a9c5-4135-ada6-c1bd95aae565}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -287,7 +293,6 @@
     <ClInclude Include="SceneBattlefield.h">
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Minimap.h" />
     <ClInclude Include="CD3Mesh.h">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClInclude>
@@ -303,14 +308,9 @@
     <ClInclude Include="Player_hands.h">
       <Filter>소스 파일\Skin</Filter>
     </ClInclude>
-    <ClInclude Include="SceneLoading.h">
-      <Filter>소스 파일\Skin</Filter>
-    </ClInclude>
     <ClInclude Include="TEAM_TEX.h">
       <Filter>소스 파일\Skin</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h" />
-    <ClInclude Include="WallManager.h" />
     <ClInclude Include="ALLTexTURE.h">
       <Filter>소스 파일\Skin</Filter>
     </ClInclude>
@@ -320,6 +320,19 @@
     <ClInclude Include="SceneShader.h">
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="SceneLoading.h">
+      <Filter>소스 파일\4.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>소스 파일\Minimap</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>소스 파일\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="WallManager.h">
+      <Filter>소스 파일\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMainScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -517,7 +530,6 @@
     <ClCompile Include="SceneBattlefield.cpp">
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="CD3Mesh.cpp">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClCompile>
@@ -533,14 +545,9 @@
     <ClCompile Include="Player_hands.cpp">
       <Filter>소스 파일\Skin</Filter>
     </ClCompile>
-    <ClCompile Include="SceneLoading.cpp">
-      <Filter>소스 파일\Skin</Filter>
-    </ClCompile>
     <ClCompile Include="TEAM_TEX.cpp">
       <Filter>소스 파일\Skin</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp" />
-    <ClCompile Include="WallManager.cpp" />
     <ClCompile Include="ALLTexTURE.cpp">
       <Filter>소스 파일\Skin</Filter>
     </ClCompile>
@@ -550,6 +557,19 @@
     <ClCompile Include="SceneShader.cpp">
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLoading.cpp">
+      <Filter>소스 파일\4.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimap.cpp">
+      <Filter>소스 파일\Minimap</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>소스 파일\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="WallManager.cpp">
+      <Filter>소스 파일\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMainScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">
