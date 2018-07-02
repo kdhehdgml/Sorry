@@ -75,7 +75,7 @@ void Camera::Init()
 	g_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
 
 	D3DXMatrixPerspectiveFovLH(&m_matProj,
-		m_FOV, rc.right / (float)rc.bottom, 1.0f, 10000.0f);
+		m_FOV, rc.right / (float)rc.bottom, 0.01f, 10000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
 }
 
@@ -113,7 +113,7 @@ void Camera::Update()
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 	g_pDevice->SetTransform(D3DTS_VIEW, &matView);
 	//D3DXMatrixPerspectiveFovLH(시야 행렬, 시야각, 종횡비, 최소시야, 최대시야);
-	D3DXMatrixPerspectiveFovLH(&matProj, m_FOV, rc.right / (float)rc.bottom, 1.0f, 10000.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, m_FOV, rc.right / (float)rc.bottom, 0.01f, 10000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &matProj);
 	g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	m_matWorld = matWorld;
