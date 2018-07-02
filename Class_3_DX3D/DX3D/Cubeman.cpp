@@ -79,14 +79,14 @@ void Cubeman::Update()
 			ShowCursor(false);
 		}
 	}
-	if (g_pCamera->getFreeCameraMode()) {
+	/*if (g_pCamera->getFreeCameraMode()) {
 		if (GetAsyncKeyState('R') & 0x8000) {
 			m_deltaYPos += 1.0f;
 		}
 		else if (GetAsyncKeyState('F') & 0x8000) {
 			m_deltaYPos -= 1.0f;
 		}
-	}
+	}*/
 
 	if (m_isTurnedOnLight == true)
 	{

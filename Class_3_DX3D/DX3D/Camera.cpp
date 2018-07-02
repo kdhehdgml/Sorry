@@ -169,6 +169,10 @@ void Camera::Update()
 		}
 		m_running = 0;
 	}
+	if (GetKeyState('F') & 0x0001 && m_cooldown == 0 && m_magazine != 5) {
+		m_magazine = 5;
+		m_cooldown = 150;
+	}
 
 	if (m_running >= 1 && m_running < 10) {
 		m_runningRecoilX = m_running * 0.005f;
