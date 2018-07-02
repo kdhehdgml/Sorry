@@ -41,6 +41,7 @@ public:\
 #define METHOD_WNDPROC(method) void method(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 enum SCENE_INDEX {
+	SCENE_MAIN,
 	SCENE_LOADING,
 	SCENE_HEIGHTMAP,
 	SCENE_GRID,

@@ -1,11 +1,17 @@
 #pragma once
 #include "IScene.h"
+#include "IDisplayObject.h"
+#include "UIBUtton.h"
+#include "UIImage.h"
+#include "MainScreenUI.h"
 class SceneMainScreen :
 	public IScene
 {
 public:
 	SceneMainScreen();
 	~SceneMainScreen();
+
+	MainScreenUI* mainScreenUI;
 
 	// IScene을(를) 통해 상속됨
 	virtual void Init() override;
