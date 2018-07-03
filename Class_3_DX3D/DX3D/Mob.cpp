@@ -453,7 +453,7 @@ situation Mob::TrenchFight()
 			m_ShootCooldownTime++;
 			if (m_ShootCooldownTime > 100)
 			{
-				g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() - 25.0f);
+				g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(25.0f);
 				m_ShootCooldownTime = 0;
 			}
 			if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
@@ -549,11 +549,11 @@ void Mob::Shooting()
 						int damage = rand() % 10;
 						if (damage < 3)
 						{
-							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(0);
+							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(100);
 						}
 						else
 						{
-							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->setHealth(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() - 50);
+							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(50);
 						}
 					}
 					m_ShootCooldownTime = 0;

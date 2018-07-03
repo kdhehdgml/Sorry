@@ -23,7 +23,7 @@ TeamAI::TeamAI()
 	m_render = false;
 	m_bullet = 5;
 	m_angle = D3DX_PI / 2;
-
+	m_def = 0;
 	ani_state = 서서기본자세;
 }
 
@@ -298,8 +298,8 @@ void TeamAI::TrenchFight(int _num)
 				m_ShootCooldownTime++;
 				if (m_ShootCooldownTime > 100)
 				{
-					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth
-					(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() - 25.0f);
+					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth
+					(25.0f);
 					m_ShootCooldownTime = 0;
 				}
 			}
@@ -323,12 +323,12 @@ void TeamAI::Shooting()
 			int damage = rand() % 10;
 			if (damage < 3)
 			{
-				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth(0);
+				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth(100);
 			}
 			else
 			{
-				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->setHealth
-				(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->getHealth() - 50);
+				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth
+				(50);
 			}
 			m_bullet--;
 		}

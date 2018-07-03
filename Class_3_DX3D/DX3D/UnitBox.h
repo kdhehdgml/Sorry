@@ -1,5 +1,8 @@
 #pragma once
 #include "IUnitObject.h"
+
+#define TeamSize 20
+
 using std::pair;
 class Cubeman;
 class Mob;

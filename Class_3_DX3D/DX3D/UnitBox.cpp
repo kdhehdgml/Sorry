@@ -32,9 +32,8 @@ void UnitBox::Init()
 	m_CanSave.resize(m_SaveLocation.size(),true);
 	FindEmptyWallDirection();
 	//아군AI생성
-	TeamNum = 10;
-	m_pTeam.resize(TeamNum);
-	for (int i = 0; i < TeamNum; i++)
+	m_pTeam.resize(TeamSize);
+	for (int i = 0; i < TeamSize; i++)
 	{
 		m_pTeam[i] = new TeamAI;
 		m_pTeam[i]->Init();
@@ -362,7 +361,7 @@ void UnitBox::TeamPosition()
 }
 void UnitBox::RandomSelectPosition()
 {
-	while(posit.size() < 10)
+	while(posit.size() < TeamSize)
 	{
 		bool same = false;
 		int randint = rand() % 20;
