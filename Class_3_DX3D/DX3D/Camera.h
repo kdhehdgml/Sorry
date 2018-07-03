@@ -73,9 +73,7 @@ public:
 	bool getFreeCameraMode();
 	int getCooldown();
 	int getMagazine();
-	
-	float GetRecoil() { return m_recoilXDelta; }
-
+	bool mouseLock;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 };
 
