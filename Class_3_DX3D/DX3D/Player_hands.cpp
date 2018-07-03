@@ -26,7 +26,7 @@
 Player_hands::Player_hands()
 {
 	m_baseRotY = D3DX_PI;
-	health = 100;
+	health = 4;
 	m_pRootFrame = NULL;
 	m_pAnimController = NULL;
 	m_fBlendTime = 0.3f;
@@ -35,7 +35,7 @@ Player_hands::Player_hands()
 	m_bWireFrame = false;
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;
-
+	m_def = 1;
 	angleX = 0;
 	angleY = 0;
 

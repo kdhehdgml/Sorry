@@ -15,7 +15,7 @@ protected:
 	float			m_moveSpeed;
 	float			m_currMoveSpeedRate;
 	float			m_rotationSpeed;
-
+	int				m_def;
 	bool			m_isJumping;
 	float			m_jumpPower;
 	float			m_gravity;
@@ -51,5 +51,7 @@ public:
 	void ApplyTargetPosition(D3DXVECTOR3 &targetPos);
 
 	void UpdatePosition();
+
+	void DecreaseHealth(int h);
 };
 
