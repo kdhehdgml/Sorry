@@ -384,37 +384,7 @@ void Mob::Act_Reload()
 
 void Mob::Act_Action()
 {
-	/*switch (m_Act._action)
-	{
-		switch (m_Act._action)
-		{
-		case 各_措扁惑怕:
-			break;
-		case 各_崔府扁:
-			break;
-		case 各_崔府促啊磷扁:
-			break;
-		case 各_谅决企荤拜:
-			break;
-		case 各_快决企荤拜:
-			break;
-		case 各_辑辑筋扁:
-			break;
-		case 各_磷澜:
-			break;
-		case 各_第肺旧酒辑厘傈:
-			break;
-		case 各_辟立傈捧:
-			break;
-		case 各_漠电惑怕:
-			break;
-		default:
-			break;
-		}
-	}*/
-
 	ani_state = m_Act._action;
-
 }
 
 situation Mob::PlayerSearch()
@@ -443,11 +413,14 @@ situation Mob::TrenchFight()
 	//啊鳖款仇 茫扁(Min茫绰规侥)
 	for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_TEAM).size(); i++)
 	{
-		float length = D3DXVec3Length(&(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[i]->GetPosition() - m_pos));
-		if (length < nearAI)
+		if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[i]->getHealth() > 0)
 		{
-			nearAI = length;
-			AINum = i;
+			float length = D3DXVec3Length(&(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[i]->GetPosition() - m_pos));
+			if (length < nearAI)
+			{
+				nearAI = length;
+				AINum = i;
+			}
 		}
 	}
 	if (AINum != NULL)
@@ -564,7 +537,7 @@ void Mob::Shooting()
 				m_ShootCooldownTime++;
 				if (m_ShootCooldownTime > 100)
 				{
-					if (kill < 5 && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
+					if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
 					{
 						int damage = rand() % 10;
 						if (damage < 3)

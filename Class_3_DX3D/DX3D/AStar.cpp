@@ -425,6 +425,9 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 	bool lineodd = true;
 	int lineNum = 0;
 
+	if (pNode->GetLocation().x < 240.0f && pNode->GetLocation().y > 20.0f)
+		nWALL(posX, posX, posZ - 1, posZ + 1);
+
 	for (int x = 18; x < nodeDim; x += 4) {
 		for (int z = 0; z < nodeDim; z += 4) {
 			if (lineodd)
