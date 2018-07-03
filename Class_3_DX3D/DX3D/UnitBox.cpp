@@ -70,6 +70,11 @@ void UnitBox::Update()
 			m_pTeam[i]->UpdatePositionToDestination();
 		}
 	}
+	if (GetAsyncKeyState('J') & 0x0001) {
+		for (int i = 0; i < m_pMob.size(); i++) {
+			m_pMob[i]->showBoundingSphere = !m_pMob[i]->showBoundingSphere;
+		}
+	}
 
 	////내가 지나간곳들 장애물 저장한위치 없앰
 	//for (auto p : m_pMob)

@@ -49,6 +49,8 @@ Camera::Camera()
 	reloadTime = 0;
 
 	m_magazine = 5;
+
+	mouseLock = true;
 }
 
 
@@ -540,7 +542,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//dir.y = tan(m_rotX + m_recoilX);
 
 			m_ptPrevMouse = m_currPoint;
-			if (diff_x || diff_y) //마우스 위치가 변했을때 마우스 위치를 화면 중앙으로 이동
+			if ((diff_x || diff_y) && mouseLock) //마우스 위치가 변했을때 마우스 위치를 화면 중앙으로 이동
 			{
 				RECT rc; GetClientRect(g_hWnd, &rc);
 				POINT p = { (rc.right - rc.left) / 2 , (rc.bottom - rc.top) / 2 };
