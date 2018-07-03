@@ -454,20 +454,6 @@ void UnitBox::ReSetMob()
 	MobStart = false;
 }
 
-void UnitBox::teamSummon()
-{
-	int num = 1;
-	for (int i = 0; i < num; i++)
-	{
-		TeamNum++;
-		m_pTeam.resize(TeamNum);
-		m_pTeam[TeamNum - 1] = new TeamAI;
-		m_pTeam[TeamNum - 1]->Init();
-		//m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3(GSM().TeamPos.x + NODE_POSITSIZE, 2.67f, GSM().TeamPos.z + ((TeamNum) * 20 + NODE_POSITSIZE)));
-		m_pTeam[TeamNum - 1]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX - 50), 2.67f, GSM().TeamPos.z + 70 + (rand() % 160)));
-	}
-}
-
 vector<Mob*>* UnitBox::getPMob()
 {
 	

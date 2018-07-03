@@ -47,7 +47,6 @@ public:
 	void RegenTeam();
 	void CreateMob(int num);
 	void ReSetMob();
-	void teamSummon();
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();
 	vector<TeamAI*>* getPTeam();

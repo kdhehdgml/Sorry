@@ -21,5 +21,4 @@ public:
 
 	D3DXVECTOR3 camPos;
 	D3DXVECTOR3 mobPos;
-	D3DXVECTOR3 TeamPos;
 };
