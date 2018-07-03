@@ -73,7 +73,7 @@ public:
 	bool getFreeCameraMode();
 	int getCooldown();
 	int getMagazine();
-
+	bool mouseLock;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 };
 

@@ -27,9 +27,9 @@ Mob::Mob()
 	m_Setdest = false;
 	hidingChk = false;
 	ani_start = true;
+	showBoundingSphere = false;
 
 	m_angle = D3DX_PI / 2;
-
 }
 
 
@@ -49,8 +49,8 @@ void Mob::Init()
 
 	D3DXCreateSphere(g_pDevice, 1.5f, 10, 10, &m_pSphereHead, NULL);
 	m_pBoundingSphereHead = new BoundingSphere(m_pos, 1.5f);
-	D3DXCreateSphere(g_pDevice, 2.0f, 10, 10, &m_pSphereBody, NULL);
-	m_pBoundingSphereBody = new BoundingSphere(m_pos, 2.0f);
+	D3DXCreateSphere(g_pDevice, 2.7f, 10, 10, &m_pSphereBody, NULL);
+	m_pBoundingSphereBody = new BoundingSphere(m_pos, 2.7f);
 
 	m_MONSTER = new MONSTER;
 	m_MONSTER->Init();
@@ -79,9 +79,9 @@ void Mob::Update()
 		
 		//EraseLocationSoldier();
 		m_pBoundingSphereBody->center = m_pos;
-		m_pBoundingSphereBody->center.y += 2.0f;
+		m_pBoundingSphereBody->center.y += 3.4f;
 		m_pBoundingSphereHead->center = m_pos;
-		m_pBoundingSphereHead->center.y += 5.0f;
+		m_pBoundingSphereHead->center.y += 7.5f;
 
 		//m_pRootParts->SetMovingState(m_isMoving);
 		//m_pRootParts->Update();
@@ -148,13 +148,17 @@ void Mob::Render()
 		D3DXMatrixTranslation(&mat, m_pBoundingSphereBody->center.x, m_pBoundingSphereBody->center.y, m_pBoundingSphereBody->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
-		//m_pSphereBody->DrawSubset(0);
+		if (showBoundingSphere) {
+			m_pSphereBody->DrawSubset(0);
+		}
 		//D3DXMATRIXA16 mat2;
 		D3DXMatrixIdentity(&mat);
 		D3DXMatrixTranslation(&mat, m_pBoundingSphereHead->center.x, m_pBoundingSphereHead->center.y, m_pBoundingSphereHead->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
-		//m_pSphereHead->DrawSubset(0);
+		if (showBoundingSphere) {
+			m_pSphereHead->DrawSubset(0);
+		}
 	}
 }
 
