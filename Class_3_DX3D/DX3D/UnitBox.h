@@ -20,6 +20,7 @@ private:
 	vector<EmptyWall> m_CanSeeDirection;
 	vector<bool>		m_CanSave;
 	vector<D3DXVECTOR3> m_TeamPosition;
+	vector<int> posit;
 	int				MobNum;
 	int				TeamNum;
 	bool			m_SameChk;
@@ -39,6 +40,7 @@ public:
 	void FindHidingInTheWallLocation(int _Mobnum);
 	void MobMoveInTheWall(int _Mobnum);
 	void TeamPosition();
+	void RandomSelectPosition();
 	void RegenTeam();
 	void CreateMob(int num);
 	void ReSetMob();
