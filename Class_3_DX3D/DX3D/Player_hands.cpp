@@ -102,18 +102,11 @@ void Player_hands::Load(LPCTSTR path, LPCTSTR filename)
 
 void Player_hands::Update()
 {
-	//if (g_pCamera->getCooldown() == GSM().reload_one)
 
-	Debug->AddText("camera: ");
-	Debug->AddText(g_pCamera->getCooldown());
-	Debug->EndLine();
+	//액션 처음으로 초기화
+	if (g_pCamera->getCooldown() == 0)
+		m_pAnimController->SetTrackPosition(0, 0);
 
-	Debug->AddText("gsm : ");
-	Debug->AddText(GSM().reload_one);
-	Debug->EndLine();
-
-	//if (g_pCamera->GetRecoil() != 0 && m_Reload == true )
-	//	m_bulletActionCount++;
 
 
 	Debug->AddText(health);
@@ -139,7 +132,36 @@ void Player_hands::Update()
 				m_AnimaTionIndex = 기본상태;
 		}
 
+		Debug->AddText("쿨타임 : ");
+		Debug->AddText(g_pCamera->getCooldown());
+		Debug->AddText("  / ");
+		Debug->AddText("각도 : ");
+		Debug->AddText(g_pCamera->getRecoil());
+		Debug->AddText("  / ");
+		Debug->AddText("재장전 상태 (0은 재장전x) : ");
+		Debug->AddText(m_Reload);
+		Debug->EndLine();
 
+		//전탄장전
+		if (g_pCamera->getMagazine() == 5 &&
+			g_pCamera->getCooldown() >0)
+		{
+			/*if (g_pCamera->getCooldown() == 150)
+				m_pAnimController->SetTrackPosition(0, 0);
+*/
+			if(g_pCamera->getCooldown() <= GSM().reload_all - 35 &&
+				g_pCamera->getRecoil() == 0)
+					m_AnimaTionIndex = 전탄장전;
+		}
+
+		//볼트액션
+		if (g_pCamera->getCooldown() <= GSM().reload_one - 35 &&
+			g_pCamera->getRecoil() == 0 &&
+			m_Reload == true && 
+			m_AnimaTionIndex != 전탄장전)
+		{
+			m_AnimaTionIndex = 볼트액션;
+		}
 
 		if (!m_Reload && m_zooming)
 			m_AnimaTionIndex = 줌_모드;
@@ -149,14 +171,13 @@ void Player_hands::Update()
 		m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 		m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
 
-		//애니메이션 비율 시간
-		//Debug->AddText("전체시간 :");
-		//Debug->AddText(pCurrAnimSet->GetPeriod());
-		//Debug->EndLine();
+		Debug->AddText("전체시간 :");
+		Debug->AddText(pCurrAnimSet->GetPeriod());
+		Debug->EndLine();
 
-		//Debug->AddText("현재시간 :");
-		//Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
-		//Debug->EndLine();
+		Debug->AddText("현재시간 :");
+		Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
+		Debug->EndLine();
 
 		//훈회형이말한 타임 아무래도 애니메이션 전체의 타임인것같다.
 		/*float total = pCurrAnimSet->GetPeriod() * pCurrAnimSet->GetNumAnimations();
@@ -172,7 +193,7 @@ void Player_hands::Update()
 
 		//현재 애니메이션의 전체타임과  현재 애니메이션 타임의 비교연산
 		//현재 애니메이션 타임이 더 커지면 애니메이션 끄기
-		if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f)
+		if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f && m_Reload == true)
 		{
 			m_Reload = false;
 			//m_pAnimController->SetTrackPosition(0, 0);
@@ -187,15 +208,7 @@ void Player_hands::Update()
 		//m_magazine = 5  최대 잔탄수
 		//m_cooldown = 150 최대 쿨타임
 
-		//전탄장전
-		if (g_pCamera->getMagazine() == 5 &&
-			g_pCamera->getCooldown() >0)
-		{
-			if(g_pCamera->getCooldown() == 150)
-				m_pAnimController->SetTrackPosition(0, 0);
-
-			m_AnimaTionIndex = 전탄장전;
-		}
+	
 		
 		SetAnimationIndex(m_AnimaTionIndex, true);
 		
@@ -228,22 +241,12 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	{
 	case WM_LBUTTONDOWN:
 	{
-		if (!m_Reload)
+		if (!m_Reload && g_pCamera->getCooldown() == 0)
 		{
+			
 			m_Reload = true;
 
-			//줌이 원상복구 됬을떄
-			/*if (g_pCamera->getCooldown() == GSM().reload_one)
-			{*/
-				m_AnimaTionIndex = 볼트액션;
-
-				//m_bulletActionCount = 0;
-
-				//액션 처음으로 초기화
-				m_pAnimController->SetTrackPosition(0, 0);
-			//}
 			
-
 		}
 	}
 	break;
