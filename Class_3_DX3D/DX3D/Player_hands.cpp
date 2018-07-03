@@ -102,10 +102,15 @@ void Player_hands::Load(LPCTSTR path, LPCTSTR filename)
 
 void Player_hands::Update()
 {
+	//if (g_pCamera->getCooldown() == GSM().reload_one)
 
-	//Debug->AddText("카운트 : ");
-	//Debug->AddText(m_bulletActionCount);
-	//Debug->EndLine();
+	Debug->AddText("camera: ");
+	Debug->AddText(g_pCamera->getCooldown());
+	Debug->EndLine();
+
+	Debug->AddText("gsm : ");
+	Debug->AddText(GSM().reload_one);
+	Debug->EndLine();
 
 	//if (g_pCamera->GetRecoil() != 0 && m_Reload == true )
 	//	m_bulletActionCount++;
@@ -228,16 +233,15 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 			m_Reload = true;
 
 			//줌이 원상복구 됬을떄
-			if (g_pCamera->GetRecoil() == 0 &&
-				m_bulletActionCount > 5)
-			{
+			/*if (g_pCamera->getCooldown() == GSM().reload_one)
+			{*/
 				m_AnimaTionIndex = 볼트액션;
 
-				m_bulletActionCount = 0;
+				//m_bulletActionCount = 0;
 
 				//액션 처음으로 초기화
 				m_pAnimController->SetTrackPosition(0, 0);
-			}
+			//}
 			
 
 		}
