@@ -3,7 +3,10 @@
 #include "AllocateHierarchy.h"
 #include "Camera.h"
 
+//플레이어 스케일조정
 #define SCALE 1.0f
+//애니메이션 후딜레이
+#define ANI_DELAY 35
 
 /*
 
@@ -104,9 +107,10 @@ void Player_hands::Update()
 {
 
 	//액션 처음으로 초기화
-	if (g_pCamera->getCooldown() == 0)
+	if (g_pCamera->getCooldown() == 0 && m_AnimaTionIndex != 달리는중)
 		m_pAnimController->SetTrackPosition(0, 0);
 
+	
 
 
 	Debug->AddText(health);
@@ -128,8 +132,7 @@ void Player_hands::Update()
 		}
 		else
 		{
-			if(!m_Reload)
-				m_AnimaTionIndex = 기본상태;
+			m_AnimaTionIndex = 기본상태;
 		}
 
 		Debug->AddText("쿨타임 : ");
@@ -149,13 +152,14 @@ void Player_hands::Update()
 			/*if (g_pCamera->getCooldown() == 150)
 				m_pAnimController->SetTrackPosition(0, 0);
 */
-			if(g_pCamera->getCooldown() <= GSM().reload_all - 35 &&
+			if(g_pCamera->getCooldown() <= GSM().reload_all - ANI_DELAY &&
 				g_pCamera->getRecoil() == 0)
 					m_AnimaTionIndex = 전탄장전;
+			
 		}
 
 		//볼트액션
-		if (g_pCamera->getCooldown() <= GSM().reload_one - 35 &&
+		if (g_pCamera->getCooldown() <= GSM().reload_one - ANI_DELAY &&
 			g_pCamera->getRecoil() == 0 &&
 			m_Reload == true && 
 			m_AnimaTionIndex != 전탄장전)
@@ -163,9 +167,7 @@ void Player_hands::Update()
 			m_AnimaTionIndex = 볼트액션;
 		}
 
-		if (!m_Reload && m_zooming)
-			m_AnimaTionIndex = 줌_모드;
-
+	
 		//업데이트 안해주면 처음값만 계속불러온다 그래서 업데이트에서 설정
 		//애니메이션 컨테이너 설정
 		m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
@@ -208,7 +210,12 @@ void Player_hands::Update()
 		//m_magazine = 5  최대 잔탄수
 		//m_cooldown = 150 최대 쿨타임
 
-	
+		if (!m_Reload && m_zooming)
+		{
+			if (g_pCamera->getRecoil() == 0 && g_pCamera->getCooldown() == 0)
+				m_AnimaTionIndex = 줌_모드;
+		}
+
 		
 		SetAnimationIndex(m_AnimaTionIndex, true);
 		
@@ -243,10 +250,7 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	{
 		if (!m_Reload && g_pCamera->getCooldown() == 0)
 		{
-			
 			m_Reload = true;
-
-			
 		}
 	}
 	break;
@@ -256,8 +260,7 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	}
 	break;
 	case WM_RBUTTONDOWN:
-		
-		m_zooming = true;
+			m_zooming = true;
 		break;
 	case WM_RBUTTONUP:
 		
