@@ -47,6 +47,7 @@ private:
 	float m_accuracyYDelta;
 	bool m_zooming;
 	float m_prev_rotX;
+	float m_deltaY;
 
 	bool debugDisplayCheck;
 	bool debugDisplay;
@@ -73,6 +74,7 @@ public:
 	bool getFreeCameraMode();
 	int getCooldown();
 	int getMagazine();
+	float getDeltaY();
 	bool mouseLock;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 

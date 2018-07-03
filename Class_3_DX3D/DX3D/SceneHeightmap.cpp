@@ -407,6 +407,7 @@ void SceneHeightmap::Update()
 	currentPos.y = height + 7.0f;
 	if (g_pCamera->getFreeCameraMode()) {
 		currentPos.y += 63.0f;
+		currentPos.y += g_pCamera->getDeltaY();
 	}
 	g_pCamera->setPos(currentPos);
 

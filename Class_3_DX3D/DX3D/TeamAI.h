@@ -24,6 +24,7 @@ enum ANI_STATE_TEAM
 };
 
 enum TEAM_STATE{
+	팀_달리기,
 	팀_대기,
 	팀_사격,
 	팀_재장전,

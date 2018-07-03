@@ -52,6 +52,7 @@ void TeamAI::Update()
 	if (health <= 0) {
 		status = 0;
 		m_pos = { 2000,10,2000 };
+		m_MobNum = NULL;
 	}
 	if (status > 0) {
 		if (m_MobNum == NULL || HaveBullet() == false)

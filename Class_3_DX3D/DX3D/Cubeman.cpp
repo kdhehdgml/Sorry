@@ -35,7 +35,6 @@ Cubeman::~Cubeman()
 
 void Cubeman::Init()
 {
-	g_pObjMgr->AddToTagList(TAG_TEAM, this);
 	//g_pCamera->SetTarget(&m_pos);
 	//g_pKeyboardManager->SetMovingTarget(&m_deltaPos,
 	//	&m_deltaRot, &m_isJumping);
@@ -67,7 +66,7 @@ void Cubeman::Update()
 	{
 		m_isTurnedOnLight = !m_isTurnedOnLight;
 	}*/
-	if (GetAsyncKeyState('V') & 0x0001) {
+	/*if (GetAsyncKeyState('V') & 0x0001) {
 		//m_freeCameraMode = !m_freeCameraMode;
 		g_pCamera->setFreeCameraMode(!g_pCamera->getFreeCameraMode());
 		if (g_pCamera->getFreeCameraMode()) {
@@ -78,7 +77,7 @@ void Cubeman::Update()
 			m_deltaYPos = 7.0f;
 			ShowCursor(false);
 		}
-	}
+	}*/
 	/*if (g_pCamera->getFreeCameraMode()) {
 		if (GetAsyncKeyState('R') & 0x8000) {
 			m_deltaYPos += 1.0f;
