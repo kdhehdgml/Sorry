@@ -72,9 +72,9 @@ void MONSTER::Update()
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
 
-	Debug->AddText("¾Ö´Ï ÀÎµ¦½º : ");
-	Debug->AddText(m_AnimaTionIndex);
-	Debug->EndLine();
+	//Debug->AddText("¾Ö´Ï ÀÎµ¦½º : ");
+	//Debug->AddText(m_AnimaTionIndex);
+	//Debug->EndLine();
 
 	//if (Keyboard::Get()->KeyDown('F7'))
 	//{
