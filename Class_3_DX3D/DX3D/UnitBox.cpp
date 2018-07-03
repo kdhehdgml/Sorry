@@ -30,6 +30,7 @@ UnitBox::~UnitBox()
 
 void UnitBox::Init()
 {
+	TeamPosition();
 	m_pCubeman = new Cubeman; m_pCubeman->Init();
 	m_CanSave.resize(m_SaveLocation.size(),true);
 	FindEmptyWallDirection();
@@ -40,7 +41,7 @@ void UnitBox::Init()
 	{
 		m_pTeam[i] = new TeamAI;
 		m_pTeam[i]->Init();
-		m_pTeam[i]->SetPosition(&D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), 2.67f, GSM().TeamPos.z + (16 * i)));
+		m_pTeam[i]->SetPosition(&m_TeamPosition[i]);
 	}
 }
 
@@ -62,6 +63,7 @@ void UnitBox::Update()
 	//후방 제대 지원
 	if (GetAsyncKeyState(VK_F6) & 0x0001)
 	{
+		RegenTeam();
 		for (int i = 40; i < m_pTeam.size(); i++)
 		{
 			m_pTeam[i]->SetTargetPostion(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), m_pTeam[i]->GetPosition().y, m_pTeam[i]->GetPosition().z));
@@ -344,6 +346,41 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 	}
 }
 
+void UnitBox::TeamPosition()
+{
+	int a = 16.0f;
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 23.0f), 2.67f, GSM().TeamPos.z));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 37.0f), 2.67f, GSM().TeamPos.z + a));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 28.0f), 2.67f, GSM().TeamPos.z + a*2));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 28.0f), 2.67f, GSM().TeamPos.z + a*3));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 35.0f), 2.67f, GSM().TeamPos.z + a*4));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 18.0f), 2.67f, GSM().TeamPos.z + a * 5));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 18.0f), 2.67f, GSM().TeamPos.z + a * 6));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 25.0f), 2.67f, GSM().TeamPos.z + a * 7));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 8.0f), 2.67f, GSM().TeamPos.z + a * 8));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 2.0f), 2.67f, GSM().TeamPos.z + a * 9));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 15.0f), 2.67f, GSM().TeamPos.z + a * 10));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 30.0f), 2.67f, GSM().TeamPos.z + a * 11));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 30.0f), 2.67f, GSM().TeamPos.z + a * 12));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 18.0f), 2.67f, GSM().TeamPos.z + a * 13));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 18.0f), 2.67f, GSM().TeamPos.z + a * 14));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 10.0f), 2.67f, GSM().TeamPos.z + a * 15));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 5.0f), 2.67f, GSM().TeamPos.z + a * 16));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 15.0f), 2.67f, GSM().TeamPos.z + a * 17));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 20.0f), 2.67f, GSM().TeamPos.z + a * 18));
+	m_TeamPosition.push_back(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX + 20.0f), 2.67f, GSM().TeamPos.z + a * 19));
+}
+void UnitBox::RegenTeam()
+{
+	for (int i = 0; i < m_pTeam.size(); i++)
+	{
+		if (i < 2)
+		{
+			m_pTeam[i]->setHealth(100);
+			//m_pTeam[i]->SetPosition()
+		}
+	}
+}
 void UnitBox::CreateMob(int num)
 {
 	g_pSoundManager->playMusic(1);
