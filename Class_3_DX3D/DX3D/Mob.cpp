@@ -426,9 +426,6 @@ situation Mob::TrenchFight()
 	if (AINum != NULL)
 	{
 		m_TeamAINum = AINum;
-		if(m_Setdest == true)
-			SetTargetPostion(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
-		m_Setdest = false;
 		D3DXVECTOR3 Direction = { g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().x ,
 			g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().y + 4.0f,
 			g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition().z };
@@ -436,7 +433,12 @@ situation Mob::TrenchFight()
 		D3DCOLOR d = D3DCOLOR_XRGB(0, 255, 0);
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
-		if (D3DXVec3Length(&(m_pos - g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition())) < 5.0f)
+		if (D3DXVec3Length(&(m_pos - g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition())) > 5.0f)
+		{
+			SetTargetPostion(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
+			return 근접_거리안닿음;
+		}
+		else
 		{
 			m_moveSpeed = 0;
 			m_ShootCooldownTime++;
@@ -452,10 +454,6 @@ situation Mob::TrenchFight()
 				return 주변적없음;
 			}
 			return 근접_거리닿음;
-		}
-		else
-		{
-			return 근접_거리안닿음;
 		}
 	}
 	return 주변적없음;
@@ -616,6 +614,7 @@ void Mob::EraseLocationSoldier()
 
 void Mob::ResetAll()
 {
+	m_TeamAINum = NULL;
 	m_isMoving = false;
 	m_maxbullet = 15;
 	m_ShootCooldownTime = 0;

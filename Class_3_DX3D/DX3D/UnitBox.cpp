@@ -1,12 +1,10 @@
 #include "stdafx.h"
 #include "UnitBox.h"
-#include "Cubeman.h"
 #include "Mob.h"
 #include "Ray.h"
 #include "TeamAI.h"
 UnitBox::UnitBox()
 {
-	m_pCubeman = NULL;
 	m_SameChk = false;
 	MobNum = 0;
 	MobStart = false;
@@ -23,7 +21,6 @@ UnitBox::~UnitBox()
 	{
 		SAFE_RELEASE(m_pTeam[i]);
 	}
-	SAFE_RELEASE(m_pCubeman);
 }
 
 
@@ -31,7 +28,6 @@ UnitBox::~UnitBox()
 void UnitBox::Init()
 {
 	TeamPosition();
-	m_pCubeman = new Cubeman; m_pCubeman->Init();
 	m_CanSave.resize(m_SaveLocation.size(),true);
 	FindEmptyWallDirection();
 	//아군AI생성
@@ -47,7 +43,6 @@ void UnitBox::Init()
 
 void UnitBox::Update()
 {
-	SAFE_UPDATE(m_pCubeman);
 	Debug->EndLine();
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
 		CreateMob(20);
@@ -55,21 +50,9 @@ void UnitBox::Update()
 		MobStart = true;
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
 		ReSetMob();
-	//후방 제대 소환
+	//아군 제대 리젠
 	if (GetAsyncKeyState(VK_F5) & 0x0001)
-	{
-		teamSummon();
-	}
-	//후방 제대 지원
-	if (GetAsyncKeyState(VK_F6) & 0x0001)
-	{
 		RegenTeam();
-		for (int i = 40; i < m_pTeam.size(); i++)
-		{
-			m_pTeam[i]->SetTargetPostion(D3DXVECTOR3((GSM().TeamPos.x + NODE_POSITSIZEX), m_pTeam[i]->GetPosition().y, m_pTeam[i]->GetPosition().z));
-			m_pTeam[i]->UpdatePositionToDestination();
-		}
-	}
 
 	////내가 지나간곳들 장애물 저장한위치 없앰
 	//for (auto p : m_pMob)
@@ -113,12 +96,10 @@ void UnitBox::Render()
 	{
 		SAFE_RENDER(m_pTeam[i]);
 	}
-	SAFE_RENDER(m_pCubeman);
 }
 
 void UnitBox::FindEmptyWallDirection()
 {
-	
 	for (int i = 0; i < m_SaveLocation.size(); i++)
 	{
 		int sum = 0;
@@ -369,10 +350,30 @@ void UnitBox::RegenTeam()
 {
 	for (int i = 0; i < m_pTeam.size(); i++)
 	{
-		if (i < 2)
+		if (m_pTeam[i]->getHealth() <= 0)
 		{
 			m_pTeam[i]->setHealth(100);
-			//m_pTeam[i]->SetPosition()
+			if (i < 2)
+			{
+				m_pTeam[i]->SetPosition(&D3DXVECTOR3(211.0f, 2.67f, 190.0f));
+			}
+			else if (i < 6)
+			{
+				m_pTeam[i]->SetPosition(&D3DXVECTOR3(140.0f, 2.67f, 290.0f));
+			}
+			else if (i < 11)
+			{
+				m_pTeam[i]->SetPosition(&D3DXVECTOR3(140.0f, 2.67f, 354.0f));
+			}
+			else if (i < 18)
+			{
+				m_pTeam[i]->SetPosition(&D3DXVECTOR3(140.0f, 2.67f, 426.0f));
+			}
+			else if (i < 20)
+			{
+				m_pTeam[i]->SetPosition(&D3DXVECTOR3(212.0f, 2.67f, 538.0f));
+			}
+			m_pTeam[i]->SetDestination(m_TeamPosition[i]);
 		}
 	}
 }
