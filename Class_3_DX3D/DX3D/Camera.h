@@ -73,6 +73,8 @@ public:
 	bool getFreeCameraMode();
 	int getCooldown();
 	int getMagazine();
+	
+	float GetRecoil() { return m_recoilXDelta; }
 
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 };
