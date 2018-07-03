@@ -173,7 +173,7 @@ void Camera::Update()
 	}
 	if (GetKeyState('F') & 0x8000 && m_cooldown == 0 && m_magazine != 5) {
 		m_magazine = 5;
-		m_cooldown = 150;
+		m_cooldown = GSM().reload_all;
 	}
 
 	if (m_running >= 1 && m_running < 10) {
@@ -486,11 +486,11 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			m_magazine--;
 			if (m_magazine > 0) {
-				m_cooldown = 60;
+			m_cooldown = GSM().reload_one;
 			}
 			else {
 				m_magazine = 5;
-				m_cooldown = 150;
+				m_cooldown = GSM().reload_all;
 			}
 			//m_cooldown = 60; //쿨타임 (단위 : 프레임)
 		}
