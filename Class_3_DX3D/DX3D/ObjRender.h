@@ -25,8 +25,8 @@ public:
 	ObjRen*			m_Tree01[10];
 	ObjRen*			m_Tree02[10];
 	ObjRen*			m_Tree03[10];
-	ObjRen*			m_Tree04[10];
-	ObjRen*			m_Tree05[10];
+	//ObjRen*			m_Tree04[10];
+	//ObjRen*			m_Tree05[10];
 	ObjRen*			m_Tree06[10];
 
 	////ÁöÇª¶ó±â

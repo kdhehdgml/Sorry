@@ -25,8 +25,8 @@ ObjRender::ObjRender()
 		m_Tree01[i] = NULL;
 		m_Tree02[i] = NULL;
 		m_Tree03[i] = NULL;
-		m_Tree04[i] = NULL;
-		m_Tree05[i] = NULL;
+		//m_Tree04[i] = NULL;
+		//m_Tree05[i] = NULL;
 		m_Tree06[i] = NULL;
 	}
 //	//ÁöÇª¶ó±â
@@ -58,8 +58,8 @@ ObjRender::~ObjRender()
 		m_Tree01[i]->~ObjRen();
 		m_Tree02[i]->~ObjRen();
 		m_Tree03[i]->~ObjRen();
-		m_Tree04[i]->~ObjRen();
-		m_Tree05[i]->~ObjRen();
+		//m_Tree04[i]->~ObjRen();
+		//m_Tree05[i]->~ObjRen();
 		m_Tree06[i]->~ObjRen();
 	}
 	////ÁöÇª¶ó±â
@@ -168,8 +168,8 @@ void ObjRender::Init()
 		CREATE_OBJ(m_Tree01[i], 6.0f, Environment, Tree01.obj, TreeTex.png, x + plus1, 30.0f, y + plus1, 0.0f, plus1 % 99, 0.0f);
 		CREATE_OBJ(m_Tree02[i], 3.0f, Environment, Tree02.obj, TreeTex.png, x + plus2, 25.0f, y + plus2, 0.0f, plus2 % 99, 0.0f);
 		CREATE_OBJ(m_Tree03[i], 2.0f, Environment, Tree03.obj, TreeTex.png, x + plus3, 25.0f, y + plus3, 0.0f, plus3 % 99, 0.0f);
-		CREATE_OBJ(m_Tree04[i], 5.0f, Environment, Tree04.obj, Tree04Tex.png, x + plus4, 30.0f, y + plus4, 0.0f, plus4 % 99, 0.0f);
-		CREATE_OBJ(m_Tree05[i], 6.0f, Environment, Tree05.obj, Tree05Tex.png, x + plus5, 30.0f, y + plus5, 0.0f, plus5 % 99, 0.0f);
+		//CREATE_OBJ(m_Tree04[i], 5.0f, Environment, Tree04.obj, Tree04Tex.png, x + plus4, 30.0f, y + plus4, 0.0f, plus4 % 99, 0.0f);
+		//CREATE_OBJ(m_Tree05[i], 6.0f, Environment, Tree05.obj, Tree05Tex.png, x + plus5, 30.0f, y + plus5, 0.0f, plus5 % 99, 0.0f);
 		CREATE_OBJ(m_Tree06[i], 3.0f, Environment, Tree06.obj, TreeTex.png, x + plus6, 30.0f, y + plus6, 0.0f, plus6 % 99, 0.0f);
 	}
 
@@ -212,8 +212,8 @@ void ObjRender::Render()
 		SAFE_RENDER(m_Tree01[i]);
 		SAFE_RENDER(m_Tree02[i]);
 		SAFE_RENDER(m_Tree03[i]);
-		SAFE_RENDER(m_Tree04[i]);
-		SAFE_RENDER(m_Tree05[i]);
+		//SAFE_RENDER(m_Tree04[i]);
+		//SAFE_RENDER(m_Tree05[i]);
 		SAFE_RENDER(m_Tree06[i]);
 	}
 	////ÁöÇª¶ó±â
