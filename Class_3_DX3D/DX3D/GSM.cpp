@@ -75,7 +75,7 @@ GSM::GSM()
 
 	// 장전 속도
 	reload_one = 105;
-	reload_all = 230;
+	reload_all = 180;
 }
 
 

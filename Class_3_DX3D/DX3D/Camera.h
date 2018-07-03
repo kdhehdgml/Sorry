@@ -77,5 +77,7 @@ public:
 	float getDeltaY();
 	bool mouseLock;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
+
+	float getRecoil() { return m_recoilX; 	}
 };
 
