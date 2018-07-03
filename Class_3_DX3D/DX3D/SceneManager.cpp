@@ -8,6 +8,7 @@
 #include "SceneXfile.h"
 #include "SceneLoading.h"
 #include "SceneBattlefield.h"
+#include "SceneMainScreen.h"
 
 SceneManager::SceneManager()
 {
@@ -20,7 +21,10 @@ SceneManager::~SceneManager()
 
 void SceneManager::Init()
 {
+	m_vecScene.push_back(new SceneMainScreen());
 	m_vecScene.push_back(new SceneLoading());
+	//SetCurrentScene(SCENE_MAIN);
+	//m_pCurrSceneString = "SCENE_MAIN";
 	SetCurrentScene(SCENE_LOADING);
 	m_pCurrSceneString = "SCENE_LOADING";
 	SAFE_RENDER(m_pCurrScene);
