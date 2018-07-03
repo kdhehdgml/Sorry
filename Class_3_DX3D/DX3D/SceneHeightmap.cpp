@@ -312,6 +312,8 @@ void SceneHeightmap::Init()
 	GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
 	memcpy(&lastSysCPU, &fsys, sizeof(FILETIME));
 	memcpy(&lastUserCPU, &fuser, sizeof(FILETIME));
+
+	g_pCamera->mouseLock = true;
 }
 
 void SceneHeightmap::Update()
