@@ -16,8 +16,10 @@ public:
 
 	float volume_music_init;
 
+	float reload_one;
+	float reload_all;
+
 	D3DXVECTOR3 camPos;
 	D3DXVECTOR3 mobPos;
 	D3DXVECTOR3 TeamPos;
 };
-

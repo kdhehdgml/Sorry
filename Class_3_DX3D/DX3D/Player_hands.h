@@ -71,6 +71,9 @@ protected:
 
 	float						m_FrameTime;
 
+	//쏘자마자 장전하는거 방지용
+	int							m_bulletActionCount;
+
 public:
 	Player_hands();
 	~Player_hands();

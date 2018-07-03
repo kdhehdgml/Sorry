@@ -103,6 +103,14 @@ void Player_hands::Load(LPCTSTR path, LPCTSTR filename)
 void Player_hands::Update()
 {
 
+	//Debug->AddText("카운트 : ");
+	//Debug->AddText(m_bulletActionCount);
+	//Debug->EndLine();
+
+	//if (g_pCamera->GetRecoil() != 0 && m_Reload == true )
+	//	m_bulletActionCount++;
+
+
 	Debug->AddText(health);
 	Debug->EndLine();
 	//렌더 껏다키기
@@ -136,13 +144,14 @@ void Player_hands::Update()
 		m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 		m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
 
-		Debug->AddText("전체시간 :");
-		Debug->AddText(pCurrAnimSet->GetPeriod());
-		Debug->EndLine();
+		//애니메이션 비율 시간
+		//Debug->AddText("전체시간 :");
+		//Debug->AddText(pCurrAnimSet->GetPeriod());
+		//Debug->EndLine();
 
-		Debug->AddText("현재시간 :");
-		Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
-		Debug->EndLine();
+		//Debug->AddText("현재시간 :");
+		//Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
+		//Debug->EndLine();
 
 		//훈회형이말한 타임 아무래도 애니메이션 전체의 타임인것같다.
 		/*float total = pCurrAnimSet->GetPeriod() * pCurrAnimSet->GetNumAnimations();
@@ -217,10 +226,20 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 		if (!m_Reload)
 		{
 			m_Reload = true;
-			m_AnimaTionIndex = 볼트액션;
+
+			//줌이 원상복구 됬을떄
+			if (g_pCamera->GetRecoil() == 0 &&
+				m_bulletActionCount > 5)
+			{
+				m_AnimaTionIndex = 볼트액션;
+
+				m_bulletActionCount = 0;
+
+				//액션 처음으로 초기화
+				m_pAnimController->SetTrackPosition(0, 0);
+			}
 			
-			//액션 처음으로 초기화
-			m_pAnimController->SetTrackPosition(0, 0);
+
 		}
 	}
 	break;

@@ -72,6 +72,10 @@ GSM::GSM()
 
 	// 사운드 초기 볼륨
 	volume_music_init = 5.0f;
+
+	// 장전 속도
+	reload_one = 105;
+	reload_all = 230;
 }
 
 
