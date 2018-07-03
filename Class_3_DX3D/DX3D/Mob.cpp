@@ -78,10 +78,17 @@ void Mob::Update()
 		IUnitObject::UpdatePositionToDestination();
 		
 		//EraseLocationSoldier();
+
 		m_pBoundingSphereBody->center = m_pos;
-		m_pBoundingSphereBody->center.y += 3.4f;
 		m_pBoundingSphereHead->center = m_pos;
-		m_pBoundingSphereHead->center.y += 7.5f;
+		if (m_Act._action == 各_谅决企荤拜 || m_Act._action == 各_快决企荤拜) {
+			m_pBoundingSphereBody->center.y += 2.9f;
+			m_pBoundingSphereHead->center.y += 4.4f;
+		}
+		else {
+			m_pBoundingSphereBody->center.y += 3.4f;
+			m_pBoundingSphereHead->center.y += 7.4f;
+		}
 
 		//m_pRootParts->SetMovingState(m_isMoving);
 		//m_pRootParts->Update();
@@ -144,19 +151,17 @@ void Mob::Render()
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 			1, &Shootpos[0], sizeof(VERTEX_PC));
 
-		D3DXMATRIXA16 mat;
-		D3DXMatrixTranslation(&mat, m_pBoundingSphereBody->center.x, m_pBoundingSphereBody->center.y, m_pBoundingSphereBody->center.z);
-		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-		g_pDevice->SetTexture(0, NULL);
 		if (showBoundingSphere) {
+			D3DXMATRIXA16 mat;
+			D3DXMatrixTranslation(&mat, m_pBoundingSphereBody->center.x, m_pBoundingSphereBody->center.y, m_pBoundingSphereBody->center.z);
+			g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+			g_pDevice->SetTexture(0, NULL);
 			m_pSphereBody->DrawSubset(0);
-		}
-		//D3DXMATRIXA16 mat2;
-		D3DXMatrixIdentity(&mat);
-		D3DXMatrixTranslation(&mat, m_pBoundingSphereHead->center.x, m_pBoundingSphereHead->center.y, m_pBoundingSphereHead->center.z);
-		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-		g_pDevice->SetTexture(0, NULL);
-		if (showBoundingSphere) {
+			//D3DXMATRIXA16 mat2;
+			D3DXMatrixIdentity(&mat);
+			D3DXMatrixTranslation(&mat, m_pBoundingSphereHead->center.x, m_pBoundingSphereHead->center.y, m_pBoundingSphereHead->center.z);
+			g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+			g_pDevice->SetTexture(0, NULL);
 			m_pSphereHead->DrawSubset(0);
 		}
 	}
