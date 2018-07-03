@@ -66,7 +66,7 @@ void Cubeman::Update()
 	{
 		m_isTurnedOnLight = !m_isTurnedOnLight;
 	}*/
-	if (GetAsyncKeyState('V') & 0x0001) {
+	/*if (GetAsyncKeyState('V') & 0x0001) {
 		//m_freeCameraMode = !m_freeCameraMode;
 		g_pCamera->setFreeCameraMode(!g_pCamera->getFreeCameraMode());
 		if (g_pCamera->getFreeCameraMode()) {
@@ -77,7 +77,7 @@ void Cubeman::Update()
 			m_deltaYPos = 7.0f;
 			ShowCursor(false);
 		}
-	}
+	}*/
 	/*if (g_pCamera->getFreeCameraMode()) {
 		if (GetAsyncKeyState('R') & 0x8000) {
 			m_deltaYPos += 1.0f;
