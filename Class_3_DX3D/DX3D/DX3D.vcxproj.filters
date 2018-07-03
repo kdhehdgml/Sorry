@@ -333,6 +333,7 @@
       <Filter>소스 파일\Wall</Filter>
     </ClInclude>
     <ClInclude Include="SceneMainScreen.h" />
+    <ClInclude Include="MainScreenUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -570,6 +571,7 @@
       <Filter>소스 파일\Wall</Filter>
     </ClCompile>
     <ClCompile Include="SceneMainScreen.cpp" />
+    <ClCompile Include="MainScreenUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

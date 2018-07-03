@@ -23,7 +23,7 @@
 Player_hands::Player_hands()
 {
 	m_baseRotY = D3DX_PI;
-
+	health = 100;
 	m_pRootFrame = NULL;
 	m_pAnimController = NULL;
 	m_fBlendTime = 0.3f;
@@ -39,7 +39,7 @@ Player_hands::Player_hands()
 	m_Reload = false;
 	m_Render = false;
 	m_zooming = false;
-
+	CanFight = true;
 	count = 0;
 
 	pCurrAnimSet = NULL;
@@ -59,7 +59,7 @@ Player_hands::~Player_hands()
 
 void Player_hands::Init()
 {
-
+	g_pObjMgr->AddToTagList(TAG_TEAM, this);
 
 	g_pCamera->SetTarget(&m_pos);
 	g_pKeyboardManager->SetMovingTarget(&m_keyState);
@@ -103,7 +103,8 @@ void Player_hands::Load(LPCTSTR path, LPCTSTR filename)
 void Player_hands::Update()
 {
 
-
+	Debug->AddText(health);
+	Debug->EndLine();
 	//렌더 껏다키기
 	if (Keyboard::Get()->KeyDown('V'))
 	{
