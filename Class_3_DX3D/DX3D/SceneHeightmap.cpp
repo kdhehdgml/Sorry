@@ -631,7 +631,7 @@ void SceneHeightmap::Render()
 			g_pDevice->SetTexture(0, NULL);
 			m_pCrosshairSprite->Begin(D3DXSPRITE_ALPHABLEND);
 			//m_pSprite->SetTransform(&m_matWorld);
-			SAFE_RENDER(m_pCrosshair);
+			//SAFE_RENDER(m_pCrosshair);
 			m_pCrosshairSprite->End();
 		}
 	}
