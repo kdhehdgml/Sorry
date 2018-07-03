@@ -39,6 +39,7 @@ Camera::Camera()
 	m_accuracyXDelta = 0.0f;
 	m_accuracyYDelta = 0.0f;
 	m_zooming = false;
+	m_deltaY = 0.0f;
 
 	m_prev_rotX = 0.0f;
 
@@ -174,6 +175,16 @@ void Camera::Update()
 	if (GetKeyState('F') & 0x8000 && m_cooldown == 0 && m_magazine != 5) {
 		m_magazine = 5;
 		m_cooldown = GSM().reload_all;
+	}
+	if (GetAsyncKeyState('V') & 0x0001) {
+		//m_freeCameraMode = !m_freeCameraMode;
+		g_pCamera->setFreeCameraMode(!g_pCamera->getFreeCameraMode());
+		if (g_pCamera->getFreeCameraMode()) {
+			ShowCursor(true);
+		}
+		else {
+			ShowCursor(false);
+		}
 	}
 
 	if (m_running >= 1 && m_running < 10) {
@@ -571,6 +582,8 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		if (m_distance >= 100) m_distance = 100;*/
 
 		//pos.y += GET_WHEEL_DELTA_WPARAM(wParam) / 50.0f;
+		
+		m_deltaY += GET_WHEEL_DELTA_WPARAM(wParam) / 50.0f;
 
 		break;
 	}
@@ -639,6 +652,11 @@ int Camera::getCooldown()
 int Camera::getMagazine()
 {
 	return m_magazine;
+}
+
+float Camera::getDeltaY()
+{
+	return m_deltaY;
 }
 
 void Camera::getPMobFromUnitBox(vector<Mob*>* mob)
