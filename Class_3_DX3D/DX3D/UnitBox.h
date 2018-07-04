@@ -17,7 +17,7 @@ class UnitBox : public IUnitObject
 {
 private:
 	Cubeman *		m_pCubeman;
-	vector<Mob*>	m_pMob;
+
 	vector<TeamAI*>	m_pTeam;
 	vector<D3DXVECTOR3> m_SaveLocation;
 	vector<EmptyWall> m_CanSeeDirection;
@@ -33,7 +33,7 @@ private:
 public:
 	UnitBox();
 	~UnitBox();
-
+	vector<Mob*>	m_pMob;
 	virtual void SetLocation(vector<D3DXVECTOR3> _location) { m_SaveLocation = _location; }
 	
 	// IDisplayObject을(를) 통해 상속됨

@@ -7,18 +7,23 @@
 HANDLE hUnitLoadingThread = NULL;
 UINT iUnitLoadingPercentage = 0;
 int mobCreateBuffer = 0;
-vector<Mob*> m_pMob2;
 
-DWORD __stdcall UnitLoadingThread(_In_ VOID *pData) {
+DWORD __stdcall UnitLoadingThread(LPVOID classPointer) {
+	UnitBox* uBox = (UnitBox*)classPointer;
 	while (true) {
 		if (mobCreateBuffer > 0) {
 			Mob* tempMob = new Mob;
 			tempMob->Init();
 			tempMob->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
-			m_pMob2.push_back(tempMob);
+			//m_pMob2.push_back(tempMob);
+			uBox->m_pMob.push_back(tempMob);
+			if (uBox->m_pMob.back()->m_Act._moving == 各_决企捞悼 || uBox->m_pMob.back()->m_Act._reload == 各_厘傈窃 || uBox->m_pMob.back()->m_Act._engage == 各_决企拱俊见扁)
+			{
+				uBox->FindHidingInTheWallLocation(uBox->m_pMob.back());
+			}
 			mobCreateBuffer--;
 		}
-		Sleep(10);
+		//Sleep(10);
 	}
 	return 0;
 }
@@ -69,17 +74,6 @@ void UnitBox::Init()
 void UnitBox::Update()
 {
 	Debug->EndLine();
-	/*if (m_pMob.size() != m_pMob2.size()) {
-		m_pMob = m_pMob2;
-		MobNum = m_pMob2.size();
-		if (m_pMob.back()->m_Act._moving == 各_决企捞悼 || m_pMob.back()->m_Act._reload == 各_厘傈窃 || m_pMob.back()->m_Act._engage == 各_决企拱俊见扁)
-		{
-			FindHidingInTheWallLocation(m_pMob.back());
-		}
-	}
-	else {
-		m_pMob2 = m_pMob;
-	}*/
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
 		CreateMob(20);
 		/*if (mobCreateBuffer <= 0) {
