@@ -165,7 +165,7 @@ void HeightMap::Update()
 		}
 	}
 	else if (TabKeyDownCheck)
-		TabKeyDownCheck = false;	
+		TabKeyDownCheck = false;
 }
 
 void HeightMap::Render()
