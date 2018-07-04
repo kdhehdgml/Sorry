@@ -7,7 +7,7 @@
 HANDLE hUnitLoadingThread = NULL;
 UINT iUnitLoadingPercentage = 0;
 int mobCreateBuffer = 0;
-vector<Mob*>	m_pMob2;
+vector<Mob*> m_pMob2;
 
 DWORD __stdcall UnitLoadingThread(_In_ VOID *pData) {
 	while (true) {
@@ -18,6 +18,7 @@ DWORD __stdcall UnitLoadingThread(_In_ VOID *pData) {
 			m_pMob2.push_back(tempMob);
 			mobCreateBuffer--;
 		}
+		Sleep(10);
 	}
 	return 0;
 }
@@ -66,16 +67,22 @@ void UnitBox::Init()
 void UnitBox::Update()
 {
 	Debug->EndLine();
-	if (m_pMob.size() != m_pMob2.size()) {
+	/*if (m_pMob.size() != m_pMob2.size()) {
 		m_pMob = m_pMob2;
+		MobNum = m_pMob2.size();
 		if (m_pMob.back()->m_Act._moving == 各_决企捞悼 || m_pMob.back()->m_Act._reload == 各_厘傈窃 || m_pMob.back()->m_Act._engage == 各_决企拱俊见扁)
 		{
 			FindHidingInTheWallLocation(m_pMob.back());
 		}
 	}
+	else {
+		m_pMob2 = m_pMob;
+	}*/
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
-		//CreateMob(20);
-		mobCreateBuffer += 20;
+		CreateMob(20);
+		/*if (mobCreateBuffer <= 0) {
+			mobCreateBuffer += 20;
+		}*/
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
 		MobStart = true;
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
