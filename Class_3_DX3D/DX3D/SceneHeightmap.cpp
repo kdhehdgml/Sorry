@@ -121,6 +121,7 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 	SAFE_RELEASE(m_pUnit);
+	SAFE_RELEASE(m_pFont);
 
 
 	//m_pCrosshair->ReleaseAll();
@@ -151,6 +152,10 @@ void SceneHeightmap::Init()
 
 	m_pOldPos = g_pCamera->getPos();
 	
+	D3DXCreateFont(g_pDevice, 36, 18, FW_BOLD, 1, false, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, _T("나눔고딕"), &m_pFont);
+	m_str = "";
+
 	/*m_pAseCharacter = new AseCharacter;
 	m_pAseCharacter->Init();
 	AddSimpleDisplayObj(m_pAseCharacter);
@@ -540,12 +545,20 @@ void SceneHeightmap::Update()
 	if ((GetAsyncKeyState('E') & 0x0001))
 	{
 		if (m_pTalkOn) {
-			TCHAR str[100];
-			wsprintf(str, TEXT("%d 번 아군과 대화하였습니다."), teamIndex);
-			MessageBox(NULL, str, TEXT("DEBUG"), MB_OK);
+			//TCHAR str[100];
+			//wsprintf(str, TEXT("%d 번 아군과 대화하였습니다."), teamIndex);
+			//MessageBox(NULL, str, TEXT("DEBUG"), MB_OK);
+			m_str.Empty();
+			CString _str = to_string(teamIndex).c_str();
+			m_str.Append(_str);
+			m_str.Append(_T("번 아군 : 안녕하세요!"));
+			m_talkFontCount = GetTickCount() + 3000;
 		}
 	}
 
+	if (GetTickCount() >= m_talkFontCount) {
+		m_str.Empty();
+	}
 
 
 	m_pBoundingSphere->center = g_pCamera->getPos();
@@ -649,6 +662,11 @@ void SceneHeightmap::Render()
 	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 	g_pDevice->SetTexture(0, NULL);
 	//m_pSphere->DrawSubset(0);
+
+	RECT rc;
+	SetRect(&rc, 100, 400, 800, 600);
+	m_pFont->DrawText(NULL, m_str, m_str.GetLength(), &rc,
+		DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

@@ -40,6 +40,7 @@ UnitBox::UnitBox()
 
 UnitBox::~UnitBox()
 {
+	TerminateThread(UnitLoadingThread, 0);
 	for (size_t i = 0; i < m_pMob.size(); i++)
 	{
 		SAFE_RELEASE(m_pMob[i]);
@@ -48,7 +49,6 @@ UnitBox::~UnitBox()
 	{
 		SAFE_RELEASE(m_pTeam[i]);
 	}
-	TerminateThread(UnitLoadingThread, 0);
 }
 
 

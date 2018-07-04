@@ -69,8 +69,10 @@ GSM::GSM()
 	volume_music_init = 5.0f;
 
 	// 장전 속도
-	reload_one = 105;
-	reload_all = 180;
+	//reload_one = 105;
+	//reload_all = 180;
+	reload_one = 1750;
+	reload_all = 3000;
 }
 
 

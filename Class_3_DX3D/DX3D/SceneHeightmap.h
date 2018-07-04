@@ -86,6 +86,10 @@ private:
 
 	D3DXVECTOR3 m_pOldPos;
 
+	LPD3DXFONT	m_pFont;
+	CString		m_str;
+	int m_talkFontCount;
+
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
 public:
