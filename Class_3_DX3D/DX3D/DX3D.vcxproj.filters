@@ -290,9 +290,6 @@
     <ClInclude Include="CreateSmog.h">
       <Filter>소스 파일\3.Object</Filter>
     </ClInclude>
-    <ClInclude Include="SceneBattlefield.h">
-      <Filter>소스 파일\4.Scene</Filter>
-    </ClInclude>
     <ClInclude Include="CD3Mesh.h">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClInclude>
@@ -527,9 +524,6 @@
     </ClCompile>
     <ClCompile Include="CreateSmog.cpp">
       <Filter>소스 파일\3.Object</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneBattlefield.cpp">
-      <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
     <ClCompile Include="CD3Mesh.cpp">
       <Filter>소스 파일\3.Object\OBJ</Filter>
