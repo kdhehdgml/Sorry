@@ -40,7 +40,7 @@ public:
 	virtual void Render() override;
 	void FindEmptyWallDirection();
 	void FindHidingInTheWallLocationRushSoldier(int _Mobnum);
-	void FindHidingInTheWallLocation(int _Mobnum);
+	void FindHidingInTheWallLocation(Mob* _mob);
 	void MobMoveInTheWall(int _Mobnum);
 	void TeamPosition();
 	void RandomSelectPosition();
