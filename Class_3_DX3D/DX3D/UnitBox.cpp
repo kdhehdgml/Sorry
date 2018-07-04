@@ -68,7 +68,7 @@ void UnitBox::Init()
 		m_pTeam[i]->SetPosition(&m_TeamPosition[posit[i]]);
 	}
 	posit.clear();
-	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, &iUnitLoadingPercentage, NULL, NULL);
+	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
 }
 
 void UnitBox::Update()
