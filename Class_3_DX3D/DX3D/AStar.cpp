@@ -54,9 +54,6 @@ void AStar::Render()
 	m_ColorCube->Update();
 
 	g_pDevice->SetTexture(0, NULL);
-	
-
-	
 
 	for (auto p : m_vecNode)
 	{
@@ -385,15 +382,15 @@ void AStar::CalcEraseCount(const D3DXVECTOR3 & pos, const vector<int>& vecIndex,
 		for (size_t i = 0; i < m_vecNode.size(); i++)
 		{
 			float a = D3DXVec3Length(&(m_vecNode[i]->m_location - ray.m_pos));
-			if ((m_vecNode[i]->m_nodeState == STATE_WALL && a < nodeDist) ||
-				(m_vecNode[i]->m_nodeState == STATE_NOHIDEWALL && a < nodeDist) ||
-				(m_vecNode[i]->m_nodeState == STATE_TANK && a < nodeDist))
+			if ((m_vecNode[i]->m_nodeState == STATE_WALL && a+5.0f < nodeDist) ||
+				(m_vecNode[i]->m_nodeState == STATE_NOHIDEWALL && a+5.0f < nodeDist) ||
+				(m_vecNode[i]->m_nodeState == STATE_TANK && a+5.0f < nodeDist))
 			{
 				isIntersected = true;
 				break;
 			}
 		}
-
+		
 		for (size_t i = 0; i < m_vecObstacle.size(); i += 3)
 		{
 			if (ray.CalcIntersectTri(&m_vecObstacle[i], &intersectionDist))
@@ -457,6 +454,11 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 		}
 		lineNum++;
 	}
+}
+
+void AStar::ReviseAstarNode()
+{
+
 }
 
 void AStar::MakeDirectPath(const D3DXVECTOR3 & startPos,

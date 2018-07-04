@@ -66,7 +66,7 @@ void UnitBox::Update()
 			p->setHealth(0);
 		}
 	}
-
+	
 	////내가 지나간곳들 장애물 저장한위치 없앰
 	//for (auto p : m_pMob)
 	//{
@@ -94,6 +94,7 @@ void UnitBox::Update()
 				{
 					MobMoveInTheWall(i);
 				}
+				m_pMob[i]->UpdatePositionToDestination();
 			}
 		}
 	}
@@ -186,7 +187,7 @@ void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
 	D3DXVECTOR3 Save;
 	for (size_t i = 0; i < m_SaveLocation.size(); i++)
 	{
-		Save = D3DXVECTOR3(m_SaveLocation[i].x + 6.0f, m_SaveLocation[i].y, m_SaveLocation[i].z);
+		Save = D3DXVECTOR3(m_SaveLocation[i].x + 1.0f, m_SaveLocation[i].y, m_SaveLocation[i].z);
 		//내위치로부터 Z값±10인곳만 검색
 		if (abs(m_SaveLocation[i].z - m_pMob[_Mobnum]->GetPosition().z) < 10)
 		{

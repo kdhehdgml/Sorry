@@ -15,10 +15,9 @@ private:
 	LPD3DXMESH			m_pSphere;
 	vector<D3DXVECTOR3> m_vecObstacle;
 	vector<D3DXVECTOR3> Wall_location;
-
+	
 	ColorCube *			m_ColorCube;
 	D3DXVECTOR3			m_CubePos;
-
 	int					m_count;
 	
 	//이닛노드의 map 정보를 임시적으로 받아줄 변수
@@ -27,7 +26,6 @@ private:
 public:
 	AStar();
 	virtual ~AStar();
-
 	void Init();
 	void Render();
 	void InitNodes(IMap* pMap);
@@ -56,5 +54,6 @@ private:
 
 public:
 	void MakeWall(int posX, int posZ, AStarNode * pNode);
+	void ReviseAstarNode();
 };
 
