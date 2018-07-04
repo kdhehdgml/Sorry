@@ -3,10 +3,10 @@
 //#include "SceneHeightmap.h"
 //#include "SceneBattlefield.h"
 
-HANDLE hLoadingCircle = NULL;
-UINT iLoad = 0;
+HANDLE hSceneLoadingThread = NULL;
+UINT iSceneLoadingPercentage = 0;
 
-DWORD __stdcall LoadingThread(_In_ VOID *pData) {
+DWORD __stdcall SceneLoadingThread(_In_ VOID *pData) {
 	g_pCamera->mouseLock = false;
 	g_pSceneManager->SetCurrentScene(GSM().StartScene);
 	return 0;
@@ -27,7 +27,7 @@ SceneLoading::~SceneLoading()
 	SAFE_RELEASE(m_pLoadingScreen);
 	SAFE_RELEASE(m_loadingCircleSprite);
 	SAFE_RELEASE(m_loadingCircleTexture);
-	TerminateThread(LoadingThread, 0);
+	TerminateThread(SceneLoadingThread, 0);
 	OnDestructIScene();
 }
 
@@ -72,7 +72,7 @@ void SceneLoading::Update()
 	}
 	if (g_pTimeManager->GetDeltaTime() > 0.001f && !m_renderComplete) {
 		m_renderComplete = true;
-		hLoadingCircle = CreateThread(NULL, 0, LoadingThread, &iLoad, NULL, NULL);
+		hSceneLoadingThread = CreateThread(NULL, 0, SceneLoadingThread, &iSceneLoadingPercentage, NULL, NULL);
 		//g_pSceneManager->SetCurrentScene(GSM().StartScene); //여기를 바꾸면 시작 씬이 바뀜
 		
 		switch (GSM().StartScene) //이건 디버그용 문자
