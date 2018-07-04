@@ -8,6 +8,8 @@ UnitBox::UnitBox()
 	m_SameChk = false;
 	MobNum = 0;
 	MobStart = false;
+	NOL_Mob = 0;
+	NOL_Team = 0;
 }
 
 
@@ -66,7 +68,6 @@ void UnitBox::Update()
 			p->setHealth(0);
 		}
 	}
-	
 	////³»°¡ Áö³ª°£°÷µé Àå¾Ö¹° ÀúÀåÇÑÀ§Ä¡ ¾ø¾Ú
 	//for (auto p : m_pMob)
 	//{
@@ -447,12 +448,34 @@ void UnitBox::ReSetMob()
 	for (auto p : m_pMob)
 	{
 		p->ResetAll();
-		if (m_pMob[MobNum - 1]->m_Act._moving == ¸÷_¾öÆóÀÌµ¿ || m_pMob[MobNum - 1]->m_Act._reload == ¸÷_ÀåÀüÇÔ || m_pMob[MobNum - 1]->m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â)
+		if (p->m_Act._moving == ¸÷_¾öÆóÀÌµ¿ || p->m_Act._reload == ¸÷_ÀåÀüÇÔ || p->m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â)
 		{
 			FindHidingInTheWallLocation(MobNum - 1);
 		}
 	}
 	MobStart = false;
+}
+
+void UnitBox::CheckNumberOfLivingAI()
+{
+	for (auto p : m_pTeam)
+	{
+		NOL_Team += p->getStatus();
+	}
+	if (NOL_Team == 0)
+	{
+		for (auto p : m_pMob)
+		{
+			p->SetMoveSpeed(0);
+		}
+	}
+	else
+	{
+		for (auto p : m_pMob)
+		{
+			p->SetMoveSpeed(GSM().mobSpeed);
+		}
+	}
 }
 
 vector<Mob*>* UnitBox::getPMob()

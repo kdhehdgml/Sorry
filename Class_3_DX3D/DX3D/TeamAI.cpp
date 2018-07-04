@@ -112,7 +112,7 @@ void TeamAI::Render()
 	//g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
 	//ÇÁ·¯½ºÅÒ Àû¿ë 
-	if (g_pFrustum->IsTeamAIFrustum(this) == true)
+	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere) == true)
 	{
 		if (m_render)
 			m_TEAM_TEX->Render();

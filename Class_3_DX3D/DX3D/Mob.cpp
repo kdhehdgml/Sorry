@@ -67,16 +67,9 @@ void Mob::Update()
 	}
 	if (status > 0) {
 		Act_Moving();
-		
-		if (PlayerSearch() == ¿ø°Å¸®ÀÎ½Ä)
-		{
-			Act_Engage();
-			Shooting();
-		}
 		SelectAction();
+
 		IUnitObject::UpdatePositionToDestination();
-		
-		//EraseLocationSoldier();
 
 		m_pBoundingSphereBody->center = m_pos;
 		m_pBoundingSphereHead->center = m_pos;
@@ -235,7 +228,7 @@ void Mob::SelectAction()
 				else
 				{
 					m_Act._action = ¸÷_´Þ¸®±â;
-					
+					m_moveSpeed = GSM().mobSpeed;
 				}
 				break;
 			case ±ÙÁ¢_°Å¸®´êÀ½:
@@ -245,12 +238,16 @@ void Mob::SelectAction()
 				m_Act._action = ¸÷_Ä®µç»óÅÂ;
 				break;
 			case ¿ø°Å¸®ÀÎ½Ä:
+				Act_Engage();
+				Shooting();
 				if (hidingChk == false)
 				{
+					
 					if (m_Act._engage != ¸÷_Á¦ÀÚ¸®¸ØÃã)
 						m_Act._action = ¸÷_´Þ¸®±â;
 					else
 						m_Act._action = ¸÷_¼­¼­½î±â;
+					
 				}
 				else
 				{
@@ -304,8 +301,6 @@ void Mob::SelectAction()
 	{
 		m_moveSpeed > 0 ? m_Act._action = ¸÷_´Þ¸®´Ù°¡Á×±â : m_Act._action = ¸÷_Á×À½;
 	}
-
-	
 }
 
 void Mob::Act_Moving()
@@ -314,8 +309,11 @@ void Mob::Act_Moving()
 	{
 	case ¸÷_µ¹°ÝÀÌµ¿:
 		EraseLocationSoldier();
-		if (m_Act._action == ÁÖº¯Àû¾øÀ½)
-			SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 90.0f, 2.67f, m_pos.z));
+		if (PlayerSearch() == false && TrenchFight() == false)
+		{
+			if (m_Act._action == ÁÖº¯Àû¾øÀ½)
+				SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 90.0f, 2.67f, m_pos.z));
+		}
 		break;
 	case ¸÷_¾öÆóÀÌµ¿:
 		break;
@@ -329,8 +327,6 @@ void Mob::Act_Engage()
 	case ¸÷_Á¦ÀÚ¸®¸ØÃã:
 		if (HaveBullet())
 			m_moveSpeed = 0;
-		else
-			m_moveSpeed = GSM().mobSpeed;
 		break;
 	case ¸÷_¾öÆó¹°¿¡¼û±â:
 		break;
@@ -473,19 +469,17 @@ MOB_SITUATION Mob::CanShooting()
 	if (m_TeamAINum != NULL)
 	{
 		if (HaveBullet() == true)
-		{
 			return ¿ø°Å¸®ÀÎ½Ä;
-		}
 	}
 	if (g_pObjMgr->FindObjectsByTag(TAG_TEAM).size() > 0)
 	{
 		D3DXVECTOR3 move_forward;
 		D3DXVECTOR3 DirectPM;
 		move_forward = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
+
 		if (D3DXVec3LengthSq(&move_forward) > 0)
-		{
 			forward = move_forward;
-		}
+		
 		int number = 0;
 
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_TEAM)))

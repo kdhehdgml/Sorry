@@ -26,6 +26,8 @@ private:
 	vector<int> posit;
 	int				MobNum;
 	int				TeamNum;
+	int				NOL_Mob;
+	int				NOL_Team;
 	bool			m_SameChk;
 	bool			MobStart;
 public:
@@ -47,6 +49,7 @@ public:
 	void RegenTeam();
 	void CreateMob(int num);
 	void ReSetMob();
+	void CheckNumberOfLivingAI();
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();
 	vector<TeamAI*>* getPTeam();
