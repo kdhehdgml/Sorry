@@ -75,7 +75,7 @@ void UnitBox::Update()
 	}
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
 		//CreateMob(20);
-		mobCreateBuffer = 20;
+		mobCreateBuffer += 20;
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
 		MobStart = true;
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
