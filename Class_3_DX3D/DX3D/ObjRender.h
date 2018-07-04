@@ -18,7 +18,7 @@ public:
 	ObjRen*			m_FireStep00;
 
 	//주머니
-	ObjRen*			SaddleBag0[20];
+	ObjRen*			SaddleBag0[30];
 
 	//나무
 	ObjRen*			m_Tree00[10];

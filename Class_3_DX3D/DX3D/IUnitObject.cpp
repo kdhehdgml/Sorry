@@ -68,7 +68,7 @@ void IUnitObject::UpdatePositionToDestination()
 
 	UpdateTargetPosition(targetPos);
 	ApplyTargetPosition(targetPos);
-
+	
 	D3DXMATRIXA16 m_matRotY;
 	D3DXMatrixLookAtLH(&m_matRotY, &D3DXVECTOR3(0, 0, 0), &m_forward, &D3DXVECTOR3(0, 1, 0));
 	D3DXMatrixTranspose(&m_matRotY, &m_matRotY);
@@ -97,7 +97,7 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 			m_start = false;
 		}
 	}
-
+	
 	D3DXVECTOR3 forwardNormalized = forward;
 	if (D3DXVec3LengthSq(&forward) > 0)
 	{
