@@ -334,6 +334,9 @@
     </ClInclude>
     <ClInclude Include="SceneMainScreen.h" />
     <ClInclude Include="MainScreenUI.h" />
+    <ClInclude Include="GUN.h">
+      <Filter>소스 파일\Skin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -572,6 +575,9 @@
     </ClCompile>
     <ClCompile Include="SceneMainScreen.cpp" />
     <ClCompile Include="MainScreenUI.cpp" />
+    <ClCompile Include="GUN.cpp">
+      <Filter>소스 파일\Skin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">
