@@ -356,10 +356,9 @@ void Camera::Update()
 
 	if (debugDisplay)
 	{
-		Debug->AddText("마우스 좌표:");
+		Debug->AddText("카메라 위치:");
 		Debug->AddText(pos);
-		Debug->EndLine();
-		Debug->AddText("카메라 각도:");
+		Debug->AddText(" / 카메라 각도:");
 		Debug->AddText(dir);
 		Debug->EndLine();
 		Debug->AddText("m_rotX : ");
