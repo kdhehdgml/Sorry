@@ -7,7 +7,6 @@
 #include "SceneTest.h"
 #include "SceneXfile.h"
 #include "SceneLoading.h"
-#include "SceneBattlefield.h"
 #include "SceneMainScreen.h"
 
 SceneManager::SceneManager()
@@ -33,7 +32,6 @@ void SceneManager::Init()
 	m_vecScene.push_back(new SceneObjMap());
 	m_vecScene.push_back(new SceneTest());
 	m_vecScene.push_back(new SceneXfile());
-	m_vecScene.push_back(new SceneBattlefield());
 
 	//SetCurrentScene(SCENE_GRID);
 	//SetCurrentScene(SCENE_OBJMAP);
@@ -55,9 +53,9 @@ void SceneManager::Destroy()
 void SceneManager::Update()
 {
 	SAFE_UPDATE(m_pCurrScene);
-	Debug->AddText("ÇöÀç ¾À : ");
+	/*Debug->AddText("ÇöÀç ¾À : ");
 	Debug->AddText(m_pCurrSceneString);
-	Debug->EndLine();
+	Debug->EndLine();*/
 }
 
 void SceneManager::Render()

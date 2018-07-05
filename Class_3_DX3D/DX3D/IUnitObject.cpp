@@ -121,35 +121,23 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 			m_currMoveSpeedRate = 1.0f;
 			m_deltaPos.z = 1;
 		}
-		
+
 		if (D3DXVec3Length(&forward) >= m_moveSpeed * m_currMoveSpeedRate)
 		{
-			if (g_pObjMgr->FindObjectByTag(TAG_MOB) == false)
+			targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
+			if (g_pObjMgr->FindObjectByTag(TAG_MOB))
 			{
-				targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
-			}
-			else
-			{
-				
 				for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_MOB).size(); i++)
 				{
 					if (targetPos != g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())
 					{
-						if (D3DXVec3Length(&((m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate) -
-							g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())) < 4.0f)
+						D3DXVECTOR3 Leng = targetPos - g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition();
+						if (D3DXVec3Length(&Leng) < 4.0f)
 						{
-							m_colision = true;
+							targetPos += Leng;
 							break;
 						}
-						else
-						{
-							m_colision = false;
-						}
 					}
-				}
-				if (m_colision == false)
-				{
-					targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
 				}
 			}
 		}

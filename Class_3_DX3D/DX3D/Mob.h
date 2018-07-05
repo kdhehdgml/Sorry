@@ -46,7 +46,7 @@ enum MOB_ACTION
 	몹_근접전투,
 	몹_칼든상태
 };
-enum situation
+enum MOB_SITUATION
 {
 	주변적없음,
 	근접_거리닿음,
@@ -60,6 +60,7 @@ struct MobAction
 	MOB_GUNSHOT _gunshot;
 	MOB_RELOAD	_reload;
 	MOB_ACTION	_action;
+	MOB_SITUATION _situation;
 };
 
 class Mob
@@ -132,9 +133,9 @@ public:
 	void Act_GunShot();
 	void Act_Reload();
 	void Act_Action();
-	situation PlayerSearch();
-	situation TrenchFight();
-	situation CanShooting();
+	MOB_SITUATION PlayerSearch();
+	MOB_SITUATION TrenchFight();
+	MOB_SITUATION CanShooting();
 	void Shooting();
 	void SetAllSaveLocation(vector<D3DXVECTOR3> m_SaveLocation) { m_AllSaveLocation = m_SaveLocation; }
 	void SetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum, int _CanseeDirection)
