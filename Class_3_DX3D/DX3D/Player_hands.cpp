@@ -234,7 +234,7 @@ void Player_hands::Update()
 
 		if (!m_Reload && m_zooming)
 		{
-			if (g_pCamera->getRecoil() == 0 && g_pCamera->getCooldown() > GetTickCount())
+			if (g_pCamera->getRecoil() == 0 && m_Reload == false)
 				m_AnimaTionIndex = 줌_모드;
 		}
 
