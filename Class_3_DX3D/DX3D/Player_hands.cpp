@@ -6,7 +6,7 @@
 //플레이어 스케일조정
 #define SCALE 1.0f
 //애니메이션 후딜레이
-#define ANI_DELAY 35
+#define ANI_DELAY 350
 
 /*
 
@@ -106,8 +106,10 @@ void Player_hands::Load(LPCTSTR path, LPCTSTR filename)
 void Player_hands::Update()
 {
 
-	//액션 처음으로 초기화
-	if (g_pCamera->getCooldown() == 0 && m_AnimaTionIndex != 달리는중)
+	////액션 처음으로 초기화
+	if (m_AnimaTionIndex != 달리는중 
+		&& m_AnimaTionIndex != 전탄장전
+		&& m_Reload == false )
 		m_pAnimController->SetTrackPosition(0, 0);
 
 	
@@ -135,6 +137,9 @@ void Player_hands::Update()
 			m_AnimaTionIndex = 기본상태;
 		}
 
+		Debug->AddText("시간 : ");
+		Debug->AddText(GetTickCount());
+		Debug->AddText("  / ");
 		Debug->AddText("쿨타임 : ");
 		Debug->AddText(g_pCamera->getCooldown());
 		Debug->AddText("  / ");
@@ -145,27 +150,43 @@ void Player_hands::Update()
 		Debug->AddText(m_Reload);
 		Debug->EndLine();
 
-		//전탄장전
-		if (g_pCamera->getMagazine() == 5 &&
-			g_pCamera->getCooldown() >0)
+		
+
+
+		//쿨타임 초기화떄, 화면각도 초기화떄
+		if (g_pCamera->getCooldown() > GetTickCount()
+			&& g_pCamera->getRecoil() == 0 && m_AnimaTionIndex != 달리는중)
 		{
-			/*if (g_pCamera->getCooldown() == 150)
-				m_pAnimController->SetTrackPosition(0, 0);
-*/
-			if(g_pCamera->getCooldown() <= GSM().reload_all - ANI_DELAY &&
-				g_pCamera->getRecoil() == 0)
-					m_AnimaTionIndex = 전탄장전;
-			
+			//전탄장전할떄
+			if (g_pCamera->getMagazine() == 5)
+			{
+				m_AnimaTionIndex = 전탄장전;
+			}
+			//단발일떄
+			else
+			{
+				if(m_Reload == true)
+					m_AnimaTionIndex = 볼트액션;
+			}
 		}
 
-		//볼트액션
-		if (g_pCamera->getCooldown() <= GSM().reload_one - ANI_DELAY &&
-			g_pCamera->getRecoil() == 0 &&
-			m_Reload == true && 
-			m_AnimaTionIndex != 전탄장전)
-		{
-			m_AnimaTionIndex = 볼트액션;
-		}
+		////전탄장전
+		//if (g_pCamera->getMagazine() == 5 &&
+		//	g_pCamera->getRecoil() == 0)
+		//{
+		//	if(g_pCamera->getCooldown() > GetTickCount() )
+		//			m_AnimaTionIndex = 전탄장전;
+		//	
+		//}
+		//
+		////볼트액션
+		//if (g_pCamera->getCooldown() > GetTickCount() &&
+		//	g_pCamera->getRecoil() == 0 &&
+		//	/*m_Reload == true && */
+		//	m_AnimaTionIndex != 전탄장전)
+		//{
+		//	m_AnimaTionIndex = 볼트액션;
+		//}
 
 	
 		//업데이트 안해주면 처음값만 계속불러온다 그래서 업데이트에서 설정
@@ -195,10 +216,11 @@ void Player_hands::Update()
 
 		//현재 애니메이션의 전체타임과  현재 애니메이션 타임의 비교연산
 		//현재 애니메이션 타임이 더 커지면 애니메이션 끄기
-		if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f && m_Reload == true)
+		if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.2f 
+			&& m_Reload == true)
 		{
 			m_Reload = false;
-			//m_pAnimController->SetTrackPosition(0, 0);
+
 			//SetTrackAnimationTime
 			//m_pAnimController->SetTrackAnimationSet(pCurrAnimSet->GetPeriod(), pCurrAnimSet);
 		}
@@ -212,7 +234,7 @@ void Player_hands::Update()
 
 		if (!m_Reload && m_zooming)
 		{
-			if (g_pCamera->getRecoil() == 0 && g_pCamera->getCooldown() == 0)
+			if (g_pCamera->getRecoil() == 0 && g_pCamera->getCooldown() > GetTickCount())
 				m_AnimaTionIndex = 줌_모드;
 		}
 
@@ -248,7 +270,7 @@ void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	{
 	case WM_LBUTTONDOWN:
 	{
-		if (!m_Reload && g_pCamera->getCooldown() == 0)
+		if (!m_Reload && g_pCamera->getCooldown() < GetTickCount())
 		{
 			m_Reload = true;
 		}
