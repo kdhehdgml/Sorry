@@ -170,6 +170,7 @@
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="CD3Mesh.h" />
+    <ClInclude Include="GUN.h" />
     <ClInclude Include="MainScreenUI.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="MONSTER.h" />
@@ -255,6 +256,7 @@
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="CD3Mesh.cpp" />
+    <ClCompile Include="GUN.cpp" />
     <ClCompile Include="MainScreenUI.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="MONSTER.cpp" />

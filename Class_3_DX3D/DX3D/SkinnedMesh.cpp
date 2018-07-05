@@ -2,7 +2,7 @@
 #include "SkinnedMesh.h"
 #include "AllocateHierarchy.h"
 
-#define SCALE 20.0f
+#define SCALE 1.0f
 
 SkinnedMesh::SkinnedMesh()
 {
@@ -17,6 +17,8 @@ SkinnedMesh::SkinnedMesh()
 	m_bWireFrame = false;
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;
+	m_pos = D3DXVECTOR3(0,0,0);
+	m_angle = NULL;
 }
 
 SkinnedMesh::~SkinnedMesh()
@@ -37,8 +39,8 @@ void SkinnedMesh::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/TEAM_AI/";
-	CString filename = "TEAM.X";
+	CString path = "resources/xFile/MONSTER_AI/";
+	CString filename = "MOB_ANI_ALL2.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -75,6 +77,8 @@ void SkinnedMesh::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
 	{
 		SetupBoneMatrixPointers(pFrame->pFrameFirstChild);
 	}
+
+
 }
 
 void SkinnedMesh::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBase)
@@ -141,6 +145,8 @@ void SkinnedMesh::Update()
 		m_bWireFrame = !m_bWireFrame;
 	}
 
+	Debug->AddText(m_gun_pos);
+	Debug->EndLine();
 
 	//IUnitObject::UpdateKeyboardState();
 	//IUnitObject::UpdatePositionToDestination();
@@ -185,6 +191,11 @@ void SkinnedMesh::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 
+	if (pFrame->Name != NULL &&  strcmp( pFrame->Name, "mixamoring_RightHand") == 0)
+	{
+		m_gun_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	}
+
 	if (pParent != NULL)
 	{
 		pFrameEx->CombinedTM = pFrameEx->TransformationMatrix * ((FRAME_EX*)pParent)->CombinedTM;
@@ -227,7 +238,7 @@ void SkinnedMesh::Render()
 void SkinnedMesh::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
-	if (m_numFrame % 10 == 0)
+	if (m_numFrame % 5 == 0)
 	{
 		Debug->EndLine();
 	}

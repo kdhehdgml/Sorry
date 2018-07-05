@@ -4,6 +4,8 @@
 
 class SkinnedMesh;
 class SkyBox;
+class GUN;
+
 
 
 
@@ -11,6 +13,7 @@ class SceneXfile : public IScene
 {
 private:
 	SkinnedMesh * m_pSkinnedMesh;
+	GUN *		m_GUN;
 	SkyBox *		m_SkyBox;
 public:
 	SceneXfile();
