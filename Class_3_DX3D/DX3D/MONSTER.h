@@ -52,6 +52,8 @@ protected:
 	bool						m_animationSTATE;
 
 	float						trackSpeed;
+	//ÀÛµ¿ÇÒ²¨³Ä¸»²¨³Ä
+	bool						STATE;
 
 
 public:
@@ -87,7 +89,7 @@ private:
 public:
 	void SetAnimationIndex(int nIndex) { m_AnimaTionIndex = nIndex; }
 	void SetAnimationIndex(int nIndex, bool isBlend);
-
+	void SetRenderSTATE(bool select) { STATE = select; }
 	
 };
 

@@ -105,16 +105,20 @@ void Mob::Update()
 	//Debug->AddText(m_rot.y);
 	//Debug->EndLine();
 
-
 	//살아있을때만 포지션을 받아온다
 	m_MONSTER->SetPos(m_pos);
 
 
 	m_MONSTER->SetAngle(m_rot.y);
-	m_MONSTER->SetAnimationIndex(ani_state);
 
-	m_MONSTER->Update();
 
+	
+	if (g_pFrustum->IsMobAIFrustum(this))
+	{
+		m_MONSTER->SetAnimationIndex(ani_state);
+
+		m_MONSTER->Update();
+	}
 }
 
 void Mob::Render()
@@ -132,7 +136,10 @@ void Mob::Render()
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
 	if (g_pFrustum->IsMobAIFrustum(this))
+	{
+		m_MONSTER->SetRenderSTATE(true);
 		m_MONSTER->Render();
+	}
 
 
 	if (status > 0) {

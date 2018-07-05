@@ -105,6 +105,8 @@ private:
 	//°¢µµ
 	float m_angle;
 
+	
+
 public:
 	Mob();
 	~Mob();

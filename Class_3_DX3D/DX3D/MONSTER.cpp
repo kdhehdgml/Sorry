@@ -23,6 +23,8 @@ MONSTER::MONSTER()
 
 	pCurrAnimSet = NULL;
 	pNextAnimSet = NULL;
+
+	STATE = false;
 }
 
 
@@ -60,6 +62,8 @@ void MONSTER::Init()
 
 void MONSTER::Update()
 {
+	if (STATE)
+	{
 
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 	
@@ -102,13 +106,17 @@ void MONSTER::Update()
 
 
 	SetAnimationIndex(m_AnimaTionIndex, true);
+	}
+
 }
 
 void MONSTER::Render()
 {
+
 	m_numFrame = 0;
 	m_numMesh = 0;
-	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
+
+	if (m_bDrawFrame && STATE)DrawFrame(m_pRootFrame);
 //	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
 }
 
