@@ -535,8 +535,8 @@ void Mob::Shooting()
 				m_ShootCooldownTime++;
 				if (m_ShootCooldownTime > 100)
 				{
-					float kill = rand() % 10;
-					if (kill == 0 && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
+					float kill = rand() % 20;
+					if (kill < 3 && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
 					{
 						/*int damage = rand() % 10;
 						if (damage == 1)

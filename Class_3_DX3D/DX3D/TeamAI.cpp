@@ -3,6 +3,8 @@
 #include "CubemanParts.h"
 #include "TEAM_TEX.h"
 
+#define moveSpeed 0.5f
+
 TeamAI::TeamAI()
 {
 	m_TEAM_TEX = NULL;//몬스터 클래스 추가
@@ -43,7 +45,7 @@ void TeamAI::Init()
 	m_TEAM_TEX = new TEAM_TEX;
 	m_TEAM_TEX->Init();
 
-	m_moveSpeed = GSM().mobSpeed;
+	m_moveSpeed = moveSpeed;
 	m_pBoundingSphere = new BoundingSphere(m_pos, 3.0f);
 }
 
@@ -305,7 +307,7 @@ void TeamAI::TrenchFight(int _num)
 			}
 			else
 			{
-				m_moveSpeed = GSM().mobSpeed;
+				m_moveSpeed = moveSpeed;
 			}
 
 		}
@@ -318,7 +320,7 @@ void TeamAI::Shooting()
 	if (m_ShootCooldownTime > 100)
 	{
 		float kill = rand() % 10;
-		if (kill < 5 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
+		if (kill < 3 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
 		{
 			/*int damage = rand() % 10;
 			if (damage < 3)
