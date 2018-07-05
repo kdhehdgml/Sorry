@@ -180,6 +180,7 @@
     <ClInclude Include="Player_hands.h" />
     <ClInclude Include="SceneMainScreen.h" />
     <ClInclude Include="SceneShader.h" />
+    <ClInclude Include="seqManager.h" />
     <ClInclude Include="SoundControl.h" />
     <ClInclude Include="Blocks.h" />
     <ClInclude Include="Camera.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="Player_hands.cpp" />
     <ClCompile Include="SceneMainScreen.cpp" />
     <ClCompile Include="SceneShader.cpp" />
+    <ClCompile Include="seqManager.cpp" />
     <ClCompile Include="SoundControl.cpp" />
     <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Camera.cpp" />
