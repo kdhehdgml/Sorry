@@ -53,9 +53,9 @@ void SceneManager::Destroy()
 void SceneManager::Update()
 {
 	SAFE_UPDATE(m_pCurrScene);
-	Debug->AddText("ÇöÀç ¾À : ");
+	/*Debug->AddText("ÇöÀç ¾À : ");
 	Debug->AddText(m_pCurrSceneString);
-	Debug->EndLine();
+	Debug->EndLine();*/
 }
 
 void SceneManager::Render()

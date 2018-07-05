@@ -86,15 +86,14 @@ void Mob::Update()
 		//m_pRootParts->Update();
 	/*	m_MONSTER->SetPos(m_pos);
 		m_MONSTER->Update();*/
-		Debug->AddText("³ôÀÌ: ");
-		Debug->AddText(m_pBoundingSphereBody->center.y);
-		Debug->EndLine();
 		Debug->AddText("¸÷ Ã¼·Â: ");
 		Debug->AddText(health);
 		Debug->AddText(" / ÀåÀü: ");
 		Debug->AddText(m_bullet);
 		Debug->AddText(" / Åº¾à: ");
 		Debug->AddText(m_maxbullet);
+		Debug->AddText(" / ³ôÀÌ: ");
+		Debug->AddText(m_pBoundingSphereBody->center.y);
 		Debug->EndLine();
 		
 		
@@ -532,18 +531,19 @@ void Mob::Shooting()
 		{
 			if (m_Act._action == ¸÷_¼­¼­½î±â || m_Act._action == ¸÷_ÁÂ¾öÆó»ç°Ý || m_Act._action == ¸÷_¿ì¾öÆó»ç°Ý)
 			{
-				float kill = rand() % 10;
+				
 				m_ShootCooldownTime++;
 				if (m_ShootCooldownTime > 100)
 				{
-					if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
+					float kill = rand() % 10;
+					if (kill == 0 && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
 					{
-						int damage = rand() % 10;
-						if (damage < 3)
+						/*int damage = rand() % 10;
+						if (damage == 1)
 						{
 							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(100);
 						}
-						else
+						else*/
 						{
 							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(50);
 						}

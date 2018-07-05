@@ -594,15 +594,15 @@ void SceneHeightmap::Update()
 
 	m_pOldPos = g_pCamera->getPos();
 
-	Debug->AddText("아군과의 거리 : ");
+	/*Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
-	Debug->EndLine();
+	Debug->EndLine();*/
 	Debug->AddText("현재 높이 : ");
 	Debug->AddText(height);
 	Debug->EndLine();
-	Debug->AddText("현재 위치 : ");
+	/*Debug->AddText("현재 위치 : ");
 	Debug->AddText(m_pOldPos);
-	Debug->EndLine();
+	Debug->EndLine();*/ // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
 	Debug->AddText("잔탄 수 : ");
 	Debug->AddText(g_pCamera->getMagazine());
 	Debug->EndLine();
@@ -612,9 +612,9 @@ void SceneHeightmap::Update()
 	Debug->AddText("Bounding Box Collision with Player: ");
 	Debug->AddText(getCollision);
 	Debug->EndLine();*/
-	Debug->AddText("volume(music) : ");
+	/*Debug->AddText("volume(music) : ");
 	Debug->AddText(volume_music);
-	Debug->EndLine();
+	Debug->EndLine();*/
 }
 
 void SceneHeightmap::Render()

@@ -4,7 +4,6 @@
 /*
 	[ 키보드 설정 ]
 
-	V : 총 이랑 손 렌더 껏다키기
 	R : 장전 모션 한번더 누르면 취소
 	F : 재장전
 
@@ -14,7 +13,7 @@
 	V : 프리카메라 On/Off
 
 	Tab : AStar 노드 렌더 On/Off
-	H : 노드 바꾸는 큐브 렌더 On/Off
+	H : 아군 병사 렌더 On/Off
 
 	0 : 배경음악 On/Off
 
@@ -63,7 +62,7 @@ GSM::GSM()
 	mobPos.z = NODE_POSITSIZEZ;
 
 	// 몹 속도
-	mobSpeed = 0.5f;
+	mobSpeed = 0.25f;
 
 	// 사운드 초기 볼륨
 	volume_music_init = 5.0f;
