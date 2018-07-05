@@ -330,7 +330,7 @@ void Camera::Update()
 		m_cooldown--;
 	}*/
 
-	if (m_zooming && GetTickCount() >= m_cooldown) {
+	if (m_zooming /*&& GetTickCount() >= m_cooldown*/) {
 		m_FOV = D3DX_PI / 8;
 		m_sensitivity = 800.0f;
 	}
@@ -514,7 +514,8 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_RBUTTONDOWN:
 		//m_FOV = D3DX_PI / 8;
 		//m_sensitivity = 800.0f;
-		m_zooming = true;
+		
+			m_zooming = true;
 		break;
 	case WM_RBUTTONUP:
 		//m_FOV = D3DX_PI / 4;
