@@ -498,8 +498,8 @@ void UnitBox::RegenTeam()
 }
 void UnitBox::CreateMob(int num)
 {
-	g_pSoundManager->playMusic(1);
-	g_pSoundManager->effectSound(0);
+	//g_pSoundManager->playMusic(1);
+	//g_pSoundManager->effectSound(0);
 
 	for (int i = 0; i < num; i++)
 	{
