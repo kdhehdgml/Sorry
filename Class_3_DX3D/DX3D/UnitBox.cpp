@@ -98,7 +98,7 @@ void UnitBox::Update()
 	mobCreateBuffer += 20;
 	}*/
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
-		MobStart = true;
+		MobStart = !MobStart;
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
 		ReSetMob();
 	//아군 제대 리젠
