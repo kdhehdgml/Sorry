@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "seqManager.h"
+#include "UnitBox.h"
 
 #define Max 100
 
@@ -17,7 +18,7 @@ seqManager::~seqManager()
 
 void seqManager::Init()
 {
-	
+	UnitBox().CreateMob(20);
 }
 
 void seqManager::Update()
@@ -27,13 +28,16 @@ void seqManager::Update()
 	
 	setStage();
 
-	Debug->AddText("이벤트 타이머: ");
-	Debug->AddText(checkTime);
-	Debug->AddText(" / 스테이지: ");
-	Debug->AddText(stage);
-	Debug->AddText(" / 라운드: ");
-	Debug->AddText(round);
-	Debug->EndLine();
+	// 디버그 텍스트
+	{
+		Debug->AddText("이벤트 타이머: ");
+		Debug->AddText(checkTime);
+		Debug->AddText(" / 스테이지: ");
+		Debug->AddText(stage);
+		Debug->AddText(" / 라운드: ");
+		Debug->AddText(round);
+		Debug->EndLine();
+	}
 }
 
 int seqManager::getStage()
