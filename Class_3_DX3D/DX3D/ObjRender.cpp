@@ -43,29 +43,29 @@ ObjRender::~ObjRender()
 	//참호 판자
 	for (int i = 0; i < 8; i++) {
 		//m_MapTest[i]->~ObjRen();
-		SAFE_DELETE(m_MapTest[i]);
+		SAFE_RELEASE(m_MapTest[i]);
 	}
 	//철조망
 	for (int i = 0; i < 38; i++) {
 		//m_BarbedWireT[i]->~ObjRen();
-		SAFE_DELETE(m_BarbedWireT[i]);
+		SAFE_RELEASE(m_BarbedWireT[i]);
 	}
 	//사격받침
 	//m_FireStep00->~ObjRen();
-	SAFE_DELETE(m_FireStep00);
+	SAFE_RELEASE(m_FireStep00);
 	//모래
 	for (int i = 0; i < 30; i++) {
 		//SaddleBag0[i]->~ObjRen();
-		SAFE_DELETE(SaddleBag0[i]);
+		SAFE_RELEASE(SaddleBag0[i]);
 	}
 	//나무
 	for (int i = 0; i < 10; i++)
 	{
-		SAFE_DELETE(m_Tree00[i]);
-		SAFE_DELETE(m_Tree01[i]);
-		SAFE_DELETE(m_Tree02[i]);
-		SAFE_DELETE(m_Tree03[i]);
-		SAFE_DELETE(m_Tree06[i]);
+		SAFE_RELEASE(m_Tree00[i]);
+		SAFE_RELEASE(m_Tree01[i]);
+		SAFE_RELEASE(m_Tree02[i]);
+		SAFE_RELEASE(m_Tree03[i]);
+		SAFE_RELEASE(m_Tree06[i]);
 		//m_Tree00[i]->~ObjRen();
 		//m_Tree01[i]->~ObjRen();
 		//m_Tree02[i]->~ObjRen();
