@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 22.06.2018 06:12:17
+# File Created: 05.07.2018 13:59:15
 
-newmtl Material__27
+newmtl Material__51
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -12,5 +12,4 @@ newmtl Material__27
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka ?? ??..png
-	map_Kd ?? ??..png
+	map_Kd depositphotos_45209947-stock-photo-rusty-iron-texture.jpg

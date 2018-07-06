@@ -173,6 +173,7 @@
     <ClInclude Include="eventTalk.h" />
     <ClInclude Include="GUN.h" />
     <ClInclude Include="MainScreenUI.h" />
+    <ClInclude Include="MenuUI.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="MONSTER.h" />
     <ClInclude Include="ObjLoader.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="eventTalk.cpp" />
     <ClCompile Include="GUN.cpp" />
     <ClCompile Include="MainScreenUI.cpp" />
+    <ClCompile Include="MenuUI.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="MONSTER.cpp" />
     <ClCompile Include="ObjLoader.cpp" />

@@ -17,6 +17,7 @@ class Player_hands;
 class WallManager;
 class Wall;
 class Minimap;
+class MenuUI;
 
 //ÄÃ¸µ
 //class Frustum;

@@ -29,6 +29,7 @@
 
 #include "ObjRender.h"// obj ÇØ´õ
 
+#include "MenuUI.h"
 //#include "seqManager.h"
 
 static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
@@ -426,11 +427,11 @@ void SceneHeightmap::Update()
 		currentPos.y += 63.0f;
 		currentPos.y += g_pCamera->getDeltaY();
 	}
-	else {
+	/*else {
 		if (isWallDx) {
 			currentPos.y += 5.0f;
 		}
-	}
+	}*/
 	g_pCamera->setPos(currentPos);
 
 

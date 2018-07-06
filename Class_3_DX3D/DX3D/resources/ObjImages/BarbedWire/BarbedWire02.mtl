@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 22.06.2018 06:09:26
+# File Created: 05.07.2018 13:51:56
 
 newmtl Material__25
 	Ns 10.0000
@@ -12,4 +12,5 @@ newmtl Material__25
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Kd ?? ??..png
+	map_Ka BarbedWireTex.png
+	map_Kd BarbedWireTex.png
