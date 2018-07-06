@@ -63,7 +63,7 @@ void Mob::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		m_pos = { 1000,10,1000 };
+		m_pos = { 1000,-5000,1000 };
 	}
 	if (status > 0) {
 		Act_Moving();
@@ -147,9 +147,9 @@ void Mob::Render()
 		D3DXMatrixIdentity(&matI);
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 		g_pDevice->SetTransform(D3DTS_WORLD, &matI);
-		g_pDevice->SetFVF(VERTEX_PC::FVF);
+		/*g_pDevice->SetFVF(VERTEX_PC::FVF);
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
-			1, &Shootpos[0], sizeof(VERTEX_PC));
+			1, &Shootpos[0], sizeof(VERTEX_PC));*/
 
 		if (showBoundingSphere) {
 			D3DXMATRIXA16 mat;

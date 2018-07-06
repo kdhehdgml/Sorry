@@ -172,9 +172,9 @@ void Camera::Update()
 		}
 		m_running = 0;
 	}
-	if (GetKeyState('F') & 0x8000 && m_cooldown == 0 && m_magazine != 5) {
+	if (GetKeyState('R') & 0x8000 && m_cooldown <= GetTickCount() && m_magazine != 5) {
 		m_magazine = 5;
-		m_cooldown = GSM().reload_all;
+		m_cooldown = GetTickCount() + GSM().reload_all;
 	}
 	if (GetAsyncKeyState('V') & 0x0001) {
 		//m_freeCameraMode = !m_freeCameraMode;

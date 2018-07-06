@@ -74,6 +74,8 @@ protected:
 	//쏘자마자 장전하는거 방지용
 	int							m_bulletActionCount;
 
+	bool						m_All_Reload;
+
 public:
 	Player_hands();
 	~Player_hands();
