@@ -29,6 +29,8 @@
 
 #include "ObjRender.h"// obj 해더
 
+#include "seqManager.h"
+
 static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
 static int numProcessors;
 static HANDLE self;
@@ -102,7 +104,6 @@ SceneHeightmap::SceneHeightmap()
 	//m_MapTest0 = NULL;
 
 }
-
 
 SceneHeightmap::~SceneHeightmap()
 {
@@ -319,6 +320,7 @@ void SceneHeightmap::Init()
 	memcpy(&lastUserCPU, &fuser, sizeof(FILETIME));
 
 	g_pCamera->mouseLock = true;
+	g_pSeqManager->Init();
 }
 
 void SceneHeightmap::Update()
@@ -593,6 +595,8 @@ void SceneHeightmap::Update()
 	}
 
 	m_pOldPos = g_pCamera->getPos();
+
+	g_pSeqManager->Update();
 
 	/*Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
