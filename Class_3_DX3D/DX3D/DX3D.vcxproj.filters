@@ -332,13 +332,17 @@
     <ClInclude Include="WallManager.h">
       <Filter>소스 파일\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="SceneMainScreen.h" />
-    <ClInclude Include="MainScreenUI.h" />
     <ClInclude Include="GUN.h">
       <Filter>소스 파일\Skin</Filter>
     </ClInclude>
     <ClInclude Include="seqManager.h">
       <Filter>소스 파일\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMainScreen.h">
+      <Filter>소스 파일\4.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScreenUI.h">
+      <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -573,13 +577,17 @@
     <ClCompile Include="WallManager.cpp">
       <Filter>소스 파일\Wall</Filter>
     </ClCompile>
-    <ClCompile Include="SceneMainScreen.cpp" />
-    <ClCompile Include="MainScreenUI.cpp" />
     <ClCompile Include="GUN.cpp">
       <Filter>소스 파일\Skin</Filter>
     </ClCompile>
     <ClCompile Include="seqManager.cpp">
       <Filter>소스 파일\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMainScreen.cpp">
+      <Filter>소스 파일\4.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScreenUI.cpp">
+      <Filter>소스 파일\3.Object\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
