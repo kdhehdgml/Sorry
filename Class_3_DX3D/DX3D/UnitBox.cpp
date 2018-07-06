@@ -151,9 +151,12 @@ void UnitBox::Update()
 
 void UnitBox::Render()
 {
-	for (size_t i = 0; i < m_pMob.size(); i++)
+	if (MobStart)
 	{
-		SAFE_RENDER(m_pMob[i]);
+		for (size_t i = 0; i < m_pMob.size(); i++)
+		{
+			SAFE_RENDER(m_pMob[i]);
+		}
 	}
 	for (size_t i = 0; i < m_pTeam.size(); i++)
 	{
