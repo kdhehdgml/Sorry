@@ -11,19 +11,37 @@ int mobCreateBuffer = 0;
 DWORD __stdcall UnitLoadingThread(LPVOID classPointer) {
 	UnitBox* uBox = (UnitBox*)classPointer;
 	while (true) {
-		if (mobCreateBuffer > 0) {
-			Mob* tempMob = new Mob;
-			tempMob->Init();
-			tempMob->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
-			//m_pMob2.push_back(tempMob);
-			uBox->m_pMob.push_back(tempMob);
-			if (uBox->m_pMob.back()->m_Act._moving == 몹_엄폐이동 || uBox->m_pMob.back()->m_Act._reload == 몹_장전함 || uBox->m_pMob.back()->m_Act._engage == 몹_엄폐물에숨기)
-			{
-				uBox->FindHidingInTheWallLocation(uBox->m_pMob.back());
-			}
-			mobCreateBuffer--;
+		/*if (mobCreateBuffer > 0) {
+		Mob* tempMob = new Mob;
+		tempMob->Init();
+		tempMob->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
+		//m_pMob2.push_back(tempMob);
+		//uBox->m_pMob.push_back(tempMob);
+		if (tempMob->m_Act._moving == 몹_엄폐이동 || tempMob->m_Act._reload == 몹_장전함 || tempMob->m_Act._engage == 몹_엄폐물에숨기)
+		{
+		uBox->FindHidingInTheWallLocation(tempMob);
 		}
-		//Sleep(10);
+		uBox->m_pMob.push_back(tempMob);
+		mobCreateBuffer--;
+		}*/
+		if (mobCreateBuffer > 0) {
+			vector<Mob*> pMob;
+			for (int i = 0; i < mobCreateBuffer; i++) {
+				Mob* tempMob = new Mob;
+				tempMob->Init();
+				tempMob->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
+				//m_pMob2.push_back(tempMob);
+				//uBox->m_pMob.push_back(tempMob);
+				if (tempMob->m_Act._moving == 몹_엄폐이동 || tempMob->m_Act._reload == 몹_장전함 || tempMob->m_Act._engage == 몹_엄폐물에숨기)
+				{
+					uBox->FindHidingInTheWallLocation(tempMob);
+				}
+				pMob.push_back(tempMob);
+			}
+			uBox->m_pMob.insert(uBox->m_pMob.end(), pMob.begin(), pMob.end());
+			mobCreateBuffer = 0;
+		}
+		Sleep(10);
 	}
 	return 0;
 }
@@ -57,7 +75,7 @@ void UnitBox::Init()
 {
 	TeamPosition();
 	RandomSelectPosition();
-	m_CanSave.resize(m_SaveLocation.size(),true);
+	m_CanSave.resize(m_SaveLocation.size(), true);
 	FindEmptyWallDirection();
 	//아군AI생성
 	m_pTeam.resize(TeamSize);
@@ -69,7 +87,6 @@ void UnitBox::Init()
 	}
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
-	//CreateMob(30);
 }
 
 void UnitBox::Update()
@@ -77,9 +94,9 @@ void UnitBox::Update()
 	Debug->EndLine();
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
 		CreateMob(20);
-		/*if (mobCreateBuffer <= 0) {
-			mobCreateBuffer += 20;
-		}*/
+	/*if (mobCreateBuffer <= 0) {
+	mobCreateBuffer += 20;
+	}*/
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
 		MobStart = true;
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
@@ -91,7 +108,7 @@ void UnitBox::Update()
 		RegenTeam();
 		posit.clear();
 	}
-		
+
 	if (GetAsyncKeyState(VK_F6) & 0x0001)
 	{
 		for (auto p : m_pTeam)
@@ -156,7 +173,7 @@ void UnitBox::FindEmptyWallDirection()
 				float leng = m_SaveLocation[i].z - m_SaveLocation[j].z;
 				if (abs(leng) < 7.5f)
 				{
-					leng > 0 ? sum+= (int)좌장애물있음 : sum += (int)우장애물있음;
+					leng > 0 ? sum += (int)좌장애물있음 : sum += (int)우장애물있음;
 				}
 			}
 		}
@@ -216,44 +233,44 @@ void UnitBox::FindHidingInTheWallLocationRushSoldier(int _Mobnum)
 //내가 갈곳들 경로 저장
 /*void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
 {
-	D3DXVECTOR3 Save;
-	for (size_t i = 0; i < m_SaveLocation.size(); i++)
-	{
-		Save = D3DXVECTOR3(m_SaveLocation[i].x + 1.0f, m_SaveLocation[i].y, m_SaveLocation[i].z);
-		//내위치로부터 Z값±10인곳만 검색
-		if (abs(m_SaveLocation[i].z - m_pMob[_Mobnum]->GetPosition().z) < 10)
-		{
-			if (i == 0)
-			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save,i, m_CanSeeDirection[i]);
-				continue;
-			}
+D3DXVECTOR3 Save;
+for (size_t i = 0; i < m_SaveLocation.size(); i++)
+{
+Save = D3DXVECTOR3(m_SaveLocation[i].x + 1.0f, m_SaveLocation[i].y, m_SaveLocation[i].z);
+//내위치로부터 Z값±10인곳만 검색
+if (abs(m_SaveLocation[i].z - m_pMob[_Mobnum]->GetPosition().z) < 10)
+{
+if (i == 0)
+{
+m_pMob[_Mobnum]->SetMoveTheWall(Save,i, m_CanSeeDirection[i]);
+continue;
+}
 
-			for (int j = 0; j < m_pMob[_Mobnum]->GetMoveTheWall().size(); j++)
-			{
-				//내가 저장한위치와 다음의 장애물위치의 x값이 같지않을때 저장 
-				if (m_pMob[_Mobnum]->GetMoveTheWall()[j].x != Save.x)
-				{
-					m_SameChk = false;
-				}
-				else //내가 저장한위치와 다음의 장애물위치의 x값이 같으면 임시저장
-				{
-					m_SameChk = true;
-					m_pMob[_Mobnum]->SetTemporary(Save,i, m_CanSeeDirection[i]);
-					j = m_pMob[_Mobnum]->GetMoveTheWall().size();
-				}
-			}
-			if (m_SameChk == false)
-			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save,i, m_CanSeeDirection[i]);
-			}
-			m_SameChk = false;
-		}
-	}
-	//저장한위치들의 정렬(뒤로갈수록 내위치와 가까움)
-	m_pMob[_Mobnum]->LocationSwap();
-	//임시저장한위치들의 정렬(뒤로갈수록 시작지점과 가까움)
-	m_pMob[_Mobnum]->TemporarySwap();
+for (int j = 0; j < m_pMob[_Mobnum]->GetMoveTheWall().size(); j++)
+{
+//내가 저장한위치와 다음의 장애물위치의 x값이 같지않을때 저장
+if (m_pMob[_Mobnum]->GetMoveTheWall()[j].x != Save.x)
+{
+m_SameChk = false;
+}
+else //내가 저장한위치와 다음의 장애물위치의 x값이 같으면 임시저장
+{
+m_SameChk = true;
+m_pMob[_Mobnum]->SetTemporary(Save,i, m_CanSeeDirection[i]);
+j = m_pMob[_Mobnum]->GetMoveTheWall().size();
+}
+}
+if (m_SameChk == false)
+{
+m_pMob[_Mobnum]->SetMoveTheWall(Save,i, m_CanSeeDirection[i]);
+}
+m_SameChk = false;
+}
+}
+//저장한위치들의 정렬(뒤로갈수록 내위치와 가까움)
+m_pMob[_Mobnum]->LocationSwap();
+//임시저장한위치들의 정렬(뒤로갈수록 시작지점과 가까움)
+m_pMob[_Mobnum]->TemporarySwap();
 }*/
 
 void UnitBox::FindHidingInTheWallLocation(Mob* _mob)
@@ -354,7 +371,7 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 								{
 									m_pMob[_Mobnum]->EraseWallLocation();
 									m_pMob[_Mobnum]->SetMoveTheWall(m_pMob[_Mobnum]->GetTemporary().back(), m_pMob[_Mobnum]->GetTemporaryNum().back()
-									,m_pMob[_Mobnum]->GetTemporaryDirection().back());
+										, m_pMob[_Mobnum]->GetTemporaryDirection().back());
 									m_pMob[_Mobnum]->EraseTemporary();
 									break;
 								}
@@ -397,7 +414,7 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 							m_pMob[_Mobnum]->SetMoveSpeed(1.0f);
 							m_CanSave[m_pMob[_Mobnum]->GetLocationNum().back()] = true;
 							m_pMob[_Mobnum]->SetDetermined(false);
-							if(!m_pMob[_Mobnum]->GetMoveTheWall().empty())
+							if (!m_pMob[_Mobnum]->GetMoveTheWall().empty())
 								m_pMob[_Mobnum]->EraseWallLocation();
 							m_pMob[_Mobnum]->m_move = false;
 							m_pMob[_Mobnum]->num = 0;
@@ -420,14 +437,14 @@ void UnitBox::TeamPosition()
 	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 115.0f), 2.67f, 277.0f));
 	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 105.0f), 2.67f, 316.0f));
 	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 105.0f), 2.67f, 323.0f));
-	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 94.0f), 2.67f,  337.0f));
-	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 83.0f), 2.67f,  347.0f));
-	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 81.5f), 2.67f,  355.0f));
+	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 94.0f), 2.67f, 337.0f));
+	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 83.0f), 2.67f, 347.0f));
+	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 81.5f), 2.67f, 355.0f));
 	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 112.0f), 2.67f, 378.0f));
 	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 112.0f), 2.67f, 386.0f));
 	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 112.0f), 2.67f, 395.0f));
-	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 98.0f), 2.67f,  422.0f));
-	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 98.0f), 2.67f,  433.0f));
+	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 98.0f), 2.67f, 422.0f));
+	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 98.0f), 2.67f, 433.0f));
 	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 100.0f), 2.67f, 490.0f));
 	m_TeamPosition.push_back(D3DXVECTOR3((NODE_POSITSIZEX + 100.0f), 2.67f, 503.0f));
 	//휴식진형
@@ -440,7 +457,7 @@ void UnitBox::TeamPosition()
 }
 void UnitBox::RandomSelectPosition()
 {
-	while(posit.size() < TeamSize)
+	while (posit.size() < TeamSize)
 	{
 		bool same = false;
 		int randint = rand() % TeamPositSize;
@@ -511,7 +528,7 @@ void UnitBox::CreateMob(int num)
 		m_pMob[MobNum - 1]->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
 		if (m_pMob[MobNum - 1]->m_Act._moving == 몹_엄폐이동 || m_pMob[MobNum - 1]->m_Act._reload == 몹_장전함 || m_pMob[MobNum - 1]->m_Act._engage == 몹_엄폐물에숨기)
 		{
-			FindHidingInTheWallLocation(MobNum - 1);
+		FindHidingInTheWallLocation(MobNum - 1);
 		}*/
 		Mob* tempMob = new Mob;
 		tempMob->Init();
@@ -561,7 +578,7 @@ void UnitBox::CheckNumberOfLivingAI()
 
 vector<Mob*>* UnitBox::getPMob()
 {
-	
+
 	return &m_pMob;
 }
 
