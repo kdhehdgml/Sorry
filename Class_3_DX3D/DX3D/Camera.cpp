@@ -50,6 +50,7 @@ Camera::Camera()
 	reloadTime = 0;
 
 	m_magazine = 5;
+	isPaused = false;
 
 	mouseLock = true;
 }

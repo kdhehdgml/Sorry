@@ -6,7 +6,7 @@ float temp_rotY;
 
 Application::Application()
 {
-	isPaused = false;
+	//isPaused = false;
 	temp_rotX = 0;
 	temp_rotY = 0;
 }
@@ -46,7 +46,7 @@ void Application::Destroy()
 
 void Application::Update()
 {
-	if (!isPaused)
+	if (!g_pCamera->isPaused)
 	{
 		Mouse::Get()->Update();
 		Keyboard::Get()->Update();
@@ -63,15 +63,15 @@ void Application::Update()
 		Debug->ShowMessageBox();
 	}
 	if (GetAsyncKeyState('P') & 0x0001) {
-		if (isPaused) {
-			isPaused = false;
+		if (g_pCamera->isPaused) {
+			g_pCamera->isPaused = false;
 			g_pCamera->mouseLock = true;
 			ShowCursor(false);
 			g_pCamera->setRotX(temp_rotX);
 			g_pCamera->setRotY(temp_rotY);
 		}
 		else {
-			isPaused = true;
+			g_pCamera->isPaused = true;
 			g_pCamera->mouseLock = false;
 			ShowCursor(true);
 			temp_rotX = g_pCamera->getRotX();
@@ -82,7 +82,7 @@ void Application::Update()
 
 void Application::Render()
 {
-	if (!isPaused)
+	if (!g_pCamera->isPaused)
 	{
 		g_pDevice->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 			D3DCOLOR_XRGB(50, 50, 50), 1.0f, 0);

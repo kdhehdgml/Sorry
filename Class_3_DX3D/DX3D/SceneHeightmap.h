@@ -92,7 +92,6 @@ private:
 	int m_talkFontCount;
 
 	MenuUI* m_pMenuUI;
-	bool m_pMenuOn;
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 

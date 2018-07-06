@@ -103,7 +103,6 @@ SceneHeightmap::SceneHeightmap()
 	m_ObjRender = NULL;
 
 	m_pMenuUI = NULL;
-	m_pMenuOn = false;
 	//m_MapTest0 = NULL;
 
 }
@@ -656,6 +655,9 @@ void SceneHeightmap::Render()
 
 	//obj ฐüทร
 	m_ObjRender->Render();
+	if (g_pCamera->isPaused) {
+		SAFE_RENDER(m_pMenuUI);
+	}
 
 	if (m_pCrosshairOn) {
 		if (m_pScopeOn & g_pCamera->getCooldown() <= 0) {

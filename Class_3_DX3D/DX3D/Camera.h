@@ -80,6 +80,7 @@ public:
 	int getMagazine();
 	float getDeltaY();
 	bool mouseLock;
+	bool isPaused;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 
 	float getRecoil() { return m_recoilX; 	}
