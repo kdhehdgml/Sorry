@@ -35,8 +35,6 @@
 
 GSM::GSM()
 {
-	// (프로세스 시작 직후의)시작 씬
-	InitScene = SCENE_MAIN;
 	// (로딩 끝난 후의)시작 씬
 	StartScene = SCENE_HEIGHTMAP;
 	// SCENE_LOADING       // 복붙용

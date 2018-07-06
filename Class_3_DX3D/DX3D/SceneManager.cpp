@@ -22,7 +22,7 @@ void SceneManager::Init()
 {
 	m_vecScene.push_back(new SceneMainScreen());
 	m_vecScene.push_back(new SceneLoading());
-	SetCurrentScene(GSM().InitScene);
+	SetCurrentScene(SCENE_LOADING);
 	//SetCurrentScene(SCENE_LOADING);
 	//m_pCurrSceneString = "SCENE_LOADING";
 	//SAFE_RENDER(m_pCurrScene);

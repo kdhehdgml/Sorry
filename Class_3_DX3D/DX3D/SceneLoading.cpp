@@ -23,11 +23,11 @@ SceneLoading::SceneLoading()
 
 SceneLoading::~SceneLoading()
 {
+	TerminateThread(SceneLoadingThread, 0);
 	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pLoadingScreen);
 	SAFE_RELEASE(m_loadingCircleSprite);
 	SAFE_RELEASE(m_loadingCircleTexture);
-	TerminateThread(SceneLoadingThread, 0);
 	OnDestructIScene();
 }
 

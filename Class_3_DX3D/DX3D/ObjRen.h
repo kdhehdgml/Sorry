@@ -4,7 +4,7 @@
 class ObjLoader;
 class CD3Mesh;
 
-class ObjRen : public BaseObject
+class ObjRen
 {
 public:
 	ObjRen();

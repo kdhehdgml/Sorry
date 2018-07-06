@@ -29,7 +29,7 @@
 
 #include "ObjRender.h"// obj ÇØ´õ
 
-#include "seqManager.h"
+//#include "seqManager.h"
 
 static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
 static int numProcessors;
