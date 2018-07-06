@@ -8,6 +8,8 @@ public:
 	int StartScene;
 	int InitScene;
 
+	float playerHeight;
+
 	float mapSize;
 
 	float fogMin;

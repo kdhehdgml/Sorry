@@ -102,6 +102,8 @@ SceneHeightmap::SceneHeightmap()
 	// obj 관련
 	m_ObjRender = NULL;
 
+	m_pMenuUI = NULL;
+	m_pMenuOn = false;
 	//m_MapTest0 = NULL;
 
 }
@@ -124,6 +126,7 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_DELETE(m_pBoundingSphere);
 	SAFE_RELEASE(m_pUnit);
 	SAFE_RELEASE(m_pFont);
+	SAFE_RELEASE(m_pMenuUI);
 
 
 	//m_pCrosshair->ReleaseAll();
@@ -307,6 +310,9 @@ void SceneHeightmap::Init()
 	g_pSoundManager->createSound(); // 사운드 세팅								
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
 
+	m_pMenuUI = new MenuUI();
+	m_pMenuUI->Init();
+
 	SYSTEM_INFO sysInfo;
 	FILETIME ftime, fsys, fuser;
 	GetSystemInfo(&sysInfo);
@@ -337,6 +343,7 @@ void SceneHeightmap::Update()
 	SAFE_UPDATE(m_pCrosshair);
 	SAFE_UPDATE(m_pScope);
 	SAFE_UPDATE(m_pTalk);
+	SAFE_UPDATE(m_pMenuUI);
 
 	float height;
 	D3DXVECTOR3 currentPos = g_pCamera->getPos();
@@ -422,9 +429,9 @@ void SceneHeightmap::Update()
 	}
 	currentPos = g_pCamera->getPos();
 	isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
-	currentPos.y = height + 7.0f;
+	currentPos.y = height + GSM().playerHeight;
 	if (g_pCamera->getFreeCameraMode()) {
-		currentPos.y += 63.0f;
+		currentPos.y += 61.5f;
 		currentPos.y += g_pCamera->getDeltaY();
 	}
 	/*else {
@@ -527,7 +534,7 @@ void SceneHeightmap::Update()
 	for (auto p : m_pTeam) {
 		D3DXVECTOR3 teamPos = p->GetPosition(); //팀 위치
 		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
-		teamPos.y += 7.0f;
+		teamPos.y += GSM().playerHeight;
 		D3DXVECTOR3 playerDir = g_pCamera->getDir(); //내가 보는 방향
 		D3DXVECTOR3 posDiff = teamPos - playerPos; //팀원 위치랑 내 위치의 차이
 		D3DXVECTOR3 lookDir;

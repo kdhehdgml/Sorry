@@ -49,6 +49,8 @@ GSM::GSM()
 	// 맵 크기
 	mapSize = 750.0f;
 
+	playerHeight = 8.5f;
+
 	// 안개 거리
 	fogMin = mapSize / 5;
 	fogMax = mapSize;
