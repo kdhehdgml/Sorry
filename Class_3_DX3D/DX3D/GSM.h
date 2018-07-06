@@ -6,6 +6,7 @@ public:
 	virtual ~GSM();
 
 	int StartScene;
+	int InitScene;
 
 	float mapSize;
 
