@@ -128,7 +128,8 @@ SceneHeightmap::~SceneHeightmap()
 	//m_pCrosshair->ReleaseAll();
 
 	//obj 包访 流立 立辟秦辑 副府令窃
-	m_ObjRender->~ObjRender();
+	//m_ObjRender->~ObjRender();
+	SAFE_DELETE(m_ObjRender);
 
 	OnDestructIScene();
 }
