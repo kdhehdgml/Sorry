@@ -8,7 +8,7 @@ UINT iSceneLoadingPercentage = 0;
 
 DWORD __stdcall SceneLoadingThread(_In_ VOID *pData) {
 	g_pCamera->mouseLock = false;
-	g_pSceneManager->SetCurrentScene(GSM().StartScene);
+	g_pSceneManager->SetCurrentScene(GSM().StartScene); //시작 씬 로딩부분
 	return 0;
 }
 
@@ -75,7 +75,7 @@ void SceneLoading::Update()
 		hSceneLoadingThread = CreateThread(NULL, 0, SceneLoadingThread, &iSceneLoadingPercentage, NULL, NULL);
 		//g_pSceneManager->SetCurrentScene(GSM().StartScene); //여기를 바꾸면 시작 씬이 바뀜
 		
-		switch (GSM().StartScene) //이건 디버그용 문자
+		/*switch (GSM().StartScene) //이건 디버그용 문자
 		{
 		case SCENE_LOADING:
 			g_pSceneManager->m_pCurrSceneString = "SCENE_LOADING";
@@ -98,7 +98,7 @@ void SceneLoading::Update()
 		case SCENE_BATTLEFIELD:
 			g_pSceneManager->m_pCurrSceneString = "SCENE_BATTLEFIELD";
 			break;
-		}
+		}*/
 	}
 }
 
