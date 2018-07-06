@@ -344,6 +344,9 @@
     <ClInclude Include="MainScreenUI.h">
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
+    <ClInclude Include="eventTalk.h">
+      <Filter>소스 파일\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -588,6 +591,9 @@
     </ClCompile>
     <ClCompile Include="MainScreenUI.cpp">
       <Filter>소스 파일\3.Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="eventTalk.cpp">
+      <Filter>소스 파일\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
