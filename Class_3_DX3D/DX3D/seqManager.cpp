@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "seqManager.h"
-#include "UnitBox.h"
 
 #define Max 100
 
@@ -18,7 +17,7 @@ seqManager::~seqManager()
 
 void seqManager::Init()
 {
-	//UnitBox().CreateMob(20);
+	
 }
 
 void seqManager::Update()
