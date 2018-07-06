@@ -1,10 +1,14 @@
 #include "stdafx.h"
 #include "Application.h"
 
+float temp_rotX;
+float temp_rotY;
 
 Application::Application()
 {
 	isPaused = false;
+	temp_rotX = 0;
+	temp_rotY = 0;
 }
 
 
@@ -53,6 +57,7 @@ void Application::Update()
 		g_pCamera->Update();
 		g_pFrustum->Update();
 	}
+	g_pSceneManager->Update();
 	if (GetAsyncKeyState('M') & 0x0001)
 	{
 		Debug->ShowMessageBox();
@@ -60,18 +65,25 @@ void Application::Update()
 	if (GetAsyncKeyState('P') & 0x0001) {
 		if (isPaused) {
 			isPaused = false;
+			g_pCamera->mouseLock = true;
 			ShowCursor(false);
+			g_pCamera->setRotX(temp_rotX);
+			g_pCamera->setRotY(temp_rotY);
 		}
 		else {
 			isPaused = true;
+			g_pCamera->mouseLock = false;
 			ShowCursor(true);
+			temp_rotX = g_pCamera->getRotX();
+			temp_rotY = g_pCamera->getRotY();
 		}
 	}
 }
 
 void Application::Render()
 {
-	if (!isPaused) {
+	if (!isPaused)
+	{
 		g_pDevice->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 			D3DCOLOR_XRGB(50, 50, 50), 1.0f, 0);
 
@@ -87,7 +99,8 @@ void Application::Render()
 
 void Application::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (!isPaused) {
+	//if (!isPaused)
+	{
 		Mouse::Get()->InputProc(message, wParam, lParam);
 		g_pSceneManager->WndProc(hWnd, message, wParam, lParam);
 		g_pCamera->WndProc(hWnd, message, wParam, lParam);

@@ -614,9 +614,29 @@ float Camera::getAngleX()
 	return m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX;
 }
 
+float Camera::getRotX()
+{
+	return m_rotX;
+}
+
+void Camera::setRotX(float rotX)
+{
+	m_rotX = rotX;
+}
+
 float Camera::getAngleY()
 {
 	return m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY;
+}
+
+float Camera::getRotY()
+{
+	return m_rotY;
+}
+
+void Camera::setRotY(float rotY)
+{
+	m_rotY = rotY;
 }
 
 D3DXMATRIXA16 Camera::getMatWorld()
