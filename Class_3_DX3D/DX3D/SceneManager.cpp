@@ -22,11 +22,10 @@ void SceneManager::Init()
 {
 	m_vecScene.push_back(new SceneMainScreen());
 	m_vecScene.push_back(new SceneLoading());
-	//SetCurrentScene(SCENE_MAIN);
-	//m_pCurrSceneString = "SCENE_MAIN";
-	SetCurrentScene(SCENE_LOADING);
-	m_pCurrSceneString = "SCENE_LOADING";
-	SAFE_RENDER(m_pCurrScene);
+	SetCurrentScene(GSM().InitScene);
+	//SetCurrentScene(SCENE_LOADING);
+	//m_pCurrSceneString = "SCENE_LOADING";
+	//SAFE_RENDER(m_pCurrScene);
 	m_vecScene.push_back(new SceneHeightmap());
 	m_vecScene.push_back(new SceneGrid());
 	m_vecScene.push_back(new SceneObjMap());
@@ -53,9 +52,9 @@ void SceneManager::Destroy()
 void SceneManager::Update()
 {
 	SAFE_UPDATE(m_pCurrScene);
-	Debug->AddText("ÇöÀç ¾À : ");
+	/*Debug->AddText("ÇöÀç ¾À : ");
 	Debug->AddText(m_pCurrSceneString);
-	Debug->EndLine();
+	Debug->EndLine();*/
 }
 
 void SceneManager::Render()

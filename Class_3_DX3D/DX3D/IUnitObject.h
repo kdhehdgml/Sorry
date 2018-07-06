@@ -49,7 +49,6 @@ public:
 	void SetMove(bool _move) { m_colision = _move; }
 	void UpdateTargetPosition(OUT D3DXVECTOR3 &targetPos);
 	void ApplyTargetPosition(D3DXVECTOR3 &targetPos);
-
 	void UpdatePosition();
 
 	void DecreaseHealth(int h);

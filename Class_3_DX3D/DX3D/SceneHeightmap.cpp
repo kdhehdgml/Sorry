@@ -29,6 +29,8 @@
 
 #include "ObjRender.h"// obj 해더
 
+//#include "seqManager.h"
+
 static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
 static int numProcessors;
 static HANDLE self;
@@ -103,7 +105,6 @@ SceneHeightmap::SceneHeightmap()
 
 }
 
-
 SceneHeightmap::~SceneHeightmap()
 {
 	SAFE_RELEASE(m_pBlocks);
@@ -121,12 +122,14 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 	SAFE_RELEASE(m_pUnit);
+	SAFE_RELEASE(m_pFont);
 
 
 	//m_pCrosshair->ReleaseAll();
 
 	//obj 관련 직접 접근해서 릴리즈함
-	m_ObjRender->~ObjRender();
+	//m_ObjRender->~ObjRender();
+	SAFE_DELETE(m_ObjRender);
 
 	OnDestructIScene();
 }
@@ -151,6 +154,10 @@ void SceneHeightmap::Init()
 
 	m_pOldPos = g_pCamera->getPos();
 	
+	D3DXCreateFont(g_pDevice, 36, 18, FW_BOLD, 1, false, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, _T("나눔고딕"), &m_pFont);
+	m_str = "";
+
 	/*m_pAseCharacter = new AseCharacter;
 	m_pAseCharacter->Init();
 	AddSimpleDisplayObj(m_pAseCharacter);
@@ -314,6 +321,7 @@ void SceneHeightmap::Init()
 	memcpy(&lastUserCPU, &fuser, sizeof(FILETIME));
 
 	g_pCamera->mouseLock = true;
+	g_pSeqManager->Init();
 }
 
 void SceneHeightmap::Update()
@@ -368,13 +376,16 @@ void SceneHeightmap::Update()
 		}
 	}*/
 
+	bool isWallDx = false;
 	if (!g_pCamera->getFreeCameraMode()) {
-		float dx1, dx2, dy1, dy2;
+		float dx1, dx2, dy1, dy2, wallDx;
 		const float distanceDiffBuffer = 0.3f;
 		const float heightDiffBuffer = 0.3f;
 		currentPos.x += distanceDiffBuffer;
 		isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
-		currentPos.x -= distanceDiffBuffer;
+		currentPos.x += distanceDiffBuffer * 3;
+		isIntersected = g_pCurrentMap->GetHeight(wallDx, currentPos);
+		currentPos.x -= distanceDiffBuffer * 4;
 		currentPos.z += distanceDiffBuffer;
 		isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
 		currentPos.z -= distanceDiffBuffer;
@@ -384,6 +395,7 @@ void SceneHeightmap::Update()
 		currentPos.z -= distanceDiffBuffer;
 		isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
 		currentPos.z += distanceDiffBuffer;
+		wallDx -= height;
 		dx1 -= height;
 		dy1 -= height;
 		dx2 -= height;
@@ -402,6 +414,9 @@ void SceneHeightmap::Update()
 		if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
 			cPosDiff.z = 0;
 		}
+		if (wallDx > heightDiffBuffer) {
+			isWallDx = true;
+		}
 		g_pCamera->setPos(m_pOldPos + cPosDiff);
 	}
 	currentPos = g_pCamera->getPos();
@@ -410,6 +425,11 @@ void SceneHeightmap::Update()
 	if (g_pCamera->getFreeCameraMode()) {
 		currentPos.y += 63.0f;
 		currentPos.y += g_pCamera->getDeltaY();
+	}
+	else {
+		if (isWallDx) {
+			currentPos.y += 5.0f;
+		}
 	}
 	g_pCamera->setPos(currentPos);
 
@@ -540,12 +560,20 @@ void SceneHeightmap::Update()
 	if ((GetAsyncKeyState('E') & 0x0001))
 	{
 		if (m_pTalkOn) {
-			TCHAR str[100];
-			wsprintf(str, TEXT("%d 번 아군과 대화하였습니다."), teamIndex);
-			MessageBox(NULL, str, TEXT("DEBUG"), MB_OK);
+			//TCHAR str[100];
+			//wsprintf(str, TEXT("%d 번 아군과 대화하였습니다."), teamIndex);
+			//MessageBox(NULL, str, TEXT("DEBUG"), MB_OK);
+			m_str.Empty();
+			CString _str = to_string(teamIndex).c_str();
+			m_str.Append(_str);
+			m_str.Append(_T("번 아군 : 안녕하세요!"));
+			m_talkFontCount = GetTickCount() + 3000;
 		}
 	}
 
+	if (GetTickCount() >= m_talkFontCount) {
+		m_str.Empty();
+	}
 
 
 	m_pBoundingSphere->center = g_pCamera->getPos();
@@ -581,15 +609,17 @@ void SceneHeightmap::Update()
 
 	m_pOldPos = g_pCamera->getPos();
 
-	Debug->AddText("아군과의 거리 : ");
+	g_pSeqManager->Update();
+
+	/*Debug->AddText("아군과의 거리 : ");
 	Debug->AddText(minDistance);
-	Debug->EndLine();
+	Debug->EndLine();*/
 	Debug->AddText("현재 높이 : ");
 	Debug->AddText(height);
 	Debug->EndLine();
-	Debug->AddText("현재 위치 : ");
+	/*Debug->AddText("현재 위치 : ");
 	Debug->AddText(m_pOldPos);
-	Debug->EndLine();
+	Debug->EndLine();*/ // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
 	Debug->AddText("잔탄 수 : ");
 	Debug->AddText(g_pCamera->getMagazine());
 	Debug->EndLine();
@@ -599,9 +629,9 @@ void SceneHeightmap::Update()
 	Debug->AddText("Bounding Box Collision with Player: ");
 	Debug->AddText(getCollision);
 	Debug->EndLine();*/
-	Debug->AddText("volume(music) : ");
+	/*Debug->AddText("volume(music) : ");
 	Debug->AddText(volume_music);
-	Debug->EndLine();
+	Debug->EndLine();*/
 }
 
 void SceneHeightmap::Render()
@@ -649,6 +679,11 @@ void SceneHeightmap::Render()
 	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 	g_pDevice->SetTexture(0, NULL);
 	//m_pSphere->DrawSubset(0);
+
+	RECT rc;
+	SetRect(&rc, 100, 400, 800, 600);
+	m_pFont->DrawText(NULL, m_str, m_str.GetLength(), &rc,
+		DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

@@ -170,6 +170,8 @@
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="CD3Mesh.h" />
+    <ClInclude Include="eventTalk.h" />
+    <ClInclude Include="GUN.h" />
     <ClInclude Include="MainScreenUI.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="MONSTER.h" />
@@ -179,6 +181,7 @@
     <ClInclude Include="Player_hands.h" />
     <ClInclude Include="SceneMainScreen.h" />
     <ClInclude Include="SceneShader.h" />
+    <ClInclude Include="seqManager.h" />
     <ClInclude Include="SoundControl.h" />
     <ClInclude Include="Blocks.h" />
     <ClInclude Include="Camera.h" />
@@ -255,6 +258,8 @@
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="CD3Mesh.cpp" />
+    <ClCompile Include="eventTalk.cpp" />
+    <ClCompile Include="GUN.cpp" />
     <ClCompile Include="MainScreenUI.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="MONSTER.cpp" />
@@ -264,6 +269,7 @@
     <ClCompile Include="Player_hands.cpp" />
     <ClCompile Include="SceneMainScreen.cpp" />
     <ClCompile Include="SceneShader.cpp" />
+    <ClCompile Include="seqManager.cpp" />
     <ClCompile Include="SoundControl.cpp" />
     <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Camera.cpp" />

@@ -81,6 +81,9 @@
     <Filter Include="소스 파일\Wall">
       <UniqueIdentifier>{a050065c-a9c5-4135-ada6-c1bd95aae565}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Event">
+      <UniqueIdentifier>{c03e1b93-71d9-4a77-9d6c-b9e357031a2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -329,8 +332,21 @@
     <ClInclude Include="WallManager.h">
       <Filter>소스 파일\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="SceneMainScreen.h" />
-    <ClInclude Include="MainScreenUI.h" />
+    <ClInclude Include="GUN.h">
+      <Filter>소스 파일\Skin</Filter>
+    </ClInclude>
+    <ClInclude Include="seqManager.h">
+      <Filter>소스 파일\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMainScreen.h">
+      <Filter>소스 파일\4.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScreenUI.h">
+      <Filter>소스 파일\3.Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="eventTalk.h">
+      <Filter>소스 파일\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -564,8 +580,21 @@
     <ClCompile Include="WallManager.cpp">
       <Filter>소스 파일\Wall</Filter>
     </ClCompile>
-    <ClCompile Include="SceneMainScreen.cpp" />
-    <ClCompile Include="MainScreenUI.cpp" />
+    <ClCompile Include="GUN.cpp">
+      <Filter>소스 파일\Skin</Filter>
+    </ClCompile>
+    <ClCompile Include="seqManager.cpp">
+      <Filter>소스 파일\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMainScreen.cpp">
+      <Filter>소스 파일\4.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScreenUI.cpp">
+      <Filter>소스 파일\3.Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="eventTalk.cpp">
+      <Filter>소스 파일\Event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

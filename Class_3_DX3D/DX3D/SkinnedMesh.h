@@ -20,6 +20,12 @@ protected:
 
 	D3DXMATRIXA16				matT, matS, matR;
 
+	float						m_angle;
+	D3DXVECTOR3					m_gun_pos;
+	D3DXMATRIXA16				m_gun_mat;
+
+	int							count;
+
 public:
 	SkinnedMesh();
 	virtual ~SkinnedMesh();
@@ -43,6 +49,8 @@ private:
 
 public:
 	void SetAnimationIndex(int nIndex, bool isBlend);
+	D3DXVECTOR3 GetGunPos() { return m_gun_pos; }
+	float		GetGunAngle() { return m_angle; }
 };
 
 // OnInit

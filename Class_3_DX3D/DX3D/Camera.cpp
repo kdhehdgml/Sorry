@@ -29,7 +29,7 @@ Camera::Camera()
 	m_recoilXDelta = 0.0f;
 	m_recoilYDelta = 0.0f;
 
-	m_cooldown = 0;
+	m_cooldown = GetTickCount();
 
 	m_running = 0;
 	m_runningRecoilX = 0.0f;
@@ -172,9 +172,9 @@ void Camera::Update()
 		}
 		m_running = 0;
 	}
-	if (GetKeyState('F') & 0x8000 && m_cooldown == 0 && m_magazine != 5) {
+	if (GetKeyState('R') & 0x8000 && m_cooldown <= GetTickCount() && m_magazine != 5) {
 		m_magazine = 5;
-		m_cooldown = GSM().reload_all;
+		m_cooldown = GetTickCount() + GSM().reload_all;
 	}
 	if (GetAsyncKeyState('V') & 0x0001) {
 		//m_freeCameraMode = !m_freeCameraMode;
@@ -326,11 +326,11 @@ void Camera::Update()
 	dir.z = cos(m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY);
 	dir.y = tan(m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX);
 
-	if (m_cooldown >= 1) {
+	/*if (m_cooldown >= 1) {
 		m_cooldown--;
-	}
+	}*/
 
-	if (m_zooming && m_cooldown <= 0) {
+	if (m_zooming /*&& GetTickCount() >= m_cooldown*/) {
 		m_FOV = D3DX_PI / 8;
 		m_sensitivity = 800.0f;
 	}
@@ -356,10 +356,9 @@ void Camera::Update()
 
 	if (debugDisplay)
 	{
-		Debug->AddText("마우스 좌표:");
+		Debug->AddText("카메라 위치:");
 		Debug->AddText(pos);
-		Debug->EndLine();
-		Debug->AddText("카메라 각도:");
+		Debug->AddText(" / 카메라 각도:");
 		Debug->AddText(dir);
 		Debug->EndLine();
 		Debug->AddText("m_rotX : ");
@@ -416,7 +415,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//m_isLbuttonDown = true;
 		//m_ptPrevMouse.x = LOWORD(lParam);
 		//m_ptPrevMouse.y = HIWORD(lParam);
-		if (m_cooldown == 0 && !g_pCamera->getFreeCameraMode()) {
+		if (GetTickCount() >= m_cooldown && !g_pCamera->getFreeCameraMode()) {
 			m_recoilXDelta += (float)((float)(rand() % 4) + 8.0f) / 100.0f;
 			m_recoilYDelta += (float)((float)(rand() % 12) - 6.0f) / 100.0f;
 			Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
@@ -497,11 +496,11 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			m_magazine--;
 			if (m_magazine > 0) {
-			m_cooldown = GSM().reload_one;
+			m_cooldown = GetTickCount() + GSM().reload_one;
 			}
 			else {
 				m_magazine = 5;
-				m_cooldown = GSM().reload_all;
+				m_cooldown = GetTickCount() + GSM().reload_all;
 			}
 			//m_cooldown = 60; //쿨타임 (단위 : 프레임)
 		}
@@ -515,7 +514,8 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_RBUTTONDOWN:
 		//m_FOV = D3DX_PI / 8;
 		//m_sensitivity = 800.0f;
-		m_zooming = true;
+		
+			m_zooming = true;
 		break;
 	case WM_RBUTTONUP:
 		//m_FOV = D3DX_PI / 4;

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "SceneXfile.h"
 #include "SkinnedMesh.h"
+#include "GUN.h"
+
 #include "SkyBox.h"
 
 
@@ -8,19 +10,27 @@ SceneXfile::SceneXfile()
 {
 	m_pSkinnedMesh = NULL;
 	m_SkyBox = NULL;
+	m_GUN = NULL;
 }
 
 
 SceneXfile::~SceneXfile()
 {
+
 	OnDestructIScene();
+	/*m_GUN->Release();
+	m_pSkinnedMesh->Release();*/
 }
 
 void SceneXfile::Init()
 {
 	m_pSkinnedMesh = new SkinnedMesh;
 	m_pSkinnedMesh->Init();
-	AddSimpleDisplayObj(m_pSkinnedMesh);
+	//AddSimpleDisplayObj(m_pSkinnedMesh);
+
+	m_GUN = new GUN;
+	m_GUN->Init();
+	//AddSimpleDisplayObj(m_GUN);
 
 	m_SkyBox = new SkyBox;
 	m_SkyBox->Init();
@@ -37,7 +47,16 @@ void SceneXfile::Update()
 	g_pDevice->LightEnable(0, true);
 
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	
+	m_pSkinnedMesh->Update();
+	m_GUN->SetPos(m_pSkinnedMesh->GetGunPos());
+	m_GUN->Update();
 
+	Debug->EndLine();
+	Debug->AddText(m_pSkinnedMesh->GetGunPos());
+	Debug->AddText("/");
+	Debug->AddText(m_GUN->GetPosition());
+	Debug->EndLine();
 
 	OnUpdateIScene();
 
@@ -45,6 +64,8 @@ void SceneXfile::Update()
 
 void SceneXfile::Render()
 {
+	m_pSkinnedMesh->Render();
+	m_GUN->Render();
 	OnRenderIScene();
 
 }

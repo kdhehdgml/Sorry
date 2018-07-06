@@ -4,7 +4,6 @@
 /*
 	[ 키보드 설정 ]
 
-	V : 총 이랑 손 렌더 껏다키기
 	R : 장전 모션 한번더 누르면 취소
 	F : 재장전
 
@@ -14,7 +13,7 @@
 	V : 프리카메라 On/Off
 
 	Tab : AStar 노드 렌더 On/Off
-	H : 노드 바꾸는 큐브 렌더 On/Off
+	H : 아군 병사 렌더 On/Off
 
 	0 : 배경음악 On/Off
 
@@ -36,7 +35,9 @@
 
 GSM::GSM()
 {
-	// 시작 씬
+	//(프로세스 시작 직후의)시작 씬
+	InitScene = SCENE_LOADING;
+	// (로딩 끝난 후의)시작 씬
 	StartScene = SCENE_HEIGHTMAP;
 	// SCENE_LOADING       // 복붙용
 	// SCENE_HEIGHTMAP     //
@@ -63,14 +64,16 @@ GSM::GSM()
 	mobPos.z = NODE_POSITSIZEZ;
 
 	// 몹 속도
-	mobSpeed = 0.5f;
+	mobSpeed = 0.1f;
 
 	// 사운드 초기 볼륨
 	volume_music_init = 5.0f;
 
 	// 장전 속도
-	reload_one = 105;
-	reload_all = 180;
+	//reload_one = 105;
+	//reload_all = 180;
+	reload_one = 1750;
+	reload_all = 3000;
 }
 
 

@@ -38,5 +38,6 @@ public:
 	void getPTeamFromUnitBox(vector<TeamAI*>* team);
 	void addEnemy();
 	void addTeam();
+	bool isInMap(float tempX, float tempZ);
 };
 
