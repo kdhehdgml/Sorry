@@ -193,6 +193,7 @@ void SkinnedMesh::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 
 	if (pFrame->Name != NULL &&  strcmp( pFrame->Name, "mixamoring_RightHand") == 0)
 	{
+		pFrameEx->CombinedTM  =  pFrameEx->CombinedTM * m_matWorld;
 		m_gun_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 	}
 
