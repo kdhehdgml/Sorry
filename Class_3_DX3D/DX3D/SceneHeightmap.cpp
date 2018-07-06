@@ -383,9 +383,9 @@ void SceneHeightmap::Update()
 		const float heightDiffBuffer = 0.3f;
 		currentPos.x += distanceDiffBuffer;
 		isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
-		currentPos.x += distanceDiffBuffer * 2;
+		currentPos.x += distanceDiffBuffer * 3;
 		isIntersected = g_pCurrentMap->GetHeight(wallDx, currentPos);
-		currentPos.x -= distanceDiffBuffer * 3;
+		currentPos.x -= distanceDiffBuffer * 4;
 		currentPos.z += distanceDiffBuffer;
 		isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
 		currentPos.z -= distanceDiffBuffer;
