@@ -22,11 +22,11 @@ void SceneManager::Init()
 {
 	m_vecScene.push_back(new SceneMainScreen());
 	m_vecScene.push_back(new SceneLoading());
-	//SetCurrentScene(SCENE_MAIN);
-	//m_pCurrSceneString = "SCENE_MAIN";
-	SetCurrentScene(SCENE_LOADING);
-	m_pCurrSceneString = "SCENE_LOADING";
-	SAFE_RENDER(m_pCurrScene);
+	SetCurrentScene(SCENE_MAIN);
+	m_pCurrSceneString = "SCENE_MAIN";
+	//SetCurrentScene(SCENE_LOADING);
+	//m_pCurrSceneString = "SCENE_LOADING";
+	//SAFE_RENDER(m_pCurrScene);
 	m_vecScene.push_back(new SceneHeightmap());
 	m_vecScene.push_back(new SceneGrid());
 	m_vecScene.push_back(new SceneObjMap());

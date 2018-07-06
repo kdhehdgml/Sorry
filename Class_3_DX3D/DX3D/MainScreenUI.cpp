@@ -21,17 +21,19 @@ MainScreenUI::~MainScreenUI()
 void MainScreenUI::Init()
 {
 	D3DXCreateSprite(g_pDevice, &m_pSprite);
+	g_pCamera->mouseLock = false;
 
 	{
 		UIImage* pImage = new UIImage(m_pSprite);
 		pImage->SetTexture("resources/ui/MainScreen.png");
 		pImage->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
+		pImage->m_bDrawBorder = false;
 		m_pRootUI = pImage;
 	}
 	{
 		UIButton* pButton = new UIButton(this, m_pSprite, 1);
 		m_pRootUI->AddChild(pButton);
-		pButton->SetPosition(&D3DXVECTOR3(135, 330, 0));
+		pButton->SetPosition(&D3DXVECTOR3(380, 330, 0));
 		pButton->SetTexture(
 			"resources/ui/btn-med-up.png.png",
 			"resources/ui/btn-med-over.png.png",
@@ -41,7 +43,7 @@ void MainScreenUI::Init()
 	{
 		UIButton* pButton = new UIButton(this, m_pSprite, 2);
 		m_pRootUI->AddChild(pButton);
-		pButton->SetPosition(&D3DXVECTOR3(135, 400, 0));
+		pButton->SetPosition(&D3DXVECTOR3(380, 400, 0));
 		pButton->SetTexture(
 			"resources/ui/btn-med-up.png.png",
 			"resources/ui/btn-med-over.png.png",
@@ -49,9 +51,9 @@ void MainScreenUI::Init()
 		pButton->SetText(g_pFontMgr->GetFont(FONT::QUEST), _T("게임 종료"));
 	}
 	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 1.5f, 0.5f, 1);
+	D3DXMatrixScaling(&matS, 1.4f, 1.4f, 1);
 	D3DXMATRIXA16 matT;
-	D3DXMatrixTranslation(&matT, 150, 150, 0);
+	D3DXMatrixTranslation(&matT, -140, 0, 0);
 	m_matWorld = matS * matT;
 }
 
