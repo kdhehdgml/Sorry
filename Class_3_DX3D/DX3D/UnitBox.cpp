@@ -69,6 +69,7 @@ void UnitBox::Init()
 	}
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
+	//CreateMob(30);
 }
 
 void UnitBox::Update()
