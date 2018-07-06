@@ -6,7 +6,10 @@ eventTalk::eventTalk()
 {
 }
 
-
 eventTalk::~eventTalk()
+{
+}
+
+void eventTalk::talk(int Index)
 {
 }
