@@ -50,6 +50,7 @@ Camera::Camera()
 	reloadTime = 0;
 
 	m_magazine = 5;
+	isPaused = false;
 
 	mouseLock = true;
 }
@@ -429,7 +430,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				D3DXVECTOR3 enemyPos = p->GetPosition(); //적 위치
 				D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
-				enemyPos.y += 7.0f;
+				enemyPos.y += GSM().playerHeight;
 				D3DXVECTOR3 playerDir = g_pCamera->getDir(); //내가 보는 방향
 				D3DXVECTOR3 posDiff = enemyPos - playerPos; //적 위치랑 내 위치의 차이
 				float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //적과의 거리 계산
@@ -479,7 +480,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 				D3DXVECTOR3 enemyPos = m_pMob[enemyIndex]->GetPosition();
 				D3DXVECTOR3 playerPos = g_pCamera->getPos();
-				enemyPos.y += 7.0f;
+				enemyPos.y += GSM().playerHeight;
 				D3DXVECTOR3 posDiff1 = enemyPos - playerPos;
 				D3DXVECTOR3 posDiff2 = rayPos - playerPos;
 				float distance1 = sqrtf(D3DXVec3Dot(&posDiff1, &posDiff1));
@@ -614,9 +615,29 @@ float Camera::getAngleX()
 	return m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX;
 }
 
+float Camera::getRotX()
+{
+	return m_rotX;
+}
+
+void Camera::setRotX(float rotX)
+{
+	m_rotX = rotX;
+}
+
 float Camera::getAngleY()
 {
 	return m_rotY + m_recoilY + m_runningRecoilY + m_accuracyY;
+}
+
+float Camera::getRotY()
+{
+	return m_rotY;
+}
+
+void Camera::setRotY(float rotY)
+{
+	m_rotY = rotY;
 }
 
 D3DXMATRIXA16 Camera::getMatWorld()

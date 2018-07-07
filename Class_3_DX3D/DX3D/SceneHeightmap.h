@@ -17,6 +17,7 @@ class Player_hands;
 class WallManager;
 class Wall;
 class Minimap;
+class MenuUI;
 
 //ÄÃ¸µ
 //class Frustum;
@@ -89,6 +90,8 @@ private:
 	LPD3DXFONT	m_pFont;
 	CString		m_str;
 	int m_talkFontCount;
+
+	MenuUI* m_pMenuUI;
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
