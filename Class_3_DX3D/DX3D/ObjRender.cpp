@@ -11,18 +11,18 @@ ObjRender::ObjRender()
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i] = NULL;
 	//철조망
-	for (int i = 0; i < 48; i++)
+	for (int i = 0; i < 53; i++)
 		m_BarbedWireT[i] = NULL;
 	//사격받침
 	m_FireStep00 = NULL;
 	//모래
 	for (int i = 0; i < 30; i++)
 		SaddleBag0[i] = NULL;
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 17; i++)
 		SaddleBag1[i] = NULL;
 
 	//나무
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		m_Tree00[i] = NULL;
 		m_Tree01[i] = NULL;
@@ -66,18 +66,18 @@ ObjRender::~ObjRender()
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i]->~ObjRen();
 	//철조망
-	for (int i = 0; i < 48; i++)
+	for (int i = 0; i < 53; i++)
 		m_BarbedWireT[i]->~ObjRen();
 	//사격받침
 	m_FireStep00->~ObjRen();
 	//모래
 	for (int i = 0; i < 30; i++)
 		SaddleBag0[i]->~ObjRen();
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 17; i++)
 		SaddleBag1[i]->~ObjRen();
 
 	//나무
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		m_Tree00[i]->~ObjRen();
 		m_Tree01[i]->~ObjRen();
@@ -177,16 +177,22 @@ void ObjRender::Init()
 	CREATE_OBJ(m_BarbedWireT[36], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 328.0f, 29.0f, 219.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[37], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 33.0f, 229.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	//입구쪽
-	CREATE_OBJ(m_BarbedWireT[38], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 284.0f, 31.0f, 515.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.2f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[39], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 289.0f, 31.0f, 487.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[40], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 280.0f, 32.0f, 469.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - +0.4f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[41], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 275.0f, 33.0f, 446.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[42], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 286.0f, 33.0f, 425.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[43], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 293.0f, 30.0f, 380.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[44], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 278.0f, 34.0f, 344.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[45], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 291.0f, 30.0f, 307.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[46], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 294.0f, 33.0f, 268.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[47], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 292.0f, 33.0f, 237.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[38], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 286.0f, 29.0f, 518.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.4f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[39], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 289.0f, 29.0f, 490.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[40], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 280.0f, 29.0f, 463.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.4f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[41], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 292.0f, 29.0f, 442.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.2f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[42], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 286.0f, 29.0f, 415.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.4f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[43], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 297.0f, 29.0f, 378.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.4f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[44], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 278.0f, 29.0f, 344.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.1f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[45], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 299.0f, 29.8f, 297.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.1f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[46], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 299.0f, 29.5f, 268.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.2f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[47], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 299.0f, 29.0f, 247.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.4f, 0.0f);
+
+	CREATE_OBJ(m_BarbedWireT[48], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 300.0f, 29.0f, 354.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.1f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[49], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 303.0f, 29.0f, 330.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.1f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[50], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 307.0f, 29.0f, 224.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.4f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[51], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 297.0f, 29.0f, 209.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.1f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[52], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 286.0f, 29.0f, 189.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 
 	//사격받침
 	//CREATE_OBJ(m_FireStep00, 63.0f, FireStep, FireStep00.obj, woodTex.png, 232.0f, -6.8f, 398.0f, 0.0f, 0.0f, 0.0f);
@@ -240,72 +246,58 @@ void ObjRender::Init()
 	CREATE_OBJ(SaddleBag1[10], 4.0f, SaddleBag, SaddleBag01.obj, SaddleBagTex.png, 233.0f, 23.6f, 281.0f, 0.0f, 0.48f, 0.0f);
 	CREATE_OBJ(SaddleBag1[11], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 236.0f, 23.8f, 268.0f, 0.0f, -0.63f, 0.0f);
 	CREATE_OBJ(SaddleBag1[12], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 236.0f, 24.2f, 234.0f, 0.0f, 0.69f, 0.0f);
-	CREATE_OBJ(SaddleBag1[13], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 230.0f, 24.2f, 223.0f, 0.0f, -0.48f, 0.0f);// 이다음 부터 작업하삼..
-	CREATE_OBJ(SaddleBag1[14], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 260.0f, 24.2f, 266.0f, 0.0f, D3DX_PI / 2, 0.0f);
-	CREATE_OBJ(SaddleBag1[15], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 255.0f, 24.3f, 247.0f, 0.0f, 0.67f, 0.0f);
-	CREATE_OBJ(SaddleBag1[16], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 259.0f, 24.3f, 236.0f, 0.0f, D3DX_PI / 2, 0.0f);
-	CREATE_OBJ(SaddleBag1[17], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 259.0f, 24.3f, 221.0f, 0.0f, D3DX_PI / 2, 0.0f);
-	CREATE_OBJ(SaddleBag1[18], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 251.0f, 23.7f, 210.0f, 0.0f, -0.95f / 2, 0.0f);
-	CREATE_OBJ(SaddleBag1[19], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 233.0f, 23.4f, 200.0f, 0.0f, -0.95f / 2, 0.0f);
-
-	CREATE_OBJ(SaddleBag1[20], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 242.0f, 23.2f, 519.0f, 0.0f, 0.57f, 0.0f);
-	CREATE_OBJ(SaddleBag1[21], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 247.0f, 23.2f, 488.0f, 0.0f, D3DX_PI / 2, 0.0f);
-	CREATE_OBJ(SaddleBag1[22], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 230.0f, 22.8f, 464.0f, 0.0f, -0.83f, 0.0f);
-	CREATE_OBJ(SaddleBag1[23], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 246.0f, 23.6f, 369.0f, 0.0f, -0.16f, 0.0f);
-	CREATE_OBJ(SaddleBag1[24], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 234.0f, 23.6f, 367.0f, 0.0f, -0.16f, 0.0f);
-	CREATE_OBJ(SaddleBag1[25], 4.0f, SaddleBag, SaddleBag01.obj, SaddleBagTex.png, 246.0f, 23.8f, 336.0f, 0.0f, 0.67f, 0.0f);
-	CREATE_OBJ(SaddleBag1[26], 4.0f, SaddleBag, SaddleBag01.obj, SaddleBagTex.png, 247.0f, 24.2f, 303.0f, 0.0f, -0.83f, 0.0f);
-	CREATE_OBJ(SaddleBag1[27], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 249.0f, 24.3f, 293.0f, 0.0f, 0.69f, 0.0f);
-	CREATE_OBJ(SaddleBag1[28], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 255.0f, 24.3f, 258.0f, 0.0f, -0.67f, 0.0f);
-	CREATE_OBJ(SaddleBag1[29], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 243.0f, 23.4f, 205.0f, 0.0f, -0.95f / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[13], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 230.0f, 24.2f, 223.0f, 0.0f, -0.48f, 0.0f);
+	CREATE_OBJ(SaddleBag1[14], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 172.0f, 24.2f, 486.0f, 0.0f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[15], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 168.0f, 22.3f, 408.0f, 0.0f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[16], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 191.0f, 24.3f, 267.0f, 0.0f, D3DX_PI / 2, 0.0f);
 
 	//나무
-	CREATE_OBJ(m_Tree00[0], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 30.0f, 340.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree00[0], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 30.0f, 321.0f, 0.0f, 0.1f, 0.0f);
 	CREATE_OBJ(m_Tree01[0], 6.0f, Environment, Tree01.obj, TreeTex.png, 300.0f, 30.0f, 360.0f, 0.0f, 0.1f, 0.0f);
-	CREATE_OBJ(m_Tree02[0], 3.0f, Environment, Tree02.obj, TreeTex.png, 355.0f, 25.0f, 355.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree02[0], 3.0f, Environment, Tree02.obj, TreeTex.png, 355.0f, 25.0f, 342.0f, 0.0f, 0.1f, 0.0f);
 	CREATE_OBJ(m_Tree03[0], 2.0f, Environment, Tree03.obj, TreeTex.png, 360.0f, 25.0f, 300.0f, 0.0f, 0.1f, 0.0f);
 	CREATE_OBJ(m_Tree06[0], 3.0f, Environment, Tree06.obj, TreeTex.png, 340.0f, 30.0f, 320.0f, 0.0f, 0.1f, 0.0f);
 
-	CREATE_OBJ(m_Tree00[1], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 30.0f, 440.0f, 0.0f, 0.4f, 0.0f);
-	CREATE_OBJ(m_Tree01[1], 6.0f, Environment, Tree01.obj, TreeTex.png, 300.0f, 30.0f, 460.0f, 0.0f, 0.4f, 0.0f);
-	CREATE_OBJ(m_Tree02[1], 3.0f, Environment, Tree02.obj, TreeTex.png, 355.0f, 25.0f, 455.0f, 0.0f, 0.4f, 0.0f);
-	CREATE_OBJ(m_Tree03[1], 2.0f, Environment, Tree03.obj, TreeTex.png, 360.0f, 25.0f, 400.0f, 0.0f, 0.4f, 0.0f);
+	CREATE_OBJ(m_Tree00[1], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 30.0f, 436.0f, 0.0f, 0.4f, 0.0f);
+	CREATE_OBJ(m_Tree01[1], 6.0f, Environment, Tree01.obj, TreeTex.png, 300.0f, 30.0f, 447.0f, 0.0f, 0.4f, 0.0f);
+	CREATE_OBJ(m_Tree02[1], 3.0f, Environment, Tree02.obj, TreeTex.png, 355.0f, 25.0f, 467.0f, 0.0f, 0.4f, 0.0f);
+	CREATE_OBJ(m_Tree03[1], 2.0f, Environment, Tree03.obj, TreeTex.png, 360.0f, 25.0f, 412.0f, 0.0f, 0.4f, 0.0f);
 	CREATE_OBJ(m_Tree06[1], 3.0f, Environment, Tree06.obj, TreeTex.png, 340.0f, 30.0f, 420.0f, 0.0f, 0.4f, 0.0f);
 
-	CREATE_OBJ(m_Tree00[2], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 30.0f, 240.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree01[2], 6.0f, Environment, Tree01.obj, TreeTex.png, 300.0f, 30.0f, 260.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree02[2], 3.0f, Environment, Tree02.obj, TreeTex.png, 355.0f, 25.0f, 255.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree03[2], 2.0f, Environment, Tree03.obj, TreeTex.png, 360.0f, 25.0f, 200.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree06[2], 3.0f, Environment, Tree06.obj, TreeTex.png, 340.0f, 30.0f, 220.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree00[2], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 30.0f, 261.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree01[2], 6.0f, Environment, Tree01.obj, TreeTex.png, 300.0f, 30.0f, 247.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree02[2], 3.0f, Environment, Tree02.obj, TreeTex.png, 355.0f, 25.0f, 244.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree03[2], 2.0f, Environment, Tree03.obj, TreeTex.png, 360.0f, 25.0f, 222.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree06[2], 3.0f, Environment, Tree06.obj, TreeTex.png, 340.0f, 30.0f, 219.0f, 0.0f, 0.3f, 0.0f);
 
 	CREATE_OBJ(m_Tree00[3], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 25.0f, 480.0f, 0.0f, 0.2f, 0.0f);
-	CREATE_OBJ(m_Tree01[3], 6.0f, Environment, Tree01.obj, TreeTex.png, 290.0f, 25.0f, 510.0f, 0.0f, 0.2f, 0.0f);
-	CREATE_OBJ(m_Tree02[3], 3.0f, Environment, Tree02.obj, TreeTex.png, 325.0f, 20.0f, 505.0f, 0.0f, 0.2f, 0.0f);
-	CREATE_OBJ(m_Tree03[3], 2.0f, Environment, Tree03.obj, TreeTex.png, 330.0f, 20.0f, 440.0f, 0.0f, 0.2f, 0.0f);
+	CREATE_OBJ(m_Tree01[3], 6.0f, Environment, Tree01.obj, TreeTex.png, 290.0f, 25.0f, 505.0f, 0.0f, 0.2f, 0.0f);
+	CREATE_OBJ(m_Tree02[3], 3.0f, Environment, Tree02.obj, TreeTex.png, 325.0f, 20.0f, 510.0f, 0.0f, 0.2f, 0.0f);
+	CREATE_OBJ(m_Tree03[3], 2.0f, Environment, Tree03.obj, TreeTex.png, 330.0f, 20.0f, 482.0f, 0.0f, 0.2f, 0.0f);
 	CREATE_OBJ(m_Tree06[3], 3.0f, Environment, Tree06.obj, TreeTex.png, 310.0f, 25.0f, 470.0f, 0.0f, 0.2f, 0.0f);
 
 	CREATE_OBJ(m_Tree00[4], 8.0f, Environment, Tree00.obj, TreeTex.png, 420.0f, 30.0f, 340.0f, 0.0f, 0.1f, 0.0f);
 	CREATE_OBJ(m_Tree01[4], 6.0f, Environment, Tree01.obj, TreeTex.png, 400.0f, 30.0f, 360.0f, 0.0f, 0.1f, 0.0f);
-	CREATE_OBJ(m_Tree02[4], 3.0f, Environment, Tree02.obj, TreeTex.png, 455.0f, 25.0f, 355.0f, 0.0f, 0.1f, 0.0f);
-	CREATE_OBJ(m_Tree03[4], 2.0f, Environment, Tree03.obj, TreeTex.png, 460.0f, 25.0f, 300.0f, 0.0f, 0.1f, 0.0f);
-	CREATE_OBJ(m_Tree06[4], 3.0f, Environment, Tree06.obj, TreeTex.png, 440.0f, 30.0f, 320.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree02[4], 3.0f, Environment, Tree02.obj, TreeTex.png, 455.0f, 25.0f, 320.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree03[4], 2.0f, Environment, Tree03.obj, TreeTex.png, 460.0f, 25.0f, 355.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree06[4], 3.0f, Environment, Tree06.obj, TreeTex.png, 440.0f, 30.0f, 302.0f, 0.0f, 0.1f, 0.0f);
 
-	CREATE_OBJ(m_Tree00[5], 8.0f, Environment, Tree00.obj, TreeTex.png, 420.0f, 30.0f, 440.0f, 0.0f, 0.4f, 0.0f);
+	CREATE_OBJ(m_Tree00[5], 8.0f, Environment, Tree00.obj, TreeTex.png, 420.0f, 30.0f, 455.0f, 0.0f, 0.4f, 0.0f);
 	CREATE_OBJ(m_Tree01[5], 6.0f, Environment, Tree01.obj, TreeTex.png, 400.0f, 30.0f, 460.0f, 0.0f, 0.4f, 0.0f);
-	CREATE_OBJ(m_Tree02[5], 3.0f, Environment, Tree02.obj, TreeTex.png, 455.0f, 25.0f, 455.0f, 0.0f, 0.4f, 0.0f);
-	CREATE_OBJ(m_Tree03[5], 2.0f, Environment, Tree03.obj, TreeTex.png, 460.0f, 25.0f, 400.0f, 0.0f, 0.4f, 0.0f);
-	CREATE_OBJ(m_Tree06[5], 3.0f, Environment, Tree06.obj, TreeTex.png, 440.0f, 30.0f, 420.0f, 0.0f, 0.4f, 0.0f);
+	CREATE_OBJ(m_Tree02[5], 3.0f, Environment, Tree02.obj, TreeTex.png, 455.0f, 25.0f, 440.0f, 0.0f, 0.4f, 0.0f);
+	CREATE_OBJ(m_Tree03[5], 2.0f, Environment, Tree03.obj, TreeTex.png, 460.0f, 25.0f, 420.0f, 0.0f, 0.4f, 0.0f);
+	CREATE_OBJ(m_Tree06[5], 3.0f, Environment, Tree06.obj, TreeTex.png, 440.0f, 30.0f, 401.0f, 0.0f, 0.4f, 0.0f);
 
-	CREATE_OBJ(m_Tree00[6], 8.0f, Environment, Tree00.obj, TreeTex.png, 420.0f, 30.0f, 240.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree00[6], 8.0f, Environment, Tree00.obj, TreeTex.png, 420.0f, 30.0f, 180.0f, 0.0f, 0.3f, 0.0f);
 	CREATE_OBJ(m_Tree01[6], 6.0f, Environment, Tree01.obj, TreeTex.png, 400.0f, 30.0f, 260.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree02[6], 3.0f, Environment, Tree02.obj, TreeTex.png, 455.0f, 25.0f, 255.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree03[6], 2.0f, Environment, Tree03.obj, TreeTex.png, 460.0f, 25.0f, 200.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree06[6], 3.0f, Environment, Tree06.obj, TreeTex.png, 440.0f, 30.0f, 220.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree02[6], 3.0f, Environment, Tree02.obj, TreeTex.png, 455.0f, 25.0f, 241.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree03[6], 2.0f, Environment, Tree03.obj, TreeTex.png, 460.0f, 25.0f, 219.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree06[6], 3.0f, Environment, Tree06.obj, TreeTex.png, 440.0f, 30.0f, 240.0f, 0.0f, 0.3f, 0.0f);
 
-	CREATE_OBJ(m_Tree00[7], 8.0f, Environment, Tree00.obj, TreeTex.png, 520.0f, 30.0f, 340.0f, 0.0f, 0.1f, 0.0f);
-	CREATE_OBJ(m_Tree01[7], 6.0f, Environment, Tree01.obj, TreeTex.png, 500.0f, 30.0f, 360.0f, 0.0f, 0.1f, 0.0f);
-	CREATE_OBJ(m_Tree02[7], 3.0f, Environment, Tree02.obj, TreeTex.png, 555.0f, 25.0f, 355.0f, 0.0f, 0.1f, 0.0f);
-	CREATE_OBJ(m_Tree03[7], 2.0f, Environment, Tree03.obj, TreeTex.png, 560.0f, 25.0f, 300.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree00[7], 8.0f, Environment, Tree00.obj, TreeTex.png, 520.0f, 30.0f, 355.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree01[7], 6.0f, Environment, Tree01.obj, TreeTex.png, 500.0f, 30.0f, 340.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree02[7], 3.0f, Environment, Tree02.obj, TreeTex.png, 555.0f, 25.0f, 360.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree03[7], 2.0f, Environment, Tree03.obj, TreeTex.png, 560.0f, 25.0f, 355.0f, 0.0f, 0.1f, 0.0f);
 	CREATE_OBJ(m_Tree06[7], 3.0f, Environment, Tree06.obj, TreeTex.png, 540.0f, 30.0f, 320.0f, 0.0f, 0.1f, 0.0f);
 
 	CREATE_OBJ(m_Tree00[8], 8.0f, Environment, Tree00.obj, TreeTex.png, 520.0f, 30.0f, 440.0f, 0.0f, 0.4f, 0.0f);
@@ -315,55 +307,19 @@ void ObjRender::Init()
 	CREATE_OBJ(m_Tree06[8], 3.0f, Environment, Tree06.obj, TreeTex.png, 540.0f, 30.0f, 420.0f, 0.0f, 0.4f, 0.0f);
 
 	CREATE_OBJ(m_Tree00[9], 8.0f, Environment, Tree00.obj, TreeTex.png, 520.0f, 30.0f, 240.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree01[9], 6.0f, Environment, Tree01.obj, TreeTex.png, 500.0f, 30.0f, 260.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree02[9], 3.0f, Environment, Tree02.obj, TreeTex.png, 555.0f, 25.0f, 255.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree03[9], 2.0f, Environment, Tree03.obj, TreeTex.png, 560.0f, 25.0f, 200.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree06[9], 3.0f, Environment, Tree06.obj, TreeTex.png, 540.0f, 30.0f, 220.0f, 0.0f, 0.3f, 0.0f);
-
-	for (int i = 10; i < 15; i++)
-	{
-		int x = rand() % 400 + 300;
-		int y = rand() % 100 + 560;
-		int plus0 = rand() % 30;
-		int plus1 = rand() % 30;
-		int plus2 = rand() % 30;
-		int plus3 = rand() % 30;
-		int plus4 = rand() % 30;
-		int plus5 = rand() % 30;
-		int plus6 = rand() % 30;
-		CREATE_OBJ(m_Tree00[i], 8.0f, Environment, Tree00.obj, TreeTex.png, x + plus0, 30.0f, y + plus0, 0.0f, plus0 % 99, 0.0f);
-		CREATE_OBJ(m_Tree01[i], 6.0f, Environment, Tree01.obj, TreeTex.png, x + plus1, 30.0f, y + plus1, 0.0f, plus1 % 99, 0.0f);
-		CREATE_OBJ(m_Tree02[i], 3.0f, Environment, Tree02.obj, TreeTex.png, x + plus2, 25.0f, y + plus2, 0.0f, plus2 % 99, 0.0f);
-		CREATE_OBJ(m_Tree03[i], 2.0f, Environment, Tree03.obj, TreeTex.png, x + plus3, 25.0f, y + plus3, 0.0f, plus3 % 99, 0.0f);
-		CREATE_OBJ(m_Tree06[i], 3.0f, Environment, Tree06.obj, TreeTex.png, x + plus6, 30.0f, y + plus6, 0.0f, plus6 % 99, 0.0f);
-	}
-	for (int i = 15; i < 20; i++)
-	{
-		int x = rand() % 400 + 300;
-		int y = rand() % 100 + 10;
-		int plus0 = rand() % 100;
-		int plus1 = rand() % 100;
-		int plus2 = rand() % 100;
-		int plus3 = rand() % 100;
-		int plus4 = rand() % 100;
-		int plus5 = rand() % 100;
-		int plus6 = rand() % 100;
-		CREATE_OBJ(m_Tree00[i], 8.0f, Environment, Tree00.obj, TreeTex.png, x + plus0, 30.0f, y + plus0, 0.0f, plus0 % 99, 0.0f);
-		CREATE_OBJ(m_Tree01[i], 6.0f, Environment, Tree01.obj, TreeTex.png, x + plus1, 30.0f, y + plus1, 0.0f, plus1 % 99, 0.0f);
-		CREATE_OBJ(m_Tree02[i], 3.0f, Environment, Tree02.obj, TreeTex.png, x + plus2, 25.0f, y + plus2, 0.0f, plus2 % 99, 0.0f);
-		CREATE_OBJ(m_Tree03[i], 2.0f, Environment, Tree03.obj, TreeTex.png, x + plus3, 25.0f, y + plus3, 0.0f, plus3 % 99, 0.0f);
-		CREATE_OBJ(m_Tree06[i], 3.0f, Environment, Tree06.obj, TreeTex.png, x + plus6, 30.0f, y + plus6, 0.0f, plus6 % 99, 0.0f);
-	}
+	CREATE_OBJ(m_Tree01[9], 6.0f, Environment, Tree01.obj, TreeTex.png, 500.0f, 30.0f, 255.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree02[9], 3.0f, Environment, Tree02.obj, TreeTex.png, 555.0f, 25.0f, 240.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree03[9], 2.0f, Environment, Tree03.obj, TreeTex.png, 560.0f, 25.0f, 190.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree06[9], 3.0f, Environment, Tree06.obj, TreeTex.png, 540.0f, 30.0f, 222.0f, 0.0f, 0.3f, 0.0f);
 
 	//지푸라기
 	CREATE_OBJ(m_Straw00[0], 3.0f, Environment, Straw00.obj, StrawTex.png, 7.0f, 25.0f, 71.0f, 0.0f, D3DX_PI / 2, 0.0f);
 	CREATE_OBJ(m_Straw00[1], 3.0f, Environment, Straw00.obj, StrawTex.png, 7.0f, 25.0f, 61.0f, 0.0f, D3DX_PI / 2, 0.0f);
 	//돌
 	CREATE_OBJ(m_Stone00[0], 6.0f, Environment, Stone00.obj, StoneTex.png, 440.0f, 25.0f, 424.0f, 0.0f, D3DX_PI / 2, 0.0f);
-	CREATE_OBJ(m_Stone00[1], 2.0f, Environment, Stone00.obj, StoneTex.png, 292.0f, 22.0f, 578.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Stone00[1], 2.0f, Environment, Stone00.obj, StoneTex.png, 292.0f, 22.0f, 538.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_Stone00[2], 2.0f, Environment, Stone00.obj, StoneTex.png, 332.0f, 22.0f, 210.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_Stone00[3], 3.0f, Environment, Stone00.obj, StoneTex.png, 333.0f, 22.0f, 320.0f, 0.0f, 0.0f, 0.0f);
-
 
 	//탱크
 	CREATE_OBJ(m_Tank[0], 8.5f, ETC, Tank00.obj, TankTex.png, 354.0f, 25.0f, 454.0f, 0.0f, D3DX_PI / 2, 0.0f);
@@ -387,18 +343,18 @@ void ObjRender::Render()
 	for (int i = 0; i < 16; i++)
 		SAFE_RENDER(m_MapTest[i]);
 	//철조망
-	for (int i = 0; i < 48; i++)
+	for (int i = 0; i < 53; i++)
 		SAFE_RENDER(m_BarbedWireT[i]);
 	//사격받침
 	SAFE_RENDER(m_FireStep00);
 	//모래
 	for (int i = 0; i < 30; i++)
 		SAFE_RENDER(SaddleBag0[i]);
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 17; i++)
 		SAFE_RENDER(SaddleBag1[i]);
 
 	//나무
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		SAFE_RENDER(m_Tree00[i]);
 		SAFE_RENDER(m_Tree01[i]);
@@ -427,7 +383,6 @@ void ObjRender::Render()
 		SAFE_RENDER(m_Wagon[i]);
 	}
 
-	//건물
 	//건물
 	for (int i = 0; i < 3; i++)
 	{

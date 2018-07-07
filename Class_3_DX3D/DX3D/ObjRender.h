@@ -12,23 +12,23 @@ public:
 	ObjRen*			m_MapTest[16];
 
 	//철조망
-	ObjRen*			m_BarbedWireT[48];
+	ObjRen*			m_BarbedWireT[53];
 
 	//사격받침
 	ObjRen*			m_FireStep00;
 
 	//주머니
 	ObjRen*			SaddleBag0[30];
-	ObjRen*			SaddleBag1[30];
+	ObjRen*			SaddleBag1[17];
 
 	//나무
-	ObjRen*			m_Tree00[20];
-	ObjRen*			m_Tree01[20];
-	ObjRen*			m_Tree02[20];
-	ObjRen*			m_Tree03[20];
+	ObjRen*			m_Tree00[10];
+	ObjRen*			m_Tree01[10];
+	ObjRen*			m_Tree02[10];
+	ObjRen*			m_Tree03[10];
 	//ObjRen*			m_Tree04[10];
 	//ObjRen*			m_Tree05[10];
-	ObjRen*			m_Tree06[20];
+	ObjRen*			m_Tree06[10];
 
 	//지푸라기
 	ObjRen*			m_Straw00[2];
