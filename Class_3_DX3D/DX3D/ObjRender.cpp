@@ -18,7 +18,7 @@ ObjRender::ObjRender()
 	//모래
 	for (int i = 0; i < 30; i++)
 		SaddleBag0[i] = NULL;
-	for (int i = 0; i < 17; i++)
+	for (int i = 0; i < 33; i++)
 		SaddleBag1[i] = NULL;
 
 	//나무
@@ -73,7 +73,7 @@ ObjRender::~ObjRender()
 	//모래
 	for (int i = 0; i < 30; i++)
 		SaddleBag0[i]->~ObjRen();
-	for (int i = 0; i < 17; i++)
+	for (int i = 0; i < 33; i++)
 		SaddleBag1[i]->~ObjRen();
 
 	//나무
@@ -247,9 +247,26 @@ void ObjRender::Init()
 	CREATE_OBJ(SaddleBag1[11], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 236.0f, 23.8f, 268.0f, 0.0f, -0.63f, 0.0f);
 	CREATE_OBJ(SaddleBag1[12], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 236.0f, 24.2f, 234.0f, 0.0f, 0.69f, 0.0f);
 	CREATE_OBJ(SaddleBag1[13], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 230.0f, 24.2f, 223.0f, 0.0f, -0.48f, 0.0f);
-	CREATE_OBJ(SaddleBag1[14], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 172.0f, 24.2f, 486.0f, 0.0f, D3DX_PI / 2, 0.0f);
-	CREATE_OBJ(SaddleBag1[15], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 168.0f, 22.3f, 408.0f, 0.0f, D3DX_PI / 2, 0.0f);
-	CREATE_OBJ(SaddleBag1[16], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 191.0f, 24.3f, 267.0f, 0.0f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[14], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 260.0f, 24.2f, 266.0f, 0.0f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[15], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 255.0f, 24.3f, 247.0f, 0.0f, 0.67f, 0.0f);
+	CREATE_OBJ(SaddleBag1[16], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 259.0f, 24.3f, 236.0f, 0.0f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[17], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 259.0f, 24.3f, 221.0f, 0.0f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[18], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 251.0f, 23.7f, 210.0f, 0.0f, -0.95f / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[19], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 233.0f, 23.4f, 200.0f, 0.0f, -0.95f / 2, 0.0f);
+
+	CREATE_OBJ(SaddleBag1[20], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 242.0f, 23.2f, 519.0f, 0.0f, 0.57f, 0.0f);
+	CREATE_OBJ(SaddleBag1[21], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 247.0f, 23.2f, 488.0f, 0.0f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[22], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 230.0f, 22.8f, 464.0f, 0.0f, -0.83f, 0.0f);
+	CREATE_OBJ(SaddleBag1[23], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 246.0f, 23.6f, 369.0f, 0.0f, -0.16f, 0.0f);
+	CREATE_OBJ(SaddleBag1[24], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 234.0f, 23.6f, 367.0f, 0.0f, -0.16f, 0.0f);
+	CREATE_OBJ(SaddleBag1[25], 4.0f, SaddleBag, SaddleBag01.obj, SaddleBagTex.png, 246.0f, 23.8f, 336.0f, 0.0f, 0.67f, 0.0f);
+	CREATE_OBJ(SaddleBag1[26], 4.0f, SaddleBag, SaddleBag01.obj, SaddleBagTex.png, 247.0f, 24.2f, 303.0f, 0.0f, -0.83f, 0.0f);
+	CREATE_OBJ(SaddleBag1[27], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 249.0f, 24.3f, 293.0f, 0.0f, 0.69f, 0.0f);
+	CREATE_OBJ(SaddleBag1[28], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 255.0f, 24.3f, 258.0f, 0.0f, -0.67f, 0.0f);
+	CREATE_OBJ(SaddleBag1[29], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 243.0f, 23.4f, 205.0f, 0.0f, -0.95f / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[30], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 172.0f, 24.2f, 486.0f, 0.0f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[31], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 168.0f, 22.3f, 408.0f, 0.0f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(SaddleBag1[32], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 191.0f, 24.3f, 267.0f, 0.0f, D3DX_PI / 2, 0.0f);
 
 	//나무
 	CREATE_OBJ(m_Tree00[0], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 30.0f, 321.0f, 0.0f, 0.1f, 0.0f);
@@ -350,7 +367,7 @@ void ObjRender::Render()
 	//모래
 	for (int i = 0; i < 30; i++)
 		SAFE_RENDER(SaddleBag0[i]);
-	for (int i = 0; i < 17; i++)
+	for (int i = 0; i < 33; i++)
 		SAFE_RENDER(SaddleBag1[i]);
 
 	//나무

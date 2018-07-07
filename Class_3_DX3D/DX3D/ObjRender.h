@@ -19,7 +19,7 @@ public:
 
 	//주머니
 	ObjRen*			SaddleBag0[30];
-	ObjRen*			SaddleBag1[17];
+	ObjRen*			SaddleBag1[33];
 
 	//나무
 	ObjRen*			m_Tree00[10];
