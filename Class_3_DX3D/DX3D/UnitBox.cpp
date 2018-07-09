@@ -90,7 +90,7 @@ void UnitBox::Init()
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
 	LocationSharing();
-	CreateMob(30);
+	//CreateMob(30);
 }
 
 void UnitBox::Update()
@@ -100,10 +100,14 @@ void UnitBox::Update()
 	/*if (mobCreateBuffer <= 0) {
 	mobCreateBuffer += 20;
 	}*/
+	if (GetAsyncKeyState(VK_F2) & 0x0001)
+	{
+		CreateMob(20);
+	}
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
 	{
 		MobStart = true;
-		Startamount++;
+		Startamount = 2;
 	}
 		
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
@@ -140,7 +144,7 @@ void UnitBox::Update()
 	//타겟을따라서 움직이는 내용
 	if (MobStart)
 	{
-		int temp = (Startamount - 1) * 5 + 10;
+		int temp = Startamount * 5 + 10;
 		if (m_pMob.size() > 0)
 		{
 			for (size_t i = 0; i < temp; i++)

@@ -39,6 +39,7 @@ SoundManager::SoundManager()
 	runInterval = 0;
 	reloadInterval = 0;
 	volume_music = GSM().volume_music_init;
+	volume_effect = GSM().volume_music_init;
 
 	// 3D Setting
 	ListenerPos = { 0.0f, 0.0f, 0.0f };
@@ -78,7 +79,13 @@ void SoundManager::soundList()
 	s_ambient_f.push_back("ambient_test_4");
 
 	// 3D
-	s_3D_f.push_back("21. Days of Thunder");
+	s_3D_f.push_back("Kar98az1p");
+	s_3D_f.push_back("Kar98az2p");
+	s_3D_f.push_back("0815-1pp");
+	s_3D_f.push_back("0815-2pp");
+	s_3D_f.push_back("0815-3pp");
+	s_3D_f.push_back("0815-4pp");
+	s_3D_f.push_back("0815-5pp");
 
 	// ÃÑ¼Ò¸®
 	s_shot_1_f.push_back("Kar98az1p");
@@ -139,7 +146,7 @@ void SoundManager::createSound()
 	CreateMP3(m_pMusic, "Music/", s_music, s_music_f, MUSIC);
 	CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
 
-	CreateMP3(m_p3D, "Music/", s_3D, s_3D_f, _3D);
+	CreateWAV(m_p3D, "Shot/", s_3D, s_3D_f, _3D);
 
 	CreateWAV(m_pShot_1, "Shot/", s_shot_1, s_shot_1_f, EFFECT);
 	CreateWAV(m_pReload, "Reload/", s_reload, s_reload_f, EFFECT);
@@ -198,16 +205,23 @@ void SoundManager::stopAmbient(int soundNum)
 
 void SoundManager::play3D(int soundNum)
 {
-	if (!m_p3D->isPlaying(soundNum))
-	{
-		m_p3D->PlaySound(soundNum);
+	//if (!m_p3D->isPlaying(soundNum))
+	//{
 		m_p3D->volumeControl(soundNum, volume_music);
-	}
+		m_p3D->PlaySound(soundNum);
+	//}
 }
 
-void SoundManager::update3D(int soundNum, D3DXVECTOR3 lPos, D3DXVECTOR3 sPos)
+void SoundManager::updateSpeaker(int soundNum, D3DXVECTOR3 sPos)
 {
 	SpeakerPos = { sPos.x, sPos.y, sPos.z };
+
+	m_p3D->setSpeaker(soundNum, SpeakerPos, SpeakerVel);
+	play3D(soundNum);
+}
+
+void SoundManager::updateListener(D3DXVECTOR3 lPos)
+{
 	ListenerPos = { lPos.x, lPos.y, lPos.z };
 
 	ListenerVel.x = (ListenerPos.x - ListenerLastPos.x) * (1000.0 / 50.0);
@@ -216,9 +230,10 @@ void SoundManager::update3D(int soundNum, D3DXVECTOR3 lPos, D3DXVECTOR3 sPos)
 
 	ListenerLastPos = ListenerPos;
 
-	m_p3D->setSpeaker(soundNum, SpeakerPos, SpeakerVel);
-	m_p3D->setListener(soundNum, ListenerPos, ListenerVel, ListenerForward, ListenerUp);
-	m_p3D->Update();
+	ListenerForward = { g_pCamera->getDir().x , 0, g_pCamera->getDir().z };
+
+	m_p3D->setListener(ListenerPos, ListenerVel, ListenerForward, ListenerUp);
+	update3D();
 }
 
 D3DXVECTOR3 SoundManager::getSpeakerPos()
@@ -239,6 +254,18 @@ D3DXVECTOR3 SoundManager::getListenerPos()
 	lPos.z = ListenerPos.z;
 
 	return lPos;
+}
+
+void SoundManager::setSpeakerPos(D3DXVECTOR3 sPos)
+{
+	SpeakerPos.x = sPos.x;
+	SpeakerPos.y = sPos.y;
+	SpeakerPos.z = sPos.z;
+}
+
+void SoundManager::update3D()
+{
+	m_p3D->Update();
 }
 
 

@@ -26,6 +26,7 @@ private:
 	int runInterval;
 	int reloadInterval;
 	float volume_music;
+	float volume_effect;
 
 	// 3D Setting
 	FMOD_VECTOR ListenerPos;
@@ -53,9 +54,12 @@ public:
 	void stopAmbient(int soundNum);
 
 	void play3D(int soundNum);
-	void update3D(int soundNum, D3DXVECTOR3 lPos, D3DXVECTOR3 sPos);
+	void updateSpeaker(int soundNum, D3DXVECTOR3 sPos);
+	void updateListener(D3DXVECTOR3 lPos);
 	D3DXVECTOR3 getSpeakerPos();
 	D3DXVECTOR3 getListenerPos();
+	void setSpeakerPos(D3DXVECTOR3 sPos);
+	void update3D();
 
 	// 넘을 수 없는 벽
 	void ShotSound();

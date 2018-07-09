@@ -11,8 +11,8 @@
 #define DISTANCE_FACTOR 10.0
 #define ROLLOFF_SCALE	0.1
 
-#define minDistance 0.5
-#define maxDistance 500.0
+#define minDistance 5.0
+#define maxDistance 50.0
 
 enum SoundType
 {
@@ -128,7 +128,7 @@ void SoundControl::setSpeaker(int nIndex, FMOD_VECTOR sPos, FMOD_VECTOR sVel)
 	//FMOD_Channel_SetVolume(m_ppChannel[nIndex], volume);
 }
 
-void SoundControl::setListener(int nIndex, FMOD_VECTOR lPos, FMOD_VECTOR lVel, FMOD_VECTOR lFoward, FMOD_VECTOR lUp)
+void SoundControl::setListener(FMOD_VECTOR lPos, FMOD_VECTOR lVel, FMOD_VECTOR lFoward, FMOD_VECTOR lUp)
 {
 	result = FMOD_System_Set3DListenerAttributes(m_pSystem, 0, &lPos, &lVel, &lFoward, &lUp);
 }

@@ -49,11 +49,12 @@ void SceneTest::Init()
 
 void SceneTest::Update()
 {
-	g_pSoundManager->update3D(0, g_pCamera->getPos(), SpeakerPos);
+	g_pSoundManager->updateListener(g_pCamera->getPos());
 
 	if (GetKeyState('1') & 0x8000)
 	{
-		SpeakerPos = g_pSoundManager->getListenerPos();
+		SpeakerPos = g_pCamera->getPos();
+		g_pSoundManager->updateSpeaker(0, SpeakerPos);
 	}
 
 	Debug->AddText("Listener Pos : ");
