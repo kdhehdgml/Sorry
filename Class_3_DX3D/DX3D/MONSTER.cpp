@@ -65,47 +65,60 @@ void MONSTER::Update()
 	if (STATE)
 	{
 
-	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	
-	UpdateAnim();
-	UpdateFrameMatrices(m_pRootFrame, NULL);
+		D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 
-	D3DXMatrixRotationY(&matR, m_angle);
-	m_matWorld = matS * matR * matT;
+		UpdateAnim();
+		UpdateFrameMatrices(m_pRootFrame, NULL);
 
-	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
-	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
+		D3DXMatrixRotationY(&matR, m_angle);
+		m_matWorld = matS * matR * matT;
 
-	//Debug->AddText("애니 인덱스 : ");
-	//Debug->AddText(m_AnimaTionIndex);
-	//Debug->EndLine();
+		m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
+		m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
 
-	//if (Keyboard::Get()->KeyDown('F7'))
-	//{
-	//	m_AnimaTionIndex++;
+		//Debug->AddText("애니 인덱스 : ");
+		//Debug->AddText(m_AnimaTionIndex);
+		//Debug->EndLine();
 
-	//	if (m_AnimaTionIndex > 9)
-	//		m_AnimaTionIndex = 0;
-	//}
+		//if (Keyboard::Get()->KeyDown('F7'))
+		//{
+		//	m_AnimaTionIndex++;
 
-	//if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f &&
-	//	m_AnimaTionIndex == 4)
-	//{
+		//	if (m_AnimaTionIndex > 9)
+		//		m_AnimaTionIndex = 0;
+		//}
 
-	//	//트랙속도 감소!
-	//	m_pAnimController->SetTrackSpeed(0, 0);
-	//	
-	//}
-	//나중에 다시 불러올떄 1로 다시해주면 속도가 돌아온다
-	//m_pAnimController->SetTrackSpeed(0, 1);
+		//if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f &&
+		//	m_AnimaTionIndex == 4)
+		//{
 
-	//
-	//Debug->AddText("애니메이션 On/Off : ");
-	//Debug->AddText(m_animationSTATE);
-	//Debug->EndLine();
+		//	//트랙속도 감소!
+		//	m_pAnimController->SetTrackSpeed(0, 0);
+		//	
+		//}
+		//나중에 다시 불러올떄 1로 다시해주면 속도가 돌아온다
+		//m_pAnimController->SetTrackSpeed(0, 1);
 
+		//
+		//Debug->AddText("애니메이션 On/Off : ");
+		//Debug->AddText(m_animationSTATE);
+		//Debug->EndLine();
+		if (m_AnimaTionIndex == 몹_달리다가죽기 || m_AnimaTionIndex == 몹_죽음)
+		{
+			if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f)
+			{
+				//트랙속도 감소!
+				m_pAnimController->SetTrackSpeed(0, 0);
+			}
+		}
+		else
+		{
+			m_pAnimController->SetTrackSpeed(0, 1);
+		}
 
 	SetAnimationIndex(m_AnimaTionIndex, true);
+
+
 	}
 
 }
