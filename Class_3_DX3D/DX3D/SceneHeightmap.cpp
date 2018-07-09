@@ -344,6 +344,14 @@ void SceneHeightmap::Update()
 	SAFE_UPDATE(m_pTalk);
 	SAFE_UPDATE(m_pMenuUI);
 
+	g_pSoundManager->update3D(0, g_pCamera->getPos(), SpeakerPos, g_pCamera->getDir());
+	if (GetKeyState('1') & 0x8000)
+	{
+		SpeakerPos = g_pSoundManager->getListenerPos();
+		int r2 = rand() % 2;
+		g_pSoundManager->play3D(r2);
+	}
+
 	float height;
 	D3DXVECTOR3 currentPos = g_pCamera->getPos();
 	bool isIntersected = g_pCurrentMap->GetHeight(height, currentPos);

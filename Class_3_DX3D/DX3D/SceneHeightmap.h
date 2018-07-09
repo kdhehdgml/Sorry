@@ -39,6 +39,7 @@ private:
 	//Picking *		m_pPicking;
 	//SkinnedMesh *	m_pSkinnedMesh;
 	
+	D3DXVECTOR3 SpeakerPos;
 
 	//최적화를 위한 컬링
 	//Frustum			*m_Frustum;

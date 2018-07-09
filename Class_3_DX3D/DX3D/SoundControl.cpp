@@ -11,8 +11,8 @@
 #define DISTANCE_FACTOR 10.0
 #define ROLLOFF_SCALE	0.1
 
-#define minDistance 0.5
-#define maxDistance 500.0
+#define minDistance 5.0
+#define maxDistance 50.0
 
 enum SoundType
 {

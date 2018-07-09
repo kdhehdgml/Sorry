@@ -53,7 +53,7 @@ public:
 	void stopAmbient(int soundNum);
 
 	void play3D(int soundNum);
-	void update3D(int soundNum, D3DXVECTOR3 lPos, D3DXVECTOR3 sPos);
+	void update3D(int soundNum, D3DXVECTOR3 lPos, D3DXVECTOR3 sPos, D3DXVECTOR3 lDir);
 	D3DXVECTOR3 getSpeakerPos();
 	D3DXVECTOR3 getListenerPos();
 

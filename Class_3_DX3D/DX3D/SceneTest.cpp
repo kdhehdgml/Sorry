@@ -49,7 +49,7 @@ void SceneTest::Init()
 
 void SceneTest::Update()
 {
-	g_pSoundManager->update3D(0, g_pCamera->getPos(), SpeakerPos);
+	g_pSoundManager->update3D(0, g_pCamera->getPos(), SpeakerPos,g_pCamera->getDir());
 
 	if (GetKeyState('1') & 0x8000)
 	{
