@@ -95,7 +95,8 @@ void Mob::Update()
 		Debug->AddText(" / 높이: ");
 		Debug->AddText(m_pBoundingSphereBody->center.y);
 		Debug->EndLine();
-		
+		m_MONSTER->SetPos(m_pos);
+
 		
 	}
 	Act_Action();
@@ -106,7 +107,6 @@ void Mob::Update()
 	//Debug->EndLine();
 
 	//살아있을때만 포지션을 받아온다
-	m_MONSTER->SetPos(m_pos);
 
 
 	m_MONSTER->SetAngle(m_rot.y);
@@ -135,11 +135,7 @@ void Mob::Render()
 	
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
-	if (g_pFrustum->IsMobAIFrustum(this))
-	{
-		m_MONSTER->SetRenderSTATE(true);
-		m_MONSTER->Render();
-	}
+	
 
 
 	if (status > 0) {
@@ -163,6 +159,11 @@ void Mob::Render()
 			g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 			g_pDevice->SetTexture(0, NULL);
 			m_pSphereHead->DrawSubset(0);
+		}
+		if (g_pFrustum->IsMobAIFrustum(this))
+		{
+			m_MONSTER->SetRenderSTATE(true);
+			m_MONSTER->Render();
 		}
 	}
 }
@@ -558,6 +559,9 @@ void Mob::Shooting()
 					m_ShootCooldownTime = 0;
 					m_shootingbullet--;
 					m_bullet--;
+
+					int r5 = rand() % 5;
+					g_pSoundManager->updateSpeaker(r5 + 2, m_pos);
 				}
 			}
 		}

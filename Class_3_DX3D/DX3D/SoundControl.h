@@ -24,7 +24,7 @@ public:
 	bool isPlaying(int nIndex);
 	void volumeControl(int nIndex, float volume);
 	void setSpeaker(int nIndex, FMOD_VECTOR sPos, FMOD_VECTOR sVel);
-	void setListener(int nIndex, FMOD_VECTOR lPos, FMOD_VECTOR lVel, FMOD_VECTOR lFoward, FMOD_VECTOR lUp);
+	void setListener(FMOD_VECTOR lPos, FMOD_VECTOR lVel, FMOD_VECTOR lFoward, FMOD_VECTOR lUp);
 
 	void ReleaseSound();
 	void Update();

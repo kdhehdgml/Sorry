@@ -66,7 +66,7 @@ GSM::GSM()
 	mobPos.z = NODE_POSITSIZEZ;
 
 	// 몹 속도
-	mobSpeed = 0.1f;
+	mobSpeed = 0.3f;
 
 	// 사운드 초기 볼륨
 	volume_music_init = 5.0f;

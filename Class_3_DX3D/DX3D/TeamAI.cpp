@@ -333,6 +333,10 @@ void TeamAI::Shooting()
 				(50);
 			}
 			m_bullet--;
+
+			// 3D »ç¿îµå
+			int r2 = rand() % 2;
+			g_pSoundManager->updateSpeaker(r2, m_pos);
 		}
 		m_ShootCooldownTime = 0;
 	}

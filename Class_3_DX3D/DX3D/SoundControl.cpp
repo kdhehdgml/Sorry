@@ -128,7 +128,7 @@ void SoundControl::setSpeaker(int nIndex, FMOD_VECTOR sPos, FMOD_VECTOR sVel)
 	//FMOD_Channel_SetVolume(m_ppChannel[nIndex], volume);
 }
 
-void SoundControl::setListener(int nIndex, FMOD_VECTOR lPos, FMOD_VECTOR lVel, FMOD_VECTOR lFoward, FMOD_VECTOR lUp)
+void SoundControl::setListener(FMOD_VECTOR lPos, FMOD_VECTOR lVel, FMOD_VECTOR lFoward, FMOD_VECTOR lUp)
 {
 	result = FMOD_System_Set3DListenerAttributes(m_pSystem, 0, &lPos, &lVel, &lFoward, &lUp);
 }
