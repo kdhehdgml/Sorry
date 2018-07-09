@@ -8,11 +8,11 @@
 // 벽생성 매크로
 #define WALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ > Z1 && posZ < Z2))\
 			{ pNode->m_nodeState = STATE_WALL;\
-			Wall_location.push_back(pNode->m_location); }
+			Wall_location[0].push_back(pNode->m_location); }
 
 #define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ > Z1 && posZ < Z2))\
 			{ pNode->m_nodeState = STATE_NOHIDEWALL;\
-			nWall_location.push_back(pNode->m_location);}
+			Wall_location[1].push_back(pNode->m_location);}
 
 //노드 구체 사이즈 조절
 #define SPHERESIZE 2.5f
@@ -41,7 +41,7 @@ void AStar::Init()
 {
 	D3DXCreateSphere(g_pDevice, SPHERESIZE, 10, 10, &m_pSphere, NULL);
 	m_pOpenNodeHeap = new Heap;
-
+	Wall_location.resize(2);
 	m_ColorCube = new ColorCube;
 	m_ColorCube->Init();
 
