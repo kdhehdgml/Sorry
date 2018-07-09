@@ -11,7 +11,8 @@
 			Wall_location.push_back(pNode->m_location); }
 
 #define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ > Z1 && posZ < Z2))\
-			{ pNode->m_nodeState = STATE_NOHIDEWALL; }
+			{ pNode->m_nodeState = STATE_NOHIDEWALL;\
+			nWall_location.push_back(pNode->m_location);}
 
 //노드 구체 사이즈 조절
 #define SPHERESIZE 2.5f
