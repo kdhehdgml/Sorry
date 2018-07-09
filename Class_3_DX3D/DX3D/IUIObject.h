@@ -1,7 +1,7 @@
 #pragma once
 #include "IDisplayObject.h"
 
-class IUIObject : public IDisplayObject
+class IUBaseObject : public IDisplayObject
 {
 protected:
 	LPD3DXSPRITE m_pSprite;
@@ -15,8 +15,8 @@ public:
 
 	bool		m_bDrawBorder;
 
-	IUIObject(LPD3DXSPRITE pSprite, int uiTag = -1);
-	virtual ~IUIObject();
+	IUBaseObject(LPD3DXSPRITE pSprite, int uiTag = -1);
+	virtual ~IUBaseObject();
 
 	// IDisplayObject을(를) 통해 상속됨
 	virtual void Init() override;
@@ -25,7 +25,7 @@ public:
 
 	void DrawBorder();
 	void UpdateCombinedPosition();
-	IUIObject* FindChildByUITag(int uiTag);
+	IUBaseObject* FindChildByUITag(int uiTag);
 	void GetFinalRect(RECT* rect);
 	const D3DXVECTOR3& GetCombinedPosition() { return m_combinedPos; }
 };

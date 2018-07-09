@@ -62,15 +62,15 @@ private:
 	//
 	LPD3DXSPRITE m_pCrosshairSprite;
 	LPD3DXSPRITE m_pScopeSprite;
-	IUIObject* m_pCrosshair;
-	IUIObject* m_pScope;
+	IUBaseObject* m_pCrosshair;
+	IUBaseObject* m_pScope;
 	UIImage* m_pCrosshairImage;
 	UIImage* m_pScopeImage;
 	bool m_pCrosshairOn;
 	bool m_pScopeOn;
 
 	LPD3DXSPRITE m_pTalkSprite;
-	IUIObject* m_pTalk;
+	IUBaseObject* m_pTalk;
 	UIImage* m_pTalkImage;
 	bool m_pTalkOn;
 	LPARAM m_pLParam;

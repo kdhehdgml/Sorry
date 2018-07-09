@@ -1,7 +1,7 @@
 #pragma once
 #include "IUIObject.h"
 
-class UIText : public IUIObject
+class UIText : public IUBaseObject
 {
 public:
 	LPD3DXFONT	m_pFont;

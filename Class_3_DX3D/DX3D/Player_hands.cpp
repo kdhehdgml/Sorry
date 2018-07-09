@@ -25,6 +25,7 @@
 
 Player_hands::Player_hands()
 {
+	
 	m_baseRotY = D3DX_PI;
 	health = 4;
 	m_pRootFrame = NULL;
@@ -63,6 +64,8 @@ Player_hands::~Player_hands()
 void Player_hands::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
+	m_renderMode = RenderMode::RenderMode_ShadowMapping;
+	Shaders::Get()->AddList(this, m_renderMode);
 
 	g_pCamera->SetTarget(&m_pos);
 	g_pKeyboardManager->SetMovingTarget(&m_keyState);
@@ -248,20 +251,35 @@ void Player_hands::Update()
 
 void Player_hands::Render()
 {
-	if (m_Render)
+	if (m_renderMode != RenderMode_Default) return;
 	{
-		m_numFrame = 0;
-		m_numMesh = 0;
-		//팔짤리는거 방지용으로 컬모즈를 잠시 제거함
-		g_pDevice->SetRenderState(D3DRS_CULLMODE, false);
+		if (m_Render)
+		{
+			m_numFrame = 0;
+			m_numMesh = 0;
+			//팔짤리는거 방지용으로 컬모즈를 잠시 제거함
+			g_pDevice->SetRenderState(D3DRS_CULLMODE, false);
 
-		if (m_bDrawFrame)DrawFrame(m_pRootFrame);
-		//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+			if (m_bDrawFrame)DrawFrame(m_pRootFrame);
+			//if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
 
-		//컬모드 원래대로 돌려주는것
-		g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+			//컬모드 원래대로 돌려주는것
+			g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
+		}
 	}
+
+}
+
+void Player_hands::RenderUseShader_0()
+{
+	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
+
+}
+
+void Player_hands::RenderUseShader_1()
+{
+	if (m_bDrawFrame)DrawFrame(m_pRootFrame);//if (m_pSubRootFrame) if (m_bDrawFrame)DrawFrame(m_pSubRootFrame);
 }
 
 void Player_hands::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -449,12 +467,42 @@ void Player_hands::DrawMeshContainer(LPD3DXFRAME pFrame)
 	//D3DXMatrixScaling(&m_matWorld, 5.0f, 5.0f, 5.0f);
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	for (size_t i = 0; i < pMeshContainerEx->vecMtlTex.size(); ++i)
+	if (m_renderMode == RenderMode::RenderMode_Default)
 	{
-		g_pDevice->SetMaterial(&pMeshContainerEx->vecMtlTex[i]->GetMaterial());
-		g_pDevice->SetTexture(0, pMeshContainerEx->vecMtlTex[i]->GetTexture());
-		pMeshContainerEx->pWorkMesh->DrawSubset(i);
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+		g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+		for (size_t i = 0; i < pMeshContainerEx->vecMtlTex.size(); ++i)
+		{
+			g_pDevice->SetMaterial(&pMeshContainerEx->vecMtlTex[i]->GetMaterial());
+			g_pDevice->SetTexture(0, pMeshContainerEx->vecMtlTex[i]->GetTexture());
+			pMeshContainerEx->pWorkMesh->DrawSubset(i);
+		}
 	}
+	else if (m_renderMode == RenderMode::RenderMode_Lighting)
+	{
+		for (size_t i = 0; i < pMeshContainerEx->vecMtlTex.size(); ++i)
+		{
+			Shaders::Get()->GetCurrentShader()->SetWorldMatrix(&m_matWorld);
+			Shaders::Get()->GetCurrentShader()->SetTexture(pMeshContainerEx->vecMtlTex[i]->pTexture);
+			Shaders::Get()->GetCurrentShader()->SetMaterial(&pMeshContainerEx->vecMtlTex[i]->material);
+			Shaders::Get()->GetCurrentShader()->Commit();
+			pMeshContainerEx->pWorkMesh->DrawSubset(i);
+		}
+	}
+	else if (m_renderMode == RenderMode::RenderMode_ShadowMapping)
+	{
+		for (size_t i = 0; i < pMeshContainerEx->vecMtlTex.size(); ++i)
+		{
+			Shaders::Get()->GetCurrentShader()->SetWorldMatrix(&m_matWorld);
+			Shaders::Get()->GetCurrentShader()->SetTexture(pMeshContainerEx->vecMtlTex[i]->pTexture);
+			Shaders::Get()->GetCurrentShader()->SetMaterial(&pMeshContainerEx->vecMtlTex[i]->material);
+			Shaders::Get()->GetCurrentShader()->Commit();
+			pMeshContainerEx->pWorkMesh->DrawSubset(i);
+		}
+	}
+
+	
 
 	g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 

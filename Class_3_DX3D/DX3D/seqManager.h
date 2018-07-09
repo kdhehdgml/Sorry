@@ -18,11 +18,9 @@ public:
 	void Update();
 	int getStage();
 	int getRound();
-	
-private:
+
+	int setReadyTime(int stage, int round);
 	void setStage();
-	void stage_1();
-	void stage_2();
-	void stage_3();
+	void Level(int stage, int round);
 };
 

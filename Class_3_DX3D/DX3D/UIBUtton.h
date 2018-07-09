@@ -9,7 +9,7 @@ public:
 	virtual void OnClick(UIButton* pSender) = 0;
 };
 
-class UIButton : public IUIObject
+class UIButton : public IUBaseObject
 {
 private:
 	enum ButtonState

@@ -42,30 +42,11 @@ void SceneTest::Init()
 	m_SkyBox = new SkyBox;
 	m_SkyBox->Init();
 	AddSimpleDisplayObj(m_SkyBox);
-
-	g_pSoundManager->createSound();
-	g_pSoundManager->play3D(0);
 }
 
 void SceneTest::Update()
 {
-	g_pSoundManager->updateListener(g_pCamera->getPos());
-
-	if (GetKeyState('1') & 0x8000)
-	{
-		SpeakerPos = g_pCamera->getPos();
-		g_pSoundManager->updateSpeaker(0, SpeakerPos);
-	}
-
-	Debug->AddText("Listener Pos : ");
-	Debug->AddText(g_pSoundManager->getListenerPos());
-	Debug->EndLine();
-	Debug->AddText("Speaker Pos : ");
-	Debug->AddText(g_pSoundManager->getSpeakerPos());
-	Debug->EndLine();
-	Debug->AddText("L--S Distance : ");
-	Debug->AddText(g_pSoundManager->getSpeakerPos() - g_pSoundManager->getListenerPos());
-	Debug->EndLine();
+	g_pSeqManager->Update();
 
 	OnUpdateIScene();
 }

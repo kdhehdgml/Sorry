@@ -84,6 +84,9 @@
     <Filter Include="소스 파일\Event">
       <UniqueIdentifier>{c03e1b93-71d9-4a77-9d6c-b9e357031a2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Shader">
+      <UniqueIdentifier>{8f271139-0de6-4411-9569-6e304308f340}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -348,6 +351,21 @@
       <Filter>소스 파일\Event</Filter>
     </ClInclude>
     <ClInclude Include="MenuUI.h" />
+    <ClInclude Include="IShader.h">
+      <Filter>소스 파일\3.Object\_Base</Filter>
+    </ClInclude>
+    <ClInclude Include="LightingShader.h">
+      <Filter>소스 파일\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMappingShader.h">
+      <Filter>소스 파일\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders.h">
+      <Filter>소스 파일\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects.h">
+      <Filter>소스 파일\3.Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -597,6 +615,18 @@
       <Filter>소스 파일\Event</Filter>
     </ClCompile>
     <ClCompile Include="MenuUI.cpp" />
+    <ClCompile Include="LightingShader.cpp">
+      <Filter>소스 파일\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMappingShader.cpp">
+      <Filter>소스 파일\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders.cpp">
+      <Filter>소스 파일\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects.cpp">
+      <Filter>소스 파일\3.Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

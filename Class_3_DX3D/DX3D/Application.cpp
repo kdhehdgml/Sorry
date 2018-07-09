@@ -21,7 +21,7 @@ void Application::Init()
 {
 	g_pDeviceManager->Init();
 	Mouse::Get()->SetHandle(g_hWnd);
-
+	Shaders::Get()->Init();
 	g_pCamera->Init();
 	g_pSceneManager->Init();
 	g_pFrustum->Init();
@@ -32,7 +32,7 @@ void Application::Destroy()
 {
 	Mouse::Get()->Delete();
 	Keyboard::Get()->Delete();
-	
+	Shaders::Get()->Delete();
 	g_pFrustum->Destroy();
 	g_pSceneManager->Destroy();
 	g_pObjMgr->Destroy();
@@ -50,6 +50,7 @@ void Application::Update()
 	{
 		Mouse::Get()->Update();
 		Keyboard::Get()->Update();
+		
 		Debug->InitText();
 		g_pTimeManager->Update();
 		g_pKeyboardManager->Update();

@@ -5,7 +5,7 @@ class MenuUI : public IDisplayObject, public IUIButtonDelegate
 {
 private:
 	LPD3DXSPRITE	m_pSprite;
-	IUIObject*		m_pRootUI;
+	IUBaseObject*		m_pRootUI;
 public:
 	MenuUI();
 	~MenuUI();

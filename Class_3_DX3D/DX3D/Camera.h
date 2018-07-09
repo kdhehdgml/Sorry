@@ -8,6 +8,12 @@
 class Camera
 {
 	SINGLETON(Camera)
+
+public:
+	struct TARGET_DESC
+	{
+		D3DXVECTOR3* position;
+	};
 private:
 	D3DXVECTOR3		m_eye;
 	D3DXVECTOR3		m_lookAt;
@@ -21,6 +27,9 @@ private:
 	bool			m_isLbuttonDown;
 	POINT			m_ptPrevMouse;
 	D3DXVECTOR3*	m_pTarget;
+
+	TARGET_DESC		m_targetDesc;
+
 
 	D3DXVECTOR3 dir;
 	D3DXVECTOR3 pos;
@@ -82,6 +91,11 @@ public:
 	bool mouseLock;
 	bool isPaused;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
+
+	const D3DXVECTOR3& GetPosition() { return m_eye; }
+	D3DXMATRIXA16* GetViewMatrix() { return &m_matView; }
+	D3DXMATRIXA16* GetProjMatrix() { return &m_matProj; }
+	D3DXMATRIXA16* GetViewProjMatrix() { return &(D3DXMATRIXA16)(m_matView * m_matProj); }
 
 	float getRecoil() { return m_recoilX; 	}
 };

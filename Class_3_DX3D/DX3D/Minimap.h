@@ -13,7 +13,7 @@ private:
 	UIImage * m_playerIcon;
 	vector<UIImage*> m_teamIcon;
 	vector<UIImage*> m_enemyIcon;
-	IUIObject* m_pRootUI;
+	IUBaseObject* m_pRootUI;
 
 	float minimapWidth;
 	float minimapHeight;

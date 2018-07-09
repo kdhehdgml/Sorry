@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "seqManager.h"
 
-#define Max 100
+#define STOP stopTime = true
 
 seqManager::seqManager()
 {
-	checkTime = 0;
+	checkTime = 100;
 	stopTime = false;
-	stage = 0;
+	stage = 1;
 	round = 0;
 }
 
@@ -22,10 +22,16 @@ void seqManager::Init()
 
 void seqManager::Update()
 {
-	if(!stopTime)
-		checkTime++;
+	if (!stopTime && checkTime > 0)
+		checkTime--;
 	
 	setStage();
+
+	if (GetKeyState('1') & 0x8000)
+	{
+		if(stopTime)
+			stopTime = false;
+	}
 
 	// 디버그 텍스트
 	{
@@ -49,76 +55,73 @@ int seqManager::getRound()
 	return round;
 }
 
+int seqManager::setReadyTime(int stage, int round)
+{
+	return 100;
+}
+
 void seqManager::setStage()
 {
-	if (stage == 0)
+	if (checkTime <= 0)
 	{
-		if (checkTime > Max)
+		if (round != 3)
+			round++;
+		else
 		{
-			checkTime = 0;
-			stage = 1;
+			stage++;
+			round = 0;
 		}
-	}
-	else if (stage == 1)
-	{
-		if (checkTime > Max)
-		{
-			if (round < 3)
-			{
-				checkTime = 0;
-				round++;
-			}
-			else if (round == 3)
-			{
-				checkTime = 0;
-				round = 0;
-				stage = 2;
-			}
-		}
-	}
-	else if (stage == 2)
-	{
-		if (checkTime > Max)
-		{
-			if (round < 3)
-			{
-				checkTime = 0;
-				round++;
-			}
-			else if (round == 3)
-			{
-				checkTime = 0;
-				round = 0;
-				stage = 3;
-			}
-		}
-	}
-	else if (stage == 3)
-	{
-		if (checkTime > Max)
-		{
-			if (round < 3)
-			{
-				checkTime = 0;
-				round++;
-			}
-			else if (round == 3)
-			{
-				checkTime = 0;
-				stopTime = true;
-			}
-		}
+		checkTime = setReadyTime(stage, round);
+		STOP;
 	}
 }
 
-void seqManager::stage_1()
+void seqManager::Level(int stage, int round)
 {
-}
+	switch (stage)
+	{
+	// 시작
+	case 0:
+		break;
 
-void seqManager::stage_2()
-{
-}
+	// 스테이지 1
+	case 1:
+		switch (round)
+		{
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		}
+		break;
 
-void seqManager::stage_3()
-{
+	// 스테이지 2
+	case 2:
+		switch (round)
+		{
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		}
+		break;
+
+	// 스테이지 3
+	case 3:
+		switch (round)
+		{
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		}
+		break;
+	}
+
 }

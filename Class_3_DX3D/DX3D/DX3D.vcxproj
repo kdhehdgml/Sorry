@@ -172,10 +172,13 @@
     <ClInclude Include="CD3Mesh.h" />
     <ClInclude Include="eventTalk.h" />
     <ClInclude Include="GUN.h" />
+    <ClInclude Include="IShader.h" />
+    <ClInclude Include="LightingShader.h" />
     <ClInclude Include="MainScreenUI.h" />
     <ClInclude Include="MenuUI.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="MONSTER.h" />
+    <ClInclude Include="Objects.h" />
     <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="ObjRen.h" />
     <ClInclude Include="ObjRender.h" />
@@ -183,6 +186,8 @@
     <ClInclude Include="SceneMainScreen.h" />
     <ClInclude Include="SceneShader.h" />
     <ClInclude Include="seqManager.h" />
+    <ClInclude Include="Shaders.h" />
+    <ClInclude Include="ShadowMappingShader.h" />
     <ClInclude Include="SoundControl.h" />
     <ClInclude Include="Blocks.h" />
     <ClInclude Include="Camera.h" />
@@ -261,10 +266,12 @@
     <ClCompile Include="CD3Mesh.cpp" />
     <ClCompile Include="eventTalk.cpp" />
     <ClCompile Include="GUN.cpp" />
+    <ClCompile Include="LightingShader.cpp" />
     <ClCompile Include="MainScreenUI.cpp" />
     <ClCompile Include="MenuUI.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="MONSTER.cpp" />
+    <ClCompile Include="Objects.cpp" />
     <ClCompile Include="ObjLoader.cpp" />
     <ClCompile Include="ObjRen.cpp" />
     <ClCompile Include="ObjRender.cpp" />
@@ -272,6 +279,8 @@
     <ClCompile Include="SceneMainScreen.cpp" />
     <ClCompile Include="SceneShader.cpp" />
     <ClCompile Include="seqManager.cpp" />
+    <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="ShadowMappingShader.cpp" />
     <ClCompile Include="SoundControl.cpp" />
     <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Camera.cpp" />

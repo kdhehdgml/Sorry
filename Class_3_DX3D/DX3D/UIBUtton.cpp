@@ -3,7 +3,7 @@
 #include "UIText.h"
 
 UIButton::UIButton(IUIButtonDelegate * pDelegate, LPD3DXSPRITE pSprite, int uiTag)
-	: IUIObject(pSprite, uiTag)
+	: IUBaseObject(pSprite, uiTag)
 	, m_pDelegate(pDelegate)
 	, m_buttonState(NORMAL)
 {
@@ -15,7 +15,7 @@ UIButton::~UIButton()
 
 void UIButton::Update()
 {
-	IUIObject::Update();
+	IUBaseObject::Update();
 
 	RECT rect;
 	GetFinalRect(&rect);
@@ -67,7 +67,7 @@ void UIButton::Render()
 		m_pSprite->Draw(m_aTexture[m_buttonState],
 			&rect, &m_pivot, &m_combinedPos, m_color);
 	}
-	IUIObject::Render();
+	IUBaseObject::Render();
 }
 
 void UIButton::SetTexture(string normal, string mouseOver, string selected)
