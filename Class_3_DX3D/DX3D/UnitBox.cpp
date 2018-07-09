@@ -73,6 +73,8 @@ UnitBox::~UnitBox()
 
 void UnitBox::Init()
 {
+	MobStart = false;
+	Startamount = 0;
 	TeamPosition();
 	RandomSelectPosition();
 	m_CanSave.resize(m_SaveLocation.size(), true);
@@ -88,18 +90,22 @@ void UnitBox::Init()
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
 	LocationSharing();
+	CreateMob(45);
 }
 
 void UnitBox::Update()
 {
 	Debug->EndLine();
-	if (GetAsyncKeyState(VK_F2) & 0x0001)
-		CreateMob(20);
+		
 	/*if (mobCreateBuffer <= 0) {
 	mobCreateBuffer += 20;
 	}*/
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
-		MobStart = !MobStart;
+	{
+		MobStart = true;
+		Startamount++;
+	}
+		
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
 		ReSetMob();
 	//아군 제대 리젠
@@ -131,12 +137,17 @@ void UnitBox::Update()
 			SAFE_UPDATE(m_pTeam[i]);
 		}
 	}
+	//타겟을따라서 움직이는 내용
 	if (MobStart)
 	{
-		//타겟을따라서 움직이는 내용
+		int Amin = 0;
+		if(Startamount >1)
+			Amin = (Startamount - 1) * 10 + (Startamount - 2) * 5;
+
+		int Amax = Startamount * 10 + (Startamount - 1) * 5;
 		if (m_pMob.size() > 0)
 		{
-			for (size_t i = 0; i < m_pMob.size(); i++)
+			for (size_t i = Amin; i < Amax; i++)
 			{
 				SAFE_UPDATE(m_pMob[i]);
 				//장애물뒤에 숨기
@@ -148,17 +159,24 @@ void UnitBox::Update()
 			}
 		}
 	}
+	
 }
 
 void UnitBox::Render()
 {
 	if (MobStart)
 	{
-		for (size_t i = 0; i < m_pMob.size(); i++)
+		int Amin = 0;
+		if (Startamount >1)
+			Amin = (Startamount - 1) * 10 + (Startamount - 2) * 5;
+
+		int Amax = Startamount * 10 + (Startamount - 1) * 5;
+		for (size_t i = Amin; i < Amax; i++)
 		{
 			SAFE_RENDER(m_pMob[i]);
 		}
 	}
+	
 	for (size_t i = 0; i < m_pTeam.size(); i++)
 	{
 		SAFE_RENDER(m_pTeam[i]);
@@ -582,7 +600,7 @@ void UnitBox::CheckNumberOfLivingAI()
 
 void UnitBox::LocationSharing()
 {
-	m_LocationList.resize(5);
+	m_LocationList.resize(8);
 	for (auto p : m_SaveLocation)
 	{
 		switch ((int)p.x)
@@ -591,16 +609,31 @@ void UnitBox::LocationSharing()
 			m_LocationList[0].push_back(p);
 			break;
 		case 325:
-			m_LocationList[1].push_back(p);
-			break;
-		case 353:
 			m_LocationList[2].push_back(p);
 			break;
-		case 410:
+		case 353:
 			m_LocationList[3].push_back(p);
 			break;
+		case 410:
+			m_LocationList[5].push_back(p);
+			break;
 		case 439:
+			m_LocationList[6].push_back(p);
+			break;
+		}
+	}
+	for (auto p : m_nWallLocation)
+	{
+		switch ((int)p.x)
+		{
+		case 296:
+			m_LocationList[1].push_back(p);
+			break;
+		case 382:
 			m_LocationList[4].push_back(p);
+			break;
+		case 467:
+			m_LocationList[7].push_back(p);
 			break;
 		}
 	}

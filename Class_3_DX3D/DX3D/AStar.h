@@ -14,8 +14,7 @@ private:
 	Heap*				m_pOpenNodeHeap;
 	LPD3DXMESH			m_pSphere;
 	vector<D3DXVECTOR3> m_vecObstacle;
-	vector<D3DXVECTOR3> Wall_location;
-	vector<D3DXVECTOR3> nWall_location;
+	vector<vector<D3DXVECTOR3>> Wall_location;
 	ColorCube *			m_ColorCube;
 	D3DXVECTOR3			m_CubePos;
 	int					m_count;
@@ -34,7 +33,7 @@ public:
 	{
 		m_vecObstacle = vecObstacle;
 	}
-	vector<D3DXVECTOR3> GetWallLocation() { return Wall_location; }
+	vector<vector<D3DXVECTOR3>> GetWallLocation() { return Wall_location; }
 	void FindPath(D3DXVECTOR3 startPos, D3DXVECTOR3 destPos,
 		OUT vector<int>& vecIndex);
 private:

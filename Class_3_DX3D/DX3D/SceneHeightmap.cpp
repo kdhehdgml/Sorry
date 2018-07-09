@@ -181,7 +181,7 @@ void SceneHeightmap::Init()
 
 	//중현이코드
 	m_pUnit = new UnitBox();
-	m_pUnit->SetLocation(m_pHeightMap->SetWall());
+	m_pUnit->SetLocation(m_pHeightMap->GetWall());
 	m_pUnit->Init();
 	//AddSimpleDisplayObj(m_pUnit);
 

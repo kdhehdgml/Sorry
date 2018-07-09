@@ -20,6 +20,7 @@ private:
 
 	vector<TeamAI*>	m_pTeam;
 	vector<D3DXVECTOR3> m_SaveLocation;
+	vector<D3DXVECTOR3> m_nWallLocation;
 	vector<vector<D3DXVECTOR3>> m_LocationList;
 	vector<EmptyWall> m_CanSeeDirection;
 	vector<bool>		m_CanSave;
@@ -29,13 +30,17 @@ private:
 	int				TeamNum;
 	int				NOL_Mob;
 	int				NOL_Team;
+	int				Startamount;
 	bool			m_SameChk;
 	bool			MobStart;
+	
 public:
 	UnitBox();
 	~UnitBox();
 	vector<Mob*>	m_pMob;
-	virtual void SetLocation(vector<D3DXVECTOR3> _location) { m_SaveLocation = _location; }
+	void SetLocation(vector<vector<D3DXVECTOR3>> _location) 
+	{	m_SaveLocation = _location[0]; 
+		m_nWallLocation = _location[1]; }
 	
 	// IDisplayObject을(를) 통해 상속됨
 	virtual void Init() override;
