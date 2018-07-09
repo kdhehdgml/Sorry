@@ -56,9 +56,9 @@ GSM::GSM()
 	fogMax = mapSize;
 
 	// 카메라 초기 위치
-	camPos.x = 160.0f;
-	camPos.z = 375.0f;
-	camPos.y = -10.0f;
+	camPos.x = 152.0f;
+	camPos.z = 331.0f;
+	camPos.y = 22.0f;
 
 	// 몹 초기 위치
 	// mobPos.x = mapSize - 50.0f;
