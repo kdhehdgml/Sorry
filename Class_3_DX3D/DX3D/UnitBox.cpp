@@ -87,6 +87,7 @@ void UnitBox::Init()
 	}
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
+	LocationSharing();
 }
 
 void UnitBox::Update()
@@ -575,6 +576,32 @@ void UnitBox::CheckNumberOfLivingAI()
 		for (auto p : m_pMob)
 		{
 			p->SetMoveSpeed(GSM().mobSpeed);
+		}
+	}
+}
+
+void UnitBox::LocationSharing()
+{
+	m_LocationList.resize(5);
+	for (auto p : m_SaveLocation)
+	{
+		switch ((int)p.x)
+		{
+		case 268:
+			m_LocationList[0].push_back(p);
+			break;
+		case 325:
+			m_LocationList[1].push_back(p);
+			break;
+		case 353:
+			m_LocationList[2].push_back(p);
+			break;
+		case 410:
+			m_LocationList[3].push_back(p);
+			break;
+		case 439:
+			m_LocationList[4].push_back(p);
+			break;
 		}
 	}
 }

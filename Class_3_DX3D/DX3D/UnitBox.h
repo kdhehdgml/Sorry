@@ -20,6 +20,7 @@ private:
 
 	vector<TeamAI*>	m_pTeam;
 	vector<D3DXVECTOR3> m_SaveLocation;
+	vector<vector<D3DXVECTOR3>> m_LocationList;
 	vector<EmptyWall> m_CanSeeDirection;
 	vector<bool>		m_CanSave;
 	vector<D3DXVECTOR3> m_TeamPosition;
@@ -50,6 +51,7 @@ public:
 	void CreateMob(int num);
 	void ReSetMob();
 	void CheckNumberOfLivingAI();
+	void LocationSharing();
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();
 	vector<TeamAI*>* getPTeam();

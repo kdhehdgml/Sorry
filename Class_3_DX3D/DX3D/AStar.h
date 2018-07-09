@@ -15,7 +15,7 @@ private:
 	LPD3DXMESH			m_pSphere;
 	vector<D3DXVECTOR3> m_vecObstacle;
 	vector<D3DXVECTOR3> Wall_location;
-	
+	vector<D3DXVECTOR3> nWall_location;
 	ColorCube *			m_ColorCube;
 	D3DXVECTOR3			m_CubePos;
 	int					m_count;
