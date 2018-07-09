@@ -30,7 +30,6 @@
 #include "ObjRender.h"// obj ÇØ´õ
 
 #include "MenuUI.h"
-//#include "seqManager.h"
 
 static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
 static int numProcessors;
