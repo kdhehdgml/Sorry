@@ -57,7 +57,7 @@ void Application::Update()
 		g_pCamera->Update();
 		g_pFrustum->Update();
 	}
-	g_pSceneManager->Update();
+	//g_pSceneManager->Update();
 	if (GetAsyncKeyState('M') & 0x0001)
 	{
 		Debug->ShowMessageBox();
