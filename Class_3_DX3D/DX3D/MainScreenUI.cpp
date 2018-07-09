@@ -76,7 +76,7 @@ void MainScreenUI::OnClick(UIButton * pSender)
 	if (pSender->m_uiTag == 1)
 	{
 		g_pSceneManager->SetCurrentScene(SCENE_LOADING);
-		g_pSceneManager->m_pCurrSceneString = "SCENE_LOADING";
+		//g_pSceneManager->m_pCurrSceneString = "SCENE_LOADING";
 	}
 	else if (pSender->m_uiTag == 2)
 	{

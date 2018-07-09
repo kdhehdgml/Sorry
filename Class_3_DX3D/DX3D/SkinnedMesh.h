@@ -22,6 +22,7 @@ protected:
 
 	float						m_angle;
 	D3DXVECTOR3					m_gun_pos;
+	D3DXMATRIXA16				m_gun_mat;
 
 	int							count;
 

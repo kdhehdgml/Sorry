@@ -347,6 +347,7 @@
     <ClInclude Include="eventTalk.h">
       <Filter>소스 파일\Event</Filter>
     </ClInclude>
+    <ClInclude Include="MenuUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -595,6 +596,7 @@
     <ClCompile Include="eventTalk.cpp">
       <Filter>소스 파일\Event</Filter>
     </ClCompile>
+    <ClCompile Include="MenuUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

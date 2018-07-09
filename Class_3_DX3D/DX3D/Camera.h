@@ -66,7 +66,11 @@ public:
 	float getFOV();
 	float getSpeedOffset();
 	float getAngleX();
+	float getRotX();
+	void setRotX(float rotX);
 	float getAngleY();
+	float getRotY();
+	void setRotY(float rotY);
 	D3DXMATRIXA16 getMatWorld();
 	void setPos(D3DXVECTOR3 p);
 	void setPosY(float y);
@@ -76,6 +80,7 @@ public:
 	int getMagazine();
 	float getDeltaY();
 	bool mouseLock;
+	bool isPaused;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 
 	float getRecoil() { return m_recoilX; 	}
