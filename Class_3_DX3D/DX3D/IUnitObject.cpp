@@ -141,7 +141,6 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 							D3DXVECTOR3 ReDir = forwardNormalized;
 							D3DXMATRIXA16 FindRotY;
 							float Dir = 0.5f;
-							
 							while (Dir <2.0f)
 							{
 								D3DXMatrixRotationY(&FindRotY, Dir);

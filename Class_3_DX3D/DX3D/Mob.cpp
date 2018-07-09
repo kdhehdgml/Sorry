@@ -316,10 +316,15 @@ void Mob::Act_Moving()
 	{
 	case 몹_돌격이동:
 		EraseLocationSoldier();
-		if (PlayerSearch() == false && TrenchFight() == false)
+		if (PlayerSearch() == 주변적없음)
 		{
-			if (m_Act._action == 주변적없음)
+			if (!m_Setdest)
 				SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 90.0f, 2.67f, m_pos.z));
+			m_Setdest = true;
+		}
+		else if(m_Act._engage != 몹_무시하고돌격)
+		{
+			m_Setdest = false;
 		}
 		break;
 	case 몹_엄폐이동:
@@ -338,10 +343,6 @@ void Mob::Act_Engage()
 	case 몹_엄폐물에숨기:
 		break;
 	case 몹_무시하고돌격:
-		if (m_Act._action != 근접_거리안닿음&& m_Act._action != 근접_거리닿음)
-		{
-			SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 90.0f, 2.67f, m_pos.z));
-		}
 		break;
 	}
 }
@@ -435,6 +436,7 @@ MOB_SITUATION Mob::TrenchFight()
 	}
 	if (AINum != NULL)
 	{
+		m_Setdest = true;
 		m_TeamAINum = AINum;
 		D3DXVECTOR3 TeamAIPos = g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition();
 		D3DXVECTOR3 Direction = { TeamAIPos.x ,TeamAIPos.y + 4.0f, TeamAIPos.z };
@@ -460,7 +462,7 @@ MOB_SITUATION Mob::TrenchFight()
 			if (g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->getHealth() <= 0)
 			{
 				m_TeamAINum = NULL;
-				m_Setdest = true;
+				
 				return 근접_거리안닿음;
 			}
 			return 근접_거리닿음;

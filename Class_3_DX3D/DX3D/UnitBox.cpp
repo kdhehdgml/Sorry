@@ -74,7 +74,6 @@ UnitBox::~UnitBox()
 void UnitBox::Init()
 {
 	MobStart = false;
-	Startamount = 0;
 	TeamPosition();
 	RandomSelectPosition();
 	m_CanSave.resize(m_SaveLocation.size(), true);
@@ -102,16 +101,15 @@ void UnitBox::Update()
 	}*/
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
 	{
-		CreateMob(20);
+		CreateMob(25);
+		GameWaveSetting(5, 10, 5, 4);
 	}
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
 	{
 		MobStart = true;
-		Startamount = 2;
 	}
 		
 	if (GetAsyncKeyState(VK_F4) & 0x0001)
-		ReSetMob();
 	//酒焙 力措 府哩
 	if (GetAsyncKeyState(VK_F5) & 0x0001)
 	{
@@ -144,33 +142,30 @@ void UnitBox::Update()
 	//鸥百阑蝶扼辑 框流捞绰 郴侩
 	if (MobStart)
 	{
-		int temp = Startamount * 5 + 10;
+		CheckNumberOfLivingAI();
 		if (m_pMob.size() > 0)
 		{
-			for (size_t i = 0; i < temp; i++)
+			for (size_t i = 0; i < m_game.StartAmount; i++)
 			{
+				SAFE_UPDATE(m_pMob[i]);
 				//厘局拱第俊 见扁
 				if (m_pMob[i]->GetPosition().x > NODE_POSITSIZEX + 150.0f)
 				{
 					MobMoveInTheWall(i);
 				}
-				SAFE_UPDATE(m_pMob[i]);
-				
 				m_pMob[i]->UpdatePositionToDestination();
 			}
 		}
 	}
-	
 }
 
 void UnitBox::Render()
 {
 	if (MobStart)
 	{
-		int temp = (Startamount - 1) * 5 + 10;
 		if (m_pMob.size() > 0)
 		{
-			for (size_t i = 0; i < temp; i++)
+			for (size_t i = 0; i < m_game.StartAmount; i++)
 			{
 				SAFE_RENDER(m_pMob[i]);
 			}
@@ -555,6 +550,23 @@ void UnitBox::CreateMob(int num)
 		Mob* tempMob = new Mob;
 		tempMob->Init();
 		tempMob->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
+		bool check = false;
+		while (1)
+		{
+			for (auto p : m_pMob)
+			{
+				if (D3DXVec3Length(&(tempMob->GetPosition() - p->GetPosition())) < 10.0f)
+				{
+					check = true;
+					tempMob->SetPosition(&D3DXVECTOR3(GSM().mobPos.x + (rand() % 40), 2.67f, GSM().mobPos.z + (rand() % 350)));
+					break;
+				}
+				else
+					check = false;
+			}
+			if (!check)
+				break;
+		}
 		m_pMob.push_back(tempMob);
 		if (tempMob->m_Act._moving == 各_决企捞悼 || tempMob->m_Act._reload == 各_厘傈窃 || tempMob->m_Act._engage == 各_决企拱俊见扁)
 		{
@@ -565,20 +577,22 @@ void UnitBox::CreateMob(int num)
 
 void UnitBox::ReSetMob()
 {
-	for (auto p : m_pMob)
+	for(int i = 0; i<m_game.StartAmount; i++)
 	{
-		p->ResetAll();
-		if (p->m_Act._moving == 各_决企捞悼 || p->m_Act._reload == 各_厘傈窃 || p->m_Act._engage == 各_决企拱俊见扁)
+		if (m_pMob[i]->getHealth() <= 0)
 		{
-			FindHidingInTheWallLocation(p);
+			m_pMob[i]->ResetAll();
+			if (m_pMob[i]->m_Act._moving == 各_决企捞悼 || m_pMob[i]->m_Act._reload == 各_厘傈窃 || m_pMob[i]->m_Act._engage == 各_决企拱俊见扁)
+			{
+				FindHidingInTheWallLocation(m_pMob[i]);
+			}
 		}
 	}
-	MobStart = false;
 }
 
 void UnitBox::CheckNumberOfLivingAI()
 {
-	for (auto p : m_pTeam)
+	/*for (auto p : m_pTeam)
 	{
 		NOL_Team += p->getStatus();
 	}
@@ -595,7 +609,26 @@ void UnitBox::CheckNumberOfLivingAI()
 		{
 			p->SetMoveSpeed(GSM().mobSpeed);
 		}
+	}*/
+	vector<int> NOL;
+	int sum = 0;
+	NOL.resize(m_game.StartAmount);
+	for (int i = 0; i < m_game.StartAmount; i++)
+	{
+		if (m_pMob[i]->getHealth() <= 0)
+		{
+			NOL[i] = 0;
+		}
+		else
+		{
+			NOL[i] = 1;
+		}
 	}
+	for (auto p : NOL)
+	{
+		sum += p;
+	}
+	NOL_Mob = sum;
 }
 
 void UnitBox::LocationSharing()
@@ -637,6 +670,17 @@ void UnitBox::LocationSharing()
 			break;
 		}
 	}
+}
+
+void UnitBox::GameWaveSetting(int _wave, int _start, int _increase, int _minmob)
+{
+	if (m_game.MinLifeMob >= NOL_Mob)
+	{
+		_start += 5;
+		_minmob += 1;
+		m_game = GameWave(_wave, _start, _increase, _minmob);
+	}
+	ReSetMob();
 }
 
 vector<Mob*>* UnitBox::getPMob()

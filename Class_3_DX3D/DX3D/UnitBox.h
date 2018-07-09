@@ -13,11 +13,22 @@ enum EmptyWall
 	좌장애물있음,
 	우장애물있음
 };
+struct GameWave
+{
+	int		NumOfWave;
+	int		StartAmount;
+	int		IncreaseAmount;
+	int		MinLifeMob;
+	GameWave() {}
+	GameWave(int _wave, int _start, int _increase, int _minmob)
+		:NumOfWave(_wave), StartAmount(_start), IncreaseAmount(_increase), MinLifeMob(_minmob)
+	{}
+};
 class UnitBox : public IUnitObject
 {
 private:
 	Cubeman *		m_pCubeman;
-
+	GameWave		m_game;
 	vector<TeamAI*>	m_pTeam;
 	vector<D3DXVECTOR3> m_SaveLocation;
 	vector<D3DXVECTOR3> m_nWallLocation;
@@ -30,10 +41,8 @@ private:
 	int				TeamNum;
 	int				NOL_Mob;
 	int				NOL_Team;
-	int				Startamount;
 	bool			m_SameChk;
 	bool			MobStart;
-	
 public:
 	UnitBox();
 	~UnitBox();
@@ -57,6 +66,7 @@ public:
 	void ReSetMob();
 	void CheckNumberOfLivingAI();
 	void LocationSharing();
+	void GameWaveSetting(int _wave, int _start, int _increase, int _minmob);
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();
 	vector<TeamAI*>* getPTeam();
