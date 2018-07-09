@@ -90,7 +90,7 @@ void UnitBox::Init()
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
 	LocationSharing();
-	CreateMob(45);
+	CreateMob(30);
 }
 
 void UnitBox::Update()
@@ -140,14 +140,10 @@ void UnitBox::Update()
 	//타겟을따라서 움직이는 내용
 	if (MobStart)
 	{
-		int Amin = 0;
-		if(Startamount >1)
-			Amin = (Startamount - 1) * 10 + (Startamount - 2) * 5;
-
-		int Amax = Startamount * 10 + (Startamount - 1) * 5;
+		int temp = (Startamount - 1) * 5 + 10;
 		if (m_pMob.size() > 0)
 		{
-			for (size_t i = Amin; i < Amax; i++)
+			for (size_t i = 0; i < temp; i++)
 			{
 				SAFE_UPDATE(m_pMob[i]);
 				//장애물뒤에 숨기
@@ -166,14 +162,13 @@ void UnitBox::Render()
 {
 	if (MobStart)
 	{
-		int Amin = 0;
-		if (Startamount >1)
-			Amin = (Startamount - 1) * 10 + (Startamount - 2) * 5;
-
-		int Amax = Startamount * 10 + (Startamount - 1) * 5;
-		for (size_t i = Amin; i < Amax; i++)
+		int temp = (Startamount - 1) * 5 + 10;
+		if (m_pMob.size() > 0)
 		{
-			SAFE_RENDER(m_pMob[i]);
+			for (size_t i = 0; i < temp; i++)
+			{
+				SAFE_RENDER(m_pMob[i]);
+			}
 		}
 	}
 	
