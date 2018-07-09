@@ -149,12 +149,13 @@ void UnitBox::Update()
 		{
 			for (size_t i = 0; i < temp; i++)
 			{
-				SAFE_UPDATE(m_pMob[i]);
 				//장애물뒤에 숨기
 				if (m_pMob[i]->GetPosition().x > NODE_POSITSIZEX + 150.0f)
 				{
 					MobMoveInTheWall(i);
 				}
+				SAFE_UPDATE(m_pMob[i]);
+				
 				m_pMob[i]->UpdatePositionToDestination();
 			}
 		}

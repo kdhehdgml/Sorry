@@ -124,20 +124,50 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 
 		if (D3DXVec3Length(&forward) >= m_moveSpeed * m_currMoveSpeedRate)
 		{
-			targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
-			if (g_pObjMgr->FindObjectByTag(TAG_MOB))
+			if (g_pObjMgr->FindObjectByTag(TAG_MOB) == false)
 			{
-				for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_MOB).size(); i++)
+				targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
+			}
+			else
+			{
+				for (auto p : g_pObjMgr->FindObjectsByTag(TAG_MOB))
 				{
-					if (targetPos != g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())
+					if (targetPos != p->GetPosition())
 					{
-						D3DXVECTOR3 Leng = targetPos - g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition();
-						if (D3DXVec3Length(&Leng) < 4.0f)
+						if (D3DXVec3Length(&((m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate) -
+							p->GetPosition())) < 5.0f)
 						{
-							targetPos += Leng;
+							m_colision = true;
+							D3DXVECTOR3 ReDir = forwardNormalized;
+							D3DXMATRIXA16 FindRotY;
+							float Dir = 0.5f;
+							
+							while (Dir <2.0f)
+							{
+								D3DXMatrixRotationY(&FindRotY, Dir);
+								D3DXVec3TransformNormal(&ReDir, &ReDir, &FindRotY);
+								if (D3DXVec3Length(&((m_pos + ReDir * m_moveSpeed * m_currMoveSpeedRate) -
+									p->GetPosition())) < 5.0f)
+								{
+									Dir+=0.5f;
+								}
+								else
+								{
+									targetPos = m_pos + ReDir * m_moveSpeed * m_currMoveSpeedRate;
+									break;
+								}
+							}
 							break;
 						}
+						else
+						{
+							m_colision = false;
+						}
 					}
+				}
+				if (m_colision == false)
+				{
+					targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
 				}
 			}
 		}
@@ -146,6 +176,22 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 			targetPos.x = m_destPos.x;
 			targetPos.z = m_destPos.z;
 		}
+		/*targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
+		if (g_pObjMgr->FindObjectByTag(TAG_MOB))
+		{
+		for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_MOB).size(); i++)
+		{
+		if (targetPos != g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition())
+		{
+		D3DXVECTOR3 Leng = targetPos - g_pObjMgr->FindObjectsByTag(TAG_MOB)[i]->GetPosition();
+		if (D3DXVec3Length(&Leng) < 4.0f)
+		{
+		targetPos += Leng;
+		break;
+		}
+		}
+		}
+		}*/
 	}
 	else if (m_vecAStarIndex.empty() == false)
 	{
