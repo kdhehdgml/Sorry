@@ -1,7 +1,7 @@
 #pragma once
 #include "IUIObject.h"
 
-class UIImage : public IUIObject
+class UIImage : public IUBaseObject
 {
 public:
 	LPDIRECT3DTEXTURE9 m_pTex;

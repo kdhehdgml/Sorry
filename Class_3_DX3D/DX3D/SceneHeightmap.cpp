@@ -703,6 +703,10 @@ void SceneHeightmap::Render()
 	SetRect(&rc, 100, 400, 800, 600);
 	m_pFont->DrawText(NULL, m_str, m_str.GetLength(), &rc,
 		DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
+
+	if(m_Player_hands->GetRenderState())
+		Shaders::Get()->Render();
+
 }
 
 void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

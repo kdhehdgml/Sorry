@@ -2,7 +2,7 @@
 #include "UIText.h"
 
 UIText::UIText(LPD3DXFONT pFont, LPD3DXSPRITE pSprite, int uiTag)
-	: IUIObject(pSprite, uiTag)
+	: IUBaseObject(pSprite, uiTag)
 	, m_pFont(pFont)
 	, m_drawTextFormat(DT_CENTER | DT_VCENTER)
 {
@@ -21,5 +21,5 @@ void UIText::Render()
 	m_pFont->DrawText(m_pSprite, m_text, lstrlen(m_text), &rect, 
 		m_drawTextFormat, m_color);
 
-	IUIObject::Render();
+	IUBaseObject::Render();
 }

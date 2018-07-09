@@ -18,7 +18,7 @@ class SceneLoading :
 {
 private:
 	LPD3DXSPRITE m_pSprite;
-	IUIObject * m_pLoadingScreen;
+	IUBaseObject * m_pLoadingScreen;
 	UIImage* pImage;
 	bool m_renderComplete;
 	//D3DXVECTOR3 m_loadingCircleCenter[8] = { D3DXVECTOR3(64,64,0) , D3DXVECTOR3(192,64,0),D3DXVECTOR3(320,64,0),D3DXVECTOR3(448,64,0),D3DXVECTOR3(576,64,0),D3DXVECTOR3(704,64,0),D3DXVECTOR3(832,64,0),D3DXVECTOR3(960,64,0) };

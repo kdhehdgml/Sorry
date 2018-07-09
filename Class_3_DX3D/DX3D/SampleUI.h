@@ -2,13 +2,13 @@
 #include "IDisplayObject.h"
 #include "UIBUtton.h"
 
-class IUIObject;
+class IUBaseObject;
 
 class SampleUI : public IDisplayObject, public IUIButtonDelegate
 {
 private:
 	LPD3DXSPRITE	m_pSprite;
-	IUIObject*		m_pRootUI;
+	IUBaseObject*		m_pRootUI;
 
 public:
 	SampleUI();

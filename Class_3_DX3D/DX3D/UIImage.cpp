@@ -3,7 +3,7 @@
 
 
 UIImage::UIImage(LPD3DXSPRITE pSprite, int uiTag)
-	:IUIObject(pSprite, uiTag)
+	:IUBaseObject(pSprite, uiTag)
 	,m_pTex(NULL)
 {
 }
@@ -23,7 +23,7 @@ void UIImage::Render()
 		m_pSprite->Draw(m_pTex, &rect, &m_pivot, &m_combinedPos, m_color);
 	}
 
-	IUIObject::Render();
+	IUBaseObject::Render();
 }
 
 void UIImage::SetTexture(string fullPath)

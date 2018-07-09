@@ -2,7 +2,7 @@
 #include "IUIObject.h"
 
 
-IUIObject::IUIObject(LPD3DXSPRITE pSprite, int uiTag)
+IUBaseObject::IUBaseObject(LPD3DXSPRITE pSprite, int uiTag)
 	: m_bDrawBorder(true)
 	, m_pSprite(pSprite)
 	, m_uiTag(uiTag)
@@ -11,15 +11,15 @@ IUIObject::IUIObject(LPD3DXSPRITE pSprite, int uiTag)
 }
 
 
-IUIObject::~IUIObject()
+IUBaseObject::~IUBaseObject()
 {
 }
 
-void IUIObject::Init()
+void IUBaseObject::Init()
 {
 }
 
-void IUIObject::Update()
+void IUBaseObject::Update()
 {
 	UpdateCombinedPosition();
 
@@ -29,7 +29,7 @@ void IUIObject::Update()
 	}
 }
 
-void IUIObject::Render()
+void IUBaseObject::Render()
 {
 	if ( m_bDrawBorder ) DrawBorder();
 
@@ -39,7 +39,7 @@ void IUIObject::Render()
 	}
 }
 
-void IUIObject::DrawBorder()
+void IUBaseObject::DrawBorder()
 {
 	RECT r;
 	GetFinalRect(&r);
@@ -59,24 +59,24 @@ void IUIObject::DrawBorder()
 		
 }
 
-void IUIObject::UpdateCombinedPosition()
+void IUBaseObject::UpdateCombinedPosition()
 {
 	m_combinedPos = m_pos;
 
 	if (m_pParent)
 	{
-		m_combinedPos += static_cast<IUIObject*>(m_pParent)->GetCombinedPosition();
+		m_combinedPos += static_cast<IUBaseObject*>(m_pParent)->GetCombinedPosition();
 	}
 }
 
-IUIObject * IUIObject::FindChildByUITag(int uiTag)
+IUBaseObject * IUBaseObject::FindChildByUITag(int uiTag)
 {
 	if (m_uiTag == uiTag)
 		return this;
 
 	for (auto p : m_vecPChild)
 	{
-		IUIObject* pChild = ((IUIObject*)p)->FindChildByUITag(uiTag);
+		IUBaseObject* pChild = ((IUBaseObject*)p)->FindChildByUITag(uiTag);
 
 		if (pChild)
 			return pChild;
@@ -84,7 +84,7 @@ IUIObject * IUIObject::FindChildByUITag(int uiTag)
 	return NULL;
 }
 
-void IUIObject::GetFinalRect(RECT * rect)
+void IUBaseObject::GetFinalRect(RECT * rect)
 {
 	D3DXMATRIXA16 mat;
 	m_pSprite->GetTransform(&mat);

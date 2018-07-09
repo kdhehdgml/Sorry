@@ -3,15 +3,21 @@
 
 
 IDisplayObject::IDisplayObject()
+	:m_scale(1, 1, 1), m_tag(-1), m_pParent(NULL), m_pFrameMatrix(NULL), m_renderMode(RenderMode_Default)
 {
-	m_pParent = NULL;
+//	m_pParent = NULL;
+	D3DXMatrixIdentity(&m_localMatrix);
 	D3DXMatrixIdentity(&m_matWorld);
+	//D3DXMatrixIdentity(&m_worldMatrix);
+	D3DXMatrixIdentity(&m_combinedMatrix);
 }
 
 
 IDisplayObject::~IDisplayObject()
 {
 }
+
+
 
 void IDisplayObject::AddChild(IDisplayObject * pChild)
 {
@@ -22,8 +28,24 @@ void IDisplayObject::AddChild(IDisplayObject * pChild)
 
 void IDisplayObject::ReleaseAll()
 {
-	for (auto child : m_vecPChild)
+	for (LPDisplayObject child : m_vecPChild)
 		if (child) child->ReleaseAll();
 
-	Release();
+	m_vecPChild.clear();
+	BaseObject::Release();
+}
+
+IDisplayObject * IDisplayObject::FindChildByName(LPCTSTR name)
+{
+	if (m_name == name)
+		return this;
+
+	for (auto p : m_vecPChild)
+	{
+		LPDisplayObject pChild = p->FindChildByName(name);
+
+		if (pChild)
+			return pChild;
+	}
+	return NULL;
 }
