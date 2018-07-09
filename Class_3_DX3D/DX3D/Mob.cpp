@@ -137,7 +137,9 @@ void Mob::Update()
 	//카메라 범위안에 왔을때
 	if (g_pFrustum->IsMobAIFrustum(this))
 	{
-		m_MONSTER->SetPos(m_pos);
+		if(m_Death_count == 0)
+			m_MONSTER->SetPos(m_pos);
+
 		m_MONSTER->SetAngle(m_rot.y);//각도받아옴
 		m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
 		m_MONSTER->Update();//업데이트
