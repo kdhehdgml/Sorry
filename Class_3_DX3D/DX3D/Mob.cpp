@@ -123,7 +123,7 @@ void Mob::Update()
 		Debug->EndLine();
 
 		D3DXVECTOR3 forwardDir = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
-		if (forwardDir.x < 0)
+		if (forwardDir.x <= 0)
 		{
 			D3DXVECTOR3 forwardNor = forwardDir;
 			D3DXVec3Normalize(&forwardNor, &forwardNor);
