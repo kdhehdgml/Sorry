@@ -108,9 +108,26 @@ void TeamAI::Update()
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 4.0f;
 
-		
-
-
+		if (m_MobNum == NULL)
+			m_angle = 0;
+		else
+		{
+			D3DXVECTOR3 forwardDir = D3DXVECTOR3(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().x - m_pos.x, 0,
+				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().z - m_pos.z);
+			if (forwardDir.x <= 0)
+			{
+				D3DXVECTOR3 forwardNor = forwardDir;
+				D3DXVec3Normalize(&forwardNor, &forwardNor);
+				m_angle = D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1));
+			}
+			else
+			{
+				D3DXVECTOR3 forwardNor = forwardDir;
+				D3DXVec3Normalize(&forwardNor, &forwardNor);
+				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)));
+			}
+		}
+	
 	}
 
 	/*Debug->AddText("데스 카운트 :");
@@ -130,6 +147,7 @@ void TeamAI::Update()
 		if (status != 0 && m_Death == false)
 		{
 			m_TEAM_TEX->SetPos(m_pos);
+			m_TEAM_TEX->SetAngle(m_angle);
 		}
 		m_TEAM_TEX->SetAnimationIndex(ani_state);
 		m_TEAM_TEX->Update();
@@ -203,8 +221,10 @@ void TeamAI::Animation()
 		ani_state = 서서기본자세;
 		break;
 	case 팀_재장전:
+		ani_state = 재장전;
 		break;
 	case 팀_근접싸움:
+		ani_state = 근접공격;
 		break;
 	case 팀_죽음:
 		ani_state = 서서죽음;
