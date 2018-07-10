@@ -112,7 +112,7 @@ void Mob::Update()
 		//m_pRootParts->Update();
 	/*	m_MONSTER->SetPos(m_pos);
 		m_MONSTER->Update();*/
-		Debug->AddText("¸÷ Ã¼·Â: ");
+		/*Debug->AddText("¸÷ Ã¼·Â: ");
 		Debug->AddText(health);
 		Debug->AddText(" / ÀåÀü: ");
 		Debug->AddText(m_bullet);
@@ -120,7 +120,7 @@ void Mob::Update()
 		Debug->AddText(m_maxbullet);
 		Debug->AddText(" / ³ôÀÌ: ");
 		Debug->AddText(m_pBoundingSphereBody->center.y);
-		Debug->EndLine();
+		Debug->EndLine();*/
 
 		D3DXVECTOR3 forwardDir = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
 		if (forwardDir.x <= 0)
