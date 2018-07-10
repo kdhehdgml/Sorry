@@ -82,6 +82,7 @@ private:
 	int				m_shootingbullet;
 	int				m_TeamAINum;
 	int				m_ShootCooldownTime;
+	int				m_DestTime;
 	bool			m_isMoving;
 	bool			m_BeDetermined;//장애물 너로 정했다
 	bool			m_randshootbullet;

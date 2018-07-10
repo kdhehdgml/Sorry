@@ -85,22 +85,30 @@ void TeamAI::Update()
 
 		m_Death = false;
 
-		if (m_MobNum == NULL || HaveBullet() == false)
+		if (m_Ready == true)
 		{
-			m_Action = ÆÀ_ÀçÀåÀü;
-			CanFight = false;
-			Reloading();
-		}
-		if(HaveBullet() == true)
-		{
-			CanFight = true;
-			if (MobSearch() == true)
+			if (m_MobNum == NULL || HaveBullet() == false)
 			{
-				m_Action = ÆÀ_»ç°Ý;
-				Shooting();
+				m_Action = ÆÀ_ÀçÀåÀü;
+				CanFight = false;
+				Reloading();
 			}
+			if (HaveBullet() == true)
+			{
+				CanFight = true;
+				if (MobSearch() == true)
+				{
+					m_Action = ÆÀ_»ç°Ý;
+					Shooting();
+				}
+			}
+			ShootVertex();
 		}
-		ShootVertex();
+		else
+		{
+			m_Action = ÆÀ_´Þ¸®±â;
+		}
+		
 
 		UpdatePositionToDestination();
 		//UpdatePosition();
@@ -223,6 +231,7 @@ void TeamAI::Animation()
 	case ÆÀ_ÀçÀåÀü:
 		break;
 	case ÆÀ_±ÙÁ¢½Î¿ò:
+		ani_state = ±ÙÁ¢°ø°Ý;
 		break;
 	case ÆÀ_Á×À½:
 		ani_state = ¼­¼­Á×À½;
@@ -284,15 +293,13 @@ bool TeamAI::MobSearch()
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 1.0f / 2.0f;
 				
-				if (Length < 15)
+				if (Length < 6)
 				{
-					TrenchFight(1);
-					return true;
+					return TrenchFight(1);
 				}
 				else if (Length < 30)
 				{
-					TrenchFight(2);
-					return true;
+					return TrenchFight(2);
 				}
 				else if (Length < 240 && DotPM >= direct)
 				{
@@ -333,9 +340,9 @@ void TeamAI::ShootVertex()
 	}
 }
 //±ÙÁ¢ÀüÅõ
-void TeamAI::TrenchFight(int _num) 
+bool TeamAI::TrenchFight(int _num) 
 {
-	float nearEnemy = 100;
+	float nearEnemy = 30;
 	int EnemyNum = NULL;
 
 	//°¡±î¿î³ð Ã£±â(MinÃ£´Â¹æ½Ä)
@@ -357,8 +364,8 @@ void TeamAI::TrenchFight(int _num)
 
 			if (D3DXVec3Length(&(m_pos - g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition())) < 5.0f)
 			{
-				m_moveSpeed = 0;
 				m_ShootCooldownTime++;
+				m_Action = ÆÀ_±ÙÁ¢½Î¿ò;
 				if (m_ShootCooldownTime > 100)
 				{
 					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth
@@ -366,12 +373,10 @@ void TeamAI::TrenchFight(int _num)
 					m_ShootCooldownTime = 0;
 				}
 			}
-			else
-			{
-				m_moveSpeed = moveSpeed;
-			}
-
+			return false;
 		}
+		else
+			return true;
 	}
 }
 

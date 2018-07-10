@@ -54,7 +54,6 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 	void FindEmptyWallDirection();
-	void FindHidingInTheWallLocationRushSoldier(int _Mobnum);
 	void FindHidingInTheWallLocation(Mob* _mob);
 	void MobMoveInTheWall(int _Mobnum);
 	void TeamPosition();

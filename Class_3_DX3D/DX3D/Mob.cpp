@@ -31,7 +31,7 @@ Mob::Mob()
 	hidingChk = false;
 	ani_start = true;
 	showBoundingSphere = false;
-
+	m_DestTime = 0;
 	m_angle = 0;
 
 	m_Death = false;
@@ -489,10 +489,11 @@ MOB_SITUATION Mob::TrenchFight()
 		D3DCOLOR d = D3DCOLOR_XRGB(0, 255, 0);
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
-		
-		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f)
+		m_DestTime++;
+		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f && m_DestTime > 300)
 		{
-			SetTargetPostion(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
+			SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
+			m_DestTime = 0;
 			return 근접_거리안닿음;
 		}
 		else

@@ -50,7 +50,7 @@ private:
 	int				m_reloading;
 	int				m_MobNum;
 	int				m_ShootCooldownTime;
-	bool			m_isMoving;
+	bool			m_Ready;
 	int				m_bullet;
 	bool			m_render;
 	
@@ -91,10 +91,10 @@ public:
 	bool HaveBullet();
 	virtual bool MobSearch();
 	void ShootVertex();
-	void TrenchFight(int _num);
+	bool TrenchFight(int _num);
 	void Shooting();
 	void Reloading();
-
+	void SetReady(bool _ready) { m_Ready = _ready; }
 
 };
 
