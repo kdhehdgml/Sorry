@@ -2,7 +2,8 @@
 #include "seqManager.h"
 
 #define STOP stopTime = true
-#define WAVE_INTERVAL 500
+#define RESTART stopTime = false
+#define WAVE_INTERVAL 100
 
 seqManager::seqManager()
 {
@@ -13,7 +14,7 @@ seqManager::seqManager()
 	
 	roundStart = false;
 	waveCount = 0;
-	waveTime = 500;
+	waveTime = WAVE_INTERVAL;
 }
 
 seqManager::~seqManager()
@@ -114,27 +115,29 @@ void seqManager::Level(int stage, int round)
 				waveCount++;
 				break;
 			case 1:
-				g_pSoundManager->playMusic(2);
+				//g_pSoundManager->playMusic(2);
 				if(waveTime <= 0)
 				{
-					waveTime = 500;
+					waveTime = WAVE_INTERVAL;
 					waveCount++;
 				}
 				break;
 			case 2:
-				g_pSoundManager->playMusic(3);
+				//g_pSoundManager->playMusic(3);
 				if (waveTime <= 0)
 				{
-					waveTime = 500;
+					waveTime = WAVE_INTERVAL;
 					waveCount++;
 				}
 				break;
 			case 3:
-				g_pSoundManager->playMusic(4);
+				//g_pSoundManager->playMusic(4);
 				if (waveTime <= 0)
 				{
-					waveTime = 500;
+					waveTime = WAVE_INTERVAL;
 					waveCount = 0;
+					roundStart = false;
+					RESTART;
 				}
 				break;
 			}
