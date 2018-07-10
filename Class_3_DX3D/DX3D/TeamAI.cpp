@@ -203,8 +203,10 @@ void TeamAI::Animation()
 		ani_state = 서서기본자세;
 		break;
 	case 팀_재장전:
+		ani_state = 재장전;
 		break;
 	case 팀_근접싸움:
+		ani_state = 근접공격;
 		break;
 	case 팀_죽음:
 		ani_state = 서서죽음;
