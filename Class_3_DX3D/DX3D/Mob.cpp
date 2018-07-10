@@ -32,7 +32,7 @@ Mob::Mob()
 	ani_start = true;
 	showBoundingSphere = false;
 
-	m_angle = D3DX_PI / 2;
+	m_angle = 0;
 
 	m_Death = false;
 }
@@ -130,20 +130,39 @@ void Mob::Update()
 	//Debug->AddText("m_rot: ");
 	//Debug->AddText(m_rot.y);
 	//Debug->EndLine();
+	D3DXVECTOR3 nomPos;
+	D3DXVec3Normalize(&nomPos, &m_pos);
+	D3DXVECTOR3 nomDestPos;
+	D3DXVec3Normalize(&nomDestPos, &m_destPos);
 
-	//Debug->AddText("죽는애니메이션 끝나는 시간 : ");
-	//Debug->AddText(m_Death_Time + DEATH_TIME);
+	float angle = D3DXVec3Dot(&nomPos, &nomDestPos);
+	
+	if (angle > 1) angle = 1;
+	else if (angle < -1) angle = -1;
+	//파이 * ( (1.0 + x) / 2.0 )
+	m_angle = acos(angle) * (180 / D3DX_PI);
+	//m_angle = D3DX_PI * ((1.0 + angle) / 2.0);
+
+	Debug->AddText("각도 : ");
+	Debug->AddText(m_angle);
+	Debug->EndLine();
+	//Debug->AddText("현재좌표 : ");
+	//Debug->AddText(m_pos);
 	//Debug->EndLine();
-
-
+	//Debug->AddText("목표좌표 : ");
+	//Debug->AddText(m_destPos);
+	//Debug->EndLine();
+	//m_angle = acos((m_pos.x * m_destPos.x)+(m_pos.y * m_destPos.y)+(m_pos.z * m_destPos.z));
 
 	//카메라 범위안에 왔을때
 	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 	{
-		if(status != 0)
+		if (status != 0)
+		{
 			m_MONSTER->SetPos(m_pos);
+			m_MONSTER->SetAngle(m_angle);//각도받아옴
+		}
 
-		m_MONSTER->SetAngle(m_rot.y);//각도받아옴
 		m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
 		m_MONSTER->Update();//업데이트
 	}
