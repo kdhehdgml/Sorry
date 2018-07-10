@@ -466,6 +466,7 @@ MOB_SITUATION Mob::TrenchFight()
 	SaveLocationNum.clear();
 	float nearAI = 200;
 	int AINum = NULL;
+	m_DestTime++;
 	//가까운놈 찾기(Min찾는방식)
 	for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_TEAM).size(); i++)
 	{
@@ -479,6 +480,7 @@ MOB_SITUATION Mob::TrenchFight()
 			}
 		}
 	}
+	
 	if (AINum != NULL)
 	{
 		m_Setdest = true;
@@ -489,7 +491,7 @@ MOB_SITUATION Mob::TrenchFight()
 		D3DCOLOR d = D3DCOLOR_XRGB(0, 255, 0);
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
-		m_DestTime++;
+		
 		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f)
 		{
 			if (m_DestTime > 300)
