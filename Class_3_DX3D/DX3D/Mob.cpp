@@ -3,6 +3,9 @@
 #include "CubemanParts.h"
 #include "MONSTER.h"
 #include "UnitBox.h"
+
+#define DEATH_TIME 10000
+
 Mob::Mob()
 {
 //	m_pRootParts = NULL;
@@ -30,6 +33,8 @@ Mob::Mob()
 	showBoundingSphere = false;
 
 	m_angle = D3DX_PI / 2;
+
+	m_Death = false;
 }
 
 
@@ -57,17 +62,38 @@ void Mob::Init()
 	SaveAction();
 	Act_GunShot();
 	m_moveSpeed = GSM().mobSpeed;
+
+	m_Death_count = 0;
+	m_Death_Time = 0;
 }
 
 void Mob::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		m_pos = { 1000,-5000,1000 };
+
+		m_Death_count++;
+
+		if (m_Death_count == 1)
+		{
+			m_Death_Time = GetTickCount();
+		}
+
+		//죽은 시간의 끝
+		if (GetTickCount() >= m_Death_Time + DEATH_TIME)
+		{
+			m_Death_count = 0;
+			m_Death = true;
+			m_pos = { 1000,-5000,1000 };
+		}
+
 	}
+	SelectAction();
+
 	if (status > 0) {
+
+		m_Death = false;
 		Act_Moving();
-		SelectAction();
 
 		IUnitObject::UpdatePositionToDestination();
 
@@ -95,7 +121,6 @@ void Mob::Update()
 		Debug->AddText(" / 높이: ");
 		Debug->AddText(m_pBoundingSphereBody->center.y);
 		Debug->EndLine();
-		m_MONSTER->SetPos(m_pos);
 
 		
 	}
@@ -106,18 +131,21 @@ void Mob::Update()
 	//Debug->AddText(m_rot.y);
 	//Debug->EndLine();
 
-	//살아있을때만 포지션을 받아온다
+	//Debug->AddText("죽는애니메이션 끝나는 시간 : ");
+	//Debug->AddText(m_Death_Time + DEATH_TIME);
+	//Debug->EndLine();
 
 
-	m_MONSTER->SetAngle(m_rot.y);
 
-
-	
-	if (g_pFrustum->IsMobAIFrustum(this))
+	//카메라 범위안에 왔을때
+	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 	{
-		m_MONSTER->SetAnimationIndex(ani_state);
+		if(status != 0)
+			m_MONSTER->SetPos(m_pos);
 
-		m_MONSTER->Update();
+		m_MONSTER->SetAngle(m_rot.y);//각도받아옴
+		m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
+		m_MONSTER->Update();//업데이트
 	}
 }
 
@@ -160,11 +188,14 @@ void Mob::Render()
 			g_pDevice->SetTexture(0, NULL);
 			m_pSphereHead->DrawSubset(0);
 		}
-		if (g_pFrustum->IsMobAIFrustum(this))
-		{
-			m_MONSTER->SetRenderSTATE(true);
-			m_MONSTER->Render();
-		}
+
+		
+	}
+	//if ()
+	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+	{
+		m_MONSTER->SetRenderSTATE(true);
+		m_MONSTER->Render();
 	}
 }
 

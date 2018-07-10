@@ -332,322 +332,325 @@ void SceneHeightmap::Init()
 void SceneHeightmap::Update()
 {
 	//m_CreateSmog->Update();
+	if (!g_pCamera->isPaused) {
 
+		SAFE_UPDATE(m_ColorCube);
+		SAFE_UPDATE(m_pUnit);
 
-	SAFE_UPDATE(m_ColorCube);
-	SAFE_UPDATE(m_pUnit);
+		SAFE_UPDATE(m_minimap);
+		SAFE_UPDATE(m_pCrosshair);
+		SAFE_UPDATE(m_pScope);
+		SAFE_UPDATE(m_pTalk);
 
-	SAFE_UPDATE(m_minimap);
-	SAFE_UPDATE(m_pCrosshair);
-	SAFE_UPDATE(m_pScope);
-	SAFE_UPDATE(m_pTalk);
-	SAFE_UPDATE(m_pMenuUI);
+		g_pSoundManager->updateListener(g_pCamera->getPos());
 
-	g_pSoundManager->updateListener(g_pCamera->getPos());
+		/*g_pSoundManager->update3D(0, g_pCamera->getPos(), SpeakerPos, g_pCamera->getDir());
+		if (GetKeyState('1') & 0x8000)
+		{
+			SpeakerPos = g_pSoundManager->getListenerPos();
+			int r2 = rand() % 2;
+			g_pSoundManager->play3D(r2);
+		}*/
 
-	/*g_pSoundManager->update3D(0, g_pCamera->getPos(), SpeakerPos, g_pCamera->getDir());
-	if (GetKeyState('1') & 0x8000)
-	{
-		SpeakerPos = g_pSoundManager->getListenerPos();
-		int r2 = rand() % 2;
-		g_pSoundManager->play3D(r2);
-	}*/
+		float height;
+		D3DXVECTOR3 currentPos = g_pCamera->getPos();
+		bool isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
+		/*if (!g_pCamera->getFreeCameraMode()) {
+			float oldHeight;
+			isIntersected = g_pCurrentMap->GetHeight(oldHeight, m_pOldPos);
+			float dxdy = oldHeight - height;
+			D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
+			D3DXVECTOR3 cPosPush(0.0f, 0.0f, 0.0f);
+			if (dxdy < -0.3) {
+				float dx1, dx2, dy1, dy2;
+				currentPos.x += 0.2f;
+				isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
+				currentPos.x -= 0.2f;
+				currentPos.z += 0.2f;
+				isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
+				currentPos.z -= 0.2f;
+				currentPos.x -= 0.2f;
+				isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
+				currentPos.x += 0.2f;
+				currentPos.z -= 0.2f;
+				isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
+				currentPos.z += 0.2f;
+				if (oldHeight - dx1 < -0.3f) {
+					cPosPush.x -= 0.4f;
+				}
+				if (oldHeight - dx2 < -0.3f) {
+					cPosPush.x += 0.4f;
+				}
+				if (oldHeight - dy1 < -0.3f) {
+					cPosPush.z -= 0.4f;
+				}
+				if (oldHeight - dy2 < -0.3f) {
+					cPosPush.z += 0.4f;
+				}
+				g_pCamera->setPos(m_pOldPos + cPosPush);
+			}
+		}*/
 
-	float height;
-	D3DXVECTOR3 currentPos = g_pCamera->getPos();
-	bool isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
-	/*if (!g_pCamera->getFreeCameraMode()) {
-		float oldHeight;
-		isIntersected = g_pCurrentMap->GetHeight(oldHeight, m_pOldPos);
-		float dxdy = oldHeight - height;
-		D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
-		D3DXVECTOR3 cPosPush(0.0f, 0.0f, 0.0f);
-		if (dxdy < -0.3) {
-			float dx1, dx2, dy1, dy2;
-			currentPos.x += 0.2f;
+		bool isWallDx = false;
+		if (!g_pCamera->getFreeCameraMode()) {
+			float dx1, dx2, dy1, dy2, wallDx;
+			const float distanceDiffBuffer = 0.3f;
+			const float heightDiffBuffer = 0.3f;
+			currentPos.x += distanceDiffBuffer;
 			isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
-			currentPos.x -= 0.2f;
-			currentPos.z += 0.2f;
+			currentPos.x += distanceDiffBuffer * 3;
+			isIntersected = g_pCurrentMap->GetHeight(wallDx, currentPos);
+			currentPos.x -= distanceDiffBuffer * 4;
+			currentPos.z += distanceDiffBuffer;
 			isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
-			currentPos.z -= 0.2f;
-			currentPos.x -= 0.2f;
+			currentPos.z -= distanceDiffBuffer;
+			currentPos.x -= distanceDiffBuffer;
 			isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
-			currentPos.x += 0.2f;
-			currentPos.z -= 0.2f;
+			currentPos.x += distanceDiffBuffer;
+			currentPos.z -= distanceDiffBuffer;
 			isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
-			currentPos.z += 0.2f;
-			if (oldHeight - dx1 < -0.3f) {
-				cPosPush.x -= 0.4f;
+			currentPos.z += distanceDiffBuffer;
+			wallDx -= height;
+			dx1 -= height;
+			dy1 -= height;
+			dx2 -= height;
+			dy2 -= height;
+			D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
+			cPosDiff.y = 0;
+			if (dx1 > heightDiffBuffer && cPosDiff.x > 0) {
+				cPosDiff.x = 0;
 			}
-			if (oldHeight - dx2 < -0.3f) {
-				cPosPush.x += 0.4f;
+			if (dy1 > heightDiffBuffer && cPosDiff.z > 0) {
+				cPosDiff.z = 0;
 			}
-			if (oldHeight - dy1 < -0.3f) {
-				cPosPush.z -= 0.4f;
+			if (dx2 > heightDiffBuffer && cPosDiff.x < 0) {
+				cPosDiff.x = 0;
 			}
-			if (oldHeight - dy2 < -0.3f) {
-				cPosPush.z += 0.4f;
+			if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
+				cPosDiff.z = 0;
 			}
-			g_pCamera->setPos(m_pOldPos + cPosPush);
+			if (wallDx > heightDiffBuffer) {
+				isWallDx = true;
+			}
+			g_pCamera->setPos(m_pOldPos + cPosDiff);
 		}
-	}*/
-
-	bool isWallDx = false;
-	if (!g_pCamera->getFreeCameraMode()) {
-		float dx1, dx2, dy1, dy2, wallDx;
-		const float distanceDiffBuffer = 0.3f;
-		const float heightDiffBuffer = 0.3f;
-		currentPos.x += distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
-		currentPos.x += distanceDiffBuffer * 3;
-		isIntersected = g_pCurrentMap->GetHeight(wallDx, currentPos);
-		currentPos.x -= distanceDiffBuffer * 4;
-		currentPos.z += distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
-		currentPos.z -= distanceDiffBuffer;
-		currentPos.x -= distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
-		currentPos.x += distanceDiffBuffer;
-		currentPos.z -= distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
-		currentPos.z += distanceDiffBuffer;
-		wallDx -= height;
-		dx1 -= height;
-		dy1 -= height;
-		dx2 -= height;
-		dy2 -= height;
-		D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
-		cPosDiff.y = 0;
-		if (dx1 > heightDiffBuffer && cPosDiff.x > 0) {
-			cPosDiff.x = 0;
+		currentPos = g_pCamera->getPos();
+		isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
+		currentPos.y = height + GSM().playerHeight;
+		if (g_pCamera->getFreeCameraMode()) {
+			currentPos.y += 61.5f;
+			currentPos.y += g_pCamera->getDeltaY();
 		}
-		if (dy1 > heightDiffBuffer && cPosDiff.z > 0) {
-			cPosDiff.z = 0;
+		/*else {
+			if (isWallDx) {
+				currentPos.y += 5.0f;
+			}
+		}*/
+		g_pCamera->setPos(currentPos);
+
+
+		OnUpdateIScene();
+
+		if (g_pCamera->getFreeCameraMode()) {
+			m_pCrosshairOn = false;
 		}
-		if (dx2 > heightDiffBuffer && cPosDiff.x < 0) {
-			cPosDiff.x = 0;
+		else {
+			m_pCrosshairOn = true;
 		}
-		if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
-			cPosDiff.z = 0;
+
+		g_pCamera->getPMobFromUnitBox(m_pUnit->getPMob());
+		m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
+		m_minimap->getPTeamFromUnitBox(m_pUnit->getPTeam());
+
+		PROCESS_MEMORY_COUNTERS pmc;
+		GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc));
+
+		Debug->AddText("메모리 사용량 : ");
+		Debug->AddText((int)(pmc.WorkingSetSize / 1024));
+		Debug->AddText("KB");
+		Debug->EndLine();
+
+		if (cpuUsageCount <= 0) {
+			cpuUsage = getCurrentValue();
+			cpuUsageCount = 60;
 		}
-		if (wallDx > heightDiffBuffer) {
-			isWallDx = true;
+		else {
+			cpuUsageCount--;
 		}
-		g_pCamera->setPos(m_pOldPos + cPosDiff);
-	}
-	currentPos = g_pCamera->getPos();
-	isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
-	currentPos.y = height + GSM().playerHeight;
-	if (g_pCamera->getFreeCameraMode()) {
-		currentPos.y += 61.5f;
-		currentPos.y += g_pCamera->getDeltaY();
-	}
-	/*else {
-		if (isWallDx) {
-			currentPos.y += 5.0f;
-		}
-	}*/
-	g_pCamera->setPos(currentPos);
 
+		Debug->AddText("CPU 사용량 : ");
+		Debug->AddText(cpuUsage);
+		Debug->AddText("%");
+		Debug->EndLine();
 
-	OnUpdateIScene();
-
-	if (g_pCamera->getFreeCameraMode()) {
-		m_pCrosshairOn = false;
-	}
-	else {
-		m_pCrosshairOn = true;
-	}
-
-	g_pCamera->getPMobFromUnitBox(m_pUnit->getPMob());
-	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
-	m_minimap->getPTeamFromUnitBox(m_pUnit->getPTeam());
-
-	PROCESS_MEMORY_COUNTERS pmc;
-	GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc));
-
-	Debug->AddText("메모리 사용량 : ");
-	Debug->AddText((int)(pmc.WorkingSetSize / 1024));
-	Debug->AddText("KB");
-	Debug->EndLine();
-
-	if (cpuUsageCount <= 0) {
-		cpuUsage = getCurrentValue();
-		cpuUsageCount = 60;
-	}
-	else {
-		cpuUsageCount--;
-	}
-
-	Debug->AddText("CPU 사용량 : ");
-	Debug->AddText(cpuUsage);
-	Debug->AddText("%");
-	Debug->EndLine();
-
-	// 0 키 누르면 음악 재생 ON / OFF
-	if ((GetAsyncKeyState('0') & 0x8000))
-	{
-		if (!musicPlayCheck)
+		// 0 키 누르면 음악 재생 ON / OFF
+		if ((GetAsyncKeyState('0') & 0x8000))
 		{
-			musicPlayCheck = true;
-
-			if (!musicPlay)
+			if (!musicPlayCheck)
 			{
-				musicPlay = true;
-				g_pSoundManager->playMusic(0);
-			}
-			else
-			{
-				musicPlay = false;
-				g_pSoundManager->stopMusic(0);
-			}
-		}
-	}
-	else if (musicPlayCheck)
-		musicPlayCheck = false;
+				musicPlayCheck = true;
 
-	if (!g_pCamera->getFreeCameraMode()) // 프리카메라가 OFF 일 경우
-	{
-		if ((GetAsyncKeyState('W') & GetAsyncKeyState(VK_SHIFT) & 0x8000))
-		{
-			g_pSoundManager->RunSound();
-		}
-		else if (GetAsyncKeyState('W') ||
-			GetAsyncKeyState('A') ||
-			GetAsyncKeyState('D') ||
-			GetAsyncKeyState('S') & 0x8000)
-		{
-			g_pSoundManager->WalkSound();
-		}
-	}
-
-	if ((GetAsyncKeyState('I') & 0x8000))
-	{
-		if (volume_music <= 10.0f)
-			volume_music += 0.049999f;
-		g_pSoundManager->volumeControl_Music(volume_music);
-	}
-	if ((GetAsyncKeyState('K') & 0x8000))
-	{
-		if (volume_music >= 0.049999f)
-			volume_music -= 0.049999f;
-		g_pSoundManager->volumeControl_Music(volume_music);
-	}
-	vector<TeamAI*> m_pTeam = *m_pUnit->getPTeam();
-	float minDistance = 9999999.0f;
-	bool talkAble = false;
-	int tempIndex = 0, teamIndex = -1;
-	//float conWidth = cos(30 * D3DX_PI / 180.0f);
-	float conWidth = 0.866f; //대화가 가능한 각도 (현재 각도 : 30도) cos(각도 * 파이 / 180)
-	for (auto p : m_pTeam) {
-		D3DXVECTOR3 teamPos = p->GetPosition(); //팀 위치
-		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
-		teamPos.y += GSM().playerHeight;
-		D3DXVECTOR3 playerDir = g_pCamera->getDir(); //내가 보는 방향
-		D3DXVECTOR3 posDiff = teamPos - playerPos; //팀원 위치랑 내 위치의 차이
-		D3DXVECTOR3 lookDir;
-		D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
-		float viewAngle = D3DXVec3Dot(&playerDir, &lookDir); //내가 보는 각도
-		float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //아군과의 거리 계산
-		if (distance < minDistance) {
-			minDistance = distance; //가장 가까운 아군과의 거리만 남긴다
-			if (minDistance < 10.0f) { //대화가 가능한 거리라면
-				if (viewAngle > conWidth) { //대화가 가능한 각도라면
-					talkAble = true; //대화 가능
-					teamIndex = tempIndex; //현재 대화 가능한 아군의 인덱스
+				if (!musicPlay)
+				{
+					musicPlay = true;
+					g_pSoundManager->playMusic(0);
+				}
+				else
+				{
+					musicPlay = false;
+					g_pSoundManager->stopMusic(0);
 				}
 			}
 		}
-		if (distance < 4.0f) { //아군과의 거리가 너무 가까우면
-							   //플레이어와 아군 사이의 벡터를 구해 그 역벡터를 구하고,
-							   //가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
-			D3DXVECTOR3 lookDirInverse = -1.2f * lookDir / distance;
-			lookDirInverse.y = 0; //y축 값은 필요없다.
-			g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
+		else if (musicPlayCheck)
+			musicPlayCheck = false;
+
+		if (!g_pCamera->getFreeCameraMode()) // 프리카메라가 OFF 일 경우
+		{
+			if ((GetAsyncKeyState('W') & GetAsyncKeyState(VK_SHIFT) & 0x8000))
+			{
+				g_pSoundManager->RunSound();
+			}
+			else if (GetAsyncKeyState('W') ||
+				GetAsyncKeyState('A') ||
+				GetAsyncKeyState('D') ||
+				GetAsyncKeyState('S') & 0x8000)
+			{
+				g_pSoundManager->WalkSound();
+			}
 		}
-		tempIndex++;
-	}
-	if (talkAble) {
-		m_pTalkOn = true;
+
+		if ((GetAsyncKeyState('I') & 0x8000))
+		{
+			if (volume_music <= 10.0f)
+				volume_music += 0.049999f;
+			g_pSoundManager->volumeControl_Music(volume_music);
+		}
+		if ((GetAsyncKeyState('K') & 0x8000))
+		{
+			if (volume_music >= 0.049999f)
+				volume_music -= 0.049999f;
+			g_pSoundManager->volumeControl_Music(volume_music);
+		}
+		vector<TeamAI*> m_pTeam = *m_pUnit->getPTeam();
+		float minDistance = 9999999.0f;
+		bool talkAble = false;
+		int tempIndex = 0, teamIndex = -1;
+		//float conWidth = cos(30 * D3DX_PI / 180.0f);
+		float conWidth = 0.866f; //대화가 가능한 각도 (현재 각도 : 30도) cos(각도 * 파이 / 180)
+		for (auto p : m_pTeam) {
+			D3DXVECTOR3 teamPos = p->GetPosition(); //팀 위치
+			D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
+			teamPos.y += GSM().playerHeight;
+			D3DXVECTOR3 playerDir = g_pCamera->getDir(); //내가 보는 방향
+			D3DXVECTOR3 posDiff = teamPos - playerPos; //팀원 위치랑 내 위치의 차이
+			D3DXVECTOR3 lookDir;
+			D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
+			float viewAngle = D3DXVec3Dot(&playerDir, &lookDir); //내가 보는 각도
+			float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //아군과의 거리 계산
+			if (distance < minDistance) {
+				minDistance = distance; //가장 가까운 아군과의 거리만 남긴다
+				if (minDistance < 10.0f) { //대화가 가능한 거리라면
+					if (viewAngle > conWidth) { //대화가 가능한 각도라면
+						talkAble = true; //대화 가능
+						teamIndex = tempIndex; //현재 대화 가능한 아군의 인덱스
+					}
+				}
+			}
+			if (distance < 4.0f) { //아군과의 거리가 너무 가까우면
+								   //플레이어와 아군 사이의 벡터를 구해 그 역벡터를 구하고,
+								   //가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
+				D3DXVECTOR3 lookDirInverse = -1.2f * lookDir / distance;
+				lookDirInverse.y = 0; //y축 값은 필요없다.
+				g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
+			}
+			tempIndex++;
+		}
+		if (talkAble) {
+			m_pTalkOn = true;
+		}
+		else {
+			m_pTalkOn = false;
+		}
+		if ((GetAsyncKeyState('E') & 0x0001))
+		{
+			if (m_pTalkOn) {
+				//TCHAR str[100];
+				//wsprintf(str, TEXT("%d 번 아군과 대화하였습니다."), teamIndex);
+				//MessageBox(NULL, str, TEXT("DEBUG"), MB_OK);
+				m_str.Empty();
+				CString _str = to_string(teamIndex).c_str();
+				m_str.Append(_str);
+				m_str.Append(_T("번 아군 : 안녕하세요!"));
+				m_talkFontCount = GetTickCount() + 3000;
+			}
+		}
+
+		if (GetTickCount() >= m_talkFontCount) {
+			m_str.Empty();
+		}
+
+
+		m_pBoundingSphere->center = g_pCamera->getPos();
+		m_pBoundingSphere->center.y = height + 3.0f;
+
+		r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
+		bool getHitBox = false;
+		bool getCollision = false;
+		for (auto p : wallManager->getWalls()) {
+			D3DXVECTOR3 wallPos = p->getCenter(); //벽 위치
+			D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
+			D3DXVECTOR3 posDiff = wallPos - playerPos; //벽 위치랑 내 위치의 차이
+			D3DXVECTOR3 lookDir;
+			D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
+			getCollision = wallManager->IntersectSphereBox(m_pBoundingSphere, p->getBoundingBox());
+			if (getCollision) {
+				D3DXVECTOR3 camPosDiff = playerPos - m_pOldPos;
+				if ((p->getSize().z + 5.0f) / 2.0f > abs(posDiff.z)) {
+					camPosDiff.x = 0;
+				}
+				else {
+					camPosDiff.z = 0;
+				}
+				camPosDiff.y = 0;
+				g_pCamera->setPos(m_pOldPos + camPosDiff);
+			}
+			bool tempGetHitBox = false;
+			tempGetHitBox = r.CalcIntersectBox(p->getBoundingBox());
+			if (tempGetHitBox) {
+				getHitBox = true;
+			}
+		}
+
+		m_pOldPos = g_pCamera->getPos();
+
+		g_pSeqManager->Update();
+
+		/*Debug->AddText("아군과의 거리 : ");
+		Debug->AddText(minDistance);
+		Debug->EndLine();*/
+		Debug->AddText("현재 높이 : ");
+		Debug->AddText(height);
+		Debug->EndLine();
+		/*Debug->AddText("현재 위치 : ");
+		Debug->AddText(m_pOldPos);
+		Debug->EndLine();*/ // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
+		Debug->AddText("잔탄 수 : ");
+		Debug->AddText(g_pCamera->getMagazine());
+		Debug->EndLine();
+		/*Debug->AddText("Bounding Box Collision with Ray: ");
+		Debug->AddText(getHitBox);
+		Debug->EndLine();
+		Debug->AddText("Bounding Box Collision with Player: ");
+		Debug->AddText(getCollision);
+		Debug->EndLine();*/
+		/*Debug->AddText("volume(music) : ");
+		Debug->AddText(volume_music);
+		Debug->EndLine();*/
 	}
 	else {
-		m_pTalkOn = false;
+		SAFE_UPDATE(m_pMenuUI);
 	}
-	if ((GetAsyncKeyState('E') & 0x0001))
-	{
-		if (m_pTalkOn) {
-			//TCHAR str[100];
-			//wsprintf(str, TEXT("%d 번 아군과 대화하였습니다."), teamIndex);
-			//MessageBox(NULL, str, TEXT("DEBUG"), MB_OK);
-			m_str.Empty();
-			CString _str = to_string(teamIndex).c_str();
-			m_str.Append(_str);
-			m_str.Append(_T("번 아군 : 안녕하세요!"));
-			m_talkFontCount = GetTickCount() + 3000;
-		}
-	}
-
-	if (GetTickCount() >= m_talkFontCount) {
-		m_str.Empty();
-	}
-
-
-	m_pBoundingSphere->center = g_pCamera->getPos();
-	m_pBoundingSphere->center.y = height + 3.0f;
-
-	r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
-	bool getHitBox = false;
-	bool getCollision = false;
-	for (auto p : wallManager->getWalls()) {
-		D3DXVECTOR3 wallPos = p->getCenter(); //벽 위치
-		D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
-		D3DXVECTOR3 posDiff = wallPos - playerPos; //벽 위치랑 내 위치의 차이
-		D3DXVECTOR3 lookDir;
-		D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
-		getCollision = wallManager->IntersectSphereBox(m_pBoundingSphere, p->getBoundingBox());
-		if (getCollision) {
-			D3DXVECTOR3 camPosDiff = playerPos - m_pOldPos;
-			if ((p->getSize().z + 5.0f) / 2.0f > abs(posDiff.z)) {
-				camPosDiff.x = 0;
-			}
-			else {
-				camPosDiff.z = 0;
-			}
-			camPosDiff.y = 0;
-			g_pCamera->setPos(m_pOldPos + camPosDiff);
-		}
-		bool tempGetHitBox = false;
-		tempGetHitBox = r.CalcIntersectBox(p->getBoundingBox());
-		if (tempGetHitBox) {
-			getHitBox = true;
-		}
-	}
-
-	m_pOldPos = g_pCamera->getPos();
-
-	g_pSeqManager->Update();
-
-	/*Debug->AddText("아군과의 거리 : ");
-	Debug->AddText(minDistance);
-	Debug->EndLine();*/
-	Debug->AddText("현재 높이 : ");
-	Debug->AddText(height);
-	Debug->EndLine();
-	/*Debug->AddText("현재 위치 : ");
-	Debug->AddText(m_pOldPos);
-	Debug->EndLine();*/ // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
-	Debug->AddText("잔탄 수 : ");
-	Debug->AddText(g_pCamera->getMagazine());
-	Debug->EndLine();
-	/*Debug->AddText("Bounding Box Collision with Ray: ");
-	Debug->AddText(getHitBox);
-	Debug->EndLine();
-	Debug->AddText("Bounding Box Collision with Player: ");
-	Debug->AddText(getCollision);
-	Debug->EndLine();*/
-	/*Debug->AddText("volume(music) : ");
-	Debug->AddText(volume_music);
-	Debug->EndLine();*/
 }
 
 void SceneHeightmap::Render()
