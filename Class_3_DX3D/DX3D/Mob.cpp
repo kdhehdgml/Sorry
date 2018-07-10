@@ -112,7 +112,7 @@ void Mob::Update()
 		//m_pRootParts->Update();
 	/*	m_MONSTER->SetPos(m_pos);
 		m_MONSTER->Update();*/
-		Debug->AddText("몹 체력: ");
+		/*Debug->AddText("몹 체력: ");
 		Debug->AddText(health);
 		Debug->AddText(" / 장전: ");
 		Debug->AddText(m_bullet);
@@ -120,7 +120,7 @@ void Mob::Update()
 		Debug->AddText(m_maxbullet);
 		Debug->AddText(" / 높이: ");
 		Debug->AddText(m_pBoundingSphereBody->center.y);
-		Debug->EndLine();
+		Debug->EndLine();*/
 
 		
 	}
@@ -143,15 +143,15 @@ void Mob::Update()
 	m_angle = acos(angle);
 	//m_angle = D3DX_PI * ((1.0 + angle) / 2.0);
 
-	Debug->AddText("각도 : ");
-	Debug->AddText(m_angle);
-	
-	Debug->AddText("  //  현재좌표 : ");
-	Debug->AddText(m_pos);
+	//Debug->AddText("각도 : ");
+	//Debug->AddText(m_angle);
+	//
+	//Debug->AddText("  //  현재좌표 : ");
+	//Debug->AddText(m_pos);
 
-	Debug->AddText("  // 목표좌표 : ");
-	Debug->AddText(m_destPos);
-	Debug->EndLine();
+	//Debug->AddText("  // 목표좌표 : ");
+	//Debug->AddText(m_destPos);
+	//Debug->EndLine();
 	//m_angle = acos((m_pos.x * m_destPos.x)+(m_pos.y * m_destPos.y)+(m_pos.z * m_destPos.z));
 
 	//카메라 범위안에 왔을때
@@ -211,7 +211,8 @@ void Mob::Render()
 		
 	}
 	//if ()
-	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+	if (g_pFrustum->IsMobAIFrustum(this) 
+		&& m_Death == false)
 	{
 		m_MONSTER->SetRenderSTATE(true);
 		m_MONSTER->Render();
