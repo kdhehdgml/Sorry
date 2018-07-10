@@ -53,7 +53,6 @@ UnitBox::UnitBox()
 	MobStart = false;
 	mobCreateBuffer = 0;
 	NOL_Team = 0;
-	m_game.MaxAmount = 0;
 }
 
 UnitBox::~UnitBox()
@@ -73,6 +72,7 @@ UnitBox::~UnitBox()
 
 void UnitBox::Init()
 {
+	m_game.MaxAmount = 0;
 	MobStart = false;
 	TeamPosition();
 	RandomSelectPosition();
@@ -89,7 +89,7 @@ void UnitBox::Init()
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
 	LocationSharing();
-	//CreateMob(30);
+	CreateMob(25);
 }
 
 void UnitBox::Update()
@@ -101,7 +101,7 @@ void UnitBox::Update()
 	}*/
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
 	{
-		CreateMob(25);
+		GameWaveSetting(10);
 	}
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
 	{
@@ -672,7 +672,7 @@ void UnitBox::LocationSharing()
 
 void UnitBox::GameWaveSetting(int _Start)
 {
-	m_game = GameWave(_Start);
+	m_game.StartAmount = _Start;
 	PlayWave();
 }
 
