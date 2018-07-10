@@ -34,13 +34,14 @@ void MenuUI::Init()
 		UIImage* pImage = new UIImage(m_pSprite);
 		pImage->SetTexture("resources/ui/panel-info.png.png");
 		pImage->SetPosition(&D3DXVECTOR3(200, 0, 0));
+		pImage->m_bDrawBorder = false;
 		m_pRootUI = pImage;
 	}
 	{
 		UIText* pText = new UIText(g_pFontMgr->GetFont(FONT::NORMAL),
 			m_pSprite, UITAG_TEXTVIEW);
 		m_pRootUI->AddChild(pText);
-		pText->m_text = _T("Push the button");
+		pText->m_text = _T("게임 메뉴");
 		//pText->m_drawTextFormat = DT_LEFT | DT_TOP | DT_NOCLIP;
 		pText->m_size = D3DXVECTOR2(312, 200);
 		pText->SetPosition(&D3DXVECTOR3(100, 100, 0));
@@ -53,7 +54,7 @@ void MenuUI::Init()
 			"resources/ui/btn-med-up.png.png",
 			"resources/ui/btn-med-over.png.png",
 			"resources/ui/btn-med-down.png.png");
-		pButton->SetText(g_pFontMgr->GetFont(FONT::QUEST), _T("Button1"));
+		pButton->SetText(g_pFontMgr->GetFont(FONT::QUEST), _T("옵션"));
 	}
 	{
 		UIButton* pButton = new UIButton(this, m_pSprite, UITAG_BUTTON2);
@@ -63,12 +64,12 @@ void MenuUI::Init()
 			"resources/ui/btn-med-up.png.png",
 			"resources/ui/btn-med-over.png.png",
 			"resources/ui/btn-med-down.png.png");
-		pButton->SetText(g_pFontMgr->GetFont(FONT::QUEST), _T("Button2"));
+		pButton->SetText(g_pFontMgr->GetFont(FONT::QUEST), _T("타이틀로"));
 	}
 	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 1.5f, 1.5f, 1);
+	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1);
 	D3DXMATRIXA16 matT;
-	D3DXMatrixTranslation(&matT, 150, 150, 0);
+	D3DXMatrixTranslation(&matT, 150, 100, 0);
 	m_matWorld = matS * matT;
 }
 

@@ -33,6 +33,8 @@ Mob::Mob()
 	showBoundingSphere = false;
 
 	m_angle = D3DX_PI / 2;
+
+	m_Death = false;
 }
 
 
@@ -81,6 +83,7 @@ void Mob::Update()
 		if (GetTickCount() >= m_Death_Time + DEATH_TIME)
 		{
 			m_Death_count = 0;
+			m_Death = true;
 			m_pos = { 1000,-5000,1000 };
 		}
 
@@ -89,7 +92,7 @@ void Mob::Update()
 
 	if (status > 0) {
 
-
+		m_Death = false;
 		Act_Moving();
 
 		IUnitObject::UpdatePositionToDestination();
@@ -128,16 +131,16 @@ void Mob::Update()
 	//Debug->AddText(m_rot.y);
 	//Debug->EndLine();
 
-	Debug->AddText("죽는애니메이션 끝나는 시간 : ");
-	Debug->AddText(m_Death_Time + DEATH_TIME);
-	Debug->EndLine();
+	//Debug->AddText("죽는애니메이션 끝나는 시간 : ");
+	//Debug->AddText(m_Death_Time + DEATH_TIME);
+	//Debug->EndLine();
 
 
 
 	//카메라 범위안에 왔을때
-	if (g_pFrustum->IsMobAIFrustum(this))
+	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 	{
-		if(m_Death_count == 0)
+		if(status != 0)
 			m_MONSTER->SetPos(m_pos);
 
 		m_MONSTER->SetAngle(m_rot.y);//각도받아옴
@@ -185,10 +188,11 @@ void Mob::Render()
 			g_pDevice->SetTexture(0, NULL);
 			m_pSphereHead->DrawSubset(0);
 		}
+
 		
 	}
-
-	if (g_pFrustum->IsMobAIFrustum(this))
+	//if ()
+	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 	{
 		m_MONSTER->SetRenderSTATE(true);
 		m_MONSTER->Render();
