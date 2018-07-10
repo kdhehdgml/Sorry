@@ -350,7 +350,6 @@
     <ClInclude Include="eventTalk.h">
       <Filter>소스 파일\Event</Filter>
     </ClInclude>
-    <ClInclude Include="MenuUI.h" />
     <ClInclude Include="IShader.h">
       <Filter>소스 파일\3.Object\_Base</Filter>
     </ClInclude>
@@ -365,6 +364,12 @@
     </ClInclude>
     <ClInclude Include="Objects.h">
       <Filter>소스 파일\3.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuUI.h">
+      <Filter>소스 파일\3.Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereWall.h">
+      <Filter>소스 파일\Wall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -614,7 +619,6 @@
     <ClCompile Include="eventTalk.cpp">
       <Filter>소스 파일\Event</Filter>
     </ClCompile>
-    <ClCompile Include="MenuUI.cpp" />
     <ClCompile Include="LightingShader.cpp">
       <Filter>소스 파일\Shader</Filter>
     </ClCompile>
@@ -626,6 +630,12 @@
     </ClCompile>
     <ClCompile Include="Objects.cpp">
       <Filter>소스 파일\3.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuUI.cpp">
+      <Filter>소스 파일\3.Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereWall.cpp">
+      <Filter>소스 파일\Wall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

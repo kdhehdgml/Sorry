@@ -2,6 +2,8 @@
 #include "seqManager.h"
 
 #define STOP stopTime = true
+#define RESTART stopTime = false
+#define WAVE_INTERVAL 100
 
 seqManager::seqManager()
 {
@@ -9,6 +11,10 @@ seqManager::seqManager()
 	stopTime = false;
 	stage = 1;
 	round = 0;
+	
+	roundStart = false;
+	waveCount = 0;
+	waveTime = WAVE_INTERVAL;
 }
 
 seqManager::~seqManager()
@@ -25,6 +31,12 @@ void seqManager::Update()
 	if (!stopTime && checkTime > 0)
 		checkTime--;
 	
+	if (roundStart)
+	{
+		Level(stage, round);
+		waveTime--;
+	}
+
 	setStage();
 
 	if (GetKeyState('1') & 0x8000)
@@ -41,6 +53,10 @@ void seqManager::Update()
 		Debug->AddText(stage);
 		Debug->AddText(" / 라운드: ");
 		Debug->AddText(round);
+		Debug->AddText(" / 웨이브: ");
+		Debug->AddText(waveCount);
+		Debug->AddText(" / 웨이브 타이머 : ");
+		Debug->AddText(waveTime);
 		Debug->EndLine();
 	}
 }
@@ -73,6 +89,8 @@ void seqManager::setStage()
 		}
 		checkTime = setReadyTime(stage, round);
 		STOP;
+
+		roundStart = true;
 	}
 }
 
@@ -89,10 +107,56 @@ void seqManager::Level(int stage, int round)
 		switch (round)
 		{
 		case 1:
+			// 라운드 1 ==================================================
+
+			switch (waveCount)
+			{
+			case 0:
+				waveCount++;
+				break;
+			case 1:
+				//g_pSoundManager->playMusic(2);
+				if(waveTime <= 0)
+				{
+					waveTime = WAVE_INTERVAL;
+					waveCount++;
+				}
+				break;
+			case 2:
+				//g_pSoundManager->playMusic(3);
+				if (waveTime <= 0)
+				{
+					waveTime = WAVE_INTERVAL;
+					waveCount++;
+				}
+				break;
+			case 3:
+				//g_pSoundManager->playMusic(4);
+				if (waveTime <= 0)
+				{
+					waveTime = WAVE_INTERVAL;
+					waveCount = 0;
+					roundStart = false;
+					RESTART;
+				}
+				break;
+			}
+
+			// ===========================================================
 			break;
 		case 2:
+			// 라운드 2 ==================================================
+
+			//g_pSoundManager->playMusic(0);
+
+			// ===========================================================
 			break;
 		case 3:
+			// 라운드 3 ==================================================
+
+
+
+			// ===========================================================
 			break;
 		}
 		break;
@@ -102,10 +166,25 @@ void seqManager::Level(int stage, int round)
 		switch (round)
 		{
 		case 1:
+			// 라운드 1 ==================================================
+
+
+
+			// ===========================================================
 			break;
 		case 2:
+			// 라운드 2 ==================================================
+
+
+
+			// ===========================================================
 			break;
 		case 3:
+			// 라운드 3 ==================================================
+
+
+
+			// ===========================================================
 			break;
 		}
 		break;
@@ -115,10 +194,25 @@ void seqManager::Level(int stage, int round)
 		switch (round)
 		{
 		case 1:
+			// 라운드 1 ==================================================
+
+
+
+			// ===========================================================
 			break;
 		case 2:
+			// 라운드 2 ==================================================
+
+
+
+			// ===========================================================
 			break;
 		case 3:
+			// 라운드 3 ==================================================
+
+
+
+			// ===========================================================
 			break;
 		}
 		break;
