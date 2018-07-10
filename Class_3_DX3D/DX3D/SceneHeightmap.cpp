@@ -395,7 +395,7 @@ void SceneHeightmap::Update()
 		if (!g_pCamera->getFreeCameraMode()) {
 			float dx1, dx2, dy1, dy2, wallDx;
 			const float distanceDiffBuffer = 0.3f;
-			const float heightDiffBuffer = 0.3f;
+			const float heightDiffBuffer = 1.0f;
 			currentPos.x += distanceDiffBuffer;
 			isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
 			currentPos.x += distanceDiffBuffer * 3;

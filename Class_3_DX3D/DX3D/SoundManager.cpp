@@ -72,8 +72,11 @@ SoundManager::~SoundManager()
 void SoundManager::soundList()
 {
 	// 배경음
-	s_music_f.push_back("MoDD");
+	s_music_f.push_back("21. Days of Thunder");
 	s_music_f.push_back("15. Operation Barbarossa");
+	s_music_f.push_back("02. The Royal Airforce");
+	s_music_f.push_back("13. Luftwaffe Strikes Again");
+	s_music_f.push_back("22. We Are Soldiers");
 
 	// 환경음
 	s_ambient_f.push_back("ambient_test_4");
