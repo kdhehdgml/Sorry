@@ -2,8 +2,6 @@
 
 #define g_pSeqManager seqManager::GetInstance()
 
-
-
 class seqManager
 {
 	SINGLETON(seqManager)
@@ -17,7 +15,11 @@ private:
 	int waveCount;
 	int waveTime;
 
+	bool spawnCheck;
+
 public:
+	int spawnNum;
+
 	void Init();
 	void Update();
 	int getStage();

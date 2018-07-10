@@ -625,6 +625,11 @@ void SceneHeightmap::Update()
 		m_pOldPos = g_pCamera->getPos();
 
 		g_pSeqManager->Update();
+		/*if (g_pSeqManager->spawnNum != 0)
+		{
+			m_pUnit->GameWaveSetting(g_pSeqManager->spawnNum);
+			g_pSeqManager->spawnNum = 0;
+		}*/
 
 		/*Debug->AddText("아군과의 거리 : ");
 		Debug->AddText(minDistance);
