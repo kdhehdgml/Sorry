@@ -15,14 +15,11 @@ enum EmptyWall
 };
 struct GameWave
 {
-	int		NumOfWave;
 	int		StartAmount;
-	int		IncreaseAmount;
-	int		MinLifeMob;
+	int		MaxAmount;
 	GameWave() {}
-	GameWave(int _wave, int _start, int _increase, int _minmob)
-		:NumOfWave(_wave), StartAmount(_start), IncreaseAmount(_increase), MinLifeMob(_minmob)
-	{}
+	GameWave(int _start)
+		:StartAmount(_start){}
 };
 class UnitBox : public IUnitObject
 {
@@ -39,7 +36,6 @@ private:
 	vector<int> posit;
 	int				MobNum;
 	int				TeamNum;
-	int				NOL_Mob;
 	int				NOL_Team;
 	bool			m_SameChk;
 	bool			MobStart;
@@ -64,9 +60,10 @@ public:
 	void RegenTeam();
 	void CreateMob(int num);
 	void ReSetMob();
-	void CheckNumberOfLivingAI();
+	int CheckNumberOfLivingAI(int _amount);
 	void LocationSharing();
-	void GameWaveSetting(int _wave, int _start, int _increase, int _minmob);
+	void GameWaveSetting(int _Start);
+	void PlayWave();
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();
 	vector<TeamAI*>* getPTeam();
