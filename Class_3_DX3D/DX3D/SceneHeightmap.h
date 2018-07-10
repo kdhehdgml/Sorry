@@ -16,6 +16,7 @@ class Player_hands;
 
 class WallManager;
 class Wall;
+class SphereWall;
 class Minimap;
 class MenuUI;
 
@@ -38,7 +39,7 @@ private:
 	Player_hands*	m_Player_hands;
 	//Picking *		m_pPicking;
 	//SkinnedMesh *	m_pSkinnedMesh;
-	
+
 
 	//최적화를 위한 컬링
 	//Frustum			*m_Frustum;
