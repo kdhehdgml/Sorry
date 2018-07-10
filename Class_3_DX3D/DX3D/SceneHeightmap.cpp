@@ -678,11 +678,6 @@ void SceneHeightmap::Update()
 		Debug->AddText("ÀÜÅº ¼ö : ");
 		Debug->AddText(g_pCamera->getMagazine());
 		Debug->EndLine();
-		Debug->AddText("SphereWalls ÁÂÇ¥µé : ");
-		for (int i = 0; i < 38; i++) {
-			Debug->AddText(tempVecs[i]);
-			Debug->EndLine();
-		}
 		/*Debug->AddText("Bounding Box Collision with Ray: ");
 		Debug->AddText(getHitBox);
 		Debug->EndLine();
@@ -745,7 +740,7 @@ void SceneHeightmap::Render()
 	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 	g_pDevice->SetTexture(0, NULL);
-	m_pSphere->DrawSubset(0);
+	//m_pSphere->DrawSubset(0);
 
 	RECT rc;
 	SetRect(&rc, 100, 400, 800, 600);
