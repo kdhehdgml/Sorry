@@ -42,6 +42,8 @@ void SceneTest::Init()
 	m_SkyBox = new SkyBox;
 	m_SkyBox->Init();
 	AddSimpleDisplayObj(m_SkyBox);
+
+	g_pSoundManager->createSound();
 }
 
 void SceneTest::Update()

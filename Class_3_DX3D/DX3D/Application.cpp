@@ -58,6 +58,10 @@ void Application::Update()
 		g_pCamera->Update();
 		g_pFrustum->Update();
 	}
+	else {
+		Debug->InitText();
+		g_pSceneManager->Update();
+	}
 	//g_pSceneManager->Update();
 	if (GetAsyncKeyState('M') & 0x0001)
 	{
@@ -83,7 +87,7 @@ void Application::Update()
 
 void Application::Render()
 {
-	if (!g_pCamera->isPaused)
+	//if (!g_pCamera->isPaused)
 	{
 		g_pDevice->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 			D3DCOLOR_XRGB(50, 50, 50), 1.0f, 0);

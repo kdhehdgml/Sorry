@@ -13,12 +13,17 @@ private:
 	int stage;
 	int round;
 
+	bool roundStart;
+	int waveCount;
+	int waveTime;
+
 public:
 	void Init();
 	void Update();
 	int getStage();
 	int getRound();
 
+private:
 	int setReadyTime(int stage, int round);
 	void setStage();
 	void Level(int stage, int round);
