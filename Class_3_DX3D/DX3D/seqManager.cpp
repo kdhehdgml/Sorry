@@ -63,7 +63,9 @@ void seqManager::Update()
 
 		// 디버그 텍스트
 		{
-			Debug->AddText("이벤트 타이머: ");
+			Debug->AddText("=====================================================================");
+			Debug->EndLine();
+			Debug->AddText("대기 타이머: ");
 			Debug->AddText(checkTime);
 			Debug->AddText(" / 스테이지: ");
 			Debug->AddText(stage);
@@ -73,6 +75,8 @@ void seqManager::Update()
 			Debug->AddText(waveCount);
 			Debug->AddText(" / 웨이브 타이머 : ");
 			Debug->AddText(waveTime);
+			Debug->EndLine();
+			Debug->AddText("=====================================================================");
 			Debug->EndLine();
 		}
 	}

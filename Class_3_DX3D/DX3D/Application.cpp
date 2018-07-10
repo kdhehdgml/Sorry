@@ -63,10 +63,10 @@ void Application::Update()
 		g_pSceneManager->Update();
 	}
 	//g_pSceneManager->Update();
-	if (GetAsyncKeyState('M') & 0x0001)
+	/*if (GetAsyncKeyState('M') & 0x0001)
 	{
 		Debug->ShowMessageBox();
-	}
+	}*/
 	if (GetAsyncKeyState('P') & 0x0001) {
 		if (g_pCamera->isPaused) {
 			g_pCamera->isPaused = false;

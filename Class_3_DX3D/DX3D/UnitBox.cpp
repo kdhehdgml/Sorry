@@ -94,7 +94,7 @@ void UnitBox::Init()
 
 void UnitBox::Update()
 {
-	Debug->EndLine();
+	//Debug->EndLine();
 		
 	/*if (mobCreateBuffer <= 0) {
 	mobCreateBuffer += 20;

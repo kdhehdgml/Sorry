@@ -666,41 +666,16 @@ void SceneHeightmap::Update()
 
 		m_pOldPos = g_pCamera->getPos();
 
-		// 시퀀스 매니저 ==============================================
-		if (GetKeyState('1') & 0x8000)
-		{
-			if (g_pSeqManager->stopUpdate = true)
-				g_pSeqManager->stopUpdate = false;
-		}
-		if (GetKeyState('2') & 0x8000)
-		{
-			if (!initCreateMob)
-			{
-				m_pUnit->CreateMob(50);
-				initCreateMob = true;
-			}
-		}
-
-		g_pSeqManager->Update();
-		if (g_pSeqManager->spawnNum != 0)
-		{
-			m_pUnit->GameWaveSetting(g_pSeqManager->spawnNum);
-			if(m_pUnit->MobStart == false)
-				m_pUnit->MobStart = true;
-			g_pSoundManager->effectSound(0);
-			g_pSeqManager->spawnNum = 0;
-		}
-		if (m_pUnit->ClearWave() == 1)
-			m_pUnit->MobStart = false;
-		// ============================================================
+		// 이벤트 매니저
+		Event();
 
 
 		/*Debug->AddText("아군과의 거리 : ");
 		Debug->AddText(minDistance);
 		Debug->EndLine();*/
-		Debug->AddText("현재 높이 : ");
+		/*Debug->AddText("현재 높이 : ");
 		Debug->AddText(height);
-		Debug->EndLine();
+		Debug->EndLine();*/
 		//Debug->AddText("현재 위치 : ");
 		//Debug->AddText(m_pOldPos);
 		//Debug->EndLine(); // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
@@ -809,4 +784,33 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		m_Player_hands->SetPosToCamera();
 		break;
 	}
+}
+
+void SceneHeightmap::Event()
+{
+	if (GetKeyState(VK_F3) & 0x8000)
+	{
+		if (g_pSeqManager->stopUpdate = true)
+			g_pSeqManager->stopUpdate = false;
+	}
+	if (GetKeyState(VK_F2) & 0x8000)
+	{
+		if (!initCreateMob)
+		{
+			m_pUnit->CreateMob(50);
+			initCreateMob = true;
+		}
+	}
+
+	g_pSeqManager->Update();
+	if (g_pSeqManager->spawnNum != 0)
+	{
+		m_pUnit->GameWaveSetting(g_pSeqManager->spawnNum);
+		if (m_pUnit->MobStart == false)
+			m_pUnit->MobStart = true;
+		g_pSoundManager->effectSound(0);
+		g_pSeqManager->spawnNum = 0;
+	}
+	if (m_pUnit->ClearWave() == 1)
+		m_pUnit->MobStart = false;
 }
