@@ -11,7 +11,7 @@ if (waveCount != MAX_WAVE) waveCount++; else { stopUpdate = true; waveCount = 0;
 #define STAGE_END stopTime = true; roundStart = false
 
 #define READY_TIME 500
-#define WAVE_INTERVAL 700
+#define WAVE_INTERVAL 650
 
 #define MAX_WAVE 5
 
@@ -146,7 +146,7 @@ void seqManager::Level(int stage, int round)
 			case 2: 
 				// 웨이브 2 ==============================================
 
-				SPAWN(10);
+				SPAWN(9);
 
 				waveControl;
 				// =======================================================
@@ -154,7 +154,7 @@ void seqManager::Level(int stage, int round)
 			case 3:
 				// 웨이브 3 ==============================================
 
-				SPAWN(15);
+				SPAWN(11);
 
 				waveControl;
 				// =======================================================
@@ -162,7 +162,7 @@ void seqManager::Level(int stage, int round)
 			case 4:
 				// 웨이브 3 ==============================================
 
-				SPAWN(15);
+				SPAWN(13);
 
 				waveControl;
 				// =======================================================
@@ -170,7 +170,7 @@ void seqManager::Level(int stage, int round)
 			case 5:
 				// 웨이브 3 ==============================================
 
-				SPAWN(15);
+				SPAWN(16);
 
 				waveControl;
 				// =======================================================
