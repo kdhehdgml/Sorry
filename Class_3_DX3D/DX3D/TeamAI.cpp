@@ -4,6 +4,8 @@
 #include "TEAM_TEX.h"
 
 #define moveSpeed 0.5f
+#define DEATH_TIME 10000
+
 
 TeamAI::TeamAI()
 {
@@ -27,6 +29,9 @@ TeamAI::TeamAI()
 	m_angle = D3DX_PI / 2;
 	m_def = 0;
 	ani_state = 서서기본자세;
+
+	m_Death = false;
+
 }
 
 
@@ -47,16 +52,39 @@ void TeamAI::Init()
 
 	m_moveSpeed = moveSpeed;
 	m_pBoundingSphere = new BoundingSphere(m_pos, 3.0f);
+
+	m_Death_count = 0;
+	m_Death_Time = 0;
 }
 
 void TeamAI::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		m_pos = { 2000,10,2000 };
+		m_Action = 팀_죽음;
 		m_MobNum = NULL;
+
+		m_Death_count++;
+
+		if (m_Death_count == 1)
+		{
+			m_Death_Time = GetTickCount();
+		}
+
+		//죽은 시간의 끝
+		if (GetTickCount() >= m_Death_Time + DEATH_TIME)
+		{
+			m_Death_count = 0;
+			m_Death = true;
+			m_pos = { 2000,10,2000 };
+		}
 	}
+	Animation();
+
 	if (status > 0) {
+
+		m_Death = false;
+
 		if (m_MobNum == NULL || HaveBullet() == false)
 		{
 			m_Action = 팀_재장전;
@@ -80,20 +108,35 @@ void TeamAI::Update()
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 4.0f;
 
-		//살아있을때만 포지션을 받아온다
-		m_TEAM_TEX->SetPos(m_pos);
+		
+
 
 	}
-	Animation();
-	//Debug->AddText("아군 생명력 :");
-	//Debug->AddText(health);
-	//Debug->EndLine();
-	//Debug->AddText("아군 On/oFF :");
-	//Debug->AddText(status);
-	//Debug->EndLine();
 
-	m_TEAM_TEX->SetAnimationIndex(ani_state);
-	m_TEAM_TEX->Update();
+	/*Debug->AddText("데스 카운트 :");
+	Debug->AddText(m_Death_count);
+
+	Debug->AddText("//  아군 On/oFF(0이 살아있는것) :");
+	Debug->AddText(m_Death);
+
+	Debug->AddText("// 랜더 On/oFF:");
+	Debug->AddText(m_render);
+
+	Debug->EndLine();*/
+
+	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
+		&& m_Death == false)
+	{
+		if (status != 0 && m_Death == false)
+		{
+			m_TEAM_TEX->SetPos(m_pos);
+		}
+		m_TEAM_TEX->SetAnimationIndex(ani_state);
+		m_TEAM_TEX->Update();
+
+	}
+	
+
 
 	//아군 렌더 할까말까
 	if (Keyboard::Get()->KeyDown('H'))
@@ -114,10 +157,10 @@ void TeamAI::Render()
 	//g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
 	//프러스텀 적용 
-	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere) == true)
+	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
+		&& m_Death == false && m_render)
 	{
-		if (m_render)
-			m_TEAM_TEX->Render();
+		m_TEAM_TEX->Render();
 	}
 
 	if (status > 0) 

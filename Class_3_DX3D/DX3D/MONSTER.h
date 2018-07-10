@@ -73,7 +73,7 @@ public:
 	void SetMatR(D3DXMATRIXA16 R) { matR = R; }
 	void SetMatT(D3DXMATRIXA16 T) { matT = T; }
 	//기본적으로 우측을 보고있어서 돌려줌
-	void SetAngle(float angle) { m_angle = angle ; }
+	void SetAngle(float angle) { m_angle = angle; }
 
 private:
 	void SetupBoneMatrixPointers(LPD3DXFRAME pFrame);

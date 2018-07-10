@@ -86,9 +86,12 @@ void TEAM_TEX::Update()
 	if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f &&
 		m_AnimaTionIndex == 2)
 	{
-
 		//트랙속도 감소!
 		m_pAnimController->SetTrackSpeed(0, 0);
+	}
+	else
+	{
+		m_pAnimController->SetTrackSpeed(0, 1);
 
 	}
 
