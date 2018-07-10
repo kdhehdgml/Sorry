@@ -6,8 +6,10 @@ class SphereWall :
 private:
 	LPD3DXMESH m_pSphere;
 	BoundingSphere* m_pBoundingSphere;
+	D3DXVECTOR3 center;
+	float size;
 public:
-	SphereWall(D3DXVECTOR3 center, float size);
+	SphereWall(D3DXVECTOR3 _center, float _size);
 	~SphereWall();
 	virtual void Init() override;
 	virtual void Update() override;
