@@ -120,9 +120,9 @@ void Mob::Update()
 		Debug->AddText(m_maxbullet);
 		Debug->AddText(" / 높이: ");
 		Debug->AddText(m_pBoundingSphereBody->center.y);
-		Debug->EndLine();
-
-		
+		Debug->AddText(" / 각도 : ");
+		Debug->AddText(m_angle);
+		Debug->EndLine();		
 	}
 	Act_Action();
 	
@@ -143,9 +143,7 @@ void Mob::Update()
 	m_angle = acos(angle) * (180 / D3DX_PI);
 	//m_angle = D3DX_PI * ((1.0 + angle) / 2.0);
 
-	Debug->AddText("각도 : ");
-	Debug->AddText(m_angle);
-	Debug->EndLine();
+	
 	//Debug->AddText("현재좌표 : ");
 	//Debug->AddText(m_pos);
 	//Debug->EndLine();

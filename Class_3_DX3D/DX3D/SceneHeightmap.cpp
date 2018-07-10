@@ -104,6 +104,8 @@ SceneHeightmap::SceneHeightmap()
 	m_pMenuUI = NULL;
 	//m_MapTest0 = NULL;
 
+	initCreateMob = false;
+
 }
 
 SceneHeightmap::~SceneHeightmap()
@@ -624,12 +626,34 @@ void SceneHeightmap::Update()
 
 		m_pOldPos = g_pCamera->getPos();
 
+		// 시퀀스 매니저 ==============================================
+		if (GetKeyState('1') & 0x8000)
+		{
+			if (g_pSeqManager->stopUpdate = true)
+				g_pSeqManager->stopUpdate = false;
+		}
+		if (GetKeyState('2') & 0x8000)
+		{
+			if (!initCreateMob)
+			{
+				m_pUnit->CreateMob(50);
+				initCreateMob = true;
+			}
+		}
+
 		g_pSeqManager->Update();
-		/*if (g_pSeqManager->spawnNum != 0)
+		if (g_pSeqManager->spawnNum != 0)
 		{
 			m_pUnit->GameWaveSetting(g_pSeqManager->spawnNum);
+			if(m_pUnit->MobStart == false)
+				m_pUnit->MobStart = true;
+			g_pSoundManager->effectSound(0);
 			g_pSeqManager->spawnNum = 0;
-		}*/
+		}
+		if (m_pUnit->ClearWave() == 1)
+			m_pUnit->MobStart = false;
+		// ============================================================
+
 
 		/*Debug->AddText("아군과의 거리 : ");
 		Debug->AddText(minDistance);

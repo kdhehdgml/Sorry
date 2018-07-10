@@ -38,10 +38,12 @@ private:
 	int				TeamNum;
 	int				NOL_Team;
 	bool			m_SameChk;
-	bool			MobStart;
+	
 public:
 	UnitBox();
 	~UnitBox();
+
+	bool			MobStart;
 	vector<Mob*>	m_pMob;
 	void SetLocation(vector<vector<D3DXVECTOR3>> _location) 
 	{	m_SaveLocation = _location[0]; 
