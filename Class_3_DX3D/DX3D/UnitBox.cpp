@@ -85,7 +85,6 @@ void UnitBox::Init()
 		m_pTeam[i] = new TeamAI;
 		m_pTeam[i]->Init();
 		m_pTeam[i]->SetPosition(&m_TeamPosition[posit[i]]);
-		m_pTeam[i]->SetReady(1);
 	}
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
@@ -125,6 +124,9 @@ void UnitBox::Update()
 			p->setHealth(0);
 		}
 	}
+	Debug->AddText("살아있는몹수 : ");
+	Debug->AddText(CheckNumberOfLivingAI(m_game.MaxAmount));
+	Debug->EndLine();
 	////내가 지나간곳들 장애물 저장한위치 없앰
 	//for (auto p : m_pMob)
 	//{

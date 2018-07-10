@@ -464,7 +464,7 @@ MOB_SITUATION Mob::TrenchFight()
 {
 	moveLocation.clear();
 	SaveLocationNum.clear();
-	float nearAI = 150;
+	float nearAI = 200;
 	int AINum = NULL;
 	//가까운놈 찾기(Min찾는방식)
 	for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_TEAM).size(); i++)
@@ -490,11 +490,14 @@ MOB_SITUATION Mob::TrenchFight()
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
 		m_DestTime++;
-		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f && m_DestTime > 300)
+		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f)
 		{
-			SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
-			m_DestTime = 0;
-			return 근접_거리안닿음;
+			if (m_DestTime > 300)
+			{
+				SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
+				m_DestTime = 0;
+				return 근접_거리안닿음;
+			}
 		}
 		else
 		{

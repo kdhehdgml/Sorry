@@ -29,7 +29,7 @@ TeamAI::TeamAI()
 	m_angle = D3DX_PI / 2;
 	m_def = 0;
 	ani_state = 서서기본자세;
-
+	m_Ready = true;
 	m_Death = false;
 
 }
@@ -84,7 +84,8 @@ void TeamAI::Update()
 	if (status > 0) {
 
 		m_Death = false;
-
+		if (D3DXVec3Length(&(m_finalDestPos - m_pos)) <= 5.0f)
+			m_Ready = true;
 		if (m_Ready == true)
 		{
 			if (m_MobNum == NULL || HaveBullet() == false)
@@ -135,7 +136,12 @@ void TeamAI::Update()
 				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)));
 			}
 		}
-	
+		Debug->AddText("아군 체력 : ");
+		Debug->AddText(health);
+		Debug->EndLine();
+		Debug->AddText("총알수 : ");
+		Debug->AddText(m_bullet);
+		Debug->EndLine();
 	}
 
 	/*Debug->AddText("데스 카운트 :");
@@ -294,7 +300,7 @@ bool TeamAI::MobSearch()
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 1.0f / 2.0f;
 				
-				if (Length < 6)
+				if (Length < 10)
 				{
 					return TrenchFight(1);
 				}
