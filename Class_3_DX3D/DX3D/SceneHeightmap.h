@@ -51,6 +51,7 @@ private:
 	//중현이코드
 	UnitBox *		m_pUnit;
 	Blocks *		m_pBlocks;
+	bool initCreateMob;
 	//
 
 	//obj 관련

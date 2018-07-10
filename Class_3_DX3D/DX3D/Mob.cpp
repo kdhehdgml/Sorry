@@ -120,9 +120,9 @@ void Mob::Update()
 		Debug->AddText(m_maxbullet);
 		Debug->AddText(" / 높이: ");
 		Debug->AddText(m_pBoundingSphereBody->center.y);
-		Debug->EndLine();
-
-		
+		Debug->AddText(" / 각도 : ");
+		Debug->AddText(m_angle);
+		Debug->EndLine();		
 	}
 	Act_Action();
 	D3DXVECTOR3 forwardDir = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
@@ -162,6 +162,8 @@ void Mob::Update()
 	m_angle = acos(angle);
 	//m_angle = D3DX_PI * ((1.0 + angle) / 2.0);
 
+	
+	//Debug->AddText("현재좌표 : ");
 	//Debug->AddText("각도 : ");
 	//Debug->AddText(m_angle);
 	//

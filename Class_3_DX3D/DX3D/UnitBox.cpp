@@ -89,7 +89,7 @@ void UnitBox::Init()
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
 	LocationSharing();
-	CreateMob(25);
+	//CreateMob(50);
 }
 
 void UnitBox::Update()
@@ -99,16 +99,16 @@ void UnitBox::Update()
 	/*if (mobCreateBuffer <= 0) {
 	mobCreateBuffer += 20;
 	}*/
-	if (GetAsyncKeyState(VK_F2) & 0x0001)
+	/*if (GetAsyncKeyState(VK_F2) & 0x0001)
 	{
 		GameWaveSetting(10);
-	}
-	if (GetAsyncKeyState(VK_F3) & 0x0001)
+	}*/
+	/*if (GetAsyncKeyState(VK_F3) & 0x0001)
 	{
 		MobStart = true;
-	}
+	}*/
 		
-	if (GetAsyncKeyState(VK_F4) & 0x0001)
+	//if (GetAsyncKeyState(VK_F4) & 0x0001)
 	//아군 제대 리젠
 	if (GetAsyncKeyState(VK_F5) & 0x0001)
 	{

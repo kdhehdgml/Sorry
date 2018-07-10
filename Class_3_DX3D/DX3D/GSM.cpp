@@ -4,8 +4,10 @@
 /*
 	[ 키보드 설정 ]
 
-	R : 장전 모션 한번더 누르면 취소
-	F : 재장전
+	1 : 시퀀스 매니저 업데이트 On
+	2 : 적 병사 생성 (1번만 실행 됨)
+
+	R : 재장전
 
 	WASD : 걷기
 	Shift: 달리기
@@ -15,17 +17,14 @@
 	Tab : AStar 노드 렌더 On/Off
 	H : 아군 병사 렌더 On/Off
 
-	0 : 배경음악 On/Off
-
 	4 : 카메라 디버그 텍스트 On/Off
 
 	P : 게임 일시정지
 
-	F1 ~ F4 : 적군 소환
-	F5 : 아군 소환
-	F6 : 아군 전진
+	F5 : 아군 소환 및 배치
+	F6 : 아군 제거
 
-	I, K : 배경음악 볼륨 조절
+	I, K : 사운드 볼륨 조절
 
 	M : 디버그 팝업창
 
@@ -62,7 +61,7 @@ GSM::GSM()
 
 	// 몹 초기 위치
 	// mobPos.x = mapSize - 50.0f;
-	mobPos.x = NODE_POSITSIZEX + 360; // 테스트용
+	mobPos.x = NODE_POSITSIZEX + 460; // 테스트용
 	mobPos.z = NODE_POSITSIZEZ;
 
 	// 몹 속도

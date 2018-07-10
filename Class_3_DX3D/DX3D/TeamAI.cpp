@@ -363,7 +363,7 @@ void TeamAI::Shooting()
 	if (m_ShootCooldownTime > 100)
 	{
 		float kill = rand() % 10;
-		if (kill < 3 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
+		if (kill < 5 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
 		{
 			/*int damage = rand() % 10;
 			if (damage < 3)
