@@ -101,10 +101,10 @@ void DebugManager::Print()
 	m_pFont->DrawText(NULL, m_str, m_str.GetLength(), &rc,
 		DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(0, 255, 255));
 
-	if (GetAsyncKeyState('M') & 0x0001)
+	/*if (GetAsyncKeyState('M') & 0x0001)
 	{
 		Debug->ShowMessageBox();
-	}
+	}*/
 }
 
 void DebugManager::ShowMessageBox()
