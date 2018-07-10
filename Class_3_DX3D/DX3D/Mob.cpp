@@ -112,7 +112,7 @@ void Mob::Update()
 		//m_pRootParts->Update();
 	/*	m_MONSTER->SetPos(m_pos);
 		m_MONSTER->Update();*/
-		/*Debug->AddText("¸÷ Ã¼·Â: ");
+		Debug->AddText("¸÷ Ã¼·Â: ");
 		Debug->AddText(health);
 		Debug->AddText(" / ÀåÀü: ");
 		Debug->AddText(m_bullet);
@@ -120,15 +120,34 @@ void Mob::Update()
 		Debug->AddText(m_maxbullet);
 		Debug->AddText(" / ³ôÀÌ: ");
 		Debug->AddText(m_pBoundingSphereBody->center.y);
-		Debug->EndLine();*/
+		Debug->EndLine();
 
 		
 	}
 	Act_Action();
+	D3DXVECTOR3 forwardDir = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
+	if (forwardDir.x <= 0)
+	{
+		D3DXVECTOR3 forwardNor = forwardDir;
+		D3DXVec3Normalize(&forwardNor, &forwardNor);
+		m_angle = D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2);
+	}
+	else
+	{
+		D3DXVECTOR3 forwardNor = forwardDir;
+		D3DXVec3Normalize(&forwardNor, &forwardNor);
+		m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2));
+	}
 	
-	
-	//Debug->AddText("m_rot: ");
-	//Debug->AddText(m_rot.y);
+
+	//Debug->AddText("°¢µµ : ");
+	//Debug->AddText(m_angle);
+	//
+	//Debug->AddText("  //  ÇöÀçÁÂÇ¥ : ");
+	//Debug->AddText(m_pos);
+
+	//Debug->AddText("  // ¸ñÇ¥ÁÂÇ¥ : ");
+	//Debug->AddText(m_destPos);
 	//Debug->EndLine();
 	D3DXVECTOR3 nomPos;
 	D3DXVec3Normalize(&nomPos, &m_pos);
@@ -211,8 +230,7 @@ void Mob::Render()
 		
 	}
 	//if ()
-	if (g_pFrustum->IsMobAIFrustum(this) 
-		&& m_Death == false)
+	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 	{
 		m_MONSTER->SetRenderSTATE(true);
 		m_MONSTER->Render();
