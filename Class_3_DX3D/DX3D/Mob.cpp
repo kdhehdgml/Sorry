@@ -137,21 +137,21 @@ void Mob::Update()
 
 	float angle = D3DXVec3Dot(&nomPos, &nomDestPos);
 	
-	if (angle > 1) angle = 1;
-	else if (angle < -1) angle = -1;
+	/*if (angle > 1) angle = 1;
+	else if (angle < -1) angle = -1;*/
 	//파이 * ( (1.0 + x) / 2.0 )
-	m_angle = acos(angle) * (180 / D3DX_PI);
+	m_angle = acos(angle);
 	//m_angle = D3DX_PI * ((1.0 + angle) / 2.0);
 
 	Debug->AddText("각도 : ");
 	Debug->AddText(m_angle);
+	
+	Debug->AddText("  //  현재좌표 : ");
+	Debug->AddText(m_pos);
+
+	Debug->AddText("  // 목표좌표 : ");
+	Debug->AddText(m_destPos);
 	Debug->EndLine();
-	//Debug->AddText("현재좌표 : ");
-	//Debug->AddText(m_pos);
-	//Debug->EndLine();
-	//Debug->AddText("목표좌표 : ");
-	//Debug->AddText(m_destPos);
-	//Debug->EndLine();
 	//m_angle = acos((m_pos.x * m_destPos.x)+(m_pos.y * m_destPos.y)+(m_pos.z * m_destPos.z));
 
 	//카메라 범위안에 왔을때
