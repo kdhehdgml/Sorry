@@ -58,6 +58,8 @@ void MONSTER::Init()
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pNextAnimSet);
 	m_pAnimController->GetTrackDesc(0, &track);
 	m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
+
+	RotSpeed = 2.0f;
 }
 
 void MONSTER::Update()
@@ -69,6 +71,10 @@ void MONSTER::Update()
 
 		UpdateAnim();
 		UpdateFrameMatrices(m_pRootFrame, NULL);
+		
+		Debug->AddText("매트릭스 각도 : ");
+		Debug->AddText(m_angle);
+		Debug->EndLine();
 
 		D3DXMatrixRotationY(&matR, m_angle);
 		m_matWorld = matS * matR * matT;
