@@ -24,7 +24,7 @@ TeamAI::TeamAI()
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
-	m_render = false;
+	m_render = true;
 	m_bullet = 5;
 	m_angle = D3DX_PI / 2;
 	m_def = 0;
@@ -136,10 +136,9 @@ void TeamAI::Update()
 				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)));
 			}
 		}
-		Debug->AddText("아군 체력 : ");
+		Debug->AddText("아군 체력: ");
 		Debug->AddText(health);
-		Debug->EndLine();
-		Debug->AddText("총알수 : ");
+		Debug->AddText(" / 총알수: ");
 		Debug->AddText(m_bullet);
 		Debug->EndLine();
 	}
