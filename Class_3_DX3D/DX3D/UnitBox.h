@@ -64,6 +64,7 @@ public:
 	void LocationSharing();
 	void GameWaveSetting(int _Start);
 	void PlayWave();
+	int ClearWave();
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();
 	vector<TeamAI*>* getPTeam();

@@ -685,6 +685,23 @@ void UnitBox::PlayWave()
 	ReSetMob();
 }
 
+int UnitBox::ClearWave()
+{
+	if (CheckNumberOfLivingAI(m_game.MaxAmount) == 0)
+		return 1;
+	else
+	{
+		int sum = 0;
+		for (auto p : m_pMob)
+		{
+			if (p->GetPosition().x < 245.0f && p->getStatus == 1)
+				sum++;
+		}
+		if (sum > 5)
+			return 2;
+	}
+}
+
 vector<Mob*>* UnitBox::getPMob()
 {
 	return &m_pMob;
