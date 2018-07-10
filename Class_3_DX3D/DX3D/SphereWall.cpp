@@ -15,8 +15,8 @@ SphereWall::~SphereWall()
 
 void SphereWall::Init()
 {
-	D3DXCreateSphere(g_pDevice, 5.0f, 10, 10, &m_pSphere, NULL);
-	m_pBoundingSphere = new BoundingSphere(center, 5.0f);
+	D3DXCreateSphere(g_pDevice, size, 10, 10, &m_pSphere, NULL);
+	m_pBoundingSphere = new BoundingSphere(center, size);
 }
 
 void SphereWall::Update()
@@ -31,7 +31,7 @@ void SphereWall::Render()
 	matW = mat * matR;
 	g_pDevice->SetTransform(D3DTS_WORLD, &matW);
 	g_pDevice->SetTexture(0, NULL);
-	m_pSphere->DrawSubset(0);
+	//m_pSphere->DrawSubset(0);
 }
 
 BoundingSphere * SphereWall::getBoundingSphere()

@@ -12,6 +12,7 @@
 #include "Minimap.h"
 #include "WallManager.h"
 #include "Wall.h"
+#include "SphereWall.h"
 
 //안개생성
 #include "CreateSmog.h"
@@ -31,11 +32,14 @@
 
 #include "MenuUI.h"
 
+#include <fstream>
+
 static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
 static int numProcessors;
 static HANDLE self;
 int cpuUsageCount = 0;
 float cpuUsage = 0.0f;
+D3DXVECTOR3 tempVecs[40];
 
 double getCurrentValue() {
 	FILETIME ftime, fsys, fuser;
@@ -157,7 +161,7 @@ void SceneHeightmap::Init()
 	g_pMapManager->SetCurrentMap("heightmap");
 
 	m_pOldPos = g_pCamera->getPos();
-	
+
 	D3DXCreateFont(g_pDevice, 36, 18, FW_BOLD, 1, false, DEFAULT_CHARSET,
 		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, _T("나눔고딕"), &m_pFont);
 	m_str = "";
@@ -291,18 +295,20 @@ void SceneHeightmap::Init()
 	wallManager->Init();
 	AddSimpleDisplayObj(wallManager);
 
-	D3DXVECTOR3 aa(200.0f, 25.0f, 300.0f); //임시 BoundingBox 좌표1
-	D3DXVECTOR3 bb(310.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa(300.0f, 25.0f, 400.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb(310.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
 
-	D3DXVECTOR3 aa2(0.0f, 25.0f, 100.0f); //임시 BoundingBox 좌표1
-	D3DXVECTOR3 bb2(10.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa2(0.0f, 25.0f, 100.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb2(10.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
 
-	D3DXVECTOR3 aa3(100.0f, 25.0f, 400.0f); //임시 BoundingBox 좌표1
-	D3DXVECTOR3 bb3(210.0f, 35.0f, 410.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa3(100.0f, 25.0f, 400.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb3(210.0f, 35.0f, 410.0f); //임시 BoundingBox 좌표2
 
 
 	//wallManager->addWall(aa, bb); //새로 벽 추가하고 싶을땐 이렇게
-								  //(aa가 수치가 작은 쪽 좌표, bb가 큰 쪽 좌표)
+	//(aa가 수치가 작은 쪽 좌표, bb가 큰 쪽 좌표)
+
+	//wallManager->addSphereWall(aa, 10.0f);
 
 	D3DXCreateSphere(g_pDevice, 5.0f, 10, 10, &m_pSphere, NULL);
 	m_pBoundingSphere = new BoundingSphere(g_pCamera->getPos(), 5.0f);
@@ -329,6 +335,24 @@ void SceneHeightmap::Init()
 
 	g_pCamera->mouseLock = true;
 	g_pSeqManager->Init();
+
+	std::fstream fp("resources/wall/SphereWall.txt");
+	int tempInt, tempFloat;
+	D3DXVECTOR3 tempVec(0.0f, 27.0f, 0.0f);
+	char inputString[100];
+	fp.getline(inputString, 100);
+	tempInt = std::atoi(inputString);
+	for (int i = 0; i < tempInt; i++) {
+		fp.getline(inputString, 100);
+		tempFloat = std::atof(inputString);
+		tempVec.x = tempFloat;
+		fp.getline(inputString, 100);
+		tempFloat = std::atof(inputString);
+		tempVec.z = tempFloat;
+		wallManager->addSphereWall(tempVec, 6.0f);
+		tempVecs[i] = tempVec;
+	}
+	fp.close();
 }
 
 void SceneHeightmap::Update()
@@ -349,48 +373,48 @@ void SceneHeightmap::Update()
 		/*g_pSoundManager->update3D(0, g_pCamera->getPos(), SpeakerPos, g_pCamera->getDir());
 		if (GetKeyState('1') & 0x8000)
 		{
-			SpeakerPos = g_pSoundManager->getListenerPos();
-			int r2 = rand() % 2;
-			g_pSoundManager->play3D(r2);
+		SpeakerPos = g_pSoundManager->getListenerPos();
+		int r2 = rand() % 2;
+		g_pSoundManager->play3D(r2);
 		}*/
 
 		float height;
 		D3DXVECTOR3 currentPos = g_pCamera->getPos();
 		bool isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
 		/*if (!g_pCamera->getFreeCameraMode()) {
-			float oldHeight;
-			isIntersected = g_pCurrentMap->GetHeight(oldHeight, m_pOldPos);
-			float dxdy = oldHeight - height;
-			D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
-			D3DXVECTOR3 cPosPush(0.0f, 0.0f, 0.0f);
-			if (dxdy < -0.3) {
-				float dx1, dx2, dy1, dy2;
-				currentPos.x += 0.2f;
-				isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
-				currentPos.x -= 0.2f;
-				currentPos.z += 0.2f;
-				isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
-				currentPos.z -= 0.2f;
-				currentPos.x -= 0.2f;
-				isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
-				currentPos.x += 0.2f;
-				currentPos.z -= 0.2f;
-				isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
-				currentPos.z += 0.2f;
-				if (oldHeight - dx1 < -0.3f) {
-					cPosPush.x -= 0.4f;
-				}
-				if (oldHeight - dx2 < -0.3f) {
-					cPosPush.x += 0.4f;
-				}
-				if (oldHeight - dy1 < -0.3f) {
-					cPosPush.z -= 0.4f;
-				}
-				if (oldHeight - dy2 < -0.3f) {
-					cPosPush.z += 0.4f;
-				}
-				g_pCamera->setPos(m_pOldPos + cPosPush);
-			}
+		float oldHeight;
+		isIntersected = g_pCurrentMap->GetHeight(oldHeight, m_pOldPos);
+		float dxdy = oldHeight - height;
+		D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
+		D3DXVECTOR3 cPosPush(0.0f, 0.0f, 0.0f);
+		if (dxdy < -0.3) {
+		float dx1, dx2, dy1, dy2;
+		currentPos.x += 0.2f;
+		isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
+		currentPos.x -= 0.2f;
+		currentPos.z += 0.2f;
+		isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
+		currentPos.z -= 0.2f;
+		currentPos.x -= 0.2f;
+		isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
+		currentPos.x += 0.2f;
+		currentPos.z -= 0.2f;
+		isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
+		currentPos.z += 0.2f;
+		if (oldHeight - dx1 < -0.3f) {
+		cPosPush.x -= 0.4f;
+		}
+		if (oldHeight - dx2 < -0.3f) {
+		cPosPush.x += 0.4f;
+		}
+		if (oldHeight - dy1 < -0.3f) {
+		cPosPush.z -= 0.4f;
+		}
+		if (oldHeight - dy2 < -0.3f) {
+		cPosPush.z += 0.4f;
+		}
+		g_pCamera->setPos(m_pOldPos + cPosPush);
+		}
 		}*/
 
 		bool isWallDx = false;
@@ -444,9 +468,9 @@ void SceneHeightmap::Update()
 			currentPos.y += g_pCamera->getDeltaY();
 		}
 		/*else {
-			if (isWallDx) {
-				currentPos.y += 5.0f;
-			}
+		if (isWallDx) {
+		currentPos.y += 5.0f;
+		}
 		}*/
 		g_pCamera->setPos(currentPos);
 
@@ -594,7 +618,7 @@ void SceneHeightmap::Update()
 
 
 		m_pBoundingSphere->center = g_pCamera->getPos();
-		m_pBoundingSphere->center.y = height + 3.0f;
+		m_pBoundingSphere->center.y = height + 4.0f;
 
 		r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
 		bool getHitBox = false;
@@ -621,6 +645,22 @@ void SceneHeightmap::Update()
 			tempGetHitBox = r.CalcIntersectBox(p->getBoundingBox());
 			if (tempGetHitBox) {
 				getHitBox = true;
+			}
+		}
+
+		for (auto p : wallManager->getSphereWalls()) {
+			D3DXVECTOR3 wallPos = p->getCenter(); //벽 위치
+			D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
+			D3DXVECTOR3 posDiff = wallPos - playerPos; //벽 위치랑 내 위치의 차이
+			D3DXVECTOR3 lookDir;
+			D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
+			float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //벽과의 거리 계산
+			if (distance < (p->getSize() + 5.0f)) { //벽과의 거리가 너무 가까우면
+													//플레이어와 벽 사이의 벡터를 구해 그 역벡터를 구하고,
+													//가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
+				D3DXVECTOR3 lookDirInverse = -5.0f * lookDir / distance;
+				lookDirInverse.y = 0; //y축 값은 필요없다.
+				g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
 			}
 		}
 
@@ -661,12 +701,17 @@ void SceneHeightmap::Update()
 		Debug->AddText("현재 높이 : ");
 		Debug->AddText(height);
 		Debug->EndLine();
-		/*Debug->AddText("현재 위치 : ");
-		Debug->AddText(m_pOldPos);
-		Debug->EndLine();*/ // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
+		//Debug->AddText("현재 위치 : ");
+		//Debug->AddText(m_pOldPos);
+		//Debug->EndLine(); // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
 		Debug->AddText("잔탄 수 : ");
 		Debug->AddText(g_pCamera->getMagazine());
 		Debug->EndLine();
+		Debug->AddText("SphereWalls 좌표들 : ");
+		for (int i = 0; i < 38; i++) {
+			Debug->AddText(tempVecs[i]);
+			Debug->EndLine();
+		}
 		/*Debug->AddText("Bounding Box Collision with Ray: ");
 		Debug->AddText(getHitBox);
 		Debug->EndLine();
@@ -729,14 +774,14 @@ void SceneHeightmap::Render()
 	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 	g_pDevice->SetTexture(0, NULL);
-	//m_pSphere->DrawSubset(0);
+	m_pSphere->DrawSubset(0);
 
 	RECT rc;
 	SetRect(&rc, 100, 400, 800, 600);
 	m_pFont->DrawText(NULL, m_str, m_str.GetLength(), &rc,
 		DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
 
-	if(m_Player_hands->GetRenderState())
+	if (m_Player_hands->GetRenderState())
 		Shaders::Get()->Render();
 
 }
