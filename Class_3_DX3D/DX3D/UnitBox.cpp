@@ -673,6 +673,7 @@ void UnitBox::LocationSharing()
 void UnitBox::GameWaveSetting(int _Start)
 {
 	m_game = GameWave(_Start);
+	PlayWave();
 }
 
 void UnitBox::PlayWave()
