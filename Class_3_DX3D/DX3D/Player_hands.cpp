@@ -140,7 +140,7 @@ void Player_hands::Update()
 			m_AnimaTionIndex = 기본상태;
 		}
 
-		Debug->AddText("시간 : ");
+		/*Debug->AddText("시간 : ");
 		Debug->AddText(GetTickCount());
 		Debug->AddText("  / ");
 		Debug->AddText("쿨타임 : ");
@@ -151,7 +151,7 @@ void Player_hands::Update()
 		Debug->AddText("  / ");
 		Debug->AddText("재장전 상태 (0은 재장전x) : ");
 		Debug->AddText(m_Reload);
-		Debug->EndLine();
+		Debug->EndLine();*/
 
 		
 

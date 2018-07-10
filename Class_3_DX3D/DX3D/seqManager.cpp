@@ -11,7 +11,7 @@ if (waveCount != MAX_WAVE) waveCount++; else { stopUpdate = true; waveCount = 0;
 #define STAGE_END stopTime = true; roundStart = false
 
 #define READY_TIME 500
-#define WAVE_INTERVAL 650
+#define WAVE_INTERVAL 700
 
 #define MAX_WAVE 5
 

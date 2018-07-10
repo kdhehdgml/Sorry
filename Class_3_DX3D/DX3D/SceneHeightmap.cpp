@@ -707,11 +707,11 @@ void SceneHeightmap::Update()
 		Debug->AddText("ภÜลบ ผ๖ : ");
 		Debug->AddText(g_pCamera->getMagazine());
 		Debug->EndLine();
-		Debug->AddText("SphereWalls มยวฅต้ : ");
+		/*Debug->AddText("SphereWalls มยวฅต้ : ");
 		for (int i = 0; i < 38; i++) {
 			Debug->AddText(tempVecs[i]);
 			Debug->EndLine();
-		}
+		}*/
 		/*Debug->AddText("Bounding Box Collision with Ray: ");
 		Debug->AddText(getHitBox);
 		Debug->EndLine();
