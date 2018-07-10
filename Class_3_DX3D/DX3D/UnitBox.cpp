@@ -52,8 +52,8 @@ UnitBox::UnitBox()
 	MobNum = 0;
 	MobStart = false;
 	mobCreateBuffer = 0;
-	NOL_Mob = 0;
 	NOL_Team = 0;
+	m_game.MaxAmount = 0;
 }
 
 UnitBox::~UnitBox()
@@ -102,7 +102,6 @@ void UnitBox::Update()
 	if (GetAsyncKeyState(VK_F2) & 0x0001)
 	{
 		CreateMob(25);
-		GameWaveSetting(5, 10, 5, 4);
 	}
 	if (GetAsyncKeyState(VK_F3) & 0x0001)
 	{
@@ -142,10 +141,9 @@ void UnitBox::Update()
 	//Å¸°ÙÀ»µû¶ó¼­ ¿òÁ÷ÀÌ´Â ³»¿ë
 	if (MobStart)
 	{
-		CheckNumberOfLivingAI();
 		if (m_pMob.size() > 0)
 		{
-			for (size_t i = 0; i < m_game.StartAmount; i++)
+			for (size_t i = 0; i < m_game.MaxAmount; i++)
 			{
 				SAFE_UPDATE(m_pMob[i]);
 				//Àå¾Ö¹°µÚ¿¡ ¼û±â
@@ -165,7 +163,7 @@ void UnitBox::Render()
 	{
 		if (m_pMob.size() > 0)
 		{
-			for (size_t i = 0; i < m_game.StartAmount; i++)
+			for (size_t i = 0; i < m_game.MaxAmount; i++)
 			{
 				SAFE_RENDER(m_pMob[i]);
 			}
@@ -577,20 +575,24 @@ void UnitBox::CreateMob(int num)
 
 void UnitBox::ReSetMob()
 {
-	for(int i = 0; i<m_game.StartAmount; i++)
+	//ÇöÀç »ì¾ÆÀÖ´Â¸÷ + ½Ã°£ÀÌ Áö³µÀ»°æ¿ì ³ª¿Ã ¸÷ÀÇ °³¼ö
+	int MaxAmount = m_game.MaxAmount;
+	
+	while(MaxAmount > 0)
 	{
-		if (m_pMob[i]->getHealth() <= 0)
+		if (m_pMob[MaxAmount]->getHealth() <= 0)
 		{
-			m_pMob[i]->ResetAll();
-			if (m_pMob[i]->m_Act._moving == ¸÷_¾öÆóÀÌµ¿ || m_pMob[i]->m_Act._reload == ¸÷_ÀåÀüÇÔ || m_pMob[i]->m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â)
+			m_pMob[MaxAmount]->ResetAll();
+			if (m_pMob[MaxAmount]->m_Act._moving == ¸÷_¾öÆóÀÌµ¿ || m_pMob[MaxAmount]->m_Act._reload == ¸÷_ÀåÀüÇÔ || m_pMob[MaxAmount]->m_Act._engage == ¸÷_¾öÆó¹°¿¡¼û±â)
 			{
-				FindHidingInTheWallLocation(m_pMob[i]);
+				FindHidingInTheWallLocation(m_pMob[MaxAmount]);
 			}
 		}
+		MaxAmount--;
 	}
 }
 
-void UnitBox::CheckNumberOfLivingAI()
+int UnitBox::CheckNumberOfLivingAI(int _amount)
 {
 	/*for (auto p : m_pTeam)
 	{
@@ -612,23 +614,19 @@ void UnitBox::CheckNumberOfLivingAI()
 	}*/
 	vector<int> NOL;
 	int sum = 0;
-	NOL.resize(m_game.StartAmount);
-	for (int i = 0; i < m_game.StartAmount; i++)
+	NOL.resize(_amount);
+	for (int i = 0; i < _amount; i++)
 	{
 		if (m_pMob[i]->getHealth() <= 0)
-		{
 			NOL[i] = 0;
-		}
 		else
-		{
 			NOL[i] = 1;
-		}
 	}
 	for (auto p : NOL)
 	{
 		sum += p;
 	}
-	NOL_Mob = sum;
+	return sum;
 }
 
 void UnitBox::LocationSharing()
@@ -672,20 +670,40 @@ void UnitBox::LocationSharing()
 	}
 }
 
-void UnitBox::GameWaveSetting(int _wave, int _start, int _increase, int _minmob)
+void UnitBox::GameWaveSetting(int _Start)
 {
-	if (m_game.MinLifeMob >= NOL_Mob)
-	{
-		_start += 5;
-		_minmob += 1;
-		m_game = GameWave(_wave, _start, _increase, _minmob);
-	}
+	m_game = GameWave(_Start);
+}
+
+void UnitBox::PlayWave()
+{
+	if (m_game.MaxAmount == 0)
+		m_game.MaxAmount = CheckNumberOfLivingAI(m_game.StartAmount);
+	else
+		m_game.MaxAmount = CheckNumberOfLivingAI(m_game.MaxAmount) + m_game.StartAmount;
+
 	ReSetMob();
+}
+
+int UnitBox::ClearWave()
+{
+	if (CheckNumberOfLivingAI(m_game.MaxAmount) == 0)
+		return 1;
+	else
+	{
+		int sum = 0;
+		for (auto p : m_pMob)
+		{
+			if (p->GetPosition().x < 245.0f && p->getStatus == 1)
+				sum++;
+		}
+		if (sum > 5)
+			return 2;
+	}
 }
 
 vector<Mob*>* UnitBox::getPMob()
 {
-
 	return &m_pMob;
 }
 

@@ -368,6 +368,9 @@
     <ClInclude Include="MenuUI.h">
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
+    <ClInclude Include="SphereWall.h">
+      <Filter>소스 파일\Wall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -630,6 +633,9 @@
     </ClCompile>
     <ClCompile Include="MenuUI.cpp">
       <Filter>소스 파일\3.Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereWall.cpp">
+      <Filter>소스 파일\Wall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
