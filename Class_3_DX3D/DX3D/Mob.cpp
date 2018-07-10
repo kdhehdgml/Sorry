@@ -140,7 +140,7 @@ void Mob::Update()
 	if (angle > 1) angle = 1;
 	else if (angle < -1) angle = -1;
 	//파이 * ( (1.0 + x) / 2.0 )
-	//m_angle = acos(angle)* 50;
+	m_angle = acos(angle) * (180 / D3DX_PI);
 	//m_angle = D3DX_PI * ((1.0 + angle) / 2.0);
 
 	Debug->AddText("각도 : ");
@@ -157,10 +157,12 @@ void Mob::Update()
 	//카메라 범위안에 왔을때
 	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 	{
-		if(status != 0)
+		if (status != 0)
+		{
 			m_MONSTER->SetPos(m_pos);
+			m_MONSTER->SetAngle(m_angle);//각도받아옴
+		}
 
-		m_MONSTER->SetAngle(m_angle);//각도받아옴
 		m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
 		m_MONSTER->Update();//업데이트
 	}

@@ -76,7 +76,7 @@ void MONSTER::Update()
 		Debug->AddText(m_angle);
 		Debug->EndLine();
 
-		D3DXMatrixRotationY(&matR, m_angle*20);
+		D3DXMatrixRotationY(&matR, m_angle);
 		m_matWorld = matS * matR * matT;
 
 		m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
