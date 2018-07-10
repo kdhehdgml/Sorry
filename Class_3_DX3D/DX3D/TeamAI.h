@@ -63,6 +63,12 @@ private:
 	//각도
 	float m_angle;
 
+	//...죽었을떄 딜레이주기위한 변수...//
+	int m_Death_count;
+	int m_Death_Time;
+	bool m_Death;
+
+
 public:
 	TeamAI();
 	~TeamAI();
