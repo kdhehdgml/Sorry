@@ -146,6 +146,8 @@ void SoundManager::createSound()
 {
 	soundList();
 
+	CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
+
 	CreateMP3(m_pMusic, "Music/", s_music, s_music_f, MUSIC);
 	CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
 
@@ -156,7 +158,7 @@ void SoundManager::createSound()
 	CreateWAV(m_pWalk_Dirt, "Walk/", s_walk_dirt, s_walk_dirt_f, EFFECT);
 	CreateWAV(m_pRun_Dirt, "Run/", s_run_dirt, s_run_dirt_f, EFFECT);
 	CreateWAV(m_pGear_Walk, "Gear/", s_gear_walk, s_gear_walk_f, EFFECT);
-	CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
+	//CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
 
 }
 
@@ -323,5 +325,5 @@ void SoundManager::RunSound()
 
 void SoundManager::effectSound(int soundNum)
 {
-	m_pWhistle->PlaySound(0);
+	m_pWhistle->PlaySound(soundNum);
 }
