@@ -17,8 +17,10 @@ private:
 
 	bool spawnCheck;
 
+
 public:
 	int spawnNum;
+	bool stopUpdate;
 
 	void Init();
 	void Update();

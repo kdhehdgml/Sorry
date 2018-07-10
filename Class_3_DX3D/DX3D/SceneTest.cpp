@@ -49,6 +49,11 @@ void SceneTest::Init()
 void SceneTest::Update()
 {
 	g_pSeqManager->Update();
+	
+	if (GetKeyState('1') & 0x8000)
+	{
+		g_pSoundManager->effectSound(0);
+	}
 
 	OnUpdateIScene();
 }
