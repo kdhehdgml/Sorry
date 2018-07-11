@@ -749,7 +749,12 @@ void SceneHeightmap::Update()
 		//Debug->EndLine(); // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
 		Debug->AddText("잔탄 수 : ");
 		Debug->AddText(g_pCamera->getMagazine());
-		m_pBulletUI->bulletNum = g_pCamera->getMagazine();
+		if (g_pCamera->getMagazine() == 5 && g_pCamera->getCooldown() > GetTickCount()) {
+			m_pBulletUI->bulletNum = 0;
+		}
+		else {
+			m_pBulletUI->bulletNum = g_pCamera->getMagazine();
+		}
 		Debug->EndLine();
 		/*Debug->AddText("SphereWalls 좌표들 : ");
 		for (int i = 0; i < 38; i++) {
