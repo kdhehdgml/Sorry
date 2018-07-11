@@ -314,9 +314,8 @@ void SceneHeightmap::Init()
 
 	D3DXCreateSphere(g_pDevice, 5.0f, 10, 10, &m_pSphere, NULL);
 	m_pBoundingSphere = new BoundingSphere(g_pCamera->getPos(), 5.0f);
-	
-	g_pSoundManager->createSound(); // 사운드 세팅			
-	//g_pSoundManager->playMusic(1);
+
+	g_pSoundManager->createSound(); // 사운드 세팅								
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
 
 	m_pMenuUI = new MenuUI();
@@ -346,14 +345,14 @@ void SceneHeightmap::Init()
 	fp.getline(inputString, 100);
 	tempInt = std::atoi(inputString);
 	for (int i = 0; i < tempInt; i++) {
-		fp.getline(inputString, 100);
-		tempFloat = std::atof(inputString);
-		tempVec.x = tempFloat;
-		fp.getline(inputString, 100);
-		tempFloat = std::atof(inputString);
-		tempVec.z = tempFloat;
-		wallManager->addSphereWall(tempVec, 6.0f);
-		tempVecs[i] = tempVec;
+	fp.getline(inputString, 100);
+	tempFloat = std::atof(inputString);
+	tempVec.x = tempFloat;
+	fp.getline(inputString, 100);
+	tempFloat = std::atof(inputString);
+	tempVec.z = tempFloat;
+	wallManager->addSphereWall(tempVec, 6.0f);
+	tempVecs[i] = tempVec;
 	}
 	fp.close();*/
 }
@@ -422,46 +421,46 @@ void SceneHeightmap::Update()
 
 		/*bool isWallDx = false;
 		if (!g_pCamera->getFreeCameraMode()) {
-			float dx1, dx2, dy1, dy2, wallDx;
-			const float distanceDiffBuffer = 0.3f;
-			const float heightDiffBuffer = 1.0f;
-			currentPos.x += distanceDiffBuffer;
-			isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
-			currentPos.x += distanceDiffBuffer * 3;
-			isIntersected = g_pCurrentMap->GetHeight(wallDx, currentPos);
-			currentPos.x -= distanceDiffBuffer * 4;
-			currentPos.z += distanceDiffBuffer;
-			isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
-			currentPos.z -= distanceDiffBuffer;
-			currentPos.x -= distanceDiffBuffer;
-			isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
-			currentPos.x += distanceDiffBuffer;
-			currentPos.z -= distanceDiffBuffer;
-			isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
-			currentPos.z += distanceDiffBuffer;
-			wallDx -= height;
-			dx1 -= height;
-			dy1 -= height;
-			dx2 -= height;
-			dy2 -= height;
-			D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
-			cPosDiff.y = 0;
-			if (dx1 > heightDiffBuffer && cPosDiff.x > 0) {
-				cPosDiff.x = 0;
-			}
-			if (dy1 > heightDiffBuffer && cPosDiff.z > 0) {
-				cPosDiff.z = 0;
-			}
-			if (dx2 > heightDiffBuffer && cPosDiff.x < 0) {
-				cPosDiff.x = 0;
-			}
-			if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
-				cPosDiff.z = 0;
-			}
-			if (wallDx > heightDiffBuffer) {
-				isWallDx = true;
-			}
-			g_pCamera->setPos(m_pOldPos + cPosDiff);
+		float dx1, dx2, dy1, dy2, wallDx;
+		const float distanceDiffBuffer = 0.3f;
+		const float heightDiffBuffer = 1.0f;
+		currentPos.x += distanceDiffBuffer;
+		isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
+		currentPos.x += distanceDiffBuffer * 3;
+		isIntersected = g_pCurrentMap->GetHeight(wallDx, currentPos);
+		currentPos.x -= distanceDiffBuffer * 4;
+		currentPos.z += distanceDiffBuffer;
+		isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
+		currentPos.z -= distanceDiffBuffer;
+		currentPos.x -= distanceDiffBuffer;
+		isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
+		currentPos.x += distanceDiffBuffer;
+		currentPos.z -= distanceDiffBuffer;
+		isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
+		currentPos.z += distanceDiffBuffer;
+		wallDx -= height;
+		dx1 -= height;
+		dy1 -= height;
+		dx2 -= height;
+		dy2 -= height;
+		D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
+		cPosDiff.y = 0;
+		if (dx1 > heightDiffBuffer && cPosDiff.x > 0) {
+		cPosDiff.x = 0;
+		}
+		if (dy1 > heightDiffBuffer && cPosDiff.z > 0) {
+		cPosDiff.z = 0;
+		}
+		if (dx2 > heightDiffBuffer && cPosDiff.x < 0) {
+		cPosDiff.x = 0;
+		}
+		if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
+		cPosDiff.z = 0;
+		}
+		if (wallDx > heightDiffBuffer) {
+		isWallDx = true;
+		}
+		g_pCamera->setPos(m_pOldPos + cPosDiff);
 		}*/
 		currentPos = g_pCamera->getPos();
 		isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
@@ -505,7 +504,7 @@ void SceneHeightmap::Update()
 		Debug->EndLine();
 
 		// 0 키 누르면 음악 재생 ON / OFF
-		/*if ((GetAsyncKeyState('0') & 0x8000))
+		if ((GetAsyncKeyState('0') & 0x8000))
 		{
 			if (!musicPlayCheck)
 			{
@@ -524,7 +523,7 @@ void SceneHeightmap::Update()
 			}
 		}
 		else if (musicPlayCheck)
-			musicPlayCheck = false;*/
+			musicPlayCheck = false;
 
 		if (!g_pCamera->getFreeCameraMode()) // 프리카메라가 OFF 일 경우
 		{
@@ -656,8 +655,8 @@ void SceneHeightmap::Update()
 				minDistanceSphereWall = distance; //가장 가까운 아군과의 거리만 남긴다
 			}
 			if (distance < (p->getSize() + 5.0f)) { //벽과의 거리가 너무 가까우면
-																 //플레이어와 벽 사이의 벡터를 구해 그 역벡터를 구하고,
-																 //가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
+													//플레이어와 벽 사이의 벡터를 구해 그 역벡터를 구하고,
+													//가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
 				lookDirInverse = -10.0f * lookDir / distance;
 				lookDirInverse.y = 0; //y축 값은 필요없다.
 				g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
@@ -675,24 +674,56 @@ void SceneHeightmap::Update()
 		else if (posCorrection.z > 530.0f && posCorrection.z <= 540.0f) {
 			posCorrection.x = min(posCorrection.x, 220.0f);
 		}
+		else if (posCorrection.z > 512.0f && posCorrection.z <= 530.0f) {
+			posCorrection.x = min(posCorrection.x, 240.0f - (posCorrection.z - 512.0f) * 1.11f);
+		}
 		else if (posCorrection.z > 480.0f && posCorrection.z <= 512.0f) {
 			posCorrection.x = min(posCorrection.x, 240.0f);
+		}
+		else if (posCorrection.z > 460.0f && posCorrection.z <= 480.0f) {
+			posCorrection.x = min(posCorrection.x, 228.0f + (posCorrection.z - 460.0f) * 0.6f);
+		}
+		else if (posCorrection.z > 440.0f && posCorrection.z <= 460.0f) {
+			posCorrection.x = min(posCorrection.x, 240.0f - (posCorrection.z - 440.0f) * 0.6f);
 		}
 		else if (posCorrection.z > 420.0f && posCorrection.z <= 440.0f) {
 			posCorrection.x = min(posCorrection.x, 240.0f);
 		}
+		else if (posCorrection.z > 402.0f && posCorrection.z <= 420.0f) {
+			posCorrection.x = min(posCorrection.x, 254.0f - (posCorrection.z - 402.0f) * 0.78f);
+		}
 		else if (posCorrection.z > 374.0f && posCorrection.z <= 402.0f) {
 			posCorrection.x = min(posCorrection.x, 254.0f);
+		}
+		else if (posCorrection.z > 360.0f && posCorrection.z <= 374.0f) {
+			posCorrection.x = min(posCorrection.x, 226.0f + (posCorrection.z - 360.0f) * 2.0f);
 		}
 		else if (posCorrection.z > 352.0f && posCorrection.z <= 360.0f) {
 			posCorrection.x = min(posCorrection.x, 226.0f);
 		}
+		else if (posCorrection.z > 326.0f && posCorrection.z <= 352.0f) {
+			posCorrection.x = min(posCorrection.x, 248.0f - (posCorrection.z - 326.0f) * 0.85f);
+		}
 		else if (posCorrection.z > 310.0f && posCorrection.z <= 326.0f) {
 			posCorrection.x = min(posCorrection.x, 248.0f);
+		}
+		else if (posCorrection.z > 299.0f && posCorrection.z <= 310.0f) {
+			posCorrection.x = min(posCorrection.x, 240.0f + (posCorrection.z - 299.0f) * 0.73f);
+		}
+		else if (posCorrection.z > 282.0f && posCorrection.z <= 299.0f) {
+			posCorrection.x = min(posCorrection.x, 257.0f - (posCorrection.z - 282.0f) * 1.0f);
 		}
 		else if (posCorrection.z > 265.0f && posCorrection.z <= 282.0f) {
 			posCorrection.x = min(posCorrection.x, 257.0f);
 		}
+
+		else if (posCorrection.z > 251.0f && posCorrection.z <= 265.0f) {
+			posCorrection.x = min(posCorrection.x, 257.0f);
+		}
+		else if (posCorrection.z > 240.0f && posCorrection.z <= 251.0f) {
+			posCorrection.x = min(posCorrection.x, 257.0f);
+		}
+
 		else if (posCorrection.z > 218.0f && posCorrection.z <= 240.0f) {
 			posCorrection.x = min(posCorrection.x, 258.0f);
 		}
@@ -725,8 +756,8 @@ void SceneHeightmap::Update()
 		Debug->EndLine();
 		/*Debug->AddText("SphereWalls 좌표들 : ");
 		for (int i = 0; i < 38; i++) {
-			Debug->AddText(tempVecs[i]);
-			Debug->EndLine();
+		Debug->AddText(tempVecs[i]);
+		Debug->EndLine();
 		}*/
 		/*Debug->AddText("Bounding Box Collision with Ray: ");
 		Debug->AddText(getHitBox);
