@@ -93,7 +93,7 @@ void Mob::Update()
 		{
 			m_Death_count = 0;
 			m_Death = true;
-			m_pos = { 1000,-5000,1000 };
+			//m_pos = { 0,-1000,0 };
 		}
 		if (!deathShout)
 		{
@@ -127,6 +127,9 @@ void Mob::Update()
 		//m_pRootParts->Update();
 	/*	m_MONSTER->SetPos(m_pos);
 		m_MONSTER->Update();*/
+		/*Debug->AddText("¸÷ ÁÂÇ¥: ");
+		Debug->AddText(m_pos);
+		Debug->EndLine();*/
 		/*Debug->AddText("¸÷ Ã¼·Â: ");
 		Debug->AddText(health);
 		Debug->AddText(" / ÀåÀü: ");

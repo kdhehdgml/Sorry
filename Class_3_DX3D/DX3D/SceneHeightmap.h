@@ -19,6 +19,7 @@ class Wall;
 class SphereWall;
 class Minimap;
 class MenuUI;
+class BulletUI;
 
 //ÄÃ¸µ
 //class Frustum;
@@ -94,6 +95,7 @@ private:
 	int m_talkFontCount;
 
 	MenuUI* m_pMenuUI;
+	BulletUI* m_pBulletUI;
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 

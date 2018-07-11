@@ -2,7 +2,7 @@
 #include "SkinnedMesh.h"
 #include "AllocateHierarchy.h"
 
-#define SCALE 1.0f
+#define SCALE 0.1f
 
 SkinnedMesh::SkinnedMesh()
 {
@@ -39,8 +39,8 @@ void SkinnedMesh::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/MONSTER_AI/";
-	CString filename = "MOB_ANI_ALL2.X";
+	CString path = "resources/xFile/test_team/test/";
+	CString filename = "TEAM_melee.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -191,7 +191,7 @@ void SkinnedMesh::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 
-	if (pFrame->Name != NULL &&  strcmp( pFrame->Name, "mixamoring_RightHand") == 0)
+	if (pFrame->Name != NULL &&  strcmp( pFrame->Name, "Bip01_L_Hand") == 0)
 	{
 		pFrameEx->CombinedTM  =  pFrameEx->CombinedTM * m_matWorld;
 		m_gun_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
