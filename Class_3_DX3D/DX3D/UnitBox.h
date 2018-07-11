@@ -29,10 +29,10 @@ private:
 	vector<TeamAI*>	m_pTeam;
 	vector<D3DXVECTOR3> m_SaveLocation;
 	vector<D3DXVECTOR3> m_nWallLocation;
-	vector<vector<D3DXVECTOR3>> m_LocationList;
 	vector<EmptyWall> m_CanSeeDirection;
 	vector<bool>		m_CanSave;
 	vector<D3DXVECTOR3> m_TeamPosition;
+	vector<vector<D3DXVECTOR3>> m_LocationList;
 	vector<int> posit;
 	int				MobNum;
 	int				TeamNum;
@@ -66,6 +66,7 @@ public:
 	void GameWaveSetting(int _Start);
 	void PlayWave();
 	int ClearWave();
+	void FindCanMoveroad();
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();
 	vector<TeamAI*>* getPTeam();

@@ -30,6 +30,8 @@ private:
 	float volume_music;
 	float volume_effect;
 
+	bool isCreate;
+
 	// 3D Setting
 	FMOD_VECTOR ListenerPos;
 	FMOD_VECTOR ListenerVel;

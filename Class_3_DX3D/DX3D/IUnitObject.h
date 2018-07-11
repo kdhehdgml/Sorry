@@ -23,10 +23,11 @@ protected:
 
 	float			m_maxStepHeight;
 	float			m_baseRotY;
-
+	int				m_avoidObstDir;
 	int health;
 	D3DXVECTOR3		m_destPos;
 	D3DXVECTOR3		m_finalDestPos;
+	D3DXVECTOR3		m_SaveFinal;
 	vector<int>		m_vecAStarIndex;
 
 	IUnitObject();
@@ -41,7 +42,6 @@ public:
 	void SetMoveSpeed(int _movespeed) { m_moveSpeed = _movespeed; }
 	void UpdateKeyboardState();
 	void UpdatePositionToDestination();
-	
 	int getHealth() { return health; }
 	void setHealth(int h) { health = h; }
 	
@@ -50,7 +50,6 @@ public:
 	void UpdateTargetPosition(OUT D3DXVECTOR3 &targetPos);
 	void ApplyTargetPosition(D3DXVECTOR3 &targetPos);
 	void UpdatePosition();
-
 	void DecreaseHealth(int h);
 };
 

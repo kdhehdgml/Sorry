@@ -53,6 +53,8 @@ SoundManager::SoundManager()
 	SpeakerPos = { 0.0f, 0.0f, 0.0f };
 	SpeakerVel = { 0.0f, 0.0f, 0.0f };
 
+	isCreate = false;
+
 }
 
 
@@ -76,11 +78,9 @@ SoundManager::~SoundManager()
 void SoundManager::soundList()
 {
 	// 배경음
-	s_music_f.push_back("21. Days of Thunder");
+	s_music_f.push_back("12. HoI IV Allies Main Theme");
+	s_music_f.push_back("04. Krakow");
 	s_music_f.push_back("15. Operation Barbarossa");
-	s_music_f.push_back("02. The Royal Airforce");
-	s_music_f.push_back("13. Luftwaffe Strikes Again");
-	s_music_f.push_back("22. We Are Soldiers");
 
 	// 환경음
 	s_ambient_f.push_back("ambient_test_4");
@@ -175,24 +175,27 @@ void SoundManager::setWAV(string folder, string * s_name, vector<string> s_name_
 
 void SoundManager::createSound()
 {
-	soundList();
+	if (!isCreate)
+	{
+		soundList();
 
-	CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
-	CreateWAV(m_pV_Death, "Voice/Death/", s_vDeath, s_vDeath_f, _3D);
+		CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
+		CreateWAV(m_pV_Death, "Voice/Death/", s_vDeath, s_vDeath_f, _3D);
 
-	CreateMP3(m_pMusic, "Music/", s_music, s_music_f, MUSIC);
-	CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
+		CreateMP3(m_pMusic, "Music/", s_music, s_music_f, MUSIC);
+		CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
 
-	CreateWAV(m_p3D, "Shot/", s_3D, s_3D_f, _3D);
+		CreateWAV(m_p3D, "Shot/", s_3D, s_3D_f, _3D);
 
-	CreateWAV(m_pShot_1, "Shot/", s_shot_1, s_shot_1_f, EFFECT);
-	CreateWAV(m_pReload, "Reload/", s_reload, s_reload_f, EFFECT);
-	CreateWAV(m_pWalk_Dirt, "Walk/", s_walk_dirt, s_walk_dirt_f, EFFECT);
-	CreateWAV(m_pRun_Dirt, "Run/", s_run_dirt, s_run_dirt_f, EFFECT);
-	CreateWAV(m_pGear_Walk, "Gear/", s_gear_walk, s_gear_walk_f, EFFECT);
-	//CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
+		CreateWAV(m_pShot_1, "Shot/", s_shot_1, s_shot_1_f, EFFECT);
+		CreateWAV(m_pReload, "Reload/", s_reload, s_reload_f, EFFECT);
+		CreateWAV(m_pWalk_Dirt, "Walk/", s_walk_dirt, s_walk_dirt_f, EFFECT);
+		CreateWAV(m_pRun_Dirt, "Run/", s_run_dirt, s_run_dirt_f, EFFECT);
+		CreateWAV(m_pGear_Walk, "Gear/", s_gear_walk, s_gear_walk_f, EFFECT);
+		//CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
 
-
+		isCreate = true;
+	}
 }
 
 void SoundManager::volumeControl_Music(float volume)
@@ -214,8 +217,8 @@ void SoundManager::playMusic(int soundNum)
 
 	if (!m_pMusic->isPlaying(soundNum))
 	{
-		m_pMusic->PlaySound(soundNum);
 		m_pMusic->volumeControl(soundNum, volume_music);
+		m_pMusic->PlaySound(soundNum);
 	}
 }
 

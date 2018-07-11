@@ -163,13 +163,15 @@ public:
 	vector<int> GetTemporaryNum() { return m_SaveTempNum; }
 	vector<int> GetTemporaryDirection() { return TemporaryDirection; }
 	bool GetDetermined() { return m_BeDetermined; }
+	bool GetCollision() { return m_colision; }
 	bool HaveBullet();
 	bool MaxBullet();
 	void EraseLocationSoldier();
 	void EraseWallLocation() { moveLocation.pop_back(); SaveLocationNum.pop_back(); CanSeeDriection.pop_back(); }
 	void EraseTemporary() { Temporary_Storage.pop_back(); m_SaveTempNum.pop_back(); TemporaryDirection.pop_back(); }
+	void FindCanMoveroad(int _num) { m_avoidObstDir = _num; }
+	int GetAvoidObstDir() { return m_avoidObstDir; }
 	void ResetAll();
-
 	//void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
 	void LocationSwap();
 	void TemporarySwap();

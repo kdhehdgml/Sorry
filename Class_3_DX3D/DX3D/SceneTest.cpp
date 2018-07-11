@@ -54,13 +54,11 @@ void SceneTest::Update()
 
 	if (GetKeyState('1') & 0x8000)
 	{
-		int r26 = rand() % 26;
-		g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, r26, g_pCamera->getPos());
+		g_pSoundManager->playMusic(1);
 	}
 	if (GetKeyState('2') & 0x8000)
 	{
-		int r7 = rand() % 7;
-		g_pSoundManager->updateSpeaker(sType::SHOOT, r7, g_pCamera->getPos());
+		g_pSoundManager->playMusic(2);
 	}
 
 	OnUpdateIScene();
