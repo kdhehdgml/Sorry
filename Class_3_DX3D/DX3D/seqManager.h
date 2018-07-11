@@ -17,6 +17,8 @@ private:
 
 	bool spawnCheck;
 
+	bool isMusicPlay;
+
 
 public:
 	int spawnNum;

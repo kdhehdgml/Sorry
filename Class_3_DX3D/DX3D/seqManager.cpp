@@ -11,7 +11,7 @@ if (waveCount != MAX_WAVE) waveCount++; else { stopUpdate = true; waveCount = 0;
 #define STAGE_END stopTime = true; roundStart = false
 
 #define READY_TIME 200
-#define WAVE_INTERVAL 850
+#define WAVE_INTERVAL 1000
 
 #define MAX_WAVE 5
 
@@ -38,6 +38,7 @@ void seqManager::Init()
 	spawnCheck = false;
 
 	stopUpdate = true;
+	isMusicPlay = false;
 }
 
 void seqManager::Update()
@@ -130,6 +131,12 @@ void seqManager::Level(int stage, int round)
 		case 1:
 			// 라운드 1 ==================================================
 
+			if (!isMusicPlay)
+			{
+				//g_pSoundManager->playMusic(2);
+				isMusicPlay = true;
+			}
+
 			switch (waveCount)
 			{
 			case 0:
@@ -170,7 +177,7 @@ void seqManager::Level(int stage, int round)
 			case 5:
 				// 웨이브 3 ==============================================
 
-				SPAWN(16);
+				SPAWN(15);
 
 				waveControl;
 				// =======================================================

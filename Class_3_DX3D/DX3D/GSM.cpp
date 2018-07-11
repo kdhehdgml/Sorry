@@ -44,6 +44,7 @@ GSM::GSM()
 	// SCENE_OBJMAP        //
 	// SCENE_TEST          //
 	// SCENE_XFILE         //
+	// SCENE_MAIN          //
 
 	// ¸Ê Å©±â
 	mapSize = 750.0f;

@@ -314,8 +314,9 @@ void SceneHeightmap::Init()
 
 	D3DXCreateSphere(g_pDevice, 5.0f, 10, 10, &m_pSphere, NULL);
 	m_pBoundingSphere = new BoundingSphere(g_pCamera->getPos(), 5.0f);
-
-	g_pSoundManager->createSound(); // 사운드 세팅								
+	
+	g_pSoundManager->createSound(); // 사운드 세팅			
+	//g_pSoundManager->playMusic(1);
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
 
 	m_pMenuUI = new MenuUI();
@@ -504,7 +505,7 @@ void SceneHeightmap::Update()
 		Debug->EndLine();
 
 		// 0 키 누르면 음악 재생 ON / OFF
-		if ((GetAsyncKeyState('0') & 0x8000))
+		/*if ((GetAsyncKeyState('0') & 0x8000))
 		{
 			if (!musicPlayCheck)
 			{
@@ -523,7 +524,7 @@ void SceneHeightmap::Update()
 			}
 		}
 		else if (musicPlayCheck)
-			musicPlayCheck = false;
+			musicPlayCheck = false;*/
 
 		if (!g_pCamera->getFreeCameraMode()) // 프리카메라가 OFF 일 경우
 		{
