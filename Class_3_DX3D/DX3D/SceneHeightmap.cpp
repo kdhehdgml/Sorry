@@ -295,14 +295,14 @@ void SceneHeightmap::Init()
 	wallManager->Init();
 	AddSimpleDisplayObj(wallManager);
 
-	D3DXVECTOR3 aa(150.0f, 5.0f, 540.0f); //임시 BoundingBox 좌표1
-	D3DXVECTOR3 bb(240.0f, 35.0f, 545.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa(150.0f, 5.0f, 540.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb(240.0f, 35.0f, 545.0f); //임시 BoundingBox 좌표2
 
-	D3DXVECTOR3 aa2(150.0f, 5.0f, 185.0f); //임시 BoundingBox 좌표1
-	D3DXVECTOR3 bb2(240.0f, 35.0f, 190.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa2(150.0f, 5.0f, 185.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb2(240.0f, 35.0f, 190.0f); //임시 BoundingBox 좌표2
 
-	D3DXVECTOR3 aa3(130.0f, 5.0f, 220.0f); //임시 BoundingBox 좌표1
-	D3DXVECTOR3 bb3(135.0f, 35.0f, 510.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa3(130.0f, 5.0f, 220.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb3(135.0f, 35.0f, 510.0f); //임시 BoundingBox 좌표2
 
 
 	//wallManager->addWall(aa, bb); //새로 벽 추가하고 싶을땐 이렇게
@@ -653,15 +653,16 @@ void SceneHeightmap::Update()
 			float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //벽과의 거리 계산
 			if (distance < minDistanceSphereWall) {
 				minDistanceSphereWall = distance; //가장 가까운 아군과의 거리만 남긴다
-				if (minDistanceSphereWall < (p->getSize() + 5.0f)) { //벽과의 거리가 너무 가까우면
-																	 //플레이어와 벽 사이의 벡터를 구해 그 역벡터를 구하고,
-																	 //가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
-					lookDirInverse = -5.0f * lookDir / distance;
-					lookDirInverse.y = 0; //y축 값은 필요없다.
-				}
+			}
+			if (distance < (p->getSize() + 5.0f)) { //벽과의 거리가 너무 가까우면
+																 //플레이어와 벽 사이의 벡터를 구해 그 역벡터를 구하고,
+																 //가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
+				lookDirInverse = -10.0f * lookDir / distance;
+				lookDirInverse.y = 0; //y축 값은 필요없다.
+				g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
 			}
 		}
-		g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
+
 
 		D3DXVECTOR3 posCorrection = g_pCamera->getPos();
 		if (posCorrection.z > 540.0f) {
