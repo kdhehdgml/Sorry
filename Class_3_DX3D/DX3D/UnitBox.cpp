@@ -52,7 +52,6 @@ UnitBox::UnitBox()
 	MobNum = 0;
 	MobStart = false;
 	mobCreateBuffer = 0;
-	NOL_Mob = 0;
 	NOL_Team = 0;
 }
 
@@ -73,6 +72,7 @@ UnitBox::~UnitBox()
 
 void UnitBox::Init()
 {
+	m_game.MaxAmount = 0;
 	MobStart = false;
 	TeamPosition();
 	RandomSelectPosition();
@@ -89,27 +89,26 @@ void UnitBox::Init()
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
 	LocationSharing();
-	//CreateMob(30);
+	//CreateMob(50);
 }
 
 void UnitBox::Update()
 {
-	Debug->EndLine();
+	//Debug->EndLine();
 		
 	/*if (mobCreateBuffer <= 0) {
 	mobCreateBuffer += 20;
 	}*/
-	if (GetAsyncKeyState(VK_F2) & 0x0001)
+	/*if (GetAsyncKeyState(VK_F2) & 0x0001)
 	{
-		CreateMob(25);
-		GameWaveSetting(5, 10, 5, 4);
-	}
-	if (GetAsyncKeyState(VK_F3) & 0x0001)
+		GameWaveSetting(10);
+	}*/
+	/*if (GetAsyncKeyState(VK_F3) & 0x0001)
 	{
 		MobStart = true;
-	}
+	}*/
 		
-	if (GetAsyncKeyState(VK_F4) & 0x0001)
+	//if (GetAsyncKeyState(VK_F4) & 0x0001)
 	//아군 제대 리젠
 	if (GetAsyncKeyState(VK_F5) & 0x0001)
 	{
@@ -125,6 +124,9 @@ void UnitBox::Update()
 			p->setHealth(0);
 		}
 	}
+	Debug->AddText("살아있는몹수 : ");
+	Debug->AddText(CheckNumberOfLivingAI(m_game.MaxAmount));
+	Debug->EndLine();
 	////내가 지나간곳들 장애물 저장한위치 없앰
 	//for (auto p : m_pMob)
 	//{
@@ -142,10 +144,9 @@ void UnitBox::Update()
 	//타겟을따라서 움직이는 내용
 	if (MobStart)
 	{
-		CheckNumberOfLivingAI();
 		if (m_pMob.size() > 0)
 		{
-			for (size_t i = 0; i < m_game.StartAmount; i++)
+			for (size_t i = 0; i < m_game.MaxAmount; i++)
 			{
 				SAFE_UPDATE(m_pMob[i]);
 				//장애물뒤에 숨기
@@ -165,7 +166,7 @@ void UnitBox::Render()
 	{
 		if (m_pMob.size() > 0)
 		{
-			for (size_t i = 0; i < m_game.StartAmount; i++)
+			for (size_t i = 0; i < m_game.MaxAmount; i++)
 			{
 				SAFE_RENDER(m_pMob[i]);
 			}
@@ -210,85 +211,6 @@ void UnitBox::FindEmptyWallDirection()
 		}
 	}
 }
-
-void UnitBox::FindHidingInTheWallLocationRushSoldier(int _Mobnum)
-{
-	D3DXVECTOR3 Save;
-	for (size_t i = 0; i < m_SaveLocation.size(); i++)
-	{
-		Save = D3DXVECTOR3(m_SaveLocation[i].x + 4.0f, m_SaveLocation[i].y, m_SaveLocation[i].z);
-		if (abs(m_SaveLocation[i].z - m_pMob[_Mobnum]->GetPosition().z) < 10)
-		{
-			if (i == 0)
-			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save, i, m_CanSeeDirection[i]);
-				continue;
-			}
-			for (int j = 0; j < m_pMob[_Mobnum]->GetMoveTheWall().size(); j++)
-			{
-				if (m_pMob[_Mobnum]->GetMoveTheWall()[j].x != Save.x)
-				{
-					m_SameChk = false;
-				}
-				else
-				{
-					m_SameChk = true;
-					m_pMob[_Mobnum]->SetTemporary(Save, i, m_CanSeeDirection[i]);
-					j = m_pMob[_Mobnum]->GetMoveTheWall().size();
-				}
-			}
-			if (m_SameChk == false)
-			{
-				m_pMob[_Mobnum]->SetMoveTheWall(Save, i, m_CanSeeDirection[i]);
-			}
-			m_SameChk = false;
-		}
-	}
-	m_pMob[_Mobnum]->LocationSwap();
-	m_pMob[_Mobnum]->TemporarySwap();
-}
-//내가 갈곳들 경로 저장
-/*void UnitBox::FindHidingInTheWallLocation(int _Mobnum)
-{
-D3DXVECTOR3 Save;
-for (size_t i = 0; i < m_SaveLocation.size(); i++)
-{
-Save = D3DXVECTOR3(m_SaveLocation[i].x + 1.0f, m_SaveLocation[i].y, m_SaveLocation[i].z);
-//내위치로부터 Z값±10인곳만 검색
-if (abs(m_SaveLocation[i].z - m_pMob[_Mobnum]->GetPosition().z) < 10)
-{
-if (i == 0)
-{
-m_pMob[_Mobnum]->SetMoveTheWall(Save,i, m_CanSeeDirection[i]);
-continue;
-}
-
-for (int j = 0; j < m_pMob[_Mobnum]->GetMoveTheWall().size(); j++)
-{
-//내가 저장한위치와 다음의 장애물위치의 x값이 같지않을때 저장
-if (m_pMob[_Mobnum]->GetMoveTheWall()[j].x != Save.x)
-{
-m_SameChk = false;
-}
-else //내가 저장한위치와 다음의 장애물위치의 x값이 같으면 임시저장
-{
-m_SameChk = true;
-m_pMob[_Mobnum]->SetTemporary(Save,i, m_CanSeeDirection[i]);
-j = m_pMob[_Mobnum]->GetMoveTheWall().size();
-}
-}
-if (m_SameChk == false)
-{
-m_pMob[_Mobnum]->SetMoveTheWall(Save,i, m_CanSeeDirection[i]);
-}
-m_SameChk = false;
-}
-}
-//저장한위치들의 정렬(뒤로갈수록 내위치와 가까움)
-m_pMob[_Mobnum]->LocationSwap();
-//임시저장한위치들의 정렬(뒤로갈수록 시작지점과 가까움)
-m_pMob[_Mobnum]->TemporarySwap();
-}*/
 
 void UnitBox::FindHidingInTheWallLocation(Mob* _mob)
 {
@@ -528,6 +450,7 @@ void UnitBox::RegenTeam()
 				m_pTeam[i]->SetPosition(&D3DXVECTOR3(212.0f, 2.67f, 538.0f));
 			}
 			m_pTeam[i]->SetDestination(m_TeamPosition[posit[i]]);
+			m_pTeam[i]->SetReady(0);
 		}
 	}
 }
@@ -577,20 +500,24 @@ void UnitBox::CreateMob(int num)
 
 void UnitBox::ReSetMob()
 {
-	for(int i = 0; i<m_game.StartAmount; i++)
+	//현재 살아있는몹 + 시간이 지났을경우 나올 몹의 개수
+	int MaxAmount = m_game.MaxAmount;
+	
+	while(MaxAmount > 0)
 	{
-		if (m_pMob[i]->getHealth() <= 0)
+		if (m_pMob[MaxAmount]->getHealth() <= 0)
 		{
-			m_pMob[i]->ResetAll();
-			if (m_pMob[i]->m_Act._moving == 몹_엄폐이동 || m_pMob[i]->m_Act._reload == 몹_장전함 || m_pMob[i]->m_Act._engage == 몹_엄폐물에숨기)
+			m_pMob[MaxAmount]->ResetAll();
+			if (m_pMob[MaxAmount]->m_Act._moving == 몹_엄폐이동 || m_pMob[MaxAmount]->m_Act._reload == 몹_장전함 || m_pMob[MaxAmount]->m_Act._engage == 몹_엄폐물에숨기)
 			{
-				FindHidingInTheWallLocation(m_pMob[i]);
+				FindHidingInTheWallLocation(m_pMob[MaxAmount]);
 			}
 		}
+		MaxAmount--;
 	}
 }
 
-void UnitBox::CheckNumberOfLivingAI()
+int UnitBox::CheckNumberOfLivingAI(int _amount)
 {
 	/*for (auto p : m_pTeam)
 	{
@@ -612,23 +539,19 @@ void UnitBox::CheckNumberOfLivingAI()
 	}*/
 	vector<int> NOL;
 	int sum = 0;
-	NOL.resize(m_game.StartAmount);
-	for (int i = 0; i < m_game.StartAmount; i++)
+	NOL.resize(_amount);
+	for (int i = 0; i < _amount; i++)
 	{
 		if (m_pMob[i]->getHealth() <= 0)
-		{
 			NOL[i] = 0;
-		}
 		else
-		{
 			NOL[i] = 1;
-		}
 	}
 	for (auto p : NOL)
 	{
 		sum += p;
 	}
-	NOL_Mob = sum;
+	return sum;
 }
 
 void UnitBox::LocationSharing()
@@ -672,20 +595,41 @@ void UnitBox::LocationSharing()
 	}
 }
 
-void UnitBox::GameWaveSetting(int _wave, int _start, int _increase, int _minmob)
+void UnitBox::GameWaveSetting(int _Start)
 {
-	if (m_game.MinLifeMob >= NOL_Mob)
-	{
-		_start += 5;
-		_minmob += 1;
-		m_game = GameWave(_wave, _start, _increase, _minmob);
-	}
+	m_game.StartAmount = _Start;
+	PlayWave();
+}
+
+void UnitBox::PlayWave()
+{
+	if (m_game.MaxAmount == 0)
+		m_game.MaxAmount = CheckNumberOfLivingAI(m_game.StartAmount);
+	else
+		m_game.MaxAmount = CheckNumberOfLivingAI(m_game.MaxAmount) + m_game.StartAmount;
+
 	ReSetMob();
+}
+
+int UnitBox::ClearWave()
+{
+	if (CheckNumberOfLivingAI(m_game.MaxAmount) == 0)
+		return 1;
+	else
+	{
+		int sum = 0;
+		for (auto p : m_pMob)
+		{
+			if (p->GetPosition().x < 245.0f && p->getStatus() == 1)
+				sum++;
+		}
+		if (sum > 5)
+			return 2;
+	}
 }
 
 vector<Mob*>* UnitBox::getPMob()
 {
-
 	return &m_pMob;
 }
 

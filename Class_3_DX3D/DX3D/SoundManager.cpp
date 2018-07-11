@@ -34,6 +34,8 @@ SoundManager::SoundManager()
 	m_pRun_Dirt = NULL;
 	m_pGear_Walk = NULL;
 	m_pWhistle = NULL;
+	
+	m_pV_Death = NULL;
 
 	walkInterval = 0;
 	runInterval = 0;
@@ -67,13 +69,18 @@ SoundManager::~SoundManager()
 	m_pRun_Dirt->ReleaseSound();
 	m_pGear_Walk->ReleaseSound();
 	m_pWhistle->ReleaseSound();
+
+	m_pV_Death->ReleaseSound();
 }
 
 void SoundManager::soundList()
 {
 	// 배경음
-	s_music_f.push_back("MoDD");
+	s_music_f.push_back("21. Days of Thunder");
 	s_music_f.push_back("15. Operation Barbarossa");
+	s_music_f.push_back("02. The Royal Airforce");
+	s_music_f.push_back("13. Luftwaffe Strikes Again");
+	s_music_f.push_back("22. We Are Soldiers");
 
 	// 환경음
 	s_ambient_f.push_back("ambient_test_4");
@@ -115,6 +122,33 @@ void SoundManager::soundList()
 
 	s_gear_walk_f.push_back("Gear_Walk1");
 	s_gear_walk_f.push_back("Gear_Walk4");
+
+	// 음성
+	s_vDeath_f.push_back("Death01");
+	s_vDeath_f.push_back("Death02");
+	s_vDeath_f.push_back("Death03");
+	s_vDeath_f.push_back("Death04");
+	s_vDeath_f.push_back("Death05");
+	s_vDeath_f.push_back("Death06");
+	s_vDeath_f.push_back("Death07");
+	s_vDeath_f.push_back("Death08");
+	s_vDeath_f.push_back("Death09");
+	s_vDeath_f.push_back("Death11");
+	s_vDeath_f.push_back("Death12");
+	s_vDeath_f.push_back("Death13");
+	s_vDeath_f.push_back("Death14");
+	s_vDeath_f.push_back("Death15");
+	s_vDeath_f.push_back("Death16");
+	s_vDeath_f.push_back("Death17");
+	s_vDeath_f.push_back("Death18");
+	s_vDeath_f.push_back("Death19");
+	s_vDeath_f.push_back("Death20");
+	s_vDeath_f.push_back("Death21");
+	s_vDeath_f.push_back("Death22");
+	s_vDeath_f.push_back("Death23");
+	s_vDeath_f.push_back("Death24");
+	s_vDeath_f.push_back("Death25");
+	s_vDeath_f.push_back("Death26");
 }
 
 void SoundManager::setMP3(string folder, string * s_name, vector<string> s_name_file)
@@ -143,6 +177,9 @@ void SoundManager::createSound()
 {
 	soundList();
 
+	CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
+	CreateWAV(m_pV_Death, "Voice/Death/", s_vDeath, s_vDeath_f, _3D);
+
 	CreateMP3(m_pMusic, "Music/", s_music, s_music_f, MUSIC);
 	CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
 
@@ -153,7 +190,8 @@ void SoundManager::createSound()
 	CreateWAV(m_pWalk_Dirt, "Walk/", s_walk_dirt, s_walk_dirt_f, EFFECT);
 	CreateWAV(m_pRun_Dirt, "Run/", s_run_dirt, s_run_dirt_f, EFFECT);
 	CreateWAV(m_pGear_Walk, "Gear/", s_gear_walk, s_gear_walk_f, EFFECT);
-	CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
+	//CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
+
 
 }
 
@@ -212,12 +250,21 @@ void SoundManager::play3D(int soundNum)
 	//}
 }
 
-void SoundManager::updateSpeaker(int soundNum, D3DXVECTOR3 sPos)
+void SoundManager::updateSpeaker(int type, int soundNum, D3DXVECTOR3 sPos)
 {
 	SpeakerPos = { sPos.x, sPos.y, sPos.z };
-
-	m_p3D->setSpeaker(soundNum, SpeakerPos, SpeakerVel);
-	play3D(soundNum);
+	
+	switch (type)
+	{
+	case 1:
+		m_p3D->setSpeaker(soundNum, SpeakerPos, SpeakerVel);
+		play3D(soundNum);
+		break;
+	case 2:
+		int r26 = rand() % 26;
+		m_pV_Death->setSpeaker(r26, SpeakerPos, SpeakerVel);
+		voiceSound(1, r26);
+	}
 }
 
 void SoundManager::updateListener(D3DXVECTOR3 lPos)
@@ -320,5 +367,16 @@ void SoundManager::RunSound()
 
 void SoundManager::effectSound(int soundNum)
 {
-	m_pWhistle->PlaySound(0);
+	m_pWhistle->PlaySound(soundNum);
+}
+
+void SoundManager::voiceSound(int type, int soundNum)
+{
+	switch (type)
+	{
+	case 1: // 사망
+		m_pV_Death->volumeControl(soundNum, volume_music);
+		m_pV_Death->PlaySound(soundNum);
+		break;
+	}
 }

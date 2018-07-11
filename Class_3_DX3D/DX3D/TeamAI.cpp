@@ -4,6 +4,8 @@
 #include "TEAM_TEX.h"
 
 #define moveSpeed 0.5f
+#define DEATH_TIME 10000
+
 
 TeamAI::TeamAI()
 {
@@ -22,11 +24,15 @@ TeamAI::TeamAI()
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
-	m_render = false;
+	m_render = true;
 	m_bullet = 5;
 	m_angle = D3DX_PI / 2;
 	m_def = 0;
 	ani_state = 서서기본자세;
+	m_Ready = true;
+	m_Death = false;
+	
+	deathShout = false;
 }
 
 
@@ -47,32 +53,71 @@ void TeamAI::Init()
 
 	m_moveSpeed = moveSpeed;
 	m_pBoundingSphere = new BoundingSphere(m_pos, 3.0f);
+
+	m_Death_count = 0;
+	m_Death_Time = 0;
 }
 
 void TeamAI::Update()
 {
 	if (health <= 0) {
 		status = 0;
-		m_pos = { 2000,10,2000 };
+		m_Action = 팀_죽음;
 		m_MobNum = NULL;
+
+		m_Death_count++;
+
+		if (m_Death_count == 1)
+		{
+			m_Death_Time = GetTickCount();
+		}
+
+		//죽은 시간의 끝
+		if (GetTickCount() >= m_Death_Time + DEATH_TIME)
+		{
+			m_Death_count = 0;
+			m_Death = true;
+			m_pos = { 2000,10,2000 };
+		}
+		if (!deathShout)
+		{
+			g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
+			deathShout = true;
+		}
 	}
+	Animation();
+
 	if (status > 0) {
-		if (m_MobNum == NULL || HaveBullet() == false)
+
+		deathShout = false;
+
+		m_Death = false;
+		if (D3DXVec3Length(&(m_finalDestPos - m_pos)) <= 5.0f)
+			m_Ready = true;
+		if (m_Ready == true)
 		{
-			m_Action = 팀_재장전;
-			CanFight = false;
-			Reloading();
-		}
-		if(HaveBullet() == true)
-		{
-			CanFight = true;
-			if (MobSearch() == true)
+			if (m_MobNum == NULL || HaveBullet() == false)
 			{
-				m_Action = 팀_사격;
-				Shooting();
+				m_Action = 팀_재장전;
+				CanFight = false;
+				Reloading();
 			}
+			if (HaveBullet() == true)
+			{
+				CanFight = true;
+				if (MobSearch() == true)
+				{
+					m_Action = 팀_사격;
+					Shooting();
+				}
+			}
+			ShootVertex();
 		}
-		ShootVertex();
+		else
+		{
+			m_Action = 팀_달리기;
+		}
+		
 
 		UpdatePositionToDestination();
 		//UpdatePosition();
@@ -80,20 +125,57 @@ void TeamAI::Update()
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 4.0f;
 
-		//살아있을때만 포지션을 받아온다
-		m_TEAM_TEX->SetPos(m_pos);
+		if (m_MobNum == NULL)
+			m_angle = 0;
+		else
+		{
+			D3DXVECTOR3 forwardDir = D3DXVECTOR3(g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().x - m_pos.x, 0,
+				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition().z - m_pos.z);
+			if (forwardDir.x <= 0)
+			{
+				D3DXVECTOR3 forwardNor = forwardDir;
+				D3DXVec3Normalize(&forwardNor, &forwardNor);
+				m_angle = D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1));
+			}
+			else
+			{
+				D3DXVECTOR3 forwardNor = forwardDir;
+				D3DXVec3Normalize(&forwardNor, &forwardNor);
+				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)));
+			}
+		}
+		Debug->AddText("아군 체력: ");
+		Debug->AddText(health);
+		Debug->AddText(" / 총알수: ");
+		Debug->AddText(m_bullet);
+		Debug->EndLine();
+	}
+
+	/*Debug->AddText("데스 카운트 :");
+	Debug->AddText(m_Death_count);
+
+	Debug->AddText("//  아군 On/oFF(0이 살아있는것) :");
+	Debug->AddText(m_Death);
+
+	Debug->AddText("// 랜더 On/oFF:");
+	Debug->AddText(m_render);
+
+	Debug->EndLine();*/
+
+	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
+		&& m_Death == false)
+	{
+		if (status != 0 && m_Death == false)
+		{
+			m_TEAM_TEX->SetPos(m_pos);
+			m_TEAM_TEX->SetAngle(m_angle);
+		}
+		m_TEAM_TEX->SetAnimationIndex(ani_state);
+		m_TEAM_TEX->Update();
 
 	}
-	Animation();
-	//Debug->AddText("아군 생명력 :");
-	//Debug->AddText(health);
-	//Debug->EndLine();
-	//Debug->AddText("아군 On/oFF :");
-	//Debug->AddText(status);
-	//Debug->EndLine();
+	
 
-	m_TEAM_TEX->SetAnimationIndex(ani_state);
-	m_TEAM_TEX->Update();
 
 	//아군 렌더 할까말까
 	if (Keyboard::Get()->KeyDown('H'))
@@ -114,10 +196,10 @@ void TeamAI::Render()
 	//g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
 	//프러스텀 적용 
-	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere) == true)
+	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
+		&& m_Death == false && m_render)
 	{
-		if (m_render)
-			m_TEAM_TEX->Render();
+		m_TEAM_TEX->Render();
 	}
 
 	if (status > 0) 
@@ -160,8 +242,10 @@ void TeamAI::Animation()
 		ani_state = 서서기본자세;
 		break;
 	case 팀_재장전:
+		ani_state = 재장전;
 		break;
 	case 팀_근접싸움:
+		ani_state = 근접공격;
 		break;
 	case 팀_죽음:
 		ani_state = 서서죽음;
@@ -223,15 +307,13 @@ bool TeamAI::MobSearch()
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 1.0f / 2.0f;
 				
-				if (Length < 15)
+				if (Length < 10)
 				{
-					TrenchFight(1);
-					return true;
+					return TrenchFight(1);
 				}
 				else if (Length < 30)
 				{
-					TrenchFight(2);
-					return true;
+					return TrenchFight(2);
 				}
 				else if (Length < 240 && DotPM >= direct)
 				{
@@ -272,9 +354,9 @@ void TeamAI::ShootVertex()
 	}
 }
 //근접전투
-void TeamAI::TrenchFight(int _num) 
+bool TeamAI::TrenchFight(int _num) 
 {
-	float nearEnemy = 100;
+	float nearEnemy = 30;
 	int EnemyNum = NULL;
 
 	//가까운놈 찾기(Min찾는방식)
@@ -296,8 +378,8 @@ void TeamAI::TrenchFight(int _num)
 
 			if (D3DXVec3Length(&(m_pos - g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->GetPosition())) < 5.0f)
 			{
-				m_moveSpeed = 0;
 				m_ShootCooldownTime++;
+				m_Action = 팀_근접싸움;
 				if (m_ShootCooldownTime > 100)
 				{
 					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth
@@ -305,12 +387,10 @@ void TeamAI::TrenchFight(int _num)
 					m_ShootCooldownTime = 0;
 				}
 			}
-			else
-			{
-				m_moveSpeed = moveSpeed;
-			}
-
+			return false;
 		}
+		else
+			return true;
 	}
 }
 
@@ -319,8 +399,8 @@ void TeamAI::Shooting()
 	m_ShootCooldownTime++;
 	if (m_ShootCooldownTime > 100)
 	{
-		float kill = rand() % 10;
-		if (kill < 3 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
+		int kill = rand() % 10;
+		if (kill < 4 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
 		{
 			/*int damage = rand() % 10;
 			if (damage < 3)
@@ -329,14 +409,14 @@ void TeamAI::Shooting()
 			}
 			else*/
 			{
-				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth
-				(50);
+				kill = rand() % 30;
+				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth(20 + kill);
 			}
 			m_bullet--;
 
 			// 3D 사운드
-			int r2 = rand() % 2;
-			g_pSoundManager->updateSpeaker(r2, m_pos);
+			kill = rand() % 2;
+			g_pSoundManager->updateSpeaker(sType::SHOOT, kill, m_pos);
 		}
 		m_ShootCooldownTime = 0;
 	}

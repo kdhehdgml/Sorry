@@ -31,8 +31,8 @@ Mob::Mob()
 	hidingChk = false;
 	ani_start = true;
 	showBoundingSphere = false;
-
-	m_angle = D3DX_PI / 2;
+	m_DestTime = 0;
+	m_angle = 0;
 
 	m_Death = false;
 }
@@ -65,6 +65,8 @@ void Mob::Init()
 
 	m_Death_count = 0;
 	m_Death_Time = 0;
+
+	deathShout = false;
 }
 
 void Mob::Update()
@@ -86,12 +88,18 @@ void Mob::Update()
 			m_Death = true;
 			m_pos = { 1000,-5000,1000 };
 		}
-
+		if (!deathShout)
+		{
+			g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
+			deathShout = true;
+		}
 	}
 	SelectAction();
 
 	if (status > 0) {
-
+		
+		deathShout = false;
+		
 		m_Death = false;
 		Act_Moving();
 
@@ -112,7 +120,7 @@ void Mob::Update()
 		//m_pRootParts->Update();
 	/*	m_MONSTER->SetPos(m_pos);
 		m_MONSTER->Update();*/
-		Debug->AddText("몹 체력: ");
+		/*Debug->AddText("몹 체력: ");
 		Debug->AddText(health);
 		Debug->AddText(" / 장전: ");
 		Debug->AddText(m_bullet);
@@ -120,30 +128,44 @@ void Mob::Update()
 		Debug->AddText(m_maxbullet);
 		Debug->AddText(" / 높이: ");
 		Debug->AddText(m_pBoundingSphereBody->center.y);
-		Debug->EndLine();
+		Debug->EndLine();*/
 
-		
+		D3DXVECTOR3 forwardDir = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
+		if (forwardDir.x <= 0)
+		{
+			D3DXVECTOR3 forwardNor = forwardDir;
+			D3DXVec3Normalize(&forwardNor, &forwardNor);
+			m_angle = D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2);
+		}
+		else
+		{
+			D3DXVECTOR3 forwardNor = forwardDir;
+			D3DXVec3Normalize(&forwardNor, &forwardNor);
+			m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2));
+		}
 	}
 	Act_Action();
-	
-	
-	//Debug->AddText("m_rot: ");
-	//Debug->AddText(m_rot.y);
+
+	//Debug->AddText("각도 : ");
+	//Debug->AddText(m_angle);
+	//
+	//Debug->AddText("  //  현재좌표 : ");
+	//Debug->AddText(m_pos);
+
+	//Debug->AddText("  // 목표좌표 : ");
+	//Debug->AddText(m_destPos);
 	//Debug->EndLine();
-
-	//Debug->AddText("죽는애니메이션 끝나는 시간 : ");
-	//Debug->AddText(m_Death_Time + DEATH_TIME);
-	//Debug->EndLine();
-
-
+	//m_angle = acos((m_pos.x * m_destPos.x)+(m_pos.y * m_destPos.y)+(m_pos.z * m_destPos.z));
 
 	//카메라 범위안에 왔을때
 	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 	{
-		if(status != 0)
+		if (status != 0)
+		{
 			m_MONSTER->SetPos(m_pos);
+			m_MONSTER->SetAngle(m_angle);//각도받아옴
+		}
 
-		m_MONSTER->SetAngle(m_rot.y);//각도받아옴
 		m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
 		m_MONSTER->Update();//업데이트
 	}
@@ -450,8 +472,9 @@ MOB_SITUATION Mob::TrenchFight()
 {
 	moveLocation.clear();
 	SaveLocationNum.clear();
-	float nearAI = 150;
+	float nearAI = 200;
 	int AINum = NULL;
+	m_DestTime++;
 	//가까운놈 찾기(Min찾는방식)
 	for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_TEAM).size(); i++)
 	{
@@ -465,6 +488,7 @@ MOB_SITUATION Mob::TrenchFight()
 			}
 		}
 	}
+	
 	if (AINum != NULL)
 	{
 		m_Setdest = true;
@@ -478,8 +502,12 @@ MOB_SITUATION Mob::TrenchFight()
 		
 		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f)
 		{
-			SetTargetPostion(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
-			return 근접_거리안닿음;
+			if (m_DestTime > 300)
+			{
+				SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
+				m_DestTime = 0;
+				return 근접_거리안닿음;
+			}
 		}
 		else
 		{
@@ -576,7 +604,7 @@ void Mob::Shooting()
 				m_ShootCooldownTime++;
 				if (m_ShootCooldownTime > 100)
 				{
-					float kill = rand() % 20;
+					int kill = rand() % 20;
 					if (kill < 3 && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
 					{
 						/*int damage = rand() % 10;
@@ -586,15 +614,16 @@ void Mob::Shooting()
 						}
 						else*/
 						{
-							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(50);
+							kill = rand() % 15;
+							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(10 + kill);
 						}
 					}
 					m_ShootCooldownTime = 0;
 					m_shootingbullet--;
 					m_bullet--;
 
-					int r5 = rand() % 5;
-					g_pSoundManager->updateSpeaker(r5 + 2, m_pos);
+					kill = rand() % 5;
+					g_pSoundManager->updateSpeaker(sType::SHOOT, kill + 2, m_pos);
 				}
 			}
 		}

@@ -19,7 +19,10 @@ enum ANI_STATE_TEAM
 	서서쏘기,
 	서서기본자세,
 	서서죽음,
-	앉은자세 
+	앉은자세,
+	걷기,
+	근접공격,
+	재장전
 	//뒤로앉아서장전, 칼빵대전, 칼든상태, 서서쏘기, 서서죽음, 대기상태
 };
 
@@ -48,7 +51,7 @@ private:
 	int				m_reloading;
 	int				m_MobNum;
 	int				m_ShootCooldownTime;
-	bool			m_isMoving;
+	bool			m_Ready;
 	int				m_bullet;
 	bool			m_render;
 	
@@ -62,6 +65,14 @@ private:
 	bool ani_start;
 	//각도
 	float m_angle;
+
+	//...죽었을떄 딜레이주기위한 변수...//
+	int m_Death_count;
+	int m_Death_Time;
+	bool m_Death;
+
+	// 사운드 처리용 변수
+	bool deathShout;
 
 public:
 	TeamAI();
@@ -83,10 +94,10 @@ public:
 	bool HaveBullet();
 	virtual bool MobSearch();
 	void ShootVertex();
-	void TrenchFight(int _num);
+	bool TrenchFight(int _num);
 	void Shooting();
 	void Reloading();
-
+	void SetReady(bool _ready) { m_Ready = _ready; }
 
 };
 

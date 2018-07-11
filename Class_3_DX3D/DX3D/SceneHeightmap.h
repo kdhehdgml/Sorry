@@ -16,6 +16,7 @@ class Player_hands;
 
 class WallManager;
 class Wall;
+class SphereWall;
 class Minimap;
 class MenuUI;
 
@@ -38,7 +39,7 @@ private:
 	Player_hands*	m_Player_hands;
 	//Picking *		m_pPicking;
 	//SkinnedMesh *	m_pSkinnedMesh;
-	
+
 
 	//최적화를 위한 컬링
 	//Frustum			*m_Frustum;
@@ -50,6 +51,7 @@ private:
 	//중현이코드
 	UnitBox *		m_pUnit;
 	Blocks *		m_pBlocks;
+	bool initCreateMob;
 	//
 
 	//obj 관련
@@ -104,5 +106,8 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 	virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
+
+private:
+	void Event();
 };
 

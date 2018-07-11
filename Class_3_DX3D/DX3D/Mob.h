@@ -82,6 +82,7 @@ private:
 	int				m_shootingbullet;
 	int				m_TeamAINum;
 	int				m_ShootCooldownTime;
+	int				m_DestTime;
 	bool			m_isMoving;
 	bool			m_BeDetermined;//장애물 너로 정했다
 	bool			m_randshootbullet;
@@ -110,6 +111,8 @@ private:
 	int m_Death_Time;
 	bool m_Death;
 
+	// 사운드 처리용 변수
+	bool deathShout;
 
 public:
 	Mob();

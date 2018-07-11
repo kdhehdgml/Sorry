@@ -48,7 +48,20 @@ void SceneTest::Init()
 
 void SceneTest::Update()
 {
-	g_pSeqManager->Update();
+	//g_pSeqManager->Update();
+	
+	g_pSoundManager->updateListener(g_pCamera->getPos());
+
+	if (GetKeyState('1') & 0x8000)
+	{
+		int r26 = rand() % 26;
+		g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, r26, g_pCamera->getPos());
+	}
+	if (GetKeyState('2') & 0x8000)
+	{
+		int r7 = rand() % 7;
+		g_pSoundManager->updateSpeaker(sType::SHOOT, r7, g_pCamera->getPos());
+	}
 
 	OnUpdateIScene();
 }
