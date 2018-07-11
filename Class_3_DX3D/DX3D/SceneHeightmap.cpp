@@ -668,11 +668,13 @@ void SceneHeightmap::Update()
 		if (!g_pCamera->getFreeCameraMode()) {
 			if (posCorrection.z > 540.0f) {
 				posCorrection.z = 540.0f;
+				posCorrection.x = min(posCorrection.x, 220.0f);
 			}
 			else if (posCorrection.z < 190.0f) {
 				posCorrection.z = 190.0f;
+				posCorrection.x = min(posCorrection.x, 224.0f);
 			}
-			else if (posCorrection.z > 530.0f && posCorrection.z <= 550.0f) {
+			else if (posCorrection.z > 530.0f && posCorrection.z <= 540.0f) {
 				posCorrection.x = min(posCorrection.x, 220.0f);
 			}
 			else if (posCorrection.z > 512.0f && posCorrection.z <= 530.0f) {
@@ -729,7 +731,7 @@ void SceneHeightmap::Update()
 			else if (posCorrection.z > 195.0f && posCorrection.z <= 218.0f) {
 				posCorrection.x = min(posCorrection.x, 224.0f + (posCorrection.z - 195.0f) * 1.48f);
 			}
-			else if (posCorrection.x >= 180.0f && posCorrection.z <= 195.0f) {
+			else if (posCorrection.x >= 190.0f && posCorrection.z <= 195.0f) {
 				posCorrection.x = min(posCorrection.x, 224.0f);
 			}
 
