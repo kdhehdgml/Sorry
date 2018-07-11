@@ -41,7 +41,10 @@ Mob::Mob()
 Mob::~Mob()
 {
 	//m_pRootParts->ReleaseAll();
-	SAFE_RELEASE(m_MONSTER);
+	if (GSM().Debug_Mode == true)
+	{
+		SAFE_RELEASE(m_MONSTER);
+	}
 	SAFE_RELEASE(m_pSphereBody);
 	SAFE_RELEASE(m_pSphereHead);
 	SAFE_DELETE(m_pBoundingSphereBody);
@@ -57,8 +60,12 @@ void Mob::Init()
 	D3DXCreateSphere(g_pDevice, 2.7f, 10, 10, &m_pSphereBody, NULL);
 	m_pBoundingSphereBody = new BoundingSphere(m_pos, 2.7f);
 
-	m_MONSTER = new MONSTER;
-	m_MONSTER->Init();
+	if (GSM().Debug_Mode == true)
+	{
+		m_MONSTER = new MONSTER;
+		m_MONSTER->Init();
+	}
+
 	SaveAction();
 	Act_GunShot();
 	m_moveSpeed = GSM().mobSpeed;
@@ -161,18 +168,22 @@ void Mob::Update()
 	//Debug->EndLine();
 	//m_angle = acos((m_pos.x * m_destPos.x)+(m_pos.y * m_destPos.y)+(m_pos.z * m_destPos.z));
 
-	//카메라 범위안에 왔을때
-	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+	if (GSM().Debug_Mode)
 	{
-		if (status != 0)
+		//카메라 범위안에 왔을때
+		if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 		{
-			m_MONSTER->SetPos(m_pos);
-			m_MONSTER->SetAngle(m_angle);//각도받아옴
-		}
+			if (status != 0)
+			{
+				m_MONSTER->SetPos(m_pos);
+				m_MONSTER->SetAngle(m_angle);//각도받아옴
+			}
 
-		m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
-		m_MONSTER->Update();//업데이트
+			m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
+			m_MONSTER->Update();//업데이트
+		}
 	}
+
 }
 
 void Mob::Render()
@@ -218,10 +229,14 @@ void Mob::Render()
 		
 	}
 	//if ()
-	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+
+	if (GSM().Debug_Mode)
 	{
-		m_MONSTER->SetRenderSTATE(true);
-		m_MONSTER->Render();
+		if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+		{
+			m_MONSTER->SetRenderSTATE(true);
+			m_MONSTER->Render();
+		}
 	}
 }
 

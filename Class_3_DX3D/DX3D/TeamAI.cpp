@@ -38,7 +38,11 @@ TeamAI::TeamAI()
 
 TeamAI::~TeamAI()
 {
-	SAFE_RELEASE(m_TEAM_TEX);
+
+	if (GSM().Debug_Mode)
+	{
+		SAFE_RELEASE(m_TEAM_TEX);
+	}
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 }
@@ -48,9 +52,12 @@ void TeamAI::Init()
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
 	D3DXCreateSphere(g_pDevice, 3.0f, 10, 10, &m_pSphere, NULL);
 
-	m_TEAM_TEX = new TEAM_TEX;
-	m_TEAM_TEX->Init();
 
+	if (GSM().Debug_Mode)
+	{
+		m_TEAM_TEX = new TEAM_TEX;
+		m_TEAM_TEX->Init();
+	}
 	m_moveSpeed = moveSpeed;
 	m_pBoundingSphere = new BoundingSphere(m_pos, 3.0f);
 
@@ -162,19 +169,21 @@ void TeamAI::Update()
 
 	Debug->EndLine();*/
 
-	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
-		&& m_Death == false)
+	if (GSM().Debug_Mode)
 	{
-		if (status != 0 && m_Death == false)
+		if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
+			&& m_Death == false)
 		{
-			m_TEAM_TEX->SetPos(m_pos);
-			m_TEAM_TEX->SetAngle(m_angle);
-		}
-		m_TEAM_TEX->SetAnimationIndex(ani_state);
-		m_TEAM_TEX->Update();
+			if (status != 0 && m_Death == false)
+			{
+				m_TEAM_TEX->SetPos(m_pos);
+				m_TEAM_TEX->SetAngle(m_angle);
+			}
+			m_TEAM_TEX->SetAnimationIndex(ani_state);
+			m_TEAM_TEX->Update();
 
+		}
 	}
-	
 
 
 	//아군 렌더 할까말까
@@ -195,13 +204,16 @@ void TeamAI::Render()
 	//g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	//g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
-	//프러스텀 적용 
-	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
-		&& m_Death == false && m_render)
-	{
-		m_TEAM_TEX->Render();
-	}
 
+	if (GSM().Debug_Mode)
+	{
+		//프러스텀 적용 
+		if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
+			&& m_Death == false && m_render)
+		{
+			m_TEAM_TEX->Render();
+		}
+	}
 	if (status > 0) 
 	{
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
