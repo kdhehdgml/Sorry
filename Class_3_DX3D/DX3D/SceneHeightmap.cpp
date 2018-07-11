@@ -665,74 +665,77 @@ void SceneHeightmap::Update()
 
 
 		D3DXVECTOR3 posCorrection = g_pCamera->getPos();
-		if (posCorrection.z > 540.0f) {
-			posCorrection.z = 540.0f;
-		}
-		else if (posCorrection.z < 190.0f) {
-			posCorrection.z = 190.0f;
-		}
-		else if (posCorrection.z > 530.0f && posCorrection.z <= 540.0f) {
-			posCorrection.x = min(posCorrection.x, 220.0f);
-		}
-		else if (posCorrection.z > 512.0f && posCorrection.z <= 530.0f) {
-			posCorrection.x = min(posCorrection.x, 240.0f - (posCorrection.z - 512.0f) * 1.11f);
-		}
-		else if (posCorrection.z > 480.0f && posCorrection.z <= 512.0f) {
-			posCorrection.x = min(posCorrection.x, 240.0f);
-		}
-		else if (posCorrection.z > 460.0f && posCorrection.z <= 480.0f) {
-			posCorrection.x = min(posCorrection.x, 228.0f + (posCorrection.z - 460.0f) * 0.6f);
-		}
-		else if (posCorrection.z > 440.0f && posCorrection.z <= 460.0f) {
-			posCorrection.x = min(posCorrection.x, 240.0f - (posCorrection.z - 440.0f) * 0.6f);
-		}
-		else if (posCorrection.z > 420.0f && posCorrection.z <= 440.0f) {
-			posCorrection.x = min(posCorrection.x, 240.0f);
-		}
-		else if (posCorrection.z > 402.0f && posCorrection.z <= 420.0f) {
-			posCorrection.x = min(posCorrection.x, 254.0f - (posCorrection.z - 402.0f) * 0.78f);
-		}
-		else if (posCorrection.z > 374.0f && posCorrection.z <= 402.0f) {
-			posCorrection.x = min(posCorrection.x, 254.0f);
-		}
-		else if (posCorrection.z > 360.0f && posCorrection.z <= 374.0f) {
-			posCorrection.x = min(posCorrection.x, 226.0f + (posCorrection.z - 360.0f) * 2.0f);
-		}
-		else if (posCorrection.z > 352.0f && posCorrection.z <= 360.0f) {
-			posCorrection.x = min(posCorrection.x, 226.0f);
-		}
-		else if (posCorrection.z > 326.0f && posCorrection.z <= 352.0f) {
-			posCorrection.x = min(posCorrection.x, 248.0f - (posCorrection.z - 326.0f) * 0.85f);
-		}
-		else if (posCorrection.z > 310.0f && posCorrection.z <= 326.0f) {
-			posCorrection.x = min(posCorrection.x, 248.0f);
-		}
-		else if (posCorrection.z > 299.0f && posCorrection.z <= 310.0f) {
-			posCorrection.x = min(posCorrection.x, 240.0f + (posCorrection.z - 299.0f) * 0.73f);
-		}
-		else if (posCorrection.z > 282.0f && posCorrection.z <= 299.0f) {
-			posCorrection.x = min(posCorrection.x, 257.0f - (posCorrection.z - 282.0f) * 1.0f);
-		}
-		else if (posCorrection.z > 265.0f && posCorrection.z <= 282.0f) {
-			posCorrection.x = min(posCorrection.x, 257.0f);
-		}
+		if (!g_pCamera->getFreeCameraMode()) {
+			if (posCorrection.z > 540.0f) {
+				posCorrection.z = 540.0f;
+			}
+			else if (posCorrection.z < 190.0f) {
+				posCorrection.z = 190.0f;
+			}
+			else if (posCorrection.z > 530.0f && posCorrection.z <= 550.0f) {
+				posCorrection.x = min(posCorrection.x, 220.0f);
+			}
+			else if (posCorrection.z > 512.0f && posCorrection.z <= 530.0f) {
+				posCorrection.x = min(posCorrection.x, 240.0f - (posCorrection.z - 512.0f) * 1.11f);
+			}
+			else if (posCorrection.z > 480.0f && posCorrection.z <= 512.0f) {
+				posCorrection.x = min(posCorrection.x, 240.0f);
+			}
+			else if (posCorrection.z > 460.0f && posCorrection.z <= 480.0f) {
+				posCorrection.x = min(posCorrection.x, 228.0f + (posCorrection.z - 460.0f) * 0.6f);
+			}
+			else if (posCorrection.z > 440.0f && posCorrection.z <= 460.0f) {
+				posCorrection.x = min(posCorrection.x, 240.0f - (posCorrection.z - 440.0f) * 0.6f);
+			}
+			else if (posCorrection.z > 420.0f && posCorrection.z <= 440.0f) {
+				posCorrection.x = min(posCorrection.x, 240.0f);
+			}
+			else if (posCorrection.z > 402.0f && posCorrection.z <= 420.0f) {
+				posCorrection.x = min(posCorrection.x, 254.0f - (posCorrection.z - 402.0f) * 0.78f);
+			}
+			else if (posCorrection.z > 374.0f && posCorrection.z <= 402.0f) {
+				posCorrection.x = min(posCorrection.x, 254.0f);
+			}
+			else if (posCorrection.z > 360.0f && posCorrection.z <= 374.0f) {
+				posCorrection.x = min(posCorrection.x, 226.0f + (posCorrection.z - 360.0f) * 2.0f);
+			}
+			else if (posCorrection.z > 352.0f && posCorrection.z <= 360.0f) {
+				posCorrection.x = min(posCorrection.x, 226.0f);
+			}
+			else if (posCorrection.z > 326.0f && posCorrection.z <= 352.0f) {
+				posCorrection.x = min(posCorrection.x, 248.0f - (posCorrection.z - 326.0f) * 0.85f);
+			}
+			else if (posCorrection.z > 310.0f && posCorrection.z <= 326.0f) {
+				posCorrection.x = min(posCorrection.x, 248.0f);
+			}
+			else if (posCorrection.z > 299.0f && posCorrection.z <= 310.0f) {
+				posCorrection.x = min(posCorrection.x, 240.0f + (posCorrection.z - 299.0f) * 0.73f);
+			}
+			else if (posCorrection.z > 282.0f && posCorrection.z <= 299.0f) {
+				posCorrection.x = min(posCorrection.x, 257.0f - (posCorrection.z - 282.0f) * 1.0f);
+			}
+			else if (posCorrection.z > 265.0f && posCorrection.z <= 282.0f) {
+				posCorrection.x = min(posCorrection.x, 257.0f);
+			}
+			else if (posCorrection.z > 251.0f && posCorrection.z <= 265.0f) {
+				posCorrection.x = min(posCorrection.x, 251.0f + (posCorrection.z - 251.0f) * 0.43f);
+			}
+			else if (posCorrection.z > 240.0f && posCorrection.z <= 251.0f) {
+				posCorrection.x = min(posCorrection.x, 258.0f - (posCorrection.z - 240.0f) * 0.64f);
+			}
+			else if (posCorrection.z > 218.0f && posCorrection.z <= 240.0f) {
+				posCorrection.x = min(posCorrection.x, 258.0f);
+			}
+			else if (posCorrection.z > 195.0f && posCorrection.z <= 218.0f) {
+				posCorrection.x = min(posCorrection.x, 224.0f + (posCorrection.z - 195.0f) * 1.48f);
+			}
+			else if (posCorrection.x >= 180.0f && posCorrection.z <= 195.0f) {
+				posCorrection.x = min(posCorrection.x, 224.0f);
+			}
 
-		else if (posCorrection.z > 251.0f && posCorrection.z <= 265.0f) {
-			posCorrection.x = min(posCorrection.x, 257.0f);
-		}
-		else if (posCorrection.z > 240.0f && posCorrection.z <= 251.0f) {
-			posCorrection.x = min(posCorrection.x, 257.0f);
-		}
-
-		else if (posCorrection.z > 218.0f && posCorrection.z <= 240.0f) {
-			posCorrection.x = min(posCorrection.x, 258.0f);
-		}
-		else if (posCorrection.x > 190.0f && posCorrection.z <= 195.0f) {
-			posCorrection.x = min(posCorrection.x, 224.0f);
-		}
-
-		if (posCorrection.x < 135.0f) {
-			posCorrection.x = 135.0f;
+			if (posCorrection.x < 135.0f) {
+				posCorrection.x = 135.0f;
+			}
 		}
 		g_pCamera->setPos(posCorrection);
 
@@ -822,7 +825,7 @@ void SceneHeightmap::Render()
 	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 	g_pDevice->SetTexture(0, NULL);
-	m_pSphere->DrawSubset(0);
+	//m_pSphere->DrawSubset(0);
 
 	RECT rc;
 	SetRect(&rc, 100, 400, 800, 600);
