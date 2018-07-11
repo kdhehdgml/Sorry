@@ -24,20 +24,25 @@ TeamAI::TeamAI()
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
-	m_render = false;
+	m_render = true;
 	m_bullet = 5;
 	m_angle = D3DX_PI / 2;
 	m_def = 0;
 	ani_state = 서서기본자세;
-
+	m_Ready = true;
 	m_Death = false;
-
+	
+	deathShout = false;
 }
 
 
 TeamAI::~TeamAI()
 {
-	SAFE_RELEASE(m_TEAM_TEX);
+
+	if (GSM().Debug_Mode)
+	{
+		SAFE_RELEASE(m_TEAM_TEX);
+	}
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
 }
@@ -47,9 +52,12 @@ void TeamAI::Init()
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
 	D3DXCreateSphere(g_pDevice, 3.0f, 10, 10, &m_pSphere, NULL);
 
-	m_TEAM_TEX = new TEAM_TEX;
-	m_TEAM_TEX->Init();
 
+	if (GSM().Debug_Mode)
+	{
+		m_TEAM_TEX = new TEAM_TEX;
+		m_TEAM_TEX->Init();
+	}
 	m_moveSpeed = moveSpeed;
 	m_pBoundingSphere = new BoundingSphere(m_pos, 3.0f);
 
@@ -78,13 +86,21 @@ void TeamAI::Update()
 			m_Death = true;
 			m_pos = { 2000,10,2000 };
 		}
+		if (!deathShout)
+		{
+			g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
+			deathShout = true;
+		}
 	}
 	Animation();
 
 	if (status > 0) {
 
-		m_Death = false;
+		deathShout = false;
 
+		m_Death = false;
+		if (D3DXVec3Length(&(m_finalDestPos - m_pos)) <= 5.0f)
+			m_Ready = true;
 		if (m_Ready == true)
 		{
 			if (m_MobNum == NULL || HaveBullet() == false)
@@ -135,7 +151,11 @@ void TeamAI::Update()
 				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)));
 			}
 		}
-	
+		Debug->AddText("아군 체력: ");
+		Debug->AddText(health);
+		Debug->AddText(" / 총알수: ");
+		Debug->AddText(m_bullet);
+		Debug->EndLine();
 	}
 
 	/*Debug->AddText("데스 카운트 :");
@@ -149,19 +169,21 @@ void TeamAI::Update()
 
 	Debug->EndLine();*/
 
-	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
-		&& m_Death == false)
+	if (GSM().Debug_Mode)
 	{
-		if (status != 0 && m_Death == false)
+		if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
+			&& m_Death == false)
 		{
-			m_TEAM_TEX->SetPos(m_pos);
-			m_TEAM_TEX->SetAngle(m_angle);
-		}
-		m_TEAM_TEX->SetAnimationIndex(ani_state);
-		m_TEAM_TEX->Update();
+			if (status != 0 && m_Death == false)
+			{
+				m_TEAM_TEX->SetPos(m_pos);
+				m_TEAM_TEX->SetAngle(m_angle);
+			}
+			m_TEAM_TEX->SetAnimationIndex(ani_state);
+			m_TEAM_TEX->Update();
 
+		}
 	}
-	
 
 
 	//아군 렌더 할까말까
@@ -182,13 +204,16 @@ void TeamAI::Render()
 	//g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
 	//g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
-	//프러스텀 적용 
-	if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
-		&& m_Death == false && m_render)
-	{
-		m_TEAM_TEX->Render();
-	}
 
+	if (GSM().Debug_Mode)
+	{
+		//프러스텀 적용 
+		if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
+			&& m_Death == false && m_render)
+		{
+			m_TEAM_TEX->Render();
+		}
+	}
 	if (status > 0) 
 	{
 		//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
@@ -294,7 +319,7 @@ bool TeamAI::MobSearch()
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 1.0f / 2.0f;
 				
-				if (Length < 6)
+				if (Length < 10)
 				{
 					return TrenchFight(1);
 				}
@@ -386,8 +411,8 @@ void TeamAI::Shooting()
 	m_ShootCooldownTime++;
 	if (m_ShootCooldownTime > 100)
 	{
-		float kill = rand() % 10;
-		if (kill < 5 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
+		int kill = rand() % 10;
+		if (kill < 4 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
 		{
 			/*int damage = rand() % 10;
 			if (damage < 3)
@@ -396,14 +421,14 @@ void TeamAI::Shooting()
 			}
 			else*/
 			{
-				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth
-				(50);
+				kill = rand() % 30;
+				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth(20 + kill);
 			}
 			m_bullet--;
 
 			// 3D 사운드
-			int r2 = rand() % 2;
-			g_pSoundManager->updateSpeaker(r2, m_pos);
+			kill = rand() % 2;
+			g_pSoundManager->updateSpeaker(sType::SHOOT, kill, m_pos);
 		}
 		m_ShootCooldownTime = 0;
 	}

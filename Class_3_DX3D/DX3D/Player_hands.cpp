@@ -117,7 +117,7 @@ void Player_hands::Update()
 
 	
 
-
+	Debug->AddText("플레이어 체력: ");
 	Debug->AddText(health);
 	Debug->EndLine();
 	//렌더 껏다키기

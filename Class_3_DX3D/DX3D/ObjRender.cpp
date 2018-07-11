@@ -10,6 +10,8 @@ ObjRender::ObjRender()
 	//ÂüÈ£ ÆÇÀÚ
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i] = NULL;
+	for (int i = 0; i < 10; i++)
+		m_MapTest1[i] = NULL;
 	//Ã¶Á¶¸Á
 	for (int i = 0; i < 53; i++)
 		m_BarbedWireT[i] = NULL;
@@ -57,6 +59,12 @@ ObjRender::ObjRender()
 		m_Apt[i] = NULL;
 	}
 
+	//Å¸ÀÏ
+	for (int i = 0; i < 15; i++)
+	{
+		m_Tile[i] = NULL;
+	}
+
 }
 
 
@@ -65,6 +73,8 @@ ObjRender::~ObjRender()
 	//ÂüÈ£ ÆÇÀÚ
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i]->~ObjRen();
+	for (int i = 0; i < 10; i++)
+		m_MapTest1[i]->~ObjRen();
 	//Ã¶Á¶¸Á
 	for (int i = 0; i < 53; i++)
 		m_BarbedWireT[i]->~ObjRen();
@@ -111,6 +121,13 @@ ObjRender::~ObjRender()
 	{
 		m_Apt[i]->~ObjRen();
 	}
+
+	//Å¸ÀÏ
+	for (int i = 0; i < 15; i++)
+	{
+		m_Tile[i]->~ObjRen();
+	}
+
 }
 
 
@@ -133,6 +150,18 @@ void ObjRender::Init()
 	CREATE_OBJ(m_MapTest[13], 9.8f, WoodenBarrier, WoodenBarrierPartTest12.obj, woodTex.png, 132.0f, 12.7f, 222.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_MapTest[14], 11.8f, WoodenBarrier, WoodenBarrierPartTest13.obj, woodTex.png, 176.0f, 13.6f, 145.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_MapTest[15], 9.8f, WoodenBarrier, WoodenBarrierPartTest14.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+
+	CREATE_OBJ(m_MapTest1[0], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 218.0f, 16.4f, 544.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[1], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 224.0f, 16.9f, 564.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2 - 1.9f, 0.0f);
+	CREATE_OBJ(m_MapTest1[2], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 202.0f, 16.9f, 564.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 + 1.9f, 0.0f);
+	CREATE_OBJ(m_MapTest1[3], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 174.0f, 16.9f, 591.0f, D3DX_PI / 2 + 0.2f, -0.9f, 0.0f);
+	CREATE_OBJ(m_MapTest1[4], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 153.0f, 16.9f, 585.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 + 1.9f, 0.0f);
+	CREATE_OBJ(m_MapTest1[5], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 237.0f, 16.9f, 602.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 + 2.1f, 0.0f);
+	CREATE_OBJ(m_MapTest1[6], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[7], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[8], 5.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[9], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+
 
 	//Ã¶Á¶¸Á
 	//1¹ø ÁÙ
@@ -352,6 +381,24 @@ void ObjRender::Init()
 	CREATE_OBJ(m_Apt[1], 9.5f, ETC, Apt00.obj, AptTex.png, -50.0f, 50.0f, 300.0f, 0.0f, D3DX_PI, 0.0f);
 	CREATE_OBJ(m_Apt[2], 9.5f, ETC, Apt00.obj, AptTex.png, -50.0f, 50.0f, 200.0f, 0.0f, D3DX_PI, 0.0f);
 
+	//Å¸ÀÏ
+	CREATE_OBJ(m_Tile[0], 25.0f, Ground, Tile00.obj, GroundTex.png, 224.0f, 12.2f, 483.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[1], 24.0f, Ground, Tile01.obj, GroundTex.png, 171.0f, 13.6f, 466.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[2], 25.0f, Ground, Tile02.obj, GroundTex.png, 197.0f, 13.6f, 380.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[3], 24.0f, Ground, Tile03.obj, GroundTex.png, 224.0f, 15.0f, 257.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[4], 24.0f, Ground, Tile04.obj, GroundTex.png, 166.0f, 14.0f, 242.0f, 0.0f, 0.0f, 0.0f);
+
+	CREATE_OBJ(m_Tile[5], 6.0f, Ground, Tile05.obj, GroundTex.png, 202.0f, 14.0f, 439.0f, 0.0f, 1.0f, 0.0f);
+	CREATE_OBJ(m_Tile[6], 6.0f, Ground, Tile05.obj, GroundTex.png, 204.0f, 14.0f, 378.0f, 0.0f, -1.0f, 0.0f);
+	CREATE_OBJ(m_Tile[7], 6.0f, Ground, Tile05.obj, GroundTex.png, 241.0f, 14.2f, 405.0f, 0.0f, -1.0f, 0.0f);
+	CREATE_OBJ(m_Tile[8], 6.0f, Ground, Tile05.obj, GroundTex.png, 246.0f, 14.5f, 384.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[9], 6.0f, Ground, Tile05.obj, GroundTex.png, 231.0f, 14.5f, 375.0f, 0.0f, 1.5f, 0.0f);
+	CREATE_OBJ(m_Tile[10], 6.0f, Ground, Tile05.obj, GroundTex.png, 216.0f, 14.5f, 356.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[11], 6.0f, Ground, Tile05.obj, GroundTex.png, 202.0f, 14.0f, 342.0f, 0.0f, 0.8f, 0.0f);
+	CREATE_OBJ(m_Tile[12], 8.0f, Ground, Tile05.obj, GroundTex.png, 233.0f, 15.0f, 331.0f, 0.0f, -0.3f, 0.0f);
+	CREATE_OBJ(m_Tile[13], 8.0f, Ground, Tile05.obj, GroundTex.png, 248.0f, 16.0f, 270.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[14], 8.0f, Ground, Tile05.obj, GroundTex.png, 177.0f, 15.7f, 232.0f, 0.0f, 0.3f, 0.0f);
+
 }
 
 void ObjRender::Render()
@@ -359,6 +406,8 @@ void ObjRender::Render()
 	//ÂüÈ£ ÆÇÀÚ
 	for (int i = 0; i < 16; i++)
 		SAFE_RENDER(m_MapTest[i]);
+	for (int i = 0; i < 10; i++)
+		SAFE_RENDER(m_MapTest1[i]);
 	//Ã¶Á¶¸Á
 	for (int i = 0; i < 53; i++)
 		SAFE_RENDER(m_BarbedWireT[i]);
@@ -404,5 +453,11 @@ void ObjRender::Render()
 	for (int i = 0; i < 3; i++)
 	{
 		SAFE_RENDER(m_Apt[i]);
+	}
+
+	//Å¸ÀÏ
+	for (int i = 0; i < 15; i++)
+	{
+		SAFE_RENDER(m_Tile[i]);
 	}
 }

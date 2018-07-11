@@ -1,4 +1,11 @@
 #pragma once
+
+enum sType
+{
+	SHOOT = 1,
+	VOICE_DEATH
+};
+
 class GSM
 {
 public:
@@ -24,4 +31,6 @@ public:
 
 	D3DXVECTOR3 camPos;
 	D3DXVECTOR3 mobPos;
+
+	bool	Debug_Mode;
 };

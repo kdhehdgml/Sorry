@@ -31,6 +31,7 @@
 #include "ObjRender.h"// obj 해더
 
 #include "MenuUI.h"
+#include "BulletUI.h"
 
 #include <fstream>
 
@@ -106,6 +107,7 @@ SceneHeightmap::SceneHeightmap()
 	m_ObjRender = NULL;
 
 	m_pMenuUI = NULL;
+	m_pBulletUI = NULL;
 	//m_MapTest0 = NULL;
 
 	initCreateMob = false;
@@ -131,7 +133,7 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pUnit);
 	SAFE_RELEASE(m_pFont);
 	SAFE_RELEASE(m_pMenuUI);
-
+	SAFE_RELEASE(m_pBulletUI);
 
 	//m_pCrosshair->ReleaseAll();
 
@@ -155,7 +157,7 @@ void SceneHeightmap::Init()
 
 
 	m_pHeightMap->SetMtlTex(mtl,
-		g_pTextureManager->GetTexture(L"resources/heightmap/terrainBF.png"));
+		g_pTextureManager->GetTexture(L"resources/heightmap/terrainBF2.png"));
 
 	g_pMapManager->AddMap("heightmap", m_pHeightMap);
 	g_pMapManager->SetCurrentMap("heightmap");
@@ -200,7 +202,7 @@ void SceneHeightmap::Init()
 	m_pBlocks->Init();
 	//
 
-	D3DXVECTOR3 dir(0.0f, 10.0f, 0.0f);
+	D3DXVECTOR3 dir(1.0f, -10.0f, 1.0f);
 	D3DXVec3Normalize(&dir, &dir);
 	D3DLIGHT9 light = DXUtil::InitDirectional(&dir, &WHITE);
 	g_pDevice->SetLight(0, &light);
@@ -209,18 +211,18 @@ void SceneHeightmap::Init()
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 
 
-	////안개생성
-	//m_CreateSmog = new CreateSmog;
-	//m_CreateSmog->Init();
-	////460.0f, 70.0f, 485.0f
-	//m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f), (0.6f));
-	//m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 405.0f), (0.3f));
-	//m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 305.0f), (0.5f));
-	//m_CreateSmog->Insert(D3DXVECTOR3(350.0f, 70.0f, 205.0f), (0.6f));
-	//m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 155.0f), (0.3f));
-	//m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 105.0f), (0.8f));
+	//안개생성
+	m_CreateSmog = new CreateSmog;
+	m_CreateSmog->Init();
+	//460.0f, 70.0f, 485.0f
+	m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f), (0.6f));
+	m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 405.0f), (0.3f));
+	m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 305.0f), (0.5f));
+	m_CreateSmog->Insert(D3DXVECTOR3(350.0f, 70.0f, 205.0f), (0.6f));
+	m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 155.0f), (0.3f));
+	m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 105.0f), (0.8f));
 
-	//AddSimpleDisplayObj(m_CreateSmog);
+	AddSimpleDisplayObj(m_CreateSmog);
 
 
 	m_ColorCube = new ColorCube;
@@ -295,17 +297,19 @@ void SceneHeightmap::Init()
 	wallManager->Init();
 	AddSimpleDisplayObj(wallManager);
 
-	//D3DXVECTOR3 aa(300.0f, 25.0f, 400.0f); //임시 BoundingBox 좌표1
-	//D3DXVECTOR3 bb(310.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa(150.0f, 5.0f, 540.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb(240.0f, 35.0f, 545.0f); //임시 BoundingBox 좌표2
 
-	//D3DXVECTOR3 aa2(0.0f, 25.0f, 100.0f); //임시 BoundingBox 좌표1
-	//D3DXVECTOR3 bb2(10.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa2(150.0f, 5.0f, 185.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb2(240.0f, 35.0f, 190.0f); //임시 BoundingBox 좌표2
 
-	//D3DXVECTOR3 aa3(100.0f, 25.0f, 400.0f); //임시 BoundingBox 좌표1
-	//D3DXVECTOR3 bb3(210.0f, 35.0f, 410.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa3(130.0f, 5.0f, 220.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb3(135.0f, 35.0f, 510.0f); //임시 BoundingBox 좌표2
 
 
 	//wallManager->addWall(aa, bb); //새로 벽 추가하고 싶을땐 이렇게
+	//wallManager->addWall(aa2, bb2);
+	//wallManager->addWall(aa3, bb3);
 	//(aa가 수치가 작은 쪽 좌표, bb가 큰 쪽 좌표)
 
 	//wallManager->addSphereWall(aa, 10.0f);
@@ -318,6 +322,8 @@ void SceneHeightmap::Init()
 
 	m_pMenuUI = new MenuUI();
 	m_pMenuUI->Init();
+	m_pBulletUI = new BulletUI();
+	m_pBulletUI->Init();
 
 	SYSTEM_INFO sysInfo;
 	FILETIME ftime, fsys, fuser;
@@ -336,23 +342,23 @@ void SceneHeightmap::Init()
 	g_pCamera->mouseLock = true;
 	g_pSeqManager->Init();
 
-	std::fstream fp("resources/wall/SphereWall.txt");
+	/*std::fstream fp("resources/wall/SphereWall.txt");
 	int tempInt, tempFloat;
 	D3DXVECTOR3 tempVec(0.0f, 27.0f, 0.0f);
 	char inputString[100];
 	fp.getline(inputString, 100);
 	tempInt = std::atoi(inputString);
 	for (int i = 0; i < tempInt; i++) {
-		fp.getline(inputString, 100);
-		tempFloat = std::atof(inputString);
-		tempVec.x = tempFloat;
-		fp.getline(inputString, 100);
-		tempFloat = std::atof(inputString);
-		tempVec.z = tempFloat;
-		wallManager->addSphereWall(tempVec, 6.0f);
-		tempVecs[i] = tempVec;
+	fp.getline(inputString, 100);
+	tempFloat = std::atof(inputString);
+	tempVec.x = tempFloat;
+	fp.getline(inputString, 100);
+	tempFloat = std::atof(inputString);
+	tempVec.z = tempFloat;
+	wallManager->addSphereWall(tempVec, 6.0f);
+	tempVecs[i] = tempVec;
 	}
-	fp.close();
+	fp.close();*/
 }
 
 void SceneHeightmap::Update()
@@ -367,6 +373,7 @@ void SceneHeightmap::Update()
 		SAFE_UPDATE(m_pCrosshair);
 		SAFE_UPDATE(m_pScope);
 		SAFE_UPDATE(m_pTalk);
+		SAFE_UPDATE(m_pBulletUI);
 
 		g_pSoundManager->updateListener(g_pCamera->getPos());
 
@@ -417,16 +424,12 @@ void SceneHeightmap::Update()
 		}
 		}*/
 
-		bool isWallDx = false;
-		if (!g_pCamera->getFreeCameraMode()) {
+		/*if (!g_pCamera->getFreeCameraMode()) {
 			float dx1, dx2, dy1, dy2, wallDx;
 			const float distanceDiffBuffer = 0.3f;
 			const float heightDiffBuffer = 1.0f;
 			currentPos.x += distanceDiffBuffer;
 			isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
-			currentPos.x += distanceDiffBuffer * 3;
-			isIntersected = g_pCurrentMap->GetHeight(wallDx, currentPos);
-			currentPos.x -= distanceDiffBuffer * 4;
 			currentPos.z += distanceDiffBuffer;
 			isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
 			currentPos.z -= distanceDiffBuffer;
@@ -436,7 +439,6 @@ void SceneHeightmap::Update()
 			currentPos.z -= distanceDiffBuffer;
 			isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
 			currentPos.z += distanceDiffBuffer;
-			wallDx -= height;
 			dx1 -= height;
 			dy1 -= height;
 			dx2 -= height;
@@ -455,11 +457,8 @@ void SceneHeightmap::Update()
 			if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
 				cPosDiff.z = 0;
 			}
-			if (wallDx > heightDiffBuffer) {
-				isWallDx = true;
-			}
 			g_pCamera->setPos(m_pOldPos + cPosDiff);
-		}
+		}*/
 		currentPos = g_pCamera->getPos();
 		isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
 		currentPos.y = height + GSM().playerHeight;
@@ -467,15 +466,7 @@ void SceneHeightmap::Update()
 			currentPos.y += 61.5f;
 			currentPos.y += g_pCamera->getDeltaY();
 		}
-		/*else {
-		if (isWallDx) {
-		currentPos.y += 5.0f;
-		}
-		}*/
 		g_pCamera->setPos(currentPos);
-
-
-		OnUpdateIScene();
 
 		if (g_pCamera->getFreeCameraMode()) {
 			m_pCrosshairOn = false;
@@ -647,7 +638,7 @@ void SceneHeightmap::Update()
 				getHitBox = true;
 			}
 		}
-
+		D3DXVECTOR3 lookDirInverse(0.0f, 0.0f, 0.0f);
 		for (auto p : wallManager->getSphereWalls()) {
 			D3DXVECTOR3 wallPos = p->getCenter(); //벽 위치
 			D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
@@ -658,11 +649,88 @@ void SceneHeightmap::Update()
 			if (distance < (p->getSize() + 5.0f)) { //벽과의 거리가 너무 가까우면
 													//플레이어와 벽 사이의 벡터를 구해 그 역벡터를 구하고,
 													//가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
-				D3DXVECTOR3 lookDirInverse = -5.0f * lookDir / distance;
+				lookDirInverse = -10.0f * lookDir / distance;
 				lookDirInverse.y = 0; //y축 값은 필요없다.
 				g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
 			}
 		}
+
+		D3DXVECTOR3 posCorrection = g_pCamera->getPos();
+		if (!g_pCamera->getFreeCameraMode()) {
+			if (posCorrection.z > 540.0f) {
+				posCorrection.z = 540.0f;
+				posCorrection.x = min(posCorrection.x, 220.0f);
+			}
+			else if (posCorrection.z < 190.0f) {
+				posCorrection.z = 190.0f;
+				posCorrection.x = min(posCorrection.x, 224.0f);
+			}
+			else if (posCorrection.z > 530.0f && posCorrection.z <= 540.0f) {
+				posCorrection.x = min(posCorrection.x, 220.0f);
+			}
+			else if (posCorrection.z > 512.0f && posCorrection.z <= 530.0f) {
+				posCorrection.x = min(posCorrection.x, 240.0f - (posCorrection.z - 512.0f) * 1.11f);
+			}
+			else if (posCorrection.z > 480.0f && posCorrection.z <= 512.0f) {
+				posCorrection.x = min(posCorrection.x, 240.0f);
+			}
+			else if (posCorrection.z > 460.0f && posCorrection.z <= 480.0f) {
+				posCorrection.x = min(posCorrection.x, 228.0f + (posCorrection.z - 460.0f) * 0.6f);
+			}
+			else if (posCorrection.z > 440.0f && posCorrection.z <= 460.0f) {
+				posCorrection.x = min(posCorrection.x, 240.0f - (posCorrection.z - 440.0f) * 0.6f);
+			}
+			else if (posCorrection.z > 420.0f && posCorrection.z <= 440.0f) {
+				posCorrection.x = min(posCorrection.x, 240.0f);
+			}
+			else if (posCorrection.z > 402.0f && posCorrection.z <= 420.0f) {
+				posCorrection.x = min(posCorrection.x, 254.0f - (posCorrection.z - 402.0f) * 0.78f);
+			}
+			else if (posCorrection.z > 374.0f && posCorrection.z <= 402.0f) {
+				posCorrection.x = min(posCorrection.x, 254.0f);
+			}
+			else if (posCorrection.z > 360.0f && posCorrection.z <= 374.0f) {
+				posCorrection.x = min(posCorrection.x, 226.0f + (posCorrection.z - 360.0f) * 2.0f);
+			}
+			else if (posCorrection.z > 352.0f && posCorrection.z <= 360.0f) {
+				posCorrection.x = min(posCorrection.x, 226.0f);
+			}
+			else if (posCorrection.z > 326.0f && posCorrection.z <= 352.0f) {
+				posCorrection.x = min(posCorrection.x, 248.0f - (posCorrection.z - 326.0f) * 0.85f);
+			}
+			else if (posCorrection.z > 310.0f && posCorrection.z <= 326.0f) {
+				posCorrection.x = min(posCorrection.x, 248.0f);
+			}
+			else if (posCorrection.z > 299.0f && posCorrection.z <= 310.0f) {
+				posCorrection.x = min(posCorrection.x, 240.0f + (posCorrection.z - 299.0f) * 0.73f);
+			}
+			else if (posCorrection.z > 282.0f && posCorrection.z <= 299.0f) {
+				posCorrection.x = min(posCorrection.x, 257.0f - (posCorrection.z - 282.0f) * 1.0f);
+			}
+			else if (posCorrection.z > 265.0f && posCorrection.z <= 282.0f) {
+				posCorrection.x = min(posCorrection.x, 257.0f);
+			}
+			else if (posCorrection.z > 251.0f && posCorrection.z <= 265.0f) {
+				posCorrection.x = min(posCorrection.x, 251.0f + (posCorrection.z - 251.0f) * 0.43f);
+			}
+			else if (posCorrection.z > 240.0f && posCorrection.z <= 251.0f) {
+				posCorrection.x = min(posCorrection.x, 258.0f - (posCorrection.z - 240.0f) * 0.64f);
+			}
+			else if (posCorrection.z > 218.0f && posCorrection.z <= 240.0f) {
+				posCorrection.x = min(posCorrection.x, 258.0f);
+			}
+			else if (posCorrection.z > 195.0f && posCorrection.z <= 218.0f) {
+				posCorrection.x = min(posCorrection.x, 224.0f + (posCorrection.z - 195.0f) * 1.48f);
+			}
+			else if (posCorrection.x >= 190.0f && posCorrection.z <= 195.0f) {
+				posCorrection.x = min(posCorrection.x, 224.0f);
+			}
+
+			if (posCorrection.x < 135.0f) {
+				posCorrection.x = 135.0f;
+			}
+		}
+		g_pCamera->setPos(posCorrection);
 
 		m_pOldPos = g_pCamera->getPos();
 
@@ -681,11 +749,17 @@ void SceneHeightmap::Update()
 		//Debug->EndLine(); // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
 		Debug->AddText("잔탄 수 : ");
 		Debug->AddText(g_pCamera->getMagazine());
+		if (g_pCamera->getMagazine() == 5 && g_pCamera->getCooldown() > GetTickCount()) {
+			m_pBulletUI->bulletNum = 0;
+		}
+		else {
+			m_pBulletUI->bulletNum = g_pCamera->getMagazine();
+		}
 		Debug->EndLine();
 		/*Debug->AddText("SphereWalls 좌표들 : ");
 		for (int i = 0; i < 38; i++) {
-			Debug->AddText(tempVecs[i]);
-			Debug->EndLine();
+		Debug->AddText(tempVecs[i]);
+		Debug->EndLine();
 		}*/
 		/*Debug->AddText("Bounding Box Collision with Ray: ");
 		Debug->AddText(getHitBox);
@@ -696,6 +770,7 @@ void SceneHeightmap::Update()
 		/*Debug->AddText("volume(music) : ");
 		Debug->AddText(volume_music);
 		Debug->EndLine();*/
+		OnUpdateIScene();
 	}
 	else {
 		SAFE_UPDATE(m_pMenuUI);
@@ -711,7 +786,8 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_pUnit);
 	SAFE_RENDER(m_SkyBox);
 	SAFE_RENDER(m_minimap);
-	//m_CreateSmog->Render();
+	SAFE_RENDER(m_pBulletUI);
+	m_CreateSmog->Render();
 	//m_pPicking->Render();
 
 	//obj 관련

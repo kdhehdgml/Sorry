@@ -11,6 +11,9 @@ public:
 	//참호 판자
 	ObjRen*			m_MapTest[16];
 
+	ObjRen*			m_MapTest1[10];
+
+
 	//철조망
 	ObjRen*			m_BarbedWireT[53];
 
@@ -45,6 +48,8 @@ public:
 	//건물
 	ObjRen*			m_Apt[3];
 
+	//타일
+	ObjRen*			m_Tile[15];
 
 	void Init();
 	void Render();

@@ -10,18 +10,13 @@ if (waveCount != MAX_WAVE) waveCount++; else { stopUpdate = true; waveCount = 0;
 #define RESTART stopTime = false
 #define STAGE_END stopTime = true; roundStart = false
 
-#define READY_TIME 500
-#define WAVE_INTERVAL 650
+#define READY_TIME 200
+#define WAVE_INTERVAL 1000
 
 #define MAX_WAVE 5
 
-seqManager::seqManager()
-{
-}
-
-seqManager::~seqManager()
-{
-}
+seqManager::seqManager() {}
+seqManager::~seqManager() {}
 
 void seqManager::Init()
 {
@@ -38,6 +33,7 @@ void seqManager::Init()
 	spawnCheck = false;
 
 	stopUpdate = true;
+	isMusicPlay = false;
 }
 
 void seqManager::Update()
@@ -130,6 +126,12 @@ void seqManager::Level(int stage, int round)
 		case 1:
 			// 라운드 1 ==================================================
 
+			if (!isMusicPlay)
+			{
+				//g_pSoundManager->playMusic(2);
+				isMusicPlay = true;
+			}
+
 			switch (waveCount)
 			{
 			case 0:
@@ -138,7 +140,59 @@ void seqManager::Level(int stage, int round)
 			case 1: 
 				// 웨이브 1 ==============================================
 
-				SPAWN(6);
+				SPAWN(9);
+
+				waveControl;
+				// =======================================================
+				break;
+			case 2: 
+				// 웨이브 2 ==============================================
+
+				SPAWN(9);
+
+				waveControl;
+				// =======================================================
+				break;
+			case 3:
+				// 웨이브 3 ==============================================
+
+				SPAWN(11);
+
+				waveControl;
+				// =======================================================
+				break;
+			case 4:
+				// 웨이브 3 ==============================================
+
+				SPAWN(13);
+
+				waveControl;
+				// =======================================================
+				break;
+			case 5:
+				// 웨이브 3 ==============================================
+
+				SPAWN(15);
+
+				waveControl;
+				// =======================================================
+				break;
+			}
+
+			// ===========================================================
+			break;
+		case 2:
+			// 라운드 2 ==================================================
+
+			switch (waveCount)
+			{
+			case 0:
+				waveCount++;
+				break;
+			case 1: 
+				// 웨이브 1 ==============================================
+
+				SPAWN(9);
 
 				waveControl;
 				// =======================================================
@@ -179,58 +233,6 @@ void seqManager::Level(int stage, int round)
 
 			// ===========================================================
 			break;
-		case 2:
-			// 라운드 2 ==================================================
-
-			switch (waveCount)
-			{
-			case 0:
-				waveCount++;
-				break;
-			case 1:
-				// 웨이브 1 ==============================================
-
-				SPAWN(6);
-
-				waveControl;
-				// =======================================================
-				break;
-			case 2:
-				// 웨이브 2 ==============================================
-
-				SPAWN(10);
-
-				waveControl;
-				// =======================================================
-				break;
-			case 3:
-				// 웨이브 3 ==============================================
-
-				SPAWN(15);
-
-				waveControl;
-				// =======================================================
-				break;
-			case 4:
-				// 웨이브 3 ==============================================
-
-				SPAWN(15);
-
-				waveControl;
-				// =======================================================
-				break;
-			case 5:
-				// 웨이브 3 ==============================================
-
-				SPAWN(15);
-
-				waveControl;
-				// =======================================================
-				break;
-			}
-
-			// ===========================================================
-			break;
 		case 3:
 			// 라운드 3 ==================================================
 
@@ -242,7 +244,7 @@ void seqManager::Level(int stage, int round)
 			case 1:
 				// 웨이브 1 ==============================================
 
-				SPAWN(6);
+				SPAWN(9);
 
 				waveControl;
 				// =======================================================
@@ -258,7 +260,7 @@ void seqManager::Level(int stage, int round)
 			case 3:
 				// 웨이브 3 ==============================================
 
-				SPAWN(15);
+				SPAWN(12);
 
 				waveControl;
 				// =======================================================
@@ -266,7 +268,7 @@ void seqManager::Level(int stage, int round)
 			case 4:
 				// 웨이브 3 ==============================================
 
-				SPAWN(15);
+				SPAWN(14);
 
 				waveControl;
 				// =======================================================
@@ -274,7 +276,7 @@ void seqManager::Level(int stage, int round)
 			case 5:
 				// 웨이브 3 ==============================================
 
-				SPAWN(15);
+				SPAWN(17);
 
 				waveControl;
 				// =======================================================

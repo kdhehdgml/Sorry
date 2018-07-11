@@ -41,7 +41,10 @@ Mob::Mob()
 Mob::~Mob()
 {
 	//m_pRootParts->ReleaseAll();
-	SAFE_RELEASE(m_MONSTER);
+	if (GSM().Debug_Mode == true)
+	{
+		SAFE_RELEASE(m_MONSTER);
+	}
 	SAFE_RELEASE(m_pSphereBody);
 	SAFE_RELEASE(m_pSphereHead);
 	SAFE_DELETE(m_pBoundingSphereBody);
@@ -57,14 +60,20 @@ void Mob::Init()
 	D3DXCreateSphere(g_pDevice, 2.7f, 10, 10, &m_pSphereBody, NULL);
 	m_pBoundingSphereBody = new BoundingSphere(m_pos, 2.7f);
 
-	m_MONSTER = new MONSTER;
-	m_MONSTER->Init();
+	if (GSM().Debug_Mode == true)
+	{
+		m_MONSTER = new MONSTER;
+		m_MONSTER->Init();
+	}
+
 	SaveAction();
 	Act_GunShot();
 	m_moveSpeed = GSM().mobSpeed;
 
 	m_Death_count = 0;
 	m_Death_Time = 0;
+
+	deathShout = false;
 }
 
 void Mob::Update()
@@ -86,12 +95,18 @@ void Mob::Update()
 			m_Death = true;
 			//m_pos = { 0,-1000,0 };
 		}
-
+		if (!deathShout)
+		{
+			g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
+			deathShout = true;
+		}
 	}
 	SelectAction();
 
 	if (status > 0) {
-
+		
+		deathShout = false;
+		
 		m_Death = false;
 		Act_Moving();
 
@@ -138,6 +153,10 @@ void Mob::Update()
 			D3DXVec3Normalize(&forwardNor, &forwardNor);
 			m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2));
 		}
+		Debug->AddText(m_avoidObstDir);
+		Debug->AddText("  ");
+		Debug->AddText(m_colision);
+		Debug->EndLine();
 	}
 	Act_Action();
 
@@ -152,18 +171,22 @@ void Mob::Update()
 	//Debug->EndLine();
 	//m_angle = acos((m_pos.x * m_destPos.x)+(m_pos.y * m_destPos.y)+(m_pos.z * m_destPos.z));
 
-	//카메라 범위안에 왔을때
-	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+	if (GSM().Debug_Mode)
 	{
-		if (status != 0)
+		//카메라 범위안에 왔을때
+		if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 		{
-			m_MONSTER->SetPos(m_pos);
-			m_MONSTER->SetAngle(m_angle);//각도받아옴
-		}
+			if (status != 0)
+			{
+				m_MONSTER->SetPos(m_pos);
+				m_MONSTER->SetAngle(m_angle);//각도받아옴
+			}
 
-		m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
-		m_MONSTER->Update();//업데이트
+			m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
+			m_MONSTER->Update();//업데이트
+		}
 	}
+
 }
 
 void Mob::Render()
@@ -209,10 +232,14 @@ void Mob::Render()
 		
 	}
 	//if ()
-	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+
+	if (GSM().Debug_Mode)
 	{
-		m_MONSTER->SetRenderSTATE(true);
-		m_MONSTER->Render();
+		if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+		{
+			m_MONSTER->SetRenderSTATE(true);
+			m_MONSTER->Render();
+		}
 	}
 }
 
@@ -467,8 +494,9 @@ MOB_SITUATION Mob::TrenchFight()
 {
 	moveLocation.clear();
 	SaveLocationNum.clear();
-	float nearAI = 150;
+	float nearAI = 200;
 	int AINum = NULL;
+	m_DestTime++;
 	//가까운놈 찾기(Min찾는방식)
 	for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_TEAM).size(); i++)
 	{
@@ -482,6 +510,7 @@ MOB_SITUATION Mob::TrenchFight()
 			}
 		}
 	}
+	
 	if (AINum != NULL)
 	{
 		m_Setdest = true;
@@ -492,12 +521,16 @@ MOB_SITUATION Mob::TrenchFight()
 		D3DCOLOR d = D3DCOLOR_XRGB(0, 255, 0);
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
-		m_DestTime++;
-		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f && m_DestTime > 300)
+		
+		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f)
 		{
-			SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
-			m_DestTime = 0;
-			return 근접_거리안닿음;
+			m_moveSpeed = GSM().mobSpeed;
+			if (m_DestTime > 300)
+			{
+				SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
+				m_DestTime = 0;
+				return 근접_거리안닿음;
+			}
 		}
 		else
 		{
@@ -594,7 +627,7 @@ void Mob::Shooting()
 				m_ShootCooldownTime++;
 				if (m_ShootCooldownTime > 100)
 				{
-					float kill = rand() % 20;
+					int kill = rand() % 20;
 					if (kill < 3 && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
 					{
 						/*int damage = rand() % 10;
@@ -604,15 +637,16 @@ void Mob::Shooting()
 						}
 						else*/
 						{
-							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(50);
+							kill = rand() % 15;
+							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(10 + kill);
 						}
 					}
 					m_ShootCooldownTime = 0;
 					m_shootingbullet--;
 					m_bullet--;
 
-					int r5 = rand() % 5;
-					g_pSoundManager->updateSpeaker(r5 + 2, m_pos);
+					kill = rand() % 5;
+					g_pSoundManager->updateSpeaker(sType::SHOOT, kill + 2, m_pos);
 				}
 			}
 		}
@@ -686,6 +720,8 @@ void Mob::ResetAll()
 	m_forward.z = -1;
 	m_move = false;
 	num = 0;
+	m_colision = 0;
+	m_avoidObstDir = 0;
 	m_shootingbullet = false;
 	health = 100;
 	status = 1;

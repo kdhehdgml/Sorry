@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GSM.h"
 
+
+
 /*
 	[ 키보드 설정 ]
 
@@ -44,6 +46,7 @@ GSM::GSM()
 	// SCENE_OBJMAP        //
 	// SCENE_TEST          //
 	// SCENE_XFILE         //
+	// SCENE_MAIN          //
 
 	// 맵 크기
 	mapSize = 750.0f;
@@ -65,7 +68,7 @@ GSM::GSM()
 	mobPos.z = NODE_POSITSIZEZ;
 
 	// 몹 속도
-	mobSpeed = 0.25f;
+	mobSpeed = 0.2f;
 
 	// 사운드 초기 볼륨
 	volume_music_init = 5.0f;
@@ -75,6 +78,8 @@ GSM::GSM()
 	//reload_all = 180;
 	reload_one = 1750;
 	reload_all = 3000;
+
+	Debug_Mode = true;
 }
 
 
