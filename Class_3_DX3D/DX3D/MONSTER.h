@@ -57,6 +57,9 @@ protected:
 	bool						STATE;
 
 
+	D3DXMATRIXA16				m_gun_mat;
+	D3DXVECTOR3					m_gun_pos;
+
 public:
 	MONSTER();
 	~MONSTER();
@@ -74,6 +77,9 @@ public:
 	void SetMatT(D3DXMATRIXA16 T) { matT = T; }
 	//기본적으로 우측을 보고있어서 돌려줌
 	void SetAngle(float angle) { m_angle = angle; }
+
+	D3DXVECTOR3 GetGunPos() { return m_gun_pos; }
+	D3DXMATRIXA16 GetGunMat() { return m_gun_mat; }
 
 private:
 	void SetupBoneMatrixPointers(LPD3DXFRAME pFrame);

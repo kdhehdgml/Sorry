@@ -50,6 +50,7 @@ void SceneXfile::Update()
 	
 	m_pSkinnedMesh->Update();
 	m_GUN->SetPos(m_pSkinnedMesh->GetGunPos());
+	//m_GUN->SetMat(&m_pSkinnedMesh->GetGunMat());
 	m_GUN->Update();
 
 	Debug->EndLine();

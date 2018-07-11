@@ -3,6 +3,7 @@
 #include "CubemanParts.h"
 #include "MONSTER.h"
 #include "UnitBox.h"
+#include "GUN.h"
 
 #define DEATH_TIME 10000
 
@@ -35,6 +36,8 @@ Mob::Mob()
 	m_angle = 0;
 
 	m_Death = false;
+
+	m_GUN = NULL;
 }
 
 
@@ -44,6 +47,7 @@ Mob::~Mob()
 	if (!GSM().Debug_Mode_On)
 	{
 		SAFE_RELEASE(m_MONSTER);
+		SAFE_RELEASE(m_GUN);
 	}
 	SAFE_RELEASE(m_pSphereBody);
 	SAFE_RELEASE(m_pSphereHead);
@@ -64,6 +68,8 @@ void Mob::Init()
 	{
 		m_MONSTER = new MONSTER;
 		m_MONSTER->Init();
+		m_GUN = new GUN;
+		m_GUN->Init();
 	}
 
 	SaveAction();
@@ -184,6 +190,9 @@ void Mob::Update()
 
 			m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
 			m_MONSTER->Update();//업데이트
+			m_GUN->SetPos(m_MONSTER->GetGunPos());
+			m_GUN->SetAngle(m_angle);
+			m_GUN->Update();
 		}
 	}
 
@@ -239,6 +248,7 @@ void Mob::Render()
 		{
 			m_MONSTER->SetRenderSTATE(true);
 			m_MONSTER->Render();
+			m_GUN->Render();
 		}
 	}
 }

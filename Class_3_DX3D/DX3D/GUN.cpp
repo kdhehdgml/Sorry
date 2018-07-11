@@ -3,7 +3,7 @@
 #include "AllocateHierarchy.h"
 
 // 스킨 사이즈 조절
-#define SCALE 1.00f
+#define SCALE 0.03f
 
 
 GUN::GUN()
@@ -47,7 +47,7 @@ void GUN::Init()
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
-	m_angle = D3DX_PI / 2;
+	m_angle = D3DX_PI/2;
 
 
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);

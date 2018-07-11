@@ -2,7 +2,7 @@
 #include "SkinnedMesh.h"
 #include "AllocateHierarchy.h"
 
-#define SCALE 0.1f
+#define SCALE 1.0f
 
 SkinnedMesh::SkinnedMesh()
 {
@@ -39,8 +39,11 @@ void SkinnedMesh::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/test_team/test/";
-	CString filename = "TEAM_melee.X";
+	//CString path = "resources/xFile/test_mob/body/";
+	//CString filename = "mob2.X";
+
+	CString path = "resources/xFile/MONSTER_AI/";
+	CString filename = "MOB_ANI_ALL2.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -61,6 +64,7 @@ void SkinnedMesh::Load(LPCTSTR path, LPCTSTR filename)
 // 각 프레임의 매시 컨테이너에 있는 pSkinInfo를 이용하여 
 // 현재 매쉬에 영향을 주는 프레임들의 월드행렬 포인터를 연결 
 //Called to setup the pointers for a given bone to its transformation matrix
+
 void SkinnedMesh::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
 {
 	if (pFrame->pMeshContainer != NULL)
@@ -191,11 +195,26 @@ void SkinnedMesh::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 
-	if (pFrame->Name != NULL &&  strcmp( pFrame->Name, "Bip01_L_Hand") == 0)
-	{
-		pFrameEx->CombinedTM  =  pFrameEx->CombinedTM * m_matWorld;
-		m_gun_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
-	}
+	//Bip01_Head  = 목부근부터 얼굴 사이에있는 본 
+	//bone_slot2_headgear 3d 맥스상 투구 좌표 그러나 여기선 아에 못불러옴
+	//Bip01_R_Hand =  손목
+	//Bip01_L_Finger1 = 왼쪽 검지 첫마디
+	//Bip01_L_Finger2 = 왼쪽 검지 두번쨰마디
+	/*
+	mixamorig_RightArm
+	mixamorig_RightHand
+	mixamorig_RightHandThumb1
+	mixamorig_RightHandIndex1
+	mixamorig_RightPinky3
+	mixamorig_RightRing2
+	*/
+	// "mixamorig_RightHandPinky2";
+	//if (pFrame->Name != NULL &&  strcmp( pFrame->Name, "mixamorig_LeftHandMiddle1") == 0)
+	//{
+	//	pFrameEx->CombinedTM  =  pFrameEx->CombinedTM * m_matWorld;
+	//	m_gun_mat = pFrameEx->CombinedTM;
+	//	m_gun_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	//}
 
 	if (pParent != NULL)
 	{

@@ -1,6 +1,7 @@
 #pragma once
 #include "IUnitObject.h"
 class MONSTER;
+class GUN;
 
 enum ANI_STATE_MOB
 {
@@ -68,6 +69,7 @@ class Mob
 {
 private:
 	MONSTER * m_MONSTER;
+	GUN*		m_GUN;
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
 

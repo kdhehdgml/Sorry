@@ -224,7 +224,12 @@ void MONSTER::UpdateAnim()
 void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
-
+	if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_LeftHandMiddle1") == 0)
+	{
+		pFrameEx->CombinedTM = pFrameEx->CombinedTM * m_matWorld;
+		m_gun_mat = pFrameEx->CombinedTM;
+		m_gun_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	}
 	if (pParent != NULL)
 	{
 		pFrameEx->CombinedTM = pFrameEx->TransformationMatrix * ((FRAME_EX*)pParent)->CombinedTM;
