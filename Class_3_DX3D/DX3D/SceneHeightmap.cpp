@@ -155,7 +155,7 @@ void SceneHeightmap::Init()
 
 
 	m_pHeightMap->SetMtlTex(mtl,
-		g_pTextureManager->GetTexture(L"resources/heightmap/terrainBF.png"));
+		g_pTextureManager->GetTexture(L"resources/heightmap/terrainBF2.png"));
 
 	g_pMapManager->AddMap("heightmap", m_pHeightMap);
 	g_pMapManager->SetCurrentMap("heightmap");
