@@ -71,6 +71,8 @@ private:
 	int m_Death_Time;
 	bool m_Death;
 
+	// 사운드 처리용 변수
+	bool deathShout;
 
 public:
 	TeamAI();

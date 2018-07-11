@@ -65,6 +65,8 @@ void Mob::Init()
 
 	m_Death_count = 0;
 	m_Death_Time = 0;
+
+	deathShout = false;
 }
 
 void Mob::Update()
@@ -86,12 +88,18 @@ void Mob::Update()
 			m_Death = true;
 			m_pos = { 1000,-5000,1000 };
 		}
-
+		if (!deathShout)
+		{
+			g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
+			deathShout = true;
+		}
 	}
 	SelectAction();
 
 	if (status > 0) {
-
+		
+		deathShout = false;
+		
 		m_Death = false;
 		Act_Moving();
 
@@ -601,7 +609,7 @@ void Mob::Shooting()
 				m_ShootCooldownTime++;
 				if (m_ShootCooldownTime > 100)
 				{
-					float kill = rand() % 20;
+					int kill = rand() % 20;
 					if (kill < 3 && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
 					{
 						/*int damage = rand() % 10;
@@ -611,15 +619,16 @@ void Mob::Shooting()
 						}
 						else*/
 						{
-							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(50);
+							kill = rand() % 15;
+							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(10 + kill);
 						}
 					}
 					m_ShootCooldownTime = 0;
 					m_shootingbullet--;
 					m_bullet--;
 
-					int r5 = rand() % 5;
-					g_pSoundManager->updateSpeaker(r5 + 2, m_pos);
+					kill = rand() % 5;
+					g_pSoundManager->updateSpeaker(sType::SHOOT, kill + 2, m_pos);
 				}
 			}
 		}

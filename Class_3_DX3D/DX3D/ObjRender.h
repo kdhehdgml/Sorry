@@ -45,6 +45,8 @@ public:
 	//건물
 	ObjRen*			m_Apt[3];
 
+	//타일
+	ObjRen*			m_Tile[15];
 
 	void Init();
 	void Render();

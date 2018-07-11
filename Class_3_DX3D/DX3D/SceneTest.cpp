@@ -48,11 +48,17 @@ void SceneTest::Init()
 
 void SceneTest::Update()
 {
-	g_pSeqManager->Update();
+	//g_pSeqManager->Update();
 	
+	g_pSoundManager->updateListener(g_pCamera->getPos());
+
 	if (GetKeyState('1') & 0x8000)
 	{
-		g_pSoundManager->effectSound(0);
+		g_pSoundManager->playMusic(1);
+	}
+	if (GetKeyState('2') & 0x8000)
+	{
+		g_pSoundManager->playMusic(2);
 	}
 
 	OnUpdateIScene();

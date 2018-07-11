@@ -44,6 +44,7 @@ GSM::GSM()
 	// SCENE_OBJMAP        //
 	// SCENE_TEST          //
 	// SCENE_XFILE         //
+	// SCENE_MAIN          //
 
 	// ¸Ê Å©±â
 	mapSize = 750.0f;
@@ -65,7 +66,7 @@ GSM::GSM()
 	mobPos.z = NODE_POSITSIZEZ;
 
 	// ¸÷ ¼Óµµ
-	mobSpeed = 0.25f;
+	mobSpeed = 0.2f;
 
 	// »ç¿îµå ÃÊ±â º¼·ý
 	volume_music_init = 5.0f;

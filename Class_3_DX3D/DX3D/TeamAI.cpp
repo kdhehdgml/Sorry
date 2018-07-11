@@ -24,14 +24,15 @@ TeamAI::TeamAI()
 	m_pSphere = NULL;
 	health = 100;
 	status = 1;
-	m_render = false;
+	m_render = true;
 	m_bullet = 5;
 	m_angle = D3DX_PI / 2;
 	m_def = 0;
 	ani_state = 서서기본자세;
 	m_Ready = true;
 	m_Death = false;
-
+	
+	deathShout = false;
 }
 
 
@@ -78,10 +79,17 @@ void TeamAI::Update()
 			m_Death = true;
 			m_pos = { 2000,10,2000 };
 		}
+		if (!deathShout)
+		{
+			g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
+			deathShout = true;
+		}
 	}
 	Animation();
 
 	if (status > 0) {
+
+		deathShout = false;
 
 		m_Death = false;
 		if (D3DXVec3Length(&(m_finalDestPos - m_pos)) <= 5.0f)
@@ -136,10 +144,9 @@ void TeamAI::Update()
 				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)));
 			}
 		}
-		Debug->AddText("아군 체력 : ");
+		Debug->AddText("아군 체력: ");
 		Debug->AddText(health);
-		Debug->EndLine();
-		Debug->AddText("총알수 : ");
+		Debug->AddText(" / 총알수: ");
 		Debug->AddText(m_bullet);
 		Debug->EndLine();
 	}
@@ -392,8 +399,8 @@ void TeamAI::Shooting()
 	m_ShootCooldownTime++;
 	if (m_ShootCooldownTime > 100)
 	{
-		float kill = rand() % 10;
-		if (kill < 5 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
+		int kill = rand() % 10;
+		if (kill < 4 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
 		{
 			/*int damage = rand() % 10;
 			if (damage < 3)
@@ -402,14 +409,14 @@ void TeamAI::Shooting()
 			}
 			else*/
 			{
-				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth
-				(50);
+				kill = rand() % 30;
+				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth(20 + kill);
 			}
 			m_bullet--;
 
 			// 3D 사운드
-			int r2 = rand() % 2;
-			g_pSoundManager->updateSpeaker(r2, m_pos);
+			kill = rand() % 2;
+			g_pSoundManager->updateSpeaker(sType::SHOOT, kill, m_pos);
 		}
 		m_ShootCooldownTime = 0;
 	}
