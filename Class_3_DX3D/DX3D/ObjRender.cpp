@@ -151,16 +151,16 @@ void ObjRender::Init()
 	CREATE_OBJ(m_MapTest[14], 11.8f, WoodenBarrier, WoodenBarrierPartTest13.obj, woodTex.png, 176.0f, 13.6f, 145.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_MapTest[15], 9.8f, WoodenBarrier, WoodenBarrierPartTest14.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
 
-	CREATE_OBJ(m_MapTest1[0], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
-	CREATE_OBJ(m_MapTest1[1], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
-	CREATE_OBJ(m_MapTest1[2], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
-	CREATE_OBJ(m_MapTest1[3], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
-	CREATE_OBJ(m_MapTest1[4], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
-	CREATE_OBJ(m_MapTest1[5], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
-	CREATE_OBJ(m_MapTest1[6], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
-	CREATE_OBJ(m_MapTest1[7], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
-	CREATE_OBJ(m_MapTest1[8], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
-	CREATE_OBJ(m_MapTest1[9], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[0], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 218.0f, 16.4f, 544.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[1], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 224.0f, 16.9f, 564.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2 - 1.9f, 0.0f);
+	CREATE_OBJ(m_MapTest1[2], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 202.0f, 16.9f, 564.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 + 1.9f, 0.0f);
+	CREATE_OBJ(m_MapTest1[3], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 174.0f, 16.9f, 591.0f, D3DX_PI / 2 + 0.2f, -0.9f, 0.0f);
+	CREATE_OBJ(m_MapTest1[4], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 153.0f, 16.9f, 585.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 + 1.9f, 0.0f);
+	CREATE_OBJ(m_MapTest1[5], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 237.0f, 16.9f, 602.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 + 2.1f, 0.0f);
+	CREATE_OBJ(m_MapTest1[6], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[7], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[8], 5.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[9], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
 
 
 	//Ã¶Á¶¸Á
