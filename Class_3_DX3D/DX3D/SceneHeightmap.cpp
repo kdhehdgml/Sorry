@@ -419,49 +419,41 @@ void SceneHeightmap::Update()
 		}
 		}*/
 
-		/*bool isWallDx = false;
 		if (!g_pCamera->getFreeCameraMode()) {
-		float dx1, dx2, dy1, dy2, wallDx;
-		const float distanceDiffBuffer = 0.3f;
-		const float heightDiffBuffer = 1.0f;
-		currentPos.x += distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
-		currentPos.x += distanceDiffBuffer * 3;
-		isIntersected = g_pCurrentMap->GetHeight(wallDx, currentPos);
-		currentPos.x -= distanceDiffBuffer * 4;
-		currentPos.z += distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
-		currentPos.z -= distanceDiffBuffer;
-		currentPos.x -= distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
-		currentPos.x += distanceDiffBuffer;
-		currentPos.z -= distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
-		currentPos.z += distanceDiffBuffer;
-		wallDx -= height;
-		dx1 -= height;
-		dy1 -= height;
-		dx2 -= height;
-		dy2 -= height;
-		D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
-		cPosDiff.y = 0;
-		if (dx1 > heightDiffBuffer && cPosDiff.x > 0) {
-		cPosDiff.x = 0;
+			float dx1, dx2, dy1, dy2, wallDx;
+			const float distanceDiffBuffer = 0.3f;
+			const float heightDiffBuffer = 1.0f;
+			currentPos.x += distanceDiffBuffer;
+			isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
+			currentPos.z += distanceDiffBuffer;
+			isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
+			currentPos.z -= distanceDiffBuffer;
+			currentPos.x -= distanceDiffBuffer;
+			isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
+			currentPos.x += distanceDiffBuffer;
+			currentPos.z -= distanceDiffBuffer;
+			isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
+			currentPos.z += distanceDiffBuffer;
+			dx1 -= height;
+			dy1 -= height;
+			dx2 -= height;
+			dy2 -= height;
+			D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
+			cPosDiff.y = 0;
+			if (dx1 > heightDiffBuffer && cPosDiff.x > 0) {
+				cPosDiff.x = 0;
+			}
+			if (dy1 > heightDiffBuffer && cPosDiff.z > 0) {
+				cPosDiff.z = 0;
+			}
+			if (dx2 > heightDiffBuffer && cPosDiff.x < 0) {
+				cPosDiff.x = 0;
+			}
+			if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
+				cPosDiff.z = 0;
+			}
+			g_pCamera->setPos(m_pOldPos + cPosDiff);
 		}
-		if (dy1 > heightDiffBuffer && cPosDiff.z > 0) {
-		cPosDiff.z = 0;
-		}
-		if (dx2 > heightDiffBuffer && cPosDiff.x < 0) {
-		cPosDiff.x = 0;
-		}
-		if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
-		cPosDiff.z = 0;
-		}
-		if (wallDx > heightDiffBuffer) {
-		isWallDx = true;
-		}
-		g_pCamera->setPos(m_pOldPos + cPosDiff);
-		}*/
 		currentPos = g_pCamera->getPos();
 		isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
 		currentPos.y = height + GSM().playerHeight;
