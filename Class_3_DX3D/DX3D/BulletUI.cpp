@@ -52,6 +52,9 @@ void BulletUI::Render()
 	g_pDevice->SetTexture(0, NULL);
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	m_pSprite->SetTransform(&m_matWorld);
-	SAFE_RENDER(m_pRootUI);
+	//SAFE_RENDER(m_pRootUI);
+	for (int i = 0; i < bulletNum; i++) {
+		SAFE_RENDER(m_pBullets[i]);
+	}
 	m_pSprite->End();
 }
