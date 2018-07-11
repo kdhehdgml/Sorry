@@ -371,6 +371,7 @@
     <ClInclude Include="SphereWall.h">
       <Filter>소스 파일\Wall</Filter>
     </ClInclude>
+    <ClInclude Include="BulletUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -637,6 +638,7 @@
     <ClCompile Include="SphereWall.cpp">
       <Filter>소스 파일\Wall</Filter>
     </ClCompile>
+    <ClCompile Include="BulletUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

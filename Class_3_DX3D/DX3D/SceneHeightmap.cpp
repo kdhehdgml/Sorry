@@ -419,48 +419,40 @@ void SceneHeightmap::Update()
 		}
 		}*/
 
-		/*bool isWallDx = false;
-		if (!g_pCamera->getFreeCameraMode()) {
-		float dx1, dx2, dy1, dy2, wallDx;
-		const float distanceDiffBuffer = 0.3f;
-		const float heightDiffBuffer = 1.0f;
-		currentPos.x += distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
-		currentPos.x += distanceDiffBuffer * 3;
-		isIntersected = g_pCurrentMap->GetHeight(wallDx, currentPos);
-		currentPos.x -= distanceDiffBuffer * 4;
-		currentPos.z += distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
-		currentPos.z -= distanceDiffBuffer;
-		currentPos.x -= distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
-		currentPos.x += distanceDiffBuffer;
-		currentPos.z -= distanceDiffBuffer;
-		isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
-		currentPos.z += distanceDiffBuffer;
-		wallDx -= height;
-		dx1 -= height;
-		dy1 -= height;
-		dx2 -= height;
-		dy2 -= height;
-		D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
-		cPosDiff.y = 0;
-		if (dx1 > heightDiffBuffer && cPosDiff.x > 0) {
-		cPosDiff.x = 0;
-		}
-		if (dy1 > heightDiffBuffer && cPosDiff.z > 0) {
-		cPosDiff.z = 0;
-		}
-		if (dx2 > heightDiffBuffer && cPosDiff.x < 0) {
-		cPosDiff.x = 0;
-		}
-		if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
-		cPosDiff.z = 0;
-		}
-		if (wallDx > heightDiffBuffer) {
-		isWallDx = true;
-		}
-		g_pCamera->setPos(m_pOldPos + cPosDiff);
+		/*if (!g_pCamera->getFreeCameraMode()) {
+			float dx1, dx2, dy1, dy2, wallDx;
+			const float distanceDiffBuffer = 0.3f;
+			const float heightDiffBuffer = 1.0f;
+			currentPos.x += distanceDiffBuffer;
+			isIntersected = g_pCurrentMap->GetHeight(dx1, currentPos);
+			currentPos.z += distanceDiffBuffer;
+			isIntersected = g_pCurrentMap->GetHeight(dy1, currentPos);
+			currentPos.z -= distanceDiffBuffer;
+			currentPos.x -= distanceDiffBuffer;
+			isIntersected = g_pCurrentMap->GetHeight(dx2, currentPos);
+			currentPos.x += distanceDiffBuffer;
+			currentPos.z -= distanceDiffBuffer;
+			isIntersected = g_pCurrentMap->GetHeight(dy2, currentPos);
+			currentPos.z += distanceDiffBuffer;
+			dx1 -= height;
+			dy1 -= height;
+			dx2 -= height;
+			dy2 -= height;
+			D3DXVECTOR3 cPosDiff = currentPos - m_pOldPos;
+			cPosDiff.y = 0;
+			if (dx1 > heightDiffBuffer && cPosDiff.x > 0) {
+				cPosDiff.x = 0;
+			}
+			if (dy1 > heightDiffBuffer && cPosDiff.z > 0) {
+				cPosDiff.z = 0;
+			}
+			if (dx2 > heightDiffBuffer && cPosDiff.x < 0) {
+				cPosDiff.x = 0;
+			}
+			if (dy2 > heightDiffBuffer && cPosDiff.z < 0) {
+				cPosDiff.z = 0;
+			}
+			g_pCamera->setPos(m_pOldPos + cPosDiff);
 		}*/
 		currentPos = g_pCamera->getPos();
 		isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
@@ -641,8 +633,6 @@ void SceneHeightmap::Update()
 				getHitBox = true;
 			}
 		}
-
-		float minDistanceSphereWall = 9999999.0f;
 		D3DXVECTOR3 lookDirInverse(0.0f, 0.0f, 0.0f);
 		for (auto p : wallManager->getSphereWalls()) {
 			D3DXVECTOR3 wallPos = p->getCenter(); //벽 위치
@@ -651,9 +641,6 @@ void SceneHeightmap::Update()
 			D3DXVECTOR3 lookDir;
 			D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
 			float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //벽과의 거리 계산
-			if (distance < minDistanceSphereWall) {
-				minDistanceSphereWall = distance; //가장 가까운 아군과의 거리만 남긴다
-			}
 			if (distance < (p->getSize() + 5.0f)) { //벽과의 거리가 너무 가까우면
 													//플레이어와 벽 사이의 벡터를 구해 그 역벡터를 구하고,
 													//가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
@@ -663,16 +650,17 @@ void SceneHeightmap::Update()
 			}
 		}
 
-
 		D3DXVECTOR3 posCorrection = g_pCamera->getPos();
 		if (!g_pCamera->getFreeCameraMode()) {
 			if (posCorrection.z > 540.0f) {
 				posCorrection.z = 540.0f;
+				posCorrection.x = min(posCorrection.x, 220.0f);
 			}
 			else if (posCorrection.z < 190.0f) {
 				posCorrection.z = 190.0f;
+				posCorrection.x = min(posCorrection.x, 224.0f);
 			}
-			else if (posCorrection.z > 530.0f && posCorrection.z <= 550.0f) {
+			else if (posCorrection.z > 530.0f && posCorrection.z <= 540.0f) {
 				posCorrection.x = min(posCorrection.x, 220.0f);
 			}
 			else if (posCorrection.z > 512.0f && posCorrection.z <= 530.0f) {
@@ -729,7 +717,7 @@ void SceneHeightmap::Update()
 			else if (posCorrection.z > 195.0f && posCorrection.z <= 218.0f) {
 				posCorrection.x = min(posCorrection.x, 224.0f + (posCorrection.z - 195.0f) * 1.48f);
 			}
-			else if (posCorrection.x >= 180.0f && posCorrection.z <= 195.0f) {
+			else if (posCorrection.x >= 190.0f && posCorrection.z <= 195.0f) {
 				posCorrection.x = min(posCorrection.x, 224.0f);
 			}
 
