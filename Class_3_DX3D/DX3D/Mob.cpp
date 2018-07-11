@@ -4,6 +4,7 @@
 #include "MONSTER.h"
 #include "UnitBox.h"
 #include "GUN.h"
+#include "SHOVEL.h"
 
 #define DEATH_TIME 10000
 
@@ -37,7 +38,10 @@ Mob::Mob()
 
 	m_Death = false;
 
+	//½ºÅ²Á¤º¸
 	m_GUN = NULL;
+	m_SHOVEL = NULL;
+	Weapon_Mode = ¸Ç¼Õ;
 }
 
 
@@ -48,6 +52,7 @@ Mob::~Mob()
 	{
 		SAFE_RELEASE(m_MONSTER);
 		SAFE_RELEASE(m_GUN);
+		SAFE_RELEASE(m_SHOVEL);
 	}
 	SAFE_RELEASE(m_pSphereBody);
 	SAFE_RELEASE(m_pSphereHead);
@@ -70,6 +75,8 @@ void Mob::Init()
 		m_MONSTER->Init();
 		m_GUN = new GUN;
 		m_GUN->Init();
+		m_SHOVEL = new SHOVEL;
+		m_SHOVEL->Init();
 	}
 
 	SaveAction();
@@ -111,6 +118,8 @@ void Mob::Update()
 
 	if (status > 0) {
 		
+		
+
 		deathShout = false;
 		
 		m_Death = false;
@@ -190,9 +199,22 @@ void Mob::Update()
 
 			m_MONSTER->SetAnimationIndex(ani_state);//¾Ö´Ï¸ÞÀÌ¼Ç¼³Á¤
 			m_MONSTER->Update();//¾÷µ¥ÀÌÆ®
-			m_GUN->SetPos(m_MONSTER->GetGunPos());
-			m_GUN->SetAngle(m_angle);
-			m_GUN->Update();
+
+			if (Weapon_Mode == ÃÑµë)
+			{
+				m_GUN->SetPos(m_MONSTER->GetGunPos());
+				m_GUN->SetAngle(m_angle);
+				m_GUN->Update();
+
+			}			
+			else if (Weapon_Mode == »ðµë)
+			{
+				//m_SHOVEL->SetMat(&m_MONSTER->GetMeleeMat());
+				m_SHOVEL->SetPos(m_MONSTER->GetMeleePos());
+				m_SHOVEL->SetAngle(m_angle);
+				m_SHOVEL->Update();
+			}
+			
 		}
 	}
 
@@ -248,7 +270,11 @@ void Mob::Render()
 		{
 			m_MONSTER->SetRenderSTATE(true);
 			m_MONSTER->Render();
-			m_GUN->Render();
+
+			if(Weapon_Mode == ÃÑµë)
+				m_GUN->Render();
+			else if(Weapon_Mode == »ðµë)
+				m_SHOVEL->Render();
 		}
 	}
 }
@@ -481,6 +507,23 @@ void Mob::Act_Reload()
 void Mob::Act_Action()
 {
 	ani_state = m_Act._action;
+
+	if (ani_state == ¸÷_´Þ¸®´Ù°¡Á×±â
+		|| ani_state == ¸÷_Á×À½)
+	{
+		Weapon_Mode = ¸Ç¼Õ;
+	}
+	else if (ani_state == ¸÷_Ä®µç»óÅÂ
+		|| ani_state == ¸÷_±ÙÁ¢ÀüÅõ)
+	{
+		Weapon_Mode = »ðµë;
+	}
+	else
+	{
+		Weapon_Mode = ÃÑµë;
+	}
+
+
 }
 
 MOB_SITUATION Mob::PlayerSearch()

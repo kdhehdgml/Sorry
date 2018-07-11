@@ -1,5 +1,8 @@
 #pragma once
-class ALLTexTURE 
+#include "SkinnedMesh.h"
+
+
+class ALLTexTURE : public SkinnedMesh
 {
 public:
 	ALLTexTURE();

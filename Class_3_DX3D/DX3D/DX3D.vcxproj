@@ -189,6 +189,7 @@
     <ClInclude Include="seqManager.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="ShadowMappingShader.h" />
+    <ClInclude Include="SHOVEL.h" />
     <ClInclude Include="SoundControl.h" />
     <ClInclude Include="Blocks.h" />
     <ClInclude Include="Camera.h" />
@@ -284,6 +285,7 @@
     <ClCompile Include="seqManager.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="ShadowMappingShader.cpp" />
+    <ClCompile Include="SHOVEL.cpp" />
     <ClCompile Include="SoundControl.cpp" />
     <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Camera.cpp" />

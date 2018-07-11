@@ -60,6 +60,9 @@ protected:
 	D3DXMATRIXA16				m_gun_mat;
 	D3DXVECTOR3					m_gun_pos;
 
+	D3DXMATRIXA16				m_melee_mat;
+	D3DXVECTOR3					m_melee_pos;
+
 public:
 	MONSTER();
 	~MONSTER();
@@ -80,7 +83,8 @@ public:
 
 	D3DXVECTOR3 GetGunPos() { return m_gun_pos; }
 	D3DXMATRIXA16 GetGunMat() { return m_gun_mat; }
-
+	D3DXVECTOR3 GetMeleePos() { return m_melee_pos; }
+	D3DXMATRIXA16 GetMeleeMat() { return m_melee_mat; }
 private:
 	void SetupBoneMatrixPointers(LPD3DXFRAME pFrame);
 	void SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBase);

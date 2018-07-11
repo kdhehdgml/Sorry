@@ -2,6 +2,14 @@
 #include "IUnitObject.h"
 class MONSTER;
 class GUN;
+class SHOVEL;
+
+enum WEAPON_MODE
+{
+	¸Ç¼Õ,
+	ÃÑµë,
+	»ðµë
+};
 
 enum ANI_STATE_MOB
 {
@@ -70,6 +78,8 @@ class Mob
 private:
 	MONSTER * m_MONSTER;
 	GUN*		m_GUN;
+	SHOVEL*		m_SHOVEL;
+
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
 
@@ -179,5 +189,7 @@ public:
 	void TemporarySwap();
 
 
+	private:
+		int Weapon_Mode;
 };
 
