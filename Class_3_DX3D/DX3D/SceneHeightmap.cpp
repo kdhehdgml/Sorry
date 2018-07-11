@@ -375,8 +375,6 @@ void SceneHeightmap::Update()
 		SAFE_UPDATE(m_pTalk);
 		SAFE_UPDATE(m_pBulletUI);
 
-		g_pSoundManager->updateListener(g_pCamera->getPos());
-
 		/*g_pSoundManager->update3D(0, g_pCamera->getPos(), SpeakerPos, g_pCamera->getDir());
 		if (GetKeyState('1') & 0x8000)
 		{
@@ -775,6 +773,8 @@ void SceneHeightmap::Update()
 	else {
 		SAFE_UPDATE(m_pMenuUI);
 	}
+	g_pSoundManager->updateListener(g_pCamera->getPos());
+
 }
 
 void SceneHeightmap::Render()
@@ -884,7 +884,7 @@ void SceneHeightmap::Event()
 		m_pUnit->GameWaveSetting(g_pSeqManager->spawnNum);
 		if (m_pUnit->MobStart == false)
 			m_pUnit->MobStart = true;
-		g_pSoundManager->effectSound(0);
+		g_pSoundManager->effectSound(0, 0);
 		g_pSeqManager->spawnNum = 0;
 	}
 	if (m_pUnit->ClearWave() == 1)
