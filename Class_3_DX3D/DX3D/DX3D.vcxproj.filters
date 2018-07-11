@@ -374,6 +374,7 @@
     <ClInclude Include="SceneHeightmapTest.h">
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="BulletUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -643,6 +644,7 @@
     <ClCompile Include="SceneHeightmapTest.cpp">
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
+    <ClCompile Include="BulletUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">
