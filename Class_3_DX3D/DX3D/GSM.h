@@ -1,4 +1,11 @@
 #pragma once
+
+enum sType
+{
+	SHOOT = 1,
+	VOICE_DEATH
+};
+
 class GSM
 {
 public:

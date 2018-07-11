@@ -31,7 +31,8 @@ TeamAI::TeamAI()
 	ani_state = 서서기본자세;
 	m_Ready = true;
 	m_Death = false;
-
+	
+	deathShout = false;
 }
 
 
@@ -78,10 +79,17 @@ void TeamAI::Update()
 			m_Death = true;
 			m_pos = { 2000,10,2000 };
 		}
+		if (!deathShout)
+		{
+			g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
+			deathShout = true;
+		}
 	}
 	Animation();
 
 	if (status > 0) {
+
+		deathShout = false;
 
 		m_Death = false;
 		if (D3DXVec3Length(&(m_finalDestPos - m_pos)) <= 5.0f)
@@ -408,7 +416,7 @@ void TeamAI::Shooting()
 
 			// 3D 사운드
 			kill = rand() % 2;
-			g_pSoundManager->updateSpeaker(kill, m_pos);
+			g_pSoundManager->updateSpeaker(sType::SHOOT, kill, m_pos);
 		}
 		m_ShootCooldownTime = 0;
 	}

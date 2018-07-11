@@ -65,6 +65,8 @@ void Mob::Init()
 
 	m_Death_count = 0;
 	m_Death_Time = 0;
+
+	deathShout = false;
 }
 
 void Mob::Update()
@@ -86,12 +88,18 @@ void Mob::Update()
 			m_Death = true;
 			m_pos = { 1000,-5000,1000 };
 		}
-
+		if (!deathShout)
+		{
+			g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
+			deathShout = true;
+		}
 	}
 	SelectAction();
 
 	if (status > 0) {
-
+		
+		deathShout = false;
+		
 		m_Death = false;
 		Act_Moving();
 
@@ -615,7 +623,7 @@ void Mob::Shooting()
 					m_bullet--;
 
 					kill = rand() % 5;
-					g_pSoundManager->updateSpeaker(kill + 2, m_pos);
+					g_pSoundManager->updateSpeaker(sType::SHOOT, kill + 2, m_pos);
 				}
 			}
 		}

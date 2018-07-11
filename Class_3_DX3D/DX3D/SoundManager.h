@@ -20,6 +20,8 @@ private:
 	SoundControl * m_pRun_Dirt;		string * s_run_dirt;	vector<string> s_run_dirt_f;
 	SoundControl * m_pGear_Walk;	string * s_gear_walk;	vector<string> s_gear_walk_f;
 	SoundControl * m_pWhistle;		string * s_whistle;		vector<string> s_whistle_f;
+
+	SoundControl * m_pV_Death;		string * s_vDeath;		vector<string> s_vDeath_f;
 	//===================================================================================
 	
 	int walkInterval;
@@ -56,7 +58,7 @@ public:
 	void stopAmbient(int soundNum);
 
 	void play3D(int soundNum);
-	void updateSpeaker(int soundNum, D3DXVECTOR3 sPos);
+	void updateSpeaker(int type, int soundNum, D3DXVECTOR3 sPos);
 	void updateListener(D3DXVECTOR3 lPos);
 	D3DXVECTOR3 getSpeakerPos();
 	D3DXVECTOR3 getListenerPos();
@@ -70,5 +72,6 @@ public:
 	void RunSound();
 
 	void effectSound(int soundNum);
+	void voiceSound(int type, int soundNum);
 };
 
