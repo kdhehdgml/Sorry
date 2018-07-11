@@ -596,7 +596,7 @@ void Mob::Shooting()
 				m_ShootCooldownTime++;
 				if (m_ShootCooldownTime > 100)
 				{
-					float kill = rand() % 20;
+					int kill = rand() % 20;
 					if (kill < 3 && g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->CanFight == true)
 					{
 						/*int damage = rand() % 10;
@@ -606,15 +606,16 @@ void Mob::Shooting()
 						}
 						else*/
 						{
-							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(50);
+							kill = rand() % 15;
+							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(10 + kill);
 						}
 					}
 					m_ShootCooldownTime = 0;
 					m_shootingbullet--;
 					m_bullet--;
 
-					int r5 = rand() % 5;
-					g_pSoundManager->updateSpeaker(r5 + 2, m_pos);
+					kill = rand() % 5;
+					g_pSoundManager->updateSpeaker(kill + 2, m_pos);
 				}
 			}
 		}

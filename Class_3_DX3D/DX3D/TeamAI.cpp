@@ -391,8 +391,8 @@ void TeamAI::Shooting()
 	m_ShootCooldownTime++;
 	if (m_ShootCooldownTime > 100)
 	{
-		float kill = rand() % 10;
-		if (kill < 5 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
+		int kill = rand() % 10;
+		if (kill < 4 && g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->CanFight == true)
 		{
 			/*int damage = rand() % 10;
 			if (damage < 3)
@@ -401,14 +401,14 @@ void TeamAI::Shooting()
 			}
 			else*/
 			{
-				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth
-				(50);
+				kill = rand() % 30;
+				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth(20 + kill);
 			}
 			m_bullet--;
 
 			// 3D »ç¿îµå
-			int r2 = rand() % 2;
-			g_pSoundManager->updateSpeaker(r2, m_pos);
+			kill = rand() % 2;
+			g_pSoundManager->updateSpeaker(kill, m_pos);
 		}
 		m_ShootCooldownTime = 0;
 	}
