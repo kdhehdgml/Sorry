@@ -57,6 +57,12 @@ ObjRender::ObjRender()
 		m_Apt[i] = NULL;
 	}
 
+	//鸥老
+	for (int i = 0; i < 15; i++)
+	{
+		m_Tile[i] = NULL;
+	}
+
 }
 
 
@@ -111,6 +117,13 @@ ObjRender::~ObjRender()
 	{
 		m_Apt[i]->~ObjRen();
 	}
+
+	//鸥老
+	for (int i = 0; i < 15; i++)
+	{
+		m_Tile[i]->~ObjRen();
+	}
+
 }
 
 
@@ -352,6 +365,24 @@ void ObjRender::Init()
 	CREATE_OBJ(m_Apt[1], 9.5f, ETC, Apt00.obj, AptTex.png, -50.0f, 50.0f, 300.0f, 0.0f, D3DX_PI, 0.0f);
 	CREATE_OBJ(m_Apt[2], 9.5f, ETC, Apt00.obj, AptTex.png, -50.0f, 50.0f, 200.0f, 0.0f, D3DX_PI, 0.0f);
 
+	//鸥老
+	CREATE_OBJ(m_Tile[0], 25.0f, Ground, Tile00.obj, GroundTex.png, 224.0f, 12.2f, 483.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[1], 24.0f, Ground, Tile01.obj, GroundTex.png, 171.0f, 13.6f, 466.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[2], 25.0f, Ground, Tile02.obj, GroundTex.png, 197.0f, 13.6f, 380.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[3], 24.0f, Ground, Tile03.obj, GroundTex.png, 224.0f, 15.0f, 257.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[4], 24.0f, Ground, Tile04.obj, GroundTex.png, 166.0f, 14.0f, 242.0f, 0.0f, 0.0f, 0.0f);
+
+	CREATE_OBJ(m_Tile[5], 6.0f, Ground, Tile05.obj, GroundTex.png, 202.0f, 14.0f, 439.0f, 0.0f, 1.0f, 0.0f);
+	CREATE_OBJ(m_Tile[6], 6.0f, Ground, Tile05.obj, GroundTex.png, 204.0f, 14.0f, 378.0f, 0.0f, -1.0f, 0.0f);
+	CREATE_OBJ(m_Tile[7], 6.0f, Ground, Tile05.obj, GroundTex.png, 241.0f, 14.2f, 405.0f, 0.0f, -1.0f, 0.0f);
+	CREATE_OBJ(m_Tile[8], 6.0f, Ground, Tile05.obj, GroundTex.png, 246.0f, 14.5f, 384.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[9], 6.0f, Ground, Tile05.obj, GroundTex.png, 231.0f, 14.5f, 375.0f, 0.0f, 1.5f, 0.0f);
+	CREATE_OBJ(m_Tile[10], 6.0f, Ground, Tile05.obj, GroundTex.png, 216.0f, 14.5f, 356.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[11], 6.0f, Ground, Tile05.obj, GroundTex.png, 202.0f, 14.0f, 342.0f, 0.0f, 0.8f, 0.0f);
+	CREATE_OBJ(m_Tile[12], 8.0f, Ground, Tile05.obj, GroundTex.png, 233.0f, 15.0f, 331.0f, 0.0f, -0.3f, 0.0f);
+	CREATE_OBJ(m_Tile[13], 8.0f, Ground, Tile05.obj, GroundTex.png, 248.0f, 16.0f, 270.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_Tile[14], 8.0f, Ground, Tile05.obj, GroundTex.png, 177.0f, 15.7f, 232.0f, 0.0f, 0.3f, 0.0f);
+
 }
 
 void ObjRender::Render()
@@ -404,5 +435,11 @@ void ObjRender::Render()
 	for (int i = 0; i < 3; i++)
 	{
 		SAFE_RENDER(m_Apt[i]);
+	}
+
+	//鸥老
+	for (int i = 0; i < 15; i++)
+	{
+		SAFE_RENDER(m_Tile[i]);
 	}
 }
