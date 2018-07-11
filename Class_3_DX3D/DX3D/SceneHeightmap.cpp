@@ -295,17 +295,19 @@ void SceneHeightmap::Init()
 	wallManager->Init();
 	AddSimpleDisplayObj(wallManager);
 
-	//D3DXVECTOR3 aa(300.0f, 25.0f, 400.0f); //임시 BoundingBox 좌표1
-	//D3DXVECTOR3 bb(310.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa(150.0f, 5.0f, 540.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb(240.0f, 35.0f, 545.0f); //임시 BoundingBox 좌표2
 
-	//D3DXVECTOR3 aa2(0.0f, 25.0f, 100.0f); //임시 BoundingBox 좌표1
-	//D3DXVECTOR3 bb2(10.0f, 35.0f, 310.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa2(150.0f, 5.0f, 185.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb2(240.0f, 35.0f, 190.0f); //임시 BoundingBox 좌표2
 
-	//D3DXVECTOR3 aa3(100.0f, 25.0f, 400.0f); //임시 BoundingBox 좌표1
-	//D3DXVECTOR3 bb3(210.0f, 35.0f, 410.0f); //임시 BoundingBox 좌표2
+	//D3DXVECTOR3 aa3(130.0f, 5.0f, 220.0f); //임시 BoundingBox 좌표1
+	//D3DXVECTOR3 bb3(135.0f, 35.0f, 510.0f); //임시 BoundingBox 좌표2
 
 
 	//wallManager->addWall(aa, bb); //새로 벽 추가하고 싶을땐 이렇게
+	//wallManager->addWall(aa2, bb2);
+	//wallManager->addWall(aa3, bb3);
 	//(aa가 수치가 작은 쪽 좌표, bb가 큰 쪽 좌표)
 
 	//wallManager->addSphereWall(aa, 10.0f);
@@ -417,7 +419,7 @@ void SceneHeightmap::Update()
 		}
 		}*/
 
-		bool isWallDx = false;
+		/*bool isWallDx = false;
 		if (!g_pCamera->getFreeCameraMode()) {
 			float dx1, dx2, dy1, dy2, wallDx;
 			const float distanceDiffBuffer = 0.3f;
@@ -459,7 +461,7 @@ void SceneHeightmap::Update()
 				isWallDx = true;
 			}
 			g_pCamera->setPos(m_pOldPos + cPosDiff);
-		}
+		}*/
 		currentPos = g_pCamera->getPos();
 		isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
 		currentPos.y = height + GSM().playerHeight;
@@ -467,15 +469,7 @@ void SceneHeightmap::Update()
 			currentPos.y += 61.5f;
 			currentPos.y += g_pCamera->getDeltaY();
 		}
-		/*else {
-		if (isWallDx) {
-		currentPos.y += 5.0f;
-		}
-		}*/
 		g_pCamera->setPos(currentPos);
-
-
-		OnUpdateIScene();
 
 		if (g_pCamera->getFreeCameraMode()) {
 			m_pCrosshairOn = false;
@@ -648,6 +642,8 @@ void SceneHeightmap::Update()
 			}
 		}
 
+		float minDistanceSphereWall = 9999999.0f;
+		D3DXVECTOR3 lookDirInverse(0.0f, 0.0f, 0.0f);
 		for (auto p : wallManager->getSphereWalls()) {
 			D3DXVECTOR3 wallPos = p->getCenter(); //벽 위치
 			D3DXVECTOR3 playerPos = g_pCamera->getPos(); //내 위치
@@ -655,14 +651,30 @@ void SceneHeightmap::Update()
 			D3DXVECTOR3 lookDir;
 			D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
 			float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //벽과의 거리 계산
+			if (distance < minDistanceSphereWall) {
+				minDistanceSphereWall = distance; //가장 가까운 아군과의 거리만 남긴다
+			}
 			if (distance < (p->getSize() + 5.0f)) { //벽과의 거리가 너무 가까우면
-													//플레이어와 벽 사이의 벡터를 구해 그 역벡터를 구하고,
-													//가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
-				D3DXVECTOR3 lookDirInverse = -5.0f * lookDir / distance;
+																 //플레이어와 벽 사이의 벡터를 구해 그 역벡터를 구하고,
+																 //가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
+				lookDirInverse = -10.0f * lookDir / distance;
 				lookDirInverse.y = 0; //y축 값은 필요없다.
 				g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
 			}
 		}
+
+
+		D3DXVECTOR3 posCorrection = g_pCamera->getPos();
+		if (posCorrection.z > 540.0f) {
+			posCorrection.z = 540.0f;
+		}
+		else if (posCorrection.z < 190.0f) {
+			posCorrection.z = 190.0f;
+		}
+		if (posCorrection.x < 135.0f) {
+			posCorrection.x = 135.0f;
+		}
+		g_pCamera->setPos(posCorrection);
 
 		m_pOldPos = g_pCamera->getPos();
 
@@ -696,6 +708,7 @@ void SceneHeightmap::Update()
 		/*Debug->AddText("volume(music) : ");
 		Debug->AddText(volume_music);
 		Debug->EndLine();*/
+		OnUpdateIScene();
 	}
 	else {
 		SAFE_UPDATE(m_pMenuUI);
@@ -749,7 +762,7 @@ void SceneHeightmap::Render()
 	D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 	g_pDevice->SetTexture(0, NULL);
-	//m_pSphere->DrawSubset(0);
+	m_pSphere->DrawSubset(0);
 
 	RECT rc;
 	SetRect(&rc, 100, 400, 800, 600);
