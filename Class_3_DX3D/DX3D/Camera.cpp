@@ -489,7 +489,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					//MessageBox(NULL, TEXT("ÃÑ¾ËÀÌ ¶¥¿¡ ºÎµúÇû½À´Ï´Ù."), TEXT("DEBUG"), MB_OK);
 				}
 				else {
-					m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - 50);
+					m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - damageGiven);
 				}
 			}
 			

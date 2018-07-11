@@ -124,6 +124,13 @@ void UnitBox::Update()
 			p->setHealth(0);
 		}
 	}
+
+	if (GetAsyncKeyState('J') & 0x0001) {
+		for (auto p : m_pMob) {
+			p->showBoundingSphere = !p->showBoundingSphere;
+		}
+	}
+
 	Debug->AddText("살아있는몹수 : ");
 	Debug->AddText(CheckNumberOfLivingAI(m_game.MaxAmount));
 	Debug->EndLine();

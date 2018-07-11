@@ -79,7 +79,7 @@ GSM::GSM()
 	reload_one = 1750;
 	reload_all = 3000;
 
-	Debug_Mode = false;
+	Debug_Mode = true;
 }
 
 
