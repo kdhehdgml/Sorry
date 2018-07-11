@@ -641,8 +641,6 @@ void SceneHeightmap::Update()
 				getHitBox = true;
 			}
 		}
-
-		float minDistanceSphereWall = 9999999.0f;
 		D3DXVECTOR3 lookDirInverse(0.0f, 0.0f, 0.0f);
 		for (auto p : wallManager->getSphereWalls()) {
 			D3DXVECTOR3 wallPos = p->getCenter(); //벽 위치
@@ -651,9 +649,6 @@ void SceneHeightmap::Update()
 			D3DXVECTOR3 lookDir;
 			D3DXVec3Normalize(&lookDir, &posDiff); //벡터 정규화
 			float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff)); //벽과의 거리 계산
-			if (distance < minDistanceSphereWall) {
-				minDistanceSphereWall = distance; //가장 가까운 아군과의 거리만 남긴다
-			}
 			if (distance < (p->getSize() + 5.0f)) { //벽과의 거리가 너무 가까우면
 													//플레이어와 벽 사이의 벡터를 구해 그 역벡터를 구하고,
 													//가까울수록 밀어내는 힘을 강하게 하기 위해 거리로 나눈다.
@@ -662,7 +657,6 @@ void SceneHeightmap::Update()
 				g_pCamera->setPos(g_pCamera->getPos() + lookDirInverse); //역벡터만큼 플레이어를 밀어낸다.
 			}
 		}
-
 
 		D3DXVECTOR3 posCorrection = g_pCamera->getPos();
 		if (!g_pCamera->getFreeCameraMode()) {
