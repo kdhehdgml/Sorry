@@ -11,6 +11,9 @@ public:
 	//ÂüÈ£ ÆÇÀÚ
 	ObjRen*			m_MapTest[16];
 
+	ObjRen*			m_MapTest1[10];
+
+
 	//Ã¶Á¶¸Á
 	ObjRen*			m_BarbedWireT[53];
 

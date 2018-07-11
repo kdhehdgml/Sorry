@@ -10,6 +10,8 @@ ObjRender::ObjRender()
 	//ÂüÈ£ ÆÇÀÚ
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i] = NULL;
+	for (int i = 0; i < 10; i++)
+		m_MapTest1[i] = NULL;
 	//Ã¶Á¶¸Á
 	for (int i = 0; i < 53; i++)
 		m_BarbedWireT[i] = NULL;
@@ -71,6 +73,8 @@ ObjRender::~ObjRender()
 	//ÂüÈ£ ÆÇÀÚ
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i]->~ObjRen();
+	for (int i = 0; i < 10; i++)
+		m_MapTest1[i]->~ObjRen();
 	//Ã¶Á¶¸Á
 	for (int i = 0; i < 53; i++)
 		m_BarbedWireT[i]->~ObjRen();
@@ -146,6 +150,18 @@ void ObjRender::Init()
 	CREATE_OBJ(m_MapTest[13], 9.8f, WoodenBarrier, WoodenBarrierPartTest12.obj, woodTex.png, 132.0f, 12.7f, 222.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_MapTest[14], 11.8f, WoodenBarrier, WoodenBarrierPartTest13.obj, woodTex.png, 176.0f, 13.6f, 145.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_MapTest[15], 9.8f, WoodenBarrier, WoodenBarrierPartTest14.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+
+	CREATE_OBJ(m_MapTest1[0], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[1], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[2], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[3], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[4], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[5], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[6], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[7], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[8], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[9], 9.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
+
 
 	//Ã¶Á¶¸Á
 	//1¹ø ÁÙ
@@ -390,6 +406,8 @@ void ObjRender::Render()
 	//ÂüÈ£ ÆÇÀÚ
 	for (int i = 0; i < 16; i++)
 		SAFE_RENDER(m_MapTest[i]);
+	for (int i = 0; i < 10; i++)
+		SAFE_RENDER(m_MapTest1[i]);
 	//Ã¶Á¶¸Á
 	for (int i = 0; i < 53; i++)
 		SAFE_RENDER(m_BarbedWireT[i]);
