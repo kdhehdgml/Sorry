@@ -371,9 +371,6 @@
     <ClInclude Include="SphereWall.h">
       <Filter>소스 파일\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="SceneHeightmapTest.h">
-      <Filter>소스 파일\4.Scene</Filter>
-    </ClInclude>
     <ClInclude Include="BulletUI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -640,9 +637,6 @@
     </ClCompile>
     <ClCompile Include="SphereWall.cpp">
       <Filter>소스 파일\Wall</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneHeightmapTest.cpp">
-      <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
     <ClCompile Include="BulletUI.cpp" />
   </ItemGroup>

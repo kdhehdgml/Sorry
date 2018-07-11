@@ -15,6 +15,9 @@ if (waveCount != MAX_WAVE) waveCount++; else { stopUpdate = true; waveCount = 0;
 
 #define MAX_WAVE 5
 
+seqManager::seqManager() {}
+seqManager::~seqManager() {}
+
 void seqManager::Init()
 {
 	checkTime = READY_TIME;
