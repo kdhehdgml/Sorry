@@ -419,7 +419,7 @@ void SceneHeightmap::Update()
 		}
 		}*/
 
-		if (!g_pCamera->getFreeCameraMode()) {
+		/*if (!g_pCamera->getFreeCameraMode()) {
 			float dx1, dx2, dy1, dy2, wallDx;
 			const float distanceDiffBuffer = 0.3f;
 			const float heightDiffBuffer = 1.0f;
@@ -453,7 +453,7 @@ void SceneHeightmap::Update()
 				cPosDiff.z = 0;
 			}
 			g_pCamera->setPos(m_pOldPos + cPosDiff);
-		}
+		}*/
 		currentPos = g_pCamera->getPos();
 		isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
 		currentPos.y = height + GSM().playerHeight;
