@@ -1,12 +1,14 @@
 #pragma once
 #include "IDisplayObject.h"
 class IUBaseObject;
+class UIImage;
 class BulletUI :
 	public IDisplayObject
 {
 private:
 	LPD3DXSPRITE	m_pSprite;
-	IUBaseObject*		m_pRootUI;
+	IUBaseObject*	m_pRootUI;
+	UIImage* m_pBullets[5];
 
 public:
 	int bulletNum;

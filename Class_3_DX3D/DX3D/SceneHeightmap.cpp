@@ -31,6 +31,7 @@
 #include "ObjRender.h"// obj ÇØ´õ
 
 #include "MenuUI.h"
+#include "BulletUI.h"
 
 #include <fstream>
 
@@ -106,6 +107,7 @@ SceneHeightmap::SceneHeightmap()
 	m_ObjRender = NULL;
 
 	m_pMenuUI = NULL;
+	m_pBulletUI = NULL;
 	//m_MapTest0 = NULL;
 
 	initCreateMob = false;
@@ -131,7 +133,7 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pUnit);
 	SAFE_RELEASE(m_pFont);
 	SAFE_RELEASE(m_pMenuUI);
-
+	SAFE_RELEASE(m_pBulletUI);
 
 	//m_pCrosshair->ReleaseAll();
 
@@ -320,6 +322,8 @@ void SceneHeightmap::Init()
 
 	m_pMenuUI = new MenuUI();
 	m_pMenuUI->Init();
+	m_pBulletUI = new BulletUI();
+	m_pBulletUI->Init();
 
 	SYSTEM_INFO sysInfo;
 	FILETIME ftime, fsys, fuser;
@@ -369,6 +373,7 @@ void SceneHeightmap::Update()
 		SAFE_UPDATE(m_pCrosshair);
 		SAFE_UPDATE(m_pScope);
 		SAFE_UPDATE(m_pTalk);
+		SAFE_UPDATE(m_pBulletUI);
 
 		g_pSoundManager->updateListener(g_pCamera->getPos());
 
@@ -775,6 +780,7 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_pUnit);
 	SAFE_RENDER(m_SkyBox);
 	SAFE_RENDER(m_minimap);
+	SAFE_RENDER(m_pBulletUI);
 	m_CreateSmog->Render();
 	//m_pPicking->Render();
 
