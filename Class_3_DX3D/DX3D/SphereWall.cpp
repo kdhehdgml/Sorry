@@ -31,7 +31,7 @@ void SphereWall::Render()
 	matW = mat * matR;
 	g_pDevice->SetTransform(D3DTS_WORLD, &matW);
 	g_pDevice->SetTexture(0, NULL);
-	//m_pSphere->DrawSubset(0);
+	m_pSphere->DrawSubset(0);
 }
 
 BoundingSphere * SphereWall::getBoundingSphere()
