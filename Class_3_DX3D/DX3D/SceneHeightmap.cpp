@@ -200,7 +200,7 @@ void SceneHeightmap::Init()
 	m_pBlocks->Init();
 	//
 
-	D3DXVECTOR3 dir(1.0f, -10.0f, 1.0f);
+	D3DXVECTOR3 dir(0.0f, 10.0f, 0.0f);
 	D3DXVec3Normalize(&dir, &dir);
 	D3DLIGHT9 light = DXUtil::InitDirectional(&dir, &WHITE);
 	g_pDevice->SetLight(0, &light);
@@ -209,18 +209,18 @@ void SceneHeightmap::Init()
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 
 
-	//救俺积己
-	m_CreateSmog = new CreateSmog;
-	m_CreateSmog->Init();
-	//460.0f, 70.0f, 485.0f
-	m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f), (0.6f));
-	m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 405.0f), (0.3f));
-	m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 305.0f), (0.5f));
-	m_CreateSmog->Insert(D3DXVECTOR3(350.0f, 70.0f, 205.0f), (0.6f));
-	m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 155.0f), (0.3f));
-	m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 105.0f), (0.8f));
+	////救俺积己
+	//m_CreateSmog = new CreateSmog;
+	//m_CreateSmog->Init();
+	////460.0f, 70.0f, 485.0f
+	//m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f), (0.6f));
+	//m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 405.0f), (0.3f));
+	//m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 305.0f), (0.5f));
+	//m_CreateSmog->Insert(D3DXVECTOR3(350.0f, 70.0f, 205.0f), (0.6f));
+	//m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 155.0f), (0.3f));
+	//m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 105.0f), (0.8f));
 
-	AddSimpleDisplayObj(m_CreateSmog);
+	//AddSimpleDisplayObj(m_CreateSmog);
 
 
 	m_ColorCube = new ColorCube;
@@ -711,7 +711,7 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_pUnit);
 	SAFE_RENDER(m_SkyBox);
 	SAFE_RENDER(m_minimap);
-	m_CreateSmog->Render();
+	//m_CreateSmog->Render();
 	//m_pPicking->Render();
 
 	//obj 包访

@@ -64,7 +64,7 @@ Player_hands::~Player_hands()
 void Player_hands::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
-	m_renderMode = RenderMode::RenderMode_ShadowMapping;
+	m_renderMode = RenderMode::RenderMode_Lighting;
 	Shaders::Get()->AddList(this, m_renderMode);
 
 	g_pCamera->SetTarget(&m_pos);
@@ -470,7 +470,7 @@ void Player_hands::DrawMeshContainer(LPD3DXFRAME pFrame)
 	if (m_renderMode == RenderMode::RenderMode_Default)
 	{
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-		g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+		//g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 		for (size_t i = 0; i < pMeshContainerEx->vecMtlTex.size(); ++i)
 		{
