@@ -339,7 +339,7 @@ void SceneHeightmap::Init()
 	g_pCamera->mouseLock = true;
 	g_pSeqManager->Init();
 
-	std::fstream fp("resources/wall/SphereWall.txt");
+	/*std::fstream fp("resources/wall/SphereWall.txt");
 	int tempInt, tempFloat;
 	D3DXVECTOR3 tempVec(0.0f, 27.0f, 0.0f);
 	char inputString[100];
@@ -355,7 +355,7 @@ void SceneHeightmap::Init()
 		wallManager->addSphereWall(tempVec, 6.0f);
 		tempVecs[i] = tempVec;
 	}
-	fp.close();
+	fp.close();*/
 }
 
 void SceneHeightmap::Update()
@@ -672,6 +672,34 @@ void SceneHeightmap::Update()
 		else if (posCorrection.z < 190.0f) {
 			posCorrection.z = 190.0f;
 		}
+		else if (posCorrection.z > 530.0f && posCorrection.z <= 540.0f) {
+			posCorrection.x = min(posCorrection.x, 220.0f);
+		}
+		else if (posCorrection.z > 480.0f && posCorrection.z <= 512.0f) {
+			posCorrection.x = min(posCorrection.x, 240.0f);
+		}
+		else if (posCorrection.z > 420.0f && posCorrection.z <= 440.0f) {
+			posCorrection.x = min(posCorrection.x, 240.0f);
+		}
+		else if (posCorrection.z > 374.0f && posCorrection.z <= 402.0f) {
+			posCorrection.x = min(posCorrection.x, 254.0f);
+		}
+		else if (posCorrection.z > 352.0f && posCorrection.z <= 360.0f) {
+			posCorrection.x = min(posCorrection.x, 226.0f);
+		}
+		else if (posCorrection.z > 310.0f && posCorrection.z <= 326.0f) {
+			posCorrection.x = min(posCorrection.x, 248.0f);
+		}
+		else if (posCorrection.z > 265.0f && posCorrection.z <= 282.0f) {
+			posCorrection.x = min(posCorrection.x, 257.0f);
+		}
+		else if (posCorrection.z > 218.0f && posCorrection.z <= 240.0f) {
+			posCorrection.x = min(posCorrection.x, 258.0f);
+		}
+		else if (posCorrection.x > 190.0f && posCorrection.z <= 195.0f) {
+			posCorrection.x = min(posCorrection.x, 224.0f);
+		}
+
 		if (posCorrection.x < 135.0f) {
 			posCorrection.x = 135.0f;
 		}
