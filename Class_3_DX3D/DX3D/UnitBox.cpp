@@ -127,6 +127,7 @@ void UnitBox::Update()
 	Debug->AddText("살아있는몹수 : ");
 	Debug->AddText(CheckNumberOfLivingAI(m_game.MaxAmount));
 	Debug->EndLine();
+	FindCanMoveroad();
 	////내가 지나간곳들 장애물 저장한위치 없앰
 	//for (auto p : m_pMob)
 	//{
@@ -625,6 +626,41 @@ int UnitBox::ClearWave()
 		}
 		if (sum > 5)
 			return 2;
+	}
+}
+
+void UnitBox::FindCanMoveroad()
+{
+	float maxLocation;
+	for (auto p : m_pMob)
+	{
+		if (p->GetCollision() && p->GetAvoidObstDir() == 0)
+		{
+			for (int i = 0; i < m_LocationList.size(); i++)
+			{
+				if (p->GetPosition().x > m_LocationList[i].front().x)
+				{
+					maxLocation = i;
+				}
+				else
+					break;
+			}
+			for (int i = 0; i < m_LocationList[maxLocation].size(); i++)
+			{
+				if (abs(p->GetPosition().x - m_LocationList[maxLocation][i].x) < 20.0f && abs(p->GetPosition().z - m_LocationList[maxLocation][i].z) < 10.0f)
+				{
+					if (p->GetPosition().z - m_LocationList[maxLocation][i].z > 0)
+					{
+						p->FindCanMoveroad(2);
+					}
+					else
+					{
+						p->FindCanMoveroad(1);
+					}
+				}
+			}
+		}
+		
 	}
 }
 

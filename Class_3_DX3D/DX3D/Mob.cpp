@@ -135,6 +135,10 @@ void Mob::Update()
 			D3DXVec3Normalize(&forwardNor, &forwardNor);
 			m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2));
 		}
+		Debug->AddText(m_avoidObstDir);
+		Debug->AddText("  ");
+		Debug->AddText(m_colision);
+		Debug->EndLine();
 	}
 	Act_Action();
 
@@ -494,6 +498,7 @@ MOB_SITUATION Mob::TrenchFight()
 		
 		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f)
 		{
+			m_moveSpeed = GSM().mobSpeed;
 			if (m_DestTime > 300)
 			{
 				SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
@@ -688,6 +693,8 @@ void Mob::ResetAll()
 	m_forward.z = -1;
 	m_move = false;
 	num = 0;
+	m_colision = 0;
+	m_avoidObstDir = 0;
 	m_shootingbullet = false;
 	health = 100;
 	status = 1;
