@@ -4,7 +4,7 @@
 #define waveControl if (waveTime <= 0) { spawnCheck = false; waveTime = WAVE_INTERVAL;\
 if (waveCount != MAX_WAVE) waveCount++; else { stopUpdate = true; waveCount = 0; roundStart = false; RESTART; if(seqManager::round == 3) { seqManager::stage++; seqManager::round = 0; } } }
 
-#define SPAWN(num) if (!spawnCheck)	{ spawnNum = num; spawnCheck = true; }
+#define SPAWN(num) if (!spawnCheck)	{ spawnNum = num; spawnCheck = true; if(seqManager::waveCount == 1) incomingVoice = true; }
 
 #define STOP stopTime = true
 #define RESTART stopTime = false
@@ -34,6 +34,7 @@ void seqManager::Init()
 
 	stopUpdate = true;
 	isMusicPlay = false;
+	incomingVoice = false;
 }
 
 void seqManager::Update()
@@ -48,6 +49,9 @@ void seqManager::Update()
 			Level(stage, round);
 			waveTime--;
 		}
+
+		if (incomingVoice)
+			incomingVoiceTime++;
 
 		setStage();
 
@@ -73,6 +77,9 @@ void seqManager::Update()
 			Debug->AddText(waveTime);
 			Debug->EndLine();
 			Debug->AddText("=====================================================================");
+			Debug->EndLine();
+			Debug->AddText("인커밍 타이머: ");
+			Debug->AddText(incomingVoiceTime);
 			Debug->EndLine();
 		}
 	}
@@ -141,6 +148,13 @@ void seqManager::Level(int stage, int round)
 				// 웨이브 1 ==============================================
 
 				SPAWN(9);
+
+				if (incomingVoiceTime >= 200)
+				{
+					g_pSoundManager->voiceSound(vType::INCOMING, NULL);
+					incomingVoiceTime = 0;
+					incomingVoice = false;
+				}
 
 				waveControl;
 				// =======================================================

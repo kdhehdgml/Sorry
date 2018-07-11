@@ -3,7 +3,14 @@
 enum sType
 {
 	SHOOT = 1,
-	VOICE_DEATH
+	VOICE_DEATH,
+	VOICE_INCOMING
+};
+
+enum vType
+{
+	DEATH = 1,
+	INCOMING
 };
 
 class GSM
@@ -32,5 +39,5 @@ public:
 	D3DXVECTOR3 camPos;
 	D3DXVECTOR3 mobPos;
 
-	bool	Debug_Mode;
+	bool	Debug_Mode_On;
 };

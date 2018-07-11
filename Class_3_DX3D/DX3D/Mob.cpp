@@ -41,7 +41,7 @@ Mob::Mob()
 Mob::~Mob()
 {
 	//m_pRootParts->ReleaseAll();
-	if (GSM().Debug_Mode == true)
+	if (!GSM().Debug_Mode_On)
 	{
 		SAFE_RELEASE(m_MONSTER);
 	}
@@ -60,7 +60,7 @@ void Mob::Init()
 	D3DXCreateSphere(g_pDevice, 2.7f, 10, 10, &m_pSphereBody, NULL);
 	m_pBoundingSphereBody = new BoundingSphere(m_pos, 2.7f);
 
-	if (GSM().Debug_Mode == true)
+	if (!GSM().Debug_Mode_On)
 	{
 		m_MONSTER = new MONSTER;
 		m_MONSTER->Init();
@@ -168,7 +168,7 @@ void Mob::Update()
 	//Debug->EndLine();
 	//m_angle = acos((m_pos.x * m_destPos.x)+(m_pos.y * m_destPos.y)+(m_pos.z * m_destPos.z));
 
-	if (GSM().Debug_Mode)
+	if (!GSM().Debug_Mode_On)
 	{
 		//카메라 범위안에 왔을때
 		if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
@@ -230,7 +230,7 @@ void Mob::Render()
 	}
 	//if ()
 
-	if (GSM().Debug_Mode)
+	if (!GSM().Debug_Mode_On)
 	{
 		if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 		{
