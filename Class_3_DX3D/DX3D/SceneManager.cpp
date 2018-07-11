@@ -8,7 +8,6 @@
 #include "SceneXfile.h"
 #include "SceneLoading.h"
 #include "SceneMainScreen.h"
-#include "SceneHeightmapTest.h"
 
 SceneManager::SceneManager()
 {
@@ -32,7 +31,6 @@ void SceneManager::Init()
 	m_vecScene.push_back(new SceneObjMap());
 	m_vecScene.push_back(new SceneTest());
 	m_vecScene.push_back(new SceneXfile());
-	m_vecScene.push_back(new SceneHeightmapTest());
 
 	//SetCurrentScene(SCENE_GRID);
 	//SetCurrentScene(SCENE_OBJMAP);
