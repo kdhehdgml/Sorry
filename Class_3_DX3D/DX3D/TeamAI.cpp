@@ -39,7 +39,7 @@ TeamAI::TeamAI()
 TeamAI::~TeamAI()
 {
 
-	if (GSM().Debug_Mode)
+	if (!GSM().Debug_Mode_On)
 	{
 		SAFE_RELEASE(m_TEAM_TEX);
 	}
@@ -53,7 +53,7 @@ void TeamAI::Init()
 	D3DXCreateSphere(g_pDevice, 3.0f, 10, 10, &m_pSphere, NULL);
 
 
-	if (GSM().Debug_Mode)
+	if (!GSM().Debug_Mode_On)
 	{
 		m_TEAM_TEX = new TEAM_TEX;
 		m_TEAM_TEX->Init();
@@ -169,7 +169,7 @@ void TeamAI::Update()
 
 	Debug->EndLine();*/
 
-	if (GSM().Debug_Mode)
+	if (!GSM().Debug_Mode_On)
 	{
 		if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)
 			&& m_Death == false)
@@ -205,7 +205,7 @@ void TeamAI::Render()
 	//g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
 
-	if (GSM().Debug_Mode)
+	if (!GSM().Debug_Mode_On)
 	{
 		//프러스텀 적용 
 		if (g_pFrustum->IsSphereInsideFrustum(m_pBoundingSphere)

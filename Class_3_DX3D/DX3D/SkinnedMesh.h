@@ -50,7 +50,11 @@ private:
 public:
 	void SetAnimationIndex(int nIndex, bool isBlend);
 	D3DXVECTOR3 GetGunPos() { return m_gun_pos; }
+	D3DXMATRIXA16* GetGunMat() { return &m_gun_mat; }
 	float		GetGunAngle() { return m_angle; }
+
+private:
+	int Weapon_Mode;
 };
 
 // OnInit

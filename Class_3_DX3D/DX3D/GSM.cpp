@@ -36,6 +36,8 @@
 
 GSM::GSM()
 {
+	Debug_Mode_On = false;
+
 	//(프로세스 시작 직후의)시작 씬
 	InitScene = SCENE_LOADING;
 	// (로딩 끝난 후의)시작 씬
@@ -78,8 +80,6 @@ GSM::GSM()
 	//reload_all = 180;
 	reload_one = 1750;
 	reload_all = 3000;
-
-	Debug_Mode = false;
 }
 
 

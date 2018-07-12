@@ -1,6 +1,15 @@
 #pragma once
 #include "IUnitObject.h"
 class MONSTER;
+class GUN;
+class SHOVEL;
+
+enum WEAPON_MODE
+{
+	맨손,
+	총듬,
+	삽듬
+};
 
 enum ANI_STATE_MOB
 {
@@ -68,6 +77,9 @@ class Mob
 {
 private:
 	MONSTER * m_MONSTER;
+	GUN*		m_GUN;
+	SHOVEL*		m_SHOVEL;
+
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
 
@@ -103,8 +115,6 @@ private:
 	int ani_state;
 	//애니메이션 시작과 끝
 	bool ani_start;
-	//각도
-	float m_angle;
 
 	//...죽었을떄 딜레이주기위한 변수...//
 	int m_Death_count;
@@ -177,5 +187,7 @@ public:
 	void TemporarySwap();
 
 
+	private:
+		int Weapon_Mode;
 };
 

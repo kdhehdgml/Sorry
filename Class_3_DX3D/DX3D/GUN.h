@@ -1,19 +1,19 @@
 #pragma once
 #include "IUnitObject.h"
 
-struct GUN_KINDS
-{
-	string name;
-	CString path;
-	CString filename;
-};
+//struct GUN_KINDS
+//{
+//	string name;
+//	CString path;
+//	CString filename;
+//};
 
 class GUN : public IUnitObject
 {
 
 protected:
 	//총기종류
-	GUN_KINDS Kar98;
+	//GUN_KINDS Kar98;
 	//GUN_KINDS Smle;
 
 
@@ -50,6 +50,7 @@ protected:
 
 	float						trackSpeed;
 
+	D3DXMATRIXA16				m_Hand_mat;
 
 public:
 	GUN();
@@ -63,11 +64,12 @@ public:
 	void Load(LPCTSTR path, LPCTSTR filename);
 	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
 	void SetState(int state) { m_state = state; }
+	void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = (*mat); }
 	void SetMatS(D3DXMATRIXA16 S) { matS = S; }
 	void SetMatR(D3DXMATRIXA16 R) { matR = R; }
 	void SetMatT(D3DXMATRIXA16 T) { matT = T; }
 	//기본적으로 우측을 보고있어서 돌려줌
-	void SetAngle(float angle) { m_angle = angle + D3DX_PI / 2; }
+	void SetAngle(float angle) { m_angle = angle; }
 
 private:
 	void SetupBoneMatrixPointers(LPD3DXFRAME pFrame);
@@ -81,7 +83,9 @@ private:
 	void DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
 
 	float m_angle;
-public:
+
+	int count = 0;
+public: 
 	void SetAnimationIndex(int nIndex) { m_AnimaTionIndex = nIndex; }
 	void SetAnimationIndex(int nIndex, bool isBlend);
 

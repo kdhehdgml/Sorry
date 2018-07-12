@@ -3,7 +3,7 @@
 #include "AllocateHierarchy.h"
 
 // 스킨 사이즈 조절
-#define SCALE 1.00f
+#define SCALE 0.01f
 
 
 GUN::GUN()
@@ -42,12 +42,12 @@ void GUN::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/kar98/";
+	CString path = "resources/xFile/weapons/kar98/";
 	CString filename = "MONSTER_GUN.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
-	m_angle = D3DX_PI / 2;
+	m_angle = D3DX_PI;
 
 
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
@@ -67,7 +67,8 @@ void GUN::Update()
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
 	D3DXMatrixRotationY(&matR, m_angle);
-	m_matWorld = matS * matR * matT;
+	m_matWorld = matS * matR * matT ;
+	m_matWorld = m_matWorld * m_Hand_mat;
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);

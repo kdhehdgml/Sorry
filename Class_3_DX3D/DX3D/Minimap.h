@@ -9,8 +9,11 @@ class Minimap :
 {
 private:
 	LPD3DXSPRITE m_minimapSprite;
+	LPD3DXSPRITE m_playerSprite;
 	UIImage * m_minimap;
 	UIImage * m_playerIcon;
+	D3DXMATRIXA16 m_playerIconRotation;
+	D3DXVECTOR2 m_playerIconPos;
 	vector<UIImage*> m_teamIcon;
 	vector<UIImage*> m_enemyIcon;
 	IUBaseObject* m_pRootUI;

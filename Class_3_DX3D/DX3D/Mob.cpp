@@ -3,6 +3,8 @@
 #include "CubemanParts.h"
 #include "MONSTER.h"
 #include "UnitBox.h"
+#include "GUN.h"
+#include "SHOVEL.h"
 
 #define DEATH_TIME 10000
 
@@ -35,15 +37,22 @@ Mob::Mob()
 	m_angle = 0;
 
 	m_Death = false;
+
+	//½ºÅ²Á¤º¸
+	m_GUN = NULL;
+	m_SHOVEL = NULL;
+	Weapon_Mode = ¸Ç¼Õ;
 }
 
 
 Mob::~Mob()
 {
 	//m_pRootParts->ReleaseAll();
-	if (GSM().Debug_Mode == true)
+	if (!GSM().Debug_Mode_On)
 	{
 		SAFE_RELEASE(m_MONSTER);
+		SAFE_RELEASE(m_GUN);
+		SAFE_RELEASE(m_SHOVEL);
 	}
 	SAFE_RELEASE(m_pSphereBody);
 	SAFE_RELEASE(m_pSphereHead);
@@ -60,10 +69,14 @@ void Mob::Init()
 	D3DXCreateSphere(g_pDevice, 2.7f, 10, 10, &m_pSphereBody, NULL);
 	m_pBoundingSphereBody = new BoundingSphere(m_pos, 2.7f);
 
-	if (GSM().Debug_Mode == true)
+	if (!GSM().Debug_Mode_On)
 	{
 		m_MONSTER = new MONSTER;
 		m_MONSTER->Init();
+		m_GUN = new GUN;
+		m_GUN->Init();
+		m_SHOVEL = new SHOVEL;
+		m_SHOVEL->Init();
 	}
 
 	SaveAction();
@@ -93,7 +106,7 @@ void Mob::Update()
 		{
 			m_Death_count = 0;
 			m_Death = true;
-			m_pos = { 1000,-5000,1000 };
+			//m_pos = { 0,-1000,0 };
 		}
 		if (!deathShout)
 		{
@@ -105,6 +118,8 @@ void Mob::Update()
 
 	if (status > 0) {
 		
+		
+
 		deathShout = false;
 		
 		m_Death = false;
@@ -127,6 +142,9 @@ void Mob::Update()
 		//m_pRootParts->Update();
 	/*	m_MONSTER->SetPos(m_pos);
 		m_MONSTER->Update();*/
+		/*Debug->AddText("¸÷ ÁÂÇ¥: ");
+		Debug->AddText(m_pos);
+		Debug->EndLine();*/
 		/*Debug->AddText("¸÷ Ã¼·Â: ");
 		Debug->AddText(health);
 		Debug->AddText(" / ÀåÀü: ");
@@ -138,22 +156,22 @@ void Mob::Update()
 		Debug->EndLine();*/
 
 		D3DXVECTOR3 forwardDir = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
-		if (forwardDir.x <= 0)
+		if (m_colision == false)
 		{
-			D3DXVECTOR3 forwardNor = forwardDir;
-			D3DXVec3Normalize(&forwardNor, &forwardNor);
-			m_angle = D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2);
+			if (forwardDir.x <= 0)
+			{
+				D3DXVECTOR3 forwardNor = forwardDir;
+				D3DXVec3Normalize(&forwardNor, &forwardNor);
+				m_angle = D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2);
+			}
+			else
+			{
+				D3DXVECTOR3 forwardNor = forwardDir;
+				D3DXVec3Normalize(&forwardNor, &forwardNor);
+				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2));
+			}
 		}
-		else
-		{
-			D3DXVECTOR3 forwardNor = forwardDir;
-			D3DXVec3Normalize(&forwardNor, &forwardNor);
-			m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2));
-		}
-		Debug->AddText(m_avoidObstDir);
-		Debug->AddText("  ");
-		Debug->AddText(m_colision);
-		Debug->EndLine();
+		
 	}
 	Act_Action();
 
@@ -168,7 +186,7 @@ void Mob::Update()
 	//Debug->EndLine();
 	//m_angle = acos((m_pos.x * m_destPos.x)+(m_pos.y * m_destPos.y)+(m_pos.z * m_destPos.z));
 
-	if (GSM().Debug_Mode)
+	if (!GSM().Debug_Mode_On)
 	{
 		//Ä«¸Þ¶ó ¹üÀ§¾È¿¡ ¿ÔÀ»¶§
 		if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
@@ -181,6 +199,26 @@ void Mob::Update()
 
 			m_MONSTER->SetAnimationIndex(ani_state);//¾Ö´Ï¸ÞÀÌ¼Ç¼³Á¤
 			m_MONSTER->Update();//¾÷µ¥ÀÌÆ®
+
+			if (Weapon_Mode == ÃÑµë)
+			{
+				if(ani_state != ¸÷_µÚ·Î¾É¾Æ¼­ÀåÀü)
+					m_GUN->SetPos(m_MONSTER->GetLeftPos());
+				else
+					m_GUN->SetPos(m_MONSTER->GetRightPos());
+
+				m_GUN->SetAngle(m_angle);
+				m_GUN->Update();
+
+			}			
+			else if (Weapon_Mode == »ðµë)
+			{
+				//m_SHOVEL->SetMat(&m_MONSTER->GetMeleeMat());
+				m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
+				m_SHOVEL->SetAngle(m_angle);
+				m_SHOVEL->Update();
+			}
+			
 		}
 	}
 
@@ -230,12 +268,17 @@ void Mob::Render()
 	}
 	//if ()
 
-	if (GSM().Debug_Mode)
+	if (!GSM().Debug_Mode_On)
 	{
 		if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 		{
 			m_MONSTER->SetRenderSTATE(true);
 			m_MONSTER->Render();
+
+			if(Weapon_Mode == ÃÑµë)
+				m_GUN->Render();
+			else if(Weapon_Mode == »ðµë)
+				m_SHOVEL->Render();
 		}
 	}
 }
@@ -468,6 +511,23 @@ void Mob::Act_Reload()
 void Mob::Act_Action()
 {
 	ani_state = m_Act._action;
+
+	if (ani_state == ¸÷_´Þ¸®´Ù°¡Á×±â
+		|| ani_state == ¸÷_Á×À½)
+	{
+		Weapon_Mode = ¸Ç¼Õ;
+	}
+	else if (ani_state == ¸÷_Ä®µç»óÅÂ
+		|| ani_state == ¸÷_±ÙÁ¢ÀüÅõ)
+	{
+		Weapon_Mode = »ðµë;
+	}
+	else
+	{
+		Weapon_Mode = ÃÑµë;
+	}
+
+
 }
 
 MOB_SITUATION Mob::PlayerSearch()
