@@ -22,6 +22,9 @@ SceneXfile::SceneXfile()
 
 SceneXfile::~SceneXfile()
 {
+	SAFE_RELEASE(m_GUN);
+	SAFE_RELEASE(m_SHOVEL);
+	SAFE_RELEASE(m_pSkinnedMesh);
 
 	OnDestructIScene();
 	/*m_GUN->Release();
@@ -60,14 +63,22 @@ void SceneXfile::Update()
 	
 	m_pSkinnedMesh->Update();
 	//m_GUN->SetPos(m_pSkinnedMesh->GetGunPos());
-	m_GUN->SetMat(m_pSkinnedMesh->GetGunMat());
+	m_GUN->SetMat(m_pSkinnedMesh->GetLeftMat());
 	m_GUN->Update();
 
+	m_SHOVEL->SetMat(m_pSkinnedMesh->GetRightMat());
+	m_SHOVEL->Update();
+
+	
+
+	Debug->AddText(D3DXVECTOR3(*m_pSkinnedMesh->GetRightMat()));
+
 	Debug->EndLine();
-	Debug->AddText(m_pSkinnedMesh->GetGunPos());
-	Debug->AddText("/");
-	Debug->AddText(m_GUN->GetPosition());
-	Debug->EndLine();
+	//Debug->EndLine();
+	//Debug->AddText(m_pSkinnedMesh->GetGunPos());
+	//Debug->AddText("/");
+	//Debug->AddText(m_GUN->GetPosition());
+	//Debug->EndLine();
 
 	OnUpdateIScene();
 
@@ -77,11 +88,12 @@ void SceneXfile::Render()
 {
 	m_pSkinnedMesh->Render();
 	m_GUN->Render();
+	m_SHOVEL->Render();
 	OnRenderIScene();
 
 }
 
 void SceneXfile::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-
+	return;
 }
