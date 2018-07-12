@@ -156,6 +156,7 @@ public:
 	MOB_SITUATION TrenchFight();
 	MOB_SITUATION CanShooting();
 	void Shooting();
+	void Act_Die();
 	void SetAllSaveLocation(vector<D3DXVECTOR3> m_SaveLocation) { m_AllSaveLocation = m_SaveLocation; }
 	void SetMoveTheWall(D3DXVECTOR3 wallLocation, int Locationnum, int _CanseeDirection)
 	{

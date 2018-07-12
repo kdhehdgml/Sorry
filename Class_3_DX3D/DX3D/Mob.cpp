@@ -92,27 +92,7 @@ void Mob::Init()
 void Mob::Update()
 {
 	if (health <= 0) {
-		status = 0;
-
-		m_Death_count++;
-
-		if (m_Death_count == 1)
-		{
-			m_Death_Time = GetTickCount();
-		}
-
-		//죽은 시간의 끝
-		if (GetTickCount() >= m_Death_Time + DEATH_TIME)
-		{
-			m_Death_count = 0;
-			m_Death = true;
-			//m_pos = { 0,-1000,0 };
-		}
-		if (!deathShout)
-		{
-			g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
-			deathShout = true;
-		}
+		Act_Die();
 	}
 	SelectAction();
 
@@ -533,7 +513,7 @@ void Mob::Act_Action()
 MOB_SITUATION Mob::PlayerSearch()
 {
 	//참호근처까지갔을때
-	if (m_pos.x < NODE_POSITSIZEX + 100.0f)
+	if (m_pos.x < NODE_POSITSIZEX + 120.0f)
 	{	
 		return TrenchFight();
 	}
@@ -582,7 +562,7 @@ MOB_SITUATION Mob::TrenchFight()
 		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f)
 		{
 			m_moveSpeed = GSM().mobSpeed;
-			if (m_DestTime > 300)
+			if (m_DestTime > 500)
 			{
 				SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
 				m_DestTime = 0;
@@ -727,6 +707,31 @@ void Mob::Shooting()
 	{
 		Shootpos[0] = (VERTEX_PC(myPos, c));
 		Shootpos[1] = (VERTEX_PC(forward, c));
+	}
+}
+
+void Mob::Act_Die()
+{
+	status = 0;
+
+	m_Death_count++;
+
+	if (m_Death_count == 1)
+	{
+		m_Death_Time = GetTickCount();
+	}
+
+	//죽은 시간의 끝
+	if (GetTickCount() >= m_Death_Time + DEATH_TIME)
+	{
+		m_Death_count = 0;
+		m_Death = true;
+		//m_pos = { 0,-1000,0 };
+	}
+	if (!deathShout)
+	{
+		g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
+		deathShout = true;
 	}
 }
 
