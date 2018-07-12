@@ -49,7 +49,7 @@ void SceneLoading::Init()
 	pImage = new UIImage(m_pSprite);
 	pImage->m_bDrawBorder = false;
 	pImage->SetTexture("resources/ui/LoadingScreen.png");
-	pImage->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
+	pImage->SetPosition(&D3DXVECTOR3(30, -20, 0));
 	m_pLoadingScreen = pImage;
 
 	//g_pSceneManager->SetCurrentScene(SCENE_HEIGHTMAP);

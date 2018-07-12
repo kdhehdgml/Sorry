@@ -87,6 +87,15 @@
     <Filter Include="소스 파일\Shader">
       <UniqueIdentifier>{8f271139-0de6-4411-9569-6e304308f340}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Skin\weapons">
+      <UniqueIdentifier>{795ed084-7b53-4fb0-88e8-480a9cfd141b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Skin\NPC">
+      <UniqueIdentifier>{11635f7d-7219-4140-b7e8-abe675153ed4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Skin\Player">
+      <UniqueIdentifier>{73e02cfc-ac34-481e-a541-b3349dd935a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -305,15 +314,6 @@
     <ClInclude Include="ObjRen.h">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClInclude>
-    <ClInclude Include="MONSTER.h">
-      <Filter>소스 파일\Skin</Filter>
-    </ClInclude>
-    <ClInclude Include="Player_hands.h">
-      <Filter>소스 파일\Skin</Filter>
-    </ClInclude>
-    <ClInclude Include="TEAM_TEX.h">
-      <Filter>소스 파일\Skin</Filter>
-    </ClInclude>
     <ClInclude Include="ALLTexTURE.h">
       <Filter>소스 파일\Skin</Filter>
     </ClInclude>
@@ -334,9 +334,6 @@
     </ClInclude>
     <ClInclude Include="WallManager.h">
       <Filter>소스 파일\Wall</Filter>
-    </ClInclude>
-    <ClInclude Include="GUN.h">
-      <Filter>소스 파일\Skin</Filter>
     </ClInclude>
     <ClInclude Include="seqManager.h">
       <Filter>소스 파일\Event</Filter>
@@ -372,7 +369,24 @@
       <Filter>소스 파일\Wall</Filter>
     </ClInclude>
     <ClInclude Include="BulletUI.h" />
-    <ClInclude Include="SHOVEL.h" />
+    <ClInclude Include="GUN.h">
+      <Filter>소스 파일\Skin\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Smle.h">
+      <Filter>소스 파일\Skin\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="SHOVEL.h">
+      <Filter>소스 파일\Skin\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="MONSTER.h">
+      <Filter>소스 파일\Skin\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="TEAM_TEX.h">
+      <Filter>소스 파일\Skin\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_hands.h">
+      <Filter>소스 파일\Skin\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -576,15 +590,6 @@
     <ClCompile Include="ObjRen.cpp">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClCompile>
-    <ClCompile Include="MONSTER.cpp">
-      <Filter>소스 파일\Skin</Filter>
-    </ClCompile>
-    <ClCompile Include="Player_hands.cpp">
-      <Filter>소스 파일\Skin</Filter>
-    </ClCompile>
-    <ClCompile Include="TEAM_TEX.cpp">
-      <Filter>소스 파일\Skin</Filter>
-    </ClCompile>
     <ClCompile Include="ALLTexTURE.cpp">
       <Filter>소스 파일\Skin</Filter>
     </ClCompile>
@@ -605,9 +610,6 @@
     </ClCompile>
     <ClCompile Include="WallManager.cpp">
       <Filter>소스 파일\Wall</Filter>
-    </ClCompile>
-    <ClCompile Include="GUN.cpp">
-      <Filter>소스 파일\Skin</Filter>
     </ClCompile>
     <ClCompile Include="seqManager.cpp">
       <Filter>소스 파일\Event</Filter>
@@ -640,7 +642,24 @@
       <Filter>소스 파일\Wall</Filter>
     </ClCompile>
     <ClCompile Include="BulletUI.cpp" />
-    <ClCompile Include="SHOVEL.cpp" />
+    <ClCompile Include="GUN.cpp">
+      <Filter>소스 파일\Skin\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Smle.cpp">
+      <Filter>소스 파일\Skin\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="SHOVEL.cpp">
+      <Filter>소스 파일\Skin\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="MONSTER.cpp">
+      <Filter>소스 파일\Skin\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="TEAM_TEX.cpp">
+      <Filter>소스 파일\Skin\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_hands.cpp">
+      <Filter>소스 파일\Skin\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

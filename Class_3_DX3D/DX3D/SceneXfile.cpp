@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include "SceneXfile.h"
 #include "SkinnedMesh.h"
+
 #include "GUN.h"
+#include "SHOVEL.h"
 
 #include "SkyBox.h"
+
+//#include "ALLTexTURE.h"
 
 
 SceneXfile::SceneXfile()
@@ -11,6 +15,8 @@ SceneXfile::SceneXfile()
 	m_pSkinnedMesh = NULL;
 	m_SkyBox = NULL;
 	m_GUN = NULL;
+	m_SHOVEL = NULL;
+//	m_ALLTexTURE = NULL;
 }
 
 
@@ -36,6 +42,10 @@ void SceneXfile::Init()
 	m_SkyBox->Init();
 	AddSimpleDisplayObj(m_SkyBox);
 
+	m_SHOVEL = new SHOVEL;
+	m_SHOVEL->Init();
+
+
 }
 
 void SceneXfile::Update()
@@ -49,8 +59,8 @@ void SceneXfile::Update()
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 	
 	m_pSkinnedMesh->Update();
-	m_GUN->SetPos(m_pSkinnedMesh->GetGunPos());
-	//m_GUN->SetMat(&m_pSkinnedMesh->GetGunMat());
+	//m_GUN->SetPos(m_pSkinnedMesh->GetGunPos());
+	m_GUN->SetMat(m_pSkinnedMesh->GetGunMat());
 	m_GUN->Update();
 
 	Debug->EndLine();

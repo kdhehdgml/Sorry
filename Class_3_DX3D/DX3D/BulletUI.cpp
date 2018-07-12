@@ -30,7 +30,7 @@ void BulletUI::Init()
 	for (int i = 0; i < 5; i++) {
 		m_pBullets[i] = new UIImage(m_pSprite);
 		m_pBullets[i]->SetTexture("resources/ui/bullets.png");
-		m_pBullets[i]->SetPosition(&D3DXVECTOR3(i*50, 0, 0));
+		m_pBullets[i]->SetPosition(&D3DXVECTOR3(-(i*35), 0, 0));
 		m_pBullets[i]->m_bDrawBorder = false;
 		m_pRootUI->AddChild(m_pBullets[i]);
 	}
@@ -38,7 +38,7 @@ void BulletUI::Init()
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1);
 	D3DXMATRIXA16 matT;
-	D3DXMatrixTranslation(&matT, 1010, 560, 0);
+	D3DXMatrixTranslation(&matT, 1220, 560, 0);
 	m_matWorld = matS * matT;
 }
 

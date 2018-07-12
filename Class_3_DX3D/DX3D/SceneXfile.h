@@ -5,6 +5,9 @@
 class SkinnedMesh;
 class SkyBox;
 class GUN;
+class SHOVEL;
+
+
 
 
 
@@ -15,6 +18,7 @@ private:
 	SkinnedMesh * m_pSkinnedMesh;
 	GUN *		m_GUN;
 	SkyBox *		m_SkyBox;
+	SHOVEL *		m_SHOVEL;
 public:
 	SceneXfile();
 	~SceneXfile();

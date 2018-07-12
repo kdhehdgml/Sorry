@@ -111,5 +111,6 @@ public:
 
 private:
 	void Event();
+	void ResetScene();
 };
 

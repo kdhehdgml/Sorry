@@ -1,19 +1,19 @@
 #pragma once
 #include "IUnitObject.h"
 
-struct GUN_KINDS
-{
-	string name;
-	CString path;
-	CString filename;
-};
+//struct GUN_KINDS
+//{
+//	string name;
+//	CString path;
+//	CString filename;
+//};
 
 class GUN : public IUnitObject
 {
 
 protected:
 	//ÃÑ±âÁ¾·ù
-	GUN_KINDS Kar98;
+	//GUN_KINDS Kar98;
 	//GUN_KINDS Smle;
 
 
@@ -50,6 +50,7 @@ protected:
 
 	float						trackSpeed;
 
+	D3DXMATRIXA16				m_Hand_mat;
 
 public:
 	GUN();
@@ -63,7 +64,7 @@ public:
 	void Load(LPCTSTR path, LPCTSTR filename);
 	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
 	void SetState(int state) { m_state = state; }
-	void SetMat(D3DXMATRIXA16 *mat) { m_matWorld = *mat; }
+	void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = (*mat); }
 	void SetMatS(D3DXMATRIXA16 S) { matS = S; }
 	void SetMatR(D3DXMATRIXA16 R) { matR = R; }
 	void SetMatT(D3DXMATRIXA16 T) { matT = T; }

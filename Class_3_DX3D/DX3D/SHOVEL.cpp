@@ -41,7 +41,7 @@ void SHOVEL::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/MONSTER_AI/weapons/melee/";
+	CString path = "resources/xFile/weapons/melee/";
 	CString filename = "shovel.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
