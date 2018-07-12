@@ -87,7 +87,7 @@ void UnitBox::Init()
 		m_pTeam[i]->SetPosition(&m_TeamPosition[posit[i]]);
 	}
 	posit.clear();
-	//hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
+	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
 	LocationSharing();
 	//CreateMob(50);
 }

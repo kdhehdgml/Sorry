@@ -173,6 +173,7 @@
     <ClInclude Include="CD3Mesh.h" />
     <ClInclude Include="DE_HEADGEAR.h" />
     <ClInclude Include="eventTalk.h" />
+    <ClInclude Include="FR_HEADGEAR.h" />
     <ClInclude Include="GUN.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="LightingShader.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="CD3Mesh.cpp" />
     <ClCompile Include="DE_HEADGEAR.cpp" />
     <ClCompile Include="eventTalk.cpp" />
+    <ClCompile Include="FR_HEADGEAR.cpp" />
     <ClCompile Include="GUN.cpp" />
     <ClCompile Include="LightingShader.cpp" />
     <ClCompile Include="MainScreenUI.cpp" />
