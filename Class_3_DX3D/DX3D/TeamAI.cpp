@@ -33,6 +33,7 @@ TeamAI::TeamAI()
 	m_Death = false;
 	
 	deathShout = false;
+	reloadShout = false;
 }
 
 
@@ -439,9 +440,18 @@ void TeamAI::Shooting()
 void TeamAI::Reloading()
 {
 	m_reloading++;
+
+	if (m_bullet == 0 && !reloadShout)
+	{
+		int r = rand() % 5;
+		if(r == 1)
+			g_pSoundManager->updateSpeaker(sType::VOICE_RELOAD, NULL, m_pos);
+		reloadShout = true;
+	}
 	if (m_reloading > 100)
 	{
 		m_bullet = 5;
 		m_reloading = 0;
+		reloadShout = false;
 	}
 }

@@ -154,6 +154,11 @@ void SoundManager::soundList()
 	s_vIncoming_f.push_back("IncomingEnemy3");
 	s_vIncoming_f.push_back("IncomingEnemy4");
 	s_vIncoming_f.push_back("IncomingEnemy5");
+
+	s_vReload_f.push_back("Reload1");
+	s_vReload_f.push_back("Reload2");
+	s_vReload_f.push_back("Reload3");
+	s_vReload_f.push_back("Reload4");
 }
 
 void SoundManager::setMP3(string folder, string * s_name, vector<string> s_name_file)
@@ -187,6 +192,7 @@ void SoundManager::createSound()
 		CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
 		CreateWAV(m_pV_Death, "Voice/Death/", s_vDeath, s_vDeath_f, _3D);
 		CreateWAV(m_pV_Incoming, "Voice/Incoming/", s_vIncoming, s_vIncoming_f, EFFECT);
+		CreateWAV(m_pV_Reload, "Voice/Reload/", s_vReload, s_vReload_f, _3D);
 
 		CreateMP3(m_pMusic, "Music/", s_music, s_music_f, MUSIC);
 		CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
@@ -274,6 +280,10 @@ void SoundManager::updateSpeaker(int type, int soundNum, D3DXVECTOR3 sPos)
 		m_pV_Death->setSpeaker(r, SpeakerPos, SpeakerVel);
 		voiceSound(vType::DEATH, r);
 		break;
+	case 3:
+		r = rand() % 4;
+		m_pV_Reload->setSpeaker(r, SpeakerPos, SpeakerVel);
+		voiceSound(vType::RELOAD, r);
 	}
 }
 
@@ -400,5 +410,8 @@ void SoundManager::voiceSound(int type, int soundNum)
 		r = rand() % 4;
 		m_pV_Incoming->volumeControl(r, volume_music);
 		m_pV_Incoming->PlaySound(r);
+	case 3: // ÀçÀåÀü
+		m_pV_Reload->volumeControl(soundNum, volume_music);
+		m_pV_Reload->PlaySound(soundNum);
 	}
 }

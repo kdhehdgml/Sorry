@@ -92,27 +92,7 @@ void Mob::Init()
 void Mob::Update()
 {
 	if (health <= 0) {
-		status = 0;
-
-		m_Death_count++;
-
-		if (m_Death_count == 1)
-		{
-			m_Death_Time = GetTickCount();
-		}
-
-		//죽은 시간의 끝
-		if (GetTickCount() >= m_Death_Time + DEATH_TIME)
-		{
-			m_Death_count = 0;
-			m_Death = true;
-			//m_pos = { 0,-1000,0 };
-		}
-		if (!deathShout)
-		{
-			g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
-			deathShout = true;
-		}
+		Act_Die();
 	}
 	SelectAction();
 
@@ -727,6 +707,31 @@ void Mob::Shooting()
 	{
 		Shootpos[0] = (VERTEX_PC(myPos, c));
 		Shootpos[1] = (VERTEX_PC(forward, c));
+	}
+}
+
+void Mob::Act_Die()
+{
+	status = 0;
+
+	m_Death_count++;
+
+	if (m_Death_count == 1)
+	{
+		m_Death_Time = GetTickCount();
+	}
+
+	//죽은 시간의 끝
+	if (GetTickCount() >= m_Death_Time + DEATH_TIME)
+	{
+		m_Death_count = 0;
+		m_Death = true;
+		//m_pos = { 0,-1000,0 };
+	}
+	if (!deathShout)
+	{
+		g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
+		deathShout = true;
 	}
 }
 

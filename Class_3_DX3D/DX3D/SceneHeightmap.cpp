@@ -65,7 +65,15 @@ double getCurrentValue() {
 }
 
 void SceneHeightmap::ResetScene() {
-	Init();
+	for (auto p : *m_pUnit->getPMob()) {
+		p->setHealth(0);
+	}
+	for (auto p : *m_pUnit->getPTeam()) {
+		p->setStatus(1);
+		p->setHealth(100);
+	}
+	g_pCamera->setRotX(-0.34f);
+	g_pCamera->setRotY(1.6f);
 }
 
 SceneHeightmap::SceneHeightmap()
