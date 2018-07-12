@@ -23,6 +23,8 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
+	virtual void RenderUseShader_0() override;
+	virtual void RenderUseShader_1() override;
 	virtual bool GetHeight(OUT float & height, const D3DXVECTOR3 & pos) override;
 	virtual bool CalcPickedPosition(D3DXVECTOR3 &vOut,
 		WORD screenX, WORD screenY) override;

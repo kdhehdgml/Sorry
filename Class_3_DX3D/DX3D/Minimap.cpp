@@ -32,7 +32,7 @@ void Minimap::Init()
 	m_pRootUI = m_minimap;
 	m_playerIcon = new UIImage(m_minimapSprite);
 	m_pRootUI->AddChild(m_playerIcon);
-	m_playerIcon->SetTexture("resources/ui/point01.bmp");
+	m_playerIcon->SetTexture("resources/ui/point01.png");
 	m_playerIcon->SetPosition(&D3DXVECTOR3(-5, -5, -1));
 	m_pScaleBuf = GSM().mapSize / minimapWidth;
 
@@ -64,13 +64,15 @@ void Minimap::Update()
 	float tempX = (playerPos.x / m_pScaleBuf) - Chai / 2;
 	float tempZ = (playerPos.z / m_pScaleBuf) + Chai;
 	
-	if (isInMap(tempX, tempZ))
-	{
+	if (isInMap(tempX, tempZ)) {
 		tempZ = minimapWidth - tempZ;
 		m_playerIcon->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0));
 	}
-	else
+	else {
 		m_playerIcon->SetPosition(&D3DXVECTOR3(-5, -5, -1));
+	}
+	//D3DXMatrixTransformation2D(&m_playerIconRotation, NULL, NULL, NULL, &D3DXVECTOR2(8, 8), g_pCamera->getAngleX(), NULL);
+	m_playerIcon->m_rotAngle = g_pCamera->getAngleX();
 	//플레이어 위치 미니맵 표시 계산 끝
 
 	//적 위치 미니맵 표시 계산

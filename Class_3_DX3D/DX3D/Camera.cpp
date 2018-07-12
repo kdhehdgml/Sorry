@@ -486,10 +486,10 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				float distance1 = sqrtf(D3DXVec3Dot(&posDiff1, &posDiff1));
 				float distance2 = sqrtf(D3DXVec3Dot(&posDiff2, &posDiff2));
 				if (rayHit && distance2 < distance1) {
-					MessageBox(NULL, TEXT("ÃÑ¾ËÀÌ ¶¥¿¡ ºÎµúÇû½À´Ï´Ù."), TEXT("DEBUG"), MB_OK);
+					//MessageBox(NULL, TEXT("ÃÑ¾ËÀÌ ¶¥¿¡ ºÎµúÇû½À´Ï´Ù."), TEXT("DEBUG"), MB_OK);
 				}
 				else {
-					m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - 50);
+					m_pMob[enemyIndex]->setHealth(m_pMob[enemyIndex]->getHealth() - damageGiven);
 				}
 			}
 			

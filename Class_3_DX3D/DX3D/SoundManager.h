@@ -22,8 +22,11 @@ private:
 	SoundControl * m_pWhistle;		string * s_whistle;		vector<string> s_whistle_f;
 
 	SoundControl * m_pV_Death;		string * s_vDeath;		vector<string> s_vDeath_f;
+	SoundControl * m_pV_Incoming;	string * s_vIncoming;	vector<string> s_vIncoming_f;
 	//===================================================================================
 	
+	int r;
+
 	int walkInterval;
 	int runInterval;
 	int reloadInterval;
@@ -73,7 +76,7 @@ public:
 	void WalkSound();
 	void RunSound();
 
-	void effectSound(int soundNum);
+	void effectSound(int type, int soundNum);
 	void voiceSound(int type, int soundNum);
 };
 

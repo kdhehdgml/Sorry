@@ -149,6 +149,11 @@ void SoundManager::soundList()
 	s_vDeath_f.push_back("Death24");
 	s_vDeath_f.push_back("Death25");
 	s_vDeath_f.push_back("Death26");
+
+	s_vIncoming_f.push_back("IncomingEnemy2");
+	s_vIncoming_f.push_back("IncomingEnemy3");
+	s_vIncoming_f.push_back("IncomingEnemy4");
+	s_vIncoming_f.push_back("IncomingEnemy5");
 }
 
 void SoundManager::setMP3(string folder, string * s_name, vector<string> s_name_file)
@@ -181,6 +186,7 @@ void SoundManager::createSound()
 
 		CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
 		CreateWAV(m_pV_Death, "Voice/Death/", s_vDeath, s_vDeath_f, _3D);
+		CreateWAV(m_pV_Incoming, "Voice/Incoming/", s_vIncoming, s_vIncoming_f, EFFECT);
 
 		CreateMP3(m_pMusic, "Music/", s_music, s_music_f, MUSIC);
 		CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
@@ -264,9 +270,10 @@ void SoundManager::updateSpeaker(int type, int soundNum, D3DXVECTOR3 sPos)
 		play3D(soundNum);
 		break;
 	case 2:
-		int r26 = rand() % 26;
-		m_pV_Death->setSpeaker(r26, SpeakerPos, SpeakerVel);
-		voiceSound(1, r26);
+		r = rand() % 26;
+		m_pV_Death->setSpeaker(r, SpeakerPos, SpeakerVel);
+		voiceSound(vType::DEATH, r);
+		break;
 	}
 }
 
@@ -328,9 +335,9 @@ void SoundManager::update3D()
 
 void SoundManager::ShotSound()
 {
-	int rN = rand() % s_shot_1_f.size();
+	r = rand() % s_shot_1_f.size();
 
-	m_pShot_1->PlaySound(rN);
+	m_pShot_1->PlaySound(r);
 }
 
 void SoundManager::ReloadSound()
@@ -341,13 +348,13 @@ void SoundManager::ReloadSound()
 void SoundManager::WalkSound()
 {
 	int r6 = rand() % 6;
-	int rGW = rand() % s_gear_walk_f.size();
+	r = rand() % s_gear_walk_f.size();
 
 	walkInterval++;
 	if (walkInterval > 30)
 	{
 		m_pWalk_Dirt->PlaySound(r6);
-		m_pGear_Walk->PlaySound(rGW);
+		m_pGear_Walk->PlaySound(r);
 
 		walkInterval = 0;
 	}
@@ -356,21 +363,29 @@ void SoundManager::WalkSound()
 void SoundManager::RunSound()
 {
 	int r6 = rand() % 6;
-	int rGW = rand() % s_gear_walk_f.size();
+	r = rand() % s_gear_walk_f.size();
 
 	runInterval++;
 	if (runInterval > 20)
 	{
 		m_pRun_Dirt->PlaySound(r6);
-		m_pGear_Walk->PlaySound(rGW);
+		m_pGear_Walk->PlaySound(r);
 
 		runInterval = 0;
 	}
 }
 
-void SoundManager::effectSound(int soundNum)
+void SoundManager::effectSound(int type, int soundNum)
 {
-	m_pWhistle->PlaySound(soundNum);
+	switch (type)
+	{
+	case 0:
+		m_pWhistle->PlaySound(soundNum);
+		break;
+	case 1:
+		break;
+	}
+	
 }
 
 void SoundManager::voiceSound(int type, int soundNum)
@@ -381,5 +396,9 @@ void SoundManager::voiceSound(int type, int soundNum)
 		m_pV_Death->volumeControl(soundNum, volume_music);
 		m_pV_Death->PlaySound(soundNum);
 		break;
+	case 2: // ÀÎÄ¿¹Ö
+		r = rand() % 4;
+		m_pV_Incoming->volumeControl(r, volume_music);
+		m_pV_Incoming->PlaySound(r);
 	}
 }

@@ -11,6 +11,7 @@ private:
 	LPD3DXSPRITE m_minimapSprite;
 	UIImage * m_minimap;
 	UIImage * m_playerIcon;
+	D3DXMATRIXA16 m_playerIconRotation;
 	vector<UIImage*> m_teamIcon;
 	vector<UIImage*> m_enemyIcon;
 	IUBaseObject* m_pRootUI;

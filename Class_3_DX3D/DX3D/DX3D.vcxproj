@@ -169,6 +169,7 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="BulletUI.h" />
     <ClInclude Include="CD3Mesh.h" />
     <ClInclude Include="eventTalk.h" />
     <ClInclude Include="GUN.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="seqManager.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="ShadowMappingShader.h" />
+    <ClInclude Include="SHOVEL.h" />
     <ClInclude Include="SoundControl.h" />
     <ClInclude Include="Blocks.h" />
     <ClInclude Include="Camera.h" />
@@ -264,6 +266,7 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="BulletUI.cpp" />
     <ClCompile Include="CD3Mesh.cpp" />
     <ClCompile Include="eventTalk.cpp" />
     <ClCompile Include="GUN.cpp" />
@@ -282,6 +285,7 @@
     <ClCompile Include="seqManager.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="ShadowMappingShader.cpp" />
+    <ClCompile Include="SHOVEL.cpp" />
     <ClCompile Include="SoundControl.cpp" />
     <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Camera.cpp" />

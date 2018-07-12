@@ -143,7 +143,10 @@ void HeightMap::SetMtlTex(D3DMATERIAL9 & mtl, LPDIRECT3DTEXTURE9 pTex)
 void HeightMap::Init()
 {
 	m_pAStar = new AStar(); m_pAStar->Init(); m_pAStar->InitNodes(this);
+	m_renderMode = RenderMode::RenderMode_Default;
+	Shaders::Get()->AddList(this, m_renderMode);
 	SetSurface();
+
 	//SetObstacle();
 	//m_pAStar->SetObstacle(m_vecObstacleVertex);
 	SetWall(m_pAStar->GetWallLocation());
@@ -183,9 +186,22 @@ void HeightMap::Render()
 	//g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-	g_pDevice->SetMaterial(&m_pMtlTex->GetMaterial());
-	g_pDevice->SetTexture(0, m_pMtlTex->GetTexture());
-	m_pMesh->DrawSubset(0);
+	//g_pDevice->SetMaterial(&m_pMtlTex->GetMaterial());
+	//g_pDevice->SetTexture(0, m_pMtlTex->GetTexture());
+	//m_pMesh->DrawSubset(0); 
+
+	if (m_renderMode == RenderMode::RenderMode_Default)
+	{
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+		g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+		g_pDevice->SetMaterial(&m_pMtlTex->GetMaterial());
+		g_pDevice->SetTexture(0, m_pMtlTex->GetTexture());
+		m_pMesh->DrawSubset(0);
+
+	}
+	/*0
+
 	g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	
 	// AStarNode 렌더
@@ -214,6 +230,105 @@ void HeightMap::Render()
 	g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	g_pDevice->SetRenderState(D3DRS_FOGENABLE, false);
 }
+
+void HeightMap::RenderUseShader_0()
+{
+	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
+	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
+	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
+															  //안개적용되는 최소 거리
+	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
+	//안개 최대치로 적용되는 거리
+	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
+	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+
+	//g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	//g_pDevice->SetMaterial(&m_pMtlTex->GetMaterial());
+	//g_pDevice->SetTexture(0, m_pMtlTex->GetTexture());
+	//m_pMesh->DrawSubset(0); 
+
+	if (m_renderMode == RenderMode::RenderMode_Default)
+	{
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+		g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+		g_pDevice->SetMaterial(&m_pMtlTex->GetMaterial());
+		g_pDevice->SetTexture(0, m_pMtlTex->GetTexture());
+		m_pMesh->DrawSubset(0);
+
+	}
+	else if (m_renderMode == RenderMode::RenderMode_Lighting)
+	{
+
+		Shaders::Get()->GetCurrentShader()->SetWorldMatrix(&m_matWorld);
+		Shaders::Get()->GetCurrentShader()->SetTexture(m_pMtlTex->GetTexture());
+		Shaders::Get()->GetCurrentShader()->SetMaterial(&m_pMtlTex->GetMaterial());
+		Shaders::Get()->GetCurrentShader()->Commit();
+		m_pMesh->DrawSubset(0);
+
+
+	}
+	else if (m_renderMode == RenderMode::RenderMode_ShadowMapping)
+	{
+		Shaders::Get()->GetCurrentShader()->SetWorldMatrix(&m_matWorld);
+		Shaders::Get()->GetCurrentShader()->SetTexture(m_pMtlTex->GetTexture());
+		Shaders::Get()->GetCurrentShader()->SetMaterial(&m_pMtlTex->GetMaterial());
+		Shaders::Get()->GetCurrentShader()->Commit();
+		m_pMesh->DrawSubset(0);
+	}
+}
+
+void HeightMap::RenderUseShader_1()
+{
+	g_pDevice->SetRenderState(D3DRS_FOGENABLE, true);
+	g_pDevice->SetRenderState(D3DRS_FOGCOLOR, 0xffbbbbbb);
+	g_pDevice->SetRenderState(D3DRS_FOGDENSITY, FtoDw(0.3f)); //강도 0~1f
+															  //안개적용되는 최소 거리
+	g_pDevice->SetRenderState(D3DRS_FOGSTART, FtoDw(GSM().fogMin));
+	//안개 최대치로 적용되는 거리
+	g_pDevice->SetRenderState(D3DRS_FOGEND, FtoDw(GSM().fogMax));
+	g_pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+
+	//g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+	//g_pDevice->SetMaterial(&m_pMtlTex->GetMaterial());
+	//g_pDevice->SetTexture(0, m_pMtlTex->GetTexture());
+	//m_pMesh->DrawSubset(0); 
+
+	if (m_renderMode == RenderMode::RenderMode_Default)
+	{
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+		g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+		g_pDevice->SetMaterial(&m_pMtlTex->GetMaterial());
+		g_pDevice->SetTexture(0, m_pMtlTex->GetTexture());
+		m_pMesh->DrawSubset(0);
+
+	}
+	else if (m_renderMode == RenderMode::RenderMode_Lighting)
+	{
+
+		Shaders::Get()->GetCurrentShader()->SetWorldMatrix(&m_matWorld);
+		Shaders::Get()->GetCurrentShader()->SetTexture(m_pMtlTex->GetTexture());
+		Shaders::Get()->GetCurrentShader()->SetMaterial(&m_pMtlTex->GetMaterial());
+		Shaders::Get()->GetCurrentShader()->Commit();
+		m_pMesh->DrawSubset(0);
+
+
+	}
+	else if (m_renderMode == RenderMode::RenderMode_ShadowMapping)
+	{
+		Shaders::Get()->GetCurrentShader()->SetWorldMatrix(&m_matWorld);
+		Shaders::Get()->GetCurrentShader()->SetTexture(m_pMtlTex->GetTexture());
+		Shaders::Get()->GetCurrentShader()->SetMaterial(&m_pMtlTex->GetMaterial());
+		Shaders::Get()->GetCurrentShader()->Commit();
+		m_pMesh->DrawSubset(0);
+	}
+}
+
 
 bool HeightMap::GetHeight(OUT float & height, const D3DXVECTOR3 & pos)
 {

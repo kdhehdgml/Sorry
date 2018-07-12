@@ -19,6 +19,9 @@ private:
 
 	bool isMusicPlay;
 
+	bool incomingVoice;
+	int incomingVoiceTime;
+
 
 public:
 	int spawnNum;

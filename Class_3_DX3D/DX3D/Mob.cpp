@@ -3,6 +3,8 @@
 #include "CubemanParts.h"
 #include "MONSTER.h"
 #include "UnitBox.h"
+#include "GUN.h"
+#include "SHOVEL.h"
 
 #define DEATH_TIME 10000
 
@@ -35,13 +37,23 @@ Mob::Mob()
 	m_angle = 0;
 
 	m_Death = false;
+
+	//스킨정보
+	m_GUN = NULL;
+	m_SHOVEL = NULL;
+	Weapon_Mode = 맨손;
 }
 
 
 Mob::~Mob()
 {
 	//m_pRootParts->ReleaseAll();
-	SAFE_RELEASE(m_MONSTER);
+	if (!GSM().Debug_Mode_On)
+	{
+		SAFE_RELEASE(m_MONSTER);
+		SAFE_RELEASE(m_GUN);
+		SAFE_RELEASE(m_SHOVEL);
+	}
 	SAFE_RELEASE(m_pSphereBody);
 	SAFE_RELEASE(m_pSphereHead);
 	SAFE_DELETE(m_pBoundingSphereBody);
@@ -57,8 +69,16 @@ void Mob::Init()
 	D3DXCreateSphere(g_pDevice, 2.7f, 10, 10, &m_pSphereBody, NULL);
 	m_pBoundingSphereBody = new BoundingSphere(m_pos, 2.7f);
 
-	m_MONSTER = new MONSTER;
-	m_MONSTER->Init();
+	if (!GSM().Debug_Mode_On)
+	{
+		m_MONSTER = new MONSTER;
+		m_MONSTER->Init();
+		m_GUN = new GUN;
+		m_GUN->Init();
+		m_SHOVEL = new SHOVEL;
+		m_SHOVEL->Init();
+	}
+
 	SaveAction();
 	Act_GunShot();
 	m_moveSpeed = GSM().mobSpeed;
@@ -86,7 +106,7 @@ void Mob::Update()
 		{
 			m_Death_count = 0;
 			m_Death = true;
-			m_pos = { 1000,-5000,1000 };
+			//m_pos = { 0,-1000,0 };
 		}
 		if (!deathShout)
 		{
@@ -98,6 +118,8 @@ void Mob::Update()
 
 	if (status > 0) {
 		
+		
+
 		deathShout = false;
 		
 		m_Death = false;
@@ -120,6 +142,9 @@ void Mob::Update()
 		//m_pRootParts->Update();
 	/*	m_MONSTER->SetPos(m_pos);
 		m_MONSTER->Update();*/
+		/*Debug->AddText("몹 좌표: ");
+		Debug->AddText(m_pos);
+		Debug->EndLine();*/
 		/*Debug->AddText("몹 체력: ");
 		Debug->AddText(health);
 		Debug->AddText(" / 장전: ");
@@ -161,18 +186,42 @@ void Mob::Update()
 	//Debug->EndLine();
 	//m_angle = acos((m_pos.x * m_destPos.x)+(m_pos.y * m_destPos.y)+(m_pos.z * m_destPos.z));
 
-	//카메라 범위안에 왔을때
-	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+	if (!GSM().Debug_Mode_On)
 	{
-		if (status != 0)
+		//카메라 범위안에 왔을때
+		if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
 		{
-			m_MONSTER->SetPos(m_pos);
-			m_MONSTER->SetAngle(m_angle);//각도받아옴
-		}
+			if (status != 0)
+			{
+				m_MONSTER->SetPos(m_pos);
+				m_MONSTER->SetAngle(m_angle);//각도받아옴
+			}
 
-		m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
-		m_MONSTER->Update();//업데이트
+			m_MONSTER->SetAnimationIndex(ani_state);//애니메이션설정
+			m_MONSTER->Update();//업데이트
+
+			if (Weapon_Mode == 총듬)
+			{
+				if(ani_state != 몹_뒤로앉아서장전)
+					m_GUN->SetPos(m_MONSTER->GetLeftPos());
+				else
+					m_GUN->SetPos(m_MONSTER->GetRightPos());
+
+				m_GUN->SetAngle(m_angle);
+				m_GUN->Update();
+
+			}			
+			else if (Weapon_Mode == 삽듬)
+			{
+				//m_SHOVEL->SetMat(&m_MONSTER->GetMeleeMat());
+				m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
+				m_SHOVEL->SetAngle(m_angle);
+				m_SHOVEL->Update();
+			}
+			
+		}
 	}
+
 }
 
 void Mob::Render()
@@ -218,10 +267,19 @@ void Mob::Render()
 		
 	}
 	//if ()
-	if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+
+	if (!GSM().Debug_Mode_On)
 	{
-		m_MONSTER->SetRenderSTATE(true);
-		m_MONSTER->Render();
+		if (g_pFrustum->IsMobAIFrustum(this) && m_Death == false)
+		{
+			m_MONSTER->SetRenderSTATE(true);
+			m_MONSTER->Render();
+
+			if(Weapon_Mode == 총듬)
+				m_GUN->Render();
+			else if(Weapon_Mode == 삽듬)
+				m_SHOVEL->Render();
+		}
 	}
 }
 
@@ -453,6 +511,23 @@ void Mob::Act_Reload()
 void Mob::Act_Action()
 {
 	ani_state = m_Act._action;
+
+	if (ani_state == 몹_달리다가죽기
+		|| ani_state == 몹_죽음)
+	{
+		Weapon_Mode = 맨손;
+	}
+	else if (ani_state == 몹_칼든상태
+		|| ani_state == 몹_근접전투)
+	{
+		Weapon_Mode = 삽듬;
+	}
+	else
+	{
+		Weapon_Mode = 총듬;
+	}
+
+
 }
 
 MOB_SITUATION Mob::PlayerSearch()
