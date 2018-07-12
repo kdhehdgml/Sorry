@@ -1,14 +1,10 @@
 #pragma once
 #include "IUnitObject.h"
 
-class SHOVEL :public IUnitObject
+class DE_HEADGEAR :public IUnitObject
 {
+
 protected:
-	//총기종류
-//	GUN_KINDS Kar98;
-	//GUN_KINDS Smle;
-
-
 
 	//애니메이션 조절용
 	LPD3DXANIMATIONSET			pCurrAnimSet;
@@ -45,8 +41,8 @@ protected:
 	D3DXMATRIXA16				m_Hand_mat;
 
 public:
-	SHOVEL();
-	~SHOVEL();
+	DE_HEADGEAR();
+	~DE_HEADGEAR();
 
 	// IUnitObject을(를) 통해 상속됨
 	virtual void Init() override;
@@ -56,13 +52,12 @@ public:
 	void Load(LPCTSTR path, LPCTSTR filename);
 	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
 	void SetState(int state) { m_state = state; }
-	void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = *mat ; }
+	void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = (*mat); }
 	void SetMatS(D3DXMATRIXA16 S) { matS = S; }
 	void SetMatR(D3DXMATRIXA16 R) { matR = R; }
 	void SetMatT(D3DXMATRIXA16 T) { matT = T; }
 	//기본적으로 우측을 보고있어서 돌려줌
 	void SetAngle(float angle) { m_angle = angle; }
-
 
 private:
 	void SetupBoneMatrixPointers(LPD3DXFRAME pFrame);
@@ -77,8 +72,11 @@ private:
 
 	float m_angle;
 
+	int count = 0;
 public:
 	void SetAnimationIndex(int nIndex) { m_AnimaTionIndex = nIndex; }
 	void SetAnimationIndex(int nIndex, bool isBlend);
+
+
 };
 
