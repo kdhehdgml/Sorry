@@ -270,7 +270,7 @@ void UnitBox::MobMoveInTheWall(int _Mobnum)
 		if (m_pMob[_Mobnum]->m_move == false)
 		{
 			//m_pMob[_Mobnum]->SetDestination(D3DXVECTOR3(5.0f + NODE_POSITSIZE, 2.67f, GSM().mobPos.z + ((_Mobnum + 1) * 20 + NODE_POSITSIZE)));
-			m_pMob[_Mobnum]->SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 100.0f, 2.67f, m_pMob[_Mobnum]->GetPosition().z));
+			m_pMob[_Mobnum]->SetDestination(D3DXVECTOR3(NODE_POSITSIZEX + 95.0f, 2.67f, m_pMob[_Mobnum]->GetPosition().z));
 			m_pMob[_Mobnum]->m_move = true;
 		}
 	}
