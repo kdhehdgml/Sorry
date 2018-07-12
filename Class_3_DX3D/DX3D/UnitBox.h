@@ -38,6 +38,7 @@ private:
 	int				TeamNum;
 	int				NOL_Team;
 	bool			m_SameChk;
+	bool			m_livePlayer;
 	
 public:
 	UnitBox();
@@ -67,6 +68,8 @@ public:
 	void PlayWave();
 	int ClearWave();
 	void FindCanMoveroad();
+	void LivingPlayer(int _health);
+	bool GameOver();
 	//void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	vector<Mob*>* getPMob();
 	vector<TeamAI*>* getPTeam();

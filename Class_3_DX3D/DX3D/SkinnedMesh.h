@@ -21,8 +21,10 @@ protected:
 	D3DXMATRIXA16				matT, matS, matR;
 
 	float						m_angle;
-	D3DXVECTOR3					m_gun_pos;
-	D3DXMATRIXA16				m_gun_mat;
+	/*D3DXVECTOR3					m_gun_pos;
+	D3DXMATRIXA16				m_gun_mat;*/
+
+	D3DXMATRIXA16				asdf;
 
 	int							count;
 
@@ -47,14 +49,29 @@ private:
 	void DrawMeshContainer(LPD3DXFRAME pFrame);
 	void DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
 
+
+	D3DXMATRIXA16				m_L_mat;
+	D3DXVECTOR3					m_L_pos;
+
+	D3DXMATRIXA16				m_R_mat;
+	D3DXVECTOR3					m_R_pos;
+
 public:
 	void SetAnimationIndex(int nIndex, bool isBlend);
-	D3DXVECTOR3 GetGunPos() { return m_gun_pos; }
-	D3DXMATRIXA16* GetGunMat() { return &m_gun_mat; }
+	D3DXVECTOR3 GetLeftPos() { return m_L_pos; }
+	LPD3DXMATRIXA16 GetLeftMat() { return &m_L_mat; } //왼손매트릭스
+	//void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = (*mat); }
+
+	D3DXVECTOR3 GetRightPos() { return m_R_pos; }
+	LPD3DXMATRIXA16 GetRightMat() { return &m_R_mat; }//오른손매트릭스
+
 	float		GetGunAngle() { return m_angle; }
+
 
 private:
 	int Weapon_Mode;
+
+
 };
 
 // OnInit

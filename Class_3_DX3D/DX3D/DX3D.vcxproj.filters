@@ -96,6 +96,9 @@
     <Filter Include="소스 파일\Skin\Player">
       <UniqueIdentifier>{73e02cfc-ac34-481e-a541-b3349dd935a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Skin\equip">
+      <UniqueIdentifier>{aea2c679-ed3e-4745-911c-69cf8955a479}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -387,6 +390,9 @@
     <ClInclude Include="Player_hands.h">
       <Filter>소스 파일\Skin\Player</Filter>
     </ClInclude>
+    <ClInclude Include="DE_HEADGEAR.h">
+      <Filter>소스 파일\Skin\equip</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -659,6 +665,9 @@
     </ClCompile>
     <ClCompile Include="Player_hands.cpp">
       <Filter>소스 파일\Skin\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="DE_HEADGEAR.cpp">
+      <Filter>소스 파일\Skin\equip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
