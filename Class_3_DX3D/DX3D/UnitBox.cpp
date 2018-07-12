@@ -638,7 +638,7 @@ int UnitBox::ClearWave()
 
 void UnitBox::FindCanMoveroad()
 {
-	float maxLocation;
+	float maxLocation = NULL;
 	for (auto p : m_pMob)
 	{
 		if (p->GetCollision() && p->GetAvoidObstDir() == 0)
@@ -652,22 +652,24 @@ void UnitBox::FindCanMoveroad()
 				else
 					break;
 			}
-			for (int i = 0; i < m_LocationList[maxLocation].size(); i++)
+			if (maxLocation != NULL)
 			{
-				if (abs(p->GetPosition().x - m_LocationList[maxLocation][i].x) < 20.0f && abs(p->GetPosition().z - m_LocationList[maxLocation][i].z) < 10.0f)
+				for (int i = 0; i < m_LocationList[maxLocation].size(); i++)
 				{
-					if (p->GetPosition().z - m_LocationList[maxLocation][i].z > 0)
+					if (abs(p->GetPosition().x - m_LocationList[maxLocation][i].x) < 20.0f && abs(p->GetPosition().z - m_LocationList[maxLocation][i].z) < 10.0f)
 					{
-						p->FindCanMoveroad(2);
-					}
-					else
-					{
-						p->FindCanMoveroad(1);
+						if (p->GetPosition().z - m_LocationList[maxLocation][i].z > 0)
+						{
+							p->FindCanMoveroad(2);
+						}
+						else
+						{
+							p->FindCanMoveroad(1);
+						}
 					}
 				}
 			}
 		}
-		
 	}
 }
 
