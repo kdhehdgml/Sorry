@@ -1,12 +1,13 @@
 #include "stdafx.h"
-#include "SHOVEL.h"
+#include "Smle.h"
+
 #include "AllocateHierarchy.h"
 
-
 // 스킨 사이즈 조절
-#define SCALE 300.00f
+#define SCALE 1.0f
 
-SHOVEL::SHOVEL()
+
+Smle::Smle()
 {
 	m_baseRotY = D3DX_PI;
 
@@ -26,7 +27,7 @@ SHOVEL::SHOVEL()
 }
 
 
-SHOVEL::~SHOVEL()
+Smle::~Smle()
 {
 	SAFE_RELEASE(m_pSphereMesh);
 	AllocateHierarchy alloc;
@@ -35,18 +36,19 @@ SHOVEL::~SHOVEL()
 	SAFE_RELEASE(m_pAnimController);
 }
 
-void SHOVEL::Init()
+void Smle::Init()
 {
+
 	D3DXCreateSphere(g_pDevice, 0.01f, 10, 10, &m_pSphereMesh, NULL);
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/weapons/melee/";
-	CString filename = "shovel.X";
+	CString path = "resources/xFile/weapons/smle/";
+	CString filename = "smle_npc.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
-	m_angle = D3DX_PI / 2;
+	m_angle = D3DX_PI;
 
 
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
@@ -55,10 +57,9 @@ void SHOVEL::Init()
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pNextAnimSet);
 	m_pAnimController->GetTrackDesc(0, &track);
 	m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
-
 }
 
-void SHOVEL::Update()
+void Smle::Update()
 {
 
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
@@ -68,6 +69,7 @@ void SHOVEL::Update()
 
 	D3DXMatrixRotationY(&matR, m_angle);
 	m_matWorld = matS * matR * matT;
+	m_matWorld = m_matWorld * m_Hand_mat;
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
@@ -76,15 +78,14 @@ void SHOVEL::Update()
 	SetAnimationIndex(m_AnimaTionIndex, true);
 }
 
-void SHOVEL::Render()
+void Smle::Render()
 {
 	m_numFrame = 0;
 	m_numMesh = 0;
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 }
 
-
-void SHOVEL::Load(LPCTSTR path, LPCTSTR filename)
+void Smle::Load(LPCTSTR path, LPCTSTR filename)
 {
 	AllocateHierarchy alloc(path);
 
@@ -97,7 +98,7 @@ void SHOVEL::Load(LPCTSTR path, LPCTSTR filename)
 	SetupBoneMatrixPointers(m_pRootFrame);
 }
 
-void SHOVEL::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
+void Smle::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
 {
 
 
@@ -117,7 +118,7 @@ void SHOVEL::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
 	}
 }
 
-void SHOVEL::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBase)
+void Smle::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBase)
 {
 	DWORD numBones;
 	FRAME_EX* pFrameExInfluence;
@@ -137,7 +138,7 @@ void SHOVEL::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBas
 	}
 }
 
-void SHOVEL::UpdateAnim()
+void Smle::UpdateAnim()
 {
 	float fDeltaTime = g_pTimeManager->GetDeltaTime();
 	// AdvanceTime 함수가 호출된 간격으로 Anim 키프레임 계산
@@ -164,7 +165,7 @@ void SHOVEL::UpdateAnim()
 
 }
 
-void SHOVEL::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
+void Smle::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 
@@ -188,7 +189,7 @@ void SHOVEL::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	}
 }
 
-void SHOVEL::DrawFrame(LPD3DXFRAME pFrame)
+void Smle::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
 
@@ -212,7 +213,7 @@ void SHOVEL::DrawFrame(LPD3DXFRAME pFrame)
 	}
 }
 
-void SHOVEL::DrawMeshContainer(LPD3DXFRAME pFrame)
+void Smle::DrawMeshContainer(LPD3DXFRAME pFrame)
 {
 	if (pFrame->pMeshContainer->pSkinInfo == NULL)
 		return;
@@ -259,7 +260,7 @@ void SHOVEL::DrawMeshContainer(LPD3DXFRAME pFrame)
 
 }
 
-void SHOVEL::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
+void Smle::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 	FRAME_EX* pParentFrameEx = (FRAME_EX*)pParent;
@@ -301,7 +302,7 @@ void SHOVEL::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	}
 }
 
-void SHOVEL::SetAnimationIndex(int nIndex, bool isBlend)
+void Smle::SetAnimationIndex(int nIndex, bool isBlend)
 {
 	//LPD3DXANIMATIONSET pNextAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
