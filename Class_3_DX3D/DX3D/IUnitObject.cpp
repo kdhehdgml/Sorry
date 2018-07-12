@@ -152,9 +152,9 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 
 								float Dir;
 								if (m_avoidObstDir == 2)
-									Dir = 0.5f;
+									Dir = 0.4f;
 								else
-									Dir = -0.5f;
+									Dir = -0.4f;
 								while (Dir <3.5f && Dir > -3.5f)
 								{
 									D3DXMatrixRotationY(&FindRotY, Dir);
@@ -163,24 +163,18 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 										p->GetPosition())) < 5.0f)
 									{
 										if (m_avoidObstDir == 2)
-											Dir += 0.5f;
+											Dir += 0.4f;
 										else
-											Dir -= 0.5f;
+											Dir -= 0.4f;
 									}
 									else
 									{
-										targetPos = m_pos + ReDir * m_moveSpeed * m_currMoveSpeedRate;
+										targetPos = m_pos + ReDir * m_moveSpeed * 3.0f * m_currMoveSpeedRate;
 										break;
 									}
 								}
-								if (abs(Dir) > 3.5f)
-								{
-									D3DXVECTOR3 temp = D3DXVECTOR3(1, 0, 1) * (5.0f - D3DXVec3Length(&(m_pos - p->GetPosition())));
-									targetPos = m_pos + temp;
-								}
 								break;
 							}
-							
 						}
 						else
 						{
