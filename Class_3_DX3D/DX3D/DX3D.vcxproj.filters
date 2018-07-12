@@ -393,6 +393,9 @@
     <ClInclude Include="DE_HEADGEAR.h">
       <Filter>소스 파일\Skin\equip</Filter>
     </ClInclude>
+    <ClInclude Include="FR_HEADGEAR.h">
+      <Filter>소스 파일\Skin\equip</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -667,6 +670,9 @@
       <Filter>소스 파일\Skin\Player</Filter>
     </ClCompile>
     <ClCompile Include="DE_HEADGEAR.cpp">
+      <Filter>소스 파일\Skin\equip</Filter>
+    </ClCompile>
+    <ClCompile Include="FR_HEADGEAR.cpp">
       <Filter>소스 파일\Skin\equip</Filter>
     </ClCompile>
   </ItemGroup>
