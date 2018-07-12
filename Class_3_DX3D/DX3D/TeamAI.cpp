@@ -443,9 +443,7 @@ void TeamAI::Reloading()
 
 	if (m_bullet == 0 && !reloadShout)
 	{
-		int r = rand() % 5;
-		if(r == 1)
-			g_pSoundManager->updateSpeaker(sType::VOICE_RELOAD, NULL, m_pos);
+		g_pSoundManager->updateSpeaker(sType::VOICE_RELOAD, NULL, m_pos);
 		reloadShout = true;
 	}
 	if (m_reloading > 100)
