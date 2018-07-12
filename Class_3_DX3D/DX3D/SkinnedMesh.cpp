@@ -213,10 +213,11 @@ void SkinnedMesh::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	mixamorig_RightRing2
 	*/
 	// "mixamorig_RightHandPinky2";
+
 	if (pFrame->Name != NULL &&  strcmp( pFrame->Name, "mixamorig_LeftHandMiddle1") == 0)
 	{
-		pFrameEx->CombinedTM  =  pFrameEx->CombinedTM * m_matWorld;
-		m_gun_mat = pFrameEx->CombinedTM;
+		/*pFrameEx->CombinedTM  =  pFrameEx->CombinedTM */
+		m_gun_mat = pFrameEx->CombinedTM * m_matWorld;
 		m_gun_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 	}
 

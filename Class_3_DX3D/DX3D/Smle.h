@@ -1,14 +1,8 @@
 #pragma once
 #include "IUnitObject.h"
 
-//struct GUN_KINDS
-//{
-//	string name;
-//	CString path;
-//	CString filename;
-//};
 
-class GUN : public IUnitObject
+class Smle :public IUnitObject
 {
 
 protected:
@@ -53,8 +47,8 @@ protected:
 	D3DXMATRIXA16				m_Hand_mat;
 
 public:
-	GUN();
-	~GUN();
+	Smle();
+	~Smle();
 
 	// IUnitObject을(를) 통해 상속됨
 	virtual void Init() override;
@@ -85,7 +79,7 @@ private:
 	float m_angle;
 
 	int count = 0;
-public: 
+public:
 	void SetAnimationIndex(int nIndex) { m_AnimaTionIndex = nIndex; }
 	void SetAnimationIndex(int nIndex, bool isBlend);
 
