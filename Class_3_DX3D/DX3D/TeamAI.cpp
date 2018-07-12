@@ -310,7 +310,7 @@ bool TeamAI::MobSearch()
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
 		{
 			D3DXVECTOR3 DirectPM = p->GetPosition() - m_pos;
-			if (abs(DirectPM.x) < 200 && abs(DirectPM.z) < 40)
+			if (abs(DirectPM.x) < 200 && abs(DirectPM.z) < 40 && p->getHealth()>0)
 			{
 				DirectPM.y = m_pos.y;
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
@@ -368,7 +368,7 @@ void TeamAI::ShootVertex()
 //근접전투
 bool TeamAI::TrenchFight(int _num) 
 {
-	float nearEnemy = 30;
+	float nearEnemy = 100;
 	int EnemyNum = NULL;
 
 	//가까운놈 찾기(Min찾는방식)

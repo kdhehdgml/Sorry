@@ -527,24 +527,6 @@ void UnitBox::ReSetMob()
 
 int UnitBox::CheckNumberOfLivingAI(int _amount)
 {
-	/*for (auto p : m_pTeam)
-	{
-		NOL_Team += p->getStatus();
-	}
-	if (NOL_Team == 0)
-	{
-		for (auto p : m_pMob)
-		{
-			p->SetMoveSpeed(0);
-		}
-	}
-	else
-	{
-		for (auto p : m_pMob)
-		{
-			p->SetMoveSpeed(GSM().mobSpeed);
-		}
-	}*/
 	vector<int> NOL;
 	int sum = 0;
 	NOL.resize(_amount);
@@ -671,6 +653,29 @@ void UnitBox::FindCanMoveroad()
 			}
 		}
 	}
+}
+
+void UnitBox::LivingPlayer(int _health)
+{
+	if (_health > 0)
+		m_livePlayer = true;
+	else
+		m_livePlayer = false;
+}
+
+bool UnitBox::GameOver()
+{
+	int numMob = 0;
+	for (auto p : m_pMob)
+	{
+		if (p->GetPosition().x < 240.0f)
+			numMob++;
+	}
+	if (!m_livePlayer || CheckNumberOfLivingAI(m_game.MaxAmount) > 20 || numMob >10)
+	{
+		return true;
+	}
+	return false;
 }
 
 vector<Mob*>* UnitBox::getPMob()

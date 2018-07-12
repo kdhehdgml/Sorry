@@ -33,7 +33,7 @@ Mob::Mob()
 	hidingChk = false;
 	ani_start = true;
 	showBoundingSphere = false;
-	m_DestTime = 0;
+	m_DestTime = 301;
 	m_angle = 0;
 
 	m_Death = false;

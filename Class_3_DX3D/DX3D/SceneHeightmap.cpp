@@ -287,6 +287,7 @@ void SceneHeightmap::Init()
 	m_Player_hands = new Player_hands;
 	m_Player_hands->Init();
 	AddSimpleDisplayObj(m_Player_hands);
+	m_pUnit->LivingPlayer(m_Player_hands->getHealth());
 
 	m_minimap = new Minimap;
 	m_minimap->Init();
