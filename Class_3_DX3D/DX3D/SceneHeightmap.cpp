@@ -64,6 +64,10 @@ double getCurrentValue() {
 	return percent * 100;
 }
 
+void SceneHeightmap::ResetScene() {
+	Init();
+}
+
 SceneHeightmap::SceneHeightmap()
 {
 	m_pHeightMap = NULL;
@@ -287,6 +291,7 @@ void SceneHeightmap::Init()
 	m_Player_hands = new Player_hands;
 	m_Player_hands->Init();
 	AddSimpleDisplayObj(m_Player_hands);
+	m_pUnit->LivingPlayer(m_Player_hands->getHealth());
 
 	m_minimap = new Minimap;
 	m_minimap->Init();
@@ -546,6 +551,9 @@ void SceneHeightmap::Update()
 			if (volume_music >= 0.049999f)
 				volume_music -= 0.049999f;
 			g_pSoundManager->volumeControl_Music(volume_music);
+		}
+		if ((GetAsyncKeyState(VK_F1) & 0x8000)) {
+			ResetScene();
 		}
 		vector<TeamAI*> m_pTeam = *m_pUnit->getPTeam();
 		float minDistance = 9999999.0f;
