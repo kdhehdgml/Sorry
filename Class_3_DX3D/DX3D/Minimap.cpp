@@ -66,7 +66,7 @@ void Minimap::Update()
 	SAFE_UPDATE(m_pRootUI);
 	//플레이어 위치 미니맵 표시 계산
 	D3DXVECTOR3 playerPos = g_pCamera->getPos();
-	D3DXMatrixTransformation2D(&m_playerIconRotation, NULL, NULL, NULL, &D3DXVECTOR2(8.0f, 8.0f), g_pCamera->getAngleY() + (270 * D3DX_PI / 180), &m_playerIconPos);
+	D3DXMatrixTransformation2D(&m_playerIconRotation, NULL, NULL, NULL, &D3DXVECTOR2(4.0f, 4.0f), g_pCamera->getAngleY() + (270 * D3DX_PI / 180), &m_playerIconPos);
 
 	playerPos.z = min(playerPos.z, 540.0f);
 	playerPos.z = max(playerPos.z, 190.0f);
@@ -77,8 +77,8 @@ void Minimap::Update()
 	float tempZ = ((GSM().mapSize - playerPos.z) * m_pScaleBuf);
 
 	//m_playerIcon->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0));
-	m_playerIconPos.x = tempZ - 112.0f;
-	m_playerIconPos.y = tempX + 323.3f;
+	m_playerIconPos.x = tempZ - 106.0f;
+	m_playerIconPos.y = tempX + 324.0f;
 
 	Debug->AddText("m_playerIconPos : ");
 	Debug->AddText(m_playerIconPos.x);

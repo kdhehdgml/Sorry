@@ -152,26 +152,30 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 
 								float Dir;
 								if (m_avoidObstDir == 2)
-									Dir = 0.4f;
+									Dir = 0.5f;
 								else
-									Dir = -0.4f;
+									Dir = -0.5f;
 								while (Dir <3.5f && Dir > -3.5f)
 								{
 									D3DXMatrixRotationY(&FindRotY, Dir);
 									D3DXVec3TransformNormal(&ReDir, &ReDir, &FindRotY);
-									if (D3DXVec3Length(&((m_pos + ReDir * m_moveSpeed * m_currMoveSpeedRate) -
+									if (D3DXVec3Length(&((m_pos + ReDir * m_moveSpeed * 2.0f * m_currMoveSpeedRate) -
 										p->GetPosition())) < 5.0f)
 									{
 										if (m_avoidObstDir == 2)
-											Dir += 0.4f;
+											Dir += 0.5f;
 										else
-											Dir -= 0.4f;
+											Dir -= 0.5f;
 									}
 									else
 									{
-										targetPos = m_pos + ReDir * m_moveSpeed * 3.0f * m_currMoveSpeedRate;
+										targetPos = m_pos + ReDir * m_moveSpeed * 2.0f * m_currMoveSpeedRate;
 										break;
 									}
+								}
+								if (m_moveSpeed > 0 && abs(Dir) > 3.5f)
+								{
+									targetPos = m_pos + (p->GetPosition() - m_pos) - D3DXVECTOR3(5.0f,0,5.0f);
 								}
 								break;
 							}
@@ -185,7 +189,6 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 				if (m_colision == false)
 				{
 					targetPos = m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
-					m_avoidObstDir = 0;
 				}
 			}
 		}

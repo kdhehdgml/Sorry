@@ -125,10 +125,6 @@ void TeamAI::Update()
 		{
 			m_Action = 팀_달리기;
 		}
-		
-
-		UpdatePositionToDestination();
-		//UpdatePosition();
 
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 4.0f;
@@ -307,11 +303,13 @@ bool TeamAI::MobSearch()
 			forward = move_forward;
 		}
 		int number = 0;
+		int targetnum = 0;
+		float minLength = 1000;
 		//아군인식범위안 적군찾기
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
 		{
 			D3DXVECTOR3 DirectPM = p->GetPosition() - m_pos;
-			if (abs(DirectPM.x) < 200 && abs(DirectPM.z) < 40)
+			if (abs(DirectPM.x) < 200 && abs(DirectPM.z) < 40 && p->getHealth()>0)
 			{
 				DirectPM.y = m_pos.y;
 				D3DXVECTOR3 DirectPMnormal = DirectPM;
@@ -319,25 +317,29 @@ bool TeamAI::MobSearch()
 				float Length = abs(p->GetPosition().x - m_pos.x + p->GetPosition().z - m_pos.z);
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 1.0f / 2.0f;
-				
-				if (Length < 10)
+				if (Length < minLength)
 				{
-					return TrenchFight(1);
-				}
-				else if (Length < 30)
-				{
-					return TrenchFight(2);
-				}
-				else if (Length < 240 && DotPM >= direct)
-				{
-					if (m_MobNum == NULL && p->getHealth() > 0)
-					{
-						m_MobNum = number;
-						return true;
-					}
+					minLength = Length;
+					targetnum = number;
 				}
 			}
 			number++;
+		}
+		if (minLength < 10)
+		{
+			return TrenchFight(1);
+		}
+		else if (minLength < 30)
+		{
+			return TrenchFight(2);
+		}
+		else if (minLength < 240)
+		{
+			if (m_MobNum == NULL && g_pObjMgr->FindObjectsByTag(TAG_MOB)[targetnum]->getHealth() > 0)
+			{
+				m_MobNum = targetnum;
+				return true;
+			}
 		}
 		m_MobNum = NULL;
 		m_Action = 팀_대기;
@@ -369,7 +371,7 @@ void TeamAI::ShootVertex()
 //근접전투
 bool TeamAI::TrenchFight(int _num) 
 {
-	float nearEnemy = 30;
+	float nearEnemy = 100;
 	int EnemyNum = NULL;
 
 	//가까운놈 찾기(Min찾는방식)

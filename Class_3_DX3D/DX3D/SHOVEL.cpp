@@ -46,7 +46,7 @@ void SHOVEL::Init()
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
-	m_angle = D3DX_PI / 2;
+	m_angle = 0 ;
 
 
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
@@ -67,7 +67,10 @@ void SHOVEL::Update()
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
 	D3DXMatrixRotationY(&matR, m_angle);
-	m_matWorld = matS * matR * matT;
+	m_matWorld = matS * matT;
+
+	m_matWorld = m_matWorld * m_Hand_mat* matR ;
+
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
