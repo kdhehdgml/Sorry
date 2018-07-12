@@ -371,7 +371,6 @@
     <ClInclude Include="SphereWall.h">
       <Filter>소스 파일\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="BulletUI.h" />
     <ClInclude Include="GUN.h">
       <Filter>소스 파일\Skin\weapons</Filter>
     </ClInclude>
@@ -392,6 +391,9 @@
     </ClInclude>
     <ClInclude Include="DE_HEADGEAR.h">
       <Filter>소스 파일\Skin\equip</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletUI.h">
+      <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
     <ClInclude Include="FR_HEADGEAR.h">
       <Filter>소스 파일\Skin\equip</Filter>
@@ -650,7 +652,6 @@
     <ClCompile Include="SphereWall.cpp">
       <Filter>소스 파일\Wall</Filter>
     </ClCompile>
-    <ClCompile Include="BulletUI.cpp" />
     <ClCompile Include="GUN.cpp">
       <Filter>소스 파일\Skin\weapons</Filter>
     </ClCompile>
@@ -670,9 +671,6 @@
       <Filter>소스 파일\Skin\Player</Filter>
     </ClCompile>
     <ClCompile Include="DE_HEADGEAR.cpp">
-      <Filter>소스 파일\Skin\equip</Filter>
-    </ClCompile>
-    <ClCompile Include="FR_HEADGEAR.cpp">
       <Filter>소스 파일\Skin\equip</Filter>
     </ClCompile>
   </ItemGroup>
