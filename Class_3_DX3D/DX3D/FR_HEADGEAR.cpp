@@ -5,7 +5,7 @@
 #include "AllocateHierarchy.h"
 
 // 스킨 사이즈 조절
-#define SCALE 1.0f
+#define SCALE 300.0f
 
 
 FR_HEADGEAR::FR_HEADGEAR()

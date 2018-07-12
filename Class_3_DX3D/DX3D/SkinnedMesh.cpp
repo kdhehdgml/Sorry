@@ -225,6 +225,16 @@ void SkinnedMesh::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 		m_R_mat = pFrameEx->CombinedTM * m_matWorld;
 		m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 	}
+	else if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_Head") == 0)
+	{
+		m_head_mat = pFrameEx->CombinedTM * m_matWorld;
+		//m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	}
+	else if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_RightPinky3") == 0)
+	{
+		m_head_mat2 = pFrameEx->CombinedTM * m_matWorld;
+		//m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	}
 
 	if (pParent != NULL)
 	{
