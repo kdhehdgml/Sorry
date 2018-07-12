@@ -673,6 +673,11 @@ bool UnitBox::GameOver()
 	}
 	if (!m_livePlayer || CheckNumberOfLivingAI(m_game.MaxAmount) > 20 || numMob >10)
 	{
+		for (auto p : m_pMob)
+		{
+			p->setHealth(0);
+		}
+		ReSetMob();
 		return true;
 	}
 	return false;
