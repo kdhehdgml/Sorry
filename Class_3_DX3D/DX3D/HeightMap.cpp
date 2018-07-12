@@ -200,7 +200,7 @@ void HeightMap::Render()
 		m_pMesh->DrawSubset(0);
 
 	}
-	/*0
+	
 
 	g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	
@@ -221,10 +221,6 @@ void HeightMap::Render()
 	//g_pDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
 	//	m_vecSurfaceVertex.size() / 3,
 	//	&m_vecSurfaceVertex[0], sizeof(D3DXVECTOR3));
-		
-	/*g_pDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-		m_vecObstacleVertex.size() / 3, &m_vecObstacleVertex[0],
-		sizeof(D3DXVECTOR3));*/
 
 	g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);

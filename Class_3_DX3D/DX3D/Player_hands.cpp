@@ -115,8 +115,6 @@ void Player_hands::Update()
 		&& m_Reload == false )
 		m_pAnimController->SetTrackPosition(0, 0);
 
-	
-
 	Debug->AddText("플레이어 체력: ");
 	Debug->AddText(health);
 	Debug->EndLine();
