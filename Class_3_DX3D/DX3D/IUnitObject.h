@@ -20,7 +20,8 @@ protected:
 	float			m_jumpPower;
 	float			m_gravity;
 	float			m_currGravity;
-
+	//°¢µµ
+	float			m_angle;
 	float			m_maxStepHeight;
 	float			m_baseRotY;
 	int				m_avoidObstDir;

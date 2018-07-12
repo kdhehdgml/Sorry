@@ -156,22 +156,22 @@ void Mob::Update()
 		Debug->EndLine();*/
 
 		D3DXVECTOR3 forwardDir = D3DXVECTOR3(m_destPos.x - m_pos.x, 0, m_destPos.z - m_pos.z);
-		if (forwardDir.x <= 0)
+		if (m_colision == false)
 		{
-			D3DXVECTOR3 forwardNor = forwardDir;
-			D3DXVec3Normalize(&forwardNor, &forwardNor);
-			m_angle = D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2);
+			if (forwardDir.x <= 0)
+			{
+				D3DXVECTOR3 forwardNor = forwardDir;
+				D3DXVec3Normalize(&forwardNor, &forwardNor);
+				m_angle = D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2);
+			}
+			else
+			{
+				D3DXVECTOR3 forwardNor = forwardDir;
+				D3DXVec3Normalize(&forwardNor, &forwardNor);
+				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2));
+			}
 		}
-		else
-		{
-			D3DXVECTOR3 forwardNor = forwardDir;
-			D3DXVec3Normalize(&forwardNor, &forwardNor);
-			m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)) + (D3DX_PI / 2));
-		}
-		Debug->AddText(m_avoidObstDir);
-		Debug->AddText("  ");
-		Debug->AddText(m_colision);
-		Debug->EndLine();
+		
 	}
 	Act_Action();
 
@@ -202,7 +202,11 @@ void Mob::Update()
 
 			if (Weapon_Mode == ÃÑµë)
 			{
-				m_GUN->SetPos(m_MONSTER->GetGunPos());
+				if(ani_state != ¸÷_µÚ·Î¾É¾Æ¼­ÀåÀü)
+					m_GUN->SetPos(m_MONSTER->GetLeftPos());
+				else
+					m_GUN->SetPos(m_MONSTER->GetRightPos());
+
 				m_GUN->SetAngle(m_angle);
 				m_GUN->Update();
 
@@ -210,7 +214,7 @@ void Mob::Update()
 			else if (Weapon_Mode == »ðµë)
 			{
 				//m_SHOVEL->SetMat(&m_MONSTER->GetMeleeMat());
-				m_SHOVEL->SetPos(m_MONSTER->GetMeleePos());
+				m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
 				m_SHOVEL->SetAngle(m_angle);
 				m_SHOVEL->Update();
 			}
