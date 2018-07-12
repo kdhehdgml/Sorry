@@ -362,8 +362,9 @@ void SkinnedMesh::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 		g_pDevice->SetFVF(VERTEX_PC::FVF);
 		D3DXMATRIXA16 mat;
+		
 		D3DXMatrixIdentity(&mat);
-
+		mat = mat * matS;
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, &line[0], sizeof(VERTEX_PC));
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);

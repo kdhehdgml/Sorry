@@ -228,14 +228,14 @@ void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 
 	if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_LeftHandMiddle1") == 0)
 	{
-		m_gun_mat = pFrameEx->CombinedTM;
-		m_gun_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+		m_L_mat = pFrameEx->CombinedTM;
+		m_L_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 	}
 
 	if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_RightHandMiddle1") == 0)
 	{
-		m_melee_mat = pFrameEx->CombinedTM;
-		m_melee_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+		m_R_mat = pFrameEx->CombinedTM;
+		m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 	}
 
 

@@ -57,11 +57,11 @@ protected:
 	bool						STATE;
 
 
-	D3DXMATRIXA16				m_gun_mat;
-	D3DXVECTOR3					m_gun_pos;
+	D3DXMATRIXA16				m_L_mat;
+	D3DXVECTOR3					m_L_pos;
 
-	D3DXMATRIXA16				m_melee_mat;
-	D3DXVECTOR3					m_melee_pos;
+	D3DXMATRIXA16				m_R_mat;
+	D3DXVECTOR3					m_R_pos;
 
 public:
 	MONSTER();
@@ -81,10 +81,12 @@ public:
 	//기본적으로 우측을 보고있어서 돌려줌
 	void SetAngle(float angle) { m_angle = angle; }
 
-	D3DXVECTOR3 GetGunPos() { return m_gun_pos; }
-	D3DXMATRIXA16 GetGunMat() { return m_gun_mat; }
-	D3DXVECTOR3 GetMeleePos() { return m_melee_pos; }
-	D3DXMATRIXA16 GetMeleeMat() { return m_melee_mat; }
+	D3DXVECTOR3 GetLeftPos() { return m_L_pos; }
+	D3DXMATRIXA16 GetLeftMat() { return m_L_mat; }
+
+	D3DXVECTOR3 GetRightPos() { return m_R_pos; }
+	D3DXMATRIXA16 GetRightMat() { return m_R_mat; }
+
 private:
 	void SetupBoneMatrixPointers(LPD3DXFRAME pFrame);
 	void SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBase);

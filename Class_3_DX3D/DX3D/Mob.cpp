@@ -202,7 +202,11 @@ void Mob::Update()
 
 			if (Weapon_Mode == ÃÑµë)
 			{
-				m_GUN->SetPos(m_MONSTER->GetGunPos());
+				if(ani_state != ¸÷_µÚ·Î¾É¾Æ¼­ÀåÀü)
+					m_GUN->SetPos(m_MONSTER->GetLeftPos());
+				else
+					m_GUN->SetPos(m_MONSTER->GetRightPos());
+
 				m_GUN->SetAngle(m_angle);
 				m_GUN->Update();
 
@@ -210,7 +214,7 @@ void Mob::Update()
 			else if (Weapon_Mode == »ðµë)
 			{
 				//m_SHOVEL->SetMat(&m_MONSTER->GetMeleeMat());
-				m_SHOVEL->SetPos(m_MONSTER->GetMeleePos());
+				m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
 				m_SHOVEL->SetAngle(m_angle);
 				m_SHOVEL->Update();
 			}
