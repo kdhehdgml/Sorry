@@ -2,7 +2,7 @@
 #include "SkinnedMesh.h"
 #include "AllocateHierarchy.h"
 
-#define SCALE 1.0f
+#define SCALE 0.1f
 
 SkinnedMesh::SkinnedMesh()
 {
@@ -18,7 +18,7 @@ SkinnedMesh::SkinnedMesh()
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;
 	m_pos = D3DXVECTOR3(0,0,0);
-	m_angle = NULL;
+	m_angle = 0;
 }
 
 SkinnedMesh::~SkinnedMesh()
@@ -32,7 +32,7 @@ SkinnedMesh::~SkinnedMesh()
 
 void SkinnedMesh::Init()
 {
-	g_pCamera->SetTarget(&m_pos);
+	//g_pCamera->SetTarget(&m_pos);
 	g_pKeyboardManager->SetMovingTarget(&m_keyState);
 
 	D3DXCreateSphere(g_pDevice, 0.01f, 10, 10, &m_pSphereMesh, NULL);
@@ -41,7 +41,10 @@ void SkinnedMesh::Init()
 	//CString path = "resources/xFile/";
 	//CString path = "resources/xFile/test_mob/body/";
 	//CString filename = "mob2.X";
+	//CString path = "resources/xFile/end_mob/";
+	//CString filename = "stand_idle.X";
 
+	//¿øº»
 	CString path = "resources/xFile/MONSTER_AI/";
 	CString filename = "MOB_ANI_ALL2.X";
 	Load(path, filename);
@@ -160,8 +163,9 @@ void SkinnedMesh::Update()
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
+	D3DXMatrixRotationY(&matR, m_angle);
 
-	m_matWorld = matT * matS;
+	m_matWorld = matS * matR * matT;
 }
 
 
@@ -209,12 +213,12 @@ void SkinnedMesh::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	mixamorig_RightRing2
 	*/
 	// "mixamorig_RightHandPinky2";
-	//if (pFrame->Name != NULL &&  strcmp( pFrame->Name, "mixamorig_LeftHandMiddle1") == 0)
-	//{
-	//	pFrameEx->CombinedTM  =  pFrameEx->CombinedTM * m_matWorld;
-	//	m_gun_mat = pFrameEx->CombinedTM;
-	//	m_gun_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
-	//}
+	if (pFrame->Name != NULL &&  strcmp( pFrame->Name, "mixamorig_LeftHandMiddle1") == 0)
+	{
+		pFrameEx->CombinedTM  =  pFrameEx->CombinedTM * m_matWorld;
+		m_gun_mat = pFrameEx->CombinedTM;
+		m_gun_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	}
 
 	if (pParent != NULL)
 	{
