@@ -68,20 +68,18 @@ void Minimap::Update()
 	D3DXVECTOR3 playerPos = g_pCamera->getPos();
 	D3DXMatrixTransformation2D(&m_playerIconRotation, NULL, NULL, NULL, &D3DXVECTOR2(8.0f, 8.0f), g_pCamera->getAngleY() + (270 * D3DX_PI / 180), &m_playerIconPos);
 
+	playerPos.z = min(playerPos.z, 540.0f);
+	playerPos.z = max(playerPos.z, 190.0f);
+	playerPos.x = min(playerPos.x, 500.0f);
+	playerPos.x = max(playerPos.x, 135.0f);
+
 	float tempX = ((GSM().mapSize - playerPos.x) * m_pScaleBuf);
 	float tempZ = ((GSM().mapSize - playerPos.z) * m_pScaleBuf);
 
-	if (isInMapPlayer(playerPos))
-	{
-		//m_playerIcon->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0));
-		m_playerIconPos.x = tempZ - 112.0f;
-		m_playerIconPos.y = tempX + 323.3f;
-	}
-	else
-	{
-		m_playerIconPos.x = -50.0f;
-		m_playerIconPos.y = -50.0f;
-	}
+	//m_playerIcon->SetPosition(&D3DXVECTOR3(tempX, tempZ, 0));
+	m_playerIconPos.x = tempZ - 112.0f;
+	m_playerIconPos.y = tempX + 323.3f;
+
 	Debug->AddText("m_playerIconPos : ");
 	Debug->AddText(m_playerIconPos.x);
 	Debug->AddText(", ");
@@ -197,10 +195,10 @@ bool Minimap::isInMap(float tempX, float tempZ)
 	return false;
 }
 
-bool Minimap::isInMapPlayer(D3DXVECTOR3 _playerPos)
+/*bool Minimap::isInMapPlayer(D3DXVECTOR3 _playerPos)
 {
 	if (_playerPos.z <= 540.0f && _playerPos.z >= 190.0f && _playerPos.x >= 135.0f && _playerPos.x <= 500.0f) {
 		return true;
 	}
 	return false;
-}
+}*/

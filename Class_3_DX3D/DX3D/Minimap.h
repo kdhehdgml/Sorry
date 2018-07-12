@@ -42,6 +42,6 @@ public:
 	void addEnemy();
 	void addTeam();
 	bool isInMap(float tempX, float tempZ);
-	bool isInMapPlayer(D3DXVECTOR3 _playerPos);
+	//bool isInMapPlayer(D3DXVECTOR3 _playerPos);
 };
 
