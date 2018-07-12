@@ -368,7 +368,6 @@
     <ClInclude Include="SphereWall.h">
       <Filter>소스 파일\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="BulletUI.h" />
     <ClInclude Include="GUN.h">
       <Filter>소스 파일\Skin\weapons</Filter>
     </ClInclude>
@@ -386,6 +385,9 @@
     </ClInclude>
     <ClInclude Include="Player_hands.h">
       <Filter>소스 파일\Skin\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletUI.h">
+      <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -641,7 +643,6 @@
     <ClCompile Include="SphereWall.cpp">
       <Filter>소스 파일\Wall</Filter>
     </ClCompile>
-    <ClCompile Include="BulletUI.cpp" />
     <ClCompile Include="GUN.cpp">
       <Filter>소스 파일\Skin\weapons</Filter>
     </ClCompile>
@@ -659,6 +660,9 @@
     </ClCompile>
     <ClCompile Include="Player_hands.cpp">
       <Filter>소스 파일\Skin\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletUI.cpp">
+      <Filter>소스 파일\3.Object\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

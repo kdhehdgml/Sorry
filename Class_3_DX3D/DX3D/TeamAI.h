@@ -71,6 +71,7 @@ private:
 
 	// 사운드 처리용 변수
 	bool deathShout;
+	bool reloadShout;
 
 public:
 	TeamAI();
