@@ -11,11 +11,14 @@ public:
 	//참호 판자
 	ObjRen*			m_MapTest[16];
 
-	ObjRen*			m_MapTest1[10];
+	ObjRen*			m_MapTest1[25];
 
 
 	//철조망
 	ObjRen*			m_BarbedWireT[53];
+	ObjRen*			m_BarbedWireT1[20];
+	ObjRen*			m_BarbedWireT2[20];
+
 
 	//사격받침
 	ObjRen*			m_FireStep00;
