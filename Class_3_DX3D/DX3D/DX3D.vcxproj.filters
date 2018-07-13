@@ -393,6 +393,12 @@
     <ClInclude Include="DE_HEADGEAR.h">
       <Filter>소스 파일\Skin\equip</Filter>
     </ClInclude>
+    <ClInclude Include="BulletUI.h">
+      <Filter>소스 파일\3.Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="FR_HEADGEAR.h">
+      <Filter>소스 파일\Skin\equip</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">

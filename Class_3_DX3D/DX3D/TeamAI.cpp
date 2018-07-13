@@ -33,6 +33,7 @@ TeamAI::TeamAI()
 	m_Death = false;
 	
 	deathShout = false;
+	reloadShout = false;
 }
 
 
@@ -124,10 +125,6 @@ void TeamAI::Update()
 		{
 			m_Action = 팀_달리기;
 		}
-		
-
-		UpdatePositionToDestination();
-		//UpdatePosition();
 
 		m_pBoundingSphere->center = m_pos;
 		m_pBoundingSphere->center.y += 4.0f;
@@ -306,6 +303,8 @@ bool TeamAI::MobSearch()
 			forward = move_forward;
 		}
 		int number = 0;
+		int targetnum = 0;
+		float minLength = 1000;
 		//아군인식범위안 적군찾기
 		for (auto p : (g_pObjMgr->FindObjectsByTag(TAG_MOB)))
 		{
@@ -318,25 +317,29 @@ bool TeamAI::MobSearch()
 				float Length = abs(p->GetPosition().x - m_pos.x + p->GetPosition().z - m_pos.z);
 				float DotPM = D3DXVec3Dot(&DirectPMnormal, &forward);
 				float direct = 1.0f / 2.0f;
-				
-				if (Length < 10)
+				if (Length < minLength)
 				{
-					return TrenchFight(1);
-				}
-				else if (Length < 30)
-				{
-					return TrenchFight(2);
-				}
-				else if (Length < 240 && DotPM >= direct)
-				{
-					if (m_MobNum == NULL && p->getHealth() > 0)
-					{
-						m_MobNum = number;
-						return true;
-					}
+					minLength = Length;
+					targetnum = number;
 				}
 			}
 			number++;
+		}
+		if (minLength < 10)
+		{
+			return TrenchFight(1);
+		}
+		else if (minLength < 30)
+		{
+			return TrenchFight(2);
+		}
+		else if (minLength < 240)
+		{
+			if (m_MobNum == NULL && g_pObjMgr->FindObjectsByTag(TAG_MOB)[targetnum]->getHealth() > 0)
+			{
+				m_MobNum = targetnum;
+				return true;
+			}
 		}
 		m_MobNum = NULL;
 		m_Action = 팀_대기;
@@ -437,9 +440,16 @@ void TeamAI::Shooting()
 void TeamAI::Reloading()
 {
 	m_reloading++;
+
+	if (m_bullet == 0 && !reloadShout)
+	{
+		g_pSoundManager->updateSpeaker(sType::VOICE_RELOAD, NULL, m_pos);
+		reloadShout = true;
+	}
 	if (m_reloading > 100)
 	{
 		m_bullet = 5;
 		m_reloading = 0;
+		reloadShout = false;
 	}
 }

@@ -8,6 +8,10 @@
 
 #include "SkyBox.h"
 
+#include "FR_HEADGEAR.h"
+#include "DE_HEADGEAR.h"
+
+
 //#include "ALLTexTURE.h"
 
 
@@ -18,6 +22,8 @@ SceneXfile::SceneXfile()
 	m_GUN = NULL;
 	m_SHOVEL = NULL;
 //	m_ALLTexTURE = NULL;
+	m_DE_HEADGEAR = NULL;
+	m_FR_HEADGEAR = NULL;
 }
 
 
@@ -26,6 +32,8 @@ SceneXfile::~SceneXfile()
 	SAFE_RELEASE(m_GUN);
 	SAFE_RELEASE(m_SHOVEL);
 	SAFE_RELEASE(m_pSkinnedMesh);
+	SAFE_RELEASE(m_DE_HEADGEAR);
+	SAFE_RELEASE(m_FR_HEADGEAR);
 
 	OnDestructIScene();
 	/*m_GUN->Release();
@@ -49,6 +57,11 @@ void SceneXfile::Init()
 	m_SHOVEL = new SHOVEL;
 	m_SHOVEL->Init();
 
+	m_DE_HEADGEAR = new DE_HEADGEAR;
+	m_DE_HEADGEAR->Init();
+
+	m_FR_HEADGEAR = new FR_HEADGEAR;
+	m_FR_HEADGEAR->Init();
 
 }
 
@@ -77,10 +90,17 @@ void SceneXfile::Update()
 	m_SHOVEL->SetMat(m_pSkinnedMesh->GetRightMat());
 	m_SHOVEL->Update();
 
-	
+	m_DE_HEADGEAR->SetMat(m_pSkinnedMesh->GetHeadMat());
+	m_DE_HEADGEAR->Update();
+
+	m_FR_HEADGEAR->SetMat(m_pSkinnedMesh->GetHeadMat2());
+	m_FR_HEADGEAR->Update();
 
 	Debug->AddText(D3DXVECTOR3(*m_pSkinnedMesh->GetRightMat()));
-
+	Debug->EndLine();
+	Debug->AddText(D3DXVECTOR3(*m_pSkinnedMesh->GetHeadMat()));
+	Debug->EndLine();
+	Debug->AddText(D3DXVECTOR3(*m_pSkinnedMesh->GetHeadMat2()));
 	Debug->EndLine();
 	//Debug->EndLine();
 	//Debug->AddText(m_pSkinnedMesh->GetGunPos());
@@ -97,11 +117,12 @@ void SceneXfile::Render()
 	m_pSkinnedMesh->Render();
 	m_GUN->Render();
 	m_SHOVEL->Render();
+	m_FR_HEADGEAR->Render();
+	m_DE_HEADGEAR->Render();
 	OnRenderIScene();
 
 }
 
 void SceneXfile::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	return;
 }

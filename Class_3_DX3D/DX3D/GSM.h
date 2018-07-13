@@ -4,13 +4,14 @@ enum sType
 {
 	SHOOT = 1,
 	VOICE_DEATH,
-	VOICE_INCOMING
+	VOICE_RELOAD
 };
 
 enum vType
 {
 	DEATH = 1,
-	INCOMING
+	INCOMING,
+	RELOAD
 };
 
 class GSM

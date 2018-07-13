@@ -57,6 +57,9 @@ private:
 	D3DXMATRIXA16				m_R_mat;
 	D3DXVECTOR3					m_R_pos;
 
+	D3DXMATRIXA16				m_head_mat;
+	D3DXMATRIXA16				m_head_mat2;
+
 public:
 	void SetAnimationIndex(int nIndex, bool isBlend);
 	int							m_AnimaTionIndex;
@@ -67,6 +70,9 @@ public:
 
 	D3DXVECTOR3 GetRightPos() { return m_R_pos; }
 	LPD3DXMATRIXA16 GetRightMat() { return &m_R_mat; }//오른손매트릭스
+
+	LPD3DXMATRIXA16 GetHeadMat() { return &m_head_mat; }
+	LPD3DXMATRIXA16 GetHeadMat2() { return &m_head_mat2; }
 
 	float		GetGunAngle() { return m_angle; }
 

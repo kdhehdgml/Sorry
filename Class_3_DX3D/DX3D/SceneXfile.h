@@ -17,7 +17,7 @@ class FR_HEADGEAR;
 class SceneXfile : public IScene
 {
 private:
-	SkinnedMesh * m_pSkinnedMesh;
+	SkinnedMesh *	m_pSkinnedMesh;
 	GUN *			m_GUN;
 	SkyBox *		m_SkyBox;
 	SHOVEL *		m_SHOVEL;

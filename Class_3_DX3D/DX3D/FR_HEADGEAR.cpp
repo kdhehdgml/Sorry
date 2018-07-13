@@ -1,5 +1,6 @@
 #include "stdafx.h"
-#include "DE_HEADGEAR.h"
+#include "FR_HEADGEAR.h"
+
 
 #include "AllocateHierarchy.h"
 
@@ -7,7 +8,7 @@
 #define SCALE 300.0f
 
 
-DE_HEADGEAR::DE_HEADGEAR()
+FR_HEADGEAR::FR_HEADGEAR()
 {
 	m_baseRotY = D3DX_PI;
 
@@ -27,7 +28,7 @@ DE_HEADGEAR::DE_HEADGEAR()
 }
 
 
-DE_HEADGEAR::~DE_HEADGEAR()
+FR_HEADGEAR::~FR_HEADGEAR()
 {
 	SAFE_RELEASE(m_pSphereMesh);
 	AllocateHierarchy alloc;
@@ -36,15 +37,15 @@ DE_HEADGEAR::~DE_HEADGEAR()
 	SAFE_RELEASE(m_pAnimController);
 }
 
-void DE_HEADGEAR::Init()
+void FR_HEADGEAR::Init()
 {
 
 	D3DXCreateSphere(g_pDevice, 0.01f, 10, 10, &m_pSphereMesh, NULL);
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/equip/de_headgear/";
-	CString filename = "de_equip_headgear.X";
+	CString path = "resources/xFile/equip/fr_headgear/";
+	CString filename = "fr_equip_headgear.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -59,7 +60,7 @@ void DE_HEADGEAR::Init()
 	m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
 }
 
-void DE_HEADGEAR::Update()
+void FR_HEADGEAR::Update()
 {
 
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
@@ -78,14 +79,14 @@ void DE_HEADGEAR::Update()
 	SetAnimationIndex(m_AnimaTionIndex, true);
 }
 
-void DE_HEADGEAR::Render()
+void FR_HEADGEAR::Render()
 {
 	m_numFrame = 0;
 	m_numMesh = 0;
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 }
 
-void DE_HEADGEAR::Load(LPCTSTR path, LPCTSTR filename)
+void FR_HEADGEAR::Load(LPCTSTR path, LPCTSTR filename)
 {
 	AllocateHierarchy alloc(path);
 
@@ -98,7 +99,7 @@ void DE_HEADGEAR::Load(LPCTSTR path, LPCTSTR filename)
 	SetupBoneMatrixPointers(m_pRootFrame);
 }
 
-void DE_HEADGEAR::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
+void FR_HEADGEAR::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
 {
 
 
@@ -118,7 +119,7 @@ void DE_HEADGEAR::SetupBoneMatrixPointers(LPD3DXFRAME pFrame)
 	}
 }
 
-void DE_HEADGEAR::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBase)
+void FR_HEADGEAR::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContainerBase)
 {
 	DWORD numBones;
 	FRAME_EX* pFrameExInfluence;
@@ -138,7 +139,7 @@ void DE_HEADGEAR::SetupBoneMatrixPointersOnMesh(LPD3DXMESHCONTAINER pMeshContain
 	}
 }
 
-void DE_HEADGEAR::UpdateAnim()
+void FR_HEADGEAR::UpdateAnim()
 {
 	float fDeltaTime = g_pTimeManager->GetDeltaTime();
 	// AdvanceTime 함수가 호출된 간격으로 Anim 키프레임 계산
@@ -165,7 +166,7 @@ void DE_HEADGEAR::UpdateAnim()
 
 }
 
-void DE_HEADGEAR::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
+void FR_HEADGEAR::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 
@@ -189,7 +190,7 @@ void DE_HEADGEAR::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	}
 }
 
-void DE_HEADGEAR::DrawFrame(LPD3DXFRAME pFrame)
+void FR_HEADGEAR::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
 
@@ -213,7 +214,7 @@ void DE_HEADGEAR::DrawFrame(LPD3DXFRAME pFrame)
 	}
 }
 
-void DE_HEADGEAR::DrawMeshContainer(LPD3DXFRAME pFrame)
+void FR_HEADGEAR::DrawMeshContainer(LPD3DXFRAME pFrame)
 {
 	if (pFrame->pMeshContainer->pSkinInfo == NULL)
 		return;
@@ -260,7 +261,7 @@ void DE_HEADGEAR::DrawMeshContainer(LPD3DXFRAME pFrame)
 
 }
 
-void DE_HEADGEAR::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
+void FR_HEADGEAR::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 	FRAME_EX* pParentFrameEx = (FRAME_EX*)pParent;
@@ -302,7 +303,7 @@ void DE_HEADGEAR::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	}
 }
 
-void DE_HEADGEAR::SetAnimationIndex(int nIndex, bool isBlend)
+void FR_HEADGEAR::SetAnimationIndex(int nIndex, bool isBlend)
 {
 	//LPD3DXANIMATIONSET pNextAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
