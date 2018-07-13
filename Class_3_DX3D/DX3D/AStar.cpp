@@ -6,11 +6,11 @@
 #include "ColorCube.h"
 
 // ∫Æª˝º∫ ∏≈≈©∑Œ
-#define WALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
+#define WALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2) && pNode->m_nodeState != STATE_WALL)\
 			{ pNode->m_nodeState = STATE_WALL;\
 			Wall_location[0].push_back(pNode->m_location); }
 
-#define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
+#define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2) && pNode->m_nodeState != STATE_NOHIDEWALL)\
 			{ pNode->m_nodeState = STATE_NOHIDEWALL;\
 			Wall_location[1].push_back(pNode->m_location);}
 
@@ -423,26 +423,32 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 	bool lineodd = true;
 	int lineNum = 0;
 
-	if (pNode->GetLocation().x < 240.0f && pNode->GetLocation().y > 20.0f)
+	if (pNode->GetLocation().x < 230.0f && pNode->GetLocation().y > 20.0f)
 		nWALL(posX, posX, posZ, posZ);
 
 	// minX: 17 / max: 49
-	//nWALL(0, 17, 0,0);
-	//nWALL(0, 15, 49, 49);
 	nWALL(0, 49, 0, 0);
 	nWALL(0, 49, 49, 49);
+	
+	nWALL(13, 13, 5, 13);
+	nWALL(14, 14, 5, 6);
+	nWALL(14, 14, 11, 12);
+	nWALL(13, 13, 18, 18);
+	nWALL(13, 13, 28, 29);
+	nWALL(13, 13, 37, 39);
+	nWALL(12, 12, 38, 38);
 
 	// ∆ƒ¿ÃæÓΩ∫≈‹ æ’
 	{
-		/*nWALL(17, 17, 3, 7);
+		nWALL(17, 17, 3, 7);
 		nWALL(17, 17, 10, 13);
 		nWALL(16, 16, 16, 20);
 		nWALL(17, 17, 25, 29);
 		nWALL(15, 15, 32, 36);
-		nWALL(15, 15, 41, 46);*/
+		nWALL(15, 15, 41, 46);
 	}
 	
-	// ≈©∑π¿Ã≈Õ
+	// æˆ∆Ûπ∞
 	{
 		WALL(22, 22, 1, 3);
 		WALL(23, 23, 4, 4);
@@ -453,8 +459,66 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 		WALL(24, 24, 29, 29);
 		WALL(23, 23, 30, 33);
 
-		WALL(22, 22, 40, 40);
-		WALL(21, 21, 41, 42);
+		WALL(21, 21, 38, 40);
+		WALL(22, 22, 41, 41);
+
+		WALL(22, 22, 46, 47);
+
+		WALL(30, 30, 4, 7);
+		WALL(30, 30, 11, 13);
+		WALL(30, 30, 15, 17);
+		WALL(31, 31, 18, 18);
+
+		WALL(30, 30, 24, 27);
+		WALL(29, 29, 45, 47);
+
+		WALL(38, 38, 1, 2);
+		WALL(39, 39, 3, 3);
+
+		WALL(37, 37, 21, 24);
+		WALL(38, 38, 25, 25);
+
+		WALL(35, 35, 31, 33);
+
+		WALL(39, 39, 35, 38);
+		WALL(43, 43, 31, 34);
+
+		// ≈ ≈©
+		WALL(30, 30, 35, 39);
+		WALL(38, 38, 10, 14);
+	}
+
+	// √∂¡∂∏¡
+	{
+		nWALL(19, 19, 2, 3);
+		nWALL(19, 19, 8, 9);
+		nWALL(19, 19, 14, 14);
+		nWALL(18, 18, 15, 15);
+		nWALL(18, 18, 19, 20);
+		nWALL(16, 16, 22, 23);
+		nWALL(19, 19, 24, 25);
+
+		nWALL(20, 20, 16, 17);
+		nWALL(20, 20, 21, 22);
+		nWALL(21, 21, 5, 6);
+		nWALL(18, 18, 31, 31);
+		nWALL(17, 17, 32, 32);
+		nWALL(16, 16, 38, 39);
+		nWALL(17, 17, 41, 42);
+		nWALL(17, 17, 46, 47);
+		nWALL(19, 19, 44, 45);
+		nWALL(19, 19, 40, 41);
+		nWALL(19, 19, 37, 38);
+
+		nWALL(22, 22, 23, 24);
+		nWALL(21, 21, 26, 27);
+		nWALL(20, 20, 34, 35);
+		nWALL(17, 17, 35, 36);
+		nWALL(20, 20, 30, 30);
+		nWALL(19, 19, 29, 29);
+		nWALL(22, 22, 9, 9);
+		nWALL(21, 21, 10, 10);
+
 	}
 }
 

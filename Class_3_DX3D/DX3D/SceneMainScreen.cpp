@@ -18,7 +18,7 @@ void SceneMainScreen::Init()
 	mainScreenUI = new MainScreenUI();
 	mainScreenUI->Init();
 	g_pSoundManager->createSound();
-	//g_pSoundManager->playMusic(0);
+	g_pSoundManager->playMusic(0);
 }
 
 void SceneMainScreen::Update()
