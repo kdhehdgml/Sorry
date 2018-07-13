@@ -675,6 +675,9 @@
     <ClCompile Include="DE_HEADGEAR.cpp">
       <Filter>소스 파일\Skin\equip</Filter>
     </ClCompile>
+    <ClCompile Include="FR_HEADGEAR.cpp">
+      <Filter>소스 파일\Skin\equip</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "GSM.h"
 
-
-
 /*
 	[ 키보드 설정 ]
 
