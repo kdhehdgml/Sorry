@@ -150,7 +150,7 @@ void TeamAI::Update()
 			{
 				D3DXVECTOR3 forwardNor = forwardDir;
 				D3DXVec3Normalize(&forwardNor, &forwardNor);
-				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)));
+				m_angle = -((D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)))+ D3DX_PI);
 			}
 		}
 		Debug->AddText("아군 체력: ");
