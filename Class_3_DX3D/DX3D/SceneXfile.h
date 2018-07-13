@@ -8,7 +8,7 @@ class GUN;
 class SHOVEL;
 class DE_HEADGEAR;
 class FR_HEADGEAR;
-
+class TEAM_TEX;
 
 
 
@@ -23,6 +23,7 @@ private:
 	SHOVEL *		m_SHOVEL;
 	DE_HEADGEAR *	m_DE_HEADGEAR;
 	FR_HEADGEAR *	m_FR_HEADGEAR;
+	TEAM_TEX *		m_TEAM_TEX;
 
 public:
 	SceneXfile();

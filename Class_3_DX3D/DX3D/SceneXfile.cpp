@@ -11,6 +11,7 @@
 #include "FR_HEADGEAR.h"
 #include "DE_HEADGEAR.h"
 
+#include "TEAM_TEX.h"
 
 //#include "ALLTexTURE.h"
 
@@ -24,6 +25,7 @@ SceneXfile::SceneXfile()
 //	m_ALLTexTURE = NULL;
 	m_DE_HEADGEAR = NULL;
 	m_FR_HEADGEAR = NULL;
+	m_TEAM_TEX = NULL;
 }
 
 
@@ -34,6 +36,7 @@ SceneXfile::~SceneXfile()
 	SAFE_RELEASE(m_pSkinnedMesh);
 	SAFE_RELEASE(m_DE_HEADGEAR);
 	SAFE_RELEASE(m_FR_HEADGEAR);
+	//SAFE_RELEASE(m_TEAM_TEX);
 
 	OnDestructIScene();
 	/*m_GUN->Release();
@@ -62,6 +65,11 @@ void SceneXfile::Init()
 
 	m_FR_HEADGEAR = new FR_HEADGEAR;
 	m_FR_HEADGEAR->Init();
+
+	m_TEAM_TEX = new TEAM_TEX;
+	m_TEAM_TEX->Init();
+	AddSimpleDisplayObj(m_TEAM_TEX);
+
 
 }
 
@@ -114,7 +122,7 @@ void SceneXfile::Update()
 
 void SceneXfile::Render()
 {
-	m_pSkinnedMesh->Render();
+	//m_pSkinnedMesh->Render();
 	m_GUN->Render();
 	m_SHOVEL->Render();
 	m_FR_HEADGEAR->Render();
