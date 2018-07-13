@@ -100,6 +100,7 @@ void TeamAI::Update()
 		deathShout = false;
 
 		m_Death = false;
+		UpdatePositionToDestination();
 		if (D3DXVec3Length(&(m_finalDestPos - m_pos)) <= 5.0f)
 			m_Ready = true;
 		if (m_Ready == true)
