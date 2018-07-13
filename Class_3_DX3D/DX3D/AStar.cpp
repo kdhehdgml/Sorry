@@ -6,11 +6,11 @@
 #include "ColorCube.h"
 
 // 벽생성 매크로
-#define WALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ > Z1 && posZ < Z2))\
+#define WALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
 			{ pNode->m_nodeState = STATE_WALL;\
 			Wall_location[0].push_back(pNode->m_location); }
 
-#define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ > Z1 && posZ < Z2))\
+#define nWALL(X1,X2,Z1,Z2) if ((posX >= X1 && posX <= X2) && (posZ >= Z1 && posZ <= Z2))\
 			{ pNode->m_nodeState = STATE_NOHIDEWALL;\
 			Wall_location[1].push_back(pNode->m_location);}
 
@@ -423,37 +423,35 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 	bool lineodd = true;
 	int lineNum = 0;
 
-	if (pNode->GetLocation().x < 240.0f && pNode->GetLocation().y > 20.0f)
-		nWALL(posX, posX, posZ - 1, posZ + 1);
+	/*if (pNode->GetLocation().x < 240.0f && pNode->GetLocation().y > 20.0f)
+		nWALL(posX, posX, posZ, posZ);*/
 
-	for (int x = 18; x < nodeDim; x += 4) {
-		for (int z = 0; z < nodeDim; z += 4) {
-			if (lineodd)
-			{
-				if (lineNum % 3 != 1)
-				{
-					WALL(x, x, z, z + 3);
-				}
-				else
-				{
-					nWALL(x, x, z, z + 3);
-				}
-				lineodd = false;
-			}
-			else
-			{
-				if (lineNum % 3 != 1)
-				{
-					WALL(x, x, z + 2, z + 5);
-				}
-				else
-				{
-					nWALL(x, x, z + 2, z + 5);
-				}
-				lineodd = true;
-			}
-		}
-		lineNum++;
+	// minX: 17 / max: 49
+	//nWALL(0, 17, 0,0);
+	//nWALL(0, 15, 49, 49);
+	nWALL(0, 49, 0, 0);
+	nWALL(0, 49, 49, 49);
+
+	// 파이어스텝 앞
+	{
+		nWALL(17, 17, 3, 7);
+		nWALL(17, 17, 10, 13);
+		nWALL(16, 16, 16, 20);
+		nWALL(17, 17, 25, 29);
+		nWALL(15, 15, 32, 36);
+		nWALL(15, 15, 41, 46);
+	}
+	
+	// 크레이터
+	{
+		WALL(22, 22, 1, 3);
+		WALL(23, 23, 4, 4);
+
+		WALL(24, 24, 10, 11);
+		WALL(22, 22, 17, 20);
+		WALL(23, 23, 29, 33);
+		WALL(22, 22, 40, 40);
+		WALL(21, 21, 41, 42);
 	}
 }
 
