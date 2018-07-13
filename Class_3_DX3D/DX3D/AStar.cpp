@@ -423,8 +423,8 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 	bool lineodd = true;
 	int lineNum = 0;
 
-	/*if (pNode->GetLocation().x < 240.0f && pNode->GetLocation().y > 20.0f)
-		nWALL(posX, posX, posZ, posZ);*/
+	if (pNode->GetLocation().x < 240.0f && pNode->GetLocation().y > 20.0f)
+		nWALL(posX, posX, posZ, posZ);
 
 	// minX: 17 / max: 49
 	//nWALL(0, 17, 0,0);
@@ -434,12 +434,12 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 
 	// 파이어스텝 앞
 	{
-		nWALL(17, 17, 3, 7);
+		/*nWALL(17, 17, 3, 7);
 		nWALL(17, 17, 10, 13);
 		nWALL(16, 16, 16, 20);
 		nWALL(17, 17, 25, 29);
 		nWALL(15, 15, 32, 36);
-		nWALL(15, 15, 41, 46);
+		nWALL(15, 15, 41, 46);*/
 	}
 	
 	// 크레이터
@@ -449,7 +449,10 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 
 		WALL(24, 24, 10, 11);
 		WALL(22, 22, 17, 20);
-		WALL(23, 23, 29, 33);
+
+		WALL(24, 24, 29, 29);
+		WALL(23, 23, 30, 33);
+
 		WALL(22, 22, 40, 40);
 		WALL(21, 21, 41, 42);
 	}
