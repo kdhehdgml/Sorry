@@ -1,13 +1,14 @@
 #pragma once
 #include "IUnitObject.h"
 
+
+
 class SkinnedMesh : public IUnitObject
 {
 protected:
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
-	int							m_AnimaTionIndex;
 	float						m_fBlendTime;
 	float						m_fPassedBlendTime;
 
@@ -58,6 +59,8 @@ private:
 
 public:
 	void SetAnimationIndex(int nIndex, bool isBlend);
+	int							m_AnimaTionIndex;
+
 	D3DXVECTOR3 GetLeftPos() { return m_L_pos; }
 	LPD3DXMATRIXA16 GetLeftMat() { return &m_L_mat; } //왼손매트릭스
 	//void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = (*mat); }

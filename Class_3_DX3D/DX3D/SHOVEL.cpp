@@ -4,7 +4,7 @@
 
 
 // 스킨 사이즈 조절
-#define SCALE 300.00f
+#define SCALE 150.00f
 
 SHOVEL::SHOVEL()
 {
@@ -46,30 +46,34 @@ void SHOVEL::Init()
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
-	m_angle = 0 ;
-
-
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+
+	m_angleX = 0.64f;
+	m_angleY = 1.1699f;
+	m_angleZ = 5.33f;
+	x = -0.27f;
+	y = 0.11f;
+	z = 0.0f;
 
 	//처음생성시 기본설정
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pNextAnimSet);
 	m_pAnimController->GetTrackDesc(0, &track);
 	m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
-
 }
 
 void SHOVEL::Update()
 {
-
-	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+	D3DXMatrixTranslation(&matT, m_pos.x + x, m_pos.y + y, m_pos.z + z);
 
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
-	D3DXMatrixRotationY(&matR, m_angle);
-	m_matWorld = matS * matT;
+	D3DXMatrixRotationX(&matRx, m_angleX);
+	D3DXMatrixRotationY(&matRy, m_angleY);
+	D3DXMatrixRotationZ(&matRz, m_angleZ);
+	m_matWorld = matS * matRx * matRy * matRz * matT;
 
-	m_matWorld = m_matWorld * m_Hand_mat* matR ;
+	m_matWorld = m_matWorld * m_Hand_mat;
 
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);

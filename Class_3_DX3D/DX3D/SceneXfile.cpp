@@ -4,6 +4,7 @@
 
 #include "GUN.h"
 #include "SHOVEL.h"
+#include "Smle.h"
 
 #include "SkyBox.h"
 
@@ -63,7 +64,14 @@ void SceneXfile::Update()
 	
 	m_pSkinnedMesh->Update();
 	//m_GUN->SetPos(m_pSkinnedMesh->GetGunPos());
-	m_GUN->SetMat(m_pSkinnedMesh->GetLeftMat());
+
+	if(m_pSkinnedMesh->m_AnimaTionIndex != 7)
+		m_GUN->SetMat(m_pSkinnedMesh->GetLeftMat());
+	else
+		m_GUN->SetMat(m_pSkinnedMesh->GetRightMat());
+
+	m_GUN->SetAniIndex(m_pSkinnedMesh->m_AnimaTionIndex);
+
 	m_GUN->Update();
 
 	m_SHOVEL->SetMat(m_pSkinnedMesh->GetRightMat());

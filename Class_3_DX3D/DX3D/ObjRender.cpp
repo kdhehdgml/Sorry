@@ -533,3 +533,8 @@ void ObjRender::Render()
 		SAFE_RENDER(m_Tile[i]);
 	}
 }
+
+void ObjRender::Update()
+{
+
+}

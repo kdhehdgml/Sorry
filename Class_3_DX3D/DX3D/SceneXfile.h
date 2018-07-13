@@ -6,6 +6,7 @@ class SkinnedMesh;
 class SkyBox;
 class GUN;
 class SHOVEL;
+//class Smle;
 
 
 

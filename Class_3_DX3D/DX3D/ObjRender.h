@@ -56,5 +56,6 @@ public:
 
 	void Init();
 	void Render();
+	void Update();
 };
 
