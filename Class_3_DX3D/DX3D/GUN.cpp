@@ -3,7 +3,7 @@
 #include "AllocateHierarchy.h"
 
 // 스킨 사이즈 조절
-#define SCALE 0.01f
+#define SCALE 1.0f
 
 
 GUN::GUN()
