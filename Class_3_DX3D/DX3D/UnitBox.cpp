@@ -458,7 +458,7 @@ void UnitBox::RegenTeam()
 				m_pTeam[i]->SetPosition(&D3DXVECTOR3(212.0f, 2.67f, 538.0f));
 			}
 			m_pTeam[i]->SetDestination(m_TeamPosition[posit[i]]);
-			m_pTeam[i]->SetReady(0);
+			m_pTeam[i]->SetReady(false);
 		}
 	}
 }
