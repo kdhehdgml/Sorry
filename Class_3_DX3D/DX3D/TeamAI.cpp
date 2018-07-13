@@ -101,11 +101,15 @@ void TeamAI::Update()
 
 		m_Death = false;
 		UpdatePositionToDestination();
-		if (D3DXVec3Length(&(m_finalDestPos - m_pos)) <= 5.0f)
+		if (abs(m_finalDestPos.x - m_pos.x + m_finalDestPos.z - m_pos.z) <= 5.0f && m_Ready == false)
+		{
+			m_Action = 팀_대기;
 			m_Ready = true;
+		}
+			
 		if (m_Ready == true)
 		{
-			if (m_MobNum == NULL || HaveBullet() == false)
+			if (m_MobNum == NULL && m_bullet < 5)
 			{
 				m_Action = 팀_재장전;
 				CanFight = false;
@@ -153,6 +157,10 @@ void TeamAI::Update()
 		Debug->AddText(health);
 		Debug->AddText(" / 총알수: ");
 		Debug->AddText(m_bullet);
+		Debug->AddText(" / 애니: ");
+		Debug->AddText(m_Action);
+		Debug->AddText(" / 애니스: ");
+		Debug->AddText(ani_state);
 		Debug->EndLine();
 	}
 
@@ -245,11 +253,11 @@ void TeamAI::Animation()
 {
 	switch (m_Action)
 	{
-	case 팀_사격:
-		ani_state = 서서쏘기;
-		break;
 	case 팀_대기:
 		ani_state = 서서기본자세;
+		break;
+	case 팀_사격:
+		ani_state = 서서쏘기;
 		break;
 	case 팀_재장전:
 		ani_state = 재장전;
