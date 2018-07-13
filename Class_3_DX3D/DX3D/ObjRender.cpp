@@ -10,11 +10,16 @@ ObjRender::ObjRender()
 	//참호 판자
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i] = NULL;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 25; i++)
 		m_MapTest1[i] = NULL;
 	//철조망
 	for (int i = 0; i < 53; i++)
 		m_BarbedWireT[i] = NULL;
+	for (int i = 0; i < 20; i++)
+		m_BarbedWireT1[i] = NULL;
+	for (int i = 0; i < 20; i++)
+		m_BarbedWireT2[i] = NULL;
+
 	//사격받침
 	m_FireStep00 = NULL;
 	//모래
@@ -73,11 +78,16 @@ ObjRender::~ObjRender()
 	//참호 판자
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i]->~ObjRen();
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 25; i++)
 		m_MapTest1[i]->~ObjRen();
 	//철조망
 	for (int i = 0; i < 53; i++)
 		m_BarbedWireT[i]->~ObjRen();
+	for (int i = 0; i < 20; i++)
+		m_BarbedWireT1[i]->~ObjRen();
+	for (int i = 0; i < 20; i++)
+		m_BarbedWireT2[i]->~ObjRen();
+	
 	//사격받침
 	m_FireStep00->~ObjRen();
 	//모래
@@ -156,12 +166,28 @@ void ObjRender::Init()
 	CREATE_OBJ(m_MapTest1[2], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 202.0f, 16.9f, 564.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 + 1.9f, 0.0f);
 	CREATE_OBJ(m_MapTest1[3], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 174.0f, 16.9f, 591.0f, D3DX_PI / 2 + 0.2f, -0.9f, 0.0f);
 	CREATE_OBJ(m_MapTest1[4], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 153.0f, 16.9f, 585.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 + 1.9f, 0.0f);
-	CREATE_OBJ(m_MapTest1[5], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 237.0f, 16.9f, 602.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 + 2.1f, 0.0f);
-	CREATE_OBJ(m_MapTest1[6], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
-	CREATE_OBJ(m_MapTest1[7], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
-	CREATE_OBJ(m_MapTest1[8], 5.8f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
-	CREATE_OBJ(m_MapTest1[9], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 246.0f, 15.6f, 214.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[5], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 237.0f, 17.9f, 602.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 + 2.1f, 0.0f);
+	CREATE_OBJ(m_MapTest1[6], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 251.0f, 16.9f, 162.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[7], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 220.0f, 16.9f, 178.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2 + 2.0f, 0.0f);
+	CREATE_OBJ(m_MapTest1[8], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 162.0f, 15.6f, 171.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2 + 2.5f, 0.0f);
+	CREATE_OBJ(m_MapTest1[9], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 107.0f, 16.6f, 510.0f, D3DX_PI / 2 + 0.2f, +0.4f, 0.0f);
 
+	CREATE_OBJ(m_MapTest1[10], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 113.0f, 16.6f, 423.0f, D3DX_PI / 2 + 0.2f, -0.48f, 0.0f);
+	CREATE_OBJ(m_MapTest1[11], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 64.0f, 15.6f, 523.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[12], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 96.0f, 16.6f, 490.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[13], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 74.0f, 16.6f, 508.0f, D3DX_PI / 2 - 0.2f, +0.25f, 0.0f);
+	CREATE_OBJ(m_MapTest1[14], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 251.0f, 17.9f, 581.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[15], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 129.0f, 16.6f, 417.0f, D3DX_PI / 2 - 0.2f, -0.2f, 0.0f);
+	CREATE_OBJ(m_MapTest1[16], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 78.0f, 16.6f, 405.0f, D3DX_PI / 2 - 0.2f, 0.35f, 0.0f);
+	CREATE_OBJ(m_MapTest1[17], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 95.0f, 15.6f, 335.0f, D3DX_PI / 2 - 0.2f, 0.35f, 0.0f);
+	CREATE_OBJ(m_MapTest1[18], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 72.0f, 15.6f, 343.0f, D3DX_PI / 2 - 0.2f, 0.35f, 0.0f);
+	CREATE_OBJ(m_MapTest1[19], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 111.0f, 16.6f, 350.0f, D3DX_PI / 2 + 0.2f, -0.4f, 0.0f);
+
+	CREATE_OBJ(m_MapTest1[20], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 222.0f, 16.6f, 186.0f, D3DX_PI / 2 + 0.2f, D3DX_PI / 2, 0.0f);
+	CREATE_OBJ(m_MapTest1[21], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 116.0f, 15.0f, 243.0f, D3DX_PI / 2 + 0.2f, -0.3f, 0.0f);
+	CREATE_OBJ(m_MapTest1[22], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 125.0f, 15.6f, 233.0f, D3DX_PI / 2 - 0.2f, -0.25f, 0.0f);
+	CREATE_OBJ(m_MapTest1[23], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 97.0f, 15.6f, 232.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 -0.3f, 0.0f);
+	CREATE_OBJ(m_MapTest1[24], 5.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 123.0f, 14.6f, 299.0f, D3DX_PI / 2 - 0.2f, D3DX_PI / 2 - 0.1f, 0.0f);
 
 	//철조망
 	//1번 줄
@@ -222,6 +248,48 @@ void ObjRender::Init()
 	CREATE_OBJ(m_BarbedWireT[50], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 307.0f, 29.0f, 224.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.4f, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[51], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 297.0f, 29.0f, 209.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.1f, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[52], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 286.0f, 29.0f, 189.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	////
+	CREATE_OBJ(m_BarbedWireT1[0], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 468.0f, 31.0f, 626.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[1], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 487.0f, 33.0f, 575.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[2], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 500.0f, 35.0f, 700.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[3], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 494.0f, 34.0f, 660.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[4], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 494.0f, 33.0f, 704.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[5], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 468.0f, 28.0f, 619.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[6], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 31.0f, 644.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[7], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 407.0f, 32.0f, 685.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[8], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 413.0f, 30.0f, 601.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[9], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 413.0f, 29.0f, 645.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[10], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 387.0f, 33.0f, 615.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[11], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 32.0f, 658.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[12], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 322.0f, 33.0f, 558.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[13], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 328.0f, 30.0f, 618.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[14], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 33.0f, 629.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[15], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 289.0f, 29.0f, 590.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[16], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 292.0f, 29.0f, 642.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.2f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[17], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 297.0f, 29.0f, 578.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.4f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[18], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 299.0f, 29.8f, 697.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.1f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT1[19], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 307.0f, 29.0f, 624.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.4f, 0.0f);
+	////
+	CREATE_OBJ(m_BarbedWireT2[0], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 468.0f, 31.0f, 126.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[1], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 487.0f, 33.0f, 75.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[2], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 500.0f, 35.0f, 80.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[3], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 494.0f, 34.0f, 60.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[4], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 494.0f, 33.0f, 74.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[5], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 468.0f, 28.0f, 119.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[6], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 31.0f, 44.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[7], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 407.0f, 32.0f, 85.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[8], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 413.0f, 30.0f, 81.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[9], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 413.0f, 29.0f, 45.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[10], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 387.0f, 33.0f, 115.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[11], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 32.0f, 58.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[12], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 322.0f, 33.0f, 58.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[13], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 328.0f, 30.0f, 78.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[14], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 33.0f, 129.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[15], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 409.0f, 29.0f, 90.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[16], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 312.0f, 29.0f, 72.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.2f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[17], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 317.0f, 29.0f, 118.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.4f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[18], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 319.0f, 29.8f, 47.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.1f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT2[19], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 327.0f, 29.0f, 144.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.4f, 0.0f);
 
 	//사격받침
 	//CREATE_OBJ(m_FireStep00, 63.0f, FireStep, FireStep00.obj, woodTex.png, 232.0f, -6.8f, 398.0f, 0.0f, 0.0f, 0.0f);
@@ -406,11 +474,15 @@ void ObjRender::Render()
 	//참호 판자
 	for (int i = 0; i < 16; i++)
 		SAFE_RENDER(m_MapTest[i]);
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 25; i++)
 		SAFE_RENDER(m_MapTest1[i]);
 	//철조망
 	for (int i = 0; i < 53; i++)
 		SAFE_RENDER(m_BarbedWireT[i]);
+	for (int i = 0; i < 20; i++)
+		SAFE_RENDER(m_BarbedWireT1[i]);
+	for (int i = 0; i < 20; i++)
+		SAFE_RENDER(m_BarbedWireT2[i]);
 	//사격받침
 	SAFE_RENDER(m_FireStep00);
 	//모래
@@ -460,4 +532,9 @@ void ObjRender::Render()
 	{
 		SAFE_RENDER(m_Tile[i]);
 	}
+}
+
+void ObjRender::Update()
+{
+
 }

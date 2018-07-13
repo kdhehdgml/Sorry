@@ -48,9 +48,6 @@ void Smle::Init()
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
-	m_angle = D3DX_PI;
-
-
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 
 	//처음생성시 기본설정
@@ -61,14 +58,35 @@ void Smle::Init()
 
 void Smle::Update()
 {
+	if (ani == 7)
+	{
+		m_angleX = 0.5599f;
+		m_angleY = 3.9199f;
+		m_angleZ = -2.1799f;
+		x = 0.239f;
+		y = -0.55f;
+		z = 0.428f;
+	}
+	else
+	{
+		m_angleX = -1.0599999f;
+		m_angleY = 2.619998f;
+		m_angleZ = -0.8f;
+		x = 0.009f;
+		y = 0.05f;
+		z = 0.128f;
+	}
 
-	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+	D3DXMatrixTranslation(&matT, m_pos.x + x, m_pos.y + y, m_pos.z + z);
 
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
-	D3DXMatrixRotationY(&matR, m_angle);
-	m_matWorld = matS * matR * matT;
+	D3DXMatrixRotationX(&matRx, m_angleX);
+	D3DXMatrixRotationY(&matRy, m_angleY);
+	D3DXMatrixRotationZ(&matRz, m_angleZ);
+
+	m_matWorld = matS * matRx * matRy * matRz * matT;
 	m_matWorld = m_matWorld * m_Hand_mat;
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);

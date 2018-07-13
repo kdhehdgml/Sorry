@@ -3,9 +3,9 @@
 
 //struct GUN_KINDS
 //{
-//	string name;
-//	CString path;
-//	CString filename;
+//   string name;
+//   CString path;
+//   CString filename;
 //};
 
 class GUN : public IUnitObject
@@ -16,42 +16,41 @@ protected:
 	//GUN_KINDS Kar98;
 	//GUN_KINDS Smle;
 
-
-
 	//애니메이션 조절용
-	LPD3DXANIMATIONSET			pCurrAnimSet;
-	LPD3DXANIMATIONSET			pNextAnimSet;
-	D3DXTRACK_DESC				track;
+	LPD3DXANIMATIONSET         pCurrAnimSet;
+	LPD3DXANIMATIONSET         pNextAnimSet;
+	D3DXTRACK_DESC            track;
 
 	//
 
-	LPD3DXFRAME					m_pRootFrame;
-	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
+	LPD3DXFRAME               m_pRootFrame;
+	LPD3DXANIMATIONCONTROLLER   m_pAnimController;
 
-	int							m_AnimaTionIndex;
-	float						m_fBlendTime;
-	float						m_fPassedBlendTime;
+	int                     m_AnimaTionIndex;
+	float                  m_fBlendTime;
+	float                  m_fPassedBlendTime;
 
-	LPD3DXMESH					m_pSphereMesh;
-	bool						m_bWireFrame;
-	bool						m_bDrawFrame;
-	bool						m_bDrawSkeleton;
-	int							m_numFrame;
-	int							m_numMesh;
+	LPD3DXMESH               m_pSphereMesh;
+	bool                  m_bWireFrame;
+	bool                  m_bDrawFrame;
+	bool                  m_bDrawSkeleton;
+	int                     m_numFrame;
+	int                     m_numMesh;
 
-	int							m_state;
+	int                     m_state;
 
-	bool						m_HandsOption;
-	float						angle;
+	bool                  m_HandsOption;
+	float                  angle;
 
-	D3DXMATRIXA16				matT, matS, matR;
+	D3DXMATRIXA16            matT, matS, matRx, matRy, matRz;
 
-	bool						m_animationSTATE;
+	bool                  m_animationSTATE;
 
-	float						trackSpeed;
+	float                  trackSpeed;
 
-	D3DXMATRIXA16				m_Hand_mat;
+	D3DXMATRIXA16            m_Hand_mat;
 
+	int ani;
 public:
 	GUN();
 	~GUN();
@@ -61,12 +60,13 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 
+	void SetAniIndex(int ani_index) { ani = ani_index; }
 	void Load(LPCTSTR path, LPCTSTR filename);
 	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
 	void SetState(int state) { m_state = state; }
 	void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = (*mat); }
 	void SetMatS(D3DXMATRIXA16 S) { matS = S; }
-	void SetMatR(D3DXMATRIXA16 R) { matR = R; }
+	void SetMatR(D3DXMATRIXA16 R) { matRy = R; }
 	void SetMatT(D3DXMATRIXA16 T) { matT = T; }
 	//기본적으로 우측을 보고있어서 돌려줌
 	void SetAngle(float angle) { m_angle = angle; }
@@ -83,12 +83,13 @@ private:
 	void DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
 
 	float m_angle;
+	float m_angleX;
+	float m_angleY;
+	float m_angleZ;
+	float x, y, z;
 
 	int count = 0;
-public: 
+public:
 	void SetAnimationIndex(int nIndex) { m_AnimaTionIndex = nIndex; }
 	void SetAnimationIndex(int nIndex, bool isBlend);
-
-
 };
-
