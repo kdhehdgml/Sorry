@@ -6,7 +6,8 @@ class SkinnedMesh;
 class SkyBox;
 class GUN;
 class SHOVEL;
-//class Smle;
+class DE_HEADGEAR;
+class FR_HEADGEAR;
 
 
 
@@ -17,9 +18,12 @@ class SceneXfile : public IScene
 {
 private:
 	SkinnedMesh * m_pSkinnedMesh;
-	GUN *		m_GUN;
+	GUN *			m_GUN;
 	SkyBox *		m_SkyBox;
 	SHOVEL *		m_SHOVEL;
+	DE_HEADGEAR *	m_DE_HEADGEAR;
+	FR_HEADGEAR *	m_FR_HEADGEAR;
+
 public:
 	SceneXfile();
 	~SceneXfile();
