@@ -2,17 +2,18 @@
 #include "SceneXfile.h"
 #include "SkinnedMesh.h"
 
+//무기
 #include "GUN.h"
 #include "SHOVEL.h"
 #include "Smle.h"
 
 #include "SkyBox.h"
-
+//장비
 #include "FR_HEADGEAR.h"
 #include "DE_HEADGEAR.h"
-
+//캐릭터
 #include "TEAM_TEX.h"
-
+#include "MONSTER.h"
 //#include "ALLTexTURE.h"
 
 
@@ -36,6 +37,7 @@ SceneXfile::~SceneXfile()
 	SAFE_RELEASE(m_pSkinnedMesh);
 	SAFE_RELEASE(m_DE_HEADGEAR);
 	SAFE_RELEASE(m_FR_HEADGEAR);
+	//SAFE_RELEASE(m_MONSTER);
 	//SAFE_RELEASE(m_TEAM_TEX);
 
 	OnDestructIScene();
@@ -66,9 +68,13 @@ void SceneXfile::Init()
 	m_FR_HEADGEAR = new FR_HEADGEAR;
 	m_FR_HEADGEAR->Init();
 
-	m_TEAM_TEX = new TEAM_TEX;
-	m_TEAM_TEX->Init();
-	AddSimpleDisplayObj(m_TEAM_TEX);
+	/*m_TEAM_TEX = new TEAM_TEX;
+	m_TEAM_TEX->Init();*/
+	//AddSimpleDisplayObj(m_TEAM_TEX);
+
+	m_MONSTER = new MONSTER;
+	m_MONSTER->Init();
+	AddSimpleDisplayObj(m_MONSTER);
 
 
 }
@@ -84,25 +90,25 @@ void SceneXfile::Update()
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 	
 	m_pSkinnedMesh->Update();
-	//m_GUN->SetPos(m_pSkinnedMesh->GetGunPos());
+	//m_GUN->SetPos(m_pSkinnedMesh->GetG3unPos());
 
-	if(m_pSkinnedMesh->m_AnimaTionIndex != 7)
-		m_GUN->SetMat(m_pSkinnedMesh->GetLeftMat());
+	if(m_MONSTER->m_AnimaTionIndex != 7)
+		m_GUN->SetMat(m_MONSTER->GetLeftMat());
 	else
-		m_GUN->SetMat(m_pSkinnedMesh->GetRightMat());
-
-	m_GUN->SetAniIndex(m_pSkinnedMesh->m_AnimaTionIndex);
+		m_GUN->SetMat(m_MONSTER->GetRightMat());
+	m_GUN->SetAngle(m_MONSTER->GetAngle());
+	m_GUN->SetAniIndex(m_MONSTER->m_AnimaTionIndex);
 
 	m_GUN->Update();
 
-	m_SHOVEL->SetMat(m_pSkinnedMesh->GetRightMat());
+	m_SHOVEL->SetMat(m_MONSTER->GetRightMat());
 	m_SHOVEL->Update();
 
-	m_DE_HEADGEAR->SetMat(m_pSkinnedMesh->GetHeadMat());
-	m_DE_HEADGEAR->Update();
+	//m_DE_HEADGEAR->SetMat(m_pSkinnedMesh->GetHeadMat());
+	//m_DE_HEADGEAR->Update();
 
-	m_FR_HEADGEAR->SetMat(m_pSkinnedMesh->GetHeadMat2());
-	m_FR_HEADGEAR->Update();
+	//m_FR_HEADGEAR->SetMat(m_pSkinnedMesh->GetHeadMat2());
+	//m_FR_HEADGEAR->Update();
 
 	Debug->AddText(D3DXVECTOR3(*m_pSkinnedMesh->GetRightMat()));
 	Debug->EndLine();
@@ -127,6 +133,7 @@ void SceneXfile::Render()
 	m_SHOVEL->Render();
 	m_FR_HEADGEAR->Render();
 	m_DE_HEADGEAR->Render();
+	//m_MONSTER->Render();
 	OnRenderIScene();
 
 }
