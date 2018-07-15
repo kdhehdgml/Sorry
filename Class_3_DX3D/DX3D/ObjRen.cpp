@@ -76,10 +76,6 @@ void ObjRen::Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float y
 	g_pD3DMesh->m_MtlTex->SetTexture(g_pTextureManager->GetTexture(pngFile));
 }
 
-void ObjRen::Update()
-{
-}
-
 void ObjRen::Render()
 {
 	g_pDevice->SetTexture(0, g_pD3DMesh->m_MtlTex->pTexture);

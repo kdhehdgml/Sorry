@@ -791,6 +791,7 @@ void SceneHeightmap::Update()
 	}
 	g_pSoundManager->updateListener(g_pCamera->getPos());
 
+	m_ObjRender->Update();
 }
 
 void SceneHeightmap::Render()

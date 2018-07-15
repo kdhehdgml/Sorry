@@ -27,7 +27,6 @@ public:
 	D3DXMATRIX mWVP, mWI, mWIT, mView, mProj;
 
 	void Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float y, float z, float rotationX, float rotationY, float rotationZ);
-	void Update();
 	void Render();
 };
 

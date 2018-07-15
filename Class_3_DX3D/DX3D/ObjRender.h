@@ -11,13 +11,22 @@ public:
 	//참호 판자
 	ObjRen*			m_MapTest[16];
 
-	ObjRen*			m_MapTest1[25];
+	//ObjRen*			m_MapTest1[25];
+	ObjRen*			m_MapTest1;
+	ObjRen*			m_MapTest00[75];;
 
+	float size;
+	float x;
+	float y;
+	float z;
+	float rotationX;
+	float rotationY;
+	float rotationZ;
 
 	//철조망
 	ObjRen*			m_BarbedWireT[53];
-	ObjRen*			m_BarbedWireT1[20];
-	ObjRen*			m_BarbedWireT2[20];
+	//ObjRen*			m_BarbedWireT1[20];
+	//ObjRen*			m_BarbedWireT2[20];
 
 
 	//사격받침
