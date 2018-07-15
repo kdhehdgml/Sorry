@@ -10,7 +10,7 @@ ObjRender::ObjRender()
 	//참호 판자
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i] = NULL;
-	m_MapTest1 = NULL;
+	//m_MapTest1 = NULL;
 	for (int i = 0; i < 75; i++)
 	{
 		m_MapTest00[i] = NULL;
@@ -77,7 +77,7 @@ ObjRender::~ObjRender()
 	//참호 판자
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i]->~ObjRen();
-	m_MapTest1->~ObjRen();
+	//m_MapTest1->~ObjRen();
 	for (int i = 0; i < 75; i++)
 	{
 		m_MapTest00[i]->~ObjRen();
@@ -482,7 +482,7 @@ void ObjRender::Render()
 	//참호 판자
 	for (int i = 0; i < 16; i++)
 		SAFE_RENDER(m_MapTest[i]);
-	SAFE_RENDER(m_MapTest1);
+	//SAFE_RENDER(m_MapTest1);
 	for (int i = 0; i < 75; i++)
 		SAFE_RENDER(m_MapTest00[i]);
 	//철조망
@@ -541,77 +541,77 @@ void ObjRender::Render()
 
 void ObjRender::Update()
 {
-	CREATE_OBJ(m_MapTest1, size, WoodenBarrier, WoodenBarrier.obj, woodTex.png, x, y, z, rotationX, rotationY, rotationZ);
+	//CREATE_OBJ(m_MapTest1, size, WoodenBarrier, WoodenBarrier.obj, woodTex.png, x, y, z, rotationX, rotationY, rotationZ);
 
-	if (Keyboard::Get()->KeyPress('Z'))
-	{
-		size += 0.5f;
-	}
-	if (Keyboard::Get()->KeyPress('X'))
-	{
-		size -= 0.5f;
-	}
-	if (Keyboard::Get()->KeyPress(VK_UP))
-	{
-		x += 1.0f;
-	}
-	if (Keyboard::Get()->KeyPress(VK_DOWN))
-	{
-		x -= 1.0f;
-	}
-	if (Keyboard::Get()->KeyPress('R'))
-	{
-		y += 1.0f;
-	}
-	if (Keyboard::Get()->KeyPress('F'))
-	{
-		y -= 1.0f;
-	}
-	if (Keyboard::Get()->KeyPress(VK_LEFT))
-	{
-		z += 1.0f;
-	}
-	if (Keyboard::Get()->KeyPress(VK_RIGHT))
-	{
-		z -= 1.0f;
-	}
-	if (Keyboard::Get()->KeyPress('U'))
-	{
-		rotationX += 0.01f;
-	}
-	if (Keyboard::Get()->KeyPress('J'))
-	{
-		rotationX -= 0.01f;
-	}
-	if (Keyboard::Get()->KeyPress('I'))
-	{
-		rotationY += 0.01f;
-	}
-	if (Keyboard::Get()->KeyPress('K'))
-	{
-		rotationY -= 0.01f;
-	}
-	if (Keyboard::Get()->KeyPress('O'))
-	{
-		rotationZ += 0.01f;
-	}
-	if (Keyboard::Get()->KeyPress('L'))
-	{
-		rotationZ -= 0.01f;
-	}
-	Debug->AddText(size);
-	Debug->EndLine();
-	Debug->AddText(x);
-	Debug->EndLine();
-	Debug->AddText(y);
-	Debug->EndLine();
-	Debug->AddText(z);
-	Debug->EndLine();
-	Debug->AddText(rotationX);
-	Debug->EndLine();
-	Debug->AddText(rotationY);
-	Debug->EndLine();
-	Debug->AddText(rotationZ);
-	Debug->EndLine();
+	//if (Keyboard::Get()->KeyPress('Z'))
+	//{
+	//	size += 0.5f;
+	//}
+	//if (Keyboard::Get()->KeyPress('X'))
+	//{
+	//	size -= 0.5f;
+	//}
+	//if (Keyboard::Get()->KeyPress(VK_UP))
+	//{
+	//	x += 1.0f;
+	//}
+	//if (Keyboard::Get()->KeyPress(VK_DOWN))
+	//{
+	//	x -= 1.0f;
+	//}
+	//if (Keyboard::Get()->KeyPress('R'))
+	//{
+	//	y += 1.0f;
+	//}
+	//if (Keyboard::Get()->KeyPress('F'))
+	//{
+	//	y -= 1.0f;
+	//}
+	//if (Keyboard::Get()->KeyPress(VK_LEFT))
+	//{
+	//	z += 1.0f;
+	//}
+	//if (Keyboard::Get()->KeyPress(VK_RIGHT))
+	//{
+	//	z -= 1.0f;
+	//}
+	//if (Keyboard::Get()->KeyPress('U'))
+	//{
+	//	rotationX += 0.01f;
+	//}
+	//if (Keyboard::Get()->KeyPress('J'))
+	//{
+	//	rotationX -= 0.01f;
+	//}
+	//if (Keyboard::Get()->KeyPress('I'))
+	//{
+	//	rotationY += 0.01f;
+	//}
+	//if (Keyboard::Get()->KeyPress('K'))
+	//{
+	//	rotationY -= 0.01f;
+	//}
+	//if (Keyboard::Get()->KeyPress('O'))
+	//{
+	//	rotationZ += 0.01f;
+	//}
+	//if (Keyboard::Get()->KeyPress('L'))
+	//{
+	//	rotationZ -= 0.01f;
+	//}
+	//Debug->AddText(size);
+	//Debug->EndLine();
+	//Debug->AddText(x);
+	//Debug->EndLine();
+	//Debug->AddText(y);
+	//Debug->EndLine();
+	//Debug->AddText(z);
+	//Debug->EndLine();
+	//Debug->AddText(rotationX);
+	//Debug->EndLine();
+	//Debug->AddText(rotationY);
+	//Debug->EndLine();
+	//Debug->AddText(rotationZ);
+	//Debug->EndLine();
 
 }
