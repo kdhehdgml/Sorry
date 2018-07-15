@@ -135,7 +135,7 @@ void seqManager::Level(int stage, int round)
 
 			if (!isMusicPlay)
 			{
-				//g_pSoundManager->playMusic(2);
+				g_pSoundManager->playMusic(2);
 				isMusicPlay = true;
 			}
 

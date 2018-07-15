@@ -3,6 +3,7 @@
 #include "AllocateHierarchy.h"
 
 //적군 스킨 사이즈 조절
+//#define SCALE 0.02f
 #define SCALE 0.02f
 
 
@@ -18,13 +19,14 @@ MONSTER::MONSTER()
 	m_bWireFrame = false;
 	m_bDrawFrame = true;
 	m_bDrawSkeleton = false;
+	m_pos = D3DXVECTOR3(0,0,0);
 
 	m_animationSTATE = true;
 
 	pCurrAnimSet = NULL;
 	pNextAnimSet = NULL;
 
-	STATE = false;
+	STATE = true;
 }
 
 
@@ -64,6 +66,7 @@ void MONSTER::Init()
 
 void MONSTER::Update()
 {
+
 	if (STATE)
 	{
 
@@ -225,19 +228,27 @@ void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 	pFrameEx->CombinedTM = pFrameEx->CombinedTM * m_matWorld;
-
 	if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_LeftHandMiddle1") == 0)
 	{
-		m_L_mat = pFrameEx->CombinedTM;
+		/*pFrameEx->CombinedTM  =  pFrameEx->CombinedTM */
+		m_L_mat = pFrameEx->CombinedTM * m_matWorld;
 		m_L_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 	}
-
-	if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_RightHandMiddle1") == 0)
+	else if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_RightHandMiddle1") == 0)
 	{
-		m_R_mat = pFrameEx->CombinedTM;
+		m_R_mat = pFrameEx->CombinedTM * m_matWorld;
 		m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 	}
-
+	else if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_Head") == 0)
+	{
+		m_head_mat = pFrameEx->CombinedTM * m_matWorld;
+		//m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	}
+	else if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_RightPinky3") == 0)
+	{
+		m_head_mat2 = pFrameEx->CombinedTM * m_matWorld;
+		//m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	}
 
 	if (pParent != NULL)
 	{

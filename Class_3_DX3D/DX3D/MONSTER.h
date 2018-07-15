@@ -31,7 +31,6 @@ protected:
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
-	int							m_AnimaTionIndex;
 	float						m_fBlendTime;
 	float						m_fPassedBlendTime;
 
@@ -63,6 +62,8 @@ protected:
 	D3DXMATRIXA16				m_R_mat;
 	D3DXVECTOR3					m_R_pos;
 
+	D3DXMATRIXA16				m_head_mat;
+	D3DXMATRIXA16				m_head_mat2;
 public:
 	MONSTER();
 	~MONSTER();
@@ -80,12 +81,17 @@ public:
 	void SetMatT(D3DXMATRIXA16 T) { matT = T; }
 	//기본적으로 우측을 보고있어서 돌려줌
 	void SetAngle(float angle) { m_angle = angle; }
+	float GetAngle() { return m_angle; }
 
 	D3DXVECTOR3 GetLeftPos() { return m_L_pos; }
-	D3DXMATRIXA16 GetLeftMat() { return m_L_mat; }
+	LPD3DXMATRIXA16 GetLeftMat() { return &m_L_mat; } //왼손매트릭스
+													  //void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = (*mat); }
 
 	D3DXVECTOR3 GetRightPos() { return m_R_pos; }
-	D3DXMATRIXA16 GetRightMat() { return m_R_mat; }
+	LPD3DXMATRIXA16 GetRightMat() { return &m_R_mat; }//오른손매트릭스
+
+	LPD3DXMATRIXA16 GetHeadMat() { return &m_head_mat; }
+	LPD3DXMATRIXA16 GetHeadMat2() { return &m_head_mat2; }
 
 private:
 	void SetupBoneMatrixPointers(LPD3DXFRAME pFrame);
@@ -99,6 +105,8 @@ private:
 	void DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
 
 public:
+	int							m_AnimaTionIndex;
+
 	void SetAnimationIndex(int nIndex) { m_AnimaTionIndex = nIndex; }
 	void SetAnimationIndex(int nIndex, bool isBlend);
 	void SetRenderSTATE(bool select) { STATE = select; }

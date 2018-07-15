@@ -8,7 +8,9 @@ class GUN;
 class SHOVEL;
 class DE_HEADGEAR;
 class FR_HEADGEAR;
-
+class TEAM_TEX;
+class MONSTER;
+class Smle;
 
 
 
@@ -18,11 +20,20 @@ class SceneXfile : public IScene
 {
 private:
 	SkinnedMesh *	m_pSkinnedMesh;
-	GUN *			m_GUN;
 	SkyBox *		m_SkyBox;
+
+	//무기
 	SHOVEL *		m_SHOVEL;
+	GUN *			m_GUN;
+	Smle *			m_Smle;
+
+	//장비
 	DE_HEADGEAR *	m_DE_HEADGEAR;
 	FR_HEADGEAR *	m_FR_HEADGEAR;
+	
+	//캐릭터
+	TEAM_TEX *		m_TEAM_TEX;
+	MONSTER*		m_MONSTER;
 
 public:
 	SceneXfile();
