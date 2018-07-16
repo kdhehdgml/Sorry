@@ -74,6 +74,7 @@ void SceneHeightmap::ResetScene() {
 	}
 	g_pCamera->setRotX(-0.34f);
 	g_pCamera->setRotY(1.6f);
+	m_pGameOverOn = false;
 }
 
 SceneHeightmap::SceneHeightmap()
@@ -101,6 +102,10 @@ SceneHeightmap::SceneHeightmap()
 	m_pScopeImage = NULL;
 	m_pCrosshairOn = false;
 	m_pScopeOn = false;
+	m_pGameOverSprite = NULL;
+	m_pGameOverImage = NULL;
+	m_pGameOver = NULL;
+	m_pGameOverOn = false;
 
 	m_pTalk = NULL;
 	m_pTalkImage = NULL;
@@ -133,10 +138,12 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_ColorCube);
 	SAFE_RELEASE(m_pCrosshairSprite);
 	SAFE_RELEASE(m_pScopeSprite);
+	SAFE_RELEASE(m_pGameOverSprite);
 	//SAFE_RELEASE(m_Player_hands);
 	//SAFE_RELEASE(pImage);
 	SAFE_RELEASE(m_pCrosshair);
 	SAFE_RELEASE(m_pScope);
+	SAFE_RELEASE(m_pGameOver);
 	SAFE_RELEASE(m_minimap);
 	SAFE_RELEASE(m_pTalkSprite);
 	SAFE_RELEASE(m_pTalk);
@@ -288,6 +295,12 @@ void SceneHeightmap::Init()
 	m_pScopeImage->SetTexture("resources/ui/Scope.png");
 	m_pScopeImage->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
 	m_pScope = m_pScopeImage;
+	D3DXCreateSprite(g_pDevice, &m_pGameOverSprite);
+	m_pGameOverImage = new UIImage(m_pGameOverSprite);
+	m_pGameOverImage->m_bDrawBorder = false;
+	m_pGameOverImage->SetTexture("resources/ui/GameOverScreen.png");
+	m_pGameOverImage->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
+	m_pGameOver = m_pGameOverImage;
 
 	D3DXCreateSprite(g_pDevice, &m_pTalkSprite);
 	m_pTalkImage = new UIImage(m_pTalkSprite);
@@ -377,7 +390,7 @@ void SceneHeightmap::Init()
 void SceneHeightmap::Update()
 {
 	//m_CreateSmog->Update();
-	if (!g_pCamera->isPaused) {
+	if (!g_pCamera->isPaused && !m_pGameOverOn) {
 
 		SAFE_UPDATE(m_ColorCube);
 		SAFE_UPDATE(m_pUnit);
@@ -385,6 +398,7 @@ void SceneHeightmap::Update()
 		SAFE_UPDATE(m_minimap);
 		SAFE_UPDATE(m_pCrosshair);
 		SAFE_UPDATE(m_pScope);
+		SAFE_UPDATE(m_pGameOver);
 		SAFE_UPDATE(m_pTalk);
 		SAFE_UPDATE(m_pBulletUI);
 
@@ -560,8 +574,8 @@ void SceneHeightmap::Update()
 				volume_music -= 0.049999f;
 			g_pSoundManager->volumeControl_Music(volume_music);
 		}
-		if ((GetAsyncKeyState(VK_F1) & 0x8000)) {
-			ResetScene();
+		if ((GetAsyncKeyState(VK_F10) & 0x8000)) {
+			m_pGameOverOn = true;
 		}
 		vector<TeamAI*> m_pTeam = *m_pUnit->getPTeam();
 		float minDistance = 9999999.0f;
@@ -790,8 +804,10 @@ void SceneHeightmap::Update()
 		SAFE_UPDATE(m_pMenuUI);
 	}
 	g_pSoundManager->updateListener(g_pCamera->getPos());
-
 	m_ObjRender->Update();
+	if ((GetAsyncKeyState(VK_F1) & 0x8000)) {
+		ResetScene();
+	}
 }
 
 void SceneHeightmap::Render()
@@ -804,6 +820,16 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_SkyBox);
 	SAFE_RENDER(m_minimap);
 	SAFE_RENDER(m_pBulletUI);
+	if (m_pGameOverOn) {
+		g_pDevice->SetTexture(0, NULL);
+		m_pGameOverSprite->Begin(D3DXSPRITE_ALPHABLEND);
+		D3DXMATRIX g_mat;
+		D3DXVECTOR2 scaling(1.5f, 1.5f);
+		D3DXMatrixTransformation2D(&g_mat, NULL, 0.0, &scaling, &D3DXVECTOR2(0.0f, 0.0f), 0.0f, &D3DXVECTOR2(-160.0f, 0.0f));
+		m_pGameOverSprite->SetTransform(&g_mat);
+		SAFE_RENDER(m_pGameOver);
+		m_pGameOverSprite->End();
+	}
 	m_CreateSmog->Render();
 	//m_pPicking->Render();
 

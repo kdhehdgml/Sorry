@@ -71,6 +71,10 @@ private:
 	UIImage* m_pScopeImage;
 	bool m_pCrosshairOn;
 	bool m_pScopeOn;
+	LPD3DXSPRITE m_pGameOverSprite;
+	IUBaseObject* m_pGameOver;
+	UIImage* m_pGameOverImage;
+	bool m_pGameOverOn;
 
 	LPD3DXSPRITE m_pTalkSprite;
 	IUBaseObject* m_pTalk;

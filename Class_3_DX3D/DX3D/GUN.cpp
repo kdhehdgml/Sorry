@@ -144,12 +144,12 @@ void GUN::Update()
 	else
 	{
 		//33.600060/70.599495/105.498962
-		//m_angleX = -0.44f;
-		//m_angleY = 2.349998f;
-		//m_angleZ = -0.260000f;
-		//x = 33.600060f;
-		//y = 70.599495f;
-		//z = 105.498962f;
+	/*	m_angleX = -0.44f;
+		m_angleY = 2.349998f;
+		m_angleZ = -0.260000f;
+		x = 33.600060f;
+		y = 70.599495f;
+		z = 105.498962f;*/
 	}
 
 	D3DXMatrixTranslation(&matT, m_pos.x + x, m_pos.y + y, m_pos.z + z);
