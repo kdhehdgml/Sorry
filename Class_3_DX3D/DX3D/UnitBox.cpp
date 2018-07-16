@@ -552,7 +552,7 @@ void UnitBox::LocationSharing()
 			m_LocationList[0].push_back(p);
 		else if ((int)p.x < 304)
 			m_LocationList[1].push_back(p);
-		else if ((int)p.x < 310)
+		else if ((int)p.x < 311)
 			m_LocationList[2].push_back(p);
 		else if ((int)p.x < 347)
 			m_LocationList[3].push_back(p);
@@ -578,7 +578,7 @@ void UnitBox::LocationSharing()
 			m_LocationList[0].push_back(p);
 		else if ((int)p.x < 304)
 			m_LocationList[1].push_back(p);
-		else if ((int)p.x < 310)
+		else if ((int)p.x < 311)
 			m_LocationList[2].push_back(p);
 		else if ((int)p.x < 347)
 			m_LocationList[3].push_back(p);
