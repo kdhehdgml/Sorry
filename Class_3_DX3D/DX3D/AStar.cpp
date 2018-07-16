@@ -462,7 +462,7 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 		WALL(21, 21, 38, 40);
 		WALL(22, 22, 41, 41);
 
-		WALL(22, 22, 46, 47);
+		WALL(23, 23, 46, 48);
 
 		WALL(30, 30, 4, 7);
 		WALL(30, 30, 11, 13);
@@ -470,7 +470,7 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 		WALL(31, 31, 18, 18);
 
 		WALL(30, 30, 24, 27);
-		WALL(29, 29, 45, 47);
+		WALL(29, 29, 45, 48);
 
 		WALL(38, 38, 1, 2);
 		WALL(39, 39, 3, 3);
@@ -480,7 +480,7 @@ void AStar::MakeWall(int posX, int posZ, AStarNode * pNode)
 
 		WALL(35, 35, 31, 33);
 
-		WALL(39, 39, 35, 38);
+		WALL(39, 39, 39, 42);
 		WALL(43, 43, 31, 34);
 
 		// ≈ ≈©
