@@ -96,6 +96,7 @@ void SceneXfile::Update()
 		m_GUN->SetMat(m_MONSTER->GetLeftMat());
 	else
 		m_GUN->SetMat(m_MONSTER->GetRightMat());
+
 	m_GUN->SetAngle(m_MONSTER->GetAngle());
 	m_GUN->SetAniIndex(m_MONSTER->m_AnimaTionIndex);
 

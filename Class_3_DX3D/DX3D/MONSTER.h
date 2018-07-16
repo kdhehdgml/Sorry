@@ -83,11 +83,11 @@ public:
 	void SetAngle(float angle) { m_angle = angle; }
 	float GetAngle() { return m_angle; }
 
-	D3DXVECTOR3 GetLeftPos() { return m_L_pos; }
+	D3DXVECTOR3* GetLeftPos() { return &m_L_pos; }
 	LPD3DXMATRIXA16 GetLeftMat() { return &m_L_mat; } //왼손매트릭스
 													  //void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = (*mat); }
 
-	D3DXVECTOR3 GetRightPos() { return m_R_pos; }
+	D3DXVECTOR3* GetRightPos() { return& m_R_pos; }
 	LPD3DXMATRIXA16 GetRightMat() { return &m_R_mat; }//오른손매트릭스
 
 	LPD3DXMATRIXA16 GetHeadMat() { return &m_head_mat; }

@@ -62,7 +62,7 @@ public:
 
 	void SetAniIndex(int ani_index) { ani = ani_index; }
 	void Load(LPCTSTR path, LPCTSTR filename);
-	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
+	void SetPos(D3DXVECTOR3* pos) { m_pos = *pos; }
 	void SetState(int state) { m_state = state; }
 	void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = (*mat); }
 	void SetMatS(D3DXMATRIXA16 S) { matS = S; }
