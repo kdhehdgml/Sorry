@@ -101,6 +101,10 @@ SceneHeightmap::SceneHeightmap()
 	m_pScopeImage = NULL;
 	m_pCrosshairOn = false;
 	m_pScopeOn = false;
+	m_pGameOverSprite = NULL;
+	m_pGameOverImage = NULL;
+	m_pGameOver = NULL;
+	m_pGameOverOn = false;
 
 	m_pTalk = NULL;
 	m_pTalkImage = NULL;
@@ -133,10 +137,12 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_ColorCube);
 	SAFE_RELEASE(m_pCrosshairSprite);
 	SAFE_RELEASE(m_pScopeSprite);
+	SAFE_RELEASE(m_pGameOverSprite);
 	//SAFE_RELEASE(m_Player_hands);
 	//SAFE_RELEASE(pImage);
 	SAFE_RELEASE(m_pCrosshair);
 	SAFE_RELEASE(m_pScope);
+	SAFE_RELEASE(m_pGameOver);
 	SAFE_RELEASE(m_minimap);
 	SAFE_RELEASE(m_pTalkSprite);
 	SAFE_RELEASE(m_pTalk);
@@ -288,6 +294,12 @@ void SceneHeightmap::Init()
 	m_pScopeImage->SetTexture("resources/ui/Scope.png");
 	m_pScopeImage->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
 	m_pScope = m_pScopeImage;
+	D3DXCreateSprite(g_pDevice, &m_pGameOverSprite);
+	m_pGameOverImage = new UIImage(m_pGameOverSprite);
+	m_pGameOverImage->m_bDrawBorder = false;
+	m_pGameOverImage->SetTexture("resources/ui/GameOverScreen.png");
+	m_pGameOverImage->SetPosition(&D3DXVECTOR3(20.5f, -9.5f, 0.0f));
+	m_pGameOver = m_pGameOverImage;
 
 	D3DXCreateSprite(g_pDevice, &m_pTalkSprite);
 	m_pTalkImage = new UIImage(m_pTalkSprite);
@@ -385,6 +397,7 @@ void SceneHeightmap::Update()
 		SAFE_UPDATE(m_minimap);
 		SAFE_UPDATE(m_pCrosshair);
 		SAFE_UPDATE(m_pScope);
+		SAFE_UPDATE(m_pGameOver);
 		SAFE_UPDATE(m_pTalk);
 		SAFE_UPDATE(m_pBulletUI);
 
