@@ -76,6 +76,7 @@ void SceneXfile::Init()
 	m_MONSTER->Init();
 	AddSimpleDisplayObj(m_MONSTER);
 
+	g_pCamera->mouseLock = true;
 
 }
 
@@ -92,10 +93,11 @@ void SceneXfile::Update()
 	m_pSkinnedMesh->Update();
 	//m_GUN->SetPos(m_pSkinnedMesh->GetG3unPos());
 
-	if(m_MONSTER->m_AnimaTionIndex != 7)
+	if (m_MONSTER->m_AnimaTionIndex != 7)
 		m_GUN->SetMat(m_MONSTER->GetLeftMat());
 	else
 		m_GUN->SetMat(m_MONSTER->GetRightMat());
+		//m_GUN->SetPos(m_MONSTER->GetRightPos());
 
 	m_GUN->SetAngle(m_MONSTER->GetAngle());
 	m_GUN->SetAniIndex(m_MONSTER->m_AnimaTionIndex);
