@@ -124,7 +124,7 @@ void TeamAI::Update()
 					Shooting();
 				}
 			}
-			ShootVertex();
+			//ShootVertex();
 		}
 		else
 		{
@@ -153,7 +153,7 @@ void TeamAI::Update()
 				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)));
 			}
 		}
-		Debug->AddText("아군 체력: ");
+		/*Debug->AddText("아군 체력: ");
 		Debug->AddText(health);
 		Debug->AddText(" / 총알수: ");
 		Debug->AddText(m_bullet);
@@ -161,7 +161,7 @@ void TeamAI::Update()
 		Debug->AddText(m_Action);
 		Debug->AddText(" / 애니스: ");
 		Debug->AddText(ani_state);
-		Debug->EndLine();
+		Debug->EndLine();*/
 	}
 
 	/*Debug->AddText("데스 카운트 :");

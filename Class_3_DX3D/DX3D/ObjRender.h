@@ -12,16 +12,16 @@ public:
 	ObjRen*			m_MapTest[16];
 
 	//ObjRen*			m_MapTest1[25];
-	ObjRen*			m_MapTest1;
+	//ObjRen*			m_MapTest1;
 	ObjRen*			m_MapTest00[75];;
 
-	float size;
-	float x;
-	float y;
-	float z;
-	float rotationX;
-	float rotationY;
-	float rotationZ;
+	//float size;
+	//float x;
+	//float y;
+	//float z;
+	//float rotationX;
+	//float rotationY;
+	//float rotationZ;
 
 	//Ã¶Á¶¸Á
 	ObjRen*			m_BarbedWireT[53];
@@ -34,7 +34,7 @@ public:
 
 	//ÁÖ¸Ó´Ï
 	ObjRen*			SaddleBag0[30];
-	ObjRen*			SaddleBag1[116];
+	ObjRen*			SaddleBag1[86];
 
 	//³ª¹«
 	ObjRen*			m_Tree00[10];
