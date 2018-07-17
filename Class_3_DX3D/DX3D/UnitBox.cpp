@@ -687,7 +687,8 @@ bool UnitBox::GameOver()
 		if (p->GetPosition().x < 240.0f)
 			numMob++;
 	}
-	if (!m_livePlayer || CheckNumberOfLivingAI(m_game.MaxAmount) > 20 || numMob >10)
+	//if (!m_livePlayer || CheckNumberOfLivingAI(m_game.MaxAmount) > 20 || numMob >10)
+	if (!m_livePlayer || numMob >10)
 	{
 		for (auto p : m_pMob)
 		{

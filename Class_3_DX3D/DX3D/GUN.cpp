@@ -56,12 +56,19 @@ void GUN::Init()
 	m_pAnimController->GetTrackDesc(0, &track);
 	m_pAnimController->GetAnimationSet(0, &pCurrAnimSet);
 
-	m_angleX = -0.44f;
-	m_angleY = 2.349998f;
-	m_angleZ = -0.260000f;
-	x = -33.600060f;
-	y = 70.599495f;
-	z = 105.498962f;
+	//m_angleX = -0.44f;
+	//m_angleY = 2.349998f;
+	//m_angleZ = -0.260000f;
+	//x = -33.600060f;
+	//y = 70.599495f;
+	//z = 105.498962f;
+
+	m_angleX = -0;
+	m_angleY = 0;
+	m_angleZ = -0;
+	x = -0;
+	y = 0;
+	z = 0;
 }
 
 void GUN::Update()
@@ -163,7 +170,7 @@ void GUN::Update()
 	D3DXMATRIXA16 matR;
 	D3DXMatrixRotationY(&matR, m_angle);
 	m_matWorld = matS * matR *matRx * matRy * matRz * matT;
-	m_matWorld = m_matWorld * m_Hand_mat;
+	//m_matWorld = m_matWorld * m_Hand_mat;
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
