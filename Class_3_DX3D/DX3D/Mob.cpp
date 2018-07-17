@@ -562,7 +562,7 @@ MOB_SITUATION Mob::TrenchFight()
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
 		
-		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 5.0f)
+		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 3.0f)
 		{
 			m_moveSpeed = GSM().mobSpeed;
 			if (m_DestTime > 500)
