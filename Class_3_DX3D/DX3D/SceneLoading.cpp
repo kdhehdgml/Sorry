@@ -28,6 +28,7 @@ SceneLoading::~SceneLoading()
 	SAFE_RELEASE(m_pLoadingScreen);
 	SAFE_RELEASE(m_loadingCircleSprite);
 	SAFE_RELEASE(m_loadingCircleTexture);
+	SAFE_RELEASE(m_pFont);
 	OnDestructIScene();
 }
 
@@ -59,6 +60,9 @@ void SceneLoading::Init()
 
 	//g_pSceneManager->SetCurrentScene(SCENE_XFILE);
 	//g_pSceneManager->m_pCurrSceneString = "SCENE_XFILE";
+
+	D3DXCreateFont(g_pDevice, 36, 18, FW_BOLD, 1, false, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, _T("³ª´®°íµñ"), &m_pFont);
 }
 
 void SceneLoading::Update()
@@ -100,6 +104,7 @@ void SceneLoading::Update()
 			break;
 		}*/
 	}
+	m_loadingString = g_pSceneManager->m_pLoadingString.c_str();
 }
 
 void SceneLoading::Render()
@@ -116,6 +121,10 @@ void SceneLoading::Render()
 	m_loadingCircleSprite->Draw(m_loadingCircleTexture, &m_loadingCircle.pRect[m_loadingCircle.nIndex], &D3DXVECTOR3(64, 64, 0), &D3DXVECTOR3(1200, 640, 0), D3DCOLOR_XRGB(255, 255, 255));
 	//SAFE_RENDER(m_pLoadingCircle);
 	m_loadingCircleSprite->End();
+	RECT rc;
+	SetRect(&rc, 800, 650, SCREEN_X, SCREEN_Y);
+	m_pFont->DrawText(NULL, m_loadingString, m_loadingString.GetLength(), &rc,
+		DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 0));
 }
 
 void SceneLoading::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

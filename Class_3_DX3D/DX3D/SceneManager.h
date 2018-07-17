@@ -31,6 +31,8 @@ public:
 	void SetCurrentScene(size_t index);
 
 	string m_pCurrSceneString;
+	float m_pLoadingPercentage;
+	string m_pLoadingString;
 
 };
 
