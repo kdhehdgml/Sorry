@@ -168,6 +168,7 @@ void SceneHeightmap::Init()
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 1.0f, 0.15f, 1.0f);
 
+	g_pSceneManager->m_pLoadingString = "참호 파는 중...";
 	m_pHeightMap = new HeightMap; AddSimpleDisplayObj(m_pHeightMap);
 	m_pHeightMap->SetDimension(GSM().mapSize);
 	m_pHeightMap->Load("resources/heightmap/HeightMapBF2.raw", &matS);
@@ -201,10 +202,12 @@ void SceneHeightmap::Init()
 	//pObj = new ParticleTest; pObj->Init(); AddSimpleDisplayObj(pObj);
 	//
 
+	g_pSceneManager->m_pLoadingString = "장애물 설치 중...";
 	// obj 관련 (크기, obj파일 위치, png파일 위치, x, y, z, 회전) 테스트용으로 넣은것임..
 	m_ObjRender = new ObjRender;
 	m_ObjRender->Init();
 
+	g_pSceneManager->m_pLoadingString = "병사 소집 중...";
 	//중현이코드
 	m_pUnit = new UnitBox();
 	m_pUnit->SetLocation(m_pHeightMap->GetWall());
@@ -229,7 +232,7 @@ void SceneHeightmap::Init()
 
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 
-
+	g_pSceneManager->m_pLoadingString = "연막탄 터트리는 중...";
 	//안개생성
 	m_CreateSmog = new CreateSmog;
 	m_CreateSmog->Init();
@@ -277,9 +280,11 @@ void SceneHeightmap::Init()
 	//	m_CreateSmog->Update();
 	//까지
 
+	g_pSceneManager->m_pLoadingString = "산 옮기는 중...";
 	m_SkyBox = new SkyBox;
 	m_SkyBox->Init();
 
+	g_pSceneManager->m_pLoadingString = "플레이어 총 영점조정 중...";
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 
@@ -309,11 +314,13 @@ void SceneHeightmap::Init()
 	m_pTalkImage->SetPosition(&D3DXVECTOR3(200, 100, 0));
 	m_pTalk = m_pTalkImage;
 
+	g_pSceneManager->m_pLoadingString = "플레이어 깨우는 중...";
 	m_Player_hands = new Player_hands;
 	m_Player_hands->Init();
 	AddSimpleDisplayObj(m_Player_hands);
 	m_pUnit->LivingPlayer(m_Player_hands->getHealth());
 
+	g_pSceneManager->m_pLoadingString = "GPS 장비 켜는 중...";
 	m_minimap = new Minimap;
 	m_minimap->Init();
 	m_minimap->getPMobFromUnitBox(m_pUnit->getPMob());
@@ -339,7 +346,7 @@ void SceneHeightmap::Init()
 	//(aa가 수치가 작은 쪽 좌표, bb가 큰 쪽 좌표)
 
 	//wallManager->addSphereWall(aa, 10.0f);
-
+	g_pSceneManager->m_pLoadingString = "나머지 잡다한 거 로딩 중...";
 	D3DXCreateSphere(g_pDevice, 5.0f, 10, 10, &m_pSphere, NULL);
 	m_pBoundingSphere = new BoundingSphere(g_pCamera->getPos(), 5.0f);
 
