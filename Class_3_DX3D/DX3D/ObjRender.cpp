@@ -10,7 +10,7 @@ ObjRender::ObjRender()
 	//참호 판자
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i] = NULL;
-	//m_MapTest1 = NULL;
+	m_MapTest1 = NULL;
 	for (int i = 0; i < 75; i++)
 	{
 		m_MapTest00[i] = NULL;
@@ -18,15 +18,14 @@ ObjRender::ObjRender()
 	//철조망
 	for (int i = 0; i < 53; i++)
 		m_BarbedWireT[i] = NULL;
-
 	//사격받침
-	m_FireStep00 = NULL;
+	for (int i = 0; i < 6; i++)
+		m_FireStep00[i] = NULL;
 	//모래
 	for (int i = 0; i < 30; i++)
 		SaddleBag0[i] = NULL;
-	for (int i = 0; i < 33; i++)
+	for (int i = 0; i < 116; i++)
 		SaddleBag1[i] = NULL;
-
 	//나무
 	for (int i = 0; i < 10; i++)
 	{
@@ -44,31 +43,26 @@ ObjRender::ObjRender()
 	//돌
 	for (int i = 0; i < 4; i++)
 	   m_Stone00[i] = NULL;
-
 	//탱크
 	for (int i = 0; i < 2; i++)
 	{
 		m_Tank[i] = NULL;
 	}
-	
 	//웨건
 	for (int i = 0; i < 3; i++)
 	{
 		m_Wagon[i] = NULL;
 	}
-	
 	//건물
 	for (int i = 0; i < 3; i++)
 	{
 		m_Apt[i] = NULL;
 	}
-
 	//타일
 	for (int i = 0; i < 15; i++)
 	{
 		m_Tile[i] = NULL;
 	}
-
 }
 
 
@@ -77,7 +71,7 @@ ObjRender::~ObjRender()
 	//참호 판자
 	for (int i = 0; i < 16; i++)
 		m_MapTest[i]->~ObjRen();
-	//m_MapTest1->~ObjRen();
+	m_MapTest1->~ObjRen();
 	for (int i = 0; i < 75; i++)
 	{
 		m_MapTest00[i]->~ObjRen();
@@ -87,11 +81,12 @@ ObjRender::~ObjRender()
 		m_BarbedWireT[i]->~ObjRen();
 	
 	//사격받침
-	m_FireStep00->~ObjRen();
+	for (int i = 0; i < 6; i++)
+		m_FireStep00[i]->~ObjRen();
 	//모래
 	for (int i = 0; i < 30; i++)
 		SaddleBag0[i]->~ObjRen();
-	for (int i = 0; i < 33; i++)
+	for (int i = 0; i < 116; i++)
 		SaddleBag1[i]->~ObjRen();
 
 	//나무
@@ -300,8 +295,13 @@ void ObjRender::Init()
 	CREATE_OBJ(m_BarbedWireT[52], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 286.0f, 29.0f, 189.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 
 	//사격받침
-	//CREATE_OBJ(m_FireStep00, 63.0f, FireStep, FireStep00.obj, woodTex.png, 232.0f, -6.8f, 398.0f, 0.0f, 0.0f, 0.0f);
-	CREATE_OBJ(m_FireStep00, 63.0f, FireStep, FireStep01.obj, woodTex.png, 250.0f, -6.8f, 398.0f, 0.0f, 0.0f, 0.0f);
+	CREATE_OBJ(m_FireStep00[0], 7.5f, FireStep, FireStep00.obj, woodTex.png, 240.0f, 23.0f, 500.5f, -0.02f, 0.0f, -0.14f);
+	CREATE_OBJ(m_FireStep00[1], 7.5f, FireStep, FireStep00.obj, woodTex.png, 237.0f, 22.5f, 436.0f, 0.0f, 0.0f, -0.15f);
+	CREATE_OBJ(m_FireStep00[2], 7.5f, FireStep, FireStep00.obj, woodTex.png, 253.0f, 22.7f, 391.0f, 0.01f, 0.0f, 0.04f);
+	CREATE_OBJ(m_FireStep00[3], 7.5f, FireStep, FireStep00.obj, woodTex.png, 245.0f, 23.2f, 319.0f, 0.01f, 0.0f, -0.08f);
+	CREATE_OBJ(m_FireStep00[4], 7.5f, FireStep, FireStep00.obj, woodTex.png, 256.0f, 24.0f, 272.5f, 0.01f, 0.0f, -0.14f);
+	CREATE_OBJ(m_FireStep00[5], 7.5f, FireStep, FireStep00.obj, woodTex.png, 254.0f, 23.5f, 234.0f, -0.01f, -0.01f, -0.32f);
+
 
 	//모래
 	CREATE_OBJ(SaddleBag0[0], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 228.0f, 23.2f, 528.3f, 0.0f, 0.57f, 0.0f);
@@ -372,6 +372,64 @@ void ObjRender::Init()
 	CREATE_OBJ(SaddleBag1[30], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 172.0f, 24.2f, 486.0f, 0.0f, D3DX_PI / 2, 0.0f);
 	CREATE_OBJ(SaddleBag1[31], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 168.0f, 22.3f, 408.0f, 0.0f, D3DX_PI / 2, 0.0f);
 	CREATE_OBJ(SaddleBag1[32], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 191.0f, 24.3f, 267.0f, 0.0f, D3DX_PI / 2, 0.0f);
+
+	CREATE_OBJ(SaddleBag1[33], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 214.0f, 25.0f, 264.0f, 0.0f, -1.469f, 0.0f);
+	CREATE_OBJ(SaddleBag1[34], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 203.0f, 25.0f, 241.0f, 0.0f, -0.62f, 0.00f);
+	CREATE_OBJ(SaddleBag1[35], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 159.0f, 24.0f, 269.0f, 0.0f, -1.559f, 0.00f);
+	CREATE_OBJ(SaddleBag1[36], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 138.0f, 22.0f, 266.0f, 0.0f, -1.579f, 0.00f);
+	CREATE_OBJ(SaddleBag1[37], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 154.0f, 23.0f, 224.0f, 0.0f, 0.78f, 0.00f);
+	CREATE_OBJ(SaddleBag1[38], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 154.0f, 23.0f, 208.0f, 0.0f, 2.32f, 0.00f);
+	CREATE_OBJ(SaddleBag1[39], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 149.0f, 23.0f, 192.0f, 0.0f, 1.54f, 0.00f);
+	CREATE_OBJ(SaddleBag1[40], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 157.0f, 24.0f, 171.0f, 0.0f, 0.82f, 0.00f);
+	CREATE_OBJ(SaddleBag1[41], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 191.0f, 24.0f, 201.0f, 0.0f, 0.36f, 0.00f);
+	CREATE_OBJ(SaddleBag1[42], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 205.0f, 25.0f, 186.0f, 0.0f, 1.56f, 0.00f);
+	CREATE_OBJ(SaddleBag1[43], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 215.0f, 24.0f, 173.0f, 0.0f, 0.54f, 0.00f);
+	CREATE_OBJ(SaddleBag1[44], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 236.0f, 24.0f, 184.0f, 0.0f, 0.36f, 0.00f);
+	CREATE_OBJ(SaddleBag1[45], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 256.0f, 25.0f, 162.0f, 0.0f, 1.579f, 0.00f);
+	CREATE_OBJ(SaddleBag1[46], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 242.0f, 24.0f, 139.0f, 0.0f, -0.25f, 0.00f);
+	CREATE_OBJ(SaddleBag1[47], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 186.0f, 23.0f, 138.0f, 0.0f, 0.19f, 0.00f);
+	CREATE_OBJ(SaddleBag1[48], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 105.0f, 21.0f, 176.0f, 0.0f, 0.81f, 0.00f);
+	CREATE_OBJ(SaddleBag1[49], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 123.0f, 21.0f, 155.0f, 0.0f, 0.81f, 0.00f);
+	CREATE_OBJ(SaddleBag1[50], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 69.0f, 25.0f, 35.0f, 0.0f, -1.52f, 0.00f);
+	CREATE_OBJ(SaddleBag1[51], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 96.0f, 24.0f, 69.0f, 0.0f, -1.52f, 0.00f);
+	CREATE_OBJ(SaddleBag1[52], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 85.0f, 24.0f, 85.0f, 0.0f, -2.65f, 0.00f);
+	CREATE_OBJ(SaddleBag1[53], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 60.0f, 23.0f, 112.0f, 0.0f, -1.69f, 0.00f);
+	CREATE_OBJ(SaddleBag1[54], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 72.0f, 26.0f, 153.0f, 0.0f, 0.49f, 0.00f);
+	CREATE_OBJ(SaddleBag1[55], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 54.0f, 27.0f, 174.0f, 0.0f, 1.45f, 0.00f);
+	CREATE_OBJ(SaddleBag1[56], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 131.0f, 23.0f, 231.0f, 0.0f, -0.2f, 0.00f);
+	CREATE_OBJ(SaddleBag1[57], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 125.0f, 22.0f, 250.0f, 0.0f, -0.27f, 0.00f);
+	CREATE_OBJ(SaddleBag1[58], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 90.0f, 21.0f, 217.0f, 0.0f, 1.55f, 0.00f);
+	CREATE_OBJ(SaddleBag1[59], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 81.0f, 21.0f, 236.0f, 0.0f, 0.7f, 0.00f);
+	CREATE_OBJ(SaddleBag1[90], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 61.0f, 22.0f, 266.0f, 0.0f, 1.56f, 0.00f);
+	CREATE_OBJ(SaddleBag1[91], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 128.0f, 22.0f, 284.0f, 0.0f, 0.52f, 0.00f);
+	CREATE_OBJ(SaddleBag1[92], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 87.0f, 22.0f, 320.0f, 0.0f, 1.52f, 0.00f);
+	CREATE_OBJ(SaddleBag1[93], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 179.0f, 24.0f, 281.0f, 0.0f, 0.52f, 0.00f);
+	CREATE_OBJ(SaddleBag1[94], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 164.0f, 22.0f, 316.0f, 0.0f, 1.92f, 0.00f);
+	CREATE_OBJ(SaddleBag1[95], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 140.0f, 22.0f, 302.0f, 0.0f, 0.42f, 0.00f);
+	CREATE_OBJ(SaddleBag1[96], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 137.0f, 22.0f, 344.0f, 0.0f, -0.43f, 0.00f);
+	CREATE_OBJ(SaddleBag1[97], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 153.0f, 24.0f, 391.0f, 0.0f, -0.42f, 0.00f);
+	CREATE_OBJ(SaddleBag1[98], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 129.0f, 25.0f, 363.0f, 0.0f, -0.48f, 0.00f);
+	CREATE_OBJ(SaddleBag1[99], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 150.0f, 24.0f, 421.0f, 0.0f, -0.43f, 0.00f);
+	CREATE_OBJ(SaddleBag1[100], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 145.0f, 24.0f, 441.0f, 0.0f, -0.36f, 0.00f);
+	CREATE_OBJ(SaddleBag1[101], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 119.0f, 24.0f, 431.0f, 0.0f, -0.36f, 0.00f);
+	CREATE_OBJ(SaddleBag1[102], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 118.0f, 25.0f, 407.0f, 0.0f, -0.35f, 0.00f);
+	CREATE_OBJ(SaddleBag1[103], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 144.0f, 25.0f, 456.0f, 0.0f, 0.48f, 0.00f);
+
+	CREATE_OBJ(SaddleBag1[104], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 129.0f, 25.0f, 481.0f, 0.0f, -2.63f, 0.00f);
+	CREATE_OBJ(SaddleBag1[105], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 132.0f, 24.0f, 503.0f, 0.0f, -2.63f, 0.00f);
+	CREATE_OBJ(SaddleBag1[106], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 110.0f, 24.0f, 516.0f, 0.0f, -2.63f, 0.00f);
+
+	CREATE_OBJ(SaddleBag1[107], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 146.0f, 25.0f, 512.0f, 0.0f, -1.55f, 0.00f);
+	CREATE_OBJ(SaddleBag1[108], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 159.0f, 25.0f, 544.0f, 0.0f, -1.55f, 0.00f);
+	CREATE_OBJ(SaddleBag1[109], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 171.0f, 23.0f, 594.0f, 0.0f, -1.02f, 0.00f);
+	CREATE_OBJ(SaddleBag1[110], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 224.0f, 25.0f, 571.0f, 0.0f, -0.41f, 0.00f);
+	CREATE_OBJ(SaddleBag1[111], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 202.0f, 25.0f, 571.0f, 0.0f, 0.46f, 0.00f);
+
+	CREATE_OBJ(SaddleBag1[112], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 232.0f, 24.0f, 551.0f, 0.0f, 2.68f, 0.00f);
+	CREATE_OBJ(SaddleBag1[113], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 255.0f, 24.0f, 574.0f, 0.0f, 1.59f, 0.00f);
+	CREATE_OBJ(SaddleBag1[114], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 243.0f, 26.0f, 603.0f, 0.0f, 0.56f, 0.00f);
+	CREATE_OBJ(SaddleBag1[115], 5.0f, SaddleBag, SaddleBag00.obj, SaddleBagTex.png, 259.0f, 24.0f, 650.0f, 0.0f, 1.53f, 0.00f);
+
 
 	//나무
 	CREATE_OBJ(m_Tree00[0], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 30.0f, 321.0f, 0.0f, 0.1f, 0.0f);
@@ -482,18 +540,19 @@ void ObjRender::Render()
 	//참호 판자
 	for (int i = 0; i < 16; i++)
 		SAFE_RENDER(m_MapTest[i]);
-	//SAFE_RENDER(m_MapTest1);
+	SAFE_RENDER(m_MapTest1);
 	for (int i = 0; i < 75; i++)
 		SAFE_RENDER(m_MapTest00[i]);
 	//철조망
 	for (int i = 0; i < 53; i++)
 		SAFE_RENDER(m_BarbedWireT[i]);
 	//사격받침
-	SAFE_RENDER(m_FireStep00);
+	for (int i = 0; i < 6; i++)
+		SAFE_RENDER(m_FireStep00[i]);
 	//모래
 	for (int i = 0; i < 30; i++)
 		SAFE_RENDER(SaddleBag0[i]);
-	for (int i = 0; i < 33; i++)
+	for (int i = 0; i < 116; i++)
 		SAFE_RENDER(SaddleBag1[i]);
 
 	//나무
@@ -541,7 +600,8 @@ void ObjRender::Render()
 
 void ObjRender::Update()
 {
-	//CREATE_OBJ(m_MapTest1, size, WoodenBarrier, WoodenBarrier.obj, woodTex.png, x, y, z, rotationX, rotationY, rotationZ);
+	////CREATE_OBJ(m_BarbedWireT[0], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 468.0f, 31.0f, 526.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	//CREATE_OBJ(m_MapTest1, 5.0f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, x, y, z, rotationX, rotationY, rotationZ);
 
 	//if (Keyboard::Get()->KeyPress('Z'))
 	//{
@@ -599,8 +659,6 @@ void ObjRender::Update()
 	//{
 	//	rotationZ -= 0.01f;
 	//}
-	//Debug->AddText(size);
-	//Debug->EndLine();
 	//Debug->AddText(x);
 	//Debug->EndLine();
 	//Debug->AddText(y);

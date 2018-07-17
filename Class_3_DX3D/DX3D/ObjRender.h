@@ -30,11 +30,11 @@ public:
 
 
 	//사격받침
-	ObjRen*			m_FireStep00;
+	ObjRen*			m_FireStep00[6];
 
 	//주머니
 	ObjRen*			SaddleBag0[30];
-	ObjRen*			SaddleBag1[33];
+	ObjRen*			SaddleBag1[116];
 
 	//나무
 	ObjRen*			m_Tree00[10];

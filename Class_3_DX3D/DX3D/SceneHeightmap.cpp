@@ -784,6 +784,9 @@ void SceneHeightmap::Update()
 			m_pBulletUI->bulletNum = g_pCamera->getMagazine();
 		}
 		Debug->EndLine();
+		if (m_pUnit->GameOver()) {
+			m_pGameOverOn = true;
+		}
 		/*Debug->AddText("SphereWalls มยวฅต้ : ");
 		for (int i = 0; i < 38; i++) {
 		Debug->AddText(tempVecs[i]);
