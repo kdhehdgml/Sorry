@@ -2,10 +2,20 @@
 #include "DeviceManager.h"
 
 
+void DeviceManager::ToggleFullscreen(float width, float height)
+{
+	d3dpp.BackBufferWidth = width;
+	d3dpp.BackBufferHeight = height;
+	m_pFullscreen = !m_pFullscreen;
+	d3dpp.Windowed = !m_pFullscreen;
+	HRESULT result = m_pD3DDevice->Reset(&d3dpp);
+}
+
 DeviceManager::DeviceManager()
 {
 	m_pD3D = NULL;
 	m_pD3DDevice = NULL;
+	m_pFullscreen = false;
 }
 
 
@@ -32,10 +42,10 @@ HRESULT DeviceManager::Init()
 		vp = D3DCREATE_HARDWARE_VERTEXPROCESSING;
 	else
 		vp = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
-	D3DPRESENT_PARAMETERS d3dpp;
+	//D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(D3DPRESENT_PARAMETERS));
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.Windowed = true; //여기를 수정하면 전체 화면
+	d3dpp.Windowed = false; //여기를 수정하면 전체 화면
 	d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
 	d3dpp.BackBufferWidth = SCREEN_X;
 	d3dpp.BackBufferHeight = SCREEN_Y;

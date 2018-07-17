@@ -8,7 +8,8 @@ class DeviceManager
 private:
 	LPDIRECT3D9			m_pD3D;
 	LPDIRECT3DDEVICE9	m_pD3DDevice;
-
+	D3DPRESENT_PARAMETERS d3dpp;
+	bool m_pFullscreen;
 	DeviceManager();
 	~DeviceManager();
 
@@ -22,6 +23,7 @@ public:
 	HRESULT				Init();
 	LPDIRECT3DDEVICE9	GetDevice();
 	void				Destroy();
+	void ToggleFullscreen(float width, float height);
 };
 
 //Direct3D 는 3D 가속 하드웨어를 이용해 3D 세계 표현을 도와주는 그래픽 API.
