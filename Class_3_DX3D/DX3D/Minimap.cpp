@@ -80,12 +80,6 @@ void Minimap::Update()
 	m_playerIconPos.x = tempZ - 106.0f;
 	m_playerIconPos.y = tempX + 324.0f;
 
-	Debug->AddText("m_playerIconPos : ");
-	Debug->AddText(m_playerIconPos.x);
-	Debug->AddText(", ");
-	Debug->AddText(m_playerIconPos.y);
-	Debug->EndLine();
-
 	m_playerIcon->m_rotAngle = g_pCamera->getAngleX();
 	//플레이어 위치 미니맵 표시 계산 끝
 

@@ -83,6 +83,14 @@ void Application::Update()
 			temp_rotY = g_pCamera->getRotY();
 		}
 	}
+	/*if (GetAsyncKeyState(VK_LMENU) & 0x8000) {
+		if (GetAsyncKeyState(VK_RETURN) & 0x8000) {
+			g_pDeviceManager->ToggleFullscreen(SCREEN_X, SCREEN_Y);
+		}
+	}*/
+	if (GetAsyncKeyState(VK_F9) & 0x0001) {
+		g_pDeviceManager->ToggleFullscreen(SCREEN_X, SCREEN_Y);
+	}
 }
 
 void Application::Render()
@@ -104,11 +112,8 @@ void Application::Render()
 
 void Application::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	//if (!isPaused)
-	{
-		Mouse::Get()->InputProc(message, wParam, lParam);
-		g_pSceneManager->WndProc(hWnd, message, wParam, lParam);
-		g_pCamera->WndProc(hWnd, message, wParam, lParam);
-		//g_pFrustum
-	}
+	Mouse::Get()->InputProc(message, wParam, lParam);
+	g_pSceneManager->WndProc(hWnd, message, wParam, lParam);
+	g_pCamera->WndProc(hWnd, message, wParam, lParam);
+	//g_pFrustum
 }
