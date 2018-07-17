@@ -39,7 +39,7 @@ private:
 	int				NOL_Team;
 	bool			m_SameChk;
 	bool			m_livePlayer;
-	
+
 public:
 	UnitBox();
 	~UnitBox();

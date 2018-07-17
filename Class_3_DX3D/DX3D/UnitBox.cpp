@@ -68,8 +68,6 @@ UnitBox::~UnitBox()
 	}
 }
 
-
-
 void UnitBox::Init()
 {
 	m_game.MaxAmount = 0;
@@ -130,6 +128,7 @@ void UnitBox::Update()
 			p->showBoundingSphere = !p->showBoundingSphere;
 		}
 	}
+	
 
 	Debug->AddText("살아있는몹수 : ");
 	Debug->AddText(CheckNumberOfLivingAI(m_game.MaxAmount));
@@ -546,42 +545,57 @@ int UnitBox::CheckNumberOfLivingAI(int _amount)
 
 void UnitBox::LocationSharing()
 {
-	m_LocationList.resize(8);
+	m_LocationList.resize(11);
 	for (auto p : m_SaveLocation)
 	{
-		switch ((int)p.x)
-		{
-		case 268:
+		if ((int)p.x < 297)
 			m_LocationList[0].push_back(p);
-			break;
-		case 325:
+		else if ((int)p.x < 304)
+			m_LocationList[1].push_back(p);
+		else if ((int)p.x < 311)
 			m_LocationList[2].push_back(p);
-			break;
-		case 353:
+		else if ((int)p.x < 347)
 			m_LocationList[3].push_back(p);
-			break;
-		case 410:
+		else if ((int)p.x < 354)
+			m_LocationList[4].push_back(p);
+		else if ((int)p.x < 361)
 			m_LocationList[5].push_back(p);
-			break;
-		case 439:
+		else if ((int)p.x < 390)
 			m_LocationList[6].push_back(p);
-			break;
-		}
+		else if ((int)p.x < 404)
+			m_LocationList[7].push_back(p);
+		else if ((int)p.x < 411)
+			m_LocationList[8].push_back(p);
+		else if ((int)p.x < 418)
+			m_LocationList[9].push_back(p);
+		else if ((int)p.x < 447)
+			m_LocationList[10].push_back(p);
 	}
 	for (auto p : m_nWallLocation)
 	{
-		switch ((int)p.x)
-		{
-		case 296:
+		if ((int)p.x < 240){}
+		else if ((int)p.x < 297)
+			m_LocationList[0].push_back(p);
+		else if ((int)p.x < 304)
 			m_LocationList[1].push_back(p);
-			break;
-		case 382:
+		else if ((int)p.x < 311)
+			m_LocationList[2].push_back(p);
+		else if ((int)p.x < 347)
+			m_LocationList[3].push_back(p);
+		else if ((int)p.x < 354)
 			m_LocationList[4].push_back(p);
-			break;
-		case 467:
+		else if ((int)p.x < 361)
+			m_LocationList[5].push_back(p);
+		else if ((int)p.x < 390)
+			m_LocationList[6].push_back(p);
+		else if ((int)p.x < 404)
 			m_LocationList[7].push_back(p);
-			break;
-		}
+		else if ((int)p.x < 411)
+			m_LocationList[8].push_back(p);
+		else if ((int)p.x < 418)
+			m_LocationList[9].push_back(p);
+		else if ((int)p.x < 447)
+			m_LocationList[10].push_back(p);
 	}
 }
 
@@ -638,7 +652,7 @@ void UnitBox::FindCanMoveroad()
 			{
 				for (int i = 0; i < m_LocationList[maxLocation].size(); i++)
 				{
-					if (abs(p->GetPosition().x - m_LocationList[maxLocation][i].x) < 20.0f && abs(p->GetPosition().z - m_LocationList[maxLocation][i].z) < 10.0f)
+					if (abs(p->GetPosition().x - m_LocationList[maxLocation][i].x) < 16.0f && abs(p->GetPosition().z - m_LocationList[maxLocation][i].z) < 10.0f)
 					{
 						if (p->GetPosition().z - m_LocationList[maxLocation][i].z > 0)
 						{
@@ -649,6 +663,8 @@ void UnitBox::FindCanMoveroad()
 							p->FindCanMoveroad(1);
 						}
 					}
+					else
+						p->FindCanMoveroad(rand() % 2 + 1);
 				}
 			}
 		}
