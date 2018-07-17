@@ -695,6 +695,10 @@ bool UnitBox::GameOver()
 			p->setHealth(0);
 		}
 		ReSetMob();
+
+		RandomSelectPosition();
+		RegenTeam();
+		posit.clear();
 		return true;
 	}
 	return false;
