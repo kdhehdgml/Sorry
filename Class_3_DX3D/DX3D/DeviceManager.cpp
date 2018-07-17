@@ -45,7 +45,7 @@ HRESULT DeviceManager::Init()
 	//D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(D3DPRESENT_PARAMETERS));
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.Windowed = false; //여기를 수정하면 전체 화면
+	d3dpp.Windowed = true; //여기를 수정하면 전체 화면
 	d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
 	d3dpp.BackBufferWidth = SCREEN_X;
 	d3dpp.BackBufferHeight = SCREEN_Y;
