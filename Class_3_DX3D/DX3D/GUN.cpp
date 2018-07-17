@@ -3,8 +3,8 @@
 #include "AllocateHierarchy.h"
 
 // ½ºÅ² »çÀÌÁî Á¶Àý
-//#define SCALE 0.1f
-#define SCALE 0.5f
+#define SCALE 0.02f
+//#define SCALE 0.5f
 
 GUN::GUN()
 {
@@ -124,21 +124,21 @@ void GUN::Update()
 	{
 		y -= 0.1f;
 	}
-	Debug->AddText("ÃÑ ÇöÀçÁÂÇ¥: ");
-	Debug->AddText(m_pos);
-	Debug->EndLine();
-	Debug->AddText("ÃÑ °¡ÁßÁÂÇ¥: ");
-	Debug->AddText(D3DXVECTOR3( x ,  y,  z));
-	Debug->EndLine();
-	Debug->AddText("ÃÑ °¢µµX: ");
-	Debug->AddText(m_angleX);
-	Debug->EndLine();
-	Debug->AddText("ÃÑ °¢µµY: ");
-	Debug->AddText(m_angleY);
-	Debug->EndLine();
-	Debug->AddText("ÃÑ °¢µµZ: ");
-	Debug->AddText(m_angleZ);
-	Debug->EndLine();
+	//Debug->AddText("ÃÑ ÇöÀçÁÂÇ¥: ");
+	//Debug->AddText(m_pos);
+	//Debug->EndLine();
+	//Debug->AddText("ÃÑ °¡ÁßÁÂÇ¥: ");
+	//Debug->AddText(D3DXVECTOR3( x ,  y,  z));
+	//Debug->EndLine();
+	//Debug->AddText("ÃÑ °¢µµX: ");
+	//Debug->AddText(m_angleX);
+	//Debug->EndLine();
+	//Debug->AddText("ÃÑ °¢µµY: ");
+	//Debug->AddText(m_angleY);
+	//Debug->EndLine();
+	//Debug->AddText("ÃÑ °¢µµZ: ");
+	//Debug->AddText(m_angleZ);
+	//Debug->EndLine();
 	if (ani == 7)
 	{
 		//m_angleX = 0.5599f; 
@@ -164,12 +164,13 @@ void GUN::Update()
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
-	D3DXMatrixRotationX(&matRx, m_angleX);
+	/*D3DXMatrixRotationX(&matRx, m_angleX);
 	D3DXMatrixRotationY(&matRy, m_angleY);
-	D3DXMatrixRotationZ(&matRz, m_angleZ);
+	D3DXMatrixRotationZ(&matRz, m_angleZ);*/
 	D3DXMATRIXA16 matR;
 	D3DXMatrixRotationY(&matR, m_angle);
-	m_matWorld = matS * matR *matRx * matRy * matRz * matT;
+	//m_matWorld = matS * matR *matRx * matRy * matRz * matT;
+	m_matWorld = matS * matR  * matT;
 	//m_matWorld = m_matWorld * m_Hand_mat;
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);

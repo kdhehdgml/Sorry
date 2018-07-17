@@ -183,11 +183,11 @@ void Mob::Update()
 			if (Weapon_Mode == ÃÑµë)
 			{
 				if (ani_state != ¸÷_µÚ·Î¾É¾Æ¼­ÀåÀü)
-					m_GUN->SetMat(m_MONSTER->GetLeftMat());
-					//m_GUN->SetPos(m_MONSTER->GetLeftPos());
+					//m_GUN->SetMat(m_MONSTER->GetLeftMat());
+					m_GUN->SetPos(m_MONSTER->GetLeftPos());
 				else
-					m_GUN->SetMat(m_MONSTER->GetRightMat());
-					//m_GUN->SetPos(m_MONSTER->GetRightPos());
+					//m_GUN->SetMat(m_MONSTER->GetRightMat());
+					m_GUN->SetPos(m_MONSTER->GetRightPos());
 
 				m_GUN->SetAngle(m_angle);
 				m_GUN->Update();
