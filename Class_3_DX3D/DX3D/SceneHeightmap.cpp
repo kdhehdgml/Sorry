@@ -807,7 +807,7 @@ void SceneHeightmap::Update()
 		SAFE_UPDATE(m_pMenuUI);
 	}
 	g_pSoundManager->updateListener(g_pCamera->getPos());
-	m_ObjRender->Update();
+	//m_ObjRender->Update();
 	if ((GetAsyncKeyState(VK_F1) & 0x8000)) {
 		ResetScene();
 	}

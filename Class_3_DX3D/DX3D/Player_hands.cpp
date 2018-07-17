@@ -233,9 +233,10 @@ void Player_hands::Update()
 		//m_magazine = 5  최대 잔탄수
 		//m_cooldown = 150 최대 쿨타임
 
-		if (!m_Reload && m_zooming)
+		if (!m_Reload && m_zooming && m_AnimaTionIndex == 기본상태 
+			/*&& (m_AnimaTionIndex!= 볼트액션 || m_AnimaTionIndex != 전탄장전)*/ )
 		{
-			if (g_pCamera->getRecoil() == 0 && m_Reload == false)
+			//if (g_pCamera->getRecoil() == 0)
 				m_AnimaTionIndex = 줌_모드;
 		}
 
