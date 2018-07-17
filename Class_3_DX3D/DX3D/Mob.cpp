@@ -565,7 +565,7 @@ MOB_SITUATION Mob::TrenchFight()
 		if (abs(m_pos.x - TeamAIPos.x + m_pos.z - TeamAIPos.z) > 3.0f)
 		{
 			m_moveSpeed = GSM().mobSpeed;
-			if (m_DestTime > 400)
+			if (m_DestTime > 600)
 			{
 				SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
 				m_DestTime = 0;
