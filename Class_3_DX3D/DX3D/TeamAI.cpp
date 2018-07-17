@@ -128,7 +128,7 @@ void TeamAI::Update()
 		}
 		else
 		{
-			m_Action = ÆÀ_´Þ¸®±â;
+			m_Action = ÆÀ_´ë±â;
 		}
 
 		m_pBoundingSphere->center = m_pos;
