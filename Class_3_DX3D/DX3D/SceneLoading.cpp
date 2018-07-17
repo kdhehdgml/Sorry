@@ -105,6 +105,11 @@ void SceneLoading::Update()
 		}*/
 	}
 	m_loadingString = g_pSceneManager->m_pLoadingString.c_str();
+	CString _str;
+	m_loadingString.Append(_T("  "));
+	_str = to_string(g_pSceneManager->m_pLoadingPercentage).c_str();
+	m_loadingString.Append(_str);
+	m_loadingString.Append(_T("%"));
 }
 
 void SceneLoading::Render()
@@ -122,9 +127,9 @@ void SceneLoading::Render()
 	//SAFE_RENDER(m_pLoadingCircle);
 	m_loadingCircleSprite->End();
 	RECT rc;
-	SetRect(&rc, 800, 650, SCREEN_X, SCREEN_Y);
+	SetRect(&rc, 0, 0, SCREEN_X - 150, SCREEN_Y - 30);
 	m_pFont->DrawText(NULL, m_loadingString, m_loadingString.GetLength(), &rc,
-		DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 0));
+		DT_RIGHT | DT_BOTTOM | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 0));
 }
 
 void SceneLoading::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
