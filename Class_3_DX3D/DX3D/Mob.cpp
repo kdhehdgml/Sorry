@@ -516,7 +516,7 @@ void Mob::Act_Action()
 MOB_SITUATION Mob::PlayerSearch()
 {
 	//참호근처까지갔을때
-	if (m_pos.x < NODE_POSITSIZEX + 120.0f)
+	if (m_pos.x < NODE_POSITSIZEX + 150.0f)
 	{	
 		return TrenchFight();
 	}
@@ -581,7 +581,7 @@ MOB_SITUATION Mob::TrenchFight()
 		}
 		else
 		{
-			m_moveSpeed = GSM().mobSpeed;
+			m_moveSpeed = GSM().mobSpeed / 2;
 			if (m_DestTime > 1000)
 			{
 				SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
