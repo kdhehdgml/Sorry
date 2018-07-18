@@ -49,6 +49,11 @@ HRESULT DeviceManager::Init()
 	d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
 	d3dpp.BackBufferWidth = SCREEN_X;
 	d3dpp.BackBufferHeight = SCREEN_Y;
+	d3dpp.BackBufferCount = 1;
+	d3dpp.MultiSampleQuality = 0;
+	d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
+	d3dpp.Flags = NULL;
+	d3dpp.hDeviceWindow = g_hWnd;
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
