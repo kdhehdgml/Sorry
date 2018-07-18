@@ -71,8 +71,8 @@ void Minimap::Update()
 	}
 	else {
 		playerPos = g_pCamera->getPos();
+		D3DXMatrixTransformation2D(&m_playerIconRotation, NULL, NULL, NULL, &D3DXVECTOR2(4.0f, 4.0f), g_pCamera->getAngleY() + (270 * D3DX_PI / 180), &m_playerIconPos);
 	}
-	D3DXMatrixTransformation2D(&m_playerIconRotation, NULL, NULL, NULL, &D3DXVECTOR2(4.0f, 4.0f), g_pCamera->getAngleY() + (270 * D3DX_PI / 180), &m_playerIconPos);
 
 	playerPos.z = min(playerPos.z, 540.0f);
 	playerPos.z = max(playerPos.z, 190.0f);

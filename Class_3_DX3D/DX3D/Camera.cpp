@@ -17,7 +17,7 @@ Camera::Camera()
 	pos.x = GSM().camPos.x;
 	pos.z = GSM().camPos.z;
 	pos.y = GSM().camPos.y;
-
+	oldPos = pos;
 
 	m_FOV = D3DX_PI / 4.0f;
 	m_speedOffset = 0.4f;
