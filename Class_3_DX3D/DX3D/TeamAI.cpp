@@ -107,7 +107,7 @@ void TeamAI::Update()
 			
 		if (m_Ready == true)
 		{
-			if (m_MobNum == NULL && m_bullet < 5)
+			if ((m_MobNum == NULL && m_bullet < 5) || HaveBullet() == false)
 			{
 				m_Action = ÆÀ_ÀçÀåÀü;
 				CanFight = false;
