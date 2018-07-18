@@ -27,6 +27,8 @@ private:
 	LoadingCircle m_loadingCircle;
 	int m_loadingCircleIndex;
 	RECT m_loadingCircleRect[8] = { { 0,0,128,128 },{ 128,0,256,128 },{ 256,0,384,128 },{ 384,0,512,128 },{ 512,0,640,128 },{ 640,0,768,128 },{ 768,0,896,128 },{ 896,0,1024,128 } };
+	LPD3DXFONT	m_pFont;
+	CString m_loadingString;
 public:
 	SceneLoading();
 	~SceneLoading();

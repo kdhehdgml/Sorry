@@ -88,9 +88,9 @@ void Application::Update()
 			g_pDeviceManager->ToggleFullscreen(SCREEN_X, SCREEN_Y);
 		}
 	}*/
-	if (GetAsyncKeyState(VK_F9) & 0x0001) {
+	/*if (GetAsyncKeyState(VK_F9) & 0x0001) {
 		g_pDeviceManager->ToggleFullscreen(SCREEN_X, SCREEN_Y);
-	}
+	}*/
 }
 
 void Application::Render()

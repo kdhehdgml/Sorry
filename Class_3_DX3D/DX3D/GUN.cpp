@@ -3,7 +3,7 @@
 #include "AllocateHierarchy.h"
 
 // 스킨 사이즈 조절
-#define SCALE 0.02f
+#define SCALE 0.02f//썡으로 좌표값만받아오면서 그려줌
 //#define SCALE 0.5f
 
 GUN::GUN()

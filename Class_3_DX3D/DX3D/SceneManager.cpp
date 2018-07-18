@@ -80,3 +80,8 @@ void SceneManager::SetCurrentScene(size_t index)
 	}
 
 }
+
+void SceneManager::calcLoadingPercentage(int currentLoading, int maxLoading)
+{
+	m_pLoadingPercentage = (float)currentLoading / (float)maxLoading * 100.0f;
+}
