@@ -65,7 +65,13 @@ void Minimap::Update()
 {
 	SAFE_UPDATE(m_pRootUI);
 	//플레이어 위치 미니맵 표시 계산
-	D3DXVECTOR3 playerPos = g_pCamera->getPos();
+	D3DXVECTOR3 playerPos;
+	if (g_pCamera->getFreeCameraMode()) {
+		playerPos = g_pCamera->getOldPos();
+	}
+	else {
+		playerPos = g_pCamera->getPos();
+	}
 	D3DXMatrixTransformation2D(&m_playerIconRotation, NULL, NULL, NULL, &D3DXVECTOR2(4.0f, 4.0f), g_pCamera->getAngleY() + (270 * D3DX_PI / 180), &m_playerIconPos);
 
 	playerPos.z = min(playerPos.z, 540.0f);
