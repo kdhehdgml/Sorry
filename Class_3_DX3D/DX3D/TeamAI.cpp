@@ -97,8 +97,6 @@ void TeamAI::Update()
 
 	if (status > 0) {
 
-		deathShout = false;
-
 		m_Death = false;
 		UpdatePositionToDestination();
 		if (abs(m_finalDestPos.x - m_pos.x + m_finalDestPos.z - m_pos.z) <= 5.0f && m_Ready == false)
@@ -113,6 +111,7 @@ void TeamAI::Update()
 			{
 				m_Action = 팀_재장전;
 				CanFight = false;
+				deathShout = false;
 				Reloading();
 			}
 			if (HaveBullet() == true)
@@ -153,15 +152,15 @@ void TeamAI::Update()
 				m_angle = -(D3DXVec3Dot(&forwardNor, &D3DXVECTOR3(0, 0, 1)));
 			}
 		}
-		/*Debug->AddText("아군 체력: ");
+		Debug->AddText("아군 체력: ");
 		Debug->AddText(health);
 		Debug->AddText(" / 총알수: ");
 		Debug->AddText(m_bullet);
-		Debug->AddText(" / 애니: ");
+		/*Debug->AddText(" / 애니: ");
 		Debug->AddText(m_Action);
 		Debug->AddText(" / 애니스: ");
-		Debug->AddText(ani_state);
-		Debug->EndLine();*/
+		Debug->AddText(ani_state);*/
+		Debug->EndLine();
 	}
 
 	/*Debug->AddText("데스 카운트 :");
