@@ -5,8 +5,8 @@
 
 
 // 스킨 사이즈 조절
-//#define SCALE 500.0f
-#define SCALE 10000.0f
+#define SCALE 300.0f
+//#define SCALE 10000.0f
 
 SHOVEL::SHOVEL()
 {
@@ -40,7 +40,7 @@ SHOVEL::~SHOVEL()
 void SHOVEL::Init()
 {
 
-	D3DXCreateSphere(g_pDevice, 0.5f, 10, 10, &m_pSphereMesh, NULL);
+	//D3DXCreateSphere(g_pDevice, 0.5f, 10, 10, &m_pSphereMesh, NULL);
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
@@ -61,8 +61,8 @@ void SHOVEL::Init()
 	y = -0.f; 
 	z = 0;
 
-	m_angleX = 0.f;
-	m_angleY = 0.f;
+	m_angleX = 1.58f;
+	m_angleY = 1.01f;
 	m_angleZ = 0.0f;
 
 	
@@ -154,12 +154,13 @@ void SHOVEL::Update()
 	D3DXMatrixRotationY(&matRy, m_angleY);
 	D3DXMatrixRotationZ(&matRz, m_angleZ);
 	D3DXMATRIXA16 matR;
-	matR = matRx * matRy * matRz;
-	m_matWorld = matS * matT;//*  matR * matT;
+	matR = matRx * matRy * matRz * m_matR;
+	//matR = matR * m_matR;
+	m_matWorld = matS * matR*  matT;
 
 
 	//D3DXMatrixIdentity(&m_matWorld);
-	m_matWorld = m_matWorld * m_Hand_mat;
+	//m_matWorld = m_matWorld * m_Hand_mat;
 
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
@@ -175,13 +176,13 @@ void SHOVEL::Render()
 	m_numMesh = 0;
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 
-	D3DXMATRIXA16 mat;
-	D3DXMatrixTranslation(&mat, m_pos.x + x, m_pos.y + y, m_pos.z + z);
-	//D3DXMatrixTranslation(&mat, -2.0f,4.0f,0.f);
+	//D3DXMATRIXA16 mat;
+	//D3DXMatrixTranslation(&mat, m_pos.x + x, m_pos.y + y, m_pos.z + z);
+	////D3DXMatrixTranslation(&mat, -2.0f,4.0f,0.f);
 
-	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-	g_pDevice->SetTexture(0, NULL);
-	m_pSphereMesh->DrawSubset(0);
+	//g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+	//g_pDevice->SetTexture(0, NULL);
+	//m_pSphereMesh->DrawSubset(0);
 }
 
 

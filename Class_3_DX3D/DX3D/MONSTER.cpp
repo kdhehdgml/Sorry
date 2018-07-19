@@ -279,10 +279,25 @@ void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	{
 		//D3DXMATRIXA16 matT;
 		//D3DXMatrixTranslation(&matT,0.f,100.f,0.f);
+		//m_R_mat 순수 행렬
 		m_R_mat = pFrameEx->CombinedTM  * m_matWorld;
-		m_matXY = D3DXVECTOR3(pFrameEx->CombinedTM._31, pFrameEx->CombinedTM._32, pFrameEx->CombinedTM._33);
-		m_matScale = D3DXVECTOR3(pFrameEx->CombinedTM._11, pFrameEx->CombinedTM._22, pFrameEx->CombinedTM._33);
+		//m_R_pos 행렬의 좌표값(이동값) 즉 matT
 		m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+
+		D3DXQUATERNION				m_quat;
+		D3DXMatrixIdentity(&m_rotMat);
+		//m_scaleMat = matS;
+		GetScaleAndRotation(m_R_mat, &m_scaleMat, &m_quat);
+		D3DXMatrixRotationQuaternion(&m_rotMat,&m_quat);
+
+		//D3DXVec3TransformCoord(&vDirAxis, &vDirAxis, &m_rotMat); //위에서 구한 회전행렬 * 임의의축(vDirAxis)을 해서 최종 축을 구한다
+
+		//D3DXQuaternionNormalize(&m_quat, &m_quat);        //노멀라이징
+
+		//D3DXMatrixRotationQuaternion(&m_rotMat, &m_quat);   //최종구한 쿼터니안 만큼 회전 행렬을 구한다
+
+		//m_rotMat = 회전행렬값 즉 matR
+
 	}
 	//else if (pFrame->Name != NULL && strcmp(pFrame->Name, "Bip01_R_Hand") == 0)
 	//{
@@ -442,6 +457,29 @@ void MONSTER::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	{
 		DrawSkeleton(pFrame->pFrameFirstChild, pFrame);
 	}
+}
+
+void MONSTER::GetScaleAndRotation(const D3DXMATRIX & val, D3DXVECTOR3 * OutScale, D3DXQUATERNION * OutRotation)
+{
+	const D3DXVECTOR3 s(
+		D3DXVec3Length(&D3DXVECTOR3(val._11, val._12, val._13)),
+		D3DXVec3Length(&D3DXVECTOR3(val._21, val._22, val._23)),
+		D3DXVec3Length(&D3DXVECTOR3(val._31, val._32, val._33)));
+
+	if (OutScale)
+		*OutScale = s;
+
+	if (OutRotation)
+	{
+		D3DXQuaternionRotationMatrix(
+			OutRotation,
+			&D3DXMATRIX(
+				val._11 / s.x, val._12 / s.x, val._13 / s.x, 0.0f,
+				val._21 / s.y, val._22 / s.y, val._23 / s.y, 0.0f,
+				val._31 / s.z, val._32 / s.z, val._33 / s.z, 0.0f,
+				0.0f, 0.0f, 0.0f, 1.0f));
+	}
+
 }
 
 void MONSTER::SetAnimationIndex(int nIndex, bool isBlend)

@@ -198,6 +198,7 @@ void Mob::Update()
 				//m_SHOVEL->SetMat(&m_MONSTER->GetMeleeMat());
 				//m_SHOVEL->SetMat(m_MONSTER->GetRightMat());
 				m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
+				m_SHOVEL->SetMatR(m_MONSTER->GetRotMat());
 				m_SHOVEL->SetAngle(m_angle);
 				m_SHOVEL->Update();
 			}
