@@ -280,6 +280,8 @@ void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 		//D3DXMATRIXA16 matT;
 		//D3DXMatrixTranslation(&matT,0.f,100.f,0.f);
 		m_R_mat = pFrameEx->CombinedTM  * m_matWorld;
+		m_matXY = D3DXVECTOR3(pFrameEx->CombinedTM._31, pFrameEx->CombinedTM._32, pFrameEx->CombinedTM._33);
+		m_matScale = D3DXVECTOR3(pFrameEx->CombinedTM._11, pFrameEx->CombinedTM._22, pFrameEx->CombinedTM._33);
 		m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 	}
 	//else if (pFrame->Name != NULL && strcmp(pFrame->Name, "Bip01_R_Hand") == 0)

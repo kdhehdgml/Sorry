@@ -64,6 +64,10 @@ protected:
 
 	D3DXMATRIXA16				m_head_mat;
 	D3DXMATRIXA16				m_head_mat2;
+
+	D3DXVECTOR3				m_matScale;
+	D3DXVECTOR3				m_matXY;
+
 public:
 	MONSTER();
 	~MONSTER();
@@ -89,6 +93,11 @@ public:
 
 	D3DXVECTOR3* GetRightPos() { return& m_R_pos; }
 	LPD3DXMATRIXA16 GetRightMat() { return &m_R_mat; }//오른손매트릭스
+
+	//테스트
+	LPD3DXMATRIXA16 GetPosMat() { return &m_matPos; }
+	LPD3DXMATRIXA16 GetXYMat() { return &m_matXY; }
+	LPD3DXMATRIXA16 GetScaleMat() { return &m_matScale; }
 
 	LPD3DXMATRIXA16 GetHeadMat() { return &m_head_mat; }
 	LPD3DXMATRIXA16 GetHeadMat2() { return &m_head_mat2; }

@@ -107,9 +107,16 @@ void SceneXfile::Update()
 
 	m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
 	//m_SHOVEL->SetMat(m_MONSTER->GetRightMat());
+
 	m_SHOVEL->Update();
 	
-	Debug->AddText("»ð ÁÂÇ¥: ");
+	Debug->AddText("matPos ÁÂÇ¥: ");
+	Debug->AddText(m_SHOVEL->GetPosition());
+	Debug->EndLine();
+	Debug->AddText("matScale ÁÂÇ¥: ");
+	Debug->AddText(m_SHOVEL->GetPosition());
+	Debug->EndLine();
+	Debug->AddText("matXY ÁÂÇ¥: ");
 	Debug->AddText(m_SHOVEL->GetPosition());
 	Debug->EndLine();
 
