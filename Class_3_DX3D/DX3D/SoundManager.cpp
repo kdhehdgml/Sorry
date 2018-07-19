@@ -126,7 +126,6 @@ void SoundManager::soundList()
 	// À½¼º
 	s_vDeath_f.push_back("Death01");
 	s_vDeath_f.push_back("Death02");
-	s_vDeath_f.push_back("Death03");
 	s_vDeath_f.push_back("Death04");
 	s_vDeath_f.push_back("Death05");
 	s_vDeath_f.push_back("Death06");
@@ -276,7 +275,7 @@ void SoundManager::updateSpeaker(int type, int soundNum, D3DXVECTOR3 sPos)
 		play3D(soundNum);
 		break;
 	case 2:
-		r = rand() % 26;
+		r = rand() % s_vDeath->size();
 		m_pV_Death->setSpeaker(r, SpeakerPos, SpeakerVel);
 		voiceSound(vType::DEATH, r);
 		break;
@@ -300,6 +299,7 @@ void SoundManager::updateListener(D3DXVECTOR3 lPos)
 	ListenerForward = { g_pCamera->getDir().x , 0, g_pCamera->getDir().z };
 
 	m_p3D->setListener(ListenerPos, ListenerVel, ListenerForward, ListenerUp);
+	m_pV_Reload->setListener(ListenerPos, ListenerVel, ListenerForward, ListenerUp);
 	update3D();
 }
 
@@ -333,6 +333,7 @@ void SoundManager::setSpeakerPos(D3DXVECTOR3 sPos)
 void SoundManager::update3D()
 {
 	m_p3D->Update();
+	m_pV_Reload->Update();
 }
 
 

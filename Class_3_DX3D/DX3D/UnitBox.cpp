@@ -690,7 +690,7 @@ bool UnitBox::GameOver()
 	int numMob = 0;
 	for (auto p : m_pMob)
 	{
-		if (p->GetPosition().x < 240.0f)
+		if (p->GetPosition().x < 257.1f)
 			numMob++;
 	}
 	//if (!m_livePlayer || CheckNumberOfLivingAI(m_game.MaxAmount) > 20 || numMob >10)
@@ -701,7 +701,7 @@ bool UnitBox::GameOver()
 			p->setHealth(0);
 		}
 		ReSetMob();
-
+		
 		RandomSelectPosition();
 		RegenTeam();
 		posit.clear();
