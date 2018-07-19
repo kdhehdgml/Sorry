@@ -85,3 +85,16 @@ void SceneManager::calcLoadingPercentage(int currentLoading, int maxLoading)
 {
 	m_pLoadingPercentage = (float)currentLoading / (float)maxLoading * 100.0f;
 }
+
+void SceneManager::calcLoadingExtra(int currentLoading, int maxLoading)
+{
+	CString temp, temp2;
+	temp.Append(_T("( "));
+	temp2 = to_string(currentLoading).c_str();
+	temp.Append(temp2);
+	temp.Append(_T(" / "));
+	temp2 = to_string(maxLoading).c_str();
+	temp.Append(temp2);
+	temp.Append(_T(" ) "));
+	m_pLoadingStringExtra = temp;
+}

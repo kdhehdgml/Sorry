@@ -33,7 +33,7 @@ Mob::Mob()
 	hidingChk = false;
 	ani_start = true;
 	showBoundingSphere = false;
-	m_DestTime = 301;
+	m_DestTime = 1000;
 	m_angle = 0;
 
 	m_Death = false;
@@ -404,7 +404,7 @@ void Mob::SelectAction()
 	}
 	else
 	{
-		m_moveSpeed > 0 ? m_Act._action = ¸÷_´Þ¸®´Ù°¡Á×±â : m_Act._action = ¸÷_Á×À½;
+		m_moveSpeed > 0.1f ? m_Act._action = ¸÷_´Þ¸®´Ù°¡Á×±â : m_Act._action = ¸÷_Á×À½;
 	}
 }
 
@@ -534,9 +534,8 @@ MOB_SITUATION Mob::TrenchFight()
 {
 	moveLocation.clear();
 	SaveLocationNum.clear();
-	float nearAI = 35;
+	float nearAI = 40;
 	int AINum = NULL;
-	m_DestTime++;
 	//°¡±î¿î³ð Ã£±â(MinÃ£´Â¹æ½Ä)
 	for (int i = 0; i < g_pObjMgr->FindObjectsByTag(TAG_TEAM).size(); i++)
 	{
@@ -553,6 +552,7 @@ MOB_SITUATION Mob::TrenchFight()
 	
 	if (AINum != NULL)
 	{
+		m_DestTime++;
 		m_Setdest = true;
 		m_TeamAINum = AINum;
 		D3DXVECTOR3 TeamAIPos = g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition();
@@ -582,15 +582,25 @@ MOB_SITUATION Mob::TrenchFight()
 		else
 		{
 			m_moveSpeed = GSM().mobSpeed / 2;
-			if (m_DestTime > 1000)
+			if (m_DestTime > 600)
 			{
-				SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
+				if(m_pos.x > 257.0f && m_pos.y >27.5f)
+					SetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
+				else
+					TrenchSetDestination(g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->GetPosition());
 				m_DestTime = 0;
 				return ±ÙÁ¢_°Å¸®¾È´êÀ½;
 			}
 		}
 
 	}
+	else
+	{
+		
+	}
+	Debug->AddText("ÄðÅ¸ÀÓ : ");
+	Debug->AddText(m_DestTime);
+	Debug->EndLine();
 	return ±ÙÁ¢_°Å¸®¾È´êÀ½;
 }
 
