@@ -277,7 +277,9 @@ void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	}
 	else if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_RightHandMiddle1") == 0)
 	{
-		m_R_mat = pFrameEx->CombinedTM * m_matWorld;
+		//D3DXMATRIXA16 matT;
+		//D3DXMatrixTranslation(&matT,0.f,100.f,0.f);
+		m_R_mat = pFrameEx->CombinedTM  * m_matWorld;
 		m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 	}
 	//else if (pFrame->Name != NULL && strcmp(pFrame->Name, "Bip01_R_Hand") == 0)
@@ -320,26 +322,26 @@ void MONSTER::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
 	//디버그모드
-	if (m_numFrame % 5 == 0)
-	{
-		Debug->EndLine();
-	}
-	if (pFrame->Name == NULL)
-		Debug->AddText(_T("NULL"));
-	else
-		Debug->AddText(pFrame->Name);
+	//if (m_numFrame % 5 == 0)
+	//{
+	//	Debug->EndLine();
+	//}
+	//if (pFrame->Name == NULL)
+	//	Debug->AddText(_T("NULL"));
+	//else
+	//	Debug->AddText(pFrame->Name);
 
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
 	while (pMeshContainer != NULL)
 	{
 		m_numMesh++;
 		//디버그모드
-		Debug->AddText(_T("(MESH)"));
+		//Debug->AddText(_T("(MESH)"));
 		DrawMeshContainer(pFrame);
 		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
 	//디버그모드
-	Debug->AddText(_T(" / "));
+	//Debug->AddText(_T(" / "));
 	if (pFrame->pFrameSibling != NULL)
 	{
 		DrawFrame(pFrame->pFrameSibling);

@@ -37,7 +37,7 @@ SceneXfile::~SceneXfile()
 	SAFE_RELEASE(m_pSkinnedMesh);
 	SAFE_RELEASE(m_DE_HEADGEAR);
 	SAFE_RELEASE(m_FR_HEADGEAR);
-	//SAFE_RELEASE(m_MONSTER);
+	SAFE_RELEASE(m_MONSTER);
 	//SAFE_RELEASE(m_TEAM_TEX);
 
 	OnDestructIScene();
@@ -105,9 +105,13 @@ void SceneXfile::Update()
 
 	m_GUN->Update();
 
-	m_SHOVEL->SetMat(m_MONSTER->GetRightMat());
-	//m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
+	m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
+	//m_SHOVEL->SetMat(m_MONSTER->GetRightMat());
 	m_SHOVEL->Update();
+	
+	Debug->AddText("»ð ÁÂÇ¥: ");
+	Debug->AddText(m_SHOVEL->GetPosition());
+	Debug->EndLine();
 
 	//m_DE_HEADGEAR->SetMat(m_pSkinnedMesh->GetHeadMat());
 	//m_DE_HEADGEAR->Update();
