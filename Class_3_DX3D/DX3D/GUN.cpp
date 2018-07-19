@@ -73,57 +73,57 @@ void GUN::Init()
 
 void GUN::Update()
 {
-	if (Keyboard::Get()->KeyPress('R'))
-	{
-		m_angleX += 0.01f;
-	}
-	if (Keyboard::Get()->KeyPress('T'))
-	{
-		m_angleX -= 0.01f;
-	}
+	//if (Keyboard::Get()->KeyPress('R'))
+	//{
+	//	m_angleX += 0.01f;
+	//}
+	//if (Keyboard::Get()->KeyPress('T'))
+	//{
+	//	m_angleX -= 0.01f;
+	//}
 
-	if (Keyboard::Get()->KeyPress('F'))
-	{
-		m_angleY += 0.01f;
-	}
-	if (Keyboard::Get()->KeyPress('G'))
-	{
-		m_angleY -= 0.01f;
-	}
+	//if (Keyboard::Get()->KeyPress('F'))
+	//{
+	//	m_angleY += 0.01f;
+	//}
+	//if (Keyboard::Get()->KeyPress('G'))
+	//{
+	//	m_angleY -= 0.01f;
+	//}
 
-	if (Keyboard::Get()->KeyPress('V'))
-	{
-		m_angleZ += 0.01f;
-	}
-	if (Keyboard::Get()->KeyPress('B'))
-	{
-		m_angleZ -= 0.01f;
-	}
+	//if (Keyboard::Get()->KeyPress('V'))
+	//{
+	//	m_angleZ += 0.01f;
+	//}
+	//if (Keyboard::Get()->KeyPress('B'))
+	//{
+	//	m_angleZ -= 0.01f;
+	//}
 
-	if (Keyboard::Get()->KeyPress(VK_UP))
-	{
-		z += 0.1f;
-	}	
-	if (Keyboard::Get()->KeyPress(VK_DOWN))
-	{
-		z -= 0.1f;
-	}	
-	if (Keyboard::Get()->KeyPress(VK_LEFT))
-	{
-		x += 0.1f;
-	}
-	if (Keyboard::Get()->KeyPress(VK_RIGHT))
-	{
-		x -= 0.1f;
-	}
-	if (Keyboard::Get()->KeyPress(VK_NUMPAD0))
-	{
-		y += 0.1f;
-	}
-	if (Keyboard::Get()->KeyPress(VK_NUMPAD2))
-	{
-		y -= 0.1f;
-	}
+	//if (Keyboard::Get()->KeyPress(VK_UP))
+	//{
+	//	z += 0.1f;
+	//}	
+	//if (Keyboard::Get()->KeyPress(VK_DOWN))
+	//{
+	//	z -= 0.1f;
+	//}	
+	//if (Keyboard::Get()->KeyPress(VK_LEFT))
+	//{
+	//	x += 0.1f;
+	//}
+	//if (Keyboard::Get()->KeyPress(VK_RIGHT))
+	//{
+	//	x -= 0.1f;
+	//}
+	//if (Keyboard::Get()->KeyPress(VK_NUMPAD0))
+	//{
+	//	y += 0.1f;
+	//}
+	//if (Keyboard::Get()->KeyPress(VK_NUMPAD2))
+	//{
+	//	y -= 0.1f;
+	//}
 	//Debug->AddText("ÃÑ ÇöÀçÁÂÇ¥: ");
 	//Debug->AddText(m_pos);
 	//Debug->EndLine();
