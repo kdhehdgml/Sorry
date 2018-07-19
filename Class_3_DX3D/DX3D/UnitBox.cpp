@@ -78,12 +78,15 @@ void UnitBox::Init()
 	FindEmptyWallDirection();
 	//아군AI생성
 	m_pTeam.resize(TeamSize);
+
 	for (int i = 0; i < TeamSize; i++)
 	{
+		g_pSceneManager->calcLoadingExtra(i + 1, TeamSize);
 		m_pTeam[i] = new TeamAI;
 		m_pTeam[i]->Init();
 		m_pTeam[i]->SetPosition(&m_TeamPosition[posit[i]]);
 	}
+	g_pSceneManager->m_pLoadingStringExtra.Empty();
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
 	LocationSharing();

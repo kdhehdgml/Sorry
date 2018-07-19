@@ -26,12 +26,18 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 	vecVertex.resize(m_dimension * m_dimension);
 	m_vecVertex.resize(m_dimension * m_dimension);
 
+	int vertexSize = vecVertex.size();
+	int currentVertex = 0;
+
 	std::ifstream fin(fullPath, std::ios::binary);
 
 	for (int z = 0; z < m_dimension; z++)
 	{
 		for (int x = 0; x < m_dimension; x++)
 		{
+			currentVertex++;
+			g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
+
 			int index = z * m_dimension + x;
 			int y = fin.get();
 			vecVertex[index].p = D3DXVECTOR3(x, y, z);
@@ -50,6 +56,8 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 		}
 	}
 
+	g_pSceneManager->m_pLoadingStringExtra.Empty();
+
 	fin.close();
 
 	if (pMat != NULL)
@@ -64,10 +72,17 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 	vector<DWORD> vecIndex;
 	vecIndex.reserve(m_numTile * m_numTile * 3 * 2);
 
+	g_pSceneManager->m_pLoadingString = "참호 다듬는 중...";
+	vertexSize = m_numTile * m_numTile;
+	currentVertex = 0;
+
 	for (int z = 0; z < m_numTile; z++)
 	{
 		for (int x = 0; x < m_numTile; x++)
 		{
+			currentVertex++;
+			g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
+
 			// 1--3
 			// 0--2
 			int _0 = (z + 0) * m_dimension + x + 0;
@@ -83,11 +98,20 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 			vecIndex.push_back(_3);
 		}
 	}
+
+	g_pSceneManager->m_pLoadingStringExtra.Empty();
+	g_pSceneManager->m_pLoadingString = "참호 내부 정리 중...";
+	vertexSize = m_numTile * m_numTile;
+	currentVertex = 0;
+
 	//set normal
 	for (int z = 1; z < m_numTile; z++)
 	{
 		for (int x = 1; x < m_numTile; x++)
 		{
+			currentVertex++;
+			g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
+
 			//--u--
 			//l-n-r
 			//--d--
@@ -107,6 +131,8 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 			vecVertex[index].n = n;
 		}
 	}
+
+	g_pSceneManager->m_pLoadingStringExtra.Empty();
 
 	D3DXCreateMeshFVF(vecIndex.size() / 3, vecVertex.size(),
 		D3DXMESH_MANAGED | D3DXMESH_32BIT, VERTEX_PNT::FVF,
