@@ -43,6 +43,7 @@ protected:
 	float						trackSpeed;
 
 	D3DXMATRIXA16				m_Hand_mat;
+	D3DXMATRIXA16				m_TestMat;
 
 	int ani;
 public:

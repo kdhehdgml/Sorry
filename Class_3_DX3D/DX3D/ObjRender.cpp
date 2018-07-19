@@ -136,7 +136,11 @@ ObjRender::~ObjRender()
 
 void ObjRender::Init()
 {
+	int vertexSize = 15;
+	int currentVertex = 0;
 	//참호 판자
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_MapTest[0], 66.9f, WoodenBarrier, WoodenBarrierTest02.obj, woodTex.png, 363.0f, 11.5f, -537.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_MapTest[1], 12.5f, WoodenBarrier, WoodenBarrierPartTest00.obj, woodTex.png, 100.5f, 5.0f, 77.8f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_MapTest[2], 18.0f, WoodenBarrier, WoodenBarrierPartTest01.obj, woodTex.png, 210.6f, 7.5f, 22.8f, 0.0f, 0.0f, 0.0f);
@@ -154,6 +158,8 @@ void ObjRender::Init()
 	CREATE_OBJ(m_MapTest[14], 11.8f, WoodenBarrier, WoodenBarrierPartTest13.obj, woodTex.png, 176.0f, 13.6f, 145.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_MapTest[15], 9.8f, WoodenBarrier, WoodenBarrierPartTest14.obj, woodTex.png, 246.0f, 15.6f, 214.0f, 0.0f, 0.0f, 0.0f);
 	//m_MapTest00
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_MapTest00[0], 8.0f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 255.0f, 8.0f, 721.0f, -0.39f, 1.55f, 0.919f);
 	CREATE_OBJ(m_MapTest00[1], 6.5f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 254.0f, 13.0f, 650.0f, -0.25f, 1.52f, 1.1f);
 	CREATE_OBJ(m_MapTest00[2], 6.5f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 250.0f, 15.0f, 578.0f, -0.33f, 1.62f, 1.01f);
@@ -235,6 +241,8 @@ void ObjRender::Init()
 
 	//철조망
 	//1번 줄
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_BarbedWireT[0], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 468.0f, 31.0f, 526.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[1], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 468.0f, 31.0f, 516.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[2], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 487.0f, 33.0f, 475.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
@@ -248,6 +256,8 @@ void ObjRender::Init()
 	CREATE_OBJ(m_BarbedWireT[10], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 468.0f, 28.0f, 219.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[11], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 494.0f, 33.0f, 229.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	//2번 줄
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_BarbedWireT[12], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 31.0f, 560.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[13], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 31.0f, 544.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[14], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 407.0f, 32.0f, 502.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
@@ -263,6 +273,8 @@ void ObjRender::Init()
 	CREATE_OBJ(m_BarbedWireT[24], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 30.0f, 220.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[25], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 30.0f, 210.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	//3번 줄
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_BarbedWireT[26], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 31.0f, 531.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[27], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 31.0f, 515.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[28], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 322.0f, 32.0f, 475.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
@@ -276,6 +288,8 @@ void ObjRender::Init()
 	CREATE_OBJ(m_BarbedWireT[36], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 328.0f, 29.0f, 219.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[37], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 33.0f, 229.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	//입구쪽
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_BarbedWireT[38], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 286.0f, 29.0f, 518.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.4f, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[39], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 289.0f, 29.0f, 490.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 	CREATE_OBJ(m_BarbedWireT[40], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 280.0f, 29.0f, 463.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.4f, 0.0f);
@@ -293,6 +307,8 @@ void ObjRender::Init()
 	CREATE_OBJ(m_BarbedWireT[52], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 286.0f, 29.0f, 189.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
 
 	//사격받침
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_FireStep00[0], 7.5f, FireStep, FireStep00.obj, woodTex.png, 240.0f, 23.0f, 500.5f, -0.02f, 0.0f, -0.14f);
 	CREATE_OBJ(m_FireStep00[1], 7.5f, FireStep, FireStep00.obj, woodTex.png, 237.0f, 22.5f, 436.0f, 0.0f, 0.0f, -0.15f);
 	CREATE_OBJ(m_FireStep00[2], 7.5f, FireStep, FireStep00.obj, woodTex.png, 253.0f, 22.7f, 391.0f, 0.01f, 0.0f, 0.04f);
@@ -302,6 +318,8 @@ void ObjRender::Init()
 
 
 	//모래
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(SaddleBag0[0], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 228.0f, 23.2f, 528.3f, 0.0f, 0.57f, 0.0f);
 	CREATE_OBJ(SaddleBag0[1], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 238.0f, 23.2f, 522.0f, 0.0f, 0.57f, 0.0f);
 	CREATE_OBJ(SaddleBag0[2], 3.0f, SaddleBag, SaddleBag02.obj, SaddleBagTex.png, 247.0f, 23.2f, 509.0f, 0.0f, D3DX_PI / 2, 0.0f);
@@ -422,6 +440,8 @@ void ObjRender::Init()
 
 
 	//나무
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_Tree00[0], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 30.0f, 321.0f, 0.0f, 0.1f, 0.0f);
 	CREATE_OBJ(m_Tree01[0], 6.0f, Environment, Tree01.obj, TreeTex.png, 300.0f, 30.0f, 360.0f, 0.0f, 0.1f, 0.0f);
 	CREATE_OBJ(m_Tree02[0], 3.0f, Environment, Tree02.obj, TreeTex.png, 355.0f, 25.0f, 342.0f, 0.0f, 0.1f, 0.0f);
@@ -483,29 +503,41 @@ void ObjRender::Init()
 	CREATE_OBJ(m_Tree06[9], 3.0f, Environment, Tree06.obj, TreeTex.png, 540.0f, 30.0f, 222.0f, 0.0f, 0.3f, 0.0f);
 
 	//지푸라기
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_Straw00[0], 3.0f, Environment, Straw00.obj, StrawTex.png, 7.0f, 25.0f, 71.0f, 0.0f, D3DX_PI / 2, 0.0f);
 	CREATE_OBJ(m_Straw00[1], 3.0f, Environment, Straw00.obj, StrawTex.png, 7.0f, 25.0f, 61.0f, 0.0f, D3DX_PI / 2, 0.0f);
 	//돌
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_Stone00[0], 6.0f, Environment, Stone00.obj, StoneTex.png, 440.0f, 25.0f, 424.0f, 0.0f, D3DX_PI / 2, 0.0f);
 	CREATE_OBJ(m_Stone00[1], 2.0f, Environment, Stone00.obj, StoneTex.png, 292.0f, 22.0f, 538.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_Stone00[2], 2.0f, Environment, Stone00.obj, StoneTex.png, 332.0f, 22.0f, 210.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_Stone00[3], 3.0f, Environment, Stone00.obj, StoneTex.png, 333.0f, 22.0f, 320.0f, 0.0f, 0.0f, 0.0f);
 
 	//탱크
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_Tank[0], 8.5f, ETC, Tank00.obj, TankTex.png, 354.0f, 25.0f, 454.0f, 0.0f, D3DX_PI / 2, 0.0f);
 	CREATE_OBJ(m_Tank[1], 8.5f, ETC, Tank00.obj, TankTex.png, 412.0f, 25.0f, 280.0f, 0.0f, -D3DX_PI / 2, -0.3f);
 
 	//웨건
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_Wagon[0], 4.5f, ETC, 105mm.obj, 105mmTex.png, 336.0f, 19.0f, 272.0f, 0.0f, D3DX_PI / 2, 0.0f);
 	CREATE_OBJ(m_Wagon[1], 4.5f, ETC, 105mm.obj, 105mmTex.png, 400.0f, 19.0f, 451.0f, 0.0f, -D3DX_PI / 2, 0.0f);
 	CREATE_OBJ(m_Wagon[2], 4.5f, ETC, 105mm.obj, 105mmTex.png, 400.0f, 19.0f, 441.0f, 0.0f, D3DX_PI / 2, -0.3f);
 
 	//건물
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_Apt[0], 9.5f, ETC, Apt00.obj, AptTex.png, -50.0f, 50.0f, 400.0f, 0.0f, D3DX_PI, 0.0f);
 	CREATE_OBJ(m_Apt[1], 9.5f, ETC, Apt00.obj, AptTex.png, -50.0f, 50.0f, 300.0f, 0.0f, D3DX_PI, 0.0f);
 	CREATE_OBJ(m_Apt[2], 9.5f, ETC, Apt00.obj, AptTex.png, -50.0f, 50.0f, 200.0f, 0.0f, D3DX_PI, 0.0f);
 
 	//타일
+	currentVertex++;
+	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_Tile[0], 25.0f, Ground, Tile00.obj, GroundTex.png, 224.0f, 12.2f, 483.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_Tile[1], 24.0f, Ground, Tile01.obj, GroundTex.png, 171.0f, 13.6f, 466.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_Tile[2], 25.0f, Ground, Tile02.obj, GroundTex.png, 197.0f, 13.6f, 380.0f, 0.0f, 0.0f, 0.0f);
@@ -522,7 +554,8 @@ void ObjRender::Init()
 	CREATE_OBJ(m_Tile[12], 8.0f, Ground, Tile05.obj, GroundTex.png, 233.0f, 15.0f, 331.0f, 0.0f, -0.3f, 0.0f);
 	CREATE_OBJ(m_Tile[13], 8.0f, Ground, Tile05.obj, GroundTex.png, 248.0f, 16.0f, 270.0f, 0.0f, 0.0f, 0.0f);
 	CREATE_OBJ(m_Tile[14], 8.0f, Ground, Tile05.obj, GroundTex.png, 177.0f, 15.7f, 232.0f, 0.0f, 0.3f, 0.0f);
-
+	
+	g_pSceneManager->m_pLoadingStringExtra.Empty();
 }
 
 void ObjRender::Render()

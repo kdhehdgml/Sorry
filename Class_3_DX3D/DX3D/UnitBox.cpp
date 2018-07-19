@@ -78,12 +78,15 @@ void UnitBox::Init()
 	FindEmptyWallDirection();
 	//아군AI생성
 	m_pTeam.resize(TeamSize);
+
 	for (int i = 0; i < TeamSize; i++)
 	{
+		g_pSceneManager->calcLoadingExtra(i + 1, TeamSize);
 		m_pTeam[i] = new TeamAI;
 		m_pTeam[i]->Init();
 		m_pTeam[i]->SetPosition(&m_TeamPosition[posit[i]]);
 	}
+	g_pSceneManager->m_pLoadingStringExtra.Empty();
 	posit.clear();
 	hUnitLoadingThread = CreateThread(NULL, 0, UnitLoadingThread, this, NULL, NULL);
 	LocationSharing();
@@ -656,22 +659,22 @@ void UnitBox::FindCanMoveroad()
 			}
 			if (maxLocation != NULL)
 			{
+				int FindNearWall = 1;
 				for (int i = 0; i < m_LocationList[maxLocation].size(); i++)
 				{
-					if (abs(p->GetPosition().x - m_LocationList[maxLocation][i].x) < 16.0f && abs(p->GetPosition().z - m_LocationList[maxLocation][i].z) < 10.0f)
+					if (abs(p->GetPosition().x - m_LocationList[maxLocation][i].x) < 16.0f && abs(p->GetPosition().z - m_LocationList[maxLocation][i].z) < 8.0f)
 					{
 						if (p->GetPosition().z - m_LocationList[maxLocation][i].z > 0)
 						{
-							p->FindCanMoveroad(2);
+							FindNearWall += 2;
 						}
 						else
 						{
-							p->FindCanMoveroad(1);
+							FindNearWall += 1;
 						}
 					}
-					else
-						p->FindCanMoveroad(rand() % 2 + 1);
 				}
+				p->FindCanMoveroad(FindNearWall);
 			}
 		}
 	}
@@ -693,10 +696,15 @@ bool UnitBox::GameOver()
 		if (p->GetPosition().x < 257.1f)
 			numMob++;
 	}
+	
 	//if (!m_livePlayer || CheckNumberOfLivingAI(m_game.MaxAmount) > 20 || numMob >10)
 	if (!m_livePlayer || numMob >10)
 	{
 		for (auto p : m_pMob)
+		{
+			p->setHealth(0);
+		}
+		for (auto p : m_pTeam)
 		{
 			p->setHealth(0);
 		}

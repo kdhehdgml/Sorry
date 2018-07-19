@@ -46,6 +46,16 @@ void IUnitObject::SetDestination(const D3DXVECTOR3 & pos)
 	g_pCurrentMap->GetAStar()->MakeDirectPath(m_pos, pos, m_vecAStarIndex);
 }
 
+void IUnitObject::TrenchSetDestination(const D3DXVECTOR3 & pos)
+{
+	m_vecAStarIndex.clear();
+	m_destPos = m_pos;// 현재포지션으로 초기화 
+	m_finalDestPos = pos;
+	m_SaveFinal = pos;
+	g_pCurrentMap->GetAStar()->TrenchFindPath(m_pos, pos, m_vecAStarIndex);
+	g_pCurrentMap->GetAStar()->TrenchMakeDirectPath(m_pos, pos, m_vecAStarIndex);
+}
+
 void IUnitObject::UpdateKeyboardState()
 {
 	if (m_isJumping == false) m_isJumping = m_keyState.bJump;
@@ -152,10 +162,21 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 								D3DXMATRIXA16 FindRotY;
 
 								float Dir;
-								if (m_avoidObstDir == 2)
-									Dir = 0.5f;
-								else
+								switch (m_avoidObstDir)
+								{
+								case 1:
 									Dir = -0.5f;
+									break;
+								case 2:
+									Dir = -0.5f;
+									break;
+								case 3:
+									Dir = 0.5f;
+									break;
+								default:
+									Dir = 4.0f;
+									break;
+								}
 								while (Dir <3.5f && Dir > -3.5f)
 								{
 									D3DXMatrixRotationY(&FindRotY, Dir);
@@ -163,10 +184,18 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 									if (D3DXVec3Length(&((m_pos + ReDir * m_moveSpeed * 2.0f * m_currMoveSpeedRate) -
 										p->GetPosition())) < 5.0f)
 									{
-										if (m_avoidObstDir == 2)
-											Dir += 0.5f;
-										else
+										switch (m_avoidObstDir)
+										{
+										case 1:
 											Dir -= 0.5f;
+											break;
+										case 2:
+											Dir -= 0.5f;
+											break;
+										case 3:
+											Dir += 0.5f;
+											break;
+										}
 									}
 									else
 									{
@@ -177,6 +206,7 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 								if (m_moveSpeed > 0 && abs(Dir) > 3.5f)
 								{
 									targetPos = m_pos + (p->GetPosition() - m_pos) - D3DXVECTOR3(5.0f,0,5.0f);
+									m_avoidObstDir = 0;
 								}
 								break;
 							}
