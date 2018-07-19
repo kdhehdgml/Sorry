@@ -74,7 +74,7 @@ void SceneXfile::Init()
 
 	m_MONSTER = new MONSTER;
 	m_MONSTER->Init();
-	AddSimpleDisplayObj(m_MONSTER);
+	//AddSimpleDisplayObj(m_MONSTER);
 
 	g_pCamera->mouseLock = true;
 
@@ -92,6 +92,7 @@ void SceneXfile::Update()
 	
 	m_pSkinnedMesh->Update();
 	//m_GUN->SetPos(m_pSkinnedMesh->GetG3unPos());
+	m_MONSTER->Update();
 
 	if (m_MONSTER->m_AnimaTionIndex != 7)
 		m_GUN->SetMat(m_MONSTER->GetLeftMat());
@@ -105,6 +106,7 @@ void SceneXfile::Update()
 	m_GUN->Update();
 
 	m_SHOVEL->SetMat(m_MONSTER->GetRightMat());
+	//m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
 	m_SHOVEL->Update();
 
 	//m_DE_HEADGEAR->SetMat(m_pSkinnedMesh->GetHeadMat());
@@ -136,7 +138,7 @@ void SceneXfile::Render()
 	m_SHOVEL->Render();
 	m_FR_HEADGEAR->Render();
 	m_DE_HEADGEAR->Render();
-	//m_MONSTER->Render();
+	m_MONSTER->Render();
 	OnRenderIScene();
 
 }

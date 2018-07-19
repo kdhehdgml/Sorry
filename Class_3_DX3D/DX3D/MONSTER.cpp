@@ -3,8 +3,8 @@
 #include "AllocateHierarchy.h"
 
 //적군 스킨 사이즈 조절
-//#define SCALE 0.02f
 #define SCALE 0.02f
+//#define SCALE 0.002f
 
 
 MONSTER::MONSTER()
@@ -266,7 +266,9 @@ void MONSTER::UpdateAnim()
 void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
+
 	pFrameEx->CombinedTM = pFrameEx->CombinedTM * m_matWorld;
+	
 	if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_LeftHandMiddle1") == 0)
 	{
 		/*pFrameEx->CombinedTM  =  pFrameEx->CombinedTM */
@@ -278,6 +280,11 @@ void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 		m_R_mat = pFrameEx->CombinedTM * m_matWorld;
 		m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 	}
+	//else if (pFrame->Name != NULL && strcmp(pFrame->Name, "Bip01_R_Hand") == 0)
+	//{
+	//	m_R_mat = pFrameEx->CombinedTM * m_matWorld;
+	//	m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	//}
 	else if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_Head") == 0)
 	{
 		m_head_mat = pFrameEx->CombinedTM * m_matWorld;
@@ -312,16 +319,27 @@ void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 void MONSTER::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
+	//디버그모드
+	if (m_numFrame % 5 == 0)
+	{
+		Debug->EndLine();
+	}
+	if (pFrame->Name == NULL)
+		Debug->AddText(_T("NULL"));
+	else
+		Debug->AddText(pFrame->Name);
 
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
 	while (pMeshContainer != NULL)
 	{
 		m_numMesh++;
-		
+		//디버그모드
+		Debug->AddText(_T("(MESH)"));
 		DrawMeshContainer(pFrame);
 		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
-	
+	//디버그모드
+	Debug->AddText(_T(" / "));
 	if (pFrame->pFrameSibling != NULL)
 	{
 		DrawFrame(pFrame->pFrameSibling);
