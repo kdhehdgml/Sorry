@@ -9,7 +9,7 @@ private:
 
 	FMOD_BOOL *			m_isPlaying;
 
-	FMOD_RESULT result;
+	//FMOD_RESULT result;
 
 	int m_nSoundCount;
 
