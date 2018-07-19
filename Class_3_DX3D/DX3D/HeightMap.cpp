@@ -36,7 +36,7 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 		for (int x = 0; x < m_dimension; x++)
 		{
 			currentVertex++;
-			g_pSceneManager->m_pLoadingPercentage += 0.00001f;
+			g_pSceneManager->m_pLoadingPercentage += 0.0000107f;
 			g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 
 			int index = z * m_dimension + x;
@@ -84,7 +84,7 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 		for (int x = 0; x < m_numTile; x++)
 		{
 			currentVertex++;
-			g_pSceneManager->m_pLoadingPercentage += 0.00001f;
+			g_pSceneManager->m_pLoadingPercentage += 0.0000107f;
 			g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 
 			// 1--3
@@ -116,7 +116,7 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 		for (int x = 1; x < m_numTile; x++)
 		{
 			currentVertex++;
-			g_pSceneManager->m_pLoadingPercentage += 0.00001f;
+			g_pSceneManager->m_pLoadingPercentage += 0.0000107f;
 			g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 
 			//--u--
