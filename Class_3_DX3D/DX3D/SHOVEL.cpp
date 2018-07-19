@@ -3,8 +3,9 @@
 #include "AllocateHierarchy.h"
 
 
+
 // ½ºÅ² »çÀÌÁî Á¶Àý
-#define SCALE 150.00f
+#define SCALE 10000.0f
 
 SHOVEL::SHOVEL()
 {
@@ -37,7 +38,8 @@ SHOVEL::~SHOVEL()
 
 void SHOVEL::Init()
 {
-	D3DXCreateSphere(g_pDevice, 0.01f, 10, 10, &m_pSphereMesh, NULL);
+
+	D3DXCreateSphere(g_pDevice, 1.0f, 10, 10, &m_pSphereMesh, NULL);
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
@@ -48,13 +50,20 @@ void SHOVEL::Init()
 
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 
-	m_angleX = 0.64f;
+	/*m_angleX = 0.64f;
 	m_angleY = 1.1699f;
 	m_angleZ = 5.33f;
-	x = -0.27f;
-	y = 0.11f;
-	z = 0.0f;
+	x = -0.f;
+	y = 10.f;
+	z = 0.f;*/
+	m_angleX = 0.f;
+	m_angleY = 0.f;
+	m_angleZ = 0.0f;
+	x = -0.f;
+	y = 0.f;
+	z = 0.f;
 
+	//m_pos.y = 10.f;
 	//Ã³À½»ý¼º½Ã ±âº»¼³Á¤
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pNextAnimSet);
 	m_pAnimController->GetTrackDesc(0, &track);
@@ -63,7 +72,74 @@ void SHOVEL::Init()
 
 void SHOVEL::Update()
 {
+	if (Keyboard::Get()->KeyPress('R'))
+	{
+		m_angleX += 0.01f;
+	}
+	if (Keyboard::Get()->KeyPress('T'))
+	{
+		m_angleX -= 0.01f;
+	}
+
+	if (Keyboard::Get()->KeyPress('F'))
+	{
+		m_angleY += 0.01f;
+	}
+	if (Keyboard::Get()->KeyPress('G'))
+	{
+		m_angleY -= 0.01f;
+	}
+
+	if (Keyboard::Get()->KeyPress('V'))
+	{
+		m_angleZ += 0.01f;
+	}
+	if (Keyboard::Get()->KeyPress('B'))
+	{
+		m_angleZ -= 0.01f;
+	}
+
+	if (Keyboard::Get()->KeyPress(VK_UP))
+	{
+		z += 1.f;
+	}
+	if (Keyboard::Get()->KeyPress(VK_DOWN))
+	{
+		z -= 1.f;
+	}
+	if (Keyboard::Get()->KeyPress(VK_LEFT))
+	{
+		x += 1.f;
+	}
+	if (Keyboard::Get()->KeyPress(VK_RIGHT))
+	{
+		x -= 1.f;
+	}
+	if (Keyboard::Get()->KeyPress(VK_NUMPAD0))
+	{
+		y += 1.f;
+	}
+	if (Keyboard::Get()->KeyPress(VK_NUMPAD2))
+	{
+		y -= 1.f;
+	}
+	Debug->AddText("ÃÑ ÇöÀçÁÂÇ¥: ");
+	Debug->AddText(m_pos);
+	Debug->EndLine();
+	Debug->AddText("ÃÑ °¡ÁßÁÂÇ¥: ");
+	Debug->AddText(D3DXVECTOR3( x ,  y,  z));
+	Debug->EndLine();
+	Debug->AddText("ÃÑ °¢µµX: ");
+	Debug->AddText(m_angleX);
+	Debug->EndLine();
+	Debug->AddText("ÃÑ °¢µµY: ");
+	Debug->AddText(m_angleY);
+	Debug->EndLine();
+	Debug->AddText("ÃÑ °¢µµZ: ");
+	Debug->AddText(m_angleZ);
+	Debug->EndLine();
 	D3DXMatrixTranslation(&matT, m_pos.x + x, m_pos.y + y, m_pos.z + z);
+	//D3DXMatrixTranslation(&matT, 0, 200.f, 0);
 
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
@@ -71,8 +147,11 @@ void SHOVEL::Update()
 	D3DXMatrixRotationX(&matRx, m_angleX);
 	D3DXMatrixRotationY(&matRy, m_angleY);
 	D3DXMatrixRotationZ(&matRz, m_angleZ);
-	m_matWorld = matS * matRx * matRy * matRz * matT;
+	D3DXMATRIXA16 matR;
+	matR = matRx * matRy * matRz;
+	m_matWorld = matS *  matR * matT;
 
+	//D3DXMatrixIdentity(&m_matWorld);
 	m_matWorld = m_matWorld * m_Hand_mat;
 
 
@@ -88,6 +167,12 @@ void SHOVEL::Render()
 	m_numFrame = 0;
 	m_numMesh = 0;
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
+
+	D3DXMATRIXA16 mat;
+	D3DXMatrixTranslation(&mat, m_pos.x + x, m_pos.y + y, m_pos.z + z);
+	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+	g_pDevice->SetTexture(0, NULL);
+	m_pSphereMesh->DrawSubset(0);
 }
 
 

@@ -104,8 +104,11 @@ void SceneLoading::Update()
 			break;
 		}*/
 	}
-	m_loadingString = g_pSceneManager->m_pLoadingString.c_str();
+	m_loadingString.Empty();
+	m_loadingString.Append(g_pSceneManager->m_pLoadingStringExtra);
 	CString _str;
+	_str = g_pSceneManager->m_pLoadingString.c_str();
+	m_loadingString.Append(_str);
 	m_loadingString.Append(_T("  "));
 	_str = to_string(g_pSceneManager->m_pLoadingPercentage).c_str();
 	m_loadingString.Append(_str);

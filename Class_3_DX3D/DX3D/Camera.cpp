@@ -17,7 +17,7 @@ Camera::Camera()
 	pos.x = GSM().camPos.x;
 	pos.z = GSM().camPos.z;
 	pos.y = GSM().camPos.y;
-
+	oldPos = pos;
 
 	m_FOV = D3DX_PI / 4.0f;
 	m_speedOffset = 0.4f;
@@ -658,6 +658,12 @@ void Camera::setPosY(float y)
 void Camera::setFreeCameraMode(bool f)
 {
 	m_freeCameraMode = f;
+	if (m_freeCameraMode) {
+		oldPos = pos;
+	}
+	else {
+		pos = oldPos;
+	}
 }
 
 bool Camera::getFreeCameraMode()
@@ -683,4 +689,9 @@ float Camera::getDeltaY()
 void Camera::getPMobFromUnitBox(vector<Mob*>* mob)
 {
 	m_pMob = *mob;
+}
+
+D3DXVECTOR3 Camera::getOldPos()
+{
+	return oldPos;
 }
