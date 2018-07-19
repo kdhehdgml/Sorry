@@ -682,6 +682,10 @@ void Mob::Shooting()
 							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(10 + kill);
 						}
 					}
+					else
+					{
+						g_pSoundManager->effectSound(eType::WHIZ, NULL);
+					}
 					m_ShootCooldownTime = 0;
 					m_shootingbullet--;
 					m_bullet--;

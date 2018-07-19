@@ -967,7 +967,7 @@ void SceneHeightmap::Event()
 		m_pUnit->GameWaveSetting(g_pSeqManager->spawnNum);
 		if (m_pUnit->MobStart == false)
 			m_pUnit->MobStart = true;
-		g_pSoundManager->effectSound(0, 0);
+		g_pSoundManager->effectSound(eType::WHISTLE, 0);
 		g_pSeqManager->spawnNum = 0;
 	}
 	if (m_pUnit->ClearWave() == 1)
