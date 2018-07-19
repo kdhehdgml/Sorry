@@ -656,22 +656,22 @@ void UnitBox::FindCanMoveroad()
 			}
 			if (maxLocation != NULL)
 			{
+				int FindNearWall = 1;
 				for (int i = 0; i < m_LocationList[maxLocation].size(); i++)
 				{
-					if (abs(p->GetPosition().x - m_LocationList[maxLocation][i].x) < 16.0f && abs(p->GetPosition().z - m_LocationList[maxLocation][i].z) < 10.0f)
+					if (abs(p->GetPosition().x - m_LocationList[maxLocation][i].x) < 16.0f && abs(p->GetPosition().z - m_LocationList[maxLocation][i].z) < 8.0f)
 					{
 						if (p->GetPosition().z - m_LocationList[maxLocation][i].z > 0)
 						{
-							p->FindCanMoveroad(2);
+							FindNearWall += 2;
 						}
 						else
 						{
-							p->FindCanMoveroad(1);
+							FindNearWall += 1;
 						}
 					}
-					else
-						p->FindCanMoveroad(rand() % 2 + 1);
 				}
+				p->FindCanMoveroad(FindNearWall);
 			}
 		}
 	}
@@ -693,10 +693,15 @@ bool UnitBox::GameOver()
 		if (p->GetPosition().x < 257.1f)
 			numMob++;
 	}
+	
 	//if (!m_livePlayer || CheckNumberOfLivingAI(m_game.MaxAmount) > 20 || numMob >10)
 	if (!m_livePlayer || numMob >10)
 	{
 		for (auto p : m_pMob)
+		{
+			p->setHealth(0);
+		}
+		for (auto p : m_pTeam)
 		{
 			p->setHealth(0);
 		}
