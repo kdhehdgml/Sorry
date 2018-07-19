@@ -344,8 +344,6 @@ void SceneHeightmap::Init()
 	m_Player_hands = new Player_hands;
 	m_Player_hands->Init();
 	AddSimpleDisplayObj(m_Player_hands);
-	m_pUnit->LivingPlayer(m_Player_hands->getHealth());
-
 	g_pSceneManager->m_pCurrentLoading++;
 	g_pSceneManager->calcLoadingPercentage();
 	g_pSceneManager->m_pLoadingString = "GPS 장비 켜는 중...";
@@ -426,6 +424,8 @@ void SceneHeightmap::Init()
 
 void SceneHeightmap::Update()
 {
+	m_pUnit->LivingPlayer(m_Player_hands->getHealth());
+
 	//m_CreateSmog->Update();
 	if (!g_pCamera->isPaused && !m_pGameOverOn) {
 
