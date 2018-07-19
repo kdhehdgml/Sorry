@@ -220,7 +220,7 @@ void SoundManager::volumeControl_Music(float volume)
 
 void SoundManager::playMusic(int soundNum)
 {
-	for (int i = 0; i < s_music_f.size(); i++)
+	/*for (int i = 0; i < s_music_f.size(); i++)
 	{
 		if(i != soundNum)
 			m_pMusic->StopSound(i);
@@ -230,7 +230,7 @@ void SoundManager::playMusic(int soundNum)
 	{
 		m_pMusic->volumeControl(soundNum, volume_music);
 		m_pMusic->PlaySound(soundNum);
-	}
+	}*/
 }
 
 void SoundManager::stopMusic(int soundNum)

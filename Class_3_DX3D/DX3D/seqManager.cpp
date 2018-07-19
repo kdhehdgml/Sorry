@@ -78,9 +78,6 @@ void seqManager::Update()
 			Debug->EndLine();
 			Debug->AddText("=====================================================================");
 			Debug->EndLine();
-			Debug->AddText("인커밍 타이머: ");
-			Debug->AddText(incomingVoiceTime);
-			Debug->EndLine();
 		}
 	}
 }
@@ -149,12 +146,12 @@ void seqManager::Level(int stage, int round)
 
 				SPAWN(9);
 
-				if (incomingVoiceTime >= 200)
+				/*if (incomingVoiceTime == 150 && incomingVoice)
 				{
 					g_pSoundManager->voiceSound(vType::INCOMING, NULL);
 					incomingVoiceTime = 0;
 					incomingVoice = false;
-				}
+				}*/
 
 				waveControl;
 				// =======================================================
