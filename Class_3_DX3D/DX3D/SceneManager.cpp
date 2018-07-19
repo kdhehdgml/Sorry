@@ -86,6 +86,11 @@ void SceneManager::calcLoadingPercentage(int currentLoading, int maxLoading)
 	m_pLoadingPercentage = (float)currentLoading / (float)maxLoading * 100.0f;
 }
 
+void SceneManager::calcLoadingPercentage()
+{
+	m_pLoadingPercentage = (float)m_pCurrentLoading / (float)m_pMaxLoading * 100.0f;
+}
+
 void SceneManager::calcLoadingExtra(int currentLoading, int maxLoading)
 {
 	CString temp, temp2;

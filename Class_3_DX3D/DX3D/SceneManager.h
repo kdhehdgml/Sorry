@@ -31,8 +31,11 @@ public:
 	void SetCurrentScene(size_t index);
 
 	void calcLoadingPercentage(int currentLoading, int maxLoading);
+	void calcLoadingPercentage();
 	void calcLoadingExtra(int currentLoading, int maxLoading);
 
+	int m_pCurrentLoading;
+	int m_pMaxLoading;
 	string m_pCurrSceneString;
 	float m_pLoadingPercentage;
 	string m_pLoadingString;
