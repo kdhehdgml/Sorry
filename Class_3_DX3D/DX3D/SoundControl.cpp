@@ -26,11 +26,11 @@ SoundControl::SoundControl()
 {
 	m_pChannelGroup = NULL;
 
-	result = FMOD_System_Create(&m_pSystem);
-	result = FMOD_System_Init(m_pSystem, MAX_CHANNELS, FMOD_INIT_NORMAL, NULL);
+	FMOD_System_Create(&m_pSystem);
+	FMOD_System_Init(m_pSystem, MAX_CHANNELS, FMOD_INIT_NORMAL, NULL);
 
 	// 3D Setting
-	result = FMOD_System_Set3DSettings(m_pSystem, DOPPLER_SCALE, DISTANCE_FACTOR, ROLLOFF_SCALE);
+	FMOD_System_Set3DSettings(m_pSystem, DOPPLER_SCALE, DISTANCE_FACTOR, ROLLOFF_SCALE);
 }
 
 
@@ -69,8 +69,8 @@ void SoundControl::CreateSound(int nCount, string * SoundFileName, int type)
 	case _3D:
 		for (int i = 0; i < nCount; i++)
 		{
-			result = FMOD_System_CreateSound(m_pSystem, SoundFileName[i].data(), FMOD_3D, 0, &m_ppSound[i]);
-			result = FMOD_Sound_Set3DMinMaxDistance(m_ppSound[i], minDistance, maxDistance);
+			FMOD_System_CreateSound(m_pSystem, SoundFileName[i].data(), FMOD_3D, 0, &m_ppSound[i]);
+			FMOD_Sound_Set3DMinMaxDistance(m_ppSound[i], minDistance, maxDistance);
 		}
 		break;
 	}
@@ -81,7 +81,7 @@ void SoundControl::PlaySound(int nIndex)
 {
 	if (nIndex < m_nSoundCount)
 	{
-		result = FMOD_System_PlaySound(m_pSystem, m_ppSound[nIndex], m_pChannelGroup, false, &m_ppChannel[nIndex]);
+		FMOD_System_PlaySound(m_pSystem, m_ppSound[nIndex], m_pChannelGroup, false, &m_ppChannel[nIndex]);
 	}
 }
 
@@ -124,13 +124,13 @@ void SoundControl::volumeControl(int nIndex, float volume)
 
 void SoundControl::setSpeaker(int nIndex, FMOD_VECTOR sPos, FMOD_VECTOR sVel)
 {	
-	result = FMOD_Channel_Set3DAttributes(m_ppChannel[nIndex], &sPos, &sVel, 0);
+	FMOD_Channel_Set3DAttributes(m_ppChannel[nIndex], &sPos, &sVel, 0);
 	//FMOD_Channel_SetVolume(m_ppChannel[nIndex], volume);
 }
 
 void SoundControl::setListener(FMOD_VECTOR lPos, FMOD_VECTOR lVel, FMOD_VECTOR lFoward, FMOD_VECTOR lUp)
 {
-	result = FMOD_System_Set3DListenerAttributes(m_pSystem, 0, &lPos, &lVel, &lFoward, &lUp);
+	FMOD_System_Set3DListenerAttributes(m_pSystem, 0, &lPos, &lVel, &lFoward, &lUp);
 }
 
 void SoundControl::ReleaseSound()
@@ -144,6 +144,5 @@ void SoundControl::ReleaseSound()
 
 void SoundControl::Update()
 {
-	result = FMOD_System_Update(m_pSystem);
-
+	FMOD_System_Update(m_pSystem);
 }

@@ -36,6 +36,7 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 		for (int x = 0; x < m_dimension; x++)
 		{
 			currentVertex++;
+			g_pSceneManager->m_pLoadingPercentage += 0.0000107f;
 			g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 
 			int index = z * m_dimension + x;
@@ -73,6 +74,8 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 	vecIndex.reserve(m_numTile * m_numTile * 3 * 2);
 
 	g_pSceneManager->m_pLoadingString = "참호 다듬는 중...";
+	g_pSceneManager->m_pCurrentLoading++;
+	g_pSceneManager->calcLoadingPercentage();
 	vertexSize = m_numTile * m_numTile;
 	currentVertex = 0;
 
@@ -81,6 +84,7 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 		for (int x = 0; x < m_numTile; x++)
 		{
 			currentVertex++;
+			g_pSceneManager->m_pLoadingPercentage += 0.0000107f;
 			g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 
 			// 1--3
@@ -101,6 +105,8 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 
 	g_pSceneManager->m_pLoadingStringExtra.Empty();
 	g_pSceneManager->m_pLoadingString = "참호 내부 정리 중...";
+	g_pSceneManager->m_pCurrentLoading++;
+	g_pSceneManager->calcLoadingPercentage();
 	vertexSize = m_numTile * m_numTile;
 	currentVertex = 0;
 
@@ -110,6 +116,7 @@ void HeightMap::Load(const char * fullPath, D3DXMATRIXA16 * pMat)
 		for (int x = 1; x < m_numTile; x++)
 		{
 			currentVertex++;
+			g_pSceneManager->m_pLoadingPercentage += 0.0000107f;
 			g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 
 			//--u--

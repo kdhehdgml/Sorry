@@ -82,6 +82,7 @@ void UnitBox::Init()
 	for (int i = 0; i < TeamSize; i++)
 	{
 		g_pSceneManager->calcLoadingExtra(i + 1, TeamSize);
+		g_pSceneManager->m_pLoadingPercentage += 0.625f;
 		m_pTeam[i] = new TeamAI;
 		m_pTeam[i]->Init();
 		m_pTeam[i]->SetPosition(&m_TeamPosition[posit[i]]);
