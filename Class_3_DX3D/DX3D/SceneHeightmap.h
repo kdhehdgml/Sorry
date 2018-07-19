@@ -101,9 +101,6 @@ private:
 	MenuUI* m_pMenuUI;
 	BulletUI* m_pBulletUI;
 
-	int m_pCurrentLoading;
-	int m_pMaxLoading;
-
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
 public:
