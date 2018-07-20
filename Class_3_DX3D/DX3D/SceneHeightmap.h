@@ -21,6 +21,8 @@ class Minimap;
 class MenuUI;
 class BulletUI;
 
+class WireSphere;
+
 //ÄÃ¸µ
 //class Frustum;
 
@@ -100,6 +102,8 @@ private:
 
 	MenuUI* m_pMenuUI;
 	BulletUI* m_pBulletUI;
+
+	WireSphere* m_pWireSphere;
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 

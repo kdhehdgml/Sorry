@@ -33,6 +33,8 @@
 #include "MenuUI.h"
 #include "BulletUI.h"
 
+#include "WireSphere.h"
+
 #include <fstream>
 
 static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
@@ -116,6 +118,8 @@ SceneHeightmap::SceneHeightmap()
 
 	m_pSphere = NULL;
 	m_pBoundingSphere = NULL;
+
+	m_pWireSphere = NULL;
 
 	//	m_pSkinnedMesh = NULL;
 	volume_music = GSM().volume_music_init;
@@ -264,7 +268,9 @@ void SceneHeightmap::Init()
 	m_ColorCube = new ColorCube;
 	m_ColorCube->Init();
 
-
+	m_pWireSphere = new WireSphere();
+	m_pWireSphere->Init();
+	AddSimpleDisplayObj(m_pWireSphere);
 
 	//m_CreateSmog->Insert(D3DXVECTOR3(20.0f, 0.0f, 40.0f));
 	//m_CreateSmog->Insert(D3DXVECTOR3(30.0f, 0.0f, 30.0f));
