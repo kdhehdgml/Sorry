@@ -401,6 +401,7 @@
     <ClInclude Include="BulletUI.h">
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
+    <ClInclude Include="AlphaSphere.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -682,6 +683,7 @@
     <ClCompile Include="BulletUI.cpp">
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClCompile>
+    <ClCompile Include="AlphaSphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">
