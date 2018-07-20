@@ -401,6 +401,9 @@
     <ClInclude Include="BulletUI.h">
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Player_Health_UI.h">
+      <Filter>소스 파일\3.Object\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -680,6 +683,9 @@
       <Filter>소스 파일\Skin\equip</Filter>
     </ClCompile>
     <ClCompile Include="BulletUI.cpp">
+      <Filter>소스 파일\3.Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_Health_UI.cpp">
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClCompile>
   </ItemGroup>
