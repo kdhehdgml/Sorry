@@ -148,12 +148,13 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 					if (targetPos != p->GetPosition())
 					{
 						if (D3DXVec3Length(&((m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate) -
-							p->GetPosition())) < 5.0f)
+							p->GetPosition())) < 4.5f)
 						{
 							m_colision = true;
 							if (abs(m_pos.z - p->GetPosition().z) < 2.0f && m_pos.x < p->GetPosition().x)
 							{
-								SetDestination(m_SaveFinal);
+								if(m_pos.x > 254.0f)
+									SetDestination(m_SaveFinal);
 								break;
 							}
 							else

@@ -569,10 +569,8 @@ MOB_SITUATION Mob::TrenchFight()
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
 		
-		if(abs(m_pos.x - TeamAIPos.x) < 2.5f && abs(m_pos.z - TeamAIPos.z) < 2.5f)
+		if(abs(m_pos.x - TeamAIPos.x) < 3.5f && abs(m_pos.z - TeamAIPos.z) < 3.5f)
 		{
-			
-
 			m_moveSpeed = 0;
 			m_ShootCooldownTime++;
 			if (m_ShootCooldownTime > 100)
@@ -605,7 +603,7 @@ MOB_SITUATION Mob::TrenchFight()
 	}
 	else
 	{
-		if (m_pos.x == m_finalDestPos.x && m_pos.z == m_finalDestPos.z)
+		if (abs(m_pos.x - m_finalDestPos.x + m_pos.z - m_finalDestPos.z) <6.0f)
 		{
 			m_InTrenchMove = false;
 			m_DestTime++;
