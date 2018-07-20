@@ -22,8 +22,6 @@ class MenuUI;
 class BulletUI;
 class Player_Health_UI;
 
-class WireSphere;
-
 //ÄÃ¸µ
 //class Frustum;
 
@@ -107,8 +105,6 @@ private:
 
 	int Player_Health;
 	int Health_Recovery_Interval = 0;
-
-	WireSphere* m_pWireSphere;
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
