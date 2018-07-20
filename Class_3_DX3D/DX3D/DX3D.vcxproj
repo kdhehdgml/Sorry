@@ -255,6 +255,7 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallManager.h" />
     <ClInclude Include="Walls.h" />
+    <ClInclude Include="WireSphere.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActionCube.cpp" />
@@ -356,6 +357,7 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallManager.cpp" />
     <ClCompile Include="Walls.cpp" />
+    <ClCompile Include="WireSphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc" />
