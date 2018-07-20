@@ -65,8 +65,7 @@ protected:
 	D3DXMATRIXA16				m_head_mat;
 	D3DXMATRIXA16				m_head_mat2;
 
-	D3DXMATRIXA16				m_rotMat;
-	D3DXVECTOR3					m_scaleMat;
+
 
 public:
 	MONSTER();
@@ -114,7 +113,7 @@ private:
 	void DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
 
 	//Å×½ºÆ®
-	void GetScaleAndRotation(const D3DXMATRIX& val, D3DXVECTOR3* OutScale, D3DXQUATERNION* OutRotation);
+	//void GetScaleAndRotation(const D3DXMATRIX& val, D3DXVECTOR3* OutScale, D3DXQUATERNION* OutRotation) override;
 	
 
 public:

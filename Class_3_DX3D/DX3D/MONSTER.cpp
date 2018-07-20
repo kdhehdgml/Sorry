@@ -284,11 +284,11 @@ void MONSTER::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 		//m_R_pos 행렬의 좌표값(이동값) 즉 matT
 		m_R_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
 
-		D3DXQUATERNION				m_quat;
-		D3DXMatrixIdentity(&m_rotMat);
+		//D3DXQUATERNION				m_quat;
 		//m_scaleMat = matS;
-		GetScaleAndRotation(m_R_mat, &m_scaleMat, &m_quat);
-		D3DXMatrixRotationQuaternion(&m_rotMat,&m_quat);
+		D3DXMatrixIdentity(&m_rotMat);
+		GetScaleAndRotation(m_R_mat, &m_scaleMat, m_rotMat);
+		
 
 		//D3DXVec3TransformCoord(&vDirAxis, &vDirAxis, &m_rotMat); //위에서 구한 회전행렬 * 임의의축(vDirAxis)을 해서 최종 축을 구한다
 
@@ -458,29 +458,29 @@ void MONSTER::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 		DrawSkeleton(pFrame->pFrameFirstChild, pFrame);
 	}
 }
-
-void MONSTER::GetScaleAndRotation(const D3DXMATRIX & val, D3DXVECTOR3 * OutScale, D3DXQUATERNION * OutRotation)
-{
-	const D3DXVECTOR3 s(
-		D3DXVec3Length(&D3DXVECTOR3(val._11, val._12, val._13)),
-		D3DXVec3Length(&D3DXVECTOR3(val._21, val._22, val._23)),
-		D3DXVec3Length(&D3DXVECTOR3(val._31, val._32, val._33)));
-
-	if (OutScale)
-		*OutScale = s;
-
-	if (OutRotation)
-	{
-		D3DXQuaternionRotationMatrix(
-			OutRotation,
-			&D3DXMATRIX(
-				val._11 / s.x, val._12 / s.x, val._13 / s.x, 0.0f,
-				val._21 / s.y, val._22 / s.y, val._23 / s.y, 0.0f,
-				val._31 / s.z, val._32 / s.z, val._33 / s.z, 0.0f,
-				0.0f, 0.0f, 0.0f, 1.0f));
-	}
-
-}
+//
+//void MONSTER::GetScaleAndRotation(const D3DXMATRIX & val, D3DXVECTOR3 * OutScale, D3DXQUATERNION * OutRotation)
+//{
+//	const D3DXVECTOR3 s(
+//		D3DXVec3Length(&D3DXVECTOR3(val._11, val._12, val._13)),
+//		D3DXVec3Length(&D3DXVECTOR3(val._21, val._22, val._23)),
+//		D3DXVec3Length(&D3DXVECTOR3(val._31, val._32, val._33)));
+//
+//	if (OutScale)
+//		*OutScale = s;
+//
+//	if (OutRotation)
+//	{
+//		D3DXQuaternionRotationMatrix(
+//			OutRotation,
+//			&D3DXMATRIX(
+//				val._11 / s.x, val._12 / s.x, val._13 / s.x, 0.0f,
+//				val._21 / s.y, val._22 / s.y, val._23 / s.y, 0.0f,
+//				val._31 / s.z, val._32 / s.z, val._33 / s.z, 0.0f,
+//				0.0f, 0.0f, 0.0f, 1.0f));
+//	}
+//
+//}
 
 void MONSTER::SetAnimationIndex(int nIndex, bool isBlend)
 {
