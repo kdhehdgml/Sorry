@@ -5,7 +5,8 @@
 
 
 // 스킨 사이즈 조절
-#define SCALE 10000.0f
+#define SCALE 300.0f
+//#define SCALE 10000.0f
 
 SHOVEL::SHOVEL()
 {
@@ -39,7 +40,7 @@ SHOVEL::~SHOVEL()
 void SHOVEL::Init()
 {
 
-	D3DXCreateSphere(g_pDevice, 1.0f, 10, 10, &m_pSphereMesh, NULL);
+	//D3DXCreateSphere(g_pDevice, 0.5f, 10, 10, &m_pSphereMesh, NULL);
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
@@ -47,7 +48,7 @@ void SHOVEL::Init()
 	CString filename = "shovel.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
-
+	D3DXMatrixIdentity(&m_Hand_mat);
 	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
 
 	/*m_angleX = 0.64f;
@@ -56,12 +57,15 @@ void SHOVEL::Init()
 	x = -0.f;
 	y = 10.f;
 	z = 0.f;*/
-	m_angleX = 0.f;
-	m_angleY = 0.f;
+	x = 0;
+	y = -0.f; 
+	z = 0;
+
+	m_angleX = 1.58f;
+	m_angleY = 1.01f;
 	m_angleZ = 0.0f;
-	x = -0.f;
-	y = 0.f;
-	z = 0.f;
+
+	
 
 	//m_pos.y = 10.f;
 	//처음생성시 기본설정
@@ -72,7 +76,7 @@ void SHOVEL::Init()
 
 void SHOVEL::Update()
 {
-	if (Keyboard::Get()->KeyPress('R'))
+	/*if (Keyboard::Get()->KeyPress('R'))
 	{
 		m_angleX += 0.01f;
 	}
@@ -137,22 +141,26 @@ void SHOVEL::Update()
 	Debug->EndLine();
 	Debug->AddText("총 각도Z: ");
 	Debug->AddText(m_angleZ);
-	Debug->EndLine();
-	D3DXMatrixTranslation(&matT, m_pos.x + x, m_pos.y + y, m_pos.z + z);
+	Debug->EndLine();*/
 	//D3DXMatrixTranslation(&matT, 0, 200.f, 0);
 
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
+
+	D3DXMatrixTranslation(&matT, m_pos.x + x, m_pos.y + y, m_pos.z + z);
+
 	D3DXMatrixRotationX(&matRx, m_angleX);
 	D3DXMatrixRotationY(&matRy, m_angleY);
 	D3DXMatrixRotationZ(&matRz, m_angleZ);
 	D3DXMATRIXA16 matR;
-	matR = matRx * matRy * matRz;
-	m_matWorld = matS *  matR * matT;
+	matR = matRx * matRy * matRz * m_matR;
+	//matR = matR * m_matR;
+	m_matWorld = matS * matR*  matT;
+
 
 	//D3DXMatrixIdentity(&m_matWorld);
-	m_matWorld = m_matWorld * m_Hand_mat;
+	//m_matWorld = m_matWorld * m_Hand_mat;
 
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
@@ -168,11 +176,13 @@ void SHOVEL::Render()
 	m_numMesh = 0;
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
 
-	D3DXMATRIXA16 mat;
-	D3DXMatrixTranslation(&mat, m_pos.x + x, m_pos.y + y, m_pos.z + z);
-	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
-	g_pDevice->SetTexture(0, NULL);
-	m_pSphereMesh->DrawSubset(0);
+	//D3DXMATRIXA16 mat;
+	//D3DXMatrixTranslation(&mat, m_pos.x + x, m_pos.y + y, m_pos.z + z);
+	////D3DXMatrixTranslation(&mat, -2.0f,4.0f,0.f);
+
+	//g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+	//g_pDevice->SetTexture(0, NULL);
+	//m_pSphereMesh->DrawSubset(0);
 }
 
 

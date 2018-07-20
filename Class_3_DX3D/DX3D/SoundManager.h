@@ -24,6 +24,8 @@ private:
 	SoundControl * m_pV_Death;		string * s_vDeath;		vector<string> s_vDeath_f;
 	SoundControl * m_pV_Incoming;	string * s_vIncoming;	vector<string> s_vIncoming_f;
 	SoundControl * m_pV_Reload;		string * s_vReload;		vector<string> s_vReload_f;
+	
+	SoundControl * m_pWhiz;			string * s_whiz;		vector<string> s_whiz_f;
 	//===================================================================================
 	
 	int r;

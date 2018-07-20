@@ -7,7 +7,7 @@ protected:
 	D3DXVECTOR3		m_deltaPos;
 	D3DXVECTOR3		m_deltaRot;
 	D3DXVECTOR3		m_forward;
-	
+
 	KEYBOARD_STATE	m_keyState;
 	bool			m_colision;
 	bool			m_isMoving;
@@ -31,6 +31,9 @@ protected:
 	D3DXVECTOR3		m_SaveFinal;
 	vector<int>		m_vecAStarIndex;
 
+	D3DXMATRIXA16				m_rotMat;
+	D3DXVECTOR3					m_scaleMat;
+
 	IUnitObject();
 
 public:
@@ -46,12 +49,14 @@ public:
 	void UpdatePositionToDestination();
 	int getHealth() { return health; }
 	void setHealth(int h) { health = h; }
-	
+
 	float GetMoveSpeed() { return m_moveSpeed; }
 	void SetMove(bool _move) { m_colision = _move; }
 	void UpdateTargetPosition(OUT D3DXVECTOR3 &targetPos);
 	void ApplyTargetPosition(D3DXVECTOR3 &targetPos);
 	void UpdatePosition();
 	void DecreaseHealth(int h);
+	//D3DXQUATERNION* OutRotation
+	//객체 행렬값에서 회전 행렬값 구하는 함수
+	void GetScaleAndRotation(const D3DXMATRIX& val, D3DXVECTOR3* OutScale, D3DXMATRIX& rotmat);
 };
-

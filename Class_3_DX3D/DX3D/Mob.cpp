@@ -198,6 +198,7 @@ void Mob::Update()
 				//m_SHOVEL->SetMat(&m_MONSTER->GetMeleeMat());
 				//m_SHOVEL->SetMat(m_MONSTER->GetRightMat());
 				m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
+				m_SHOVEL->SetMatR(m_MONSTER->GetRotMat());
 				m_SHOVEL->SetAngle(m_angle);
 				m_SHOVEL->Update();
 			}
@@ -719,6 +720,10 @@ void Mob::Shooting()
 							kill = rand() % 15;
 							g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_TeamAINum]->DecreaseHealth(10 + kill);
 						}
+					}
+					else
+					{
+						g_pSoundManager->effectSound(eType::WHIZ, NULL);
 					}
 					m_ShootCooldownTime = 0;
 					m_shootingbullet--;

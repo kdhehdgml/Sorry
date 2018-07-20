@@ -14,6 +14,12 @@ enum vType
 	RELOAD
 };
 
+enum eType
+{
+	WHISTLE,
+	WHIZ
+};
+
 class GSM
 {
 public:

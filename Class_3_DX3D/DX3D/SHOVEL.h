@@ -36,13 +36,14 @@ protected:
 	bool						m_HandsOption;
 	float						angle;
 
-	D3DXMATRIXA16            matT, matS, matRx, matRy, matRz;
+	D3DXMATRIXA16            matT, matS, matRx, matRy, matRz , m_matR;
 
 	bool						m_animationSTATE;
 
 	float						trackSpeed;
 
 	D3DXMATRIXA16				m_Hand_mat;
+	D3DXMATRIXA16				m_TestMat;
 
 	int ani;
 public:
@@ -59,9 +60,9 @@ public:
 	void SetPos(D3DXVECTOR3* pos) { m_pos = *pos; }
 	void SetState(int state) { m_state = state; }
 	void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = *mat ; }
-	void SetMatS(D3DXMATRIXA16 S) { matS = S; }
-	void SetMatR(D3DXMATRIXA16 R) { matRx = R; }
-	void SetMatT(D3DXMATRIXA16 T) { matT = T; }
+	void SetMatS(D3DXMATRIXA16 *S) { matS = *S; }
+	void SetMatR(D3DXMATRIXA16 *R) { m_matR= *R; }
+	void SetMatT(D3DXMATRIXA16 *T) { matT = *T; }
 	//기본적으로 우측을 보고있어서 돌려줌
 	void SetAngle(float angle) { m_angle = angle; }
 

@@ -64,6 +64,9 @@ protected:
 
 	D3DXMATRIXA16				m_head_mat;
 	D3DXMATRIXA16				m_head_mat2;
+
+
+
 public:
 	MONSTER();
 	~MONSTER();
@@ -90,6 +93,11 @@ public:
 	D3DXVECTOR3* GetRightPos() { return& m_R_pos; }
 	LPD3DXMATRIXA16 GetRightMat() { return &m_R_mat; }//오른손매트릭스
 
+	//테스트
+	LPD3DXMATRIXA16 GetRotMat() { return &m_rotMat; }
+	D3DXVECTOR3 GetScaleMat() { return m_scaleMat; }
+
+
 	LPD3DXMATRIXA16 GetHeadMat() { return &m_head_mat; }
 	LPD3DXMATRIXA16 GetHeadMat2() { return &m_head_mat2; }
 
@@ -103,6 +111,10 @@ private:
 	void DrawFrame(LPD3DXFRAME pFrame);
 	void DrawMeshContainer(LPD3DXFRAME pFrame);
 	void DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
+
+	//테스트
+	//void GetScaleAndRotation(const D3DXMATRIX& val, D3DXVECTOR3* OutScale, D3DXQUATERNION* OutRotation) override;
+	
 
 public:
 	int							m_AnimaTionIndex;

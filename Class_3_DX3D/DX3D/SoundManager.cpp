@@ -34,6 +34,7 @@ SoundManager::SoundManager()
 	m_pRun_Dirt = NULL;
 	m_pGear_Walk = NULL;
 	m_pWhistle = NULL;
+	m_pWhiz = NULL;
 	
 	m_pV_Death = NULL;
 
@@ -71,6 +72,7 @@ SoundManager::~SoundManager()
 	m_pRun_Dirt->ReleaseSound();
 	m_pGear_Walk->ReleaseSound();
 	m_pWhistle->ReleaseSound();
+	m_pWhiz->ReleaseSound();
 
 	m_pV_Death->ReleaseSound();
 }
@@ -158,6 +160,16 @@ void SoundManager::soundList()
 	s_vReload_f.push_back("Reload2");
 	s_vReload_f.push_back("Reload3");
 	s_vReload_f.push_back("Reload4");
+
+	s_whiz_f.push_back("Whiz-2");
+	s_whiz_f.push_back("Whiz-3");
+	s_whiz_f.push_back("Whiz-4");
+	s_whiz_f.push_back("Whiz-5");
+	s_whiz_f.push_back("Whiz-6");
+	s_whiz_f.push_back("Whizby1");
+	s_whiz_f.push_back("Whizby2");
+	s_whiz_f.push_back("Whizby3");
+	s_whiz_f.push_back("Whizby4");
 }
 
 void SoundManager::setMP3(string folder, string * s_name, vector<string> s_name_file)
@@ -192,6 +204,7 @@ void SoundManager::createSound()
 		CreateWAV(m_pV_Death, "Voice/Death/", s_vDeath, s_vDeath_f, _3D);
 		CreateWAV(m_pV_Incoming, "Voice/Incoming/", s_vIncoming, s_vIncoming_f, EFFECT);
 		CreateWAV(m_pV_Reload, "Voice/Reload/", s_vReload, s_vReload_f, _3D);
+		CreateWAV(m_pWhiz, "Whiz/", s_whiz, s_whiz_f, EFFECT);
 
 		CreateMP3(m_pMusic, "Music/", s_music, s_music_f, MUSIC);
 		CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
@@ -394,6 +407,8 @@ void SoundManager::effectSound(int type, int soundNum)
 		m_pWhistle->PlaySound(soundNum);
 		break;
 	case 1:
+		r = rand() % 9;
+		m_pWhiz->PlaySound(r);
 		break;
 	}
 	
