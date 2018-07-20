@@ -34,6 +34,15 @@ protected:
 	D3DXMATRIXA16				m_rotMat;
 	D3DXVECTOR3					m_scaleMat;
 
+	D3DXMATRIXA16				m_L_mat;
+	D3DXVECTOR3					m_L_pos;
+
+	D3DXMATRIXA16				m_R_mat;
+	D3DXVECTOR3					m_R_pos;
+
+	D3DXMATRIXA16				m_head_mat;
+	D3DXMATRIXA16				m_head_mat2;
+
 	IUnitObject();
 
 public:
@@ -59,4 +68,23 @@ public:
 	//D3DXQUATERNION* OutRotation
 	//객체 행렬값에서 회전 행렬값 구하는 함수
 	void GetScaleAndRotation(const D3DXMATRIX& val, D3DXVECTOR3* OutScale, D3DXMATRIX& rotmat);
+
+	//테스트
+	D3DXVECTOR3* GetLeftPos() { return &m_L_pos; }
+	LPD3DXMATRIXA16 GetLeftMat() { return &m_L_mat; } //왼손매트릭스
+													  //void SetMat(D3DXMATRIXA16 *mat) { m_Hand_mat = (*mat); }
+
+	D3DXVECTOR3* GetRightPos() { return&m_R_pos; }
+	LPD3DXMATRIXA16 GetRightMat() { return &m_R_mat; }//오른손매트릭스
+
+	LPD3DXMATRIXA16 GetRotMat() { return &m_rotMat; }
+	D3DXVECTOR3 GetScaleMat() { return m_scaleMat; }
+
+
+	LPD3DXMATRIXA16 GetHeadMat() { return &m_head_mat; }
+	LPD3DXMATRIXA16 GetHeadMat2() { return &m_head_mat2; }
+
+	void SetAngle(float angle) { m_angle = angle; }
+	float GetAngle() { return m_angle; }
+
 };

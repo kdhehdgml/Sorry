@@ -389,14 +389,8 @@
     <ClInclude Include="Player_hands.h">
       <Filter>소스 파일\Skin\Player</Filter>
     </ClInclude>
-    <ClInclude Include="DE_HEADGEAR.h">
-      <Filter>소스 파일\Skin\equip</Filter>
-    </ClInclude>
     <ClInclude Include="BulletUI.h">
       <Filter>소스 파일\3.Object\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="FR_HEADGEAR.h">
-      <Filter>소스 파일\Skin\equip</Filter>
     </ClInclude>
     <ClInclude Include="BulletUI.h">
       <Filter>소스 파일\3.Object\UI</Filter>
@@ -672,12 +666,6 @@
     </ClCompile>
     <ClCompile Include="Player_hands.cpp">
       <Filter>소스 파일\Skin\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="DE_HEADGEAR.cpp">
-      <Filter>소스 파일\Skin\equip</Filter>
-    </ClCompile>
-    <ClCompile Include="FR_HEADGEAR.cpp">
-      <Filter>소스 파일\Skin\equip</Filter>
     </ClCompile>
     <ClCompile Include="BulletUI.cpp">
       <Filter>소스 파일\3.Object\UI</Filter>

@@ -9,8 +9,6 @@
 
 #include "SkyBox.h"
 //장비
-#include "FR_HEADGEAR.h"
-#include "DE_HEADGEAR.h"
 //캐릭터
 #include "TEAM_TEX.h"
 #include "MONSTER.h"
@@ -24,8 +22,7 @@ SceneXfile::SceneXfile()
 	m_GUN = NULL;
 	m_SHOVEL = NULL;
 //	m_ALLTexTURE = NULL;
-	m_DE_HEADGEAR = NULL;
-	m_FR_HEADGEAR = NULL;
+
 	m_TEAM_TEX = NULL;
 }
 
@@ -35,8 +32,6 @@ SceneXfile::~SceneXfile()
 	SAFE_RELEASE(m_GUN);
 	SAFE_RELEASE(m_SHOVEL);
 	SAFE_RELEASE(m_pSkinnedMesh);
-	SAFE_RELEASE(m_DE_HEADGEAR);
-	SAFE_RELEASE(m_FR_HEADGEAR);
 	SAFE_RELEASE(m_MONSTER);
 	//SAFE_RELEASE(m_TEAM_TEX);
 
@@ -62,11 +57,6 @@ void SceneXfile::Init()
 	m_SHOVEL = new SHOVEL;
 	m_SHOVEL->Init();
 
-	m_DE_HEADGEAR = new DE_HEADGEAR;
-	m_DE_HEADGEAR->Init();
-
-	m_FR_HEADGEAR = new FR_HEADGEAR;
-	m_FR_HEADGEAR->Init();
 
 	/*m_TEAM_TEX = new TEAM_TEX;
 	m_TEAM_TEX->Init();*/
@@ -121,11 +111,6 @@ void SceneXfile::Update()
 	//Debug->AddText(m_MONSTER->GetXYMat());
 	//Debug->EndLine();
 
-	//m_DE_HEADGEAR->SetMat(m_pSkinnedMesh->GetHeadMat());
-	//m_DE_HEADGEAR->Update();
-
-	//m_FR_HEADGEAR->SetMat(m_pSkinnedMesh->GetHeadMat2());
-	//m_FR_HEADGEAR->Update();
 
 	Debug->AddText(D3DXVECTOR3(*m_pSkinnedMesh->GetRightMat()));
 	Debug->EndLine();
@@ -148,8 +133,7 @@ void SceneXfile::Render()
 	//m_pSkinnedMesh->Render();
 	m_GUN->Render();
 	m_SHOVEL->Render();
-	m_FR_HEADGEAR->Render();
-	m_DE_HEADGEAR->Render();
+
 	m_MONSTER->Render();
 	OnRenderIScene();
 
