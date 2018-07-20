@@ -100,12 +100,14 @@ private:
 	bool			m_randshootbullet;
 	bool			m_LocationCanSave;
 	bool			m_Setdest;
+	bool			m_InTrenchMove;
 	vector<int> CanSeeDriection;
 	vector<int> TemporaryDirection;
 	vector<D3DXVECTOR3> moveLocation;
 	vector<D3DXVECTOR3> Temporary_Storage;
 	vector<int> SaveLocationNum;
 	vector<int> m_SaveTempNum;
+	vector<vector<D3DXVECTOR3>> m_InTrenchLocation;
 	LPD3DXMESH		m_pSphereBody;
 	BoundingSphere* m_pBoundingSphereBody;
 	LPD3DXMESH		m_pSphereHead;
@@ -183,6 +185,7 @@ public:
 	void FindCanMoveroad(int _num) { m_avoidObstDir = _num; }
 	int GetAvoidObstDir() { return m_avoidObstDir; }
 	void ResetAll();
+	void SaveInTrenchLocation();
 	//void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
 	void LocationSwap();
 	void TemporarySwap();
