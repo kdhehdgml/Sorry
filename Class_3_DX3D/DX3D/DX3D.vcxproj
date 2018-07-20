@@ -161,7 +161,6 @@
     <ClInclude Include="ActionSequence.h" />
     <ClInclude Include="AllocateHierarchy.h" />
     <ClInclude Include="ALLTexTURE.h" />
-    <ClInclude Include="AlphaSphere.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Asciitok.h" />
     <ClInclude Include="AseCharacter.h" />
@@ -255,6 +254,7 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallManager.h" />
     <ClInclude Include="Walls.h" />
+    <ClInclude Include="WireSphere.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActionCube.cpp" />
@@ -263,7 +263,6 @@
     <ClCompile Include="ActionSequence.cpp" />
     <ClCompile Include="AllocateHierarchy.cpp" />
     <ClCompile Include="ALLTexTURE.cpp" />
-    <ClCompile Include="AlphaSphere.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AseCharacter.cpp" />
     <ClCompile Include="AseLoader.cpp" />
@@ -356,6 +355,7 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallManager.cpp" />
     <ClCompile Include="Walls.cpp" />
+    <ClCompile Include="WireSphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc" />

@@ -1,13 +1,13 @@
 #pragma once
-#include "BaseObject.h"
-class AlphaSphere :
+#include "IDisplayObject.h"
+class WireSphere :
 	public IDisplayObject
 {
 private:
-	LPD3DXMESH m_pSphere;
+	LPD3DXMESH		m_pSphere;
 public:
-	AlphaSphere();
-	~AlphaSphere();
+	WireSphere();
+	~WireSphere();
 
 	// IDisplayObject을(를) 통해 상속됨
 	virtual void Init() override;
