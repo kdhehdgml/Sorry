@@ -32,6 +32,8 @@
 
 #include "MenuUI.h"
 #include "BulletUI.h"
+#include "Player_Health_UI.h"
+#include "WireSphere.h"
 
 #include <fstream>
 
@@ -125,6 +127,8 @@ SceneHeightmap::SceneHeightmap()
 
 	m_pMenuUI = NULL;
 	m_pBulletUI = NULL;
+	m_pPlayer_Heatl_UI = NULL;
+	m_pWireSphere = NULL;
 	//m_MapTest0 = NULL;
 
 	initCreateMob = false;
@@ -155,6 +159,7 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pFont);
 	SAFE_RELEASE(m_pMenuUI);
 	SAFE_RELEASE(m_pBulletUI);
+	SAFE_RELEASE(m_pPlayer_Heatl_UI);
 
 	//m_pCrosshair->ReleaseAll();
 
@@ -264,7 +269,9 @@ void SceneHeightmap::Init()
 	m_ColorCube = new ColorCube;
 	m_ColorCube->Init();
 
-
+	m_pWireSphere = new WireSphere();
+	m_pWireSphere->Init();
+	AddSimpleDisplayObj(m_pWireSphere);
 
 	//m_CreateSmog->Insert(D3DXVECTOR3(20.0f, 0.0f, 40.0f));
 	//m_CreateSmog->Insert(D3DXVECTOR3(30.0f, 0.0f, 30.0f));
@@ -381,6 +388,8 @@ void SceneHeightmap::Init()
 	g_pSoundManager->createSound(); // 사운드 세팅								
 	g_pSoundManager->playAmbient(0); // 실행 시 환경음 자동 재생 (반복)
 
+	m_pPlayer_Heatl_UI = new Player_Health_UI();
+	m_pPlayer_Heatl_UI->Init();
 	m_pMenuUI = new MenuUI();
 	m_pMenuUI->Init();
 	m_pBulletUI = new BulletUI();
@@ -438,6 +447,7 @@ void SceneHeightmap::Update()
 		SAFE_UPDATE(m_pGameOver);
 		SAFE_UPDATE(m_pTalk);
 		SAFE_UPDATE(m_pBulletUI);
+		SAFE_UPDATE(m_pPlayer_Heatl_UI);
 
 		/*g_pSoundManager->update3D(0, g_pCamera->getPos(), SpeakerPos, g_pCamera->getDir());
 		if (GetKeyState('1') & 0x8000)
@@ -561,6 +571,8 @@ void SceneHeightmap::Update()
 		Debug->AddText(cpuUsage);
 		Debug->AddText("%");
 		Debug->EndLine();
+
+		m_pPlayer_Heatl_UI->Health = m_Player_hands->getHealth();
 
 		// 0 키 누르면 음악 재생 ON / OFF
 		if ((GetAsyncKeyState('0') & 0x8000))
@@ -824,6 +836,11 @@ void SceneHeightmap::Update()
 		if (m_pUnit->GameOver()) {
 			m_pGameOverOn = true;
 		}
+		D3DXVECTOR3 wireSpherePos;
+		bool isOnMap = m_pHeightMap->CalcPickedPosition(wireSpherePos, SCREEN_POINT(m_pLParam));
+		if (isOnMap) {
+			m_pWireSphere->setPos(wireSpherePos);
+		}
 		/*Debug->AddText("SphereWalls 좌표들 : ");
 		for (int i = 0; i < 38; i++) {
 		Debug->AddText(tempVecs[i]);
@@ -860,6 +877,7 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_SkyBox);
 	SAFE_RENDER(m_minimap);
 	SAFE_RENDER(m_pBulletUI);
+	
 	if (m_pGameOverOn) {
 		g_pDevice->SetTexture(0, NULL);
 		m_pGameOverSprite->Begin(D3DXSPRITE_ALPHABLEND);
@@ -872,6 +890,8 @@ void SceneHeightmap::Render()
 	}
 	m_CreateSmog->Render();
 	//m_pPicking->Render();
+
+	
 
 	//obj 관련
 	m_ObjRender->Render();
@@ -909,14 +929,16 @@ void SceneHeightmap::Render()
 	g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 	g_pDevice->SetTexture(0, NULL);
 	//m_pSphere->DrawSubset(0);
+	if (m_Player_hands->GetRenderState())
+		Shaders::Get()->Render();
 
+	SAFE_RENDER(m_pPlayer_Heatl_UI);
 	RECT rc;
 	SetRect(&rc, 100, 400, 800, 600);
 	m_pFont->DrawText(NULL, m_str, m_str.GetLength(), &rc,
 		DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
 
-	if (m_Player_hands->GetRenderState())
-		Shaders::Get()->Render();
+
 
 }
 
@@ -947,6 +969,35 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 void SceneHeightmap::Event()
 {
+	if (Player_Health != m_Player_hands->getHealth())
+	{
+		Health_Recovery_Interval = 0;
+		Player_Health = m_Player_hands->getHealth();
+	}
+	if(Player_Health < 4)
+	{
+		if (Health_Recovery_Interval < 300)
+			Health_Recovery_Interval++;
+		else
+		{
+			m_Player_hands->setHealth(Player_Health + 1);
+			Health_Recovery_Interval = 0;
+		}
+		Debug->AddText("체력 회복: ");
+		Debug->AddText(Health_Recovery_Interval);
+		Debug->EndLine();
+	}
+	
+	if (GetKeyState('6') & 0x8000)
+	{
+		int Health = m_Player_hands->getHealth();
+		m_Player_hands->setHealth(Health + 1);
+	}
+	if (GetKeyState('5') & 0x8000)
+	{
+		int Health = m_Player_hands->getHealth();
+		m_Player_hands->setHealth(Health - 1);
+	}
 	if (GetKeyState(VK_F3) & 0x8000)
 	{
 		if (g_pSeqManager->stopUpdate = true)

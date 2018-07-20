@@ -35,7 +35,7 @@ Mob::Mob()
 	showBoundingSphere = false;
 	m_DestTime = 1000;
 	m_angle = 0;
-
+	m_InTrenchMove = false;
 	m_Death = false;
 
 	//스킨정보
@@ -85,7 +85,7 @@ void Mob::Init()
 
 	m_Death_count = 0;
 	m_Death_Time = 0;
-
+	SaveInTrenchLocation();
 	deathShout = false;
 }
 
@@ -553,6 +553,12 @@ MOB_SITUATION Mob::TrenchFight()
 	
 	if (AINum != NULL)
 	{
+		if (m_InTrenchMove == true)
+		{
+			m_DestTime = 1000;
+			m_InTrenchMove = false;
+		}
+			
 		m_DestTime++;
 		m_Setdest = true;
 		m_TeamAINum = AINum;
@@ -563,7 +569,7 @@ MOB_SITUATION Mob::TrenchFight()
 		Shootpos[0] = (VERTEX_PC(myPos, d));
 		Shootpos[1] = (VERTEX_PC(Direction, d));
 		
-		if(abs(m_pos.x - TeamAIPos.x) < 2.5f && abs(m_pos.z - TeamAIPos.z) < 2.5f)
+		if(abs(m_pos.x - TeamAIPos.x) < 3.5f && abs(m_pos.z - TeamAIPos.z) < 3.5f)
 		{
 			m_moveSpeed = 0;
 			m_ShootCooldownTime++;
@@ -597,7 +603,27 @@ MOB_SITUATION Mob::TrenchFight()
 	}
 	else
 	{
-		
+		if (abs(m_pos.x - m_finalDestPos.x + m_pos.z - m_finalDestPos.z) <6.0f)
+		{
+			m_InTrenchMove = false;
+			m_DestTime++;
+			if (m_DestTime > 600)
+			{
+				if (m_InTrenchMove == false)
+				{
+					int random = rand() % 6;
+					if (m_pos.z < 306.0f)
+						SetDestination(m_InTrenchLocation[0][random]);
+					else if (m_pos.z < 423.0f)
+						SetDestination(m_InTrenchLocation[1][random]);
+					else if (m_pos.z < 540.0f)
+						SetDestination(m_InTrenchLocation[2][random]);
+
+					m_InTrenchMove = true;
+				}
+				m_DestTime = 0;
+			}	
+		}
 	}
 	Debug->AddText("쿨타임 : ");
 	Debug->AddText(m_DestTime);
@@ -817,6 +843,29 @@ void Mob::ResetAll()
 	Act_GunShot();
 	m_moveSpeed = GSM().mobSpeed;
 
+}
+
+void Mob::SaveInTrenchLocation()
+{
+	m_InTrenchLocation.resize(3);
+	m_InTrenchLocation[0].push_back(D3DXVECTOR3(177.0f, 20.0f, 216.0f));
+	m_InTrenchLocation[0].push_back(D3DXVECTOR3(247.0f, 20.0f, 234.0f));
+	m_InTrenchLocation[0].push_back(D3DXVECTOR3(204.0f, 20.0f, 260.0f));
+	m_InTrenchLocation[0].push_back(D3DXVECTOR3(147.0f, 20.0f, 260.0f));
+	m_InTrenchLocation[0].push_back(D3DXVECTOR3(247.0f, 20.0f, 276.0f));
+	m_InTrenchLocation[0].push_back(D3DXVECTOR3(198.0f, 20.0f, 290.0f));
+	m_InTrenchLocation[1].push_back(D3DXVECTOR3(177.0f, 20.0f, 311.0f));
+	m_InTrenchLocation[1].push_back(D3DXVECTOR3(240.0f, 20.0f, 320.0f));
+	m_InTrenchLocation[1].push_back(D3DXVECTOR3(154.0f, 20.0f, 323.0f));
+	m_InTrenchLocation[1].push_back(D3DXVECTOR3(150.0f, 20.0f, 367.0f));
+	m_InTrenchLocation[1].push_back(D3DXVECTOR3(247.0f, 20.0f, 379.0f));
+	m_InTrenchLocation[1].push_back(D3DXVECTOR3(182.0f, 20.0f, 404.0f));
+	m_InTrenchLocation[2].push_back(D3DXVECTOR3(232.0f, 20.0f, 425.0f));
+	m_InTrenchLocation[2].push_back(D3DXVECTOR3(162.0f, 20.0f, 444.0f));
+	m_InTrenchLocation[2].push_back(D3DXVECTOR3(161.0f, 20.0f, 446.0f));
+	m_InTrenchLocation[2].push_back(D3DXVECTOR3(182.0f, 20.0f, 480.0f));
+	m_InTrenchLocation[2].push_back(D3DXVECTOR3(233.0f, 20.0f, 496.0f));
+	m_InTrenchLocation[2].push_back(D3DXVECTOR3(160.0f, 20.0f, 510.0f));
 }
 
 void Mob::LocationSwap()

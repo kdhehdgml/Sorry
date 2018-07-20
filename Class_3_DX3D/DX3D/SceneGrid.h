@@ -7,6 +7,7 @@ class Cubeman;
 class Walls;
 class ActionCube;
 class Hexagon;
+class WireSphere;
 
 class SceneGrid :
 	public IScene
@@ -17,6 +18,7 @@ class SceneGrid :
 	Walls*		m_pWalls;
 	ActionCube*	m_pActionCube;
 	Hexagon*	m_pHexagon;
+	WireSphere* m_pWireSphere;
 
 public:
 	SceneGrid();
