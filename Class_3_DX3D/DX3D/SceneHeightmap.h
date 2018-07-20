@@ -21,6 +21,7 @@ class Minimap;
 class MenuUI;
 class BulletUI;
 class Player_Health_UI;
+class WireSphere;
 
 //ÄÃ¸µ
 //class Frustum;
@@ -102,6 +103,7 @@ private:
 	MenuUI* m_pMenuUI;
 	BulletUI* m_pBulletUI;
 	Player_Health_UI* m_pPlayer_Heatl_UI;
+	WireSphere* m_pWireSphere;
 
 	int Player_Health;
 	int Health_Recovery_Interval = 0;

@@ -33,6 +33,7 @@
 #include "MenuUI.h"
 #include "BulletUI.h"
 #include "Player_Health_UI.h"
+#include "WireSphere.h"
 
 #include <fstream>
 
@@ -127,6 +128,7 @@ SceneHeightmap::SceneHeightmap()
 	m_pMenuUI = NULL;
 	m_pBulletUI = NULL;
 	m_pPlayer_Heatl_UI = NULL;
+	m_pWireSphere = NULL;
 	//m_MapTest0 = NULL;
 
 	initCreateMob = false;
@@ -267,7 +269,9 @@ void SceneHeightmap::Init()
 	m_ColorCube = new ColorCube;
 	m_ColorCube->Init();
 
-
+	m_pWireSphere = new WireSphere();
+	m_pWireSphere->Init();
+	AddSimpleDisplayObj(m_pWireSphere);
 
 	//m_CreateSmog->Insert(D3DXVECTOR3(20.0f, 0.0f, 40.0f));
 	//m_CreateSmog->Insert(D3DXVECTOR3(30.0f, 0.0f, 30.0f));
@@ -831,6 +835,11 @@ void SceneHeightmap::Update()
 		Debug->EndLine();
 		if (m_pUnit->GameOver()) {
 			m_pGameOverOn = true;
+		}
+		D3DXVECTOR3 wireSpherePos;
+		bool isOnMap = m_pHeightMap->CalcPickedPosition(wireSpherePos, SCREEN_POINT(m_pLParam));
+		if (isOnMap) {
+			m_pWireSphere->setPos(wireSpherePos);
 		}
 		/*Debug->AddText("SphereWalls ÁÂÇ¥µé : ");
 		for (int i = 0; i < 38; i++) {
