@@ -680,6 +680,19 @@ void SceneHeightmap::Update()
 			}
 		}
 
+		if (GetAsyncKeyState(VK_NUMPAD1) & 0x0001) {
+			m_Player_hands->setHealth(1);
+		}
+		else if (GetAsyncKeyState(VK_NUMPAD2) & 0x0001) {
+			m_Player_hands->setHealth(2);
+		}
+		else if (GetAsyncKeyState(VK_NUMPAD3) & 0x0001) {
+			m_Player_hands->setHealth(3);
+		}
+		else if (GetAsyncKeyState(VK_NUMPAD4) & 0x0001) {
+			m_Player_hands->setHealth(4);
+		}
+
 		if (GetTickCount() >= m_talkFontCount) {
 			m_str.Empty();
 		}
