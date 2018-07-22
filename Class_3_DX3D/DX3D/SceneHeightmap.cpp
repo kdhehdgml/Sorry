@@ -35,7 +35,7 @@
 #include "Player_Health_UI.h"
 #include "WireSphere.h"
 
-#include <fstream>
+//#include <fstream>
 
 static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
 static int numProcessors;
@@ -853,6 +853,9 @@ void SceneHeightmap::Update()
 		bool isOnMap = m_pHeightMap->CalcPickedPosition(wireSpherePos, SCREEN_POINT(m_pLParam));
 		if (isOnMap) {
 			m_pWireSphere->setPos(wireSpherePos);
+		}
+		else {
+			m_pWireSphere->setPos(D3DXVECTOR3(-1000.0f, -1000.0f, -1000.0f));
 		}
 		/*Debug->AddText("SphereWalls ÁÂÇ¥µé : ");
 		for (int i = 0; i < 38; i++) {
