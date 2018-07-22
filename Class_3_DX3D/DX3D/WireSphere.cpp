@@ -25,14 +25,14 @@ void WireSphere::setPos(D3DXVECTOR3 _pos)
 
 void WireSphere::Init()
 {
-	D3DXCreateSphere(g_pDevice, 10.0f, 10, 10, &m_pSphere, NULL);
+	D3DXCreateSphere(g_pDevice, 35.0f, 10, 10, &m_pSphere, NULL);
 	m_pRenderToggle = false;
 }
 
 void WireSphere::Update()
 {
 	if (m_pRenderToggle) {
-		m_rot.y += 0.01f;
+		m_rot.y += 0.02f;
 	}
 }
 
@@ -43,9 +43,11 @@ void WireSphere::Render()
 		D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
 		D3DXMatrixRotationY(&matR, m_rot.y);
 		D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+		D3DMATERIAL9 mtl = DXUtil::WHITE_MTRL;
 		m_matWorld = matS * matR * matT;
 		g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 		g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		g_pDevice->SetMaterial(&mtl);
 		g_pDevice->SetTexture(0, NULL);
 		m_pSphere->DrawSubset(0);
 		g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
