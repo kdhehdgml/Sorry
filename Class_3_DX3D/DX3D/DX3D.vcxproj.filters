@@ -401,6 +401,15 @@
     <ClInclude Include="Player_Health_UI.h">
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
+    <ClInclude Include="FR_HEADGEAR.h">
+      <Filter>소스 파일\Skin\equip</Filter>
+    </ClInclude>
+    <ClInclude Include="MARK.h">
+      <Filter>소스 파일\Skin\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveOBJ.h">
+      <Filter>소스 파일\3.Object\OBJ</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -681,6 +690,15 @@
     </ClCompile>
     <ClCompile Include="Player_Health_UI.cpp">
       <Filter>소스 파일\3.Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FR_HEADGEAR.cpp">
+      <Filter>소스 파일\Skin\equip</Filter>
+    </ClCompile>
+    <ClCompile Include="MARK.cpp">
+      <Filter>소스 파일\Skin\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveOBJ.cpp">
+      <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

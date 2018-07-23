@@ -34,9 +34,13 @@ class Blocks;
 
 class ObjRender;	//obj 클래스
 
+class MARK;
+
 class SceneHeightmap : public IScene
 {
 private:
+
+	
 	HeightMap * m_pHeightMap;
 	AseCharacter*	m_pAseCharacter;
 	Player_hands*	m_Player_hands;
@@ -59,6 +63,8 @@ private:
 
 	//obj 관련
 	ObjRender*			m_ObjRender;
+
+	MARK*				m_MARK;
 
 	//영락코드
 	CreateSmog*		m_CreateSmog;

@@ -12,6 +12,9 @@ class MONSTER;
 class Smle;
 
 
+class MARK;
+
+
 
 
 
@@ -31,7 +34,7 @@ private:
 	//Ä³¸¯ÅÍ
 	TEAM_TEX *		m_TEAM_TEX;
 	MONSTER*		m_MONSTER;
-
+	MARK*			m_MARK;
 public:
 	SceneXfile();
 	~SceneXfile();

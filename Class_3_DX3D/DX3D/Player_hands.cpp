@@ -119,10 +119,10 @@ void Player_hands::Update()
 	Debug->AddText(health);
 	Debug->EndLine();
 	//렌더 껏다키기
-	/*if (GetAsyncKeyState('V') & 0x0001)
+	if (GetAsyncKeyState('V') & 0x0001)
 	{
 		m_Render = !m_Render;
-	}*/
+	}
 
 	m_Render = !g_pCamera->getFreeCameraMode();
 
@@ -425,8 +425,8 @@ void Player_hands::DrawFrame(LPD3DXFRAME pFrame)
 		m_numMesh++;
 		//디버그모드
 		//Debug->AddText(_T("(MESH)"));
-		//DrawMeshContainer(pFrame);
-		//pMeshContainer = pMeshContainer->pNextMeshContainer;
+		DrawMeshContainer(pFrame);
+		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
 	//디버그모드
 	//Debug->AddText(_T(" / "));
