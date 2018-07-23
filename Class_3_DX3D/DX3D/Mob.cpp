@@ -606,27 +606,32 @@ MOB_SITUATION Mob::TrenchFight()
 	{
 		if (abs(m_pos.x - m_finalDestPos.x + m_pos.z - m_finalDestPos.z) <6.0f)
 		{
-			m_InTrenchMove = false;
 			m_DestTime++;
 			if (m_DestTime > 600)
 			{
-				if (m_InTrenchMove == false)
-				{
-					int random = rand() % 6;
-					if (m_pos.z < 306.0f)
-						TrenchSetDestination(m_InTrenchLocation[0][random]);
-					else if (m_pos.z < 423.0f)
-						TrenchSetDestination(m_InTrenchLocation[1][random]);
-					else if (m_pos.z < 540.0f)
-						TrenchSetDestination(m_InTrenchLocation[2][random]);
+				int random = rand() % 6;
+				if (m_pos.z < 306.0f)
+					TrenchSetDestination(m_InTrenchLocation[0][random]);
+				else if (m_pos.z < 423.0f)
+					TrenchSetDestination(m_InTrenchLocation[1][random]);
+				else if (m_pos.z < 540.0f)
+					TrenchSetDestination(m_InTrenchLocation[2][random]);
 
-					m_InTrenchMove = true;
-				}
+				m_InTrenchMove = true;
 				m_DestTime = 0;
 			}	
 		}
 		else
-			TrenchSetDestination(m_finalDestPos);
+		{
+			m_DestTime++;
+			if (m_DestTime > 600)
+			{
+				TrenchSetDestination(m_finalDestPos);
+				m_DestTime = 0;
+				m_InTrenchMove = true;
+			}
+		}
+			
 	}
 	Debug->AddText("ÄðÅ¸ÀÓ : ");
 	Debug->AddText(m_DestTime);
