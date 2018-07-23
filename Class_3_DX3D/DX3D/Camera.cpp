@@ -53,6 +53,8 @@ Camera::Camera()
 	isPaused = false;
 
 	mouseLock = true;
+
+	m_pBombingMode = false;
 }
 
 
@@ -126,66 +128,86 @@ void Camera::Update()
 
 	m_prev_rotX = m_rotX;
 
-	if (GetKeyState('A') & 0x8000)
-	{
-		D3DXVECTOR3 v;
-		D3DXVec3Cross(&v, &dir, &D3DXVECTOR3(0, 1, 0));
-		pos.x += (v.x* m_speedOffset);
-		pos.z += (v.z* m_speedOffset);
-	}
-	else if (GetKeyState('D') & 0x8000)
-	{
-		D3DXVECTOR3 v;
-		D3DXVec3Cross(&v, &dir, &D3DXVECTOR3(0, 1, 0));
-		pos.x -= (v.x* m_speedOffset);
-		pos.z -= (v.z* m_speedOffset);
-	}
+	if (!m_pBombingMode) {
+		if (GetKeyState('A') & 0x8000)
+		{
+			D3DXVECTOR3 v;
+			D3DXVec3Cross(&v, &dir, &D3DXVECTOR3(0, 1, 0));
+			pos.x += (v.x* m_speedOffset);
+			pos.z += (v.z* m_speedOffset);
+		}
+		else if (GetKeyState('D') & 0x8000)
+		{
+			D3DXVECTOR3 v;
+			D3DXVec3Cross(&v, &dir, &D3DXVECTOR3(0, 1, 0));
+			pos.x -= (v.x* m_speedOffset);
+			pos.z -= (v.z* m_speedOffset);
+		}
 
-	if (GetKeyState('W') & 0x8000)
-	{
-		pos.x += (dir.x* m_speedOffset);
-		pos.z += (dir.z* m_speedOffset);
-	}
-	else if (GetKeyState('S') & 0x8000)
-	{
-		pos.x -= (dir.x* m_speedOffset);
-		pos.z -= (dir.z* m_speedOffset);
-	}
+		if (GetKeyState('W') & 0x8000)
+		{
+			pos.x += (dir.x* m_speedOffset);
+			pos.z += (dir.z* m_speedOffset);
+		}
+		else if (GetKeyState('S') & 0x8000)
+		{
+			pos.x -= (dir.x* m_speedOffset);
+			pos.z -= (dir.z* m_speedOffset);
+		}
 
-	if (GetKeyState(VK_SHIFT) & GetKeyState('W') & 0x8000) {
-		if (m_freeCameraMode) {
-			m_speedOffset = 4.0f;
+		if (GetKeyState(VK_SHIFT) & GetKeyState('W') & 0x8000) {
+			if (m_freeCameraMode) {
+				m_speedOffset = 4.0f;
+			}
+			else {
+				m_speedOffset = 0.8f;
+			}
+			m_running++;
+			if (m_running >= 41) {
+				m_running = 1;
+			}
 		}
 		else {
-			m_speedOffset = 0.8f;
+			if (m_freeCameraMode) {
+				m_speedOffset = 2.0f;
+			}
+			else {
+				m_speedOffset = 0.4f;
+			}
+			m_running = 0;
 		}
-		m_running++;
-		if (m_running >= 41) {
-			m_running = 1;
+
+		if (GetKeyState('R') & 0x8000 && m_cooldown <= GetTickCount() && m_magazine != 5) {
+			m_magazine = 5;
+			m_cooldown = GetTickCount() + GSM().reload_all;
 		}
-	}
-	else {
-		if (m_freeCameraMode) {
-			m_speedOffset = 2.0f;
-		}
-		else {
-			m_speedOffset = 0.4f;
-		}
-		m_running = 0;
-	}
-	if (GetKeyState('R') & 0x8000 && m_cooldown <= GetTickCount() && m_magazine != 5) {
-		m_magazine = 5;
-		m_cooldown = GetTickCount() + GSM().reload_all;
 	}
 	if (GetAsyncKeyState('V') & 0x0001) {
 		//m_freeCameraMode = !m_freeCameraMode;
 		g_pCamera->setFreeCameraMode(!g_pCamera->getFreeCameraMode());
-		if (g_pCamera->getFreeCameraMode()) {
+		m_freeCameraMode = !m_freeCameraMode;
+		if (m_freeCameraMode) {
 			ShowCursor(true);
 		}
 		else {
 			ShowCursor(false);
 		}
+	}
+	if (GetAsyncKeyState('M') & 0x0001) {
+		if (m_pBombingMode) {
+			m_pBombingMode = false;
+			m_freeCameraMode = false;
+		}
+		else {
+			m_pBombingMode = true;
+			m_freeCameraMode = true;
+			m_rotX = -0.34f;
+			m_rotY = 1.615f;
+			pos.x = 189.43f;
+			pos.y = 84.4f;
+			pos.z = 381.01f;
+		}
+		ShowCursor(false);
 	}
 
 	if (m_running >= 1 && m_running < 10) {
@@ -530,41 +552,49 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		m_currPoint.y = HIWORD(lParam);
 		if (m_loadingComplete)
 		{
-			float diff_x = m_currPoint.x - m_ptPrevMouse.x;
-			float diff_y = m_currPoint.y - m_ptPrevMouse.y;
-
-			if (diff_x == 0 && diff_y == 0) {
-				break;
+			if (m_pBombingMode) {
+				m_rotX = -0.34f;
+				m_rotY = 1.615f;
+				pos.x = 189.43f;
+				pos.y = 84.4f;
+				pos.z = 381.01f;
 			}
+			else {
+				float diff_x = m_currPoint.x - m_ptPrevMouse.x;
+				float diff_y = m_currPoint.y - m_ptPrevMouse.y;
 
-			m_rotY += diff_x / m_sensitivity;
-			m_rotX -= diff_y / m_sensitivity;
+				if (diff_x == 0 && diff_y == 0) {
+					break;
+				}
 
-			if ((m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX) <= -D3DX_PI * 0.4f + D3DX_16F_EPSILON)
-			{
-				m_rotX = m_prev_rotX;
+				m_rotY += diff_x / m_sensitivity;
+				m_rotX -= diff_y / m_sensitivity;
+
+				if ((m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX) <= -D3DX_PI * 0.4f + D3DX_16F_EPSILON)
+				{
+					m_rotX = m_prev_rotX;
+				}
+				if ((m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX) >= D3DX_PI * 0.3f - D3DX_16F_EPSILON)
+				{
+					m_rotX = m_prev_rotX;
+				}
+
+				//dir.x = sin(m_rotY + m_recoilY);
+				//dir.z = cos(m_rotY + m_recoilY);
+				//dir.y = tan(m_rotX + m_recoilX);
+
+				m_ptPrevMouse = m_currPoint;
+				if ((diff_x || diff_y) && mouseLock) //마우스 위치가 변했을때 마우스 위치를 화면 중앙으로 이동
+				{
+					RECT rc; GetClientRect(g_hWnd, &rc);
+					POINT p = { (rc.right - rc.left) / 2 , (rc.bottom - rc.top) / 2 };
+					ClientToScreen(g_hWnd, &p);
+					SetCursorPos(p.x, p.y);
+
+					m_ptPrevMouse.x = (rc.right - rc.left) / 2;
+					m_ptPrevMouse.y = (rc.bottom - rc.top) / 2;
+				}
 			}
-			if ((m_rotX + m_recoilX + m_runningRecoilX + m_accuracyX) >= D3DX_PI * 0.3f - D3DX_16F_EPSILON)
-			{
-				m_rotX = m_prev_rotX;
-			}
-
-			//dir.x = sin(m_rotY + m_recoilY);
-			//dir.z = cos(m_rotY + m_recoilY);
-			//dir.y = tan(m_rotX + m_recoilX);
-
-			m_ptPrevMouse = m_currPoint;
-			if ((diff_x || diff_y) && mouseLock) //마우스 위치가 변했을때 마우스 위치를 화면 중앙으로 이동
-			{
-				RECT rc; GetClientRect(g_hWnd, &rc);
-				POINT p = { (rc.right - rc.left) / 2 , (rc.bottom - rc.top) / 2 };
-				ClientToScreen(g_hWnd, &p);
-				SetCursorPos(p.x, p.y);
-
-				m_ptPrevMouse.x = (rc.right - rc.left) / 2;
-				m_ptPrevMouse.y = (rc.bottom - rc.top) / 2;
-			}
-
 		}
 		else {
 			m_ptPrevMouse = m_currPoint;
@@ -694,4 +724,9 @@ void Camera::getPMobFromUnitBox(vector<Mob*>* mob)
 D3DXVECTOR3 Camera::getOldPos()
 {
 	return oldPos;
+}
+
+bool Camera::getBombingMode()
+{
+	return m_pBombingMode;
 }

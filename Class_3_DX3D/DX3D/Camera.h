@@ -64,6 +64,8 @@ private:
 	bool shotCheck; // 총 발사 여부 체크
 	int reloadTime; // 재장전 사운드 재생까지의 지연시간
 
+	bool m_pBombingMode;
+
 	D3DXVECTOR3 oldPos;
 
 public:
@@ -88,6 +90,7 @@ public:
 	void setPosY(float y);
 	void setFreeCameraMode(bool f);
 	bool getFreeCameraMode();
+	bool getBombingMode();
 	int getCooldown();
 	int getMagazine();
 	float getDeltaY();

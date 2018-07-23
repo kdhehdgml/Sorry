@@ -40,9 +40,14 @@ protected:
 	D3DXMATRIXA16				m_R_mat;
 	D3DXVECTOR3					m_R_pos;
 
+	D3DXMATRIXA16				m_mat;
+	D3DXVECTOR3					m_mat_pos;
+
 	D3DXMATRIXA16				m_head_mat;
 	D3DXMATRIXA16				m_head_mat2;
 	D3DXVECTOR3					m_head_pos;
+
+
 
 	IUnitObject();
 
@@ -81,6 +86,8 @@ public:
 	LPD3DXMATRIXA16 GetRotMat() { return &m_rotMat; }
 	D3DXVECTOR3 GetScaleMat() { return m_scaleMat; }
 
+	LPD3DXMATRIXA16 GetMat() { return &m_mat; }
+	D3DXVECTOR3 GetPos() { return m_mat_pos; }
 
 	LPD3DXMATRIXA16 GetHeadMat() { return &m_head_mat; }
 	LPD3DXMATRIXA16 GetHeadMat2() { return &m_head_mat2; }

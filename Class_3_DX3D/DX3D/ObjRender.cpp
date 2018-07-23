@@ -638,5 +638,64 @@ void ObjRender::Render()
 
 void ObjRender::Update()
 {
+	
+	//참호 판자
+	for (int i = 0; i < 16; i++)
+		SAFE_UPDATE(m_MapTest[i]);
+	//SAFE_UPDATE(m_MapTest1);
+	for (int i = 0; i < 75; i++)
+		SAFE_UPDATE(m_MapTest00[i]);
+	//철조망
+	for (int i = 0; i < 53; i++)
+		SAFE_UPDATE(m_BarbedWireT[i]);
+	//사격받침
+	for (int i = 0; i < 6; i++)
+		SAFE_UPDATE(m_FireStep00[i]);
+	//모래
+	for (int i = 0; i < 30; i++)
+		SAFE_UPDATE(SaddleBag0[i]);
+	for (int i = 0; i < 86; i++)
+		SAFE_UPDATE(SaddleBag1[i]);
 
+	//나무
+	for (int i = 0; i < 10; i++)
+	{
+		SAFE_UPDATE(m_Tree00[i]);
+		SAFE_UPDATE(m_Tree01[i]);
+		SAFE_UPDATE(m_Tree02[i]);
+		SAFE_UPDATE(m_Tree03[i]);
+		//SAFE_UPDATE(m_Tree04[i]);
+		//SAFE_UPDATE(m_Tree05[i]);
+		SAFE_UPDATE(m_Tree06[i]);
+	}
+	//지푸라기
+	for (int i = 0; i < 2; i++)
+		SAFE_UPDATE(m_Straw00[i]);
+	//돌
+	for (int i = 0; i < 4; i++)
+		SAFE_UPDATE(m_Stone00[i]);
+
+	//탱크
+	for (int i = 0; i < 2; i++)
+	{
+		SAFE_UPDATE(m_Tank[i]);
+	}
+
+	//웨건
+	for (int i = 0; i < 3; i++)
+	{
+		SAFE_UPDATE(m_Wagon[i]);
+	}
+
+	//건물
+	for (int i = 0; i < 3; i++)
+	{
+		SAFE_UPDATE(m_Apt[i]);
+	}
+
+	//타일
+	for (int i = 0; i < 15; i++)
+	{
+		SAFE_UPDATE(m_Tile[i]);
+	}
 }

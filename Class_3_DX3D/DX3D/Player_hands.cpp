@@ -119,10 +119,13 @@ void Player_hands::Update()
 	Debug->AddText(health);
 	Debug->EndLine();
 	//렌더 껏다키기
-	if (Keyboard::Get()->KeyDown('V'))
+	if (GetAsyncKeyState('V') & 0x0001 ||
+		GetAsyncKeyState('M') & 0x0001)
 	{
 		m_Render = !m_Render;
 	}
+
+	m_Render = !g_pCamera->getFreeCameraMode();
 
 	//프리모드 아닐경우만 발동
 	if (m_Render)
@@ -383,7 +386,13 @@ void Player_hands::UpdateAnim()
 void Player_hands::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
-
+	//총구 끝 좌표
+	if (pFrame->Name != NULL && strcmp(pFrame->Name, "muzzle_slot") == 0)
+	{
+		/*pFrameEx->CombinedTM  =  pFrameEx->CombinedTM */
+		m_mat = pFrameEx->CombinedTM * m_matWorld;
+		m_mat_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	}
 	if (pParent != NULL)
 	{
 		pFrameEx->CombinedTM = pFrameEx->TransformationMatrix * ((FRAME_EX*)pParent)->CombinedTM;
@@ -423,8 +432,8 @@ void Player_hands::DrawFrame(LPD3DXFRAME pFrame)
 		m_numMesh++;
 		//디버그모드
 		//Debug->AddText(_T("(MESH)"));
-		//DrawMeshContainer(pFrame);
-		//pMeshContainer = pMeshContainer->pNextMeshContainer;
+		DrawMeshContainer(pFrame);
+		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
 	//디버그모드
 	//Debug->AddText(_T(" / "));
