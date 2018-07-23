@@ -42,6 +42,7 @@ protected:
 
 	D3DXMATRIXA16				m_head_mat;
 	D3DXMATRIXA16				m_head_mat2;
+	D3DXVECTOR3					m_head_pos;
 
 	IUnitObject();
 
@@ -83,6 +84,7 @@ public:
 
 	LPD3DXMATRIXA16 GetHeadMat() { return &m_head_mat; }
 	LPD3DXMATRIXA16 GetHeadMat2() { return &m_head_mat2; }
+	D3DXVECTOR3		GetHeadPos() { return m_head_pos; }
 
 	void SetAngle(float angle) { m_angle = angle; }
 	float GetAngle() { return m_angle; }

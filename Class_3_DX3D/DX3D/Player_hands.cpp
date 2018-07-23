@@ -407,17 +407,27 @@ void Player_hands::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 void Player_hands::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
-
+	//디버그모드
+	//if (m_numFrame % 5 == 0)
+	//{
+	//	Debug->EndLine();
+	//}
+	//if (pFrame->Name == NULL)
+	//	Debug->AddText(_T("NULL"));
+	//else
+	//	Debug->AddText(pFrame->Name);
 
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
 	while (pMeshContainer != NULL)
 	{
 		m_numMesh++;
-
-		DrawMeshContainer(pFrame);
-		pMeshContainer = pMeshContainer->pNextMeshContainer;
+		//디버그모드
+		//Debug->AddText(_T("(MESH)"));
+		//DrawMeshContainer(pFrame);
+		//pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
-
+	//디버그모드
+	//Debug->AddText(_T(" / "));
 
 	if (pFrame->pFrameSibling != NULL)
 	{

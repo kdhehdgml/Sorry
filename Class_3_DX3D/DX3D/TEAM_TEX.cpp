@@ -190,6 +190,12 @@ void TEAM_TEX::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 
+	if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_Head") == 0)
+	{
+		m_head_mat = pFrameEx->CombinedTM * m_matWorld;
+		m_head_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	}
+
 	if (pParent != NULL)
 	{
 		pFrameEx->CombinedTM = pFrameEx->TransformationMatrix * ((FRAME_EX*)pParent)->CombinedTM;
@@ -263,7 +269,8 @@ void TEAM_TEX::DrawMeshContainer(LPD3DXFRAME pFrame)
 	pMeshContainerEx->pOrigMesh->UnlockVertexBuffer();
 
 	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	if (m_bWireFrame)
+	//if (m_bWireFrame)
+	if(GSM().Debug_Mode_On)
 		g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	//D3DXMatrixIdentity(&m_matWorld);
