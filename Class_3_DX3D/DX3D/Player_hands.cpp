@@ -119,10 +119,12 @@ void Player_hands::Update()
 	Debug->AddText(health);
 	Debug->EndLine();
 	//렌더 껏다키기
-	if (Keyboard::Get()->KeyDown('V'))
+	/*if (GetAsyncKeyState('V') & 0x0001)
 	{
 		m_Render = !m_Render;
-	}
+	}*/
+
+	//m_Render = !g_pCamera->getFreeCameraMode();
 
 	//프리모드 아닐경우만 발동
 	if (m_Render)
