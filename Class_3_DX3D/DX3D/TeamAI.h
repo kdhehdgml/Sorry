@@ -78,6 +78,10 @@ public:
 	~TeamAI();
 	int				num;
 	bool			m_move;
+
+	int m_level;
+	int m_expToNextLevel;
+
 	// IDisplayObject을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Update() override;
@@ -97,6 +101,5 @@ public:
 	void Shooting();
 	void Reloading();
 	void SetReady(bool _ready) { m_Ready = _ready; }
-
 };
 

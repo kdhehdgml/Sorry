@@ -34,6 +34,9 @@ TeamAI::TeamAI()
 	
 	deathShout = false;
 	reloadShout = false;
+
+	m_level = 1;
+	m_expToNextLevel = 4;
 }
 
 

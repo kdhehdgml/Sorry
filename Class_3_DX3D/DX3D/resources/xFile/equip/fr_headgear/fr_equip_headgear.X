@@ -138,9 +138,6 @@ Material fr_headgear_adrian {
   "character_fr_headgear_adrian_clr.png";
  }
 
- TextureFilename {
-  "character_fr_headgear_adrian_nrm.png";
- }
 }
 
 Frame fr_headgear_adrian_inf {

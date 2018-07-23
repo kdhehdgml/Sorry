@@ -37,6 +37,7 @@ Mob::Mob()
 	m_angle = 0;
 	m_InTrenchMove = false;
 	m_Death = false;
+	giveExp = 0;
 
 	//스킨정보
 	m_GUN = NULL;
@@ -761,6 +762,8 @@ void Mob::Act_Die()
 {
 	status = 0;
 
+	giveExp = 1;
+
 	m_Death_count++;
 
 	if (m_Death_count == 1)
@@ -930,4 +933,14 @@ void Mob::TemporarySwap()
 			}
 		}
 	}
+}
+
+int Mob::getGiveExp()
+{
+	return giveExp;
+}
+
+void Mob::setGiveExp(int _exp)
+{
+	giveExp = _exp;
 }

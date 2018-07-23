@@ -132,6 +132,15 @@ void UnitBox::Update()
 			p->showBoundingSphere = !p->showBoundingSphere;
 		}
 	}
+
+	for (auto p : m_pMob) {
+		if (p->getGiveExp() > 0) {
+			for (auto q : m_pTeam) {
+				q->m_expToNextLevel += p->getGiveExp();
+				p->setGiveExp(0);
+			}
+		}
+	}
 	
 
 	Debug->AddText("살아있는몹수 : ");

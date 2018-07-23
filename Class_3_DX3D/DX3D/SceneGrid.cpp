@@ -6,6 +6,7 @@
 #include "Walls.h"
 #include "ActionCube.h"
 #include "Hexagon.h"
+#include "WireSphere.h"
 
 SceneGrid::SceneGrid()
 {
@@ -26,6 +27,7 @@ SceneGrid::~SceneGrid()
 	SAFE_RELEASE(m_pWalls);
 	SAFE_RELEASE(m_pActionCube);
 	SAFE_RELEASE(m_pHexagon);
+	SAFE_RELEASE(m_pWireSphere);
 }
 
 void SceneGrid::Init()
@@ -36,6 +38,7 @@ void SceneGrid::Init()
 	//m_pWalls = new Walls(); m_pWalls->Init();
 	m_pActionCube = new ActionCube(); m_pActionCube->Init();
 	m_pHexagon = new Hexagon(); m_pHexagon->Init();
+	m_pWireSphere = new WireSphere(); m_pWireSphere->Init();
 	D3DXVECTOR3 camPos(-30.0f, 22.0f, 0.0f);
 	g_pCamera->setPos(camPos);
 }
@@ -45,6 +48,7 @@ void SceneGrid::Update()
 	SAFE_UPDATE(m_pColorCube);
 	SAFE_UPDATE(m_pCubeman);
 	SAFE_UPDATE(m_pActionCube);
+	SAFE_UPDATE(m_pWireSphere);
 }
 
 void SceneGrid::Render()
@@ -55,6 +59,7 @@ void SceneGrid::Render()
 	SAFE_RENDER(m_pWalls);
 	SAFE_RENDER(m_pActionCube);
 	SAFE_RENDER(m_pHexagon);
+	SAFE_RENDER(m_pWireSphere);
 }
 
 void SceneGrid::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

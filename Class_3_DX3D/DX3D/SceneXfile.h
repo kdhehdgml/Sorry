@@ -6,8 +6,7 @@ class SkinnedMesh;
 class SkyBox;
 class GUN;
 class SHOVEL;
-class DE_HEADGEAR;
-class FR_HEADGEAR;
+
 class TEAM_TEX;
 class MONSTER;
 class Smle;
@@ -27,9 +26,7 @@ private:
 	GUN *			m_GUN;
 	Smle *			m_Smle;
 
-	//장비
-	DE_HEADGEAR *	m_DE_HEADGEAR;
-	FR_HEADGEAR *	m_FR_HEADGEAR;
+
 	
 	//캐릭터
 	TEAM_TEX *		m_TEAM_TEX;

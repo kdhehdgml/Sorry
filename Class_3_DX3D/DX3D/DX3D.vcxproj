@@ -161,7 +161,6 @@
     <ClInclude Include="ActionSequence.h" />
     <ClInclude Include="AllocateHierarchy.h" />
     <ClInclude Include="ALLTexTURE.h" />
-    <ClInclude Include="AlphaSphere.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Asciitok.h" />
     <ClInclude Include="AseCharacter.h" />
@@ -172,9 +171,7 @@
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BulletUI.h" />
     <ClInclude Include="CD3Mesh.h" />
-    <ClInclude Include="DE_HEADGEAR.h" />
     <ClInclude Include="eventTalk.h" />
-    <ClInclude Include="FR_HEADGEAR.h" />
     <ClInclude Include="GUN.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="LightingShader.h" />
@@ -187,6 +184,7 @@
     <ClInclude Include="ObjRen.h" />
     <ClInclude Include="ObjRender.h" />
     <ClInclude Include="Player_hands.h" />
+    <ClInclude Include="Player_Health_UI.h" />
     <ClInclude Include="SceneMainScreen.h" />
     <ClInclude Include="SceneShader.h" />
     <ClInclude Include="seqManager.h" />
@@ -255,6 +253,7 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallManager.h" />
     <ClInclude Include="Walls.h" />
+    <ClInclude Include="WireSphere.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActionCube.cpp" />
@@ -263,7 +262,6 @@
     <ClCompile Include="ActionSequence.cpp" />
     <ClCompile Include="AllocateHierarchy.cpp" />
     <ClCompile Include="ALLTexTURE.cpp" />
-    <ClCompile Include="AlphaSphere.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AseCharacter.cpp" />
     <ClCompile Include="AseLoader.cpp" />
@@ -273,9 +271,7 @@
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BulletUI.cpp" />
     <ClCompile Include="CD3Mesh.cpp" />
-    <ClCompile Include="DE_HEADGEAR.cpp" />
     <ClCompile Include="eventTalk.cpp" />
-    <ClCompile Include="FR_HEADGEAR.cpp" />
     <ClCompile Include="GUN.cpp" />
     <ClCompile Include="LightingShader.cpp" />
     <ClCompile Include="MainScreenUI.cpp" />
@@ -287,6 +283,7 @@
     <ClCompile Include="ObjRen.cpp" />
     <ClCompile Include="ObjRender.cpp" />
     <ClCompile Include="Player_hands.cpp" />
+    <ClCompile Include="Player_Health_UI.cpp" />
     <ClCompile Include="SceneMainScreen.cpp" />
     <ClCompile Include="SceneShader.cpp" />
     <ClCompile Include="seqManager.cpp" />
@@ -356,6 +353,7 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallManager.cpp" />
     <ClCompile Include="Walls.cpp" />
+    <ClCompile Include="WireSphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc" />

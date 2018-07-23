@@ -389,19 +389,18 @@
     <ClInclude Include="Player_hands.h">
       <Filter>소스 파일\Skin\Player</Filter>
     </ClInclude>
-    <ClInclude Include="DE_HEADGEAR.h">
-      <Filter>소스 파일\Skin\equip</Filter>
+    <ClInclude Include="BulletUI.h">
+      <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
     <ClInclude Include="BulletUI.h">
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
-    <ClInclude Include="FR_HEADGEAR.h">
-      <Filter>소스 파일\Skin\equip</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletUI.h">
+    <ClInclude Include="WireSphere.h">
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
-    <ClInclude Include="AlphaSphere.h" />
+    <ClInclude Include="Player_Health_UI.h">
+      <Filter>소스 파일\3.Object\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -674,16 +673,15 @@
     <ClCompile Include="Player_hands.cpp">
       <Filter>소스 파일\Skin\Player</Filter>
     </ClCompile>
-    <ClCompile Include="DE_HEADGEAR.cpp">
-      <Filter>소스 파일\Skin\equip</Filter>
-    </ClCompile>
-    <ClCompile Include="FR_HEADGEAR.cpp">
-      <Filter>소스 파일\Skin\equip</Filter>
-    </ClCompile>
     <ClCompile Include="BulletUI.cpp">
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClCompile>
-    <ClCompile Include="AlphaSphere.cpp" />
+    <ClCompile Include="WireSphere.cpp">
+      <Filter>소스 파일\3.Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_Health_UI.cpp">
+      <Filter>소스 파일\3.Object\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">
