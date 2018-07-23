@@ -99,6 +99,9 @@
     <Filter Include="소스 파일\Skin\equip">
       <UniqueIdentifier>{aea2c679-ed3e-4745-911c-69cf8955a479}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\AI\Boss">
+      <UniqueIdentifier>{6ed70baf-0a8a-4bcb-8477-1d9d6b99c562}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -404,11 +407,11 @@
     <ClInclude Include="FR_HEADGEAR.h">
       <Filter>소스 파일\Skin\equip</Filter>
     </ClInclude>
-    <ClInclude Include="MARK.h">
-      <Filter>소스 파일\Skin\NPC</Filter>
-    </ClInclude>
     <ClInclude Include="MoveOBJ.h">
       <Filter>소스 파일\3.Object\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="MARK.h">
+      <Filter>소스 파일\AI\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -694,11 +697,11 @@
     <ClCompile Include="FR_HEADGEAR.cpp">
       <Filter>소스 파일\Skin\equip</Filter>
     </ClCompile>
-    <ClCompile Include="MARK.cpp">
-      <Filter>소스 파일\Skin\NPC</Filter>
-    </ClCompile>
     <ClCompile Include="MoveOBJ.cpp">
       <Filter>소스 파일\3.Object\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="MARK.cpp">
+      <Filter>소스 파일\AI\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
