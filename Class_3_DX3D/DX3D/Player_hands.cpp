@@ -119,7 +119,8 @@ void Player_hands::Update()
 	Debug->AddText(health);
 	Debug->EndLine();
 	//렌더 껏다키기
-	if (GetAsyncKeyState('V') & 0x0001)
+	if (GetAsyncKeyState('V') & 0x0001 ||
+		GetAsyncKeyState('M') & 0x0001)
 	{
 		m_Render = !m_Render;
 	}
@@ -385,7 +386,13 @@ void Player_hands::UpdateAnim()
 void Player_hands::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
-
+	//총구 끝 좌표
+	if (pFrame->Name != NULL && strcmp(pFrame->Name, "muzzle_slot") == 0)
+	{
+		/*pFrameEx->CombinedTM  =  pFrameEx->CombinedTM */
+		m_mat = pFrameEx->CombinedTM * m_matWorld;
+		m_mat_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	}
 	if (pParent != NULL)
 	{
 		pFrameEx->CombinedTM = pFrameEx->TransformationMatrix * ((FRAME_EX*)pParent)->CombinedTM;

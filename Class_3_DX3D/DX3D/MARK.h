@@ -27,9 +27,10 @@ public:
 
 	MoveOBJ*	m_mark;
 
-	int			maxHP;
+	int			MaxHP;
 	int			HP;
-	float			MoveSpeed;
+	float		MoveSpeed;
+	float		RotSpeed;
 	int			ATK;
 	int			DEF;
 	int			state;

@@ -184,7 +184,7 @@ void Camera::Update()
 	}
 	if (GetAsyncKeyState('V') & 0x0001) {
 		//m_freeCameraMode = !m_freeCameraMode;
-		//g_pCamera->setFreeCameraMode(!g_pCamera->getFreeCameraMode());
+		g_pCamera->setFreeCameraMode(!g_pCamera->getFreeCameraMode());
 		m_freeCameraMode = !m_freeCameraMode;
 		if (m_freeCameraMode) {
 			ShowCursor(true);

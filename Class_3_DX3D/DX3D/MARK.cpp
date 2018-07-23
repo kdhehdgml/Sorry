@@ -8,9 +8,9 @@
 MARK::MARK()
 {
 	m_mark = NULL;
-	x = 512.0f;
-	y = 30.0f;
-	z = 374.0f;
+	x = 743.0f;
+	y = 20.0f;
+	z = 369.0f;
 	/*x = 0;
 	y = 0;
 	z = 0;*/
@@ -30,7 +30,7 @@ MARK::~MARK()
 void MARK::Init()
 {
 
-	maxHP = 100;
+	MaxHP = 100;
 	HP = 100;
 	MoveSpeed = 0.1f;
 	ATK = 3;
@@ -46,34 +46,42 @@ void MARK::Update()
 	Debug->AddText("탱크 좌표 :");
 	Debug->AddText(m_mark->m_pos);
 	Debug->EndLine();
-	
-	//탱크 상태값
-	switch (state)
-	{
-	case 좌이동:
-		m_mark->m_pos.z = m_mark->m_pos.z + MoveSpeed;
-		break;
-	case 우이동:
-		m_mark->m_pos.z = m_mark->m_pos.z - MoveSpeed;
-		break;
-	case 상이동:
-		m_mark->m_pos.x = m_mark->m_pos.x + MoveSpeed;
-		break;
-	case 하이동:
-		m_mark->m_pos.x = m_mark->m_pos.x - MoveSpeed;
-		break;
 
-	case 기관총공격:
-		break;
-	case 참호부수기:
-		break;
+	//살아있을때만 작동
+	if (HP > 0)
+	{
+
+		//탱크 상태값
+		switch (state)
+		{
+		case 좌이동:
+			m_mark->m_pos.z = m_mark->m_pos.z + MoveSpeed;
+			break;
+		case 우이동:
+			m_mark->m_pos.z = m_mark->m_pos.z - MoveSpeed;
+			break;
+		case 상이동:
+			m_mark->m_pos.x = m_mark->m_pos.x + MoveSpeed;
+			break;
+		case 하이동:
+			m_mark->m_pos.x = m_mark->m_pos.x - MoveSpeed;
+			break;
+
+		case 기관총공격:
+			break;
+		case 참호부수기:
+			break;
+		}
+
+		m_mark->Update();
 	}
 
-	m_mark->Update();
 }
 
 void MARK::Render()
 {
-	SAFE_RENDER(m_mark);
+	//살아있을때만 렌더
+	if(HP>0)
+		SAFE_RENDER(m_mark);
 }
 
