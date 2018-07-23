@@ -725,3 +725,8 @@ D3DXVECTOR3 Camera::getOldPos()
 {
 	return oldPos;
 }
+
+bool Camera::getBombingMode()
+{
+	return m_pBombingMode;
+}
