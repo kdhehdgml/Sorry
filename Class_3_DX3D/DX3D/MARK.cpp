@@ -45,7 +45,7 @@ void MARK::Init()
 	m_pBoundingSphere = new BoundingSphere(m_pos, size);
 
 
-	CREATE_OBJ(m_mark, 10.0f, Mark, BOSS_Mark00.obj, BOSSTEX.png, x, y, z, xR, yR, zR);
+	CREATE_OBJ(m_mark, 10.0f, Boss, BOSS_Mark00.obj, level_vehicle_mark_IV_hull.png, x, y, z, xR, yR, zR);
 }
 
 void MARK::Update()
@@ -74,7 +74,7 @@ void MARK::Update()
 		}
 		if (Keyboard::Get()->KeyPress(VK_NUMPAD1))
 		{
-			state = ÁÂÀÌµ¿;
+			//state = ÁÂÀÌµ¿;
 			m_mark->SetRot(0.1f);
 		}
 		else if (Keyboard::Get()->KeyPress(VK_NUMPAD3))
