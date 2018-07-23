@@ -123,37 +123,37 @@ void MONSTER::Update()
 		
 		
 		*/
-		//if (Keyboard::Get()->KeyDown('1'))
-		//	//if (GetAsyncKeyState('1') & 0x8000)
-		//{
-		//	if (m_AnimaTionIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
-		//		m_AnimaTionIndex++;
+		if (Keyboard::Get()->KeyDown('1'))
+			//if (GetAsyncKeyState('1') & 0x8000)
+		{
+			if (m_AnimaTionIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+				m_AnimaTionIndex++;
 
-		//	SetAnimationIndex(m_AnimaTionIndex, true);
-		//}
-		//else if (Keyboard::Get()->KeyDown('2'))
-		//	//if (GetAsyncKeyState('2') & 0x8000)
-		//{
-		//	if (m_AnimaTionIndex > 0)
-		//		m_AnimaTionIndex--;
+			SetAnimationIndex(m_AnimaTionIndex, true);
+		}
+		else if (Keyboard::Get()->KeyDown('2'))
+			//if (GetAsyncKeyState('2') & 0x8000)
+		{
+			if (m_AnimaTionIndex > 0)
+				m_AnimaTionIndex--;
 
-		//	SetAnimationIndex(m_AnimaTionIndex, true);
-		//}
-		//else if (Keyboard::Get()->KeyDown(VK_F1))
-		//	//if (GetAsyncKeyState(VK_F1) & 0x8000)
-		//{
-		//	m_bDrawFrame = !m_bDrawFrame;
-		//}
-		//else if (Keyboard::Get()->KeyDown(VK_F2))
-		//	//if (GetAsyncKeyState(VK_F2) & 0x8000)
-		//{
-		//	m_bDrawSkeleton = !m_bDrawSkeleton;
-		//}
-		//else if (Keyboard::Get()->KeyDown(VK_F3))
-		//	//if (GetAsyncKeyState(VK_F3) & 0x8000)
-		//{
-		//	m_bWireFrame = !m_bWireFrame;
-		//}
+			SetAnimationIndex(m_AnimaTionIndex, true);
+		}
+		/*else if (Keyboard::Get()->KeyDown(VK_F1))
+			//if (GetAsyncKeyState(VK_F1) & 0x8000)
+		{
+			m_bDrawFrame = !m_bDrawFrame;
+		}
+		else if (Keyboard::Get()->KeyDown(VK_F2))
+			//if (GetAsyncKeyState(VK_F2) & 0x8000)
+		{
+			m_bDrawSkeleton = !m_bDrawSkeleton;
+		}
+		else if (Keyboard::Get()->KeyDown(VK_F3))
+			//if (GetAsyncKeyState(VK_F3) & 0x8000)
+		{
+			m_bWireFrame = !m_bWireFrame;
+		}*/
 
 		if (m_AnimaTionIndex == ¸÷_´Þ¸®´Ù°¡Á×±â || m_AnimaTionIndex == ¸÷_Á×À½)
 		{
@@ -399,7 +399,8 @@ void MONSTER::DrawMeshContainer(LPD3DXFRAME pFrame)
 	pMeshContainerEx->pOrigMesh->UnlockVertexBuffer();
 
 	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	if (m_bWireFrame)
+	//if (m_bWireFrame)
+	if (GSM().Debug_Mode_On)
 		g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	//D3DXMatrixIdentity(&m_matWorld);

@@ -37,6 +37,7 @@ Mob::Mob()
 	m_angle = 0;
 	m_InTrenchMove = false;
 	m_Death = false;
+	giveExp = 0;
 
 	//스킨정보
 	m_GUN = NULL;
@@ -613,17 +614,19 @@ MOB_SITUATION Mob::TrenchFight()
 				{
 					int random = rand() % 6;
 					if (m_pos.z < 306.0f)
-						SetDestination(m_InTrenchLocation[0][random]);
+						TrenchSetDestination(m_InTrenchLocation[0][random]);
 					else if (m_pos.z < 423.0f)
-						SetDestination(m_InTrenchLocation[1][random]);
+						TrenchSetDestination(m_InTrenchLocation[1][random]);
 					else if (m_pos.z < 540.0f)
-						SetDestination(m_InTrenchLocation[2][random]);
+						TrenchSetDestination(m_InTrenchLocation[2][random]);
 
 					m_InTrenchMove = true;
 				}
 				m_DestTime = 0;
 			}	
 		}
+		else
+			TrenchSetDestination(m_finalDestPos);
 	}
 	Debug->AddText("쿨타임 : ");
 	Debug->AddText(m_DestTime);
@@ -758,6 +761,8 @@ void Mob::Shooting()
 void Mob::Act_Die()
 {
 	status = 0;
+
+	giveExp = 1;
 
 	m_Death_count++;
 
@@ -928,4 +933,14 @@ void Mob::TemporarySwap()
 			}
 		}
 	}
+}
+
+int Mob::getGiveExp()
+{
+	return giveExp;
+}
+
+void Mob::setGiveExp(int _exp)
+{
+	giveExp = _exp;
 }

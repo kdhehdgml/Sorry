@@ -269,7 +269,8 @@ void TEAM_TEX::DrawMeshContainer(LPD3DXFRAME pFrame)
 	pMeshContainerEx->pOrigMesh->UnlockVertexBuffer();
 
 	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	if (m_bWireFrame)
+	//if (m_bWireFrame)
+	if(GSM().Debug_Mode_On)
 		g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	//D3DXMatrixIdentity(&m_matWorld);

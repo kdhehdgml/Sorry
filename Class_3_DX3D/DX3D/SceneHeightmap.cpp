@@ -666,6 +666,7 @@ void SceneHeightmap::Update()
 		else {
 			m_pTalkOn = false;
 		}
+		vector<TeamAI*>* pTeam = m_pUnit->getPTeam();
 		if ((GetAsyncKeyState('E') & 0x0001))
 		{
 			if (m_pTalkOn) {
@@ -675,7 +676,12 @@ void SceneHeightmap::Update()
 				m_str.Empty();
 				CString _str = to_string(teamIndex).c_str();
 				m_str.Append(_str);
-				m_str.Append(_T("번 아군 : 안녕하세요!"));
+				m_str.Append(_T("번 아군의 레벨 : "));
+				_str = to_string(pTeam->at(teamIndex)->m_level).c_str();
+				m_str.Append(_str);
+				m_str.Append(_T("\n다음 레벨까지 필요한 경험치 : "));
+				_str = to_string(pTeam->at(teamIndex)->m_expToNextLevel).c_str();
+				m_str.Append(_str);
 				m_talkFontCount = GetTickCount() + 3000;
 			}
 		}

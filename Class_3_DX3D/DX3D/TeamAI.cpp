@@ -34,6 +34,9 @@ TeamAI::TeamAI()
 	
 	deathShout = false;
 	reloadShout = false;
+
+	m_level = 1;
+	m_expToNextLevel = 4;
 }
 
 
@@ -161,6 +164,10 @@ void TeamAI::Update()
 		Debug->AddText(" / 애니스: ");
 		Debug->AddText(ani_state);*/
 		Debug->EndLine();
+	}
+
+	if (m_expToNextLevel <= 0) {
+		LevelUp();
 	}
 
 	/*Debug->AddText("데스 카운트 :");
@@ -460,4 +467,10 @@ void TeamAI::Reloading()
 		m_reloading = 0;
 		reloadShout = false;
 	}
+}
+
+void TeamAI::LevelUp()
+{
+	m_level++;
+	m_expToNextLevel = (m_level + 1) * (m_level + 1);
 }
