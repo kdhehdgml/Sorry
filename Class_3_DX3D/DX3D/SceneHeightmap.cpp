@@ -279,6 +279,7 @@ void SceneHeightmap::Init()
 
 	m_pWireSphere = new WireSphere();
 	m_pWireSphere->Init();
+	m_pWireSphere->m_pRenderToggle = false;
 	AddSimpleDisplayObj(m_pWireSphere);
 
 	//m_CreateSmog->Insert(D3DXVECTOR3(20.0f, 0.0f, 40.0f));
@@ -874,6 +875,7 @@ void SceneHeightmap::Update()
 		else {
 			m_pWireSphere->setPos(D3DXVECTOR3(-1000.0f, -1000.0f, -1000.0f));
 		}
+		m_pWireSphere->m_pRenderToggle = g_pCamera->getBombingMode();
 		/*Debug->AddText("SphereWalls มยวฅต้ : ");
 		for (int i = 0; i < 38; i++) {
 		Debug->AddText(tempVecs[i]);

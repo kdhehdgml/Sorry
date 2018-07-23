@@ -90,6 +90,7 @@ public:
 	void setPosY(float y);
 	void setFreeCameraMode(bool f);
 	bool getFreeCameraMode();
+	bool getBombingMode();
 	int getCooldown();
 	int getMagazine();
 	float getDeltaY();

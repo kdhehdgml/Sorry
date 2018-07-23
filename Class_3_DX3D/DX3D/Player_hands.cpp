@@ -125,7 +125,7 @@ void Player_hands::Update()
 		m_Render = !m_Render;
 	}
 
-	//m_Render = !g_pCamera->getFreeCameraMode();
+	m_Render = !g_pCamera->getFreeCameraMode();
 
 	//프리모드 아닐경우만 발동
 	if (m_Render)
