@@ -3,8 +3,8 @@
 #include "AllocateHierarchy.h"
 
 //아군 스킨 사이즈 조절
-#define SCALE 2.0f
-
+//#define SCALE 2.0f
+#define SCALE 0.02f
 /*
 0 = 스탠드 자세 1
 1 = 스탠드 자세 2
@@ -48,10 +48,12 @@ void TEAM_TEX::Init()
 
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
-	CString path = "resources/xFile/TEAM_AI/";
-	CString filename = "TEAM.X";
+	/*CString path = "resources/xFile/TEAM_AI/";
+	CString filename = "TEAM.X";*/
 	//CString path = "resources/xFile/newMan/";
 	//CString filename = "stand_idle.X";
+	CString path = "resources/xFile/end_team/";
+	CString filename = "team_ani.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -81,9 +83,38 @@ void TEAM_TEX::Update()
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
-
+	if (Keyboard::Get()->KeyDown('1'))
+		//if (GetAsyncKeyState('1') & 0x8000)
+	{
 	//m_AnimaTionIndex = rand() % 5;
+	if (m_AnimaTionIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+		m_AnimaTionIndex++;
 
+		SetAnimationIndex(m_AnimaTionIndex, true);
+	}
+	else if (Keyboard::Get()->KeyDown('2'))
+		//if (GetAsyncKeyState('2') & 0x8000)
+	{
+		if (m_AnimaTionIndex > 0)
+			m_AnimaTionIndex--;
+
+		SetAnimationIndex(m_AnimaTionIndex, true);
+	}
+	else if (Keyboard::Get()->KeyDown(VK_F1))
+		//if (GetAsyncKeyState(VK_F1) & 0x8000)
+	{
+		m_bDrawFrame = !m_bDrawFrame;
+	}
+	else if (Keyboard::Get()->KeyDown(VK_F2))
+		//if (GetAsyncKeyState(VK_F2) & 0x8000)
+	{
+		m_bDrawSkeleton = !m_bDrawSkeleton;
+	}
+	else if (Keyboard::Get()->KeyDown(VK_F3))
+		//if (GetAsyncKeyState(VK_F3) & 0x8000)
+	{
+		m_bWireFrame = !m_bWireFrame;
+	}
 	if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f &&
 		m_AnimaTionIndex == 2)
 	{
@@ -98,6 +129,9 @@ void TEAM_TEX::Update()
 
 	SetAnimationIndex(m_AnimaTionIndex, true);
 
+	Debug->AddText("해드 좌표 :");
+	Debug->AddText(m_head_pos);
+	Debug->EndLine();
 }
 
 void TEAM_TEX::Render()
@@ -105,7 +139,7 @@ void TEAM_TEX::Render()
 	m_numFrame = 0;
 	m_numMesh = 0;
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
-//	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
+	if (m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);
 }
 
 void TEAM_TEX::Load(LPCTSTR path, LPCTSTR filename)
@@ -190,10 +224,13 @@ void TEAM_TEX::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 
-	if (pFrame->Name != NULL && strcmp(pFrame->Name, "mixamorig_Head") == 0)
+	//해드 좌표
+	if (pFrame->Name != NULL && strcmp(pFrame->Name, "Bip01_Head") == 0)
 	{
 		m_head_mat = pFrameEx->CombinedTM * m_matWorld;
-		m_head_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+		
+		m_head_pos = D3DXVECTOR3(m_head_mat._41, m_head_mat._42, m_head_mat._43);
+		
 	}
 
 	if (pParent != NULL)
@@ -269,8 +306,8 @@ void TEAM_TEX::DrawMeshContainer(LPD3DXFRAME pFrame)
 	pMeshContainerEx->pOrigMesh->UnlockVertexBuffer();
 
 	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	//if (m_bWireFrame)
-	if(GSM().Debug_Mode_On)
+	if (m_bWireFrame)
+	//if(GSM().Debug_Mode_On)
 		g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	//D3DXMatrixIdentity(&m_matWorld);
@@ -292,8 +329,9 @@ void TEAM_TEX::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 	FRAME_EX* pParentFrameEx = (FRAME_EX*)pParent;
-
-	g_pDevice->SetTransform(D3DTS_WORLD, &(pFrameEx->CombinedTM));
+	D3DXMATRIXA16 mat;
+	mat = (pFrameEx->CombinedTM) * matS * matR * matT;
+	g_pDevice->SetTransform(D3DTS_WORLD, &mat );
 	//g_pDevice->SetTransform(D3DTS_WORLD, &(pFrameEx->CombinedTM * m_matWorld));
 
 	g_pDevice->SetMaterial(&DXUtil::WHITE_MTRL);
@@ -313,7 +351,7 @@ void TEAM_TEX::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 		g_pDevice->SetFVF(VERTEX_PC::FVF);
 		D3DXMATRIXA16 mat;
 		D3DXMatrixIdentity(&mat);
-
+		mat = matS * matR*matT;
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, &line[0], sizeof(VERTEX_PC));
 		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);

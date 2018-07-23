@@ -35,6 +35,9 @@
 #include "Player_Health_UI.h"
 #include "WireSphere.h"
 
+#include "MARK.h"
+
+
 //#include <fstream>
 
 static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
@@ -130,6 +133,7 @@ SceneHeightmap::SceneHeightmap()
 	m_pPlayer_Heatl_UI = NULL;
 	m_pWireSphere = NULL;
 	//m_MapTest0 = NULL;
+	m_MARK = NULL;
 
 	initCreateMob = false;
 
@@ -160,6 +164,7 @@ SceneHeightmap::~SceneHeightmap()
 	SAFE_RELEASE(m_pMenuUI);
 	SAFE_RELEASE(m_pBulletUI);
 	SAFE_RELEASE(m_pPlayer_Heatl_UI);
+	SAFE_RELEASE(m_MARK);
 
 	//m_pCrosshair->ReleaseAll();
 
@@ -219,6 +224,9 @@ void SceneHeightmap::Init()
 	m_ObjRender = new ObjRender;
 	m_ObjRender->Init();
 
+	m_MARK = new MARK;
+	m_MARK->Init();
+	
 	g_pSceneManager->m_pCurrentLoading++;
 	g_pSceneManager->calcLoadingPercentage();
 	g_pSceneManager->m_pLoadingString = "병사 소집 중...";
@@ -448,6 +456,9 @@ void SceneHeightmap::Update()
 		SAFE_UPDATE(m_pTalk);
 		SAFE_UPDATE(m_pBulletUI);
 		SAFE_UPDATE(m_pPlayer_Heatl_UI);
+
+
+		SAFE_UPDATE(m_MARK);
 
 		/*g_pSoundManager->update3D(0, g_pCamera->getPos(), SpeakerPos, g_pCamera->getDir());
 		if (GetKeyState('1') & 0x8000)
@@ -900,6 +911,7 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_SkyBox);
 	SAFE_RENDER(m_minimap);
 	SAFE_RENDER(m_pBulletUI);
+	SAFE_RENDER(m_MARK);
 	
 	if (m_pGameOverOn) {
 		g_pDevice->SetTexture(0, NULL);
