@@ -125,6 +125,7 @@ private:
 
 	// 사운드 처리용 변수
 	bool deathShout;
+	int giveExp;
 
 public:
 	Mob();
@@ -189,7 +190,8 @@ public:
 	//void LocationChange(int _v1, D3DXVECTOR3 _ChangeLocation) { moveLocation[_v1] = _ChangeLocation; }
 	void LocationSwap();
 	void TemporarySwap();
-
+	int getGiveExp();
+	void setGiveExp(int _exp);
 
 	private:
 		int Weapon_Mode;
