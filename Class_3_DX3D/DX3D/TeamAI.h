@@ -101,5 +101,6 @@ public:
 	void Shooting();
 	void Reloading();
 	void SetReady(bool _ready) { m_Ready = _ready; }
+	void LevelUp();
 };
 

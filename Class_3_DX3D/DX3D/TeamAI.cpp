@@ -166,6 +166,10 @@ void TeamAI::Update()
 		Debug->EndLine();
 	}
 
+	if (m_expToNextLevel <= 0) {
+		LevelUp();
+	}
+
 	/*Debug->AddText("데스 카운트 :");
 	Debug->AddText(m_Death_count);
 
@@ -463,4 +467,10 @@ void TeamAI::Reloading()
 		m_reloading = 0;
 		reloadShout = false;
 	}
+}
+
+void TeamAI::LevelUp()
+{
+	m_level++;
+	m_expToNextLevel = (m_level + 1) * (m_level + 1);
 }

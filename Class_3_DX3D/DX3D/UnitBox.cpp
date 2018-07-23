@@ -136,8 +136,10 @@ void UnitBox::Update()
 	for (auto p : m_pMob) {
 		if (p->getGiveExp() > 0) {
 			for (auto q : m_pTeam) {
-				q->m_expToNextLevel += p->getGiveExp();
-				p->setGiveExp(0);
+				if (q->getStatus() > 0) {
+					q->m_expToNextLevel -= p->getGiveExp();
+					p->setGiveExp(0);
+				}
 			}
 		}
 	}
