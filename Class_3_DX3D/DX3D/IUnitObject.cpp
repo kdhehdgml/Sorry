@@ -148,13 +148,15 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 					if (targetPos != p->GetPosition())
 					{
 						if (D3DXVec3Length(&((m_pos + forwardNormalized * m_moveSpeed * m_currMoveSpeedRate) -
-							p->GetPosition())) < 4.5f)
+							p->GetPosition())) < 4.0f)
 						{
 							m_colision = true;
-							if (abs(m_pos.z - p->GetPosition().z) < 2.0f && m_pos.x < p->GetPosition().x)
+							if (abs(m_pos.z - p->GetPosition().z) < 1.5f && m_pos.x < p->GetPosition().x)
 							{
-								if(m_pos.x > 254.0f)
+								if (m_pos.x > 257.0f && m_pos.y > 27.5f)
 									SetDestination(m_SaveFinal);
+								else
+									TrenchSetDestination(m_SaveFinal);
 								break;
 							}
 							else
@@ -183,7 +185,7 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 									D3DXMatrixRotationY(&FindRotY, Dir);
 									D3DXVec3TransformNormal(&ReDir, &ReDir, &FindRotY);
 									if (D3DXVec3Length(&((m_pos + ReDir * m_moveSpeed * 2.0f * m_currMoveSpeedRate) -
-										p->GetPosition())) < 5.0f)
+										p->GetPosition())) < 4.0f)
 									{
 										switch (m_avoidObstDir)
 										{
@@ -206,7 +208,7 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 								}
 								if (m_moveSpeed > 0 && abs(Dir) > 3.5f)
 								{
-									targetPos = m_pos + (p->GetPosition() - m_pos) - D3DXVECTOR3(5.0f,0,5.0f);
+									targetPos = m_pos + D3DXVECTOR3(4.0f, 0, 4.0f) - (p->GetPosition() - m_pos);
 									m_avoidObstDir = 0;
 								}
 								break;

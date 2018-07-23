@@ -613,17 +613,19 @@ MOB_SITUATION Mob::TrenchFight()
 				{
 					int random = rand() % 6;
 					if (m_pos.z < 306.0f)
-						SetDestination(m_InTrenchLocation[0][random]);
+						TrenchSetDestination(m_InTrenchLocation[0][random]);
 					else if (m_pos.z < 423.0f)
-						SetDestination(m_InTrenchLocation[1][random]);
+						TrenchSetDestination(m_InTrenchLocation[1][random]);
 					else if (m_pos.z < 540.0f)
-						SetDestination(m_InTrenchLocation[2][random]);
+						TrenchSetDestination(m_InTrenchLocation[2][random]);
 
 					m_InTrenchMove = true;
 				}
 				m_DestTime = 0;
 			}	
 		}
+		else
+			TrenchSetDestination(m_finalDestPos);
 	}
 	Debug->AddText("ÄðÅ¸ÀÓ : ");
 	Debug->AddText(m_DestTime);
