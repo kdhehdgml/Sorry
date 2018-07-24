@@ -170,9 +170,9 @@ void UnitBox::Update()
 		{
 			for (size_t i = 0; i < m_game.MaxAmount; i++)
 			{
+				SAFE_UPDATE(m_pMob[i]);
 				if (m_pMob[i]->getHealth() > 0)
 				{
-					SAFE_UPDATE(m_pMob[i]);
 					//장애물뒤에 숨기
 					if (m_pMob[i]->GetPosition().x > NODE_POSITSIZEX + 150.0f)
 					{
@@ -193,10 +193,7 @@ void UnitBox::Render()
 		{
 			for (size_t i = 0; i < m_game.MaxAmount; i++)
 			{
-				if (m_pMob[i]->getHealth() > 0)
-				{
-					SAFE_RENDER(m_pMob[i]);
-				}
+				SAFE_RENDER(m_pMob[i]);
 			}
 		}
 	}

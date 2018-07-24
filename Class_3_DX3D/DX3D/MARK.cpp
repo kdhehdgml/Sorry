@@ -45,7 +45,7 @@ void MARK::Init()
 	m_pBoundingSphere = new BoundingSphere(m_pos, size);
 
 
-	CREATE_OBJ(m_mark, 10.0f, Boss, BOSS_Mark00.obj, level_vehicle_mark_IV_hull.png, x, y, z, xR, yR, zR);
+	CREATE_OBJ(m_mark, 100.0f, Boss, BOSS_Mark00.obj, level_vehicle_mark_IV_hull.png, x, y, z, xR, yR, zR);
 }
 
 void MARK::Update()
