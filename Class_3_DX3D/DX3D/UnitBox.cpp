@@ -138,7 +138,7 @@ void UnitBox::Update()
 		if (p->getGiveExp() > 0) {
 			for (auto q : m_pTeam) {
 				if (q->getStatus() > 0) {
-					//q->m_expToNextLevel -= p->getGiveExp();
+					q->m_expToNextLevel -= p->getGiveExp();
 				}
 			}
 			p->setGiveExp(0);
