@@ -123,6 +123,7 @@ void UnitBox::Update()
 	{
 		for (auto p : m_pTeam)
 		{
+			p->deathShout = true;
 			p->setHealth(0);
 		}
 	}

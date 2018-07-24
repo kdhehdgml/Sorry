@@ -70,12 +70,15 @@ private:
 	bool m_Death;
 
 	// 사운드 처리용 변수
-	bool deathShout;
+	
 	bool reloadShout;
 
 public:
 	TeamAI();
 	~TeamAI();
+
+	bool deathShout;
+
 	int				num;
 	bool			m_move;
 
