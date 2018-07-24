@@ -39,7 +39,7 @@ void MoveOBJ::Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float 
 	sizeFactor *= g_fScale;
 
 
-
+	m_angle = rotationY;
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixScaling(&mS, sizeFactor, sizeFactor, sizeFactor);
 
@@ -84,6 +84,7 @@ void MoveOBJ::Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float 
 void MoveOBJ::Update()
 {
 	D3DXMatrixTranslation(&mT, m_pos.x, m_pos.y, m_pos.z);
+	D3DXMatrixRotationY(&mRY, m_angle);
 
 	m_matWorld = mS * mRX * mRY * mRZ * mT;
 }
