@@ -855,6 +855,9 @@ void SceneHeightmap::Update()
 		Debug->AddText("현재 높이 : ");
 		Debug->AddText(height);
 		Debug->EndLine();
+		Debug->AddText("포격 준비 : ");
+		Debug->AddText(g_pCamera->m_pBombingReady);
+		Debug->EndLine();
 		//Debug->AddText("현재 위치 : ");
 		//Debug->AddText(m_pOldPos);
 		//Debug->EndLine(); // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
@@ -994,7 +997,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 	switch (message) {
 	case WM_LBUTTONDOWN:
-		if (g_pCamera->getBombingMode()) {
+		if (g_pCamera->getBombingMode() && g_pCamera->m_pBombingReady) {
 			vector<Mob*> pMob = *m_pUnit->getPMob();
 			for (auto p : pMob) {
 				BoundingSphere* s = p->getBoundingSphereBody();
@@ -1003,6 +1006,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 					p->setHealth(0);
 				}
 			}
+			g_pCamera->bombing();
 		}
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {
