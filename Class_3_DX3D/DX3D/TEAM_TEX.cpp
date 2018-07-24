@@ -129,9 +129,9 @@ void TEAM_TEX::Update()
 
 	SetAnimationIndex(m_AnimaTionIndex, true);
 
-	Debug->AddText("ÇØµå ÁÂÇ¥ :");
+	/*Debug->AddText("ÇØµå ÁÂÇ¥ :");
 	Debug->AddText(m_head_pos);
-	Debug->EndLine();
+	Debug->EndLine();*/
 }
 
 void TEAM_TEX::Render()

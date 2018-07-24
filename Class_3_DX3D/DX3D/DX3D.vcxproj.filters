@@ -413,7 +413,9 @@
     <ClInclude Include="MARK.h">
       <Filter>소스 파일\AI\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="BOSS.h" />
+    <ClInclude Include="BOSS.h">
+      <Filter>소스 파일\Skin\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -704,7 +706,9 @@
     <ClCompile Include="MARK.cpp">
       <Filter>소스 파일\AI\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="BOSS.cpp" />
+    <ClCompile Include="BOSS.cpp">
+      <Filter>소스 파일\Skin\NPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">
