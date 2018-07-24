@@ -209,6 +209,13 @@ void Camera::Update()
 		ShowCursor(false);
 	}
 
+	if (GetTickCount() > m_pBombingCooldown) {
+		m_pBombingReady = true;
+	}
+	else {
+		m_pBombingReady = false;
+	}
+
 	if (m_running >= 1 && m_running < 10) {
 		m_runningRecoilX = m_running * 0.005f;
 		m_runningRecoilY = m_running * -0.005f;
@@ -718,6 +725,11 @@ float Camera::getDeltaY()
 void Camera::getPMobFromUnitBox(vector<Mob*>* mob)
 {
 	m_pMob = *mob;
+}
+
+void Camera::bombing()
+{
+	m_pBombingCooldown = GetTickCount() + 2000;
 }
 
 D3DXVECTOR3 Camera::getOldPos()
