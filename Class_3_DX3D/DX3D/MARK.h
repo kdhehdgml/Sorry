@@ -24,6 +24,9 @@ enum TANK_PATTEN
 
 class MARK : public IUnitObject
 {
+private:
+	vector<D3DXVECTOR3> m_vecMovePosit;
+	int			MoveNum;
 public:
 	MARK();
 	~MARK();
@@ -32,7 +35,7 @@ public:
 	//충돌박스
 	BoundingSphere* m_pBoundingSphere;
 	LPD3DXMESH		m_pSphere;
-
+	
 	int			MaxHP;
 	int			HP;
 	float		MoveSpeed;
@@ -40,7 +43,6 @@ public:
 	int			ATK;
 	int			DEF;
 	int			state;
-
 	float		size;
 	
 
@@ -50,6 +52,7 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
+	void SetMoving(const D3DXVECTOR3 & pos);
 };
 
 
