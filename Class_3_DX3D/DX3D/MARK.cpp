@@ -7,7 +7,10 @@
 
 MARK::MARK()
 {
-	m_mark = NULL;
+//	m_mark = NULL;
+	m_mark_main = NULL;
+	m_mark_sponson = NULL;
+	m_mark_tire = NULL;
 	x = 743.0f;
 	y = 29.0f;
 	z = 369.0f;
@@ -24,7 +27,10 @@ MARK::MARK()
 
 MARK::~MARK()
 {
-	m_mark->~MoveOBJ();
+	m_mark_main->~MoveOBJ();
+	m_mark_sponson->~MoveOBJ();
+	m_mark_tire->~MoveOBJ();
+	
 	SAFE_DELETE(m_pBoundingSphere);
 	SAFE_RELEASE(m_pSphere);
 }
@@ -45,13 +51,16 @@ void MARK::Init()
 	m_pBoundingSphere = new BoundingSphere(m_pos, size);
 
 
-	CREATE_OBJ(m_mark, 10.0f, Mark, BOSS_Mark00.obj, BOSSTEX.png, x, y, z, xR, yR, zR);
+	//CREATE_OBJ(m_mark, 10.0f, Mark, BOSS_Mark00.obj, BOSSTEX.png, x, y, z, xR, yR, zR);
+	CREATE_OBJ(m_mark_main, 10.0f, boss3, mark.obj, level_vehicle_mark_IV_hull.png, x, y, z, xR, yR, zR);
+	CREATE_OBJ(m_mark_sponson, 6.0f, boss3, sponson.obj, level_vehicle_mark_IV_sponson.png, x, y, z, xR, yR, zR);
+	CREATE_OBJ(m_mark_tire, 10.0f, boss3, tire.obj, level_vehicle_mark_IV_tracks.png, x, y, z, xR, yR, zR);
 }
 
 void MARK::Update()
 {
 	Debug->AddText("탱크 좌표 :");
-	Debug->AddText(m_mark->m_pos);
+	Debug->AddText(m_mark_main->m_pos);
 	Debug->EndLine();
 
 	
@@ -62,7 +71,12 @@ void MARK::Update()
 	{
 	//	IUnitObject::UpdatePositionToDestination();
 
-		m_pBoundingSphere->center = m_mark->m_pos;
+		m_pBoundingSphere->center = m_mark_main->m_pos;
+		
+		
+		m_mark_sponson->m_pos = m_mark_main->m_pos;
+		m_mark_tire->m_pos = m_mark_main->m_pos;
+
 
 		if (Keyboard::Get()->KeyPress(VK_NUMPAD2))
 		{
@@ -75,7 +89,7 @@ void MARK::Update()
 		if (Keyboard::Get()->KeyPress(VK_NUMPAD1))
 		{
 			//state = 좌이동;
-			m_mark->SetRot(0.1f);
+			m_mark_main->SetRot(0.1f);
 		}
 		else if (Keyboard::Get()->KeyPress(VK_NUMPAD3))
 		{
@@ -89,17 +103,17 @@ void MARK::Update()
 		switch (state)
 		{
 		case 좌이동:
-			m_mark->m_pos.z = m_mark->m_pos.z + MoveSpeed;
+			m_mark_main->m_pos.z = m_mark_main->m_pos.z + MoveSpeed;
 			break;
 		case 우이동:
-			m_mark->m_pos.z = m_mark->m_pos.z - MoveSpeed;
+			m_mark_main->m_pos.z = m_mark_main->m_pos.z - MoveSpeed;
 			break;
 
 		case 상이동:
-			m_mark->m_pos.x = m_mark->m_pos.x + MoveSpeed;
+			m_mark_main->m_pos.x = m_mark_main->m_pos.x + MoveSpeed;
 			break;
 		case 하이동:
-			m_mark->m_pos.x = m_mark->m_pos.x - MoveSpeed;
+			m_mark_main->m_pos.x = m_mark_main->m_pos.x - MoveSpeed;
 			break;
 
 			//위에까지 테스트용
@@ -111,7 +125,9 @@ void MARK::Update()
 			break;
 		}
 
-		m_mark->Update();
+		m_mark_main->Update();
+		m_mark_sponson->Update();
+		m_mark_tire->Update();
 	}
 
 }
@@ -121,7 +137,9 @@ void MARK::Render()
 	//살아있을때만 렌더
 	if (HP > 0)
 	{
-		SAFE_RENDER(m_mark);
+		SAFE_RENDER(m_mark_main);
+		SAFE_RENDER(m_mark_sponson);
+		SAFE_RENDER(m_mark_tire);
 
 		D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);

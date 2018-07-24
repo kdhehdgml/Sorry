@@ -169,6 +169,7 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="BOSS.h" />
     <ClInclude Include="BulletUI.h" />
     <ClInclude Include="CD3Mesh.h" />
     <ClInclude Include="eventTalk.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="BOSS.cpp" />
     <ClCompile Include="BulletUI.cpp" />
     <ClCompile Include="CD3Mesh.cpp" />
     <ClCompile Include="eventTalk.cpp" />

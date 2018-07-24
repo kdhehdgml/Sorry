@@ -413,6 +413,7 @@
     <ClInclude Include="MARK.h">
       <Filter>소스 파일\AI\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="BOSS.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -703,6 +704,7 @@
     <ClCompile Include="MARK.cpp">
       <Filter>소스 파일\AI\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="BOSS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

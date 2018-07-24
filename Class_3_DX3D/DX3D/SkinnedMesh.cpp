@@ -2,7 +2,8 @@
 #include "SkinnedMesh.h"
 #include "AllocateHierarchy.h"
 
-#define SCALE 0.1f
+//#define SCALE 0.1f
+#define SCALE 0.01f
 
 SkinnedMesh::SkinnedMesh()
 {
@@ -45,10 +46,15 @@ void SkinnedMesh::Init()
 	//CString filename = "stand_idle.X";
 
 	//¿øº»
-	CString path = "resources/xFile/MONSTER_AI/";
-	CString filename = "MOB_ANI_ALL2.X";
+	//CString path = "resources/xFile/MONSTER_AI/";
+	//CString filename = "MOB_ANI_ALL2.X";
+	CString path = "resources/xFile/boss/";
+	CString filename = "Mark.X";
+
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
+
+	m_scale = SCALE;
 }
 
 void SkinnedMesh::Load(LPCTSTR path, LPCTSTR filename)
@@ -58,6 +64,7 @@ void SkinnedMesh::Load(LPCTSTR path, LPCTSTR filename)
 	CString fullPath(path);
 	fullPath.Append(filename);
 
+	
 	D3DXLoadMeshHierarchyFromX(fullPath, D3DXMESH_MANAGED, g_pDevice,
 		&alloc, NULL, &m_pRootFrame, &m_pAnimController);
 
@@ -119,7 +126,7 @@ void SkinnedMesh::Update()
 	D3DXMATRIXA16 matR;
 
 
-
+	
 	if (Keyboard::Get()->KeyDown('1'))
 //if (GetAsyncKeyState('1') & 0x8000)
 	{
@@ -151,16 +158,16 @@ void SkinnedMesh::Update()
 	{
 		m_bWireFrame = !m_bWireFrame;
 	}
-
+	//m_scale += 1.f;
 	//Debug->AddText(m_gun_pos);
 	//Debug->EndLine();
 
 	//IUnitObject::UpdateKeyboardState();
 	//IUnitObject::UpdatePositionToDestination();
 
-
+	Debug->AddText(m_scale);
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixScaling(&matS, SCALE, SCALE, SCALE);
+	D3DXMatrixScaling(&matS, m_scale, m_scale, m_scale);
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 	D3DXMatrixRotationY(&matR, m_angle);

@@ -28,7 +28,10 @@ public:
 	MARK();
 	~MARK();
 
-	MoveOBJ*		m_mark;
+	MoveOBJ*		m_mark_main;
+	MoveOBJ*		m_mark_sponson;
+	MoveOBJ*		m_mark_tire;
+
 	//충돌박스
 	BoundingSphere* m_pBoundingSphere;
 	LPD3DXMESH		m_pSphere;
