@@ -65,6 +65,8 @@ private:
 	int reloadTime; // 재장전 사운드 재생까지의 지연시간
 
 	bool m_pBombingMode;
+	int m_pBombingCooldown;
+
 
 	D3DXVECTOR3 oldPos;
 
@@ -96,7 +98,9 @@ public:
 	float getDeltaY();
 	bool mouseLock;
 	bool isPaused;
+	bool m_pBombingReady;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
+	void bombing();
 
 	const D3DXVECTOR3& GetPosition() { return m_eye; }
 	D3DXMATRIXA16* GetViewMatrix() { return &m_matView; }
