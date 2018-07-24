@@ -184,7 +184,7 @@ void Camera::Update()
 		}
 	}
 	if (GetAsyncKeyState('V') & 0x0001) {
-		m_freeCameraMode = !m_freeCameraMode;
+		setFreeCameraMode(!getFreeCameraMode());
 		if (m_freeCameraMode) {
 			ShowCursor(true);
 		}
@@ -195,13 +195,15 @@ void Camera::Update()
 	if (GetAsyncKeyState('M') & 0x0001) {
 		if (m_pBombingMode) {
 			m_pBombingMode = false;
-			m_freeCameraMode = false;
+			setFreeCameraMode(false);
+			pos = oldPos;
 		}
 		else {
 			m_pBombingMode = true;
-			m_freeCameraMode = true;
+			setFreeCameraMode(true);
 			m_rotX = -0.34f;
 			m_rotY = 1.615f;
+			oldPos = pos;
 			pos.x = 189.43f;
 			pos.y = 84.4f;
 			pos.z = 381.01f;
