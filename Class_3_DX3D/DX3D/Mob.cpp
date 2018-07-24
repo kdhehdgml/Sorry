@@ -767,8 +767,6 @@ void Mob::Act_Die()
 {
 	status = 0;
 
-	giveExp = 1;
-
 	m_Death_count++;
 
 	if (m_Death_count == 1)
@@ -785,6 +783,7 @@ void Mob::Act_Die()
 	}
 	if (!deathShout)
 	{
+		giveExp = 1;
 		g_pSoundManager->updateSpeaker(sType::VOICE_DEATH, NULL, m_pos);
 		deathShout = true;
 	}
