@@ -993,6 +993,17 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	m_pLParam = lParam;
 
 	switch (message) {
+	case WM_LBUTTONDOWN:
+		if (g_pCamera->getBombingMode()) {
+			vector<Mob*> pMob = *m_pUnit->getPMob();
+			for (auto p : pMob) {
+				BoundingSphere* s = p->getBoundingSphereBody();
+				bool getHit = m_pWireSphere->getHit(s);
+				if (getHit) {
+					p->setHealth(0);
+				}
+			}
+		}
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {
 			//m_pScopeOn = true;
