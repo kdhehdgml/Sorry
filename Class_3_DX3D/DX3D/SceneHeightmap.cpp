@@ -893,7 +893,7 @@ void SceneHeightmap::Update()
 		/*Debug->AddText("volume(music) : ");
 		Debug->AddText(volume_music);
 		Debug->EndLine();*/
-		m_pWireSphere->m_pRenderToggle = g_pCamera->getFreeCameraMode();
+		//m_pWireSphere->m_pRenderToggle = g_pCamera->getFreeCameraMode();
 		OnUpdateIScene();
 	}
 	else {
