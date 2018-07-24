@@ -208,6 +208,10 @@ void IUnitObject::UpdateTargetPosition(OUT D3DXVECTOR3 & targetPos)
 								}
 								if (m_moveSpeed > 0 && abs(Dir) > 3.5f)
 								{
+									if (p->GetPosition() - m_pos)
+									{
+
+									}
 									targetPos = m_pos + D3DXVECTOR3(4.0f, 0, 4.0f) - (p->GetPosition() - m_pos);
 									m_avoidObstDir = 0;
 								}
