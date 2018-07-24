@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SoundControl.h"
 
-#define ERRCHK(TEXT) 	if (result != FMOD_OK) cout << TEXT << " FAIL" << endl; else cout << TEXT << " OK" << endl
+#define ERRCHK 	if (result != FMOD_OK) return false; else return true
 
 #define INTERFACE_UPDATETIME 50
 
@@ -110,7 +110,7 @@ bool SoundControl::isPlaying(int nIndex)
 	if (nIndex < m_nSoundCount)
 		if (!(FMOD_Channel_IsPlaying(m_ppChannel[nIndex], m_isPlaying)))
 			return true;
-
+	
 	return false;
 }
 
@@ -122,9 +122,10 @@ void SoundControl::volumeControl(int nIndex, float volume)
 	}
 }
 
-void SoundControl::setSpeaker(int nIndex, FMOD_VECTOR sPos, FMOD_VECTOR sVel)
+bool SoundControl::setSpeaker(int nIndex, FMOD_VECTOR sPos, FMOD_VECTOR sVel)
 {	
-	FMOD_Channel_Set3DAttributes(m_ppChannel[nIndex], &sPos, &sVel, 0);
+	result = FMOD_Channel_Set3DAttributes(m_ppChannel[nIndex], &sPos, &sVel, 0);
+	ERRCHK;
 	//FMOD_Channel_SetVolume(m_ppChannel[nIndex], volume);
 }
 
