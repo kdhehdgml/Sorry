@@ -123,6 +123,7 @@ void UnitBox::Update()
 	{
 		for (auto p : m_pTeam)
 		{
+			p->deathShout = true;
 			p->setHealth(0);
 		}
 	}
@@ -138,9 +139,9 @@ void UnitBox::Update()
 			for (auto q : m_pTeam) {
 				if (q->getStatus() > 0) {
 					q->m_expToNextLevel -= p->getGiveExp();
-					p->setGiveExp(0);
 				}
 			}
+			p->setGiveExp(0);
 		}
 	}
 	

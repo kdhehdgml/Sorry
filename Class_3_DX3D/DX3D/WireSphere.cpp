@@ -5,12 +5,14 @@
 WireSphere::WireSphere()
 {
 	m_pSphere = NULL;
+	m_pBoundingSphere = NULL;
 }
 
 
 WireSphere::~WireSphere()
 {
 	SAFE_RELEASE(m_pSphere);
+	SAFE_DELETE(m_pBoundingSphere);
 }
 
 D3DXVECTOR3 WireSphere::getPos()
@@ -26,11 +28,13 @@ void WireSphere::setPos(D3DXVECTOR3 _pos)
 void WireSphere::Init()
 {
 	D3DXCreateSphere(g_pDevice, 35.0f, 10, 10, &m_pSphere, NULL);
+	m_pBoundingSphere = new BoundingSphere(m_pos, 35.0f);
 	m_pRenderToggle = false;
 }
 
 void WireSphere::Update()
 {
+	m_pBoundingSphere->center = m_pos;
 	if (m_pRenderToggle) {
 		m_rot.y += 0.02f;
 	}
@@ -52,4 +56,19 @@ void WireSphere::Render()
 		m_pSphere->DrawSubset(0);
 		g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
+}
+
+BoundingSphere * WireSphere::getBoundingSphere()
+{
+	return m_pBoundingSphere;
+}
+
+bool WireSphere::getHit(BoundingSphere * _sphere)
+{
+	D3DXVECTOR3 posDiff = m_pos - _sphere->center;
+	float distance = sqrtf(D3DXVec3Dot(&posDiff, &posDiff));
+	if (distance <= _sphere->radius + 35.0f) {
+		return true;
+	}
+	return false;
 }

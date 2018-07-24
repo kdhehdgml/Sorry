@@ -184,7 +184,7 @@ void Camera::Update()
 		}
 	}
 	if (GetAsyncKeyState('V') & 0x0001) {
-		m_freeCameraMode = !m_freeCameraMode;
+		setFreeCameraMode(!getFreeCameraMode());
 		if (m_freeCameraMode) {
 			ShowCursor(true);
 		}
@@ -195,11 +195,11 @@ void Camera::Update()
 	if (GetAsyncKeyState('M') & 0x0001) {
 		if (m_pBombingMode) {
 			m_pBombingMode = false;
-			m_freeCameraMode = false;
+			setFreeCameraMode(false);
 		}
 		else {
 			m_pBombingMode = true;
-			m_freeCameraMode = true;
+			setFreeCameraMode(true);
 			m_rotX = -0.34f;
 			m_rotY = 1.615f;
 			pos.x = 189.43f;
@@ -207,6 +207,13 @@ void Camera::Update()
 			pos.z = 381.01f;
 		}
 		ShowCursor(false);
+	}
+
+	if (GetTickCount() > m_pBombingCooldown) {
+		m_pBombingReady = true;
+	}
+	else {
+		m_pBombingReady = false;
 	}
 
 	if (m_running >= 1 && m_running < 10) {
@@ -718,6 +725,11 @@ float Camera::getDeltaY()
 void Camera::getPMobFromUnitBox(vector<Mob*>* mob)
 {
 	m_pMob = *mob;
+}
+
+void Camera::bombing()
+{
+	m_pBombingCooldown = GetTickCount() + 2000;
 }
 
 D3DXVECTOR3 Camera::getOldPos()

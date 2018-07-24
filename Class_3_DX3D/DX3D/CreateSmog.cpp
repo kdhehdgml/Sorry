@@ -31,7 +31,7 @@ void CreateSmog::Init()
 
 	//m_pTex->GetSurfaceLevel();
 
-	srand(time(NULL));
+	//srand(time(NULL));
 
 	D3DXMatrixIdentity(&m_matWorld);
 	//

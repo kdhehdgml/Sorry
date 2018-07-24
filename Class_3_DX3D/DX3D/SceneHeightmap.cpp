@@ -472,6 +472,9 @@ void SceneHeightmap::Update()
 		float height;
 		D3DXVECTOR3 currentPos = g_pCamera->getPos();
 		bool isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
+		if (!g_pCamera->getFreeCameraMode() && height > 20.0f) {
+			g_pCamera->setPos(m_pOldPos);
+		}
 		/*if (!g_pCamera->getFreeCameraMode()) {
 		float oldHeight;
 		isIntersected = g_pCurrentMap->GetHeight(oldHeight, m_pOldPos);
@@ -678,7 +681,7 @@ void SceneHeightmap::Update()
 		else {
 			m_pTalkOn = false;
 		}
-		vector<TeamAI*>* pTeam = m_pUnit->getPTeam();
+		vector<TeamAI*> pTeam = *m_pUnit->getPTeam();
 		if ((GetAsyncKeyState('E') & 0x0001))
 		{
 			if (m_pTalkOn) {
@@ -689,10 +692,10 @@ void SceneHeightmap::Update()
 				CString _str = to_string(teamIndex).c_str();
 				m_str.Append(_str);
 				m_str.Append(_T("번 아군의 레벨 : "));
-				_str = to_string(pTeam->at(teamIndex)->m_level).c_str();
+				_str = to_string(pTeam[teamIndex]->m_level).c_str();
 				m_str.Append(_str);
 				m_str.Append(_T("\n다음 레벨까지 필요한 경험치 : "));
-				_str = to_string(pTeam->at(teamIndex)->m_expToNextLevel).c_str();
+				_str = to_string(pTeam[teamIndex]->m_expToNextLevel).c_str();
 				m_str.Append(_str);
 				m_talkFontCount = GetTickCount() + 3000;
 			}
@@ -849,9 +852,12 @@ void SceneHeightmap::Update()
 		/*Debug->AddText("아군과의 거리 : ");
 		Debug->AddText(minDistance);
 		Debug->EndLine();*/
-		/*Debug->AddText("현재 높이 : ");
+		Debug->AddText("현재 높이 : ");
 		Debug->AddText(height);
-		Debug->EndLine();*/
+		Debug->EndLine();
+		Debug->AddText("포격 준비 : ");
+		Debug->AddText(g_pCamera->m_pBombingReady);
+		Debug->EndLine();
 		//Debug->AddText("현재 위치 : ");
 		//Debug->AddText(m_pOldPos);
 		//Debug->EndLine(); // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
@@ -890,7 +896,7 @@ void SceneHeightmap::Update()
 		/*Debug->AddText("volume(music) : ");
 		Debug->AddText(volume_music);
 		Debug->EndLine();*/
-		m_pWireSphere->m_pRenderToggle = g_pCamera->getFreeCameraMode();
+		//m_pWireSphere->m_pRenderToggle = g_pCamera->getFreeCameraMode();
 		OnUpdateIScene();
 	}
 	else {
@@ -990,6 +996,18 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	m_pLParam = lParam;
 
 	switch (message) {
+	case WM_LBUTTONDOWN:
+		if (g_pCamera->getBombingMode() && g_pCamera->m_pBombingReady) {
+			vector<Mob*> pMob = *m_pUnit->getPMob();
+			for (auto p : pMob) {
+				BoundingSphere* s = p->getBoundingSphereBody();
+				bool getHit = m_pWireSphere->getHit(s);
+				if (getHit) {
+					p->setHealth(0);
+				}
+			}
+			g_pCamera->bombing();
+		}
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {
 			//m_pScopeOn = true;

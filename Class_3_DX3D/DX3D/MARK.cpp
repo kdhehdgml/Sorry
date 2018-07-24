@@ -7,10 +7,7 @@
 
 MARK::MARK()
 {
-//	m_mark = NULL;
-	m_mark_main = NULL;
-	m_mark_sponson = NULL;
-	m_mark_tire = NULL;
+	m_mark = NULL;
 	x = 743.0f;
 	y = 29.0f;
 	z = 369.0f;
@@ -21,23 +18,19 @@ MARK::MARK()
 	yR = D3DX_PI / 2;
 	zR = 0.0f;
 
-
 }
 
 
 MARK::~MARK()
 {
-	m_mark_main->~MoveOBJ();
-	m_mark_sponson->~MoveOBJ();
-	m_mark_tire->~MoveOBJ();
-	
+	m_mark->~MoveOBJ();
 	SAFE_DELETE(m_pBoundingSphere);
 	SAFE_RELEASE(m_pSphere);
 }
 
 void MARK::Init()
 {
-
+	MoveNum = 0;
 	MaxHP = 100;
 	HP = 100;
 	MoveSpeed = 0.1f;
@@ -45,38 +38,49 @@ void MARK::Init()
 	DEF = 1;
 	state = 0;
 	size = 5.0f;
-
+	m_pos = { 743.0f ,29.0f,369.0f };
+	m_destPos = m_pos;
+	m_finalDestPos = m_pos;
+	m_vecMovePosit.push_back(D3DXVECTOR3(324.0f, 0, 367.0f));
+	m_vecMovePosit.push_back(D3DXVECTOR3(252.0f, 0, 523.0f));
+	m_vecMovePosit.push_back(D3DXVECTOR3(252.0f, 0, 426.0f));
+	m_vecMovePosit.push_back(D3DXVECTOR3(264.0f, 0, 408.0f));
+	m_vecMovePosit.push_back(D3DXVECTOR3(264.0f, 0, 372.0f));
+	m_vecMovePosit.push_back(D3DXVECTOR3(248.0f, 0, 355.0f));
+	m_vecMovePosit.push_back(D3DXVECTOR3(260.0f, 0, 335.0f));
+	m_vecMovePosit.push_back(D3DXVECTOR3(264.0f, 0, 301.0f));
+	m_vecMovePosit.push_back(D3DXVECTOR3(264.0f, 0, 230.0f));
+	m_vecMovePosit.push_back(D3DXVECTOR3(280.0f, 0, 230.0f));
 
 	D3DXCreateSphere(g_pDevice, size, 10, 10, &m_pSphere, NULL);
 	m_pBoundingSphere = new BoundingSphere(m_pos, size);
 
 
-	//CREATE_OBJ(m_mark, 10.0f, Mark, BOSS_Mark00.obj, BOSSTEX.png, x, y, z, xR, yR, zR);
-	CREATE_OBJ(m_mark_main, 10.0f, boss3, mark.obj, level_vehicle_mark_IV_hull.png, x, y, z, xR, yR, zR);
-	CREATE_OBJ(m_mark_sponson, 6.0f, boss3, sponson.obj, level_vehicle_mark_IV_sponson.png, x, y, z, xR, yR, zR);
-	CREATE_OBJ(m_mark_tire, 10.0f, boss3, tire.obj, level_vehicle_mark_IV_tracks.png, x, y, z, xR, yR, zR);
+	CREATE_OBJ(m_mark, 10.0f, Boss, BOSS_Mark00.obj, level_vehicle_mark_IV_hull.png, x, y, z, xR, yR, zR);
 }
 
 void MARK::Update()
 {
 	Debug->AddText("탱크 좌표 :");
-	Debug->AddText(m_mark_main->m_pos);
+	Debug->AddText(m_mark->m_pos);
 	Debug->EndLine();
 
+	UpdatePositionToDestination();
+	if (m_finalDestPos.x == m_pos.x && m_finalDestPos.z == m_pos.z && MoveNum < 10)
+	{
+		SetMoving(m_vecMovePosit[MoveNum]);
+	}
+	m_mark->m_pos = m_pos;
 	
-	
+
+
 
 	//살아있을때만 작동
 	if (HP > 0)
 	{
 	//	IUnitObject::UpdatePositionToDestination();
 
-		m_pBoundingSphere->center = m_mark_main->m_pos;
-		
-		
-		m_mark_sponson->m_pos = m_mark_main->m_pos;
-		m_mark_tire->m_pos = m_mark_main->m_pos;
-
+		m_pBoundingSphere->center = m_mark->m_pos;
 
 		if (Keyboard::Get()->KeyPress(VK_NUMPAD2))
 		{
@@ -89,7 +93,7 @@ void MARK::Update()
 		if (Keyboard::Get()->KeyPress(VK_NUMPAD1))
 		{
 			//state = 좌이동;
-			m_mark_main->SetRot(0.1f);
+			m_mark->SetRot(0.1f);
 		}
 		else if (Keyboard::Get()->KeyPress(VK_NUMPAD3))
 		{
@@ -103,17 +107,17 @@ void MARK::Update()
 		switch (state)
 		{
 		case 좌이동:
-			m_mark_main->m_pos.z = m_mark_main->m_pos.z + MoveSpeed;
+			m_mark->m_pos.z = m_mark->m_pos.z + MoveSpeed;
 			break;
 		case 우이동:
-			m_mark_main->m_pos.z = m_mark_main->m_pos.z - MoveSpeed;
+			m_mark->m_pos.z = m_mark->m_pos.z - MoveSpeed;
 			break;
 
 		case 상이동:
-			m_mark_main->m_pos.x = m_mark_main->m_pos.x + MoveSpeed;
+			m_mark->m_pos.x = m_mark->m_pos.x + MoveSpeed;
 			break;
 		case 하이동:
-			m_mark_main->m_pos.x = m_mark_main->m_pos.x - MoveSpeed;
+			m_mark->m_pos.x = m_mark->m_pos.x - MoveSpeed;
 			break;
 
 			//위에까지 테스트용
@@ -125,9 +129,10 @@ void MARK::Update()
 			break;
 		}
 
-		m_mark_main->Update();
-		m_mark_sponson->Update();
-		m_mark_tire->Update();
+		m_mark->Update();
+		if (m_finalDestPos.x == m_pos.x && m_finalDestPos.z == m_pos.z)
+			MoveNum++;
+
 	}
 
 }
@@ -137,9 +142,7 @@ void MARK::Render()
 	//살아있을때만 렌더
 	if (HP > 0)
 	{
-		SAFE_RENDER(m_mark_main);
-		SAFE_RENDER(m_mark_sponson);
-		SAFE_RENDER(m_mark_tire);
+		SAFE_RENDER(m_mark);
 
 		D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
@@ -149,5 +152,12 @@ void MARK::Render()
 	}
 
 
+}
+
+void MARK::SetMoving(const D3DXVECTOR3 & pos)
+{
+	m_destPos = pos;
+	m_finalDestPos = pos;
+	m_SaveFinal = pos;
 }
 

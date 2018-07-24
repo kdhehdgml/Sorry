@@ -5,6 +5,7 @@ class WireSphere :
 {
 private:
 	LPD3DXMESH		m_pSphere;
+	BoundingSphere* m_pBoundingSphere;
 public:
 	WireSphere();
 	~WireSphere();
@@ -16,5 +17,8 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
+
+	BoundingSphere* getBoundingSphere();
+	bool getHit(BoundingSphere* _sphere);
 };
 
