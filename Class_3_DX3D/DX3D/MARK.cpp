@@ -66,7 +66,7 @@ void MARK::Update()
 	Debug->EndLine();
 
 	UpdatePositionToDestination();
-	if (m_finalDestPos.x == m_pos.x && m_finalDestPos.z == m_pos.z)
+	if (m_finalDestPos.x == m_pos.x && m_finalDestPos.z == m_pos.z && MoveNum < 10)
 	{
 		SetMoving(m_vecMovePosit[MoveNum]);
 	}
