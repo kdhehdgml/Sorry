@@ -119,11 +119,11 @@ void Player_hands::Update()
 	Debug->AddText(health);
 	Debug->EndLine();
 	//렌더 껏다키기
-	if (GetAsyncKeyState('V') & 0x0001 ||
+	/*if (GetAsyncKeyState('V') & 0x0001 ||
 		GetAsyncKeyState('M') & 0x0001)
 	{
 		m_Render = !m_Render;
-	}
+	}*/
 
 	m_Render = !g_pCamera->getFreeCameraMode();
 

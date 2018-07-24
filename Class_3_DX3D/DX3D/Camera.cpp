@@ -128,7 +128,8 @@ void Camera::Update()
 
 	m_prev_rotX = m_rotX;
 
-	if (!m_pBombingMode) {
+	if (!m_pBombingMode)
+	{
 		if (GetKeyState('A') & 0x8000)
 		{
 			D3DXVECTOR3 v;
@@ -183,8 +184,6 @@ void Camera::Update()
 		}
 	}
 	if (GetAsyncKeyState('V') & 0x0001) {
-		//m_freeCameraMode = !m_freeCameraMode;
-		g_pCamera->setFreeCameraMode(!g_pCamera->getFreeCameraMode());
 		m_freeCameraMode = !m_freeCameraMode;
 		if (m_freeCameraMode) {
 			ShowCursor(true);
