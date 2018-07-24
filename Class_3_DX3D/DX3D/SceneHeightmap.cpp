@@ -472,6 +472,9 @@ void SceneHeightmap::Update()
 		float height;
 		D3DXVECTOR3 currentPos = g_pCamera->getPos();
 		bool isIntersected = g_pCurrentMap->GetHeight(height, currentPos);
+		if (!g_pCamera->getFreeCameraMode() && height > 20.0f) {
+			g_pCamera->setPos(m_pOldPos);
+		}
 		/*if (!g_pCamera->getFreeCameraMode()) {
 		float oldHeight;
 		isIntersected = g_pCurrentMap->GetHeight(oldHeight, m_pOldPos);
@@ -849,9 +852,9 @@ void SceneHeightmap::Update()
 		/*Debug->AddText("아군과의 거리 : ");
 		Debug->AddText(minDistance);
 		Debug->EndLine();*/
-		/*Debug->AddText("현재 높이 : ");
+		Debug->AddText("현재 높이 : ");
 		Debug->AddText(height);
-		Debug->EndLine();*/
+		Debug->EndLine();
 		//Debug->AddText("현재 위치 : ");
 		//Debug->AddText(m_pOldPos);
 		//Debug->EndLine(); // 숫자 4 누르면 나오는 카메라 디버그 텍스트에 있음
