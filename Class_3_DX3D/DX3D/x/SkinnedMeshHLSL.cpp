@@ -35,13 +35,13 @@ SkinnedMeshHLSL::~SkinnedMeshHLSL()
 {
 	SAFE_RELEASE(m_pSphereMesh);
 	
-	Objects::RemoveFromTagList(TAG_PLAYER, this);
+	//Objects::RemoveFromTagList(TAG_PLAYER, this);
 	Shaders::Get()->RemoveList(this, m_renderMode);
 }
 
 void SkinnedMeshHLSL::Init()
 {
-	Objects::AddToTagList(TAG_PLAYER, this);
+	//Objects::AddToTagList(TAG_PLAYER, this);
 	m_renderMode = RenderMode::RenderMode_Default;
 	Shaders::Get()->AddList(this, m_renderMode);
 	//SetAsCameraTarget();
@@ -83,7 +83,7 @@ void SkinnedMeshHLSL::Init()
 
 void SkinnedMeshHLSL::Load(LPCTSTR path, LPCTSTR filename)
 {
-	m_pEffect = Shaders::Get()->GetShader(_T("./shader/skinnedmesh.fx"));
+	m_pEffect = Shaders::Get()->GetShader(_T("shader/skinnedmesh.fx"));
 
 	AllocateHierarchyHLSL alloc(path);
 
@@ -92,8 +92,6 @@ void SkinnedMeshHLSL::Load(LPCTSTR path, LPCTSTR filename)
 	
 	D3DXLoadMeshHierarchyFromX(fullPath, D3DXMESH_MANAGED, g_pDevice,
 		&alloc, NULL, &m_pRootFrame, &m_pAC);
-	int i=0;
-	i++;
 
 	SetupBoneMatrixPointers(m_pRootFrame);
 

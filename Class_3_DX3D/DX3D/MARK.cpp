@@ -60,6 +60,8 @@ void MARK::Init()
 	m_pos = { 743.0f ,29.0f,369.0f };
 	m_destPos = m_pos;
 	m_finalDestPos = m_pos;
+
+	//탱크 이동좌표
 	m_vecMovePosit.push_back(D3DXVECTOR3(324.0f, 0, 367.0f));
 	m_vecMovePosit.push_back(D3DXVECTOR3(252.0f, 0, 523.0f));
 	m_vecMovePosit.push_back(D3DXVECTOR3(252.0f, 0, 426.0f));
@@ -101,52 +103,50 @@ void MARK::Update()
 
 		m_pBoundingSphere->center = m_mark_main->m_pos;
 
-		if (Keyboard::Get()->KeyPress(VK_NUMPAD2))
-		{
-			state = 하이동;
-		}
-		else if (Keyboard::Get()->KeyPress(VK_NUMPAD5))
-		{
-			state = 상이동;
-		}
-		if (Keyboard::Get()->KeyPress(VK_NUMPAD1))
-		{
-			//state = 좌이동;
-			m_mark_main->SetRot(0.1f);
-		}
-		else if (Keyboard::Get()->KeyPress(VK_NUMPAD3))
-		{
-			state = 우이동;
-		}
-		else if (Keyboard::Get()->KeyPress(VK_NUMPAD4))
-		{
-			state = 멈춤;
-		}
-		//탱크 상태값
-		switch (state)
-		{
-		case 좌이동:
-			m_mark_main->m_pos.z = m_mark_main->m_pos.z + MoveSpeed;
-			break;
-		case 우이동:
-			m_mark_main->m_pos.z = m_mark_main->m_pos.z - MoveSpeed;
-			break;
-
-		case 상이동:
-			m_mark_main->m_pos.x = m_mark_main->m_pos.x + MoveSpeed;
-			break;
-		case 하이동:
-			m_mark_main->m_pos.x = m_mark_main->m_pos.x - MoveSpeed;
-			break;
-
-			//위에까지 테스트용
-		case 이동:
-			break;
-		case 기관총공격:
-			break;
-		case 참호부수기:
-			break;
-		}
+		//if (Keyboard::Get()->KeyPress(VK_NUMPAD2))
+		//{
+		//	state = 하이동;
+		//}
+		//else if (Keyboard::Get()->KeyPress(VK_NUMPAD5))
+		//{
+		//	state = 상이동;
+		//}
+		//if (Keyboard::Get()->KeyPress(VK_NUMPAD1))
+		//{
+		//	//state = 좌이동;
+		//	m_mark_main->SetRot(0.1f);
+		//}
+		//else if (Keyboard::Get()->KeyPress(VK_NUMPAD3))
+		//{
+		//	state = 우이동;
+		//}
+		//else if (Keyboard::Get()->KeyPress(VK_NUMPAD4))
+		//{
+		//	state = 멈춤;
+		//}
+		////탱크 상태값
+		//switch (state)
+		//{
+		//case 좌이동:
+		//	m_mark_main->m_pos.z = m_mark_main->m_pos.z + MoveSpeed;
+		//	break;
+		//case 우이동:
+		//	m_mark_main->m_pos.z = m_mark_main->m_pos.z - MoveSpeed;
+		//	break;
+		//case 상이동:
+		//	m_mark_main->m_pos.x = m_mark_main->m_pos.x + MoveSpeed;
+		//	break;
+		//case 하이동:
+		//	m_mark_main->m_pos.x = m_mark_main->m_pos.x - MoveSpeed;
+		//	break;
+		//	//위에까지 테스트용
+		//case 이동:
+		//	break;
+		//case 기관총공격:
+		//	break;
+		//case 참호부수기:
+		//	break;
+		//}
 
 		m_mark_main->Update();
 		if (m_finalDestPos.x == m_pos.x && m_finalDestPos.z == m_pos.z)
@@ -204,7 +204,7 @@ void MARK::Render()
 		g_pDevice->SetTexture(0, NULL);
 		m_pSphere->DrawSubset(0);
 	}
-	//	메시는 재질이 다른 메시별로 부분집합을 이루공 ㅣㅆ다.
+	//	메시는 재질이 다른 메시별로 부분집합을 이루고있다
 
 	//	이들을 루프를 수행해서 모두 그려준다.
 

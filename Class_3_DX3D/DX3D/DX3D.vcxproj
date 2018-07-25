@@ -193,7 +193,6 @@
     <ClInclude Include="Player_hands.h" />
     <ClInclude Include="Player_Health_UI.h" />
     <ClInclude Include="SceneMainScreen.h" />
-    <ClInclude Include="SceneShader.h" />
     <ClInclude Include="seqManager.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="ShadowMappingShader.h" />
@@ -302,7 +301,6 @@
     <ClCompile Include="Player_hands.cpp" />
     <ClCompile Include="Player_Health_UI.cpp" />
     <ClCompile Include="SceneMainScreen.cpp" />
-    <ClCompile Include="SceneShader.cpp" />
     <ClCompile Include="seqManager.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="ShadowMappingShader.cpp" />

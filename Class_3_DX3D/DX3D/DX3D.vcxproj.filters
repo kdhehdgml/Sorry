@@ -326,9 +326,6 @@
     <ClInclude Include="ObjRender.h">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClInclude>
-    <ClInclude Include="SceneShader.h">
-      <Filter>소스 파일\4.Scene</Filter>
-    </ClInclude>
     <ClInclude Include="SceneLoading.h">
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
@@ -638,9 +635,6 @@
     </ClCompile>
     <ClCompile Include="ObjRender.cpp">
       <Filter>소스 파일\3.Object\OBJ</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneShader.cpp">
-      <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
     <ClCompile Include="SceneLoading.cpp">
       <Filter>소스 파일\4.Scene</Filter>
