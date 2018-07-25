@@ -46,7 +46,7 @@ void SkinnedMeshHLSL::Init()
 	Shaders::Get()->AddList(this, m_renderMode);
 	//SetAsCameraTarget();
 
-	D3DXCreateSphere(DX::GetDevice(), 0.01f, 10, 10, &m_pSphereMesh, NULL);
+	D3DXCreateSphere(g_pDevice, 0.01f, 10, 10, &m_pSphereMesh, NULL);
 	
 	int index = (rand() % m_pAC->GetMaxNumAnimationSets() - 1);
 	SetAnimationIndex(m_pAC, index, false);
@@ -90,8 +90,10 @@ void SkinnedMeshHLSL::Load(LPCTSTR path, LPCTSTR filename)
 	CString fullPath(path);
 	fullPath.Append(filename);
 	
-	D3DXLoadMeshHierarchyFromX(fullPath, D3DXMESH_MANAGED, DX::GetDevice(),
+	D3DXLoadMeshHierarchyFromX(fullPath, D3DXMESH_MANAGED, g_pDevice,
 		&alloc, NULL, &m_pRootFrame, &m_pAC);
+	int i=0;
+	i++;
 
 	SetupBoneMatrixPointers(m_pRootFrame);
 
@@ -361,13 +363,13 @@ void SkinnedMeshHLSL::Render()
 
 	D3DXMATRIXA16* matVP = g_pCamera->GetViewProjMatrix();
 	m_pEffect->SetMatrix("mViewProj", matVP);
-	if (m_bWireFrame) DX::GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	if (m_bWireFrame) g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	if ( m_bDrawFrame)DrawFrame(m_pRootFrame);
 	if (m_pSubRootFrame)
 		if ( m_bDrawFrame)DrawFrame(m_pSubRootFrame);
 	
-	DX::GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	 
 	if ( m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);	
 }
@@ -405,7 +407,7 @@ void SkinnedMeshHLSL::DrawMeshContainer(LPD3DXFRAME pFrame)
 	MESHCONTAINER_EX* pMeshContainerEx = (MESHCONTAINER_EX*)pFrame->pMeshContainer;
 	
 	LPD3DXBONECOMBINATION pBoneComb;
-	IDirect3DDevice9* pd3dDevice = DX::GetDevice();
+	IDirect3DDevice9* pd3dDevice = g_pDevice;
 
 	pBoneComb = reinterpret_cast<LPD3DXBONECOMBINATION>
 		(pMeshContainerEx->pBoneCombinationBuf->GetBufferPointer());
@@ -469,7 +471,7 @@ void SkinnedMeshHLSL::DrawMeshContainer(LPD3DXFRAME pFrame)
 		pd3dDevice->SetVertexShader(NULL);
 	}
 	
-	DX::GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 void SkinnedMeshHLSL::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
@@ -477,11 +479,11 @@ void SkinnedMeshHLSL::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
 	FRAME_EX* pParentFrameEx = (FRAME_EX*)pParent;
 
-	DX::GetDevice()->SetTransform(D3DTS_WORLD, &(pFrameEx->CombinedTM));
-	//DX::GetDevice()->SetTransform(D3DTS_WORLD, &(pFrameEx->CombinedTM * m_worldMatrix));
+	g_pDevice->SetTransform(D3DTS_WORLD, &(pFrameEx->CombinedTM));
+	//g_pDevice->SetTransform(D3DTS_WORLD, &(pFrameEx->CombinedTM * m_worldMatrix));
 	
-	DX::GetDevice()->SetMaterial(&DXUtil::WHITE_MTRL);
-	DX::GetDevice()->SetTexture(0, NULL);
+	g_pDevice->SetMaterial(&DXUtil::WHITE_MTRL);
+	g_pDevice->SetTexture(0, NULL);
 	m_pSphereMesh->DrawSubset(0);
 
 	if (pParent != NULL && pFrame->Name != NULL && pParent->Name != NULL)
@@ -493,13 +495,13 @@ void SkinnedMeshHLSL::DrawSkeleton(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 		D3DXVECTOR3 posParent(matParent(3, 0), matParent(3, 1), matParent(3, 2));
 
 		vector<VERTEX_PC> line{ VERTEX_PC(posThis, BLUE), VERTEX_PC(posParent, YELLOW) };
-		DX::GetDevice()->SetRenderState(D3DRS_LIGHTING, false);
-		DX::GetDevice()->SetFVF(VERTEX_PC::FVF);
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+		g_pDevice->SetFVF(VERTEX_PC::FVF);
 		D3DXMATRIXA16 mat;
 		D3DXMatrixIdentity(&mat);
-		DX::GetDevice()->SetTransform(D3DTS_WORLD, &mat);
-		DX::GetDevice()->DrawPrimitiveUP(D3DPT_LINELIST, 1, &line[0], sizeof(VERTEX_PC));
-		DX::GetDevice()->SetRenderState(D3DRS_LIGHTING, true);
+		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+		g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, &line[0], sizeof(VERTEX_PC));
+		g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	}
 
 	if (pFrame->pFrameSibling != NULL)

@@ -71,7 +71,7 @@ STDMETHODIMP AllocateHierarchyHLSL::CreateMeshContainer(
 	if ((pMesh->GetFVF() & D3DFVF_NORMAL) == false)
 	{
 		pMesh->CloneMeshFVF(pMesh->GetOptions(),
-			pMesh->GetFVF() | D3DFVF_NORMAL, DX::GetDevice(), &pMesh);
+			pMesh->GetFVF() | D3DFVF_NORMAL, g_pDevice, &pMesh);
 
 		D3DXComputeNormals(pMesh, NULL);
 	}
@@ -122,7 +122,7 @@ STDMETHODIMP AllocateHierarchyHLSL::CreateMeshContainer(
 			pMeshContainerEx->pBoneOffsetMatrices[i] = *(pSkinInfo->GetBoneOffsetMatrix(i));
 		}
 
-		GenerateSkinnedMesh(DX::GetDevice(), pMeshContainerEx);
+		GenerateSkinnedMesh(g_pDevice, pMeshContainerEx);
 	}
 
 	*ppNewMeshContainer = pMeshContainerEx;
