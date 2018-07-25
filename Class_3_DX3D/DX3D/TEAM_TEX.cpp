@@ -83,38 +83,42 @@ void TEAM_TEX::Update()
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
-	if (Keyboard::Get()->KeyDown('1'))
-		//if (GetAsyncKeyState('1') & 0x8000)
-	{
-	//m_AnimaTionIndex = rand() % 5;
-	if (m_AnimaTionIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
-		m_AnimaTionIndex++;
+	//if (Keyboard::Get()->KeyDown('1'))
+	//	//if (GetAsyncKeyState('1') & 0x8000)
+	//{
+	////m_AnimaTionIndex = rand() % 5;
+	//if (m_AnimaTionIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+	//	m_AnimaTionIndex++;
 
-		SetAnimationIndex(m_AnimaTionIndex, true);
-	}
-	else if (Keyboard::Get()->KeyDown('2'))
-		//if (GetAsyncKeyState('2') & 0x8000)
-	{
-		if (m_AnimaTionIndex > 0)
-			m_AnimaTionIndex--;
+	//	SetAnimationIndex(m_AnimaTionIndex, true);
+	//}
+	//else if (Keyboard::Get()->KeyDown('2'))
+	//	//if (GetAsyncKeyState('2') & 0x8000)
+	//{
+	//	if (m_AnimaTionIndex > 0)
+	//		m_AnimaTionIndex--;
 
-		SetAnimationIndex(m_AnimaTionIndex, true);
-	}
-	else if (Keyboard::Get()->KeyDown(VK_F1))
-		//if (GetAsyncKeyState(VK_F1) & 0x8000)
-	{
-		m_bDrawFrame = !m_bDrawFrame;
-	}
-	else if (Keyboard::Get()->KeyDown(VK_F2))
-		//if (GetAsyncKeyState(VK_F2) & 0x8000)
-	{
-		m_bDrawSkeleton = !m_bDrawSkeleton;
-	}
-	else if (Keyboard::Get()->KeyDown(VK_F3))
-		//if (GetAsyncKeyState(VK_F3) & 0x8000)
-	{
-		m_bWireFrame = !m_bWireFrame;
-	}
+	//	SetAnimationIndex(m_AnimaTionIndex, true);
+	//}
+	//else if (Keyboard::Get()->KeyDown(VK_F1))
+	//	//if (GetAsyncKeyState(VK_F1) & 0x8000)
+	//{
+	//	m_bDrawFrame = !m_bDrawFrame;
+	//}
+	//else if (Keyboard::Get()->KeyDown(VK_F2))
+	//	//if (GetAsyncKeyState(VK_F2) & 0x8000)
+	//{
+	//	m_bDrawSkeleton = !m_bDrawSkeleton;
+	//}
+	//else if (Keyboard::Get()->KeyDown(VK_F3))
+	//	//if (GetAsyncKeyState(VK_F3) & 0x8000)
+	//{
+	//	m_bWireFrame = !m_bWireFrame;
+	//}
+
+
+
+
 	if (pCurrAnimSet->GetPeriod() <= pCurrAnimSet->GetPeriodicPosition(track.Position) + 0.1f &&
 		m_AnimaTionIndex == 2)
 	{

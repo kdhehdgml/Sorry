@@ -96,6 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir);</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -175,9 +176,11 @@
     <ClInclude Include="eventTalk.h" />
     <ClInclude Include="FR_HEADGEAR.h" />
     <ClInclude Include="GUN.h" />
+    <ClInclude Include="IObject.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="LightingShader.h" />
     <ClInclude Include="MainScreenUI.h" />
+    <ClInclude Include="Manager\Assets.h" />
     <ClInclude Include="MARK.h" />
     <ClInclude Include="MenuUI.h" />
     <ClInclude Include="Minimap.h" />
@@ -245,6 +248,8 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SphereWall.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="system\DX.h" />
+    <ClInclude Include="system\Time.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TeamAI.h" />
     <ClInclude Include="TEAM_TEX.h" />
@@ -258,6 +263,8 @@
     <ClInclude Include="WallManager.h" />
     <ClInclude Include="Walls.h" />
     <ClInclude Include="WireSphere.h" />
+    <ClInclude Include="x\AllocateHierarchyHLSL.h" />
+    <ClInclude Include="x\SkinnedMeshHLSL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActionCube.cpp" />
@@ -279,8 +286,10 @@
     <ClCompile Include="eventTalk.cpp" />
     <ClCompile Include="FR_HEADGEAR.cpp" />
     <ClCompile Include="GUN.cpp" />
+    <ClCompile Include="IObject.cpp" />
     <ClCompile Include="LightingShader.cpp" />
     <ClCompile Include="MainScreenUI.cpp" />
+    <ClCompile Include="Manager\Assets.cpp" />
     <ClCompile Include="MARK.cpp" />
     <ClCompile Include="MenuUI.cpp" />
     <ClCompile Include="Minimap.cpp" />
@@ -350,6 +359,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="system\DX.cpp" />
+    <ClCompile Include="system\Time.cpp" />
     <ClCompile Include="TeamAI.cpp" />
     <ClCompile Include="TEAM_TEX.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -362,6 +373,8 @@
     <ClCompile Include="WallManager.cpp" />
     <ClCompile Include="Walls.cpp" />
     <ClCompile Include="WireSphere.cpp" />
+    <ClCompile Include="x\AllocateHierarchyHLSL.cpp" />
+    <ClCompile Include="x\SkinnedMeshHLSL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc" />

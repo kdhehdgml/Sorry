@@ -165,7 +165,7 @@ void SkinnedMesh::Update()
 	//IUnitObject::UpdateKeyboardState();
 	//IUnitObject::UpdatePositionToDestination();
 
-	Debug->AddText(m_scale);
+	//Debug->AddText(m_scale);
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 	D3DXMatrixScaling(&matS, m_scale, m_scale, m_scale);
 	UpdateAnim();

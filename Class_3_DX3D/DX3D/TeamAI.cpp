@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TeamAI.h"
-#include "CubemanParts.h"
+//#include "CubemanParts.h"
 #include "TEAM_TEX.h"
 
 #define moveSpeed 0.5f

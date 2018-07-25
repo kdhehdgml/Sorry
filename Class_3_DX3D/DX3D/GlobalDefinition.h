@@ -33,6 +33,17 @@ public:\
 #define SAFE_RELEASE(p) if(p) { (p)->Release(); (p) = NULL;}
 #define SAFE_DELETE(p) if(p) { delete (p); (p) = NULL;}
 
+#define VARIATION(varType, varName, funName)\
+protected: varType varName;\
+public: inline varType Get##funName(void) const { return varName; }\
+public: inline void Set##funName(varType var){ varName = var; }
+
+#define VARIATION_P(varType, varName, funName)\
+protected: varType varName;\
+public: inline varType* Get##funName(void) { return &varName; }\
+public: inline void Set##funName(varType* var){ varName = *var; }
+
+
 #define MIN(x,y) ( (x)<(y)? (x) : (y) )
 #define MAX(x,y) ( (x)>(y)? (x) : (y) )
 
@@ -53,7 +64,8 @@ enum SCENE_INDEX {
 enum TAG_DISPLAYOBJECT {
 	TAG_PLAYER,
 	TAG_MOB,
-	TAG_TEAM
+	TAG_TEAM,
+	TAG_PARTICLE//선생님 전용 파티클?
 };
 
 struct KEYBOARD_STATE
@@ -193,6 +205,9 @@ DWORD FtoDw(float f);
 
 float  GetRandomFloat(float lowBound, float highBound);
 
+bool CompareStr(const char * str1, const char * str2);
+
+
 # define LINE_BUFF_SIZE 4096
 
 struct TObjMaterial
@@ -319,3 +334,26 @@ struct ObjTriangle
 
 	void Init() { vertex[0].Init(); vertex[1].Init(); vertex[2].Init(); }
 };
+
+
+namespace Matrix
+{
+	D3DXMATRIXA16& Identity();
+	D3DXMATRIXA16& Translation(float x, float y, float z);
+	D3DXMATRIXA16& Translation(D3DXVECTOR3 v);
+	D3DXMATRIXA16& RotationX(float angle);
+	D3DXMATRIXA16& RotationY(float angle);
+	D3DXMATRIXA16& RotationZ(float angle);
+	D3DXMATRIXA16& Scaling(float x, float y, float z);
+	D3DXMATRIXA16& Scaling(D3DXVECTOR3 v);
+	D3DXMATRIXA16& Scaling(float xyz);
+};
+
+namespace Vector3
+{
+	const D3DXVECTOR3 Zero(0, 0, 0);
+	const D3DXVECTOR3 Forward(0, 0, 1);
+	const D3DXVECTOR3 Up(0, 1, 0);
+	const D3DXVECTOR3 Right(1, 0, 0);
+	const D3DXVECTOR3& Create(float xyz);
+}

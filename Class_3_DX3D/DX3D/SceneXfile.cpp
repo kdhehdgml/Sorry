@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SceneXfile.h"
 #include "SkinnedMesh.h"
+#include "x/SkinnedMeshHLSL.h"
 
 //¹«±â
 #include "GUN.h"
@@ -69,6 +70,24 @@ void SceneXfile::Init()
 	m_MONSTER = new MONSTER;
 	m_MONSTER->Init();
 	//AddSimpleDisplayObj(m_MONSTER);
+	
+	IDisplayObject* pObj = NULL;
+	
+	
+	for (int i = 0; i < 300; i++)
+	{
+
+		/*
+		CString path = "resources/xFile/MONSTER_AI/";
+		CString filename = "MOB_ANI_ALL2.X";
+		
+		*/
+		float radian = D3DX_PI * 2 * i / (10.0f + (int)(i / 10));
+		float radius = 3.0f + 2.5f * (int)(i / 10);
+		pObj = new SkinnedMeshHLSL(_T("resources/xFile/Models/zealot/"), _T("zealot.X")); pObj->Init(); AddSimpleDisplayObj(pObj);
+		//pObj = new SkinnedMesh2(ASSET_PATH + _T("Models/player/"), _T("combine_All.X")); pObj->Init(); AddDisplayObject(pObj);
+		pObj->SetPosition(&D3DXVECTOR3(cosf(radian) * radius, 0, sinf(radian) * radius));
+	}
 
 	m_MARK = new MARK;
 	m_MARK->Init();
