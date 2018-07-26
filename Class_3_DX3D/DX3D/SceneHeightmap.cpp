@@ -82,6 +82,35 @@ void SceneHeightmap::ResetScene() {
 	m_pGameOverOn = false;
 }
 
+void SceneHeightmap::DrawBrush()
+{
+	r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
+	D3DXVECTOR3 m_vBrushPos;
+	float height;
+	bool isOnMap = m_pHeightMap->CalcPickedPosition(m_vBrushPos, SCREEN_POINT(m_pLParam));
+	int nCount = 50;
+	float fRadian = D3DX_PI * 2.0f / nCount;
+	FLOAT fBrushSize = 100.0f;
+	D3DXVECTOR3 vCurPos(1.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 vNewPos;
+	D3DXMATRIXA16 matRot;
+	verBrushLine[1].p = vCurPos * fBrushSize + m_vBrushPos;
+	bool isIntersected = m_pHeightMap->GetHeight(height, verBrushLine[1].p);
+	verBrushLine[1].p.y = height;
+	D3DCOLOR d = D3DCOLOR_XRGB(255, 0, 0);
+	verBrushLine[1].c = d;
+	verBrushLine[0].c = d;
+	for (int i = 1; i < nCount; i++) {
+		verBrushLine[0] = verBrushLine[1];
+		D3DXMatrixRotationY(&matRot, i*fRadian);
+		D3DXVec3TransformCoord(&vNewPos, &vCurPos, &matRot);
+		D3DXVec3Normalize(&vNewPos, &vNewPos);
+		verBrushLine[1].p = vNewPos * fBrushSize + m_vBrushPos;
+		bool isIntersected = m_pHeightMap->GetHeight(height, verBrushLine[1].p);
+		verBrushLine[1].p.y = height;
+	}
+}
+
 SceneHeightmap::SceneHeightmap()
 {
 	m_pHeightMap = NULL;
@@ -895,6 +924,7 @@ void SceneHeightmap::Update()
 			}
 		}
 		m_pWireSphere->m_pRenderToggle = g_pCamera->getBombingMode();
+		//DrawBrush();
 		/*Debug->AddText("SphereWalls ÁÂÇ¥µé : ");
 		for (int i = 0; i < 38; i++) {
 		Debug->AddText(tempVecs[i]);
@@ -934,6 +964,9 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_pBulletUI);
 	SAFE_RENDER(m_MARK);
 	
+	g_pDevice->SetFVF(VERTEX_PC::FVF);
+	g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, verBrushLine, sizeof(VERTEX_PC));
+
 	if (m_pGameOverOn) {
 		g_pDevice->SetTexture(0, NULL);
 		m_pGameOverSprite->Begin(D3DXSPRITE_ALPHABLEND);
