@@ -28,6 +28,7 @@ protected:
 	D3DXMATRIXA16				asdf;
 
 	int							count;
+	float						m_scale;
 
 public:
 	SkinnedMesh();

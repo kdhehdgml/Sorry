@@ -115,9 +115,9 @@ void Player_hands::Update()
 		&& m_Reload == false )
 		m_pAnimController->SetTrackPosition(0, 0);
 
-	Debug->AddText("플레이어 체력: ");
-	Debug->AddText(health);
-	Debug->EndLine();
+	//Debug->AddText("플레이어 체력: ");
+	//Debug->AddText(health);
+	//Debug->EndLine();
 	//렌더 껏다키기
 	/*if (GetAsyncKeyState('V') & 0x0001 ||
 		GetAsyncKeyState('M') & 0x0001)
@@ -198,13 +198,13 @@ void Player_hands::Update()
 		m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 		m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
 
-		Debug->AddText("전체시간 :");
-		Debug->AddText(pCurrAnimSet->GetPeriod());
-		Debug->EndLine();
+		//Debug->AddText("전체시간 :");
+		//Debug->AddText(pCurrAnimSet->GetPeriod());
+		//Debug->EndLine();
 
-		Debug->AddText("현재시간 :");
-		Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
-		Debug->EndLine();
+		//Debug->AddText("현재시간 :");
+		//Debug->AddText(pCurrAnimSet->GetPeriodicPosition(track.Position));
+		//Debug->EndLine();
 
 		//훈회형이말한 타임 아무래도 애니메이션 전체의 타임인것같다.
 		/*float total = pCurrAnimSet->GetPeriod() * pCurrAnimSet->GetNumAnimations();
@@ -421,11 +421,9 @@ void Player_hands::DrawFrame(LPD3DXFRAME pFrame)
 	//{
 	//	Debug->EndLine();
 	//}
-	//if (pFrame->Name == NULL)
-	//	Debug->AddText(_T("NULL"));
-	//else
+	//if (pFrame->Name != NULL)
 	//	Debug->AddText(pFrame->Name);
-
+	
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
 	while (pMeshContainer != NULL)
 	{

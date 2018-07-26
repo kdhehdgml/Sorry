@@ -175,6 +175,16 @@ void SHOVEL::Render()
 	m_numFrame = 0;
 	m_numMesh = 0;
 	if (m_bDrawFrame)DrawFrame(m_pRootFrame);
+	Debug->AddText(_T("=====DrawFrame====="));
+	Debug->EndLine();
+	//if (m_bDrawFrame)DrawFrame(m_pRootFrame);
+	Debug->EndLine();
+	Debug->AddText(_T("numFrame = "));
+	Debug->AddText(m_numFrame);
+	Debug->EndLine();
+	Debug->AddText(_T("numMesh = "));
+	Debug->AddText(m_numMesh);
+	Debug->EndLine();
 
 	//D3DXMATRIXA16 mat;
 	//D3DXMatrixTranslation(&mat, m_pos.x + x, m_pos.y + y, m_pos.z + z);
@@ -293,15 +303,24 @@ void SHOVEL::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 void SHOVEL::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
+	if (m_numFrame % 5 == 0)
+	{
+		Debug->EndLine();
+	}
+	if (pFrame->Name == NULL)
+		Debug->AddText(_T("NULL"));
+	else
+		Debug->AddText(pFrame->Name);
 
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
 	while (pMeshContainer != NULL)
 	{
 		m_numMesh++;
-
+		Debug->AddText(_T("(MESH)"));
 		DrawMeshContainer(pFrame);
 		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
+	Debug->AddText(_T(" / "));
 
 	if (pFrame->pFrameSibling != NULL)
 	{

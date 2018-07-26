@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TeamAI.h"
-#include "CubemanParts.h"
+//#include "CubemanParts.h"
 #include "TEAM_TEX.h"
 
 #define moveSpeed 0.5f
@@ -159,6 +159,10 @@ void TeamAI::Update()
 		Debug->AddText(health);
 		Debug->AddText(" / 총알수: ");
 		Debug->AddText(m_bullet);
+		Debug->AddText(" / 레벨: ");
+		Debug->AddText(m_level);
+		Debug->AddText(" / 경험치: ");
+		Debug->AddText(m_expToNextLevel);
 		/*Debug->AddText(" / 애니: ");
 		Debug->AddText(m_Action);
 		Debug->AddText(" / 애니스: ");

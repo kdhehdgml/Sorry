@@ -1,6 +1,6 @@
 #pragma once
 #include "IUnitObject.h"
-class CubemanParts;
+//class CubemanParts;
 class Mob;
 class TEAM_TEX;
 
@@ -38,7 +38,7 @@ class TeamAI :
 	public IUnitObject
 {
 private:
-	CubemanParts *	m_pRootParts;
+	//CubemanParts *	m_pRootParts;
 	vector<Mob*>	m_pMob;
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
@@ -70,12 +70,15 @@ private:
 	bool m_Death;
 
 	// 사운드 처리용 변수
-	bool deathShout;
+	
 	bool reloadShout;
 
 public:
 	TeamAI();
 	~TeamAI();
+
+	bool deathShout;
+
 	int				num;
 	bool			m_move;
 

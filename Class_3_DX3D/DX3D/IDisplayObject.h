@@ -16,15 +16,19 @@ protected:
 	WORD					m_tag;
 	D3DXVECTOR3				m_scale;
 
+	VARIATION_P(D3DXMATRIXA16, m_localMatrix, LocalMatrix);
+	VARIATION_P(D3DXMATRIXA16, m_worldMatrix, WorldMatrix);
+	VARIATION_P(D3DXMATRIXA16, m_combinedMatrix, CombinedMatrix);
+
 	D3DXVECTOR3				m_pos;
 	D3DXVECTOR3				m_rot;
 	IDisplayObject*			m_pParent;
 
 	D3DXMATRIXA16			m_matWorld;
 
-	D3DXMATRIXA16			m_localMatrix;
+	//D3DXMATRIXA16			m_localMatrix;
 	//D3DXMATRIXA16			m_worldMatrix;
-	D3DXMATRIXA16			m_combinedMatrix;
+	//D3DXMATRIXA16			m_combinedMatrix;
 	D3DXMATRIXA16*			m_pFrameMatrix;
 
 	vector<IDisplayObject*> m_vecPChild;
@@ -56,11 +60,11 @@ public:
 	void				SetPosition(D3DXVECTOR3* pos) { m_pos = *pos; }
 	const D3DXVECTOR3&	GetRotation() { return m_rot; }
 	void				SetScale(D3DXVECTOR3* pos) { m_scale = *pos; }
-	void SetLocalMatrix(LPD3DXMATRIXA16 pMat) { m_localMatrix = *pMat; }
-	void SetFrameMatrix(LPD3DXMATRIXA16 pMat) { m_pFrameMatrix = pMat; }
-	D3DXMATRIXA16&	GetWorldMatrix() { return m_matWorld; }
-	void					SetWorldMatrix(D3DXMATRIXA16* pMat) { m_matWorld = *pMat; }
-	D3DXMATRIXA16* GetCombinedMatrix() { return &m_combinedMatrix; }
+	/*void SetLocalMatrix(LPD3DXMATRIXA16 pMat) { m_localMatrix = *pMat; }
+	void SetFrameMatrix(LPD3DXMATRIXA16 pMat) { m_pFrameMatrix = pMat; }*/
+	//D3DXMATRIXA16&	GetWorldMatrix() { return m_matWorld; }
+	//void					SetWorldMatrix(D3DXMATRIXA16* pMat) { m_matWorld = *pMat; }
+	//D3DXMATRIXA16* GetCombinedMatrix() { return &m_combinedMatrix; }
 };
 
 typedef IDisplayObject* LPDisplayObject;

@@ -87,6 +87,10 @@ public:
 	virtual void RenderUseShader_1() override;
 
 	bool GetRenderState() {return m_Render;}
+
+	LPD3DXMATRIX	GetMuzzleMat() { return &m_mat;}
+	D3DXVECTOR3		GetMuzzlePos() { return m_mat_pos; }
+	
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void Load(LPCTSTR path, LPCTSTR filename);
 	void SetPosToCamera();

@@ -326,9 +326,6 @@
     <ClInclude Include="ObjRender.h">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClInclude>
-    <ClInclude Include="SceneShader.h">
-      <Filter>소스 파일\4.Scene</Filter>
-    </ClInclude>
     <ClInclude Include="SceneLoading.h">
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
@@ -413,6 +410,23 @@
     <ClInclude Include="MARK.h">
       <Filter>소스 파일\AI\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="BOSS.h" />
+    <ClInclude Include="x\AllocateHierarchyHLSL.h">
+      <Filter>소스 파일\xFile</Filter>
+    </ClInclude>
+    <ClInclude Include="x\SkinnedMeshHLSL.h">
+      <Filter>소스 파일\xFile</Filter>
+    </ClInclude>
+    <ClInclude Include="system\DX.h">
+      <Filter>소스 파일\1.Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\Assets.h">
+      <Filter>소스 파일\1.Main</Filter>
+    </ClInclude>
+    <ClInclude Include="system\Time.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="IObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -622,9 +636,6 @@
     <ClCompile Include="ObjRender.cpp">
       <Filter>소스 파일\3.Object\OBJ</Filter>
     </ClCompile>
-    <ClCompile Include="SceneShader.cpp">
-      <Filter>소스 파일\4.Scene</Filter>
-    </ClCompile>
     <ClCompile Include="SceneLoading.cpp">
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
@@ -703,6 +714,23 @@
     <ClCompile Include="MARK.cpp">
       <Filter>소스 파일\AI\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="BOSS.cpp" />
+    <ClCompile Include="x\AllocateHierarchyHLSL.cpp">
+      <Filter>소스 파일\xFile</Filter>
+    </ClCompile>
+    <ClCompile Include="x\SkinnedMeshHLSL.cpp">
+      <Filter>소스 파일\xFile</Filter>
+    </ClCompile>
+    <ClCompile Include="system\DX.cpp">
+      <Filter>소스 파일\1.Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\Assets.cpp">
+      <Filter>소스 파일\1.Main</Filter>
+    </ClCompile>
+    <ClCompile Include="system\Time.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="IObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

@@ -13,6 +13,17 @@ public:
 	struct TARGET_DESC
 	{
 		D3DXVECTOR3* position;
+		D3DXVECTOR3* forward;
+		float* rotX;
+		float* rotY;
+	};
+
+	enum CameraType
+	{
+		Type_LookTarget,
+		Type_LookForward,
+		Type_SpaceScene,
+		Type_NULL
 	};
 private:
 	D3DXVECTOR3		m_eye;
@@ -65,8 +76,23 @@ private:
 	int reloadTime; // 재장전 사운드 재생까지의 지연시간
 
 	bool m_pBombingMode;
+	int m_pBombingCooldown;
+
 
 	D3DXVECTOR3 oldPos;
+
+
+
+	//선생님코드
+
+	VARIATION(CameraType, m_type, Type);
+	VARIATION_P(float, m_fovY, FovY);
+	VARIATION_P(D3DXVECTOR3, m_forward, Forward);
+	VARIATION_P(D3DXVECTOR3, m_currForward, CurrForward);
+	VARIATION_P(D3DXMATRIXA16, m_matR, MatR);
+	VARIATION_P(D3DXMATRIXA16, m_currMatR, CurrMatR);
+
+	//
 
 public:
 	void Init();
@@ -96,7 +122,11 @@ public:
 	float getDeltaY();
 	bool mouseLock;
 	bool isPaused;
+	bool m_pBombingReady;
+	bool m_pBombing;
+	int m_pBombingDelay;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
+	void bombing();
 
 	const D3DXVECTOR3& GetPosition() { return m_eye; }
 	D3DXMATRIXA16* GetViewMatrix() { return &m_matView; }

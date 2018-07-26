@@ -9,6 +9,8 @@ private:
 
 	FMOD_BOOL *			m_isPlaying;
 
+	FMOD_RESULT result;
+
 	//FMOD_RESULT result;
 
 	int m_nSoundCount;
@@ -23,7 +25,7 @@ public:
 	void ChangeSound(int nIndex, int nIndex2);
 	bool isPlaying(int nIndex);
 	void volumeControl(int nIndex, float volume);
-	void setSpeaker(int nIndex, FMOD_VECTOR sPos, FMOD_VECTOR sVel);
+	bool setSpeaker(int nIndex, FMOD_VECTOR sPos, FMOD_VECTOR sVel);
 	void setListener(FMOD_VECTOR lPos, FMOD_VECTOR lVel, FMOD_VECTOR lFoward, FMOD_VECTOR lUp);
 
 	void ReleaseSound();

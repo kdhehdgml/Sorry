@@ -284,18 +284,18 @@ void SoundManager::updateSpeaker(int type, int soundNum, D3DXVECTOR3 sPos)
 	switch (type)
 	{
 	case 1:
-		m_p3D->setSpeaker(soundNum, SpeakerPos, SpeakerVel);
-		play3D(soundNum);
+		if(m_p3D->setSpeaker(soundNum, SpeakerPos, SpeakerVel));
+			play3D(soundNum);
 		break;
 	case 2:
-		r = rand() % s_vDeath->size();
-		m_pV_Death->setSpeaker(r, SpeakerPos, SpeakerVel);
-		voiceSound(vType::DEATH, r);
+		r = rand() % 24;
+		if(m_pV_Death->setSpeaker(r, SpeakerPos, SpeakerVel));
+			voiceSound(vType::DEATH, r);
 		break;
 	case 3:
 		r = rand() % 4;
-		m_pV_Reload->setSpeaker(r, SpeakerPos, SpeakerVel);
-		voiceSound(vType::RELOAD, r);
+		if(m_pV_Reload->setSpeaker(r, SpeakerPos, SpeakerVel));
+			voiceSound(vType::RELOAD, r);
 	}
 }
 

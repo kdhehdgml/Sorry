@@ -270,7 +270,12 @@ void GUN::UpdateAnim()
 void GUN::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
-
+	//if (pFrame->Name != NULL && strcmp(pFrame->Name, "weapon_bolt_bone") == 0)
+	//{
+	//	/*pFrameEx->CombinedTM  =  pFrameEx->CombinedTM */
+	//	m_ = pFrameEx->CombinedTM * m_matWorld;
+	//	m_L_pos = D3DXVECTOR3(pFrameEx->CombinedTM._41, pFrameEx->CombinedTM._42, pFrameEx->CombinedTM._43);
+	//}
 	if (pParent != NULL)
 	{
 		pFrameEx->CombinedTM = pFrameEx->TransformationMatrix * ((FRAME_EX*)pParent)->CombinedTM;
@@ -294,16 +299,26 @@ void GUN::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 void GUN::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
-
+	//디버그모드
+	/*if (m_numFrame % 5 == 0)
+	{
+		Debug->EndLine();
+	}
+	if (pFrame->Name == NULL)
+		Debug->AddText(_T("NULL"));
+	else
+		Debug->AddText(pFrame->Name);*/
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
 	while (pMeshContainer != NULL)
 	{
 		m_numMesh++;
-
+		//디버그모드
+		//Debug->AddText(_T("(MESH)"));
 		DrawMeshContainer(pFrame);
 		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
-
+	//디버그모드
+	//Debug->AddText(_T(" / "));
 	if (pFrame->pFrameSibling != NULL)
 	{
 		DrawFrame(pFrame->pFrameSibling);
