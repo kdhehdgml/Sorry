@@ -7,6 +7,8 @@ protected:
 	D3DXVECTOR3		m_deltaPos;
 	D3DXVECTOR3		m_deltaRot;
 	D3DXVECTOR3		m_forward;
+	D3DXVECTOR3		m_baseRotation;
+
 
 	KEYBOARD_STATE	m_keyState;
 	bool			m_colision;

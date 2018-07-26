@@ -47,3 +47,77 @@ float GetRandomFloat(float lowBound, float highBound)
 
 	return (f * (highBound - lowBound)) + lowBound;
 }
+
+bool CompareStr(const char * str1, const char * str2)
+{
+	return strcmp(str1, str2) == 0;
+
+}
+
+D3DXMATRIXA16 & Matrix::Identity()
+{
+	D3DXMATRIXA16 mat;
+	D3DXMatrixIdentity(&mat);
+	return mat;
+}
+
+D3DXMATRIXA16 & Matrix::Translation(float x, float y, float z)
+{
+	D3DXMATRIXA16 mat;
+	D3DXMatrixTranslation(&mat, x, y, z);
+	return mat;
+}
+
+D3DXMATRIXA16 & Matrix::Translation(D3DXVECTOR3 v)
+{
+	D3DXMATRIXA16 mat;
+	D3DXMatrixTranslation(&mat, v.x, v.y, v.z);
+	return mat;
+}
+
+D3DXMATRIXA16 & Matrix::RotationX(float angle)
+{
+	D3DXMATRIXA16 mat;
+	D3DXMatrixRotationX(&mat, angle);
+	return mat;
+}
+
+D3DXMATRIXA16 & Matrix::RotationY(float angle)
+{
+	D3DXMATRIXA16 mat;
+	D3DXMatrixRotationY(&mat, angle);
+	return mat;
+}
+
+D3DXMATRIXA16& Matrix::RotationZ(float angle)
+{
+	D3DXMATRIXA16 mat;
+	D3DXMatrixRotationZ(&mat, angle);
+	return mat;
+}
+
+D3DXMATRIXA16 & Matrix::Scaling(float x, float y, float z)
+{
+	D3DXMATRIXA16 mat;
+	D3DXMatrixScaling(&mat, x, y, z);
+	return mat;
+}
+
+D3DXMATRIXA16 & Matrix::Scaling(D3DXVECTOR3 v)
+{
+	D3DXMATRIXA16 mat;
+	D3DXMatrixScaling(&mat, v.x, v.y, v.z);
+	return mat;
+}
+
+D3DXMATRIXA16 & Matrix::Scaling(float xyz)
+{
+	D3DXMATRIXA16 mat;
+	D3DXMatrixScaling(&mat, xyz, xyz, xyz);
+	return mat;
+}
+
+const D3DXVECTOR3 & Vector3::Create(float xyz)
+{
+	return D3DXVECTOR3(xyz, xyz, xyz);
+}

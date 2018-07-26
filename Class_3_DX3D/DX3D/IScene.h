@@ -1,9 +1,10 @@
 #pragma once
 #include "BaseObject.h"
+#include "IObject.h"
 #include "IDisplayObject.h"
 class IDisplayObject;
 
-class IScene : public BaseObject
+class IScene : public IObject
 {
 protected:
 	set<IDisplayObject*> m_simpleDisplayList;

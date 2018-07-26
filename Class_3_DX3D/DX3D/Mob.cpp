@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Mob.h"
-#include "CubemanParts.h"
+//#include "CubemanParts.h"
 #include "MONSTER.h"
 #include "UnitBox.h"
 #include "GUN.h"

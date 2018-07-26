@@ -104,52 +104,50 @@ void MARK::Update()
 
 		m_pBoundingSphere->center = m_mark_main->m_pos;
 
-		if (Keyboard::Get()->KeyPress(VK_NUMPAD2))
-		{
-			state = 하이동;
-		}
-		else if (Keyboard::Get()->KeyPress(VK_NUMPAD5))
-		{
-			state = 상이동;
-		}
-		if (Keyboard::Get()->KeyPress(VK_NUMPAD1))
-		{
-			//state = 좌이동;
-			m_mark_main->SetRot(0.1f);
-		}
-		else if (Keyboard::Get()->KeyPress(VK_NUMPAD3))
-		{
-			state = 우이동;
-		}
-		else if (Keyboard::Get()->KeyPress(VK_NUMPAD4))
-		{
-			state = 멈춤;
-		}
-		//탱크 상태값
-		switch (state)
-		{
-		case 좌이동:
-			m_mark_main->m_pos.z = m_mark_main->m_pos.z + MoveSpeed;
-			break;
-		case 우이동:
-			m_mark_main->m_pos.z = m_mark_main->m_pos.z - MoveSpeed;
-			break;
-
-		case 상이동:
-			m_mark_main->m_pos.x = m_mark_main->m_pos.x + MoveSpeed;
-			break;
-		case 하이동:
-			m_mark_main->m_pos.x = m_mark_main->m_pos.x - MoveSpeed;
-			break;
-
-			//위에까지 테스트용
-		case 이동:
-			break;
-		case 기관총공격:
-			break;
-		case 참호부수기:
-			break;
-		}
+		//if (Keyboard::Get()->KeyPress(VK_NUMPAD2))
+		//{
+		//	state = 하이동;
+		//}
+		//else if (Keyboard::Get()->KeyPress(VK_NUMPAD5))
+		//{
+		//	state = 상이동;
+		//}
+		//if (Keyboard::Get()->KeyPress(VK_NUMPAD1))
+		//{
+		//	//state = 좌이동;
+		//	m_mark_main->SetRot(0.1f);
+		//}
+		//else if (Keyboard::Get()->KeyPress(VK_NUMPAD3))
+		//{
+		//	state = 우이동;
+		//}
+		//else if (Keyboard::Get()->KeyPress(VK_NUMPAD4))
+		//{
+		//	state = 멈춤;
+		//}
+		////탱크 상태값
+		//switch (state)
+		//{
+		//case 좌이동:
+		//	m_mark_main->m_pos.z = m_mark_main->m_pos.z + MoveSpeed;
+		//	break;
+		//case 우이동:
+		//	m_mark_main->m_pos.z = m_mark_main->m_pos.z - MoveSpeed;
+		//	break;
+		//case 상이동:
+		//	m_mark_main->m_pos.x = m_mark_main->m_pos.x + MoveSpeed;
+		//	break;
+		//case 하이동:
+		//	m_mark_main->m_pos.x = m_mark_main->m_pos.x - MoveSpeed;
+		//	break;
+		//	//위에까지 테스트용
+		//case 이동:
+		//	break;
+		//case 기관총공격:
+		//	break;
+		//case 참호부수기:
+		//	break;
+		//}
 
 		m_mark_main->Update();
 		if (m_finalDestPos.x == m_pos.x && m_finalDestPos.z == m_pos.z)

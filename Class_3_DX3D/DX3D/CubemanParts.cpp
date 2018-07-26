@@ -61,7 +61,7 @@ void CubemanParts::Update()
 
 	if (m_pParent)
 	{
-		m_matWorld = m_matWorld * m_pParent->GetWorldMatrix();
+		m_matWorld = m_matWorld;
 	}
 
 	for (auto child : m_vecPChild)

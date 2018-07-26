@@ -13,6 +13,17 @@ public:
 	struct TARGET_DESC
 	{
 		D3DXVECTOR3* position;
+		D3DXVECTOR3* forward;
+		float* rotX;
+		float* rotY;
+	};
+
+	enum CameraType
+	{
+		Type_LookTarget,
+		Type_LookForward,
+		Type_SpaceScene,
+		Type_NULL
 	};
 private:
 	D3DXVECTOR3		m_eye;
@@ -70,6 +81,19 @@ private:
 
 	D3DXVECTOR3 oldPos;
 
+
+
+	//¼±»ý´ÔÄÚµå
+
+	VARIATION(CameraType, m_type, Type);
+	VARIATION_P(float, m_fovY, FovY);
+	VARIATION_P(D3DXVECTOR3, m_forward, Forward);
+	VARIATION_P(D3DXVECTOR3, m_currForward, CurrForward);
+	VARIATION_P(D3DXMATRIXA16, m_matR, MatR);
+	VARIATION_P(D3DXMATRIXA16, m_currMatR, CurrMatR);
+
+	//
+
 public:
 	void Init();
 	void Update();
@@ -99,6 +123,8 @@ public:
 	bool mouseLock;
 	bool isPaused;
 	bool m_pBombingReady;
+	bool m_pBombing;
+	int m_pBombingDelay;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 	void bombing();
 

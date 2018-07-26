@@ -16,7 +16,7 @@ ObjRender::ObjRender()
 		m_MapTest00[i] = NULL;
 	}
 	//철조망
-	for (int i = 0; i < 53; i++)
+	for (int i = 0; i < 47; i++)
 		m_BarbedWireT[i] = NULL;
 	//사격받침
 	for (int i = 0; i < 6; i++)
@@ -27,15 +27,10 @@ ObjRender::ObjRender()
 	for (int i = 0; i < 86; i++)
 		SaddleBag1[i] = NULL;
 	//나무
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		m_Tree00[i] = NULL;
 		m_Tree01[i] = NULL;
-		m_Tree02[i] = NULL;
-		m_Tree03[i] = NULL;
-		//m_Tree04[i] = NULL;
-		//m_Tree05[i] = NULL;
-		m_Tree06[i] = NULL;
 	}
 	//지푸라기
 	for (int i = 0; i < 2; i++)
@@ -77,7 +72,7 @@ ObjRender::~ObjRender()
 		m_MapTest00[i]->~ObjRen();
 	}
 	//철조망
-	for (int i = 0; i < 53; i++)
+	for (int i = 0; i < 47; i++)
 		m_BarbedWireT[i]->~ObjRen();
 	
 	//사격받침
@@ -90,16 +85,12 @@ ObjRender::~ObjRender()
 		SaddleBag1[i]->~ObjRen();
 
 	//나무
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		m_Tree00[i]->~ObjRen();
 		m_Tree01[i]->~ObjRen();
-		m_Tree02[i]->~ObjRen();
-		m_Tree03[i]->~ObjRen();
-		//m_Tree04[i]->~ObjRen();
-		//m_Tree05[i]->~ObjRen();
-		m_Tree06[i]->~ObjRen();
 	}
+
 	//지푸라기
 	for (int i = 0; i < 2; i++)
 	   m_Straw00[i]->~ObjRen();
@@ -240,77 +231,63 @@ void ObjRender::Init()
 	CREATE_OBJ(m_MapTest00[74], 5.5f, WoodenBarrier, WoodenBarrier.obj, woodTex.png, 210.0f, 15.0f, 16.0f, 1.48f, 0.24f, 0.06f);
 
 
+	// 철조망
+	CREATE_OBJ(m_BarbedWireT[0], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 275.0f, 24.2f, 506.92f, 0.0f, -1.67f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[1], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 275.0f, 25.0f, 478.82f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[2], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 275.0f, 25.0f, 457.11f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[3], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 282.6f, 25.2f, 435.71f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[4], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 279.0f, 25.2f, 400.00f, 0.0f, -0.84f, 0.0f);
+	
+	CREATE_OBJ(m_BarbedWireT[5], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 289.0f, 26.1f, 378.90f, 0.0f, -1.69f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[6], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 296.5f, 26.1f, 356.81f, 0.0f, -1.55f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[7], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 281.8f, 25.6f, 343.31f, 0.0f, -1.51f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[8], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 282.2f, 25.6f, 307.20f, 0.0f, -1.61f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[9], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 292.8f, 25.6f, 257.40f, 0.0f, -2.21f, 0.0f);
 
-	//철조망
-	//1번 줄
-	currentVertex++;
-	g_pSceneManager->m_pLoadingPercentage += 0.41667f;
-	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
-	CREATE_OBJ(m_BarbedWireT[0], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 468.0f, 31.0f, 526.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[1], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 468.0f, 31.0f, 516.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[2], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 487.0f, 33.0f, 475.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[3], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 487.0f, 34.0f, 458.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[4], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 500.0f, 35.0f, 419.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[5], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 500.0f, 31.0f, 374.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[6], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 494.0f, 34.0f, 360.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[7], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 500.0f, 31.0f, 318.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[8], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 494.0f, 33.0f, 304.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[9], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 494.0f, 33.0f, 287.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[10], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 468.0f, 28.0f, 219.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[11], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 494.0f, 33.0f, 229.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	//2번 줄
-	currentVertex++;
-	g_pSceneManager->m_pLoadingPercentage += 0.41667f;
-	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
-	CREATE_OBJ(m_BarbedWireT[12], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 31.0f, 560.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[13], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 31.0f, 544.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[14], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 407.0f, 32.0f, 502.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[15], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 407.0f, 32.0f, 485.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[16], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 34.0f, 446.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[17], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 413.0f, 30.0f, 401.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[18], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 413.0f, 34.0f, 387.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[19], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 413.0f, 29.0f, 345.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[20], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 387.0f, 32.0f, 330.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[21], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 387.0f, 33.0f, 315.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[22], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 413.0f, 29.0f, 248.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[23], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 32.0f, 258.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[24], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 30.0f, 220.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[25], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 407.0f, 30.0f, 210.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	//3번 줄
-	currentVertex++;
-	g_pSceneManager->m_pLoadingPercentage += 0.41667f;
-	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
-	CREATE_OBJ(m_BarbedWireT[26], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 31.0f, 531.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[27], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 31.0f, 515.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[28], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 322.0f, 32.0f, 475.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[29], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 322.0f, 33.0f, 458.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[30], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 33.0f, 419.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[31], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 328.0f, 30.0f, 374.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[32], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 322.0f, 34.0f, 360.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[33], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 328.0f, 30.0f, 318.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[34], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 33.0f, 304.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[35], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 322.0f, 33.0f, 287.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[36], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 328.0f, 29.0f, 219.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[37], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 322.0f, 33.0f, 229.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	//입구쪽
-	currentVertex++;
-	g_pSceneManager->m_pLoadingPercentage += 0.41667f;
-	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
-	CREATE_OBJ(m_BarbedWireT[38], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 286.0f, 29.0f, 518.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.4f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[39], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 289.0f, 29.0f, 490.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[40], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 280.0f, 29.0f, 463.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.4f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[41], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 292.0f, 29.0f, 442.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.2f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[42], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 286.0f, 29.0f, 415.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.4f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[43], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 297.0f, 29.0f, 378.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.4f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[44], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 278.0f, 29.0f, 344.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.1f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[45], 3.5f, BarbedWire, BarbedWire01.obj, BarbedWireTex.png, 299.0f, 29.8f, 297.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.1f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[46], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 299.0f, 29.5f, 268.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.2f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[47], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 299.0f, 29.0f, 247.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.4f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[48], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 300.0f, 29.0f, 354.0f, 0.0f, D3DX_PI / 2 + D3DX_PI + 0.1f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[49], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 303.0f, 29.0f, 330.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.1f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[50], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 307.0f, 29.0f, 224.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.4f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[51], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 297.0f, 29.0f, 209.0f, 0.0f, D3DX_PI / 2 + D3DX_PI - 0.1f, 0.0f);
-	CREATE_OBJ(m_BarbedWireT[52], 3.5f, BarbedWire, BarbedWire00.obj, BarbedWireTex.png, 286.0f, 29.0f, 189.0f, 0.0f, D3DX_PI / 2 + D3DX_PI, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[10], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 289.4f, 25.6f, 229.00f, 0.0f, -1.33f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[11], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 260.1f, 24.8f, 519.42f, 0.0f, -1.51f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[12], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 260.9f, 24.8f, 485.52f, 0.0f, -1.61f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[13], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 253.5f, 24.8f, 464.00f, 0.0f, -1.61f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[14], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 261.1f, 24.8f, 442.90f, 0.0f, -1.61f, 0.0f);
+
+	CREATE_OBJ(m_BarbedWireT[15], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 264.5f, 24.8f, 414.30f, 0.0f, -2.19f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[16], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 275.1f, 25.8f, 364.50f, 0.0f, -1.61f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[17], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 254.1f, 25.8f, 350.21f, 0.0f, -1.61f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[18], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 267.9f, 25.8f, 328.41f, 0.0f, -1.61f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[19], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 271.5f, 27.0f, 293.10f, 0.0f, -2.23f, 0.0f);
+
+	CREATE_OBJ(m_BarbedWireT[20], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 274.5f, 27.0f, 250.00f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[21], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 275.0f, 27.0f, 208.00f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[22], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 250.0f, 24.0f, 510.00f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[23], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 250.3f, 24.8f, 489.70f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[24], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 234.7f, 24.8f, 460.50f, 0.0f, -1.57f, 0.0f);
+
+	CREATE_OBJ(m_BarbedWireT[25], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 248.7f, 24.8f, 439.90f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[26], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 248.7f, 24.8f, 424.90f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[27], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 262.5f, 24.8f, 389.90f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[28], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 262.5f, 24.8f, 374.90f, 0.0f, -1.57f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[29], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 228.3f, 24.8f, 356.60f, 0.0f, -1.57f, 0.0f);
+
+	CREATE_OBJ(m_BarbedWireT[30], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 255.3f, 24.8f, 325.21f, 0.0f, -1.53f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[31], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 255.3f, 26.4f, 310.20f, 0.0f, -1.45f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[32], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 264.5f, 26.4f, 278.70f, 0.0f, -1.59f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[33], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 264.5f, 26.4f, 265.00f, 0.0f, -1.53f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[34], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 264.1f, 26.4f, 234.60f, 0.0f, -1.53f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[35], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 264.1f, 26.4f, 218.00f, 0.0f, -1.53f, 0.0f);
+	
+	CREATE_OBJ(m_BarbedWireT[36], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 270.1f, 26.4f, 174.00f, 0.0f, -1.23f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[37], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 271.1f, 26.4f, 158.00f, 0.0f, -1.13f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[38], 3.5f, BarbedWire, BarbedWire04.obj, BarbedWireTex.png, 275.1f, 26.4f, 144.00f, 0.0f, -1.53f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[39], 3.5f, BarbedWire, BarbedWire02.obj, BarbedWireTex.png, 256.1f, 26.4f, 130.00f, 0.0f, -1.53f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[40], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 240.1f, 26.4f, 128.00f, 0.0f, -1.10f, 0.0f);
+
+	CREATE_OBJ(m_BarbedWireT[41], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 268.1f, 26.4f,  93.00f, 0.0f, -1.80f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[42], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 263.1f, 23.4f, 559.00f, 0.0f, -1.80f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[43], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 264.1f, 26.4f, 584.00f, 0.0f, -1.80f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[44], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 250.1f, 27.4f, 614.00f, 0.0f, -1.80f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[45], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 264.1f, 27.4f, 621.00f, 0.0f, -1.40f, 0.0f);
+	CREATE_OBJ(m_BarbedWireT[46], 3.5f, BarbedWire, BarbedWire03.obj, BarbedWireTex.png, 268.1f, 27.4f, 652.00f, 0.0f, -1.80f, 0.0f);
+
 
 	//사격받침
 	currentVertex++;
@@ -450,6 +427,21 @@ void ObjRender::Init()
 	//나무
 	currentVertex++;
 	g_pSceneManager->m_pLoadingPercentage += 0.41667f;
+	CREATE_OBJ(m_Tree00[0], 8.0f, Environment, Tree00.obj, TreeTex.png, 306.0f, 20.0f, 506.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree00[1], 8.0f, Environment, Tree00.obj, TreeTex.png, 364.0f, 20.0f, 478.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree00[2], 8.0f, Environment, Tree00.obj, TreeTex.png, 424.0f, 19.0f, 434.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree00[3], 8.0f, Environment, Tree00.obj, TreeTex.png, 403.0f, 22.0f, 368.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree00[4], 8.0f, Environment, Tree00.obj, TreeTex.png, 349.0f, 22.0f, 322.0f, 0.0f, 0.1f, 0.0f);
+
+	CREATE_OBJ(m_Tree01[0], 6.0f, Environment, Tree01.obj, TreeTex.png, 333.0f, 21.0f, 645.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree01[1], 6.0f, Environment, Tree01.obj, TreeTex.png, 344.0f, 18.0f, 547.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree01[2], 6.0f, Environment, Tree01.obj, TreeTex.png, 381.0f, 18.0f, 508.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree01[3], 6.0f, Environment, Tree01.obj, TreeTex.png, 317.0f, 21.0f, 368.0f, 0.0f, 0.1f, 0.0f);
+	CREATE_OBJ(m_Tree01[4], 6.0f, Environment, Tree01.obj, TreeTex.png, 463.0f, 22.0f, 192.0f, 0.0f, 0.1f, 0.0f);
+
+
+	/*currentVertex++;
+	g_pSceneManager->m_pLoadingPercentage += 0.41667f;
 	g_pSceneManager->calcLoadingExtra(currentVertex, vertexSize);
 	CREATE_OBJ(m_Tree00[0], 8.0f, Environment, Tree00.obj, TreeTex.png, 320.0f, 30.0f, 321.0f, 0.0f, 0.1f, 0.0f);
 	CREATE_OBJ(m_Tree01[0], 6.0f, Environment, Tree01.obj, TreeTex.png, 300.0f, 30.0f, 360.0f, 0.0f, 0.1f, 0.0f);
@@ -509,7 +501,7 @@ void ObjRender::Init()
 	CREATE_OBJ(m_Tree01[9], 6.0f, Environment, Tree01.obj, TreeTex.png, 500.0f, 30.0f, 255.0f, 0.0f, 0.3f, 0.0f);
 	CREATE_OBJ(m_Tree02[9], 3.0f, Environment, Tree02.obj, TreeTex.png, 555.0f, 25.0f, 240.0f, 0.0f, 0.3f, 0.0f);
 	CREATE_OBJ(m_Tree03[9], 2.0f, Environment, Tree03.obj, TreeTex.png, 560.0f, 25.0f, 190.0f, 0.0f, 0.3f, 0.0f);
-	CREATE_OBJ(m_Tree06[9], 3.0f, Environment, Tree06.obj, TreeTex.png, 540.0f, 30.0f, 222.0f, 0.0f, 0.3f, 0.0f);
+	CREATE_OBJ(m_Tree06[9], 3.0f, Environment, Tree06.obj, TreeTex.png, 540.0f, 30.0f, 222.0f, 0.0f, 0.3f, 0.0f);*/
 
 	//지푸라기
 	currentVertex++;
@@ -582,8 +574,9 @@ void ObjRender::Render()
 	for (int i = 0; i < 75; i++)
 		SAFE_RENDER(m_MapTest00[i]);
 	//철조망
-	for (int i = 0; i < 53; i++)
+	for (int i = 0; i < 47; i++)
 		SAFE_RENDER(m_BarbedWireT[i]);
+
 	//사격받침
 	for (int i = 0; i < 6; i++)
 		SAFE_RENDER(m_FireStep00[i]);
@@ -594,16 +587,12 @@ void ObjRender::Render()
 		SAFE_RENDER(SaddleBag1[i]);
 
 	//나무
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		SAFE_RENDER(m_Tree00[i]);
 		SAFE_RENDER(m_Tree01[i]);
-		SAFE_RENDER(m_Tree02[i]);
-		SAFE_RENDER(m_Tree03[i]);
-		//SAFE_RENDER(m_Tree04[i]);
-		//SAFE_RENDER(m_Tree05[i]);
-		SAFE_RENDER(m_Tree06[i]);
 	}
+	
 	//지푸라기
 	for (int i = 0; i < 2; i++)
 	   SAFE_RENDER(m_Straw00[i]);
@@ -638,64 +627,4 @@ void ObjRender::Render()
 
 void ObjRender::Update()
 {
-	
-	//참호 판자
-	for (int i = 0; i < 16; i++)
-		SAFE_UPDATE(m_MapTest[i]);
-	//SAFE_UPDATE(m_MapTest1);
-	for (int i = 0; i < 75; i++)
-		SAFE_UPDATE(m_MapTest00[i]);
-	//철조망
-	for (int i = 0; i < 53; i++)
-		SAFE_UPDATE(m_BarbedWireT[i]);
-	//사격받침
-	for (int i = 0; i < 6; i++)
-		SAFE_UPDATE(m_FireStep00[i]);
-	//모래
-	for (int i = 0; i < 30; i++)
-		SAFE_UPDATE(SaddleBag0[i]);
-	for (int i = 0; i < 86; i++)
-		SAFE_UPDATE(SaddleBag1[i]);
-
-	//나무
-	for (int i = 0; i < 10; i++)
-	{
-		SAFE_UPDATE(m_Tree00[i]);
-		SAFE_UPDATE(m_Tree01[i]);
-		SAFE_UPDATE(m_Tree02[i]);
-		SAFE_UPDATE(m_Tree03[i]);
-		//SAFE_UPDATE(m_Tree04[i]);
-		//SAFE_UPDATE(m_Tree05[i]);
-		SAFE_UPDATE(m_Tree06[i]);
-	}
-	//지푸라기
-	for (int i = 0; i < 2; i++)
-		SAFE_UPDATE(m_Straw00[i]);
-	//돌
-	for (int i = 0; i < 4; i++)
-		SAFE_UPDATE(m_Stone00[i]);
-
-	//탱크
-	for (int i = 0; i < 2; i++)
-	{
-		SAFE_UPDATE(m_Tank[i]);
-	}
-
-	//웨건
-	for (int i = 0; i < 3; i++)
-	{
-		SAFE_UPDATE(m_Wagon[i]);
-	}
-
-	//건물
-	for (int i = 0; i < 3; i++)
-	{
-		SAFE_UPDATE(m_Apt[i]);
-	}
-
-	//타일
-	for (int i = 0; i < 15; i++)
-	{
-		SAFE_UPDATE(m_Tile[i]);
-	}
 }

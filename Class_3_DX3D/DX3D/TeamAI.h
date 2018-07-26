@@ -1,6 +1,6 @@
 #pragma once
 #include "IUnitObject.h"
-class CubemanParts;
+//class CubemanParts;
 class Mob;
 class TEAM_TEX;
 
@@ -38,7 +38,7 @@ class TeamAI :
 	public IUnitObject
 {
 private:
-	CubemanParts *	m_pRootParts;
+	//CubemanParts *	m_pRootParts;
 	vector<Mob*>	m_pMob;
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;

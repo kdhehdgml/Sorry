@@ -1,5 +1,7 @@
 #pragma once
 #include "stdafx.h"
+class SkinnedMeshHLSL;
+
 
 class Objects
 {
@@ -12,10 +14,10 @@ private:
 	~Objects();
 
 	/////All Objects/////
-	static set<BaseObject*> m_pObjectList;
+	static set<IObject*> m_pObjectList;
 public:
-	static void AddObject(BaseObject* pObject);
-	static void RemoveObject(BaseObject* pObject);
+	static void AddObject(IObject* pObject);
+	static void RemoveObject(IObject* pObject);
 	/////All Objects/////
 
 	/////TagList/////
@@ -28,6 +30,12 @@ public:
 	static list<IDisplayObject*> FindObjectsByTag(WORD _tag);
 	/////TagList/////
 
+	/////Player/////
+public:
+	static IUnitObject* GetPlyer();
+	/////Player/////
+
+
 	/////Map/////
 private:
 	static IMap * m_pCurrentMap;
@@ -36,5 +44,11 @@ public:
 	static IMap* GetCurrentMap();
 	/////Map/////
 
+	/////SkinnedMesh/////
+private:
+	static map<CString, SkinnedMeshHLSL*> m_pSkinnedMeshList;
+public:
+	static SkinnedMeshHLSL* GetSkinnedMesh(LPCTSTR path, LPCTSTR filename);
+	/////SkinnedMesh/////
 };
 
