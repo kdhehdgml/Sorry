@@ -58,8 +58,8 @@ void MARK::Init()
 	state = 0;
 	size = 5.0f;
 	m_pos = { 743.0f ,29.0f,369.0f };
-	m_destPos = m_pos;
 	m_finalDestPos = m_pos;
+	m_moveSpeed = 0.6f;
 	m_vecMovePosit.push_back(D3DXVECTOR3(324.0f, 0, 367.0f));
 	m_vecMovePosit.push_back(D3DXVECTOR3(252.0f, 0, 523.0f));
 	m_vecMovePosit.push_back(D3DXVECTOR3(252.0f, 0, 426.0f));
@@ -84,13 +84,16 @@ void MARK::Update()
 	Debug->AddText(m_mark_main->m_pos);
 	Debug->EndLine();
 
-	UpdatePositionToDestination();
-	if (m_finalDestPos.x == m_pos.x && m_finalDestPos.z == m_pos.z && MoveNum < 10)
+	if (m_finalDestPos.x == m_pos.x && m_finalDestPos.z == m_pos.z)
 	{
-		SetMoving(m_vecMovePosit[MoveNum]);
+		SetFinalPos(m_vecMovePosit[MoveNum]);
 	}
+	UpdatePosition();
 	m_mark_main->m_pos = m_pos;
+	m_mark_main->SetRot(SaveRot);
 	
+	Debug->AddText(SaveRot);
+	Debug->EndLine();
 
 
 
@@ -151,6 +154,8 @@ void MARK::Update()
 		m_mark_main->Update();
 		if (m_finalDestPos.x == m_pos.x && m_finalDestPos.z == m_pos.z)
 			MoveNum++;
+		if (MoveNum > 9)
+			MoveNum = 1;
 
 	}
 
@@ -170,12 +175,9 @@ void MARK::Skin_render()
 	//R
 	//T
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
-
 	m_matWorld = matS * matR * matT;
 
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld); // 월드행렬을 디바이스에 선언
-
-
 
 	for (DWORD i = 0; i < g_dwNumMaterials; i++)
 	{
@@ -196,8 +198,6 @@ void MARK::Render()
 	{
 		SAFE_RENDER(m_mark_main);
 		//Skin_render();
-
-
 		D3DXMATRIXA16 mat;
 		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
@@ -205,31 +205,56 @@ void MARK::Render()
 		m_pSphere->DrawSubset(0);
 	}
 	//	메시는 재질이 다른 메시별로 부분집합을 이루공 ㅣㅆ다.
-
 	//	이들을 루프를 수행해서 모두 그려준다.
-
-
-
-
-
-
-
 }
 
-
-
-void MARK::SetMoving(const D3DXVECTOR3 & pos)
+void MARK::SetFinalPos(const D3DXVECTOR3 & pos)
 {
-	m_destPos = pos;
 	m_finalDestPos = pos;
-	m_SaveFinal = pos;
+}
+
+void MARK::UpdatePosition()
+{
+	D3DXVECTOR3 forward = D3DXVECTOR3(m_finalDestPos.x - m_pos.x, 0, m_finalDestPos.z - m_pos.z);
+	D3DXVECTOR3 forwardNormalized = forward;
+	if (D3DXVec3LengthSq(&forward) > 0)
+	{
+		D3DXVec3Normalize(&forwardNormalized, &forwardNormalized);
+		m_forward = forwardNormalized;//m_forward는 정면방향을 뜻함
+		if (forward.x <= 0)
+		{
+			if ((D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) - D3DX_PI / 2 > -0.6f)
+				SaveRot = (D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) * 1.5f - D3DX_PI / 2;
+			else if((D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) - D3DX_PI / 2 > -0.7f)
+				SaveRot = (D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) * 1.3f - D3DX_PI / 2;
+			else
+				SaveRot = (D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) * 1.6f - D3DX_PI / 2;
+		}
+			
+		else
+			SaveRot = D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1)) + D3DX_PI + D3DX_PI / 9;
+
+		if (D3DXVec3Length(&forward) >= m_moveSpeed * m_currMoveSpeedRate)
+		{
+			m_pos += forwardNormalized * m_moveSpeed * m_currMoveSpeedRate;
+		}
+		else
+		{
+			m_pos.x = m_finalDestPos.x;
+			m_pos.z = m_finalDestPos.z;
+		}
+	}
+	else
+	{
+		m_pos = m_finalDestPos;
+	}
+
 }
 
 LPD3DXMESH MARK::Load(const char * szFileName)
 {
 	//매시객체
 	LPD3DXMESH mesh = NULL;
-
 	//	재질을 임시로 보관할 버퍼 선언
 	LPD3DXBUFFER	pD3DXMtrlBuffer;
 
@@ -242,9 +267,7 @@ LPD3DXMESH MARK::Load(const char * szFileName)
 	D3DXMATERIAL*	d3dxMaterials = (D3DXMATERIAL*)pD3DXMtrlBuffer->GetBufferPointer();
 
 	g_pMeshMaterials = new D3DMATERIAL9[g_dwNumMaterials];//	재질의 개수만큼 재질 구조체 배열 생성
-
 	g_pMeshTexture = new LPDIRECT3DTEXTURE9[g_dwNumMaterials];//	재질 개수만큼 텍스처 배열 생성
-
 
 	for (DWORD i = 0; i < g_dwNumMaterials; i++)
 	{
@@ -279,12 +302,8 @@ LPD3DXMESH MARK::Load(const char * szFileName)
 		}
 	}
 
-
-
 	//	임시로 생성한 재질 버퍼 소거
-
 	pD3DXMtrlBuffer->Release();
-
 
 	return mesh;
 }

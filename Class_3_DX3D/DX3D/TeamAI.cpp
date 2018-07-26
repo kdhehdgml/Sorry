@@ -416,8 +416,8 @@ bool TeamAI::TrenchFight(int _num)
 				m_Action = ÆÀ_±ÙÁ¢½Î¿ò;
 				if (m_ShootCooldownTime > 100)
 				{
-					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth
-					(25.0f);
+					g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth(25.0f);
+					g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_MobNum]->SetHitting(true);
 					m_ShootCooldownTime = 0;
 				}
 			}
@@ -440,11 +440,13 @@ void TeamAI::Shooting()
 			if (damage < 3)
 			{
 				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth(100);
+				g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_MobNum]->SetHitting(true);
 			}
 			else*/
 			{
 				kill = rand() % 30;
 				g_pObjMgr->FindObjectsByTag(TAG_MOB)[m_MobNum]->DecreaseHealth(20 + kill);
+				g_pObjMgr->FindObjectsByTag(TAG_TEAM)[m_MobNum]->SetHitting(true);
 			}
 			m_bullet--;
 
