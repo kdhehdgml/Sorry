@@ -17,6 +17,7 @@ IUnitObject::IUnitObject()
 	m_colision = false;
 	m_maxStepHeight = 2.0f;
 	m_avoidObstDir = 0;
+	m_hit = false;
 }
 
 

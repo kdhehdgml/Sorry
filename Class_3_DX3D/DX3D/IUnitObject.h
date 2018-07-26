@@ -14,6 +14,7 @@ protected:
 	bool			m_colision;
 	bool			m_isMoving;
 	bool			m_start;
+	bool			m_hit;
 	float			m_moveSpeed;
 	float			m_currMoveSpeedRate;
 	float			m_rotationSpeed;
@@ -66,7 +67,7 @@ public:
 	void UpdatePositionToDestination();
 	int getHealth() { return health; }
 	void setHealth(int h) { health = h; }
-
+	void SetHitting(bool _hit) { m_hit = _hit; }
 	float GetMoveSpeed() { return m_moveSpeed; }
 	void SetMove(bool _move) { m_colision = _move; }
 	void UpdateTargetPosition(OUT D3DXVECTOR3 &targetPos);

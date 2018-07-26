@@ -84,7 +84,7 @@ void ObjRen::Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float y
 
 void ObjRen::Update()
 {
-	
+
 
 	//Debug->AddText("ÅÊÅ© ÁÂÇ¥ :");
 	//Debug->AddText(m_pos);

@@ -27,6 +27,7 @@ class MARK : public IUnitObject
 private:
 	vector<D3DXVECTOR3> m_vecMovePosit;
 	int			MoveNum;
+	float SaveRot;
 
 	LPD3DXMESH Load(const char* szFileName);
 
@@ -57,7 +58,6 @@ public:
 	int			DEF;
 	int			state;
 	float		size;
-	
 
 	float x, y, z, xR, yR, zR;
 
@@ -66,7 +66,8 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 	void Skin_render();
-	void SetMoving(const D3DXVECTOR3 & pos);
+	void SetFinalPos(const D3DXVECTOR3 & pos);
+	void UpdatePosition();
 };
 
 
