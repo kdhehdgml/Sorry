@@ -102,6 +102,9 @@
     <Filter Include="소스 파일\AI\Boss">
       <UniqueIdentifier>{6ed70baf-0a8a-4bcb-8477-1d9d6b99c562}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\3.Object\BillBoard">
+      <UniqueIdentifier>{cace245a-f082-4f75-9be5-906d3c410899}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -427,6 +430,9 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="IObject.h" />
+    <ClInclude Include="BillBoard.h">
+      <Filter>소스 파일\3.Object\BillBoard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
@@ -731,6 +737,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="IObject.cpp" />
+    <ClCompile Include="BillBoard.cpp">
+      <Filter>소스 파일\3.Object\BillBoard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D.rc">

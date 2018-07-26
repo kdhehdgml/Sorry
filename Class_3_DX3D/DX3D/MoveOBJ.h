@@ -30,7 +30,7 @@ public:
 	D3DXVECTOR3 m_pos;
 	float m_angle;
 
-	void SetRot(float angle) { m_angle = m_angle+angle; }
+	void SetRot(float angle) { m_angle = angle; }
 
 	void Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float y, float z, float rotationX, float rotationY, float rotationZ);
 	void Update();
