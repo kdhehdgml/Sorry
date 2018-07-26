@@ -114,6 +114,8 @@ private:
 	int Player_Health;
 	int Health_Recovery_Interval = 0;
 
+	D3DXVECTOR3 m_pBombingPos;
+
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
 public:

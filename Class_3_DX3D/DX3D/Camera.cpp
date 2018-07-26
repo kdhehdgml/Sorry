@@ -730,6 +730,7 @@ void Camera::getPMobFromUnitBox(vector<Mob*>* mob)
 void Camera::bombing()
 {
 	m_pBombingCooldown = GetTickCount() + 2000;
+	m_pBombing = false;
 }
 
 D3DXVECTOR3 Camera::getOldPos()

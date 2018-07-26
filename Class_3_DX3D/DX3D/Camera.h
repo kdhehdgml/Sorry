@@ -123,6 +123,8 @@ public:
 	bool mouseLock;
 	bool isPaused;
 	bool m_pBombingReady;
+	bool m_pBombing;
+	int m_pBombingDelay;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 	void bombing();
 
