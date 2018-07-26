@@ -53,7 +53,7 @@ void SkinnedMeshHLSL::Init()
 	double pos = (rand() % 100) / 10.0f;
 	m_pAC->SetTrackPosition(0, pos);
 	
-	//Load(ASSET_PATH + _T("Models/zealot/"), _T("zealot.X"));
+	Load(_T("resources/xFile/zealot/"), _T("zealot.X"));
 	//Load(ASSET_PATH + _T("Models/marine/"), _T("marine.X"));
 	//Load(ASSET_PATH + _T("Models/SiegeTank/"), _T("SiegeTank.X"));
 	//Load(ASSET_PATH + _T("Models/SiegeTank/"), _T("SiegeTank_SiegeMode.X"));
@@ -234,7 +234,7 @@ void SkinnedMeshHLSL::Update()
 	}
 	pCurrAnimSet->Release();
 	*/
-	
+
 	if (Keyboard::Get()->KeyDown('1'))
 	{
 		if (m_animIndex < m_pAC->GetMaxNumAnimationSets() - 1)
@@ -348,6 +348,8 @@ void SkinnedMeshHLSL::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParen
 
 void SkinnedMeshHLSL::Render()
 {
+
+	
 	if (m_renderMode != RenderMode_Default) return;
 
 	UpdateAnim(m_pAC);

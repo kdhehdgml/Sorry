@@ -65,6 +65,7 @@ void SceneManager::Render()
 void SceneManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	//if (m_pCurrScene) m_pCurrScene->WndProc(hWnd, message, wParam, lParam);
+
 	SAFE_WNDPROC(m_pCurrScene);
 }
 
