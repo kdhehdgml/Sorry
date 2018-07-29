@@ -36,7 +36,7 @@
 
 GSM::GSM()
 {
-	Debug_Mode_On = true;
+	Debug_Mode_On = false;
 
 	//(프로세스 시작 직후의)시작 씬
 	InitScene = SCENE_LOADING;

@@ -39,7 +39,8 @@ void SceneGrid::Init()
 	m_pActionCube = new ActionCube(); m_pActionCube->Init();
 	m_pHexagon = new Hexagon(); m_pHexagon->Init();
 	m_pWireSphere = new WireSphere(); m_pWireSphere->Init();
-	D3DXVECTOR3 camPos(-30.0f, 22.0f, 0.0f);
+	m_pWireSphere->m_pRenderToggle = true;
+	D3DXVECTOR3 camPos(-50.0f, 22.0f, 0.0f);
 	g_pCamera->setPos(camPos);
 }
 

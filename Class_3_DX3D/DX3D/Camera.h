@@ -31,6 +31,9 @@ private:
 	D3DXVECTOR3		m_up;
 	D3DXMATRIXA16	m_matView;
 	D3DXMATRIXA16	m_matProj;
+	D3DXVECTOR3		m_offset;
+	D3DXVECTOR3		m_currOffset;
+
 	float			m_basePosY;
 	float			m_distance;
 	float			m_rotX;
@@ -91,6 +94,7 @@ private:
 	VARIATION_P(D3DXVECTOR3, m_currForward, CurrForward);
 	VARIATION_P(D3DXMATRIXA16, m_matR, MatR);
 	VARIATION_P(D3DXMATRIXA16, m_currMatR, CurrMatR);
+	void SetOffset(D3DXVECTOR3* v) { m_offset = *v; m_currOffset = *v; }
 
 	//
 

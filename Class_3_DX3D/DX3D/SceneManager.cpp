@@ -65,6 +65,7 @@ void SceneManager::Render()
 void SceneManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	//if (m_pCurrScene) m_pCurrScene->WndProc(hWnd, message, wParam, lParam);
+
 	SAFE_WNDPROC(m_pCurrScene);
 }
 
@@ -73,6 +74,7 @@ void SceneManager::SetCurrentScene(size_t index)
 	if (index >= m_vecScene.size()) return;
 
 	IScene* pScene = m_vecScene[index];
+
 	if (pScene)
 	{
 		pScene->Init();

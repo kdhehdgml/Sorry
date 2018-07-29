@@ -118,6 +118,7 @@ private:
 	int Health_Recovery_Interval = 0;
 
 	D3DXVECTOR3 m_pBombingPos;
+	VERTEX_PC verBrushLine[2];
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
@@ -134,5 +135,6 @@ public:
 private:
 	void Event();
 	void ResetScene();
+	void DrawBrush();
 };
 

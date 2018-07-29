@@ -14,6 +14,7 @@ protected:
 	bool						m_bWireFrame;
 	bool						m_bDrawFrame;
 	bool						m_bDrawSkeleton;
+	int                     m_numFrame;
 
 	/////Frame Separate/////
 protected:
