@@ -33,6 +33,7 @@ class Blocks;
 //class SkinnedMesh;
 
 class ObjRender;	//obj 클래스
+class BillBoard;
 
 class MARK;
 
@@ -63,6 +64,8 @@ private:
 
 	//obj 관련
 	ObjRender*			m_ObjRender;
+	BillBoard*			m_BillBoard;
+
 
 	MARK*				m_MARK;
 

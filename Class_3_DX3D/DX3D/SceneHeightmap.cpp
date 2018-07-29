@@ -29,6 +29,7 @@
 #include "UIImage.h"
 
 #include "ObjRender.h"// obj 해더
+#include "BillBoard.h"
 
 #include "MenuUI.h"
 #include "BulletUI.h"
@@ -127,6 +128,7 @@ SceneHeightmap::SceneHeightmap()
 
 	// obj 관련
 	m_ObjRender = NULL;
+	m_BillBoard = NULL;
 
 	m_pMenuUI = NULL;
 	m_pBulletUI = NULL;
@@ -171,6 +173,7 @@ SceneHeightmap::~SceneHeightmap()
 	//obj 관련 직접 접근해서 릴리즈함
 	//m_ObjRender->~ObjRender();
 	SAFE_DELETE(m_ObjRender);
+	m_BillBoard->~BillBoard();
 
 	OnDestructIScene();
 }
@@ -223,6 +226,8 @@ void SceneHeightmap::Init()
 	// obj 관련 (크기, obj파일 위치, png파일 위치, x, y, z, 회전) 테스트용으로 넣은것임..
 	m_ObjRender = new ObjRender;
 	m_ObjRender->Init();
+	m_BillBoard = new BillBoard;
+	m_BillBoard->Init();
 
 	m_MARK = new MARK;
 	m_MARK->Init();
@@ -951,6 +956,11 @@ void SceneHeightmap::Render()
 
 	//obj 관련
 	m_ObjRender->Render();
+	if (m_BillBoard->check == true)
+	{
+		m_BillBoard->Render(m_pWireSphere->m_pos.x, m_pWireSphere->m_pos.y, m_pWireSphere->m_pos.z);
+	}
+	
 	if (g_pCamera->isPaused) {
 		SAFE_RENDER(m_pMenuUI);
 	}
@@ -1015,6 +1025,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 			g_pCamera->m_pBombing = true;
 			g_pCamera->m_pBombingDelay = GetTickCount() + 3000;
 			m_pBombingPos = m_pWireSphere->m_pos;
+			m_BillBoard->check = true;
 		}
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {
