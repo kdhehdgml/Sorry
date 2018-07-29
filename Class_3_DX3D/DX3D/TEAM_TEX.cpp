@@ -83,38 +83,38 @@ void TEAM_TEX::Update()
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
-	//if (Keyboard::Get()->KeyDown('1'))
-	//	//if (GetAsyncKeyState('1') & 0x8000)
-	//{
-	////m_AnimaTionIndex = rand() % 5;
-	//if (m_AnimaTionIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
-	//	m_AnimaTionIndex++;
+	if (Keyboard::Get()->KeyDown('1'))
+		//if (GetAsyncKeyState('1') & 0x8000)
+	{
+	//m_AnimaTionIndex = rand() % 5;
+	if (m_AnimaTionIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+		m_AnimaTionIndex++;
 
-	//	SetAnimationIndex(m_AnimaTionIndex, true);
-	//}
-	//else if (Keyboard::Get()->KeyDown('2'))
-	//	//if (GetAsyncKeyState('2') & 0x8000)
-	//{
-	//	if (m_AnimaTionIndex > 0)
-	//		m_AnimaTionIndex--;
+		SetAnimationIndex(m_AnimaTionIndex, true);
+	}
+	else if (Keyboard::Get()->KeyDown('2'))
+		//if (GetAsyncKeyState('2') & 0x8000)
+	{
+		if (m_AnimaTionIndex > 0)
+			m_AnimaTionIndex--;
 
-	//	SetAnimationIndex(m_AnimaTionIndex, true);
-	//}
-	//else if (Keyboard::Get()->KeyDown(VK_F1))
-	//	//if (GetAsyncKeyState(VK_F1) & 0x8000)
-	//{
-	//	m_bDrawFrame = !m_bDrawFrame;
-	//}
-	//else if (Keyboard::Get()->KeyDown(VK_F2))
-	//	//if (GetAsyncKeyState(VK_F2) & 0x8000)
-	//{
-	//	m_bDrawSkeleton = !m_bDrawSkeleton;
-	//}
-	//else if (Keyboard::Get()->KeyDown(VK_F3))
-	//	//if (GetAsyncKeyState(VK_F3) & 0x8000)
-	//{
-	//	m_bWireFrame = !m_bWireFrame;
-	//}
+		SetAnimationIndex(m_AnimaTionIndex, true);
+	}
+	else if (Keyboard::Get()->KeyDown(VK_F1))
+		//if (GetAsyncKeyState(VK_F1) & 0x8000)
+	{
+		m_bDrawFrame = !m_bDrawFrame;
+	}
+	else if (Keyboard::Get()->KeyDown(VK_F2))
+		//if (GetAsyncKeyState(VK_F2) & 0x8000)
+	{
+		m_bDrawSkeleton = !m_bDrawSkeleton;
+	}
+	else if (Keyboard::Get()->KeyDown(VK_F3))
+		//if (GetAsyncKeyState(VK_F3) & 0x8000)
+	{
+		m_bWireFrame = !m_bWireFrame;
+	}
 
 
 
@@ -236,7 +236,20 @@ void TEAM_TEX::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 		m_head_pos = D3DXVECTOR3(m_head_mat._41, m_head_mat._42, m_head_mat._43);
 		
 	}
+	//¿À¸¥¼Õ
+	if (pFrame->Name != NULL && strcmp(pFrame->Name, "Bip01_R_Hand") == 0)
+	{
+		m_R_mat = pFrameEx->CombinedTM * m_matWorld;
 
+		m_R_pos = D3DXVECTOR3(m_R_mat._41, m_R_mat._42, m_R_mat._43);
+	}
+	//¿Þ¼Õ
+	if (pFrame->Name != NULL && strcmp(pFrame->Name, "Bip01_L_Finger1") == 0)
+	{
+		m_L_mat = pFrameEx->CombinedTM * m_matWorld;
+
+		m_L_pos = D3DXVECTOR3(m_L_mat._41, m_L_mat._42, m_L_mat._43);
+	}
 	if (pParent != NULL)
 	{
 		pFrameEx->CombinedTM = pFrameEx->TransformationMatrix * ((FRAME_EX*)pParent)->CombinedTM;

@@ -29,7 +29,6 @@ protected:
 	LPD3DXFRAME					m_pRootFrame;
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
-	int							m_AnimaTionIndex;
 	float						m_fBlendTime;
 	float						m_fPassedBlendTime;
 
@@ -51,6 +50,7 @@ protected:
 public:
 	TEAM_TEX();
 	~TEAM_TEX();
+	int							m_AnimaTionIndex;
 
 	// IUnitObject을(를) 통해 상속됨
 	virtual void Init() override;

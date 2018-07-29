@@ -35,6 +35,9 @@ private:
 	TEAM_TEX *		m_TEAM_TEX;
 	MONSTER*		m_MONSTER;
 	MARK*			m_MARK;
+
+	//좌표 확인용
+	vector<D3DXVECTOR3>  m_vector3;
 public:
 	SceneXfile();
 	~SceneXfile();

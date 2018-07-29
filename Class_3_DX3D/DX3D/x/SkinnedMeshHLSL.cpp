@@ -368,7 +368,7 @@ void SkinnedMeshHLSL::Render()
 	if ( m_bDrawFrame)DrawFrame(m_pRootFrame);
 	if (m_pSubRootFrame)
 		if ( m_bDrawFrame)DrawFrame(m_pSubRootFrame);
-	
+	//면을 점으로 가득채우는 렌더상태
 	g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	 
 	if ( m_bDrawSkeleton)DrawSkeleton(m_pRootFrame, NULL);	
@@ -379,14 +379,29 @@ void SkinnedMeshHLSL::Render()
 // Desc: Called to render a frame in the hierarchy
 void SkinnedMeshHLSL::DrawFrame(LPD3DXFRAME pFrame)
 {
-	
+	m_numFrame++;
+
+	//디버그모드
+	if (m_numFrame % 5 == 0)
+	{
+	Debug->EndLine();
+	}
+	if (pFrame->Name == NULL)
+	Debug->AddText(_T("NULL"));
+	else
+	Debug->AddText(pFrame->Name);
+
+
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
 	while (pMeshContainer != NULL)
 	{
+		//디버그모드
+		Debug->AddText(_T("(MESH)"));
 		DrawMeshContainer(pFrame);
 		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
-	
+	//디버그모드
+	Debug->AddText(_T(" / "));
 	if (pFrame->pFrameSibling != NULL)
 	{
 		DrawFrame(pFrame->pFrameSibling);

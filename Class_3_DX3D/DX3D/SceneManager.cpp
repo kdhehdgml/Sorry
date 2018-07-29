@@ -74,6 +74,7 @@ void SceneManager::SetCurrentScene(size_t index)
 	if (index >= m_vecScene.size()) return;
 
 	IScene* pScene = m_vecScene[index];
+
 	if (pScene)
 	{
 		pScene->Init();

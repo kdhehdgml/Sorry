@@ -4,7 +4,7 @@
 #include "AllocateHierarchy.h"
 
 // 스킨 사이즈 조절
-#define SCALE 1.0f
+#define SCALE 2.00f
 
 
 Smle::Smle()
@@ -24,6 +24,14 @@ Smle::Smle()
 
 	pCurrAnimSet = NULL;
 	pNextAnimSet = NULL;
+
+	m_pos = D3DXVECTOR3(0, 0, 0);
+	m_angleX = -0;
+	m_angleY = 0;
+	m_angleZ = -0;
+	x = -0;
+	y = 0;
+	z = 0;
 }
 
 
@@ -44,7 +52,7 @@ void Smle::Init()
 	//Load(ASSET_PATH + _T("zealot/"), _T("zealot.X"));
 	//CString path = "resources/xFile/";
 	CString path = "resources/xFile/weapons/smle/";
-	CString filename = "smle_npc.X";
+	CString filename = "smle.X";
 	Load(path, filename);
 	D3DXMatrixIdentity(&m_matWorld);
 
@@ -58,7 +66,7 @@ void Smle::Init()
 
 void Smle::Update()
 {
-	if (ani == 7)
+	/*if (ani == 7)
 	{
 		m_angleX = 0.5599f;
 		m_angleY = 3.9199f;
@@ -76,18 +84,24 @@ void Smle::Update()
 		y = 0.05f;
 		z = 0.128f;
 	}
-
+*/
 	D3DXMatrixTranslation(&matT, m_pos.x + x, m_pos.y + y, m_pos.z + z);
 
 	UpdateAnim();
 	UpdateFrameMatrices(m_pRootFrame, NULL);
 
-	D3DXMatrixRotationX(&matRx, m_angleX);
-	D3DXMatrixRotationY(&matRy, m_angleY);
-	D3DXMatrixRotationZ(&matRz, m_angleZ);
+	//D3DXMatrixRotationX(&matRx, m_angleX);
+	//D3DXMatrixRotationY(&matRy, m_angleY);
+	//D3DXMatrixRotationZ(&matRz, m_angleZ);
 
-	m_matWorld = matS * matRx * matRy * matRz * matT;
-	m_matWorld = m_matWorld * m_Hand_mat;
+	//m_matWorld = matS * matRx * matRy * matRz * matT;
+	D3DXMATRIXA16 matR;
+	D3DXMatrixRotationY(&matR, m_angle);
+
+	m_matWorld = matS * matR  * matT;
+
+	//m_matWorld = m_matWorld * m_Hand_mat;
+	Debug->AddText(m_pos);
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);
@@ -210,16 +224,26 @@ void Smle::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 void Smle::DrawFrame(LPD3DXFRAME pFrame)
 {
 	m_numFrame++;
-
+	//디버그모드
+	//if (m_numFrame % 5 == 0)
+	//{
+	//	Debug->EndLine();
+	//}
+	//if (pFrame->Name == NULL)
+	//	Debug->AddText(_T("NULL"));
+	//else
+	//	Debug->AddText(pFrame->Name);
 	LPD3DXMESHCONTAINER pMeshContainer = pFrame->pMeshContainer;
 	while (pMeshContainer != NULL)
 	{
 		m_numMesh++;
-
+		//디버그모드
+		//Debug->AddText(_T("(MESH)"));
 		DrawMeshContainer(pFrame);
 		pMeshContainer = pMeshContainer->pNextMeshContainer;
 	}
-
+	//디버그모드
+	//Debug->AddText(_T(" / "));
 	if (pFrame->pFrameSibling != NULL)
 	{
 		DrawFrame(pFrame->pFrameSibling);

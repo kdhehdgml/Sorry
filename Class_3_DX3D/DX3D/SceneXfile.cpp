@@ -28,17 +28,20 @@ SceneXfile::SceneXfile()
 	m_MONSTER = NULL;
 	m_TEAM_TEX = NULL;
 	m_MARK = NULL;
+	m_Smle = NULL;
 }
 
 
 SceneXfile::~SceneXfile()
 {
-	SAFE_RELEASE(m_GUN);
-	SAFE_RELEASE(m_SHOVEL);
-	SAFE_RELEASE(m_pSkinnedMesh);
-	SAFE_RELEASE(m_MONSTER);
-	//SAFE_RELEASE(m_TEAM_TEX);
-	SAFE_RELEASE(m_MARK);
+	//SAFE_RELEASE(m_GUN);
+	//SAFE_RELEASE(m_SHOVEL);
+	//SAFE_RELEASE(m_pSkinnedMesh);
+	//SAFE_RELEASE(m_MONSTER);
+	SAFE_RELEASE(m_TEAM_TEX);
+	//SAFE_RELEASE(m_MARK);
+	SAFE_RELEASE(m_Smle);
+	
 
 	OnDestructIScene();
 	/*m_GUN->Release();
@@ -47,57 +50,75 @@ SceneXfile::~SceneXfile()
 
 void SceneXfile::Init()
 {
-	m_pSkinnedMesh = new SkinnedMesh;
-	m_pSkinnedMesh->Init();
+
+	//g_pCamera->SetType(Camera::Type_LookTarget);
+	//g_pCamera->SetOffset(&D3DXVECTOR3(0, 5, -10));
+
+	/*m_pSkinnedMesh = new SkinnedMesh;
+	m_pSkinnedMesh->Init();*/
 	//AddSimpleDisplayObj(m_pSkinnedMesh);
 
-	m_GUN = new GUN;
-	m_GUN->Init();
+	//m_GUN = new GUN;
+	//m_GUN->Init();
 	//AddSimpleDisplayObj(m_GUN);
+
+	m_Smle = new Smle;
+	m_Smle->Init();
+	//AddSimpleDisplayObj(m_Smle);
 
 	m_SkyBox = new SkyBox;
 	m_SkyBox->Init();
 	AddSimpleDisplayObj(m_SkyBox);
 
-	m_SHOVEL = new SHOVEL;
-	m_SHOVEL->Init();
+	//m_SHOVEL = new SHOVEL;
+	//m_SHOVEL->Init();
 
 
-	//m_TEAM_TEX = new TEAM_TEX;
-	//m_TEAM_TEX->Init();
+	m_TEAM_TEX = new TEAM_TEX;
+	m_TEAM_TEX->Init();
 	//AddSimpleDisplayObj(m_TEAM_TEX);
 
-	m_MONSTER = new MONSTER;
-	m_MONSTER->Init();
+	//m_MONSTER = new MONSTER;
+	//m_MONSTER->Init();
 	//AddSimpleDisplayObj(m_MONSTER);
 	
-	IDisplayObject* pObj = NULL;
-	
-	
-	for (int i = 0; i < 3; i++)
-	{
+	//IDisplayObject* pObj = NULL;
+	//
+	//
+	//for (int i = 0; i < 1; i++)
+	//{
 
-		/*
-		CString path = "resources/xFile/MONSTER_AI/";
-		CString filename = "MOB_ANI_ALL2.X";
-		
-		*/
-		float radian = D3DX_PI * 2 * i / (10.0f + (int)(i / 10));
-		float radius = 3.0f + 2.5f * (int)(i / 10);
-		pObj = new SkinnedMeshHLSL(_T("resources/xFile/zealot/"), _T("zealot.X")); pObj->Init(); AddSimpleDisplayObj(pObj);
-		//pObj = new SkinnedMesh2(ASSET_PATH + _T("Models/player/"), _T("combine_All.X")); pObj->Init(); AddDisplayObject(pObj);
-		pObj->SetPosition(&D3DXVECTOR3(cosf(radian) * radius, 0, sinf(radian) * radius));
-	}
+	//	/*
+	//	CString path = "resources/xFile/MONSTER_AI/";
+	//	CString filename = "MOB_ANI_ALL2.X";
+	//	
+	//	*/
+	//	float radian = D3DX_PI * 2 * i / (10.0f + (int)(i / 10));
+	//	float radius = 3.0f + 2.5f * (int)(i / 10);
+	//	pObj = new SkinnedMeshHLSL(_T("resources/xFile/zealot/"), _T("zealot.X")); pObj->Init(); AddSimpleDisplayObj(pObj);
+	//	//pObj = new SkinnedMesh2(ASSET_PATH + _T("Models/player/"), _T("combine_All.X")); pObj->Init(); AddDisplayObject(pObj);
+	//	//pObj->SetPosition(&D3DXVECTOR3(cosf(radian) * radius, 0, sinf(radian) * radius));
+	//	pObj->SetPosition(&D3DXVECTOR3(0,0,0));
+	//	m_vector3.push_back(D3DXVECTOR3(cosf(radian) * radius, 0, sinf(radian) * radius));
+	//	
+	//}
 
-	m_MARK = new MARK;
-	m_MARK->Init();
+	//m_MARK = new MARK;
+	//m_MARK->Init();
 
 	g_pCamera->mouseLock = true;
+	g_pCamera->setPos(D3DXVECTOR3(0, 0, 0));
 
 }
 
 void SceneXfile::Update()
 {
+	//Debug->EndLine();
+	//for (int i = 0; i < m_vector3.size(); i++)
+	//{
+	//	Debug->AddText(m_vector3[i]);
+	//	Debug->EndLine();
+	//}
 	D3DXVECTOR3 dir(1.0f, -10.0f, 1.0f);
 	D3DXVec3Normalize(&dir, &dir);
 	D3DLIGHT9 light = DXUtil::InitDirectional(&dir, &WHITE);
@@ -107,10 +128,11 @@ void SceneXfile::Update()
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 
 	//m_MARK->Update();
-	
-	m_pSkinnedMesh->Update();
+	m_TEAM_TEX->Update();
+
+	//m_pSkinnedMesh->Update();
 	//m_GUN->SetPos(m_pSkinnedMesh->GetG3unPos());
-	m_MONSTER->Update();
+	//m_MONSTER->Update();
 
 	//if (m_MONSTER->m_AnimaTionIndex != 7)
 	//	m_GUN->SetMat(m_MONSTER->GetLeftMat());
@@ -123,11 +145,17 @@ void SceneXfile::Update()
 
 	//m_GUN->Update();
 
-	m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
-	m_SHOVEL->SetMatR(m_MONSTER->GetRotMat());
-	m_SHOVEL->SetMat(m_MONSTER->GetRightMat());
+	//m_Smle->SetMat(m_TEAM_TEX->GetLeftMat());
+	m_Smle->SetPos(m_TEAM_TEX->GetLeftPos());
+	m_Smle->SetAngle(m_TEAM_TEX->GetAngle() + (-(D3DX_PI/2)));
+	m_Smle->SetAniIndex(m_TEAM_TEX->m_AnimaTionIndex);
+	m_Smle->Update();
 
-	m_SHOVEL->Update();
+	//m_SHOVEL->SetPos(m_MONSTER->GetRightPos());
+	//m_SHOVEL->SetMatR(m_MONSTER->GetRotMat());
+	//m_SHOVEL->SetMat(m_MONSTER->GetRightMat());
+
+	//m_SHOVEL->Update();
 	
 	//Debug->AddText("matPos ÁÂÇ¥: ");
 	//Debug->AddText(*m_MONSTER->GetRightPos());
@@ -140,7 +168,6 @@ void SceneXfile::Update()
 	//Debug->EndLine();
 
 
-	//m_TEAM_TEX->Update();
 
 	//Debug->EndLine();
 	//Debug->AddText(m_pSkinnedMesh->GetGunPos());
@@ -154,12 +181,12 @@ void SceneXfile::Update()
 
 void SceneXfile::Render()
 {
-	m_pSkinnedMesh->Render();
-	m_GUN->Render();
-	m_SHOVEL->Render();
-	//m_TEAM_TEX->Render();
-	m_MONSTER->Render();
-
+	//m_pSkinnedMesh->Render();
+	//m_GUN->Render();
+	//m_SHOVEL->Render();
+	m_TEAM_TEX->Render();
+	//m_MONSTER->Render();
+	m_Smle->Render();
 	//m_MARK->Render();
 	OnRenderIScene();
 
@@ -167,4 +194,5 @@ void SceneXfile::Render()
 
 void SceneXfile::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	return;
 }
