@@ -3,6 +3,11 @@
 //#include "CubemanParts.h"
 #include "TEAM_TEX.h"
 
+//장비
+#include "FR_HEADGEAR.h"
+//무기
+#include "Smle.h"
+
 #define moveSpeed 0.5f
 #define DEATH_TIME 10000
 
@@ -37,6 +42,9 @@ TeamAI::TeamAI()
 
 	m_level = 1;
 	m_expToNextLevel = 4;
+	m_FR_HEADGEAR = NULL;
+
+
 }
 
 
@@ -49,6 +57,10 @@ TeamAI::~TeamAI()
 	}
 	SAFE_RELEASE(m_pSphere);
 	SAFE_DELETE(m_pBoundingSphere);
+
+	SAFE_RELEASE(m_Smle);
+	SAFE_RELEASE(m_FR_HEADGEAR);
+
 }
 
 void TeamAI::Init()
@@ -56,7 +68,12 @@ void TeamAI::Init()
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
 	D3DXCreateSphere(g_pDevice, 3.0f, 10, 10, &m_pSphere, NULL);
 
-
+	m_Smle = new Smle;
+	m_Smle->Init();
+	
+	m_FR_HEADGEAR = new FR_HEADGEAR;
+	m_FR_HEADGEAR->Init();
+	
 	if (!GSM().Debug_Mode_On)
 	{
 		m_TEAM_TEX = new TEAM_TEX;
@@ -197,6 +214,16 @@ void TeamAI::Update()
 			}
 			m_TEAM_TEX->SetAnimationIndex(ani_state);
 			m_TEAM_TEX->Update();
+			//장비
+			m_FR_HEADGEAR->SetMat(m_TEAM_TEX->GetHeadMatRot());
+			m_FR_HEADGEAR->SetPos(m_TEAM_TEX->GetHeadPos());
+			m_FR_HEADGEAR->Update();
+
+			//무기
+			m_Smle->SetPos(m_TEAM_TEX->GetLeftPos());
+			m_Smle->SetAngle(m_TEAM_TEX->GetAngle() + (-(D3DX_PI / 2)));
+			m_Smle->SetAniIndex(m_TEAM_TEX->m_AnimaTionIndex);
+			m_Smle->Update();
 
 		}
 	}
@@ -228,6 +255,8 @@ void TeamAI::Render()
 			&& m_Death == false && m_render)
 		{
 			m_TEAM_TEX->Render();
+			m_Smle->Render();
+			m_FR_HEADGEAR->Render();
 		}
 	}
 	if (status > 0) 

@@ -101,7 +101,7 @@ void Smle::Update()
 	m_matWorld = matS * matR  * matT;
 
 	//m_matWorld = m_matWorld * m_Hand_mat;
-	Debug->AddText(m_pos);
+	//Debug->AddText(m_pos);
 
 	m_pAnimController->GetTrackDesc(m_AnimaTionIndex, &track);
 	m_pAnimController->GetAnimationSet(m_AnimaTionIndex, &pCurrAnimSet);

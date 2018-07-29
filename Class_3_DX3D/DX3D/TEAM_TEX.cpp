@@ -227,21 +227,26 @@ void TEAM_TEX::UpdateAnim()
 void TEAM_TEX::UpdateFrameMatrices(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
 	FRAME_EX* pFrameEx = (FRAME_EX*)pFrame;
-
+	//bone_slot2_headgear
 	//ÇØµå ÁÂÇ¥
-	if (pFrame->Name != NULL && strcmp(pFrame->Name, "Bip01_Head") == 0)
+	if (pFrame->Name != NULL && strcmp(pFrame->Name, "bone_slot2_headgear") == 0)
 	{
 		m_head_mat = pFrameEx->CombinedTM * m_matWorld;
 		
 		m_head_pos = D3DXVECTOR3(m_head_mat._41, m_head_mat._42, m_head_mat._43);
-		
+
+		D3DXMatrixIdentity(&m_head_mat_rot);
+		GetScaleAndRotation(m_head_mat, &m_scaleMat, m_head_mat_rot);
 	}
+
 	//¿À¸¥¼Õ
 	if (pFrame->Name != NULL && strcmp(pFrame->Name, "Bip01_R_Hand") == 0)
 	{
 		m_R_mat = pFrameEx->CombinedTM * m_matWorld;
 
 		m_R_pos = D3DXVECTOR3(m_R_mat._41, m_R_mat._42, m_R_mat._43);
+
+
 	}
 	//¿Þ¼Õ
 	if (pFrame->Name != NULL && strcmp(pFrame->Name, "Bip01_L_Finger1") == 0)

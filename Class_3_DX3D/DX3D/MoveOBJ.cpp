@@ -84,9 +84,28 @@ void MoveOBJ::Init(float size, LPCTSTR objFile, LPCTSTR pngFile, float x, float 
 void MoveOBJ::Update()
 {
 	D3DXMatrixTranslation(&mT, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixRotationY(&mRY, m_angle);
+	//D3DXMatrixRotationY(&mRY, m_angle);
 
-	m_matWorld = mS * mRX * mRY * mRZ * mT;
+
+	if (obj_Index == 1)
+	{
+		D3DXMATRIXA16 RX;
+		D3DXMATRIXA16 RY;
+		D3DXMATRIXA16 RZ;
+		D3DXMatrixIdentity(&RX);
+		D3DXMatrixIdentity(&RY);
+		D3DXMatrixIdentity(&RZ);
+		D3DXMatrixRotationX(&RX, D3DX_PI/2);
+		D3DXMatrixRotationY(&RY, 0);
+		D3DXMatrixRotationZ(&RZ, D3DX_PI / 2);
+		mR = RX * RY * RZ*head_rot ;
+	}
+	else
+	{
+		mR = mRX * mRY * mRZ;
+	}
+	m_matWorld = mS * mR *  mT;
+
 }
 
 void MoveOBJ::Render()

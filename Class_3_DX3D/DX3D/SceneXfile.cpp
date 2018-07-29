@@ -10,6 +10,7 @@
 
 #include "SkyBox.h"
 //장비
+#include "FR_HEADGEAR.h"
 //캐릭터
 #include "TEAM_TEX.h"
 #include "MONSTER.h"
@@ -29,6 +30,7 @@ SceneXfile::SceneXfile()
 	m_TEAM_TEX = NULL;
 	m_MARK = NULL;
 	m_Smle = NULL;
+	m_FR_HEADGEAR = NULL;
 }
 
 
@@ -41,6 +43,7 @@ SceneXfile::~SceneXfile()
 	SAFE_RELEASE(m_TEAM_TEX);
 	//SAFE_RELEASE(m_MARK);
 	SAFE_RELEASE(m_Smle);
+	SAFE_RELEASE(m_FR_HEADGEAR);
 	
 
 	OnDestructIScene();
@@ -65,6 +68,9 @@ void SceneXfile::Init()
 	m_Smle = new Smle;
 	m_Smle->Init();
 	//AddSimpleDisplayObj(m_Smle);
+	m_FR_HEADGEAR = new FR_HEADGEAR;
+	m_FR_HEADGEAR->Init();
+
 
 	m_SkyBox = new SkyBox;
 	m_SkyBox->Init();
@@ -129,7 +135,11 @@ void SceneXfile::Update()
 
 	//m_MARK->Update();
 	m_TEAM_TEX->Update();
+	m_FR_HEADGEAR->SetMat(m_TEAM_TEX->GetHeadMatRot());
+	m_FR_HEADGEAR->SetPos(m_TEAM_TEX->GetHeadPos());
+//	m_FR_HEADGEAR->SetAngle(m_TEAM_TEX->GetAngle() + ((D3DX_PI / 2)));
 
+	m_FR_HEADGEAR->Update();
 	//m_pSkinnedMesh->Update();
 	//m_GUN->SetPos(m_pSkinnedMesh->GetG3unPos());
 	//m_MONSTER->Update();
@@ -187,6 +197,7 @@ void SceneXfile::Render()
 	m_TEAM_TEX->Render();
 	//m_MONSTER->Render();
 	m_Smle->Render();
+	m_FR_HEADGEAR->Render();
 	//m_MARK->Render();
 	OnRenderIScene();
 
