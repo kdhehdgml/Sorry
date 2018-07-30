@@ -83,6 +83,11 @@ private:
 	
 	bool reloadShout;
 
+
+	//Àåºñ ²¯´ÙÄ×´Ù.
+	bool headgear_state;
+	bool gun_state;
+
 public:
 	TeamAI();
 	~TeamAI();

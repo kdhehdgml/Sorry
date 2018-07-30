@@ -44,7 +44,8 @@ TeamAI::TeamAI()
 	m_expToNextLevel = 4;
 	m_FR_HEADGEAR = NULL;
 
-
+	headgear_state	= true;
+	gun_state		= true;
 }
 
 
@@ -234,6 +235,14 @@ void TeamAI::Update()
 	{
 		m_render = !m_render;
 	}
+	if (Keyboard::Get()->KeyDown(VK_NUMPAD6))
+	{
+		headgear_state = !headgear_state;
+	}
+	if (Keyboard::Get()->KeyDown(VK_NUMPAD5))
+	{
+		gun_state = !gun_state;
+	}
 }
 
 void TeamAI::Render()
@@ -255,8 +264,10 @@ void TeamAI::Render()
 			&& m_Death == false && m_render)
 		{
 			m_TEAM_TEX->Render();
-			m_Smle->Render();
-			m_FR_HEADGEAR->Render();
+			if(gun_state)
+				m_Smle->Render();
+			if (headgear_state)
+				m_FR_HEADGEAR->Render();
 		}
 	}
 	if (status > 0) 
