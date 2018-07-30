@@ -902,6 +902,7 @@ void SceneHeightmap::Update()
 			}
 			g_pCamera->bombing();
 			g_pCamera->shaking();
+			m_pWireSphere->m_pRenderToggle = false;
 			m_BillBoard->check = true;
 		}
 
@@ -939,7 +940,17 @@ void SceneHeightmap::Update()
 				m_pWireSphere->setPos(D3DXVECTOR3(-1000.0f, -1000.0f, -1000.0f));
 			}
 		}
-		m_pWireSphere->m_pRenderToggle = g_pCamera->getBombingMode();
+		if (g_pCamera->getBombingMode()) {
+			if (g_pCamera->m_pBombingReady) {
+				m_pWireSphere->m_pRenderToggle = true;
+			}
+			else {
+				m_pWireSphere->m_pRenderToggle = false;
+			}
+		}
+		else {
+			m_pWireSphere->m_pRenderToggle = false;
+		}
 		//DrawBrush();
 		/*Debug->AddText("SphereWalls มยวฅต้ : ");
 		for (int i = 0; i < 38; i++) {
