@@ -152,6 +152,8 @@ SceneHeightmap::SceneHeightmap()
 	m_pSphere = NULL;
 	m_pBoundingSphere = NULL;
 
+	m_isBombing = false;
+
 	//	m_pSkinnedMesh = NULL;
 	volume_music = GSM().volume_music_init;
 
@@ -202,7 +204,7 @@ SceneHeightmap::~SceneHeightmap()
 	//obj 관련 직접 접근해서 릴리즈함
 	//m_ObjRender->~ObjRender();
 	SAFE_DELETE(m_ObjRender);
-	m_BillBoard->~BillBoard();
+	SAFE_DELETE(m_BillBoard);
 
 	OnDestructIScene();
 }
@@ -882,8 +884,14 @@ void SceneHeightmap::Update()
 		// 이벤트 매니저
 		Event();
 
+		if (!m_isBombing && g_pCamera->m_pBombing && GetTickCount() > g_pCamera->m_pBombingDelay - 2000) {
+			g_pSoundManager->effectSound(eType::ART_FIRE, NULL);
+			m_isBombing = true;
+		}
+
 		if (g_pCamera->m_pBombing && GetTickCount() > g_pCamera->m_pBombingDelay) {
 			vector<Mob*> pMob = *m_pUnit->getPMob();
+			g_pSoundManager->effectSound(eType::ART_EXP, NULL);
 			for (auto p : pMob) {
 				BoundingSphere* s = p->getBoundingSphereBody();
 				bool getHit = m_pWireSphere->getHit(s);
@@ -892,6 +900,9 @@ void SceneHeightmap::Update()
 				}
 			}
 			g_pCamera->bombing();
+			g_pCamera->shaking();
+			m_pWireSphere->m_pRenderToggle = false;
+			m_BillBoard->check = true;
 		}
 
 		/*Debug->AddText("아군과의 거리 : ");
@@ -928,7 +939,17 @@ void SceneHeightmap::Update()
 				m_pWireSphere->setPos(D3DXVECTOR3(-1000.0f, -1000.0f, -1000.0f));
 			}
 		}
-		m_pWireSphere->m_pRenderToggle = g_pCamera->getBombingMode();
+		if (g_pCamera->getBombingMode()) {
+			if (g_pCamera->m_pBombingReady) {
+				m_pWireSphere->m_pRenderToggle = true;
+			}
+			else {
+				m_pWireSphere->m_pRenderToggle = false;
+			}
+		}
+		else {
+			m_pWireSphere->m_pRenderToggle = false;
+		}
 		//DrawBrush();
 		/*Debug->AddText("SphereWalls 좌표들 : ");
 		for (int i = 0; i < 38; i++) {
@@ -991,7 +1012,7 @@ void SceneHeightmap::Render()
 	m_ObjRender->Render();
 	if (m_BillBoard->check == true)
 	{
-		m_BillBoard->Render(m_pWireSphere->m_pos.x, m_pWireSphere->m_pos.y, m_pWireSphere->m_pos.z);
+		m_BillBoard->Render(m_pBombingPos.x, m_pBombingPos.y, m_pBombingPos.z);
 	}
 	
 	if (g_pCamera->isPaused) {
@@ -1058,7 +1079,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 			g_pCamera->m_pBombing = true;
 			g_pCamera->m_pBombingDelay = GetTickCount() + 3000;
 			m_pBombingPos = m_pWireSphere->m_pos;
-			m_BillBoard->check = true;
+			if(m_isBombing) m_isBombing = false;
 		}
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {

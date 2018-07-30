@@ -17,7 +17,9 @@ enum vType
 enum eType
 {
 	WHISTLE,
-	WHIZ
+	WHIZ,
+	ART_FIRE,
+	ART_EXP
 };
 
 class GSM
