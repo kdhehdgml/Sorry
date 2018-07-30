@@ -55,6 +55,9 @@ Camera::Camera()
 	mouseLock = true;
 
 	m_pBombingMode = false;
+
+	m_pShakingDeltaX = 0.0f;
+	m_pShakingDeltaY = 0.0f;
 }
 
 
@@ -114,6 +117,8 @@ void Camera::Update()
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixTranslation(&matWorld, 0, 0, 0);
 	D3DXVECTOR3 vEyePt(pos.x, pos.y, pos.z);
+	D3DXVECTOR3 vShakingPt(m_pShakingDeltaX, m_pShakingDeltaY, m_pShakingDeltaZ);
+	vEyePt = vEyePt + vShakingPt;
 	D3DXVECTOR3 vLookatPt(pos.x + dir.x, pos.y + dir.y, pos.z + dir.z);
 	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
@@ -368,6 +373,17 @@ void Camera::Update()
 		m_sensitivity = 200.0f;
 	}
 
+	if (GetTickCount() < m_pShakingCount) {
+		m_pShakingDeltaX = (float)((rand() % 200) / 2000.0f - 0.05f);
+		m_pShakingDeltaY = (float)((rand() % 200) / 2000.0f - 0.05f);
+		m_pShakingDeltaZ = (float)((rand() % 200) / 2000.0f - 0.05f);
+	}
+	else {
+		m_pShakingDeltaX = 0.0f;
+		m_pShakingDeltaY = 0.0f;
+		m_pShakingDeltaZ = 0.0f;
+	}
+
 	if ((GetAsyncKeyState('4') & 0x8000))
 	{
 		if (!debugDisplayCheck)
@@ -444,7 +460,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//m_isLbuttonDown = true;
 		//m_ptPrevMouse.x = LOWORD(lParam);
 		//m_ptPrevMouse.y = HIWORD(lParam);
-		if (GetTickCount() >= m_cooldown && !g_pCamera->getFreeCameraMode()) {
+		if (GetTickCount() >= m_cooldown && !getFreeCameraMode()) {
 			m_recoilXDelta += (float)((float)(rand() % 4) + 8.0f) / 100.0f;
 			m_recoilYDelta += (float)((float)(rand() % 12) - 6.0f) / 100.0f;
 			Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
@@ -733,6 +749,11 @@ void Camera::bombing()
 	m_pBombing = false;
 }
 
+void Camera::shaking(int shakingDelta)
+{
+	m_pShakingCount = GetTickCount() + shakingDelta;
+}
+
 D3DXVECTOR3 Camera::getOldPos()
 {
 	return oldPos;
@@ -741,4 +762,9 @@ D3DXVECTOR3 Camera::getOldPos()
 bool Camera::getBombingMode()
 {
 	return m_pBombingMode;
+}
+
+void Camera::setBombingMode(bool b)
+{
+	m_pBombingMode = b;
 }

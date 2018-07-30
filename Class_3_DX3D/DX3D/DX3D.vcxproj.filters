@@ -15,9 +15,6 @@
       <Extensions>
       </Extensions>
     </Filter>
-    <Filter Include="소스 파일\2.Singleton">
-      <UniqueIdentifier>{3b87f3ff-6c27-4d7a-9f51-b9ef2ad93b17}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\3.Object">
       <UniqueIdentifier>{574297fa-3ec0-40ca-9a5c-80bdcc62469d}</UniqueIdentifier>
     </Filter>
@@ -105,13 +102,16 @@
     <Filter Include="소스 파일\3.Object\BillBoard">
       <UniqueIdentifier>{cace245a-f082-4f75-9be5-906d3c410899}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\1.Main\2.Singleton">
+      <UniqueIdentifier>{3b87f3ff-6c27-4d7a-9f51-b9ef2ad93b17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="GlobalDefinition.h">
       <Filter>소스 파일\1.Main</Filter>
@@ -126,7 +126,7 @@
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>소스 파일\1.Main</Filter>
@@ -144,10 +144,10 @@
       <Filter>소스 파일\3.Object\Cube</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardManager.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="IDisplayObject.h">
       <Filter>소스 파일\3.Object\_Base</Filter>
@@ -168,7 +168,7 @@
       <Filter>소스 파일\3.Object\Grid</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="ActionMoveTo.h">
       <Filter>소스 파일\3.Object\Action</Filter>
@@ -189,7 +189,7 @@
       <Filter>소스 파일\3.Object\Cube</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="Hexagon.h">
       <Filter>소스 파일\3.Object\Grid</Filter>
@@ -198,13 +198,13 @@
       <Filter>소스 파일\4.Scene</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="IMap.h">
       <Filter>소스 파일\3.Object\_Base</Filter>
     </ClInclude>
     <ClInclude Include="MapManager.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="AseLoader.h">
       <Filter>소스 파일\3.Object\ASE</Filter>
@@ -234,7 +234,7 @@
       <Filter>소스 파일\3.Object\DisplayObject</Filter>
     </ClInclude>
     <ClInclude Include="ObjManager.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="IUIObject.h">
       <Filter>소스 파일\3.Object\UI</Filter>
@@ -252,7 +252,7 @@
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClInclude>
     <ClInclude Include="FontManager.h">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClInclude>
     <ClInclude Include="SceneTest.h">
       <Filter>소스 파일\4.Scene</Filter>
@@ -436,10 +436,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="GlobalDefinition.cpp">
       <Filter>소스 파일\1.Main</Filter>
@@ -451,7 +451,7 @@
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일\1.Main</Filter>
@@ -463,10 +463,10 @@
       <Filter>소스 파일\3.Object\Cube</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardManager.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="IDisplayObject.cpp">
       <Filter>소스 파일\3.Object\_Base</Filter>
@@ -487,7 +487,7 @@
       <Filter>소스 파일\3.Object\Grid</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="ActionMoveTo.cpp">
       <Filter>소스 파일\3.Object\Action</Filter>
@@ -508,7 +508,7 @@
       <Filter>소스 파일\3.Object\Cube</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="Hexagon.cpp">
       <Filter>소스 파일\3.Object\Grid</Filter>
@@ -517,10 +517,10 @@
       <Filter>소스 파일\4.Scene</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="MapManager.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="AseLoader.cpp">
       <Filter>소스 파일\3.Object\ASE</Filter>
@@ -544,7 +544,7 @@
       <Filter>소스 파일\3.Object\DisplayObject</Filter>
     </ClCompile>
     <ClCompile Include="ObjManager.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="IUIObject.cpp">
       <Filter>소스 파일\3.Object\UI</Filter>
@@ -562,7 +562,7 @@
       <Filter>소스 파일\3.Object\UI</Filter>
     </ClCompile>
     <ClCompile Include="FontManager.cpp">
-      <Filter>소스 파일\2.Singleton</Filter>
+      <Filter>소스 파일\1.Main\2.Singleton</Filter>
     </ClCompile>
     <ClCompile Include="SceneTest.cpp">
       <Filter>소스 파일\4.Scene</Filter>

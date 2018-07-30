@@ -31,6 +31,9 @@ private:
 	D3DXVECTOR3		m_up;
 	D3DXMATRIXA16	m_matView;
 	D3DXMATRIXA16	m_matProj;
+	D3DXVECTOR3		m_offset;
+	D3DXVECTOR3		m_currOffset;
+
 	float			m_basePosY;
 	float			m_distance;
 	float			m_rotX;
@@ -78,6 +81,10 @@ private:
 	bool m_pBombingMode;
 	int m_pBombingCooldown;
 
+	int m_pShakingCount;
+	float m_pShakingDeltaX;
+	float m_pShakingDeltaY;
+	float m_pShakingDeltaZ;
 
 	D3DXVECTOR3 oldPos;
 
@@ -91,6 +98,7 @@ private:
 	VARIATION_P(D3DXVECTOR3, m_currForward, CurrForward);
 	VARIATION_P(D3DXMATRIXA16, m_matR, MatR);
 	VARIATION_P(D3DXMATRIXA16, m_currMatR, CurrMatR);
+	void SetOffset(D3DXVECTOR3* v) { m_offset = *v; m_currOffset = *v; }
 
 	//
 
@@ -117,6 +125,7 @@ public:
 	void setFreeCameraMode(bool f);
 	bool getFreeCameraMode();
 	bool getBombingMode();
+	void setBombingMode(bool b);
 	int getCooldown();
 	int getMagazine();
 	float getDeltaY();
@@ -127,6 +136,7 @@ public:
 	int m_pBombingDelay;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 	void bombing();
+	void shaking(int shakingDelta);
 
 	const D3DXVECTOR3& GetPosition() { return m_eye; }
 	D3DXMATRIXA16* GetViewMatrix() { return &m_matView; }

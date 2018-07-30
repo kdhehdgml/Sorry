@@ -123,22 +123,22 @@ void MONSTER::Update()
 		
 		
 		*/
-		if (Keyboard::Get()->KeyDown('1'))
-			//if (GetAsyncKeyState('1') & 0x8000)
-		{
-			if (m_AnimaTionIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
-				m_AnimaTionIndex++;
+		//if (Keyboard::Get()->KeyDown('1'))
+		//	//if (GetAsyncKeyState('1') & 0x8000)
+		//{
+		//	if (m_AnimaTionIndex < m_pAnimController->GetMaxNumAnimationSets() - 1)
+		//		m_AnimaTionIndex++;
 
-			SetAnimationIndex(m_AnimaTionIndex, true);
-		}
-		else if (Keyboard::Get()->KeyDown('2'))
-			//if (GetAsyncKeyState('2') & 0x8000)
-		{
-			if (m_AnimaTionIndex > 0)
-				m_AnimaTionIndex--;
+		//	SetAnimationIndex(m_AnimaTionIndex, true);
+		//}
+		//else if (Keyboard::Get()->KeyDown('2'))
+		//	//if (GetAsyncKeyState('2') & 0x8000)
+		//{
+		//	if (m_AnimaTionIndex > 0)
+		//		m_AnimaTionIndex--;
 
-			SetAnimationIndex(m_AnimaTionIndex, true);
-		}
+		//	SetAnimationIndex(m_AnimaTionIndex, true);
+		//}
 		/*else if (Keyboard::Get()->KeyDown(VK_F1))
 			//if (GetAsyncKeyState(VK_F1) & 0x8000)
 		{

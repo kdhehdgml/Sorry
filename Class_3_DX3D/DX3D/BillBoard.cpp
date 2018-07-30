@@ -5,6 +5,7 @@
 BillBoard::BillBoard()
 {
 	g_pTexBillboard = NULL;
+	check = false;
 }
 
 
@@ -15,7 +16,7 @@ BillBoard::~BillBoard()
 
 void BillBoard::Init()
 {
-	D3DXCreateTextureFromFile(g_pDevice, _T("resources/blood.jpg"), &g_pTexBillboard);
+	D3DXCreateTextureFromFile(g_pDevice, _T("resources/explosion.jpg"), &g_pTexBillboard);
 
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -24,7 +25,7 @@ void BillBoard::Update()
 {
 }
 
-void BillBoard::Render()
+void BillBoard::Render(float xP, float yP, float zP)
 {
 	static int		nStep = 0;
 	static DWORD	nTick = 0;
@@ -53,32 +54,32 @@ void BillBoard::Render()
 
 	static MYVERTEX vtx[4] =
 	{
-		{ -1,  0, 0, 0, 1 },
-	{ -1,  4, 0, 0, 0 },
-	{ 1,  0, 0, 1, 1 },
-	{ 1,  4, 0, 1, 0 }
+		{ -60,   0, 0,  0, 1 },
+		{ -60,  90, 0,  0, 0 },
+		{  60,   0, 0, 60, 1 },
+		{  60,  90, 0, 60, 0 }
 	};
-	static UV tblUV[9][4] =
+	static UV tblUV[16][4] =
 	{
-		{ { 0.00f, 0.33f },{ 0.00f, 0.00f },{ 0.66f, 0.66f },{ 0.66f, 0.00f } },
-	{ { 0.33f, 0.33f },{ 0.33f, 0.00f },{ 0.66f, 0.33f },{ 0.66f, 0.00f } },
-	{ { 0.66f, 0.33f },{ 0.66f, 0.00f },{ 0.99f, 0.33f },{ 0.99f, 0.00f } },
-	//{ { 0.75f, 0.25f },{ 0.75f, 0.00f },{ 1.00f, 0.25f },{ 1.00f, 0.00f } },
+		{ { 0.00f, 0.25f },{ 0.00f, 0.00f },{ 0.25f, 0.25f },{ 0.25f, 0.00f } },
+		{ { 0.25f, 0.25f },{ 0.25f, 0.00f },{ 0.50f, 0.25f },{ 0.50f, 0.00f } },
+		{ { 0.50f, 0.25f },{ 0.50f, 0.00f },{ 0.75f, 0.25f },{ 0.75f, 0.00f } },
+		{ { 0.75f, 0.25f },{ 0.75f, 0.00f },{ 1.00f, 0.25f },{ 1.00f, 0.00f } },
 
-	{ { 0.00f, 0.66f },{ 0.00f, 0.33f },{ 0.33f, 0.66f },{ 0.33f, 0.33f } },
-	{ { 0.33f, 0.66f },{ 0.33f, 0.33f },{ 0.66f, 0.66f },{ 0.66f, 0.33f } },
-	{ { 0.66f, 0.66f },{ 0.66f, 0.33f },{ 0.99f, 0.66f },{ 0.99f, 0.33f } },
-	//{ { 0.75f, 0.50f },{ 0.75f, 0.25f },{ 1.00f, 0.50f },{ 1.00f, 0.25f } },
+		{ { 0.00f, 0.50f },{ 0.00f, 0.25f },{ 0.25f, 0.50f },{ 0.25f, 0.25f } },
+		{ { 0.25f, 0.50f },{ 0.25f, 0.25f },{ 0.50f, 0.50f },{ 0.50f, 0.25f } },
+		{ { 0.50f, 0.50f },{ 0.50f, 0.25f },{ 0.75f, 0.50f },{ 0.75f, 0.25f } },
+		{ { 0.75f, 0.50f },{ 0.75f, 0.25f },{ 1.00f, 0.50f },{ 1.00f, 0.25f } },
 
-	{ { 0.00f, 0.99f },{ 0.00f, 0.99f },{ 0.33f, 0.99f },{ 0.33f, 0.66f } },
-	{ { 0.33f, 0.99f },{ 0.33f, 0.66f },{ 0.66f, 0.99f },{ 0.66f, 0.66f } },
-	{ { 0.66f, 0.99f },{ 0.66f, 0.66f },{ 0.99f, 0.99f },{ 0.99f, 0.66f } }
-	//{ { 0.75f, 0.75f },{ 0.75f, 0.50f },{ 1.00f, 0.75f },{ 1.00f, 0.50f } }
+		{ { 0.00f, 0.75f },{ 0.00f, 0.50f },{ 0.25f, 0.75f },{ 0.25f, 0.50f } },
+		{ { 0.25f, 0.75f },{ 0.25f, 0.50f },{ 0.50f, 0.75f },{ 0.50f, 0.50f } },
+		{ { 0.50f, 0.75f },{ 0.50f, 0.50f },{ 0.75f, 0.75f },{ 0.75f, 0.50f } },
+		{ { 0.75f, 0.75f },{ 0.75f, 0.50f },{ 1.00f, 0.75f },{ 1.00f, 0.50f } },
 
-	//{ { 0.00f, 1.00f },{ 0.00f, 0.75f },{ 0.25f, 1.00f },{ 0.25f, 0.75f } },
-	//{ { 0.25f, 1.00f },{ 0.25f, 0.75f },{ 0.50f, 1.00f },{ 0.50f, 0.75f } },
-	//{ { 0.50f, 1.00f },{ 0.50f, 0.75f },{ 0.75f, 1.00f },{ 0.75f, 0.75f } },
-	//{ { 0.75f, 1.00f },{ 0.75f, 0.75f },{ 1.00f, 1.00f },{ 1.00f, 0.75f } }
+		{ { 0.00f, 1.00f },{ 0.00f, 0.75f },{ 0.25f, 1.00f },{ 0.25f, 0.75f } },
+		{ { 0.25f, 1.00f },{ 0.25f, 0.75f },{ 0.50f, 1.00f },{ 0.50f, 0.75f } },
+		{ { 0.50f, 1.00f },{ 0.50f, 0.75f },{ 0.75f, 1.00f },{ 0.75f, 0.75f } },
+		{ { 0.75f, 1.00f },{ 0.75f, 0.75f },{ 1.00f, 1.00f },{ 1.00f, 0.75f } },
 	};
 
 	D3DXMATRIXA16	matBillboard;
@@ -87,7 +88,9 @@ void BillBoard::Render()
 
 	if ((GetTickCount() - nTick) > 100)
 	{
-		nStep = (nStep++) % 2;
+		nStep = (nStep++) % 16;
+		if (nStep == 16)
+			check = false;
 		nTick = GetTickCount();
 	}
 
@@ -115,35 +118,17 @@ void BillBoard::Render()
 		matBillboard = *g_pCamera->GetViewMatrix();
 		D3DXMatrixInverse(&matBillboard, NULL, &matBillboard);
 	}
-	/*for (int z = 40; z >= 0; z -= 5)
-	{
-	for (int x = 40; x >= 0; x -= 5)
-	{
-	matBillboard._41 = x - 20;
-	matBillboard._42 = 0;
-	matBillboard._43 = z - 20;
-	g_pDevice->SetTexture(0, g_pTexBillboard);
-	if ((x + z) % 4 == 3)
-	{
-	vtx[0].uv = tblUV[nStep][0];
-	vtx[1].uv = tblUV[nStep][1];
-	vtx[2].uv = tblUV[nStep][2];
-	vtx[3].uv = tblUV[nStep][3];
-	g_pDevice->SetTransform(D3DTS_WORLD, &matBillboard);
-	g_pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vtx, sizeof(MYVERTEX));
-	}
-	}
-	}*/
-
-	matBillboard._41 = 173;
-	matBillboard._42 = 20;
-	matBillboard._43 = 223;
+	
+	matBillboard._41 = xP - 5.0f;
+	matBillboard._42 = yP - 10.0f;
+	matBillboard._43 = zP;
 	g_pDevice->SetTexture(0, g_pTexBillboard);
 
 	vtx[0].uv = tblUV[nStep][0];
 	vtx[1].uv = tblUV[nStep][1];
 	vtx[2].uv = tblUV[nStep][2];
 	vtx[3].uv = tblUV[nStep][3];
+
 
 	g_pDevice->SetTransform(D3DTS_WORLD, &matBillboard);
 	g_pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vtx, sizeof(MYVERTEX));
@@ -152,4 +137,5 @@ void BillBoard::Render()
 	g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	g_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+
 }

@@ -65,7 +65,7 @@ LPD3DXFONT Assets::GetFont(FontType type)
 		}
 		else if (type == FontType_QUEST)
 		{
-			AddFontResource(_T("../../_assets/fonts/umberto.ttf"));
+			AddFontResource(_T("_assets/fonts/umberto.ttf"));
 			if (FAILED(D3DXCreateFont(g_pDevice, 24, 12, FW_NORMAL, 1, false, DEFAULT_CHARSET,
 				OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, _T("umberto"), &m_pFontList[type])))
 				assert(false && "FAILED(D3DXCreateFont)");

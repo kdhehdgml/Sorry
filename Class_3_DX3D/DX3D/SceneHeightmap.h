@@ -33,6 +33,7 @@ class Blocks;
 //class SkinnedMesh;
 
 class ObjRender;	//obj 클래스
+class BillBoard;
 
 class MARK;
 
@@ -63,6 +64,8 @@ private:
 
 	//obj 관련
 	ObjRender*			m_ObjRender;
+	BillBoard*			m_BillBoard;
+
 
 	MARK*				m_MARK;
 
@@ -91,6 +94,8 @@ private:
 	LPARAM m_pLParam;
 	D3DXMATRIXA16 m_pTalkMatrix;
 
+	bool m_isBombing;
+
 	Minimap * m_minimap;
 
 	LPD3DXMESH		m_pSphere;
@@ -115,6 +120,7 @@ private:
 	int Health_Recovery_Interval = 0;
 
 	D3DXVECTOR3 m_pBombingPos;
+	VERTEX_PC verBrushLine[2];
 
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
@@ -131,5 +137,6 @@ public:
 private:
 	void Event();
 	void ResetScene();
+	void DrawBrush();
 };
 

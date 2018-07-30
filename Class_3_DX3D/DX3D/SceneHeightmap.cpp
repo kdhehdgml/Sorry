@@ -29,6 +29,7 @@
 #include "UIImage.h"
 
 #include "ObjRender.h"// obj 해더
+#include "BillBoard.h"
 
 #include "MenuUI.h"
 #include "BulletUI.h"
@@ -82,6 +83,35 @@ void SceneHeightmap::ResetScene() {
 	m_pGameOverOn = false;
 }
 
+void SceneHeightmap::DrawBrush()
+{
+	r = Ray::RayAtWorldSpace(SCREEN_POINT(m_pLParam));
+	D3DXVECTOR3 m_vBrushPos;
+	float height;
+	bool isOnMap = m_pHeightMap->CalcPickedPosition(m_vBrushPos, SCREEN_POINT(m_pLParam));
+	int nCount = 50;
+	float fRadian = D3DX_PI * 2.0f / nCount;
+	FLOAT fBrushSize = 100.0f;
+	D3DXVECTOR3 vCurPos(1.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 vNewPos;
+	D3DXMATRIXA16 matRot;
+	verBrushLine[1].p = vCurPos * fBrushSize + m_vBrushPos;
+	bool isIntersected = m_pHeightMap->GetHeight(height, verBrushLine[1].p);
+	verBrushLine[1].p.y = height;
+	D3DCOLOR d = D3DCOLOR_XRGB(255, 0, 0);
+	verBrushLine[1].c = d;
+	verBrushLine[0].c = d;
+	for (int i = 1; i < nCount; i++) {
+		verBrushLine[0] = verBrushLine[1];
+		D3DXMatrixRotationY(&matRot, i*fRadian);
+		D3DXVec3TransformCoord(&vNewPos, &vCurPos, &matRot);
+		D3DXVec3Normalize(&vNewPos, &vNewPos);
+		verBrushLine[1].p = vNewPos * fBrushSize + m_vBrushPos;
+		bool isIntersected = m_pHeightMap->GetHeight(height, verBrushLine[1].p);
+		verBrushLine[1].p.y = height;
+	}
+}
+
 SceneHeightmap::SceneHeightmap()
 {
 	m_pHeightMap = NULL;
@@ -122,11 +152,14 @@ SceneHeightmap::SceneHeightmap()
 	m_pSphere = NULL;
 	m_pBoundingSphere = NULL;
 
+	m_isBombing = false;
+
 	//	m_pSkinnedMesh = NULL;
 	volume_music = GSM().volume_music_init;
 
 	// obj 관련
 	m_ObjRender = NULL;
+	m_BillBoard = NULL;
 
 	m_pMenuUI = NULL;
 	m_pBulletUI = NULL;
@@ -171,6 +204,7 @@ SceneHeightmap::~SceneHeightmap()
 	//obj 관련 직접 접근해서 릴리즈함
 	//m_ObjRender->~ObjRender();
 	SAFE_DELETE(m_ObjRender);
+	SAFE_DELETE(m_BillBoard);
 
 	OnDestructIScene();
 }
@@ -223,6 +257,8 @@ void SceneHeightmap::Init()
 	// obj 관련 (크기, obj파일 위치, png파일 위치, x, y, z, 회전) 테스트용으로 넣은것임..
 	m_ObjRender = new ObjRender;
 	m_ObjRender->Init();
+	m_BillBoard = new BillBoard;
+	m_BillBoard->Init();
 
 	m_MARK = new MARK;
 	m_MARK->Init();
@@ -848,8 +884,14 @@ void SceneHeightmap::Update()
 		// 이벤트 매니저
 		Event();
 
+		if (!m_isBombing && g_pCamera->m_pBombing && GetTickCount() > g_pCamera->m_pBombingDelay - 2000) {
+			g_pSoundManager->effectSound(eType::ART_FIRE, NULL);
+			m_isBombing = true;
+		}
+
 		if (g_pCamera->m_pBombing && GetTickCount() > g_pCamera->m_pBombingDelay) {
 			vector<Mob*> pMob = *m_pUnit->getPMob();
+			g_pSoundManager->effectSound(eType::ART_EXP, NULL);
 			for (auto p : pMob) {
 				BoundingSphere* s = p->getBoundingSphereBody();
 				bool getHit = m_pWireSphere->getHit(s);
@@ -858,6 +900,9 @@ void SceneHeightmap::Update()
 				}
 			}
 			g_pCamera->bombing();
+			g_pCamera->shaking(500);
+			m_pWireSphere->m_pRenderToggle = false;
+			m_BillBoard->check = true;
 		}
 
 		/*Debug->AddText("아군과의 거리 : ");
@@ -894,7 +939,18 @@ void SceneHeightmap::Update()
 				m_pWireSphere->setPos(D3DXVECTOR3(-1000.0f, -1000.0f, -1000.0f));
 			}
 		}
-		m_pWireSphere->m_pRenderToggle = g_pCamera->getBombingMode();
+		if (g_pCamera->getBombingMode()) {
+			if (g_pCamera->m_pBombingReady) {
+				m_pWireSphere->m_pRenderToggle = true;
+			}
+			else {
+				m_pWireSphere->m_pRenderToggle = false;
+			}
+		}
+		else {
+			m_pWireSphere->m_pRenderToggle = false;
+		}
+		//DrawBrush();
 		/*Debug->AddText("SphereWalls 좌표들 : ");
 		for (int i = 0; i < 38; i++) {
 		Debug->AddText(tempVecs[i]);
@@ -934,6 +990,9 @@ void SceneHeightmap::Render()
 	SAFE_RENDER(m_pBulletUI);
 	SAFE_RENDER(m_MARK);
 	
+	g_pDevice->SetFVF(VERTEX_PC::FVF);
+	g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, verBrushLine, sizeof(VERTEX_PC));
+
 	if (m_pGameOverOn) {
 		g_pDevice->SetTexture(0, NULL);
 		m_pGameOverSprite->Begin(D3DXSPRITE_ALPHABLEND);
@@ -951,6 +1010,11 @@ void SceneHeightmap::Render()
 
 	//obj 관련
 	m_ObjRender->Render();
+	if (m_BillBoard->check == true)
+	{
+		m_BillBoard->Render(m_pBombingPos.x, m_pBombingPos.y, m_pBombingPos.z);
+	}
+	
 	if (g_pCamera->isPaused) {
 		SAFE_RENDER(m_pMenuUI);
 	}
@@ -1015,6 +1079,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 			g_pCamera->m_pBombing = true;
 			g_pCamera->m_pBombingDelay = GetTickCount() + 3000;
 			m_pBombingPos = m_pWireSphere->m_pos;
+			if(m_isBombing) m_isBombing = false;
 		}
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {

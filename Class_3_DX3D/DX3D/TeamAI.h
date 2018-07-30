@@ -3,6 +3,8 @@
 //class CubemanParts;
 class Mob;
 class TEAM_TEX;
+class Smle;
+class FR_HEADGEAR;
 
 /*
 
@@ -42,7 +44,14 @@ private:
 	vector<Mob*>	m_pMob;
 	VERTEX_PC		Shootpos[2];
 	D3DXVECTOR3		forward;
+	//캐릭터
 	TEAM_TEX		*m_TEAM_TEX;
+	//장비
+	FR_HEADGEAR *	m_FR_HEADGEAR;
+	//무기
+	Smle *			m_Smle;
+
+
 	TEAM_STATE		m_Action;
 
 	D3DXVECTOR3		m_deltaPos;
@@ -58,6 +67,7 @@ private:
 	LPD3DXMESH		m_pSphere;
 	BoundingSphere* m_pBoundingSphere;
 	int status;
+
 
 	//애니메이션 인덱스
 	int ani_state;

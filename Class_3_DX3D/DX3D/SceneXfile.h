@@ -7,6 +7,8 @@ class SkyBox;
 class GUN;
 class SHOVEL;
 
+class FR_HEADGEAR;
+
 class TEAM_TEX;
 class MONSTER;
 class Smle;
@@ -29,12 +31,16 @@ private:
 	GUN *			m_GUN;
 	Smle *			m_Smle;
 
-
+	//장비
+	FR_HEADGEAR *	m_FR_HEADGEAR;
 	
 	//캐릭터
 	TEAM_TEX *		m_TEAM_TEX;
 	MONSTER*		m_MONSTER;
 	MARK*			m_MARK;
+
+	//좌표 확인용
+	vector<D3DXVECTOR3>  m_vector3;
 public:
 	SceneXfile();
 	~SceneXfile();
