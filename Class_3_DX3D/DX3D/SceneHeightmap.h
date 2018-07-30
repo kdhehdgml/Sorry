@@ -94,6 +94,8 @@ private:
 	LPARAM m_pLParam;
 	D3DXMATRIXA16 m_pTalkMatrix;
 
+	bool m_isBombing;
+
 	Minimap * m_minimap;
 
 	LPD3DXMESH		m_pSphere;
