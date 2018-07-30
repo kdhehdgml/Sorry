@@ -892,6 +892,8 @@ void SceneHeightmap::Update()
 				}
 			}
 			g_pCamera->bombing();
+			g_pCamera->shaking();
+			m_BillBoard->check = true;
 		}
 
 		/*Debug->AddText("아군과의 거리 : ");
@@ -1058,7 +1060,6 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 			g_pCamera->m_pBombing = true;
 			g_pCamera->m_pBombingDelay = GetTickCount() + 3000;
 			m_pBombingPos = m_pWireSphere->m_pos;
-			m_BillBoard->check = true;
 		}
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {
