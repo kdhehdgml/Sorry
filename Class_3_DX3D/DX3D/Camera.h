@@ -81,6 +81,10 @@ private:
 	bool m_pBombingMode;
 	int m_pBombingCooldown;
 
+	int m_pShakingCount;
+	float m_pShakingDeltaX;
+	float m_pShakingDeltaY;
+	float m_pShakingDeltaZ;
 
 	D3DXVECTOR3 oldPos;
 
@@ -131,6 +135,7 @@ public:
 	int m_pBombingDelay;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 	void bombing();
+	void shaking();
 
 	const D3DXVECTOR3& GetPosition() { return m_eye; }
 	D3DXMATRIXA16* GetViewMatrix() { return &m_matView; }
