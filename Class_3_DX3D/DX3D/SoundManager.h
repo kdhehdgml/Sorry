@@ -26,6 +26,9 @@ private:
 	SoundControl * m_pV_Reload;		string * s_vReload;		vector<string> s_vReload_f;
 	
 	SoundControl * m_pWhiz;			string * s_whiz;		vector<string> s_whiz_f;
+	SoundControl * m_pArt_fire;		string * s_art_fire;	vector<string> s_art_fire_f;
+	SoundControl * m_pArt_exp;		string * s_art_exp;		vector<string> s_art_exp_f;
+
 	//===================================================================================
 	
 	int r;

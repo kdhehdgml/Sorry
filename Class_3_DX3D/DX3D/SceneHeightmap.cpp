@@ -152,6 +152,8 @@ SceneHeightmap::SceneHeightmap()
 	m_pSphere = NULL;
 	m_pBoundingSphere = NULL;
 
+	m_isBombing = false;
+
 	//	m_pSkinnedMesh = NULL;
 	volume_music = GSM().volume_music_init;
 
@@ -882,8 +884,14 @@ void SceneHeightmap::Update()
 		// 이벤트 매니저
 		Event();
 
+		if (!m_isBombing && g_pCamera->m_pBombing && GetTickCount() > g_pCamera->m_pBombingDelay - 2000) {
+			g_pSoundManager->effectSound(eType::ART_FIRE, NULL);
+			m_isBombing = true;
+		}
+
 		if (g_pCamera->m_pBombing && GetTickCount() > g_pCamera->m_pBombingDelay) {
 			vector<Mob*> pMob = *m_pUnit->getPMob();
+			g_pSoundManager->effectSound(eType::ART_EXP, NULL);
 			for (auto p : pMob) {
 				BoundingSphere* s = p->getBoundingSphereBody();
 				bool getHit = m_pWireSphere->getHit(s);
@@ -1060,6 +1068,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 			g_pCamera->m_pBombing = true;
 			g_pCamera->m_pBombingDelay = GetTickCount() + 3000;
 			m_pBombingPos = m_pWireSphere->m_pos;
+			m_isBombing = false;
 		}
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {

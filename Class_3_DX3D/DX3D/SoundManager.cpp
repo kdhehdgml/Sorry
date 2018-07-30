@@ -38,6 +38,9 @@ SoundManager::SoundManager()
 	
 	m_pV_Death = NULL;
 
+	m_pArt_fire = NULL;
+	m_pArt_exp = NULL;
+
 	walkInterval = 0;
 	runInterval = 0;
 	reloadInterval = 0;
@@ -75,6 +78,9 @@ SoundManager::~SoundManager()
 	m_pWhiz->ReleaseSound();
 
 	m_pV_Death->ReleaseSound();
+	
+	m_pArt_fire->ReleaseSound();
+	m_pArt_exp->ReleaseSound();
 }
 
 void SoundManager::soundList()
@@ -170,6 +176,20 @@ void SoundManager::soundList()
 	s_whiz_f.push_back("Whizby2");
 	s_whiz_f.push_back("Whizby3");
 	s_whiz_f.push_back("Whizby4");
+
+	s_art_fire_f.push_back("artillery_fire_1");
+	s_art_fire_f.push_back("artillery_fire_2");
+	s_art_fire_f.push_back("artillery_fire_3");
+	s_art_fire_f.push_back("artillery_fire_5");
+
+	s_art_exp_f.push_back("ArtExplosionNear1");
+	s_art_exp_f.push_back("ArtExplosionNear2");
+	s_art_exp_f.push_back("ArtExplosionNear3");
+	s_art_exp_f.push_back("ArtExplosionNear4");
+	s_art_exp_f.push_back("Artillery_Explosion1");
+	s_art_exp_f.push_back("Artillery_Explosion2");
+	s_art_exp_f.push_back("Artillery_Explosion3");
+	s_art_exp_f.push_back("Artillery_Explosion4");
 }
 
 void SoundManager::setMP3(string folder, string * s_name, vector<string> s_name_file)
@@ -205,6 +225,8 @@ void SoundManager::createSound()
 		CreateWAV(m_pV_Incoming, "Voice/Incoming/", s_vIncoming, s_vIncoming_f, EFFECT);
 		CreateWAV(m_pV_Reload, "Voice/Reload/", s_vReload, s_vReload_f, _3D);
 		CreateWAV(m_pWhiz, "Whiz/", s_whiz, s_whiz_f, EFFECT);
+		CreateWAV(m_pArt_exp, "Art/", s_art_exp, s_art_exp_f, EFFECT);
+		CreateWAV(m_pArt_fire, "Art/", s_art_fire, s_art_fire_f, EFFECT);
 
 		CreateMP3(m_pMusic, "Music/", s_music, s_music_f, MUSIC);
 		CreateWAV(m_pAmbient, "Ambient/", s_ambient, s_ambient_f, AMBIENT);
@@ -216,6 +238,7 @@ void SoundManager::createSound()
 		CreateWAV(m_pWalk_Dirt, "Walk/", s_walk_dirt, s_walk_dirt_f, EFFECT);
 		CreateWAV(m_pRun_Dirt, "Run/", s_run_dirt, s_run_dirt_f, EFFECT);
 		CreateWAV(m_pGear_Walk, "Gear/", s_gear_walk, s_gear_walk_f, EFFECT);
+		
 		//CreateWAV(m_pWhistle, "Effect/", s_whistle, s_whistle_f, EFFECT);
 
 		isCreate = true;
@@ -410,6 +433,13 @@ void SoundManager::effectSound(int type, int soundNum)
 		r = rand() % 9;
 		m_pWhiz->PlaySound(r);
 		break;
+	case 2:
+		r = rand() % 4;
+		m_pArt_fire->PlaySound(r);
+		break;
+	case 3:
+		r = rand() % 8;
+		m_pArt_exp->PlaySound(r);
 	}
 	
 }
