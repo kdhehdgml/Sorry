@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# 파일 생성됨: 24.07.2018 15:30:22
+# File Created: 30.07.2018 15:05:37
 
 newmtl Material__26
 	Ns 10.0000
@@ -12,4 +12,5 @@ newmtl Material__26
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
+	map_Ka maps\level_vehicle_mark_IV_hull.png
 	map_Kd maps\level_vehicle_mark_IV_hull.png

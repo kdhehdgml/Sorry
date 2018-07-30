@@ -10,6 +10,9 @@
 MARK::MARK()
 {
 	m_mark_main = NULL;
+	m_mark_sponson = NULL;
+	m_mark_tire = NULL;
+
 	x = 743.0f;
 	y = 29.0f;
 	z = 369.0f;
@@ -26,7 +29,10 @@ MARK::MARK()
 MARK::~MARK()
 {
 	m_mark_main->~MoveOBJ();
-	SAFE_DELETE(m_pBoundingSphere);
+	m_mark_sponson->~MoveOBJ();
+	m_mark_tire->~MoveOBJ();
+	SAFE_DELETE(m_pHead);
+	SAFE_DELETE(m_pBody);
 	SAFE_RELEASE(m_pSphere);
 	
 	if (g_pMeshMaterials != NULL)
@@ -56,7 +62,7 @@ void MARK::Init()
 	ATK = 3;
 	DEF = 1;
 	state = 0;
-	size = 5.0f;
+	size = 10.0f;
 	m_pos = { 743.0f ,29.0f,369.0f };
 	m_finalDestPos = m_pos;
 	m_moveSpeed = 0.6f;
@@ -72,10 +78,14 @@ void MARK::Init()
 	m_vecMovePosit.push_back(D3DXVECTOR3(280.0f, 0, 230.0f));
 
 	D3DXCreateSphere(g_pDevice, size, 10, 10, &m_pSphere, NULL);
-	m_pBoundingSphere = new BoundingSphere(m_pos, size);
+	m_pHead = new BoundingSphere(m_pos, size);
+	m_pBody = new BoundingSphere(m_pos, size);
 
 	//g_pMesh = Load("resources/xFile/boss/Mark.X");
-	CREATE_OBJ(m_mark_main, 10.0f, Boss, BOSS_Mark00.obj, level_vehicle_mark_IV_hull.png, x, y, z, xR, yR, zR);
+	//CREATE_OBJ(m_mark_main, 10.0f, Boss, BOSS_Mark00.obj, level_vehicle_mark_IV_hull.png, x, y, z, xR, yR, zR);
+	CREATE_OBJ(m_mark_main, 10.0f, boss3, mark.obj, level_vehicle_mark_IV_hull.png, x, y, z, xR, yR, zR);
+	CREATE_OBJ(m_mark_sponson, 6.0f, boss3, sponson.obj, level_vehicle_mark_IV_sponson.png, x, y, z, xR, yR, zR);
+	CREATE_OBJ(m_mark_tire, 10.0f, boss3, tire.obj, level_vehicle_mark_IV_tracks.png, x, y, z, xR, yR, zR);
 }
 
 void MARK::Update()
@@ -91,7 +101,14 @@ void MARK::Update()
 	UpdatePosition();
 	m_mark_main->m_pos = m_pos;
 	m_mark_main->SetRot(SaveRot);
-	
+
+	m_mark_sponson->m_pos = m_pos;
+	m_mark_sponson->SetRot(SaveRot);
+
+	m_mark_tire->m_pos = m_pos;
+	m_mark_tire->SetRot(SaveRot);
+
+
 	Debug->AddText(SaveRot);
 	Debug->EndLine();
 
@@ -102,7 +119,8 @@ void MARK::Update()
 	{
 	//	IUnitObject::UpdatePositionToDestination();
 
-		m_pBoundingSphere->center = m_mark_main->m_pos;
+		m_pHead->center = m_mark_main->m_pos;
+		m_pBody->center = m_mark_main->m_pos;
 
 		//if (Keyboard::Get()->KeyPress(VK_NUMPAD2))
 		//{
@@ -150,6 +168,9 @@ void MARK::Update()
 		//}
 
 		m_mark_main->Update();
+		m_mark_sponson->Update();
+		m_mark_tire->Update();
+
 		if (m_finalDestPos.x == m_pos.x && m_finalDestPos.z == m_pos.z)
 			MoveNum++;
 		if (MoveNum > 9)
@@ -195,9 +216,17 @@ void MARK::Render()
 	if (HP > 0)
 	{
 		SAFE_RENDER(m_mark_main);
+		SAFE_RENDER(m_mark_sponson);
+		SAFE_RENDER(m_mark_tire);
+
 		//Skin_render();
 		D3DXMATRIXA16 mat;
-		D3DXMatrixTranslation(&mat, m_pBoundingSphere->center.x, m_pBoundingSphere->center.y, m_pBoundingSphere->center.z);
+		D3DXMatrixTranslation(&mat, m_pHead->center.x, m_pHead->center.y, m_pHead->center.z);
+		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
+		g_pDevice->SetTexture(0, NULL);
+		m_pSphere->DrawSubset(0);
+
+		D3DXMatrixTranslation(&mat, m_pBody->center.x, m_pBody->center.y, m_pBody->center.z);
 		g_pDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pDevice->SetTexture(0, NULL);
 		m_pSphere->DrawSubset(0);

@@ -47,7 +47,7 @@ protected:
 	D3DXVECTOR3					m_mat_pos;
 
 	D3DXMATRIXA16				m_head_mat;
-	D3DXMATRIXA16				m_head_mat2;
+	D3DXMATRIXA16				m_head_mat_rot;
 	D3DXVECTOR3					m_head_pos;
 
 
@@ -93,8 +93,8 @@ public:
 	D3DXVECTOR3 GetPos() { return m_mat_pos; }
 
 	LPD3DXMATRIXA16 GetHeadMat() { return &m_head_mat; }
-	LPD3DXMATRIXA16 GetHeadMat2() { return &m_head_mat2; }
-	D3DXVECTOR3		GetHeadPos() { return m_head_pos; }
+	LPD3DXMATRIXA16 GetHeadMatRot() { return &m_head_mat_rot; }
+	D3DXVECTOR3*	GetHeadPos() { return &m_head_pos; }
 
 	void SetAngle(float angle) { m_angle = angle; }
 	float GetAngle() { return m_angle; }

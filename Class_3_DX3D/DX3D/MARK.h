@@ -47,7 +47,9 @@ public:
 	MoveOBJ*		m_mark_tire;
 
 	//충돌박스
-	BoundingSphere* m_pBoundingSphere;
+	BoundingSphere* m_pHead;
+	BoundingSphere* m_pBody;
+
 	LPD3DXMESH		m_pSphere;
 	
 	int			MaxHP;
@@ -68,6 +70,9 @@ public:
 	void Skin_render();
 	void SetFinalPos(const D3DXVECTOR3 & pos);
 	void UpdatePosition();
+
+	D3DXVECTOR3 GetPos() { return m_pos; }
+	float		GetRadian() {return size;}
 };
 
 

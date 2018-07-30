@@ -64,7 +64,7 @@ Player_hands::~Player_hands()
 void Player_hands::Init()
 {
 	g_pObjMgr->AddToTagList(TAG_TEAM, this);
-	m_renderMode = RenderMode::RenderMode_Lighting;
+	m_renderMode = RenderMode::RenderMode_Default;
 	Shaders::Get()->AddList(this, m_renderMode);
 
 	g_pCamera->SetTarget(&m_pos);
