@@ -204,7 +204,6 @@ SceneHeightmap::~SceneHeightmap()
 	//obj 包访 流立 立辟秦辑 副府令窃
 	//m_ObjRender->~ObjRender();
 	SAFE_DELETE(m_ObjRender);
-	//m_BillBoard->~BillBoard();
 	SAFE_DELETE(m_BillBoard);
 
 	OnDestructIScene();
@@ -1013,7 +1012,7 @@ void SceneHeightmap::Render()
 	m_ObjRender->Render();
 	if (m_BillBoard->check == true)
 	{
-		m_BillBoard->Render(m_pWireSphere->m_pos.x, m_pWireSphere->m_pos.y, m_pWireSphere->m_pos.z);
+		m_BillBoard->Render(m_pBombingPos.x, m_pBombingPos.y, m_pBombingPos.z);
 	}
 	
 	if (g_pCamera->isPaused) {
