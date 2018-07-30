@@ -1068,7 +1068,7 @@ void SceneHeightmap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 			g_pCamera->m_pBombing = true;
 			g_pCamera->m_pBombingDelay = GetTickCount() + 3000;
 			m_pBombingPos = m_pWireSphere->m_pos;
-			m_isBombing = false;
+			if(m_isBombing) m_isBombing = false;
 		}
 	case WM_RBUTTONDOWN:
 		if (m_pCrosshairOn) {
