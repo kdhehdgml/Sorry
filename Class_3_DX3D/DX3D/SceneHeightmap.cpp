@@ -204,7 +204,7 @@ SceneHeightmap::~SceneHeightmap()
 	//obj 관련 직접 접근해서 릴리즈함
 	//m_ObjRender->~ObjRender();
 	SAFE_DELETE(m_ObjRender);
-	m_BillBoard->~BillBoard();
+	SAFE_DELETE(m_BillBoard);
 
 	OnDestructIScene();
 }
@@ -901,6 +901,7 @@ void SceneHeightmap::Update()
 			}
 			g_pCamera->bombing();
 			g_pCamera->shaking();
+			m_pWireSphere->m_pRenderToggle = false;
 			m_BillBoard->check = true;
 		}
 
@@ -938,7 +939,17 @@ void SceneHeightmap::Update()
 				m_pWireSphere->setPos(D3DXVECTOR3(-1000.0f, -1000.0f, -1000.0f));
 			}
 		}
-		m_pWireSphere->m_pRenderToggle = g_pCamera->getBombingMode();
+		if (g_pCamera->getBombingMode()) {
+			if (g_pCamera->m_pBombingReady) {
+				m_pWireSphere->m_pRenderToggle = true;
+			}
+			else {
+				m_pWireSphere->m_pRenderToggle = false;
+			}
+		}
+		else {
+			m_pWireSphere->m_pRenderToggle = false;
+		}
 		//DrawBrush();
 		/*Debug->AddText("SphereWalls 좌표들 : ");
 		for (int i = 0; i < 38; i++) {
@@ -1001,7 +1012,7 @@ void SceneHeightmap::Render()
 	m_ObjRender->Render();
 	if (m_BillBoard->check == true)
 	{
-		m_BillBoard->Render(m_pWireSphere->m_pos.x, m_pWireSphere->m_pos.y, m_pWireSphere->m_pos.z);
+		m_BillBoard->Render(m_pBombingPos.x, m_pBombingPos.y, m_pBombingPos.z);
 	}
 	
 	if (g_pCamera->isPaused) {
