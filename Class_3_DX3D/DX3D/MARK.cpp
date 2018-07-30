@@ -221,16 +221,24 @@ void MARK::UpdatePosition()
 		m_forward = forwardNormalized;//m_forward는 정면방향을 뜻함
 		if (forward.x <= 0)
 		{
-			if ((D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) - D3DX_PI / 2 > -0.6f)
-				SaveRot = (D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) * 1.5f - D3DX_PI / 2;
+			if ((D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) - D3DX_PI / 2.0f > -0.6f)
+				SaveRot = (D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) * 1.5f - D3DX_PI / 2.0f;
 			else if((D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) - D3DX_PI / 2 > -0.7f)
-				SaveRot = (D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) * 1.3f - D3DX_PI / 2;
+				SaveRot = (D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) * 1.3f - D3DX_PI / 2.0f;
 			else
-				SaveRot = (D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) * 1.6f - D3DX_PI / 2;
+				SaveRot = (D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1))) * 1.6f - D3DX_PI / 2.0f;
 		}
 			
 		else
-			SaveRot = D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1)) + D3DX_PI + D3DX_PI / 9;
+		{
+			if(D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1)) >= -0.1f && D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1)) <= 0.1f)
+				SaveRot = D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1)) - D3DX_PI / 2.1f;
+			if (D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1)) > - 1.0f && D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1)) < -0.98f)
+				SaveRot = D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1)) + D3DX_PI * 1.3f;
+			else
+				SaveRot = D3DXVec3Dot(&forwardNormalized, &D3DXVECTOR3(0, 0, 1)) + D3DX_PI * 1.1f;
+		}
+			
 
 		if (D3DXVec3Length(&forward) >= m_moveSpeed * m_currMoveSpeedRate)
 		{
