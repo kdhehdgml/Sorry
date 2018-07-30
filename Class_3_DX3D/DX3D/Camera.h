@@ -125,6 +125,7 @@ public:
 	void setFreeCameraMode(bool f);
 	bool getFreeCameraMode();
 	bool getBombingMode();
+	void setBombingMode(bool b);
 	int getCooldown();
 	int getMagazine();
 	float getDeltaY();
@@ -135,7 +136,7 @@ public:
 	int m_pBombingDelay;
 	void getPMobFromUnitBox(vector<Mob*>* mob);
 	void bombing();
-	void shaking();
+	void shaking(int shakingDelta);
 
 	const D3DXVECTOR3& GetPosition() { return m_eye; }
 	D3DXMATRIXA16* GetViewMatrix() { return &m_matView; }

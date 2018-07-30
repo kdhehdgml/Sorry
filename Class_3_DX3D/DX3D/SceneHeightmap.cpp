@@ -900,7 +900,7 @@ void SceneHeightmap::Update()
 				}
 			}
 			g_pCamera->bombing();
-			g_pCamera->shaking();
+			g_pCamera->shaking(500);
 			m_pWireSphere->m_pRenderToggle = false;
 			m_BillBoard->check = true;
 		}

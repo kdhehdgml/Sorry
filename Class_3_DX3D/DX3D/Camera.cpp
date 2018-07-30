@@ -384,10 +384,6 @@ void Camera::Update()
 		m_pShakingDeltaZ = 0.0f;
 	}
 
-	if (GetAsyncKeyState(VK_NUMPAD5) & 0x0001) {
-		m_pShakingCount = GetTickCount() + 500;
-	}
-
 	if ((GetAsyncKeyState('4') & 0x8000))
 	{
 		if (!debugDisplayCheck)
@@ -464,7 +460,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//m_isLbuttonDown = true;
 		//m_ptPrevMouse.x = LOWORD(lParam);
 		//m_ptPrevMouse.y = HIWORD(lParam);
-		if (GetTickCount() >= m_cooldown && !g_pCamera->getFreeCameraMode()) {
+		if (GetTickCount() >= m_cooldown && !getFreeCameraMode()) {
 			m_recoilXDelta += (float)((float)(rand() % 4) + 8.0f) / 100.0f;
 			m_recoilYDelta += (float)((float)(rand() % 12) - 6.0f) / 100.0f;
 			Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
@@ -753,9 +749,9 @@ void Camera::bombing()
 	m_pBombing = false;
 }
 
-void Camera::shaking()
+void Camera::shaking(int shakingDelta)
 {
-	m_pShakingCount = GetTickCount() + 500;
+	m_pShakingCount = GetTickCount() + shakingDelta;
 }
 
 D3DXVECTOR3 Camera::getOldPos()
@@ -766,4 +762,9 @@ D3DXVECTOR3 Camera::getOldPos()
 bool Camera::getBombingMode()
 {
 	return m_pBombingMode;
+}
+
+void Camera::setBombingMode(bool b)
+{
+	m_pBombingMode = b;
 }
