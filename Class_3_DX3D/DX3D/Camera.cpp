@@ -384,14 +384,6 @@ void Camera::Update()
 		m_pShakingDeltaZ = 0.0f;
 	}
 
-	Debug->AddText("m_ShakingX : ");
-	Debug->AddText(m_pShakingDeltaX);
-	Debug->AddText(" m_ShakingY : ");
-	Debug->AddText(m_pShakingDeltaY);
-	Debug->AddText(" m_ShakingZ : ");
-	Debug->AddText(m_pShakingDeltaZ);
-	Debug->EndLine();
-
 	if (GetAsyncKeyState(VK_NUMPAD5) & 0x0001) {
 		m_pShakingCount = GetTickCount() + 500;
 	}

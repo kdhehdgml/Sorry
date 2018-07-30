@@ -202,7 +202,8 @@ SceneHeightmap::~SceneHeightmap()
 	//obj 包访 流立 立辟秦辑 副府令窃
 	//m_ObjRender->~ObjRender();
 	SAFE_DELETE(m_ObjRender);
-	m_BillBoard->~BillBoard();
+	//m_BillBoard->~BillBoard();
+	SAFE_DELETE(m_BillBoard);
 
 	OnDestructIScene();
 }
