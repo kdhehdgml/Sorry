@@ -452,8 +452,10 @@ void IUnitObject::UpdatePosition()
 
 void IUnitObject::DecreaseHealth(int h)
 {
-	if (m_def > 0)
+	if (m_def > 0) {
 		health -= 1;
+		g_pCamera->shaking(100);
+	}
 	else
 		health -= h;
 	
