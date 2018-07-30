@@ -11,7 +11,7 @@ class Picking;
 class CreateSmog;
 
 class SkyBox;
-class ColorCube;
+//class ColorCube;
 class Player_hands;
 
 class WallManager;
@@ -72,7 +72,7 @@ private:
 	//영락코드
 	CreateSmog*		m_CreateSmog;
 	SkyBox*			m_SkyBox;
-	ColorCube*		m_ColorCube;
+	//ColorCube*		m_ColorCube;
 	//
 	LPD3DXSPRITE m_pCrosshairSprite;
 	LPD3DXSPRITE m_pScopeSprite;
