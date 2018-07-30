@@ -114,6 +114,7 @@ void MoveOBJ::Render()
 	g_pDevice->SetMaterial(&g_pD3DMesh->m_MtlTex->material);
 	//g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_FORCE_DWORD);
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	g_pDevice->SetStreamSource(0, g_pD3DMesh->pVB, 0, g_pD3DMesh->vertexSize);
 	g_pDevice->SetFVF(g_pD3DMesh->FVF);

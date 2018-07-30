@@ -36,7 +36,11 @@ void CreateSmog::Init()
 	D3DXMatrixIdentity(&m_matWorld);
 	//
 	
-	
+	for (size_t i = 0; i < m_vecAtt.size(); i++)
+	{
+		m_vecAtt[i]->_state = true;
+	}
+
 
 	g_pDevice->CreateVertexBuffer(m_MaxIndex * sizeof(VERTEX_PC),
 		D3DUSAGE_POINTS | D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, VERTEX_PC::FVF,
@@ -48,24 +52,41 @@ void CreateSmog::Init()
 void CreateSmog::Update()
 {
 	D3DXMATRIXA16 matS, matR, matT;
-
+	//Debug->AddText("0번 : ");
+	//Debug->AddText(m_vecAtt[0]->_state);
+	//Debug->AddText("//1번 : ");
+	//Debug->AddText(m_vecAtt[1]->_state);
+	//Debug->AddText("//2번 : ");
+	//Debug->AddText(m_vecAtt[2]->_state);
+	//Debug->AddText("//3번 : ");
+	//Debug->AddText(m_vecAtt[3]->_state);
+	//Debug->AddText("//4번 : ");
+	//Debug->AddText(m_vecAtt[4]->_state);
+	//Debug->EndLine();
 
 	for (size_t i = 0; i < m_vecAtt.size(); i++)
 	{
-		//m_vecAtt[i]->_position.x = 10.0f;
 		m_vecAtt[i]->_position.y = 5.0f;
-	//	m_vecAtt[i]->_position.z += 0.1f;
+		
+		//안개 투명도
+		//0에수렴했을때 반전
+		if (m_vecAtt[i]->_color.a <= 0)
+		{
+			m_vecAtt[i]->_state = false;
+		}
+		//맥스에 수렴했을때 반전
+		else if (m_vecAtt[i]->_color.a >= m_vecAtt[i]->_MaxTransparency)
+		{
+			m_vecAtt[i]->_state = true;
+		}
 
-	//	m_vecAtt[i]->_position.x += 0.01f;
-	//안개 투명도
-		if (m_vecAtt[i]->_color.a > 0)
+		if (m_vecAtt[i]->_state)
 			m_vecAtt[i]->_color.a -= 0.001f;//1부터 0으로 수렴
 		else
 		{
-			m_vecAtt[i]->_color.a = m_vecAtt[i]->_MaxTransparency;
-//			m_Smog_index = rand() % 4; //안개 이미지 생성시 랜덤하게 하기 도전중
+			m_vecAtt[i]->_color.a += 0.001f;
+			//			m_Smog_index = rand() % 4; //안개 이미지 생성시 랜덤하게 하기 도전중
 		}
-
 		//Debug->AddText(m_vecAtt[i]->_position);
 		//Debug->EndLine();
 
@@ -127,6 +148,7 @@ void CreateSmog::Render()
 	g_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	g_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
+	
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 	g_pDevice->SetTexture(0, m_pTex[m_Smog_index]);
 	g_pDevice->SetFVF(VERTEX_PC::FVF);
@@ -141,7 +163,7 @@ void CreateSmog::Render()
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 //transparency=  투명도
-void CreateSmog::Insert(D3DXVECTOR3 pos ,float transparency)
+void CreateSmog::Insert(D3DXVECTOR3 pos ,float transparency,int index)
 {
 	
 	//지금 안개갯수가 최대치면 0으로 초기화!
@@ -168,7 +190,7 @@ void CreateSmog::Insert(D3DXVECTOR3 pos ,float transparency)
 	m_vecAtt[m_IndexCount-1] = att;
 
 	
-
+	m_Smog_index = index;
 
 }
 

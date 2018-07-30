@@ -16,7 +16,7 @@
 
 //안개생성
 #include "CreateSmog.h"
-#include "ColorCube.h"
+//#include "ColorCube.h"
 #include "Player_hands.h"
 #include "MONSTER.h"
 //#include "Frustum.h"
@@ -121,7 +121,7 @@ SceneHeightmap::SceneHeightmap()
 	//영락코드
 	m_CreateSmog = NULL;
 	m_SkyBox = NULL;
-	m_ColorCube = NULL;
+	//m_ColorCube = NULL;
 	m_Player_hands = NULL;
 	//m_Frustum = NULL;
 
@@ -178,7 +178,7 @@ SceneHeightmap::~SceneHeightmap()
 {
 	SAFE_RELEASE(m_pBlocks);
 	SAFE_RELEASE(m_SkyBox);
-	SAFE_RELEASE(m_ColorCube);
+	//SAFE_RELEASE(m_ColorCube);
 	SAFE_RELEASE(m_pCrosshairSprite);
 	SAFE_RELEASE(m_pScopeSprite);
 	SAFE_RELEASE(m_pGameOverSprite);
@@ -300,18 +300,25 @@ void SceneHeightmap::Init()
 	m_CreateSmog = new CreateSmog;
 	m_CreateSmog->Init();
 	//460.0f, 70.0f, 485.0f
-	m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f), (0.6f));
-	m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 405.0f), (0.3f));
-	m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 305.0f), (0.5f));
-	m_CreateSmog->Insert(D3DXVECTOR3(350.0f, 70.0f, 205.0f), (0.6f));
-	m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 155.0f), (0.3f));
-	m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 105.0f), (0.8f));
+	//스모그 종류 0~3
+	m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f), (0.6f),0);
+	m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 405.0f), (0.3f),1);
+	m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 305.0f), (0.5f),1);
+	m_CreateSmog->Insert(D3DXVECTOR3(350.0f, 70.0f, 205.0f), (0.6f),1);
+	m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 155.0f), (0.3f),1);
+	m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 105.0f), (0.8f),0);
+	//m_CreateSmog->Insert(D3DXVECTOR3(460.0f, 70.0f, 485.0f), (0.1f), 0);
+	//m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 405.0f), (0.2f), 1);
+	//m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 305.0f), (0.3f), 1);
+	//m_CreateSmog->Insert(D3DXVECTOR3(350.0f, 70.0f, 205.0f), (0.2f), 1);
+	//m_CreateSmog->Insert(D3DXVECTOR3(400.0f, 70.0f, 155.0f), (0.1f), 1);
+	//m_CreateSmog->Insert(D3DXVECTOR3(440.0f, 70.0f, 105.0f), (0.3f), 2);
 
 	AddSimpleDisplayObj(m_CreateSmog);
 
 
-	m_ColorCube = new ColorCube;
-	m_ColorCube->Init();
+	////m_ColorCube = new ColorCube;
+	////m_ColorCube->Init();
 
 	m_pWireSphere = new WireSphere();
 	m_pWireSphere->Init();
@@ -483,7 +490,7 @@ void SceneHeightmap::Update()
 	//m_CreateSmog->Update();
 	if (!g_pCamera->isPaused && !m_pGameOverOn) {
 
-		SAFE_UPDATE(m_ColorCube);
+		//SAFE_UPDATE(//m_ColorCube);
 		SAFE_UPDATE(m_pUnit);
 
 		SAFE_UPDATE(m_minimap);
@@ -982,7 +989,7 @@ void SceneHeightmap::Render()
 {
 
 	OnRenderIScene();
-	SAFE_RENDER(m_ColorCube);
+	//SAFE_RENDER(//m_ColorCube);
 	SAFE_RENDER(m_pBlocks);
 	SAFE_RENDER(m_pUnit);
 	SAFE_RENDER(m_SkyBox);
